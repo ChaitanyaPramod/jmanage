@@ -63,6 +63,7 @@ public class JBossServerConnectionFactory implements ServerConnectionFactory{
         props.put(Context.PROVIDER_URL, url);
         props.put(Context.URL_PKG_PREFIXES, "org.jboss.naming:org.jnp.interfaces");
         Context ctx = new InitialContext(props);
+        // TODO: In JBoss 4.0 (right ??) it returns MBeanServerConnection
         RMIAdaptor rmiAdaptor = (RMIAdaptor)ctx.lookup("jmx/rmi/RMIAdaptor");
         ctx.close();
         return rmiAdaptor;

@@ -13,18 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jmanage.cmdui;
+package org.jmanage.cmdui.commands;
+
+import org.jmanage.cmdui.CommandHandler;
+import org.jmanage.cmdui.HandlerContext;
 
 /**
  *
- * date:  Feb 4, 2005
+ * date:  Feb 23, 2005
  * @author	Rakesh Kalra
  */
-public interface CommandConstants {
+public class ViewHandler implements CommandHandler {
+    /**
+     *
+     * @param context
+     * @return true if the command was handled properly; false otherwise
+     */
+    public boolean execute(HandlerContext context) {
+        return false;
+    }
 
-    String LIST_APPS = "listApps";
-    String ALL_MBEANS = "allmbeans"; // all mbeans
-    String MBEANS = "mbeans"; // configured mbeans
-    String HELP = "help";
-    String EXIT = "exit";
+    public void shortHelp() {
+    }
+
+    public void help() {
+    }
 }

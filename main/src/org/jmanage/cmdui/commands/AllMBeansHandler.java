@@ -18,54 +18,57 @@ package org.jmanage.cmdui.commands;
 import org.jmanage.cmdui.CommandHandler;
 import org.jmanage.cmdui.HandlerContext;
 import org.jmanage.cmdui.CommandConstants;
-import org.jmanage.cmdui.util.Out;
 import org.jmanage.cmdui.util.CommandUtils;
+import org.jmanage.cmdui.util.Out;
+import org.jmanage.core.services.MBeanService;
 import org.jmanage.core.services.ServiceFactory;
-import org.jmanage.core.services.ConfigurationService;
 
 import java.util.List;
 
 /**
  *
- * date:  Feb 21, 2005
+ * date:  Feb 23, 2005
  * @author	Rakesh Kalra
  */
-public class MBeansHandler implements CommandHandler {
+public class AllMBeansHandler implements CommandHandler {
 
     /**
-     * Lists configured mbeans for the given application
+     * Lists mbeans for the given application based on the filter (optional)
      *
      * @param context
      * @return true if the command was handled properly; false otherwise
      */
     public boolean execute(HandlerContext context) {
         String[] args = context.getCommand().getArgs();
-        if(args.length != 1){
+        if(args.length != 1 && args.length != 2){
             usage();
             return false;
         }
 
         String appName = args[0];
+        String filter = null;
+        if(args.length > 1){
+            filter = args[1];
+        }
 
-        ConfigurationService configService =
-                ServiceFactory.getConfigurationService();
+        MBeanService mbeanService = ServiceFactory.getMBeanService();
         List mbeanDataList =
-                configService.getConfiguredMBeans(context.getServiceContext(),
-                        appName);
+                mbeanService.getMBeans(context.getServiceContext(),
+                        appName, filter);
         assert mbeanDataList != null;
         CommandUtils.printMBeans(mbeanDataList);
         return true;
     }
 
     public void shortHelp() {
-        Out.println(CommandConstants.MBEANS + "\t" +
-                "Lists configured mbeans for the given application");
+        Out.println(CommandConstants.ALL_MBEANS + "\t" +
+                "Lists mbeans for the given application");
     }
 
     public void help() {
         shortHelp();
         Out.println("Usage:");
-        Out.println(CommandConstants.MBEANS + " <application name>");
+        Out.println(CommandConstants.ALL_MBEANS + " <application name> [filter]");
     }
 
     private void usage(){

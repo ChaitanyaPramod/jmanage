@@ -22,4 +22,5 @@ package org.jmanage.testapp.mbeans;
  */
 public interface TimeNotificationBroadcasterMBean {
 
+    public void emitNotification();
 }

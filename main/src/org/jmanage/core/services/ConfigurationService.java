@@ -31,4 +31,8 @@ public interface ConfigurationService {
                                                 ApplicationConfigData data);
 
     public ArrayList getAllApplications(ServiceContext context);
+
+    public ArrayList getConfiguredMBeans(ServiceContext context,
+                                         String applicationName)
+            throws ServiceException;
 }
