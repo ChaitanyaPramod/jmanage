@@ -13,17 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jmanage.cmdui;
+package org.jmanage.core.data;
 
 /**
  *
- * date:  Feb 4, 2005
+ * date:  Feb 21, 2005
  * @author	Rakesh Kalra
  */
-public interface CommandConstants {
+public class MBeanData {
 
-    String LIST_APPS = "listApps";
-    String MBEANS = "mbeans";
-    String HELP = "help";
-    String EXIT = "exit";
+    private String name;
+    /* jmanage configured name (if configured) */
+    private String configuredName;
+
+    public MBeanData(){}
+
+    public MBeanData(String name){
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getConfiguredName() {
+        return configuredName;
+    }
+
+    public void setConfiguredName(String configuredName) {
+        this.configuredName = configuredName;
+    }
 }

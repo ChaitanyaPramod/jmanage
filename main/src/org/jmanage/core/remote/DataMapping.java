@@ -38,6 +38,7 @@ public class DataMapping {
                     "<description>Description of the mapping</description>\n"+
                     "<class name=\"org.jmanage.core.data.TestBean\" auto-complete=\"true\" />\n"+
                     "<class name=\"org.jmanage.core.data.ApplicationConfigData\" auto-complete=\"true\" />\n"+
+                    "<class name=\"org.jmanage.core.data.MBeanData\" auto-complete=\"true\" />\n"+
                     "<class name=\"org.jmanage.core.data.OperationResultData\" auto-complete=\"true\" />\n"+
             "</mapping>\n";
 

@@ -15,9 +15,7 @@
  */
 package org.jmanage.cmdui;
 
-import org.jmanage.cmdui.commands.ListApplicationsHandler;
-import org.jmanage.cmdui.commands.ExitHandler;
-import org.jmanage.cmdui.commands.HelpHandler;
+import org.jmanage.cmdui.commands.*;
 
 import java.util.*;
 
@@ -33,6 +31,7 @@ public class CommandHandlerFactory implements CommandConstants {
 
     static{
         commandNameToInstanceMap.put(LIST_APPS, new ListApplicationsHandler());
+        commandNameToInstanceMap.put(MBEANS, new MBeansHandler());
         commandNameToInstanceMap.put(HELP, new HelpHandler());
         commandNameToInstanceMap.put(EXIT, new ExitHandler());
 

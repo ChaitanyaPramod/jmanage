@@ -22,9 +22,12 @@ import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.forms.MBeanQueryForm;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.util.WebContext;
+import org.jmanage.webui.util.Utils;
 import org.jmanage.core.management.ServerConnection;
 import org.jmanage.core.management.ObjectName;
-import org.jmanage.core.management.ObjectInstance;
+import org.jmanage.core.services.MBeanService;
+import org.jmanage.core.services.ServiceFactory;
+import org.jmanage.core.data.MBeanData;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -46,17 +49,16 @@ public class MBeanListAction extends BaseAction {
 
         MBeanQueryForm queryForm = (MBeanQueryForm)actionForm;
         final String queryObjectName = queryForm.getObjectName();
-
-        ServerConnection serverConnection = context.getServerConnection();
-        // TODO: change to use queryNames
-        Set mbeans =
-                serverConnection.queryObjects(new ObjectName(queryObjectName));
+        final String appName = context.getApplicationConfig().getName();
+        MBeanService mbeanService = ServiceFactory.getMBeanService();
+        List mbeanDataList = mbeanService.getMBeans(Utils.getServiceContext(context),
+                appName, queryObjectName);
 
         Map domainToObjectNameListMap = new TreeMap();
         ObjectNameTuple tuple = new ObjectNameTuple();
-        for(Iterator it=mbeans.iterator(); it.hasNext();){
-            ObjectInstance oi = (ObjectInstance)it.next();
-            tuple.setObjectName(oi.getObjectName());
+        for(Iterator it=mbeanDataList.iterator(); it.hasNext();){
+            MBeanData mbeanData = (MBeanData)it.next();
+            tuple.setObjectName(mbeanData.getName());
             String domain = tuple.getDomain();
             String name = tuple.getName();
             Set objectNameList = (Set)domainToObjectNameListMap.get(domain);
@@ -75,8 +77,7 @@ public class MBeanListAction extends BaseAction {
         String domain;
         String name;
 
-        void setObjectName(ObjectName objectName){
-            String canonicalName = objectName.getCanonicalName();
+        void setObjectName(String canonicalName){
             int index = canonicalName.indexOf(":");
             domain = canonicalName.substring(0, index);
             name = canonicalName.substring(index + 1);

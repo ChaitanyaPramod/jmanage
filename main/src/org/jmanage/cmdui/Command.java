@@ -165,7 +165,9 @@ public class Command {
             assert getName() != null;
             CommandHandler handler =
                         CommandHandlerFactory.getHandler(getName());
-            return handler.execute(getHandlerContext());
+            boolean result = handler.execute(getHandlerContext());
+            Out.println();
+            return result;
         } catch (InvalidCommandException e) {
             throw new RuntimeException(e);
         } catch (ServiceException e){
