@@ -22,6 +22,7 @@ import org.jmanage.webui.forms.MBeanConfigForm;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.ApplicationConfigManager;
 import org.jmanage.core.util.UserActivityLogger;
+import org.jmanage.core.auth.AccessController;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
@@ -42,7 +43,7 @@ public class RemoveMBeanConfigAction extends BaseAction {
                                  HttpServletRequest request,
                                  HttpServletResponse response)
             throws Exception {
-
+        AccessController.canAccess(context.getUser(), ACL_EDIT_MBEAN_CONFIG);
         String logMsg = null;
         MBeanConfigForm mbeanConfigForm = (MBeanConfigForm)actionForm;
         ApplicationConfig applicationConfig = context.getApplicationConfig();

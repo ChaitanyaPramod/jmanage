@@ -83,6 +83,9 @@ public class UserActivityLogger extends Thread{
         }
     }
 
+    public static String getActivityLogFilePath(){
+        return CoreUtils.getLogDir() + File.separatorChar + USER_ACTIVITY_LOG_FILE_NAME;
+    }
     /**
      * This ensures that all the activities stored in the local stored are
      * written at regular intervals of time to the designated log file.

@@ -22,6 +22,7 @@ import org.jmanage.webui.util.RequestAttributes;
 import org.jmanage.webui.forms.ApplicationForm;
 import org.jmanage.core.module.ModuleRegistry;
 import org.jmanage.core.module.ModuleConfig;
+import org.jmanage.core.auth.AccessController;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
@@ -54,6 +55,7 @@ public class ShowAddApplicationAction extends BaseAction {
                                  HttpServletRequest request,
                                  HttpServletResponse response)
             throws Exception {
+        AccessController.canAccess(context.getUser(), ACL_ADD_APPLICATIONS);
         ApplicationForm appForm = (ApplicationForm)actionForm;
         ModuleConfig moduleConfig = ModuleRegistry.getModule(appForm.getType());
         request.setAttribute(RequestAttributes.META_APP_CONFIG,

@@ -22,6 +22,7 @@ import org.jmanage.webui.forms.UserForm;
 import org.jmanage.core.auth.UserManager;
 import org.jmanage.core.auth.User;
 import org.jmanage.core.auth.Role;
+import org.jmanage.core.auth.AccessController;
 import org.jmanage.core.crypto.Crypto;
 import org.jmanage.core.util.UserActivityLogger;
 import org.apache.struts.action.ActionForward;
@@ -56,6 +57,7 @@ public class EditUserAction extends BaseAction{
                                  HttpServletRequest request,
                                  HttpServletResponse response)
             throws Exception {
+        AccessController.canAccess(context.getUser(), ACL_EDIT_USERS);
         User user = buildUser(actionForm);
         UserManager.getInstance().updateUser(user);
         UserActivityLogger.getInstance().logActivity(

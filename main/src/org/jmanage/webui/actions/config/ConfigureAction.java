@@ -20,6 +20,7 @@ import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.forms.ConfigureForm;
 import org.jmanage.core.config.JManageProperties;
+import org.jmanage.core.auth.AccessController;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
@@ -42,12 +43,12 @@ public class ConfigureAction extends BaseAction {
                                  ActionMapping mapping,
                                  ActionForm actionForm,
                                  HttpServletRequest request,
-                                 HttpServletResponse response){
-
+                                 HttpServletResponse response)
+            throws Exception{
+        AccessController.canAccess(context.getUser(), ACL_EDIT_JMANAGE_CONFIG);
         JManageProperties jmanageProperties = JManageProperties.getInstance();
         ConfigureForm configureForm = (ConfigureForm)actionForm;
         jmanageProperties.storeMaxLoginAttempts(configureForm.getMaxLoginAttempts());
         return mapping.findForward(Forwards.SUCCESS);
     }
-
 }

@@ -21,10 +21,12 @@ import org.jdom.Element;
 import org.jdom.output.XMLOutputter;
 import org.jdom.input.SAXBuilder;
 import org.jmanage.core.crypto.Crypto;
+import org.jmanage.core.util.Loggers;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.*;
+import java.util.logging.Logger;
 
 /**
  * Date : Jun 27, 2004 10:43:03 PM
@@ -37,6 +39,7 @@ public class UserManager implements AuthConstants{
     /*  Last modified time for user configurations file */
     private static long lastModified = -1;
     private static Map users = null;
+    private static final Logger logger = Loggers.getLogger(UserManager.class);
 
     /**
      * Cache user information.
@@ -49,7 +52,7 @@ public class UserManager implements AuthConstants{
             Document userConfig = new SAXBuilder().build(userConfigFile);
             users = loadUsers(userConfig);
         }catch(JDOMException jdEx){
-            System.out.println("Error reading user info "+USER_CONFIG_FILE_NAME);
+            logger.info("Error reading user info "+USER_CONFIG_FILE_NAME);
             jdEx.printStackTrace();
         }
 

@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 --%>
-<!--    /auth/editUser.jsp  -->
+<!--    /auth/addUser.jsp  -->
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 <%@ taglib uri="/WEB-INF/tags/jstl/c.tld" prefix="c"%>
 
@@ -24,17 +24,15 @@
     <link href="/css/styles.css" rel="stylesheet" type="text/css" />
 </head>
 <body leftmargin="10" topmargin="10" marginwidth="0" marginheight="0">
-<span class="headtext"><b><br />Edit User Details</b></span><br /><br />
+<span class="headtext"><b><br />Add New User</b></span><br /><br />
 <jmhtml:javascript formName="userForm" />
 <jmhtml:errors />
-<jmhtml:form action="/auth/editUser" method="post"
+<jmhtml:form action="/auth/addUser" method="post"
                                     onsubmit="return validateUserForm(this)">
-<jmhtml:hidden property="username" />
-
 <table border="0" bordercolor="black" cellspacing="1" cellpadding="2" width="250">
 <tr class="oddrow">
     <td class="headtext1">Username:</td>
-    <td><c:out value="${requestScope.userForm.username}" /></td>
+    <td><jmhtml:text property="username" /></td>
 </tr>
 <tr class="evenrow">
     <td class="headtext1">Password:</td>

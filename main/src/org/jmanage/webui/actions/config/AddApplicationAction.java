@@ -28,6 +28,7 @@ import org.jmanage.core.util.CoreUtils;
 import org.jmanage.core.data.ApplicationConfigData;
 import org.jmanage.core.services.ConfigurationService;
 import org.jmanage.core.services.ServiceFactory;
+import org.jmanage.core.auth.AccessController;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForward;
@@ -55,10 +56,10 @@ public class AddApplicationAction extends BaseAction {
                                  ActionMapping mapping,
                                  ActionForm actionForm,
                                  HttpServletRequest request,
-                                 HttpServletResponse response) {
-
+                                 HttpServletResponse response)
+            throws Exception{
+        AccessController.canAccess(context.getUser(), ACL_ADD_APPLICATIONS);
         ApplicationForm appForm = (ApplicationForm)actionForm;
-
         /* create ApplicationConfigData from this form */
         ApplicationConfigData appConfigData = new ApplicationConfigData();
         CoreUtils.copyProperties(appConfigData, appForm);

@@ -25,6 +25,7 @@ import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.MetaApplicationConfig;
 import org.jmanage.core.module.ModuleConfig;
 import org.jmanage.core.module.ModuleRegistry;
+import org.jmanage.core.auth.AccessController;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
@@ -52,8 +53,9 @@ public class ShowEditApplicationAction extends BaseAction {
                                  ActionMapping mapping,
                                  ActionForm actionForm,
                                  HttpServletRequest request,
-                                 HttpServletResponse response) {
-
+                                 HttpServletResponse response)
+            throws Exception{
+        AccessController.canAccess(context.getUser(), ACL_EDIT_APPLICATIONS);
         ApplicationConfig config = context.getApplicationConfig();
         ApplicationForm appForm = (ApplicationForm)actionForm;
         ModuleConfig moduleConfig = ModuleRegistry.getModule(config.getType());

@@ -20,6 +20,7 @@ import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.forms.ChangePasswordForm;
 import org.jmanage.core.auth.UserManager;
+import org.jmanage.core.auth.AccessController;
 import org.jmanage.core.auth.AuthConstants;
 import org.jmanage.core.crypto.Crypto;
 import org.jmanage.core.crypto.EncryptedKey;
@@ -45,6 +46,7 @@ public class ChangePasswordAction extends BaseAction{
                                  HttpServletRequest request,
                                  HttpServletResponse response)
             throws Exception {
+        AccessController.canAccess(context.getUser(), ACL_EDIT_USERS);
         ChangePasswordForm changePasswordForm = (ChangePasswordForm)actionForm;
         ActionErrors errors = new ActionErrors();
 

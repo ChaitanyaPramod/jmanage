@@ -96,13 +96,11 @@
         <!--== Configuration Management =====================================-->
         <action
             path="/config/applicationList"
-            roles="dev,ops"
             type="org.jmanage.webui.actions.config.ApplicationListAction">
             <forward name="success" path="/config/applicationList.jsp"/>
         </action>
         <action
             path="/config/managedApplications"
-            roles="dev,ops"
             type="org.jmanage.webui.actions.config.ApplicationListAction">
             <forward name="success" path="/config/managedApplications.jsp"/>
         </action>
@@ -111,7 +109,6 @@
             name="applicationForm"
             validate="false"
             scope="request"
-            roles="ops"
             type="org.jmanage.webui.actions.config.ShowEditApplicationAction">
             <forward name="success" path="/config/editApplication.jsp"/>
         </action>
@@ -121,7 +118,6 @@
             validate="true"
             input="/config/showEditApplication.do"
             scope="request"
-            roles="ops"
             type="org.jmanage.webui.actions.config.EditApplicationAction">
             <forward name="success" path="/config/managedApplications.do"/>
         </action>
@@ -130,7 +126,6 @@
             name="applicationForm"
             validate="false"
             scope="request"
-            roles="ops"
             type="org.jmanage.webui.actions.config.ShowAvailableApplicationAction">
             <forward name="success" path="/config/availableApplications.jsp"/>
         </action>
@@ -139,7 +134,6 @@
             name="applicationForm"
             validate="false"
             scope="request"
-            roles="ops"
             type="org.jmanage.webui.actions.config.ShowAddApplicationAction">
             <forward name="success" path="/config/addApplication.jsp"/>
         </action>
@@ -149,7 +143,6 @@
             validate="true"
             input="/config/showAddApplication.do"
             scope="request"
-            roles="ops"
             type="org.jmanage.webui.actions.config.AddApplicationAction">
             <forward name="success" path="/config/managedApplications.do"/>
         </action>
@@ -158,7 +151,6 @@
             name="applicationForm"
             validate="false"
             scope="request"
-            roles="ops"
             type="org.jmanage.webui.actions.config.DeleteApplicationAction">
             <forward name="success" path="/config/managedApplications.do"/>
         </action>
@@ -166,7 +158,6 @@
             path="/config/addMBeanConfig"
             name="mbeanConfigForm"
             scope="request"
-            roles="ops"
             type="org.jmanage.webui.actions.config.AddMBeanConfigAction">
             <forward name="success" path="/app/mbeanView.do"/>
         </action>
@@ -174,7 +165,6 @@
             path="/config/removeMBeanConfig"
             name="mbeanConfigForm"
             scope="request"
-            roles="ops"
             type="org.jmanage.webui.actions.config.RemoveMBeanConfigAction">
             <forward name="success" path="/app/mbeanView.do"/>
         </action>
@@ -182,7 +172,6 @@
             path="/config/showApplicationCluster"
             name="applicationClusterForm"
             scope="request"
-            roles="ops"
             type="org.jmanage.webui.actions.config.ShowApplicationClusterAction">
             <forward name="success" path="/config/applicationCluster.jsp"/>
         </action>
@@ -190,7 +179,6 @@
             path="/config/saveApplicationCluster"
             name="applicationClusterForm"
             scope="request"
-            roles="ops"
             type="org.jmanage.webui.actions.config.SaveApplicationClusterAction">
             <forward name="success" path="/config/managedApplications.do"/>
         </action>
@@ -199,7 +187,6 @@
             name="configureForm"
             validate="false"
             scope="request"
-            roles="ops"
             type="org.jmanage.webui.actions.config.ShowConfigureAction">
             <forward name="success" path="/config/configure.jsp"/>
         </action>
@@ -209,7 +196,6 @@
             validate="true"
             input="/config/configure.do"
             scope="request"
-            roles="ops"
             type="org.jmanage.webui.actions.config.ConfigureAction">
             <forward name="success" path="/config/showConfigure.do"/>
         </action>
@@ -263,7 +249,6 @@
         </action>
         <action
             path="/auth/deleteUser"
-            roles="ops"
             type="org.jmanage.webui.actions.auth.DeleteUserAction">
             <forward name="success" path="/auth/listUsers.do"/>
         </action>
@@ -281,7 +266,6 @@
             validate="true"
             input="/auth/showEditUser.do"
             scope="request"
-            roles="ops"
             type="org.jmanage.webui.actions.auth.EditUserAction">
             <forward name="success" path="/auth/listUsers.do"/>
         </action>
@@ -290,9 +274,8 @@
             name="userForm"
             validate="false"
             scope="request"
-            roles="ops"
-            type="org.apache.struts.actions.ForwardAction"
-            parameter="/auth/adddUser.jsp">
+            type="org.jmanage.webui.actions.auth.ShowAddUserAction">
+            <forward name="success" path="/auth/addUser.jsp" />
         </action>
         <action
             path="/auth/addUser"
@@ -300,7 +283,6 @@
             validate="true"
             input="/auth/showAddUser.do"
             scope="request"
-            roles="ops"
             type="org.jmanage.webui.actions.auth.AddUserAction">
             <forward name="success" path="/auth/listUsers.do"/>
         </action>
@@ -318,13 +300,11 @@
             validate="true"
             input="/auth/showChangePassword.do"
             scope="request"
-            roles="ops"
             type="org.jmanage.webui.actions.auth.ChangePasswordAction">
             <forward name="success" path="/auth/confirmChangePassword.jsp"/>
         </action>
         <action
             path="/auth/showUserActivity"
-            roles="ops"
             type="org.jmanage.webui.actions.auth.ShowUserActivityAction">
             <forward name="success" path="/auth/userActivity.jsp"/>
         </action>
