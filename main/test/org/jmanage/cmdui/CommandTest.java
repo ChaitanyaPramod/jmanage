@@ -13,22 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jmanage.core.services;
+package org.jmanage.cmdui;
 
-import org.jmanage.core.data.ApplicationConfigData;
-
-import java.util.List;
-import java.util.ArrayList;
+import junit.framework.TestCase;
 
 /**
  *
- * date:  Jan 9, 2005
+ * date:  Feb 5, 2005
  * @author	Rakesh Kalra
  */
-public interface ConfigurationService {
+public class CommandTest extends TestCase {
 
-    public ApplicationConfigData addApplication(ServiceContext context,
-                                                ApplicationConfigData data);
+    public CommandTest(String name){
+        super(name);
+    }
 
-    public ArrayList getAllApplications(ServiceContext context);
+    public void testGet(){
+        String[] args =
+                new String[]{"-username", "admin", "-password", "123456"};
+        try {
+            Command command = Command.get(args);
+            assertEquals(command.getUsername(), "admin");
+            assertEquals(command.getPassword(), "123456");
+        } catch (InvalidCommandException e) {
+            fail(e.getMessage());
+        }
+    }
+
 }

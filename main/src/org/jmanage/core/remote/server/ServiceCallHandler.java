@@ -22,6 +22,7 @@ import org.jmanage.core.remote.Marshaller;
 import org.jmanage.core.services.ServiceContextImpl;
 import org.jmanage.core.services.ServiceFactory;
 import org.jmanage.core.services.ServiceContext;
+import org.jmanage.core.services.AuthService;
 import org.jmanage.core.auth.UserManager;
 import org.jmanage.core.auth.User;
 import org.jmanage.core.util.Loggers;
@@ -65,9 +66,12 @@ public class ServiceCallHandler implements XmlRpcHandler {
             Class[] parameterTypes = getParameterTypes((List)parameters.get(0));
             Method method = serviceClass.getMethod(methodName, parameterTypes);
             Object serviceObject = ServiceFactory.getService(serviceClass);
+            Object[] args = toObjectArray(parameters, parameterTypes);
+            /* authenticate the request */
+            authenticate((ServiceContextImpl)args[0], className, methodName);
+            /* invoke the method */
             Object result =
-                    method.invoke(serviceObject,
-                            toObjectArray(parameters, parameterTypes));
+                    method.invoke(serviceObject, args);
             return Marshaller.marshal(result);
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error while invoking: " +
@@ -101,12 +105,6 @@ public class ServiceCallHandler implements XmlRpcHandler {
                         (ServiceContextImpl)Unmarshaller.unmarshal(
                                 ServiceContextImpl.class,
                                 (String)parameters.get(i+1));
-                if(serviceContext.getUser() != null){
-                    UserManager userManager = UserManager.getInstance();
-                    User completeUser =
-                            userManager.getUser(serviceContext.getUser().getUsername());
-                    serviceContext.setUser(completeUser);
-                }
                 args[i] = serviceContext;
             }else{
                 args[i] = Unmarshaller.unmarshal(parameterTypes[i],
@@ -114,5 +112,38 @@ public class ServiceCallHandler implements XmlRpcHandler {
             }
         }
         return args;
+    }
+
+    private static void authenticate(ServiceContextImpl context,
+                                     String className,
+                                     String methodName){
+
+        User user = context.getUser();
+        if(user == null){
+            /* only the login method in AuthService is allowed without
+                authentication */
+            if(!className.equals(AuthService.class.getName())
+                    || !methodName.equals("login")){
+
+                throw new RuntimeException("Service method called without " +
+                        "User credentials");
+            }
+            return;
+        }
+
+        /* User must have username and password specified */
+        assert user.getUsername() != null;
+        assert user.getPassword() != null;
+
+        UserManager userManager = UserManager.getInstance();
+        User completeUser =
+                userManager.getUser(user.getUsername());
+        /* validate password */
+        if(!user.getPassword().equals(completeUser.getPassword())
+            || !"A".equals(completeUser.getStatus())){
+            throw new RuntimeException("Invalid user credentials.");
+        }
+
+        context .setUser(completeUser);
     }
 }

@@ -13,22 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jmanage.core.services;
-
-import org.jmanage.core.data.ApplicationConfigData;
-
-import java.util.List;
-import java.util.ArrayList;
+package org.jmanage.cmdui;
 
 /**
  *
- * date:  Jan 9, 2005
+ * date:  Feb 4, 2005
  * @author	Rakesh Kalra
  */
-public interface ConfigurationService {
+public interface CommandHandler {
 
-    public ApplicationConfigData addApplication(ServiceContext context,
-                                                ApplicationConfigData data);
-
-    public ArrayList getAllApplications(ServiceContext context);
+    /**
+     *
+     * @param context
+     * @return true if the command was handled properly; false otherwise
+     */
+    public boolean execute(HandlerContext context);
 }

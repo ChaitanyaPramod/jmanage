@@ -13,22 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jmanage.core.services;
-
-import org.jmanage.core.data.ApplicationConfigData;
-
-import java.util.List;
-import java.util.ArrayList;
+package org.jmanage.cmdui;
 
 /**
  *
- * date:  Jan 9, 2005
+ * date:  Feb 4, 2005
  * @author	Rakesh Kalra
  */
-public interface ConfigurationService {
+public class InvalidCommandException extends Exception {
 
-    public ApplicationConfigData addApplication(ServiceContext context,
-                                                ApplicationConfigData data);
+    private String commandName;
 
-    public ArrayList getAllApplications(ServiceContext context);
+    public InvalidCommandException(String commandName){
+        this.commandName = commandName;
+    }
+
+    public String getCommandName(){
+        return commandName;
+    }
+
+    public String getMessage(){
+        return "Invalid command: " + commandName;
+    }
 }

@@ -50,26 +50,6 @@ public class Utils {
         return urlString.toString();
     }
 
-    /**
-     * Converts a csv to String[]
-     *
-     * @param csv
-     * @return
-     */
-    public static String[] csvToStringArray(String csv){
-
-        if(csv == null){
-            return null;
-        }
-        StringTokenizer tokenizer = new StringTokenizer(csv, ",");
-        String[] array = new String[tokenizer.countTokens()];
-        int index = 0;
-        while(tokenizer.hasMoreTokens()){
-            array[index ++] = tokenizer.nextToken().trim();
-        }
-        return array;
-    }
-
     public static Object getTypedValue(String value, String type){
 
 
@@ -97,15 +77,6 @@ public class Utils {
             throw new RuntimeException(e);
         }
 
-    }
-
-    public static void copyProperties(Object dest, Object source) {
-        try {
-            BeanUtils.copyProperties(dest, source);
-        }
-        catch(Exception ex) {
-            throw new RuntimeException(ex);
-        }
     }
 
     public static ServiceContext getServiceContext(WebContext webContext){

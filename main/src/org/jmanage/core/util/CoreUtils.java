@@ -15,6 +15,8 @@
  */
 package org.jmanage.core.util;
 
+import org.apache.commons.beanutils.BeanUtils;
+
 /**
  *
  * date:  Jun 22, 2004
@@ -40,5 +42,15 @@ public class CoreUtils {
 
     public static String getLogDir(){
         return getRootDir() + "/logs";
+    }
+
+
+    public static void copyProperties(Object dest, Object source) {
+        try {
+            BeanUtils.copyProperties(dest, source);
+        }
+        catch(Exception ex) {
+            throw new RuntimeException(ex);
+        }
     }
 }

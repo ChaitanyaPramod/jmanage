@@ -20,6 +20,7 @@ import org.jmanage.core.util.Loggers;
 import org.jmanage.core.remote.Unmarshaller;
 import org.jmanage.core.remote.Marshaller;
 import org.jmanage.core.config.JManageProperties;
+import org.jmanage.core.services.ServiceContext;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -80,7 +81,6 @@ public class ServiceProxy  implements InvocationHandler {
      * The first element in the vector is a list of class names.
      * The first argument to the service method call is always an instance
      * of ServiceContext.
-     *
      */
     private static Vector toVector(Method method, Object[] args){
         Vector vector = new Vector(args.length+1);
@@ -94,6 +94,9 @@ public class ServiceProxy  implements InvocationHandler {
 
     private static Vector getClassNames(Method method){
         Class[] parameterTypes = method.getParameterTypes();
+        assert parameterTypes.length > 0 &&
+                (ServiceContext.class.isAssignableFrom(parameterTypes[0])) :
+                "Invalid service method. First argument must be ServiceContext";
         Vector vector = new Vector(parameterTypes.length);
         for(int i=0; i<parameterTypes.length; i++){
             vector.add(parameterTypes[i].getName());

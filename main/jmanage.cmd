@@ -12,4 +12,7 @@ set JMANAGE_PORT=9090
 set JMANAGE_HOME=.\build
 set JMANAGE_LIB_ROOT=.
 
-call ./scripts/jmanage.cmd
+@rem debug
+set DEBUG_OPTIONS=-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_shmem,server=y,suspend=n,address=jmanageclidebug
+
+call ./scripts/jmanage.cmd %*

@@ -57,12 +57,12 @@
     -->
 
     <property name="app.version" value="0.1"/>
-    <property name="build.home" value="${basedir}/build"/>
+    <property name="build.home" value="${basedir}\build"/>
     <property name="dist.home" value="${basedir}/dist"/>
     <property name="docs.home" value="${basedir}/docs"/>
     <property name="src.home" value="${basedir}/src"/>
     <property name="web.home" value="${basedir}/web"/>
-
+    <property name="test.home" value="${basedir}/test"/>
 
     <!-- =============== Custom Ant Task Definitions ======================= -->
 
@@ -142,6 +142,18 @@
             <include name="*.jar"/>
         </fileset>
         <pathelement path="${build.home}/classes" />
+    </path>
+
+    <path id="test.classpath">
+        <pathelement location="${build.home}/classes"/>
+        <fileset dir="${basedir}/lib">
+            <include name="*.jar"/>
+        </fileset>
+        <fileset dir="${build.home}/web/WEB-INF/lib">
+            <include name="*.jar"/>
+        </fileset>
+        <pathelement location="${build.home}/web/WEB-INF/classes"/>
+        <pathelement location="${build.home}/test/classes"/>
     </path>
 
     <path id="module.weblogic.classpath">
@@ -416,7 +428,7 @@
       add javadoc target in depends, if javadoc needs to be built
     -->
 
-    <target name="dist" depends="compile"
+    <target name="dist" depends="compile, build-all-modules"
         description="Create binary distribution">
 
         <!-- Copy documentation subdirectories -->
@@ -432,10 +444,6 @@
         <copy todir="${dist.home}/lib">
             <fileset dir="${basedir}/lib"/>
         </copy>
-        <!-- Copy ext -->
-        <copy todir="${dist.home}/ext">
-            <fileset dir="${basedir}/ext"/>
-        </copy>
         <!-- Copy classes -->
         <copy todir="${dist.home}/classes">
             <fileset dir="${build.home}/classes"/>
@@ -449,16 +457,20 @@
             <fileset file="${basedir}/scripts/*.sh"/>
             <fileset file="${basedir}/scripts/*.cmd"/>
         </copy>
+        <!-- copy modules -->
+        <copy todir="${dist.home}/modules">
+            <fileset dir="${build.home}/modules"/>
+        </copy>
         <!-- copy src directory -->
         <copy todir="${dist.home}/src">
             <fileset dir="${basedir}/src"/>
         </copy>
+
         <!-- jar up the distribution -->
 
         <delete file="${dist.home}/jmanage-${app.version}.zip"/>
         <jar jarfile="${dist.home}/jmanage-${app.version}.zip">
             <fileset dir="${dist.home}" includes="**"/>
-            <fileset dir="${dist.home}/ext" excludes="*.jar"/>
         </jar>
 
     </target>
@@ -532,5 +544,64 @@
         <!-- *** CUSTOMIZE HERE AS REQUIRED BY YOUR APPLICATION *** -->
 
     </target>
+
+    <!-- ================= Test targets ==================================== -->
+
+    <!-- compiles the unit test classes -->
+    <target name="compile-tests" depends="compile">
+
+        <!-- Compile Java classes as necessary -->
+        <mkdir dir="${build.home}/test/classes"/>
+        <javac srcdir="${test.home}"
+            destdir="${build.home}/test/classes"
+            debug="${compile.debug}"
+            deprecation="${compile.deprecation}"
+            optimize="${compile.optimize}"
+            source="1.4">
+            <classpath refid="test.classpath"/>
+        </javac>
+    </target>
+
+    <!-- executes the unit tests -->
+    <target name="test" depends="compile-tests" description="Executes unit tests">
+        <mkdir dir="${build.home}/test/report/xml"/>
+        <junit failureproperty="unittest.failed" fork="yes">
+            <sysproperty key="odt.root" value="${build.home}"/>
+            <formatter type="xml"/>
+            <batchtest todir="${build.home}/test/report/xml">
+                <fileset dir="${build.home}/test/classes">
+                    <include name="**/*Test.class"/>
+                </fileset>
+            </batchtest>
+            <classpath refid="test.classpath"/>
+            <!--<assertions>
+              <enable/>
+            </assertions> -->
+        </junit>
+        <antcall target="test-report-conditional"/>
+        <fail if="unittest.failed" message="Unit tests failed."/>
+        <echo message="All unit tests passed. Run test-report target to view the report."/>
+    </target>
+
+    <target name="test-report-conditional" if="unittest.failed">
+        <antcall target="test-report"/>
+    </target>
+
+    <target name="test-report" description="Generates unit test report">
+        <!-- generate junit report-->
+        <junitreport>
+            <fileset dir="${build.home}/test/report/xml">
+                <include name="TEST*.xml"/>
+            </fileset>
+            <report format="frames" todir="${build.home}/test/report/html"/>
+        </junitreport>
+        <!-- launch the test report -->
+        <exec dir="."
+            executable="explorer.exe"
+            os="Windows 2000">
+            <arg line="${build.home}\test\report\html\index.html"/>
+        </exec>
+    </target>
+
 </project>
 
