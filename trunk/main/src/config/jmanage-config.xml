@@ -1,0 +1,8 @@
+<core-config>
+    <authentication class="org.jmanage.common.auth.FileAuthentication"/>
+    <plug-ins>
+        <appilcationPlugin
+            name="Weblogic6.1"
+            class="org.jmanage.core.plugins.Weblogic61Plugin"/>
+    </plug-ins>
+</core-config>
