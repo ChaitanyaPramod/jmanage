@@ -4,18 +4,23 @@ import org.apache.struts.config.ModuleConfig;
 import org.apache.struts.action.*;
 import org.apache.struts.tiles.TilesRequestProcessor;
 import org.jmanage.webui.util.WebContext;
-import org.jmanage.core.util.Tracer;
+import org.jmanage.core.util.Loggers;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 /**
  * Date : Jul 3, 2004 12:38:42 PM
  * @author Shashank
  */
 public class JManageRequestProcessor extends TilesRequestProcessor{
+
+    public static final Logger logger =
+            Loggers.getLogger(JManageRequestProcessor.class);
 
     /**
      * Initialize the request processor.
@@ -28,8 +33,6 @@ public class JManageRequestProcessor extends TilesRequestProcessor{
             throws ServletException {
         super.init(servlet, moduleConfig);
     }
-
-
 
     /**
      * Override the base processActionPerform method to perform the following,
@@ -54,6 +57,9 @@ public class JManageRequestProcessor extends TilesRequestProcessor{
                                                  ActionMapping mapping)
             throws IOException, ServletException{
 
+        final String requestPath = mapping.getPath();
+        logger.info("Start Request Path:" + requestPath);
+
         ActionForward resultForward = null;
         WebContext context = WebContext.get(request);
 
@@ -69,10 +75,19 @@ public class JManageRequestProcessor extends TilesRequestProcessor{
             /*  execute the action  */
             resultForward = action.execute(mapping, form, request, response);
         }catch (Exception e){
-            Tracer.exception(this, e);
+            logger.log(Level.INFO, "Exception on Request: " + requestPath, e);
             /* process exception */
             resultForward =
                     processException(request, response, e, form, mapping);
+        }finally{
+            String resultForwardPath = (resultForward == null) ?
+                    "none" : resultForward.getPath();
+            if(resultForwardPath == null){
+                /* the path attribute of resultForward was null */
+                resultForwardPath = "none";
+            }
+            logger.info("End Request:" + requestPath +
+                    " Forward:" + resultForwardPath);
         }
         return resultForward;
     }

@@ -4,10 +4,11 @@ import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.modules.ModuleConfig;
 import org.jmanage.core.modules.ModulesRegistry;
 import org.jmanage.core.util.CoreUtils;
-import org.jmanage.core.util.Tracer;
+import org.jmanage.core.util.Loggers;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.logging.Logger;
 import java.net.URLClassLoader;
 import java.net.URL;
 import java.net.MalformedURLException;
@@ -20,24 +21,44 @@ import java.io.File;
  */
 public class ServerConnector {
 
+    private static final Logger logger =
+            Loggers.getLogger(ServerConnector.class);
+
     /* classloaders for every module id */
     private static Map classLoaders = new HashMap();
 
     public static ServerConnection
             getServerConnection(ApplicationConfig appConfig){
 
-        ServerConnectionFactory factory = getServerConnectionFactory(appConfig);
-        return factory.getServerConnection(appConfig);
+        ModuleConfig moduleConfig =
+                    ModulesRegistry.getModule(appConfig.getType());
+        assert moduleConfig != null: "Invalid type=" + appConfig.getType();
+        final ClassLoader classLoader = getClassLoader(moduleConfig);
+        assert classLoader != null;
+
+        final ClassLoader contextClassLoader =
+                Thread.currentThread().getContextClassLoader();
+        /* temporarily change the thread context classloader */
+        Thread.currentThread().setContextClassLoader(classLoader);
+
+        try {
+            final ServerConnectionFactory factory =
+                    getServerConnectionFactory(moduleConfig, classLoader);
+            ServerConnection connection =
+                    factory.getServerConnection(appConfig);
+            return new ServerConnectionProxy(connection, classLoader);
+        } finally {
+            /* change the thread context classloader back to the
+                    original classloader*/
+            Thread.currentThread().setContextClassLoader(contextClassLoader);
+        }
     }
 
     private static ServerConnectionFactory
-            getServerConnectionFactory(ApplicationConfig appConfig) {
+            getServerConnectionFactory(ModuleConfig moduleConfig,
+                                       ClassLoader classLoader) {
 
         try {
-            ModuleConfig moduleConfig =
-                    ModulesRegistry.getModule(appConfig.getType());
-            assert moduleConfig != null: "Invalid type=" + appConfig.getType();
-            final ClassLoader classLoader = getClassLoader(moduleConfig);
             assert classLoader != null;
             final Class factoryClass =
                     Class.forName(moduleConfig.getConnectionFactory(),
@@ -52,8 +73,7 @@ public class ServerConnector {
         ClassLoader classLoader =
                 (ClassLoader)classLoaders.get(moduleConfig.getId());
         if(classLoader == null){
-            Tracer.message(ServerConnector.class,
-                    "Creating new ClassLoader for module: " +
+            logger.info("Creating new ClassLoader for module: " +
                     moduleConfig.getId());
             URL[] classpath = getModuleClassPath(moduleConfig);
             classLoader = new URLClassLoader(classpath);
@@ -76,6 +96,24 @@ public class ServerConnector {
             return urls;
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private static class MyClassLoader extends URLClassLoader {
+
+        public MyClassLoader(URL[] urls){
+            super(urls);
+        }
+
+        protected Class findClass(String name) throws ClassNotFoundException {
+            try{
+                Class clazz = super.findClass(name);
+                logger.fine("loaded class: " + name);
+                return clazz;
+            }catch(ClassNotFoundException e){
+                logger.fine("ClassNotFound: " + name);
+                throw e;
+            }
         }
     }
 }

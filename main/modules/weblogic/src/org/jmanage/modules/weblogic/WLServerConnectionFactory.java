@@ -3,12 +3,15 @@ package org.jmanage.modules.weblogic;
 import org.jmanage.core.management.ServerConnection;
 import org.jmanage.core.management.ConnectionFailedException;
 import org.jmanage.core.config.ApplicationConfig;
-import org.jmanage.core.config.WeblogicApplicationConfig;
 import weblogic.management.MBeanHome;
+import weblogic.jndi.WLInitialContextFactory;
 import weblogic.jndi.Environment;
 
 import javax.naming.NamingException;
 import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.spi.InitialContextFactoryBuilder;
+import java.util.Hashtable;
 
 /**
  *
@@ -25,13 +28,11 @@ public class WLServerConnectionFactory implements
     public ServerConnection getServerConnection(ApplicationConfig config)
         throws ConnectionFailedException {
 
-
-        WeblogicApplicationConfig wlConfig = (WeblogicApplicationConfig)config;
         try {
             MBeanHome home = findExternal(config.getURL(), config.getUsername(),
                     config.getPassword());
             return new WLServerConnection(home.getMBeanServer());
-        } catch (NamingException e) {
+        } catch (Throwable e) {
             throw new ConnectionFailedException(e);
         }
     }
@@ -41,15 +42,17 @@ public class WLServerConnectionFactory implements
                                           String password)
             throws NamingException {
 
-        Environment env = new Environment();
-        env.setProviderUrl(url);
-        env.setSecurityPrincipal(username);
-        env.setSecurityCredentials(password);
-
-        Context ctx = env.getInitialContext();
+        Hashtable props = new Hashtable();
+        props.put(Context.INITIAL_CONTEXT_FACTORY,
+                "weblogic.jndi.WLInitialContextFactory");
+        props.put(Context.PROVIDER_URL,         url);
+        props.put(Context.SECURITY_PRINCIPAL,   username);
+        props.put(Context.SECURITY_CREDENTIALS, password);
+        Context ctx =  new InitialContext(props);
         MBeanHome home = (MBeanHome) ctx.lookup(MBeanHome.JNDI_NAME + "." +
-                "localhome");
+                        "localhome");
         ctx.close();
         return home;
     }
+
 }
