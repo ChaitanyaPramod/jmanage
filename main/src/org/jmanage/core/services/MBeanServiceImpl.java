@@ -16,8 +16,6 @@
 package org.jmanage.core.services;
 
 import org.jmanage.core.config.ApplicationConfig;
-import org.jmanage.core.config.ApplicationConfigManager;
-import org.jmanage.core.config.MBeanConfig;
 import org.jmanage.core.data.MBeanData;
 import org.jmanage.core.data.OperationResultData;
 import org.jmanage.core.data.AttributeListData;
@@ -41,13 +39,12 @@ public class MBeanServiceImpl implements MBeanService {
 
     private static final String DEFAULT_FILTER = "*:*";
 
-    public List getMBeans(ServiceContext context,
-                          String applicationName,
+    public List queryMBeans(ServiceContext context,
                           String filter)
             throws ServiceException {
 
         ServerConnection serverConnection =
-                ServiceUtils.getServerConnection(applicationName);
+                context.getServerConnection();
 
         if(filter == null){
             filter = DEFAULT_FILTER;
@@ -62,32 +59,26 @@ public class MBeanServiceImpl implements MBeanService {
         return mbeanDataList;
     }
 
-    public ObjectInfo getMBean(ServiceContext context,
-                               String appName,
-                               String mbeanName)
+    public ObjectInfo getMBeanInfo(ServiceContext context)
             throws ServiceException {
 
-        ServerConnection serverConnection =
-                ServiceUtils.getServerConnection(appName);
-        mbeanName = resolveMBeanName(appName, mbeanName);
+        ServerConnection serverConnection = context.getServerConnection();
         ObjectInfo objectInfo =
-                serverConnection.getObjectInfo(new ObjectName(mbeanName));
+                serverConnection.getObjectInfo(context.getObjectName());
         return objectInfo;
     }
 
     /**
      * @return list of all attribute values
      */
-    public AttributeListData[] getAttributes(ServiceContext context,
-                                             String appName,
-                                             String mbeanName)
+    public AttributeListData[] getAttributes(ServiceContext context)
             throws ServiceException {
 
         ServerConnection serverConnection =
-                ServiceUtils.getServerConnectionEvenIfCluster(appName);
-        mbeanName = resolveMBeanName(appName, mbeanName);
+                ServiceUtils.getServerConnectionEvenIfCluster(
+                        context.getApplicationConfig());
         ObjectInfo objInfo =
-                serverConnection.getObjectInfo(new ObjectName(mbeanName));
+                serverConnection.getObjectInfo(context.getObjectName());
         assert objInfo != null;
         ObjectAttributeInfo[] attributes = objInfo.getAttributes();
         List attributeNames = new LinkedList();
@@ -97,7 +88,7 @@ public class MBeanServiceImpl implements MBeanService {
             }
         }
         String[] attributeArray = StringUtils.listToStringArray(attributeNames);
-        return getAttributes(context, appName, mbeanName, attributeArray, true);
+        return getAttributes(context, attributeArray, true);
     }
 
     /**
@@ -105,16 +96,13 @@ public class MBeanServiceImpl implements MBeanService {
      * @return list of attribute values for given attributes
      */
     public AttributeListData[] getAttributes(ServiceContext context,
-                                             String appName,
-                                             String mbeanName,
                                              String[] attributes,
                                              boolean handleCluster)
             throws ServiceException {
 
-        mbeanName = resolveMBeanName(appName, mbeanName);
-        ObjectName objectName = new ObjectName(mbeanName);
-        ApplicationConfig appConfig =
-                ServiceUtils.getApplicationConfigByName(appName);
+        ApplicationConfig appConfig = context.getApplicationConfig();
+        ObjectName objectName = context.getObjectName();
+
         AttributeListData[] resultData = null;;
         if(appConfig.isCluster()){
             if(!handleCluster){
@@ -158,19 +146,15 @@ public class MBeanServiceImpl implements MBeanService {
     }
 
     public OperationResultData[] invoke(ServiceContext context,
-                                        String appName,
-                                        String mbeanName,
                                         String operationName,
                                         String[] params)
             throws ServiceException {
 
-        mbeanName = resolveMBeanName(appName, mbeanName);
-        ObjectName objectName = new ObjectName(mbeanName);
         /* try to determine the method, based on params */
         ObjectOperationInfo operationInfo =
-                findOperation(appName, objectName, operationName,
+                findOperation(context, operationName,
                         params!=null?params.length:0);
-        return invoke(context, appName, objectName, operationName, params,
+        return invoke(context, operationName, params,
                 operationInfo.getParameters());
     }
 
@@ -180,15 +164,13 @@ public class MBeanServiceImpl implements MBeanService {
      * @throws ServiceException
      */
     public OperationResultData[] invoke(ServiceContext context,
-                                        String appName,
-                                        ObjectName objectName,
                                         String operationName,
                                         String[] params,
                                         String[] signature)
             throws ServiceException {
 
-        ApplicationConfig appConfig =
-                ServiceUtils.getApplicationConfigByName(appName);
+        ApplicationConfig appConfig = context.getApplicationConfig();
+        ObjectName objectName = context.getObjectName();
 
         OperationResultData[] resultData = null;;
         if(appConfig.isCluster()){
@@ -246,24 +228,14 @@ public class MBeanServiceImpl implements MBeanService {
         return resultData;
     }
 
-    private String resolveMBeanName(String appName, String mbeanName){
-        ApplicationConfig appConfig =
-                ApplicationConfigManager.getApplicationConfigByName(appName);
-        /* check if the mbeanName is the configured mbean name */
-        MBeanConfig mbeanConfig = appConfig.findMBean(mbeanName);
-        if(mbeanConfig != null){
-            mbeanName = mbeanConfig.getObjectName();
-        }
-        return mbeanName;
-    }
-
-    private ObjectOperationInfo findOperation(String appName,
-                                              ObjectName objectName,
+    private ObjectOperationInfo findOperation(ServiceContext context,
                                               String operationName,
                                               int paramCount){
 
+        ObjectName objectName = context.getObjectName();
         ServerConnection connection =
-                ServiceUtils.getServerConnectionEvenIfCluster(appName);
+                ServiceUtils.getServerConnectionEvenIfCluster(
+                        context.getApplicationConfig());
         ObjectInfo objectInfo = connection.getObjectInfo(objectName);
         ObjectOperationInfo[] operationInfo = objectInfo.getOperations();
         for(int i=0; i< operationInfo.length; i++){
@@ -279,13 +251,11 @@ public class MBeanServiceImpl implements MBeanService {
     //TODO: should we first check that all apps in a cluster are up,
     // before updating?  - rk
     public AttributeListData[] setAttributes(ServiceContext context,
-                                             String objName,
-                                             String appName,
                                              String[][] attributes)
             throws ServiceException{
-        List applications = getApplications(appName);
-        ObjectName objectName = new ObjectName(objName);
-        List attributeList = buildAttributeList(appName, objectName, attributes);
+        List applications = getApplications(context.getApplicationConfig());
+        ObjectName objectName = context.getObjectName();
+        List attributeList = buildAttributeList(context, attributes);
         AttributeListData[] attrListData =
                 new AttributeListData[applications.size()];
         int index = 0;
@@ -306,17 +276,13 @@ public class MBeanServiceImpl implements MBeanService {
      *
      * @param context
      * @param request
-     * @param objName
-     * @param appName
      * @throws ServiceException
      */
     public AttributeListData[] setAttributes(ServiceContext context,
-                                             HttpServletRequest request,
-                                             String objName,
-                                             String appName)
+                                             HttpServletRequest request)
             throws ServiceException{
-        List applications = getApplications(appName);
-        ObjectName objectName = new ObjectName(objName);
+        List applications = getApplications(context.getApplicationConfig());
+        ObjectName objectName = context.getObjectName();
         AttributeListData[] attrListData =
                 new AttributeListData[applications.size()];
         int index = 0;
@@ -362,14 +328,14 @@ public class MBeanServiceImpl implements MBeanService {
      * Converts a two dimentional String array containing attribute name and
      * value to a list of ObjectAttribute objects.
      *
-     * @param attributes
      * @return list containing ObjectAttribute objects
      */
-    private List buildAttributeList(String appName,
-                                    ObjectName objectName,
+    private List buildAttributeList(ServiceContext context,
                                     String[][] attributes){
         ServerConnection connection =
-                ServiceUtils.getServerConnectionEvenIfCluster(appName);
+                ServiceUtils.getServerConnectionEvenIfCluster(
+                        context.getApplicationConfig());
+        ObjectName objectName = context.getObjectName();
         ObjectInfo objInfo = connection.getObjectInfo(objectName);
         ObjectAttributeInfo[] objAttributes = objInfo.getAttributes();
         List attributeList = new LinkedList();
@@ -417,9 +383,7 @@ public class MBeanServiceImpl implements MBeanService {
     }
 
 
-    private List getApplications(String appName){
-        ApplicationConfig appConfig =
-                ApplicationConfigManager.getApplicationConfigByName(appName);
+    private List getApplications(ApplicationConfig appConfig){
         List applications = null;
         if(appConfig.isCluster()){
             applications = appConfig.getApplications();

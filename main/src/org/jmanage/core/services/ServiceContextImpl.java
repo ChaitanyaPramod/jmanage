@@ -17,17 +17,26 @@ package org.jmanage.core.services;
 
 import org.jmanage.core.services.ServiceContext;
 import org.jmanage.core.auth.User;
+import org.jmanage.core.config.ApplicationConfig;
+import org.jmanage.core.management.ObjectName;
+import org.jmanage.core.management.ServerConnection;
+import org.jmanage.core.management.ServerConnector;
 
 import javax.security.auth.Subject;
 
 /**
  *
  * date:  Jan 19, 2005
- * @author	Rakesh Kalra, Shashank Bellary
+ * @author	Rakesh Kalra
+ * @author  Shashank Bellary
  */
 public class ServiceContextImpl implements ServiceContext {
 
     private User user;
+    private String appName;
+    private String mbeanName;
+
+    private transient ServerConnection serverConnection;
 
     public User getUser(){
         return user;
@@ -45,5 +54,43 @@ public class ServiceContextImpl implements ServiceContext {
      * @param subject
      */
     public void _setSubject(Subject subject) {
+    }
+
+    public ApplicationConfig getApplicationConfig() {
+        assert appName != null;
+        return ServiceUtils.getApplicationConfigByName(appName);
+    }
+
+    public ObjectName getObjectName() {
+        assert mbeanName != null;
+        String mbeanName =
+                ServiceUtils.resolveMBeanName(getApplicationConfig(),
+                        this.mbeanName);
+        return new ObjectName(mbeanName);
+    }
+
+    public ServerConnection getServerConnection() {
+        ApplicationConfig appConfig = getApplicationConfig();
+        assert appConfig != null;
+        assert !appConfig.isCluster():"not supported for cluster";
+        if (serverConnection == null) {
+            serverConnection =
+                    ServerConnector.getServerConnection(appConfig);
+        }
+        return serverConnection;
+    }
+
+    /**
+     * @param appName configured application mame
+     */
+    public void setApplicationName(String appName) {
+        this.appName = appName;
+    }
+
+    /**
+     * @param mbeanName configured mbean name or object name
+     */
+    public void setMBeanName(String mbeanName){
+        this.mbeanName =  mbeanName;
     }
 }

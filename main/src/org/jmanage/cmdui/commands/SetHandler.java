@@ -25,7 +25,6 @@ import org.jmanage.core.services.ServiceFactory;
 import org.jmanage.core.util.Loggers;
 import org.jmanage.core.data.AttributeListData;
 
-import java.util.StringTokenizer;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
@@ -62,8 +61,9 @@ public class SetHandler implements CommandHandler {
                     " value=" + attributes[0][1]);
         }
         AttributeListData[] attrListData =
-                service.setAttributes(context.getServiceContext(),
-                        expression.getMBeanName(), expression.getAppName(),
+                service.setAttributes(
+                        context.getServiceContext(expression.getAppName(),
+                                expression.getMBeanName()),
                         attributes);
         Out.println();
         Out.println("Changed Attributes:");

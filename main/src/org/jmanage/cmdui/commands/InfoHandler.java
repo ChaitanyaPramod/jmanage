@@ -56,8 +56,8 @@ public class InfoHandler implements CommandHandler {
 
         MBeanService service = ServiceFactory.getMBeanService();
         ObjectInfo objectInfo =
-                service.getMBean(context.getServiceContext(),
-                        expression.getAppName(), expression.getMBeanName());
+                service.getMBeanInfo(context.getServiceContext(
+                        expression.getAppName(), expression.getMBeanName()));
         printObjectInfo(objectInfo);
         return true;
     }

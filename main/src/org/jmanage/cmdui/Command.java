@@ -202,13 +202,6 @@ public class Command {
     }
 
     private HandlerContext getHandlerContext(){
-        if(isAuthRequired()){
-            return new HandlerContext(this);
-        }else{
-            /* creation of ServiceContext requires username/password.
-            As the handler for this command doesn't need ServiceContext,
-            pass null as the ServiceContext */
-            return new HandlerContext(this, null);
-        }
+        return new HandlerContext(this, isAuthRequired());
     }
 }

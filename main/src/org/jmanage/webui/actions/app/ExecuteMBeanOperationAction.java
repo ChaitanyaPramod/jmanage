@@ -15,31 +15,22 @@
  */
 package org.jmanage.webui.actions.app;
 
-import org.jmanage.webui.actions.BaseAction;
-import org.jmanage.webui.util.WebContext;
-import org.jmanage.webui.util.Forwards;
-import org.jmanage.webui.util.Utils;
-import org.jmanage.core.util.CoreUtils;
-import org.jmanage.core.util.UserActivityLogger;
-import org.jmanage.core.util.Loggers;
-import org.jmanage.core.management.ServerConnection;
-import org.jmanage.core.management.ObjectName;
-import org.jmanage.core.management.ServerConnector;
-import org.jmanage.core.config.ApplicationConfig;
-import org.jmanage.core.data.OperationResultData;
-import org.jmanage.core.services.MBeanService;
-import org.jmanage.core.services.ServiceFactory;
+import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionForm;
+import org.jmanage.core.data.OperationResultData;
+import org.jmanage.core.management.ObjectName;
+import org.jmanage.core.services.MBeanService;
+import org.jmanage.core.services.ServiceFactory;
+import org.jmanage.core.util.Loggers;
+import org.jmanage.webui.actions.BaseAction;
+import org.jmanage.webui.util.Forwards;
+import org.jmanage.webui.util.Utils;
+import org.jmanage.webui.util.WebContext;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.TreeMap;
 import java.util.logging.Logger;
-import java.util.logging.Level;
 
 /**
  * Executes mbean operation for Application as well as Application Cluster.
@@ -76,8 +67,7 @@ public class ExecuteMBeanOperationAction extends BaseAction {
         MBeanService service = ServiceFactory.getMBeanService();
         OperationResultData[] resultData =
                 service.invoke(Utils.getServiceContext(context),
-                        context.getApplicationConfig().getName(),
-                        context.getObjectName(), operationName,
+                        operationName,
                         params, signature);
         request.setAttribute("operationResultData", resultData);
         return mapping.findForward(Forwards.SUCCESS);
