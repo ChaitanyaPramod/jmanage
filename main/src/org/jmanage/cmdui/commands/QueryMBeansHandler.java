@@ -61,7 +61,7 @@ public class QueryMBeansHandler implements CommandHandler {
     }
 
     public String getShortHelp() {
-        return "Lists mbeans for the given application";
+        return "Queries mbeans for the given application";
     }
 
     public void help() {
