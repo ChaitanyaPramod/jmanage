@@ -148,6 +148,17 @@
         </fileset>
     </path>
 
+    <path id="module.jsr160.classpath">
+        <fileset dir="${basedir}/lib">
+            <include name="*.jar"/>
+        </fileset>
+        <pathelement path="${build.home}/classes" />
+        <fileset dir="${basedir}/ext">
+            <include name="jmxri-1_2_1.jar"/>
+            <include name="jmxremote-1_0_1.jar"/>
+        </fileset>
+    </path>
+
 
     <!-- ================= All Target ====================================== -->
 
@@ -221,6 +232,12 @@
         </javac>
     </target>
 
+    <!-- target for building all modules -->
+    <target name="build-all-modules" description="Builds all modules">
+        <antcall target="build-weblogic-module" />
+        <antcall target="build-jsr160-module" />
+    </target>
+
     <!-- target for building weblogic module -->
     <target name="build-weblogic-module" depends="compile">
         <mkdir dir="${build.home}/modules/weblogic/classes" />
@@ -240,6 +257,25 @@
         </copy>
     </target>
 
+    <!-- target for building jsr160 module -->
+    <target name="build-jsr160-module" depends="compile">
+        <mkdir dir="${build.home}/modules/jsr160/classes" />
+        <javac srcdir="${basedir}/modules/jsr160/src"
+            destdir="${build.home}/modules/jsr160/classes"
+            debug="${compile.debug}"
+            deprecation="${compile.deprecation}"
+            optimize="${compile.optimize}"
+            source="1.4">
+            <classpath refid="module.jsr160.classpath"/>
+        </javac>
+        <jar basedir="${build.home}/modules/jsr160/classes"
+            jarfile="${build.home}/modules/jsr160/classes.jar"/>
+        <delete dir="${build.home}/modules/jsr160/classes" />
+        <copy todir="${build.home}/modules/jsr160">
+            <fileset file="${basedir}/ext/jmxri-1_2_1.jar"/>
+            <fileset file="${basedir}/ext/jmxremote-1_0_1.jar"/>
+        </copy>
+    </target>
 
 
     <!-- ================= Dist Target ===================================== -->

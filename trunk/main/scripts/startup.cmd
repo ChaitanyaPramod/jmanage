@@ -17,7 +17,7 @@ set JMANAGE_CLASSPATH=%LIB_JARS%;%EXT_JARS%;%JMANAGE_HOME%/classes
 
 @echo on
 
-%JAVA_HOME%/bin/java -classpath %JMANAGE_CLASSPATH% %DEBUG_OPTIONS% -Djmanage.port=%JMANAGE_PORT% -Djmanage.root=%JMANAGE_HOME% org.jmanage.webui.Startup
+%JAVA_HOME%/bin/java -ea -classpath %JMANAGE_CLASSPATH% %DEBUG_OPTIONS% -Djmanage.port=%JMANAGE_PORT% -Djmanage.root=%JMANAGE_HOME% org.jmanage.webui.Startup
 goto finish
 
 :javaHomeNotSet

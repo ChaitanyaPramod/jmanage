@@ -1,5 +1,8 @@
 package org.jmanage.core.config;
 
+import org.jmanage.core.modules.ModuleConfig;
+import org.jmanage.core.modules.ModuleRegistry;
+
 import java.util.Map;
 
 /**
@@ -9,29 +12,41 @@ import java.util.Map;
  */
 public class ApplicationConfigFactory {
 
-
     public static ApplicationConfig create(String applicationId,
                                            String name,
                                            String type,
                                            String host,
-                                           int port){
-        return create(applicationId, name, type, host, port, null, null, null);
-    }
-
-    public static ApplicationConfig create(String applicationId,
-                                           String name,
-                                           String type,
-                                           String host,
-                                           int port,
+                                           Integer port,
+                                           String url,
                                            String username,
                                            String password,
                                            Map paramValues){
 
-        if(type.equals(ApplicationConfig.TYPE_WEBLOGIC)){
-            return new WeblogicApplicationConfig(applicationId, name, host, port,
-                    username, password, paramValues);
-        }else{
-            throw new RuntimeException("Invalid application type: " + type);
+        try {
+            final ModuleConfig moduleConfig = ModuleRegistry.getModule(type);
+            final MetaApplicationConfig metaAppConfig =
+                    moduleConfig.getMetaApplicationConfig();
+            final Class metaConfigClass =
+                    Class.forName(metaAppConfig.getApplicationConfigClassName(),
+                            true, moduleConfig.getClassLoader());
+            final ApplicationConfig appConfig =
+                    (ApplicationConfig)metaConfigClass.newInstance();
+            appConfig.setApplicationId(applicationId);
+            appConfig.setType(type);
+            appConfig.setName(name);
+            appConfig.setHost(host);
+            appConfig.setPort(port);
+            appConfig.setURL(url);
+            appConfig.setUsername(username);
+            appConfig.setPassword(password);
+            appConfig.setParamValues(paramValues);
+            return appConfig;
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
         }
     }
 }

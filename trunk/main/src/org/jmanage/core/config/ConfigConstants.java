@@ -15,6 +15,7 @@ public interface ConfigConstants {
 
     public String APPLICATION_CONFIG = "application-config";
     public String APPLICATIONS = "applications";
+    public String APPLICATION_CLUSTER = "application-cluster";
     public String APPLICATION = "application";
     public String PARAMETER = "param";
     public String PARAMETER_NAME = "param-name";
@@ -24,6 +25,7 @@ public interface ConfigConstants {
     public String APPLICATION_TYPE = "type";
     public String HOST = "host";
     public String PORT = "port";
+    public String URL = "url";
     public String USERNAME = "username";
     public String PASSWORD = "password";
 

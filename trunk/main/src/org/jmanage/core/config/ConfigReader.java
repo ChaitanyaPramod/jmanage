@@ -60,52 +60,98 @@ public class ConfigReader implements ConfigConstants{
      */
     public List read(){
 
-        List applicationConfigList = new LinkedList();
         List applications =
                 config.getRootElement().getChild(APPLICATIONS).getChildren();
-        Iterator appIterator = applications.iterator();
-        while(appIterator.hasNext()){
+        return getApplicationConfigList(applications);
+    }
+
+
+    private List getApplicationConfigList(List applications){
+
+        final List applicationConfigList = new LinkedList();
+        for(Iterator appIterator = applications.iterator(); appIterator.hasNext();){
             Element application = (Element)appIterator.next();
-            /*  App clusters not supported  */
-            if("application".equalsIgnoreCase(application.getName())){
-                List params = application.getChildren(PARAMETER);
-                Iterator paramIterator = params.iterator();
-                Map paramValues = new HashMap(1);
-                while(paramIterator.hasNext()){
-                    Element param = (Element)paramIterator.next();
-                    paramValues.put(param.getChildTextTrim(PARAMETER_NAME),
-                            param.getChildTextTrim(PARAMETER_VALUE));
-                }
-
-                /* read mbeans */
-                List mbeanConfigList = new LinkedList();
-                List mbeans = application.getChild(MBEANS).getChildren(MBEAN);
-                for(Iterator it=mbeans.iterator(); it.hasNext(); ){
-                    Element mbean = (Element)it.next();
-                    MBeanConfig mbeanConfig =
-                            new MBeanConfig(mbean.getAttributeValue(MBEAN_NAME),
-                                    mbean.getChildTextTrim(MBEAN_OBJECT_NAME));
-                    mbeanConfigList.add(mbeanConfig);
-                }
-
-                final String password =
-                        Crypto.decrypt(application.getAttributeValue(PASSWORD));
-                ApplicationConfig config =
-                        ApplicationConfigFactory.create(
-                                application.getAttributeValue(APPLICATION_ID),
-                                application.getAttributeValue(APPLICATION_NAME),
-                                application.getAttributeValue(APPLICATION_TYPE),
-                                application.getAttributeValue(HOST),
-                                Integer.parseInt(application.getAttributeValue(
-                                        PORT)),
-                                application.getAttributeValue(USERNAME),
-                                password,
-                                paramValues);
-
-                config.setMBeans(mbeanConfigList);
-                applicationConfigList.add(config);
+            ApplicationConfig appConfig = null;
+            if(APPLICATION.equalsIgnoreCase(application.getName())){
+                appConfig = getApplicationConfig(application);
+            }else if(APPLICATION_CLUSTER.equals(application.getName())){
+                appConfig = getApplicationClusterConfig(application);
+            }else{
+                assert false:"Invalid element:" + application.getName();
             }
+            applicationConfigList.add(appConfig);
         }
         return applicationConfigList;
+    }
+
+    private ApplicationConfig getApplicationConfig(Element application){
+
+        List params = application.getChildren(PARAMETER);
+        Iterator paramIterator = params.iterator();
+        Map paramValues = new HashMap(1);
+        while(paramIterator.hasNext()){
+            Element param = (Element)paramIterator.next();
+            paramValues.put(param.getChildTextTrim(PARAMETER_NAME),
+                    param.getChildTextTrim(PARAMETER_VALUE));
+        }
+
+        final String encryptedPassword =
+                application.getAttributeValue(PASSWORD);
+        String password = null;
+        if(encryptedPassword != null){
+            password = Crypto.decrypt(encryptedPassword);
+        }
+        Integer port = null;
+        if(application.getAttributeValue(PORT) != null){
+            port = new Integer(application.getAttributeValue(PORT));
+        }
+        ApplicationConfig config =
+                ApplicationConfigFactory.create(
+                        application.getAttributeValue(APPLICATION_ID),
+                        application.getAttributeValue(APPLICATION_NAME),
+                        application.getAttributeValue(APPLICATION_TYPE),
+                        application.getAttributeValue(HOST),
+                        port,
+                        application.getAttributeValue(URL),
+                        application.getAttributeValue(USERNAME),
+                        password,
+                        paramValues);
+
+        config.setMBeans(getMBeanConfigList(application));
+        return config;
+    }
+
+    private ApplicationConfig getApplicationClusterConfig(Element application){
+
+        ApplicationClusterConfig config =
+                new ApplicationClusterConfig(
+                        application.getAttributeValue(APPLICATION_ID),
+                        application.getAttributeValue(APPLICATION_NAME));
+
+        if(application.getChild(APPLICATIONS) != null){
+            List applications =
+                    application.getChild(APPLICATIONS).getChildren();
+            List appConfigList = getApplicationConfigList(applications);
+            config.addAllApplications(appConfigList);
+        }
+
+        config.setMBeans(getMBeanConfigList(application));
+        return config;
+    }
+
+    private List getMBeanConfigList(Element application){
+        /* read mbeans */
+        List mbeanConfigList = new LinkedList();
+        if(application.getChild(MBEANS) != null){
+            List mbeans = application.getChild(MBEANS).getChildren(MBEAN);
+            for(Iterator it=mbeans.iterator(); it.hasNext(); ){
+                Element mbean = (Element)it.next();
+                MBeanConfig mbeanConfig =
+                        new MBeanConfig(mbean.getAttributeValue(MBEAN_NAME),
+                                mbean.getChildTextTrim(MBEAN_OBJECT_NAME));
+                mbeanConfigList.add(mbeanConfig);
+            }
+        }
+        return mbeanConfigList;
     }
 }

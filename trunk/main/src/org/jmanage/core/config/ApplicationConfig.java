@@ -5,52 +5,44 @@ import org.jmanage.core.crypto.Crypto;
 import java.util.*;
 
 /**
- * TODO: Is "Server" a better term than "Application" -rk ?
  *
  * date:  Jun 11, 2004
  * @author	Rakesh Kalra
  */
 public abstract class ApplicationConfig {
 
-    public static final String TYPE_WEBLOGIC = "weblogic";
-
     private static final List EMPTY_LIST = new ArrayList();
 
-    protected String appId;
+    private String appId;
+    private String type;
     private String name;
     private String host;
-    private int port;
+    private Integer port;
+    private String url;
     private String username;
     private String password;
     protected Map paramValues;
-    private List mbeanList;
-
-    public ApplicationConfig(String applicationId,
-                             String name,
-                             String host,
-                             int port){
-        this.appId = applicationId;
-        this.setName(name);
-        this.setHost(host);
-        this.setPort(port);
-        this.mbeanList = new LinkedList();
-    }
-
-    public ApplicationConfig(String applicationId,
-                             String name,
-                             String host,
-                             int port,
-                             String username,
-                             String password,
-                             Map paramValues){
-        this(applicationId, name, host, port);
-        this.setUsername(username);
-        this.setPassword(password);
-        this.paramValues = paramValues;
-    }
+    private List mbeanList = new LinkedList();
 
     public String getApplicationId(){
         return appId;
+    }
+
+    public void setApplicationId(String appId){
+        assert this.appId == null;
+        this.appId = appId;
+    }
+
+    /**
+     * @return  type of application
+     */
+    public String getType(){
+        return type;
+    }
+
+    public void setType(String type){
+        assert this.type == null;
+        this.type = type;
     }
 
     /**
@@ -72,12 +64,20 @@ public abstract class ApplicationConfig {
         this.host = host;
     }
 
-    public int getPort() {
+    public Integer getPort() {
         return port;
     }
 
-    public void setPort(int port) {
+    public void setPort(Integer port) {
         this.port = port;
+    }
+
+    public String getURL() {
+        return url;
+    }
+
+    public void setURL(String url) {
+        this.url = url;
     }
 
     public String getUsername() {
@@ -114,6 +114,23 @@ public abstract class ApplicationConfig {
     }
 
     /**
+     * @return true: if its a application cluster; false: otherwise
+     */
+    public boolean isCluster(){
+        return false;
+    }
+
+    /**
+     * If this is a application cluster, this method returns a list of
+     * applications in this cluster.
+     *
+     * @return  list of applications in this cluster
+     */
+    public List getApplications(){
+        return null;
+    }
+
+    /**
      * @return list of MBeanConfig objects
      */
     public List getMBeans(){
@@ -143,16 +160,6 @@ public abstract class ApplicationConfig {
     public String toString(){
         return getApplicationId() + ";" + getName();
     }
-
-    /**
-     * @return  type of application
-     */
-    public abstract String getType();
-
-    /**
-     * @return  the URL which will be used to connect to the application
-     */
-    public abstract String getURL();
 
     public boolean containsMBean(String objectName) {
 

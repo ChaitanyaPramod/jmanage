@@ -63,16 +63,26 @@ public class ConfigWriter {
                 application.getApplicationId());
         applicationElement.setAttribute(ConfigConstants.APPLICATION_NAME,
                 application.getName());
-        applicationElement.setAttribute(ConfigConstants.HOST,
-                application.getHost());
-        applicationElement.setAttribute(ConfigConstants.PORT,
-                String.valueOf(application.getPort()));
-        applicationElement.setAttribute(ConfigConstants.USERNAME,
-                application.getUsername());
-        String encryptedPassword =
-                Crypto.encryptToString(application.getPassword());
-        applicationElement.setAttribute(ConfigConstants.PASSWORD,
-                encryptedPassword);
+        if(application.getHost() != null){
+            applicationElement.setAttribute(ConfigConstants.HOST,
+                    application.getHost());
+            applicationElement.setAttribute(ConfigConstants.PORT,
+                    String.valueOf(application.getPort()));
+        }
+        if(application.getURL() != null){
+            applicationElement.setAttribute(ConfigConstants.URL,
+                    application.getURL());
+        }
+        if(application.getUsername() != null){
+            applicationElement.setAttribute(ConfigConstants.USERNAME,
+                    application.getUsername());
+        }
+        if(application.getPassword() != null){
+            String encryptedPassword =
+                    Crypto.encryptToString(application.getPassword());
+            applicationElement.setAttribute(ConfigConstants.PASSWORD,
+                    encryptedPassword);
+        }
         applicationElement.setAttribute(ConfigConstants.APPLICATION_TYPE,
                             application.getType());
         final Map params = application.getParamValues();
