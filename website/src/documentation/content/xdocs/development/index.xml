@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+<document>
+  <header>
+    <title>jManage - Web Based JMX Client</title>
+  </header>
+  <body>
+      <section>
+        <title>Preparing</title>
+        <p>
+  - JManage requires JDK 1.4+ to build and run. You can download JDK
+  <a href="http://java.sun.com/j2se/1.4.2/download.html">here</a>.
+  <br/>
+  - Ant 1.6.1 is used to build JManage. You can download ant
+  <a href="http://ant.apache.org/bindownload.cgi">here</a>.
+  <br/>
+  - Get the JManage source tree from cvs.sourceforge.net. Windows developer can
+  setup WinCVS as described in this
+  <a href="http://sourceforge.net/docman/display_doc.php?docid=766&amp;group_id=1"
+      >document</a>.
+      <br/>
+      &lt;jmanage-home&gt; in this document refers to
+      c:\cvsroot\main, where c:\cvsroot is you CVS root.
+      <br/><br/>
+        </p>
+      </section>
+      <section>
+        <title>Building</title>
+        <p>
+  - Make sure that JAVA_HOME and ANT_HOME environment variables are properly set.
+  <br/>
+  - Run "ant" from &lt;jmanage-home&gt; directory to create the build. This builds core
+  jManage classes.
+  <br/>
+  - To compile all modules (e.g. weblogic, jboss, etc.) run "ant build-all-modules".
+  The weblogic module requires weblogic.jar to be copied to the "ext" folder.
+  <br/>
+  - You can run one of the following targets to build individual modules:
+  <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;build-jboss-module
+  <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;build-jsr160-module
+  <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;build-tomcat-module
+  <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;build-weblogic-module
+      <br/><br/>
+        </p>
+      </section>
+      <section>
+        <title>Running</title>
+        <p>
+  - Execute startup script from &lt;jmanage-home&gt;. Enter "123456" as the password.
+  jManage runs on port 9090 by default.
+  <br/>
+  - Point your browser to http://localhost:9090/index.jsp. Use "admin" as the username
+  and "123456" as the password.
+      <br/><br/>
+        </p>
+      </section>
+  </body>
+</document>
