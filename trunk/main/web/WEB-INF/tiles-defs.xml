@@ -30,9 +30,6 @@
     <definition name="app.mbeanView" extends="layouts.application">
         <put name="body.main" value="/app/mbeanView.jsp" />
     </definition>
-    <definition name="app.mbeanClusterView" extends="layouts.application">
-        <put name="body.main" value="/app/mbeanClusterView.jsp" />
-    </definition>
     <definition name="app.clusterView" extends="layouts.application">
         <put name="body.main" value="/app/clusterView.jsp" />
     </definition>

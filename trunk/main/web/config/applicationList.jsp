@@ -44,11 +44,11 @@
 
     ICONPATH = '/images/treeview/'; //change if the gif's folder is a subfolder, for example: 'images/'
 
-    HIGHLIGHT = 1; // highlights the selected nodes
+    HIGHLIGHT = 0; // highlights the selected nodes
     PRESERVESTATE = 1; // preserves the state of the tree, using cookies
 
     foldersTree = gFld("<b>Managed Applications</b>", "/config/managedApplications.do");
-
+    foldersTree.id = 'jmanage';
     <%
         List apps = (List)request.getAttribute(RequestAttributes.APPLICATIONS);
         Iterator appsit= apps.iterator();
@@ -56,14 +56,15 @@
             ApplicationConfig applicationConfig = (ApplicationConfig)appsit.next();
     %>
             aux1 = insFld(foldersTree, gFld("<%=applicationConfig.getName()%>", "<%=applicationConfig.isCluster()?"/app/clusterView.do":"/app/mbeanList.do"%>?<%=RequestParams.APPLICATION_ID+"="+applicationConfig.getApplicationId()%>"));
-
+            aux1.id = '<%=applicationConfig.getApplicationId()%>';
         <%
             List mbeans = applicationConfig.getMBeans();
             if(mbeans != null){
                 for(Iterator it=mbeans.iterator(); it.hasNext();){
                     MBeanConfig mbeanConfig = (MBeanConfig)it.next();
         %>
-            insDoc(aux1, gLnk("R", "<%=mbeanConfig.getName()%>", "<%=applicationConfig.isCluster()?"/app/mbeanClusterView.do":"/app/mbeanView.do"%>?<%=RequestParams.APPLICATION_ID%>=<%=applicationConfig.getApplicationId()%>&<%=RequestParams.OBJECT_NAME%>=<%=URLEncoder.encode(mbeanConfig.getObjectName(), "UTF-8")%>"));
+            doc1 = insDoc(aux1, gLnk("R", "<%=mbeanConfig.getName()%>", "/app/mbeanView.do?<%=RequestParams.APPLICATION_ID%>=<%=applicationConfig.getApplicationId()%>&<%=RequestParams.OBJECT_NAME%>=<%=URLEncoder.encode(mbeanConfig.getObjectName(), "UTF-8")%>"));
+            doc1.id = '<%=applicationConfig.getApplicationId()%>_<%=URLEncoder.encode(mbeanConfig.getObjectName(), "UTF-8")%>';
          <%
                 }// for ends
             }// if ends
@@ -73,13 +74,15 @@
                     ApplicationConfig childAppConfig = (ApplicationConfig)it.next();
                  %>
                     aux2 = insFld(aux1, gFld("<%=childAppConfig.getName()%>", "/app/mbeanList.do?<%=RequestParams.APPLICATION_ID+"="+childAppConfig.getApplicationId()%>"));
+                    aux2.id = '<%=childAppConfig.getApplicationId()%>';
                 <%
                     mbeans = childAppConfig.getMBeans();
                     if(mbeans != null){
                         for(Iterator it2=mbeans.iterator(); it2.hasNext();){
                             MBeanConfig mbeanConfig = (MBeanConfig)it2.next();
                     %>
-                        insDoc(aux2, gLnk("R", "<%=mbeanConfig.getName()%>", "/app/mbeanView.do?<%=RequestParams.APPLICATION_ID%>=<%=childAppConfig.getApplicationId()%>&<%=RequestParams.OBJECT_NAME%>=<%=URLEncoder.encode(mbeanConfig.getObjectName(), "UTF-8")%>"));
+                        doc2 = insDoc(aux2, gLnk("R", "<%=mbeanConfig.getName()%>", "/app/mbeanView.do?<%=RequestParams.APPLICATION_ID%>=<%=childAppConfig.getApplicationId()%>&<%=RequestParams.OBJECT_NAME%>=<%=URLEncoder.encode(mbeanConfig.getObjectName(), "UTF-8")%>"));
+                        doc2.id = '<%=childAppConfig.getApplicationId()%>_<%=URLEncoder.encode(mbeanConfig.getObjectName(), "UTF-8")%>';
                     <%
                         }// for ends
                     }// if ends

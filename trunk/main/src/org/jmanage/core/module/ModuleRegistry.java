@@ -1,7 +1,8 @@
-package org.jmanage.core.modules;
+package org.jmanage.core.module;
 
 import org.jmanage.core.config.ApplicationType;
 import org.jmanage.core.config.MetaApplicationConfig;
+import org.jmanage.core.module.ModuleConfig;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -43,12 +44,12 @@ public class ModuleRegistry {
 
         /* jsr160 module */
         metaConfig = new MetaApplicationConfig(false, false, true, true, true,
-                "org.jmanage.modules.jsr160.JSR160ApplicationConfig");
+                "org.jmanage.core.modules.jsr160.JSR160ApplicationConfig");
         modules.put(ApplicationType.JSR160,
                 new ModuleConfig(ApplicationType.JSR160,
                         "JSR160",
                         metaConfig,
-                        "org.jmanage.modules.jsr160.JSR160ServerConnectionFactory"));
+                        "org.jmanage.core.modules.jsr160.JSR160ServerConnectionFactory"));
 
         /* jboss module */
         metaConfig = new MetaApplicationConfig(true, true, false, false, false,

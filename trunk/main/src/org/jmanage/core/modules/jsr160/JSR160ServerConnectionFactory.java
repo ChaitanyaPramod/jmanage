@@ -1,4 +1,4 @@
-package org.jmanage.modules.jsr160;
+package org.jmanage.core.modules.jsr160;
 
 import org.jmanage.core.management.ServerConnection;
 import org.jmanage.core.management.ConnectionFailedException;

@@ -2,6 +2,7 @@ package org.jmanage.modules.weblogic;
 
 import org.jmanage.core.management.*;
 import org.jmanage.core.management.ObjectName;
+import org.jmanage.core.modules.JMXServerConnection;
 
 import javax.management.*;
 import java.util.*;

@@ -196,6 +196,16 @@
         description="Clean build and dist directories, then compile"/>
 
 
+    <!-- ================= World Target ====================================== -->
+
+    <!--
+
+      The "world" target is a shortcut for running all targets
+    -->
+
+    <target name="world" depends="compile, build-all-modules, build-test-app"
+        description="Compiles, builds all modules and builds test app"/>
+
 
     <!-- ================= Clean Target ==================================== -->
 
@@ -239,7 +249,7 @@
             <classpath refid="compile.classpath"/>
             <include name="**/webui/Startup.java"/>
             <include name="**/core/**"/>
-            <exclude name="**/core/management/JMXServerConnection.java"/>
+            <exclude name="**/core/modules/**"/>
         </javac>
 
         <!-- Compile web Java classes as necessary -->
@@ -258,7 +268,7 @@
 
 
     <target name="build-test-app"
-            description="Builds test application">
+            description="Builds test JSR160 application">
 
         <mkdir dir="${build.home}/applications/classes"/>
         <javac srcdir="${src.home}"
@@ -281,63 +291,25 @@
         <antcall target="build-jboss-module" />
     </target>
 
-    <target name="prepare-weblogic" depends="prepare">
-        <mkdir dir="${build.home}/modules/weblogic/classes" />
-        <javac srcdir="${src.home}"
-            destdir="${build.home}/modules/weblogic/classes"
-            debug="${compile.debug}"
-            deprecation="${compile.deprecation}"
-            optimize="${compile.optimize}"
-            source="1.4">
-            <classpath refid="module.weblogic.classpath"/>
-            <include name="**/core/management/JMXServerConnection.java"/>
-        </javac>
-    </target>
     <!-- target for building weblogic module -->
-    <target name="build-weblogic-module" depends="compile,prepare-weblogic"
+    <target name="build-weblogic-module"
         description="Builds weblogic module. You will need to copy weblogic.jar to ext folder.">
-        <javac srcdir="${basedir}/modules/weblogic/src"
-            destdir="${build.home}/modules/weblogic/classes"
-            debug="${compile.debug}"
-            deprecation="${compile.deprecation}"
-            optimize="${compile.optimize}"
-            source="1.4">
-            <classpath refid="module.weblogic.classpath"/>
-        </javac>
-        <jar basedir="${build.home}/modules/weblogic/classes"
-            jarfile="${build.home}/modules/weblogic/classes.jar"/>
-        <delete dir="${build.home}/modules/weblogic/classes" />
+
+        <antcall target="build-module">
+            <param name="module.name" value="weblogic"/>
+        </antcall>
         <copy todir="${build.home}/modules/weblogic">
             <fileset file="${basedir}/ext/weblogic.jar"/>
         </copy>
     </target>
 
-    <target name="prepare-tomcat" depends="prepare">
-        <mkdir dir="${build.home}/modules/tomcat/classes" />
-        <javac srcdir="${src.home}"
-            destdir="${build.home}/modules/tomcat/classes"
-            debug="${compile.debug}"
-            deprecation="${compile.deprecation}"
-            optimize="${compile.optimize}"
-            source="1.4">
-            <classpath refid="module.tomcat.classpath"/>
-            <include name="**/core/management/JMXServerConnection.java"/>
-        </javac>
-    </target>
     <!-- target for building tomcat module -->
-    <target name="build-tomcat-module" depends="compile,prepare-tomcat"
+    <target name="build-tomcat-module" depends="compile"
         description="Builds tomcat module">
-        <javac srcdir="${basedir}/modules/tomcat/src"
-            destdir="${build.home}/modules/tomcat/classes"
-            debug="${compile.debug}"
-            deprecation="${compile.deprecation}"
-            optimize="${compile.optimize}"
-            source="1.4">
-            <classpath refid="module.tomcat.classpath"/>
-        </javac>
-        <jar basedir="${build.home}/modules/tomcat/classes"
-            jarfile="${build.home}/modules/tomcat/classes.jar"/>
-        <delete dir="${build.home}/modules/tomcat/classes" />
+
+        <antcall target="build-module">
+            <param name="module.name" value="tomcat"/>
+        </antcall>
         <copy todir="${build.home}/modules/tomcat">
             <fileset file="${basedir}/ext/jmx.jar"/>
             <fileset file="${basedir}/ext/commons-modeler.jar"/>
@@ -345,69 +317,47 @@
         </copy>
     </target>
 
-    <target name="prepare-jsr160" depends="prepare">
-        <mkdir dir="${build.home}/modules/jsr160/classes" />
-        <javac srcdir="${src.home}"
-            destdir="${build.home}/modules/jsr160/classes"
-            debug="${compile.debug}"
-            deprecation="${compile.deprecation}"
-            optimize="${compile.optimize}"
-            source="1.4">
-            <classpath refid="module.jsr160.classpath"/>
-            <include name="**/core/management/JMXServerConnection.java"/>
-        </javac>
-    </target>
     <!-- target for building jsr160 module -->
-    <target name="build-jsr160-module" depends="compile,prepare-jsr160"
+    <target name="build-jsr160-module" depends="compile"
         description="Builds JSR160 module">
-        <javac srcdir="${basedir}/modules/jsr160/src"
-            destdir="${build.home}/modules/jsr160/classes"
-            debug="${compile.debug}"
-            deprecation="${compile.deprecation}"
-            optimize="${compile.optimize}"
-            source="1.4">
-            <classpath refid="module.jsr160.classpath"/>
-        </javac>
-        <jar basedir="${build.home}/modules/jsr160/classes"
-            jarfile="${build.home}/modules/jsr160/classes.jar"/>
-        <delete dir="${build.home}/modules/jsr160/classes" />
+        <antcall target="build-module">
+            <param name="module.name" value="jsr160"/>
+        </antcall>
         <copy todir="${build.home}/modules/jsr160">
             <fileset file="${basedir}/ext/jmxri-1_2_1.jar"/>
             <fileset file="${basedir}/ext/jmxremote-1_0_1.jar"/>
         </copy>
     </target>
 
-    <target name="prepare-jboss" depends="prepare">
-        <mkdir dir="${build.home}/modules/jboss/classes" />
-        <javac srcdir="${src.home}"
-            destdir="${build.home}/modules/jboss/classes"
-            debug="${compile.debug}"
-            deprecation="${compile.deprecation}"
-            optimize="${compile.optimize}"
-            source="1.4">
-            <classpath refid="module.jboss.classpath"/>
-            <include name="**/core/management/JMXServerConnection.java"/>
-        </javac>
-    </target>
     <!-- target for building jboss module -->
-    <target name="build-jboss-module" depends="compile,prepare-jboss"
+    <target name="build-jboss-module" depends="compile"
         description="Builds jboss module">
-        <javac srcdir="${basedir}/modules/jboss/src"
-            destdir="${build.home}/modules/jboss/classes"
-            debug="${compile.debug}"
-            deprecation="${compile.deprecation}"
-            optimize="${compile.optimize}"
-            source="1.4">
-            <classpath refid="module.jboss.classpath"/>
-        </javac>
-        <jar basedir="${build.home}/modules/jboss/classes"
-            jarfile="${build.home}/modules/jboss/classes.jar"/>
-        <delete dir="${build.home}/modules/jboss/classes" />
+        <antcall target="build-module">
+            <param name="module.name" value="jboss"/>
+        </antcall>
         <copy todir="${build.home}/modules/jboss">
             <fileset file="${basedir}/ext/jbossall-client.jar"/>
             <fileset file="${basedir}/ext/jboss-jmx.jar"/>
             <fileset file="${basedir}/ext/jnet.jar"/>
         </copy>
+    </target>
+
+    <!-- generic target for building a module -->
+    <target name="build-module" depends="compile">
+        <mkdir dir="${build.home}/modules/${module.name}/classes" />
+        <javac srcdir="${src.home}"
+            destdir="${build.home}/modules/${module.name}/classes"
+            debug="${compile.debug}"
+            deprecation="${compile.deprecation}"
+            optimize="${compile.optimize}"
+            source="1.4">
+            <classpath refid="module.${module.name}.classpath"/>
+            <include name="**/core/modules/JMXServerConnection.java"/>
+            <include name="**/core/modules/${module.name}/**"/>
+        </javac>
+        <jar basedir="${build.home}/modules/${module.name}/classes"
+            jarfile="${build.home}/modules/${module.name}/classes.jar"/>
+        <delete dir="${build.home}/modules/${module.name}/classes" />
     </target>
 
     <!-- ================= Dist Target ===================================== -->

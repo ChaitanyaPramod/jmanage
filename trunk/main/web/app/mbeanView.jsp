@@ -7,7 +7,8 @@
                  org.jmanage.webui.util.WebContext,
                  org.jmanage.core.auth.User,
                  java.util.List,
-                 org.jmanage.webui.util.MBeanUtils"%>
+                 org.jmanage.webui.util.MBeanUtils,
+                 org.jmanage.core.config.ApplicationConfig"%>
 
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 <%@ taglib uri="/WEB-INF/tags/jstl/c.tld" prefix="c"%>
@@ -21,9 +22,19 @@
     ObjectOperationInfo[] operations = objectInfo.getOperations();
     ObjectNotificationInfo[] notifications = objectInfo.getNotifications();
 
-    List attributeList =
-            (List)request.getAttribute("attributeList");
+    ApplicationConfig applicationConfig = webContext.getApplicationConfig();
+    List appAttrList =
+            (List)request.getAttribute("appAttributeList");
 %>
+<script type="text/javascript" language="Javascript1.1">
+<!--
+    function addToApplicationCluster(){
+        document.mbeanConfigForm.applicationCluster.value='true';
+        document.mbeanConfigForm.submit();
+        return;
+    }
+-->
+</script>
 
 <tr>
     <td>
@@ -31,22 +42,30 @@
         <tr><td class="headtext" width="30%" nowrap><b>Object Name</b></td><td class="plaintext" width="70%"><c:out value="${param.objName}" /></td></tr>
         <tr><td class="headtext" width="30%" nowrap><b>Class Name</b></td><td class="plaintext" width="70%"><c:out value="${requestScope.objInfo.className}" /></td></tr>
         <tr><td class="headtext" width="30%" nowrap><b>Description</b></td><td class="plaintext" width="70%"><c:out value="${requestScope.objInfo.description}" /></td></tr>
-        <tr><td colspan="2" nowrap>
+        <tr><td colspan="2" nowrap class="plaintext">
             <c:choose>
-                <c:when test="${requestScope.mbeanIncluded == 'true'}">
+                <c:when test="${requestScope.mbeanIncludedIn != null}">
                     <jmhtml:form action="/config/removeMBeanConfig">
                         <jmhtml:hidden property="objectName"/>
                         <jmhtml:hidden property="refreshApps" value="true"/>
-                        <a href="JavaScript:document.mbeanConfigForm.submit();" class="a1">Remove from Application</a>
+                        <a href="JavaScript:document.mbeanConfigForm.submit();" class="a1">
+                            Remove from Application <c:if test="${requestScope.mbeanIncludedIn == 'cluster'}">Cluster</c:if></a>
                     </jmhtml:form>
                 </c:when>
                 <c:otherwise>
+                    <%if(!applicationConfig.isCluster()){%>
                     <jmhtml:form action="/config/addMBeanConfig">
                         <jmhtml:text property="name"/>
                         <jmhtml:hidden property="objectName"/>
                         <jmhtml:hidden property="refreshApps" value="true"/>
+                        <jmhtml:hidden property="applicationCluster"/>
                         <a href="JavaScript:document.mbeanConfigForm.submit();" class="a1">Add to Application</a>
+                        <%if(applicationConfig.getClusterConfig() != null){%>
+                        &nbsp;Or&nbsp;
+                        <a href="JavaScript:addToApplicationCluster();" class="a1">Add to Application Cluster</a>
+                        <%}%>
                     </jmhtml:form>
+                    <%}%>
                 </c:otherwise>
             </c:choose>
         </td></tr>
@@ -54,14 +73,32 @@
     </td>
 </tr>
 <tr><td>&nbsp;</td></tr>
-<tr><td class="headtext" align="left"><b>Attributes</b></td></tr>
+<%
+    if(attributes.length > 0){
+%>
+<tr><td class="headtext" align="left"><b>Attributes</b>&nbsp;&nbsp;
+<jmhtml:link action="/app/mbeanView" styleClass="a1">Refresh</jmhtml:link>
+</td></tr>
 <tr>
 <td bgcolor="#E6EEF9" class="plaintext">
 <jmhtml:form action="/app/updateAttributes" method="post">
 <table border="0" cellspacing="5">
 <tr>
     <td class="headtext"><b>Name</b></td>
-    <td class="headtext"><b>Value</b></td>
+<%
+    if(applicationConfig.isCluster()){
+        for(Iterator it=applicationConfig.getApplications().iterator(); it.hasNext();){
+            ApplicationConfig childAppConfig = (ApplicationConfig)it.next();
+%>
+    <td class="headtext"><b><%=childAppConfig.getName()%></b></td>
+<%
+        }
+    }else{
+%>
+    <td class="headtext"><b><%=applicationConfig.getName()%></b></td>
+<%
+    }
+%>
     <td class="headtext"><b>Type</b></td>
 </tr>
 <%
@@ -73,6 +110,9 @@
 <td class="<%=rowStyle%>">
     <a href="JavaScript:showDescription('<%=MBeanUtils.jsEscape(attributeInfo.getDescription())%>');"><%=attributeInfo.getName()%></a>
 </td>
+<%for(Iterator it=appAttrList.iterator(); it.hasNext();){
+    List attributeList = (List)it.next();
+    %>
 <td class="<%=rowStyle%>">
     <%
         String attrValue =
@@ -85,6 +125,10 @@
         <%=attrValue%>
     <%}%>
 </td>
+<%
+}
+%>
+
 <td class="<%=rowStyle%>">
     <%=attributeInfo.getType()%>
 </td>
@@ -98,7 +142,9 @@ To save the changes to the attribute values click on
 </jmhtml:form>
 </td>
 </tr>
-
+<%
+    }
+%>
 <%if(operations.length > 0 && user.isAdmin()){%>
 <tr><td class="headtext" align="left"><b>Operations</b></td></tr>
 <tr>

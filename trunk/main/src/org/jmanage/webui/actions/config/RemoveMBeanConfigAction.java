@@ -28,14 +28,30 @@ public class RemoveMBeanConfigAction extends BaseAction {
                                  HttpServletResponse response)
             throws Exception {
 
+        String logMsg = null;
         MBeanConfigForm mbeanConfigForm = (MBeanConfigForm)actionForm;
         ApplicationConfig applicationConfig = context.getApplicationConfig();
-        applicationConfig.removeMBean(mbeanConfigForm.getObjectName());
-        ApplicationConfigManager.updateApplication(applicationConfig);
-        UserActivityLogger.getInstance().logActivity(
-                context.getUser().getUsername(),
-                "Removed " + mbeanConfigForm.getObjectName() +
-                " from favorites under "+ applicationConfig.getName());
+        if(applicationConfig.removeMBean(mbeanConfigForm.getObjectName())
+                != null){
+            ApplicationConfigManager.updateApplication(applicationConfig);
+            logMsg = "Removed mbean " + mbeanConfigForm.getObjectName() +
+                        " from application "+ applicationConfig.getName();
+        }else{
+            ApplicationConfig clusterConfig =
+                    applicationConfig.getClusterConfig();
+            if(clusterConfig != null){
+                clusterConfig.removeMBean(mbeanConfigForm.getObjectName());
+                ApplicationConfigManager.updateApplication(clusterConfig);
+                logMsg = "Removed mbean " + mbeanConfigForm.getObjectName() +
+                    " from application cluster "+ clusterConfig.getName();
+            }
+        }
+
+        if(logMsg != null){
+            UserActivityLogger.getInstance().logActivity(
+                    context.getUser().getUsername(),
+                    logMsg);
+        }
         return mapping.findForward(Forwards.SUCCESS);
     }
 }

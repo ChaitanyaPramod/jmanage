@@ -248,16 +248,6 @@
             type="org.jmanage.webui.actions.app.ClusterViewAction">
             <forward name="success" path="app.clusterView"/>
         </action>
-        <action
-            path="/app/mbeanClusterView"
-            name="mbeanConfigForm"
-            scope="request"
-            roles="dev,ops"
-            type="org.jmanage.webui.actions.app.MBeanClusterViewAction">
-            <forward name="success" path="app.mbeanClusterView"/>
-        </action>
-
-
 
         <!--== User Management =======================================-->
         <action

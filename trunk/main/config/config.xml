@@ -1,5 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <application-config>
     <applications>
+        <application-cluster id="1" name="myCluster">
+
+            <mbeans>
+                <mbean name="demoPool1234">
+                    <object-name>site:Name=demoPool,Type=JDBCConnectionPool</object-name>
+                </mbean>
+                <mbean name="BannerCache">
+                    <object-name>UserDomain:name=BannerCache</object-name>
+                </mbean>
+            </mbeans>
+            <applications>
+                <application id="1095141180458"
+                    name="localapp"
+                    host="localhost"
+                    port="7001"
+                    username="system"
+                    password="1bf0d93c1102b6827c82082b0cd62b60"
+                    type="weblogic">
+                    <mbeans>
+                        <mbean name="demoPool1234">
+                            <object-name>site:Name=demoPool,Type=JDBCConnectionPool</object-name>
+                        </mbean>
+                        <mbean name="BannerCache">
+                            <object-name>UserDomain:name=BannerCache</object-name>
+                        </mbean>
+                    </mbeans>
+                </application>
+                <application id="109514118045822"
+                    name="localapp2"
+                    host="localhost"
+                    port="7001"
+                    username="system"
+                    password="1bf0d93c1102b6827c82082b0cd62b60"
+                    type="weblogic">
+                    <mbeans>
+                        <mbean name="demoPool1234">
+                            <object-name>site:Name=demoPool,Type=JDBCConnectionPool</object-name>
+                        </mbean>
+                        <mbean name="BannerCache">
+                            <object-name>UserDomain:name=BannerCache</object-name>
+                        </mbean>
+                    </mbeans>
+                </application>
+            </applications>
+
+        </application-cluster>
+
+        <application id="1095141180459"
+            name="odt"
+            url="service:jmx:rmi:///jndi/rmi://localhost:9999/odt"
+            type="jsr160">
+            <mbeans/>
+        </application>
+        <application id="1095141180460"
+            name="odt2"
+            url="service:jmx:rmi:///jndi/rmi://localhost:9999/odt"
+            type="jsr160">
+            <mbeans/>
+        </application>
     </applications>
 </application-config>

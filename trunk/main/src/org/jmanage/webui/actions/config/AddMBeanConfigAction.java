@@ -29,15 +29,31 @@ public class AddMBeanConfigAction extends BaseAction {
                                  HttpServletResponse response)
             throws Exception {
 
+        makeResponseNotCacheable(response);
+
         MBeanConfigForm mbeanConfigForm = (MBeanConfigForm)actionForm;
         ApplicationConfig applicationConfig = context.getApplicationConfig();
+
+        if(mbeanConfigForm.isApplicationCluster()){
+            /* mbean has to be added to the cluster */
+            applicationConfig = applicationConfig.getClusterConfig();
+            assert applicationConfig != null: "application not part of cluster";
+        }
         applicationConfig.addMBean(new MBeanConfig(mbeanConfigForm.getName(),
                 mbeanConfigForm.getObjectName()));
         ApplicationConfigManager.updateApplication(applicationConfig);
+
+        String logMsg = null;
+        if(mbeanConfigForm.isApplicationCluster()){
+            logMsg = "Added "+mbeanConfigForm.getObjectName()+" to " +
+                    "application cluster " + applicationConfig.getName();
+        }else{
+            logMsg = "Added "+mbeanConfigForm.getObjectName()+" to " +
+                    "application " + applicationConfig.getName();
+        }
         UserActivityLogger.getInstance().logActivity(
                 context.getUser().getUsername(),
-                "Added "+mbeanConfigForm.getObjectName()+" to favorites under "+
-                applicationConfig.getName());
+                logMsg);
         return mapping.findForward(Forwards.SUCCESS);
     }
 }

@@ -2,7 +2,7 @@ package org.jmanage.modules.jboss;
 
 import org.jmanage.core.management.ObjectName;
 import org.jmanage.core.management.ObjectInfo;
-import org.jmanage.core.management.JMXServerConnection;
+import org.jmanage.core.modules.JMXServerConnection;
 import org.jboss.jmx.adaptor.rmi.RMIAdaptor;
 
 import javax.management.MBeanInfo;

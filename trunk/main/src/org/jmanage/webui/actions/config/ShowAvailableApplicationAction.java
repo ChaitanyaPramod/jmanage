@@ -4,7 +4,7 @@ import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.util.RequestAttributes;
-import org.jmanage.core.modules.ModuleRegistry;
+import org.jmanage.core.module.ModuleRegistry;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;

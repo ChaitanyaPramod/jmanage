@@ -14,21 +14,31 @@ import javax.servlet.http.HttpServletResponse;
  * date:  Jun 6, 2004
  * @author	Rakesh Kalra
  */
-public abstract class BaseAction extends Action{
+public abstract class BaseAction extends Action {
 
     public final ActionForward execute(ActionMapping mapping,
-                                 ActionForm actionForm,
-                                 HttpServletRequest request,
-                                 HttpServletResponse response)
+                                       ActionForm actionForm,
+                                       HttpServletRequest request,
+                                       HttpServletResponse response)
             throws Exception {
         WebContext context = WebContext.get(request);
         return execute(context, mapping, actionForm, request, response);
     }
 
     public abstract ActionForward execute(WebContext context,
-                                 ActionMapping mapping,
-                                 ActionForm actionForm,
-                                 HttpServletRequest request,
-                                 HttpServletResponse response)
+                                          ActionMapping mapping,
+                                          ActionForm actionForm,
+                                          HttpServletRequest request,
+                                          HttpServletResponse response)
             throws Exception;
+
+
+    /**
+     * Sets the response headers, so that this page is not cached.
+     */
+    protected static void makeResponseNotCacheable(HttpServletResponse response) {
+        response.setHeader("Pragma", "No-cache");
+        response.setDateHeader("Expires", 0);
+        response.setHeader("Cache-Control", "no-cache");
+    }
 }

@@ -1,7 +1,7 @@
 package org.jmanage.core.config;
 
-import org.jmanage.core.modules.ModuleConfig;
-import org.jmanage.core.modules.ModuleRegistry;
+import org.jmanage.core.module.ModuleConfig;
+import org.jmanage.core.module.ModuleRegistry;
 
 import java.util.Map;
 
