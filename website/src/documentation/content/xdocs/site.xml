@@ -33,8 +33,11 @@ See http://forrest.apache.org/docs/linking.html for more info
 
   <home label="Home" href="/">
     <index label="Index" href="index.html" description="Welcome to jManage"/>
-    <index label="Downloads" href="http://sourceforge.net/project/showfiles.php?group_id=111374&amp;package_id=120380" description="jManage Downloads"/>
+    <downloads label="Downloads" href="http://sourceforge.net/project/showfiles.php?group_id=111374&amp;package_id=120380" description="jManage Downloads"/>
   </home>
+  <documentation label="Documentation" href="/documentation/jmanage0.5/cli.html">
+    <cli label="Command Line" href="/documentation/jmanage0.5/cli.html" description="Command line reference"/>
+  </documentation>
   <community label="Community" href="http://sourceforge.net/projects/jmanage/">
     <sfProject label="SF Project" href="http://sourceforge.net/projects/jmanage/"/>
     <featureRequest label="Feature Request" href="http://sourceforge.net/tracker/?func=add&amp;group_id=111374&amp;atid=659060"/>
