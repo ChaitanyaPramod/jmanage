@@ -18,7 +18,6 @@ package org.jmanage.webui;
 import org.apache.struts.config.ModuleConfig;
 import org.apache.struts.action.*;
 import org.apache.struts.tiles.TilesRequestProcessor;
-import org.jmanage.webui.util.WebContext;
 import org.jmanage.core.util.Loggers;
 
 import javax.servlet.ServletException;
@@ -27,7 +26,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.logging.Logger;
 import java.util.logging.Level;
-import java.util.Iterator;
 import java.util.Enumeration;
 import java.beans.XMLEncoder;
 
@@ -79,17 +77,7 @@ public class JManageRequestProcessor extends TilesRequestProcessor{
         logger.info("Start Request Path:" + requestPath);
 
         ActionForward resultForward = null;
-        WebContext context = WebContext.get(request);
-
         try{
-            resultForward = checkPreConditionsForRequest(context,
-                    (JManageActionMapping)mapping);
-
-            if(resultForward != null){
-                /*  Some precondition check failed, take appropriate action via
-                    the forward.    */
-                return resultForward;
-            }
             /*  execute the action  */
             resultForward = action.execute(mapping, form, request, response);
         }catch (Exception e){
@@ -134,26 +122,6 @@ public class JManageRequestProcessor extends TilesRequestProcessor{
             resultForward = null;
         }
         return resultForward;
-    }
-
-    /**
-     * Checks that the perconditions associated with this action satisfy. If
-     * they don't do whatever is necessary to ensure they are satisfied.
-     *
-     * @param context
-     * @param mapping
-     * @return
-     * @throws Exception
-     */
-    private ActionForward checkPreConditionsForRequest(WebContext context,
-                                                       JManageActionMapping mapping)
-            throws Exception {
-        ActionForward roleForward = null;
-        if(mapping.getRoleNames().length > 0){
-            roleForward = RoleManager.ensureRole(context, mapping,
-                    mapping.getRoleNames());
-        }
-        return roleForward;
     }
 
     /**
