@@ -16,19 +16,21 @@
 package org.jmanage.core.remote.client;
 
 import org.apache.xmlrpc.XmlRpcClient;
-import org.jmanage.core.util.Loggers;
-import org.jmanage.core.remote.Unmarshaller;
-import org.jmanage.core.remote.Marshaller;
+import org.apache.xmlrpc.XmlRpcException;
 import org.jmanage.core.config.JManageProperties;
+import org.jmanage.core.remote.Marshaller;
+import org.jmanage.core.remote.Unmarshaller;
 import org.jmanage.core.services.ServiceContext;
+import org.jmanage.core.services.ServiceException;
+import org.jmanage.core.util.Loggers;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.util.Vector;
-import java.util.logging.Logger;
 import java.util.logging.Level;
-import java.io.StringReader;
+import java.util.logging.Logger;
+import java.io.IOException;
 
 /**
  * Acts as a Proxy for Service layer method calls. This is used by the
@@ -63,11 +65,18 @@ public class ServiceProxy  implements InvocationHandler {
 
         final String methodName = getMethodName(method);
         logger.log(Level.FINE, "Invoking service method: {0}", methodName);
-        String output = (String)client.execute(methodName, toVector(method, args));
-        /* convert output XML to Object */
+
         Object result = null;
-        if(output != null){
-            result = Unmarshaller.unmarshal(method.getReturnType(), output);
+        try {
+            String output = (String)client.execute(methodName, toVector(method, args));
+            /* convert output XML to Object */
+            result = null;
+            if(output != null){
+                result = Unmarshaller.unmarshal(method.getReturnType(), output);
+            }
+        } catch (XmlRpcException e) {
+            logger.log(Level.FINE, "XmlRpcException", e);
+            throw new ServiceException("", e.getMessage());
         }
         return result;
     }

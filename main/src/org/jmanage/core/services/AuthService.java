@@ -33,5 +33,6 @@ public interface AuthService {
      */
     public void login(ServiceContext context,
                         String username,
-                        String password);
+                        String password)
+            throws ServiceException;
 }

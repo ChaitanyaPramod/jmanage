@@ -16,13 +16,11 @@
 package org.jmanage.core.remote.server;
 
 import org.apache.xmlrpc.XmlRpcHandler;
+import org.apache.xmlrpc.XmlRpcException;
 import org.jmanage.core.remote.client.ServiceProxy;
 import org.jmanage.core.remote.Unmarshaller;
 import org.jmanage.core.remote.Marshaller;
-import org.jmanage.core.services.ServiceContextImpl;
-import org.jmanage.core.services.ServiceFactory;
-import org.jmanage.core.services.ServiceContext;
-import org.jmanage.core.services.AuthService;
+import org.jmanage.core.services.*;
 import org.jmanage.core.auth.UserManager;
 import org.jmanage.core.auth.User;
 import org.jmanage.core.util.Loggers;
@@ -33,6 +31,7 @@ import java.util.Iterator;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import java.lang.reflect.Method;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * ServiceCallHandler is a XMLRPC handler, which handles remote requests
@@ -73,6 +72,13 @@ public class ServiceCallHandler implements XmlRpcHandler {
             Object result =
                     method.invoke(serviceObject, args);
             return Marshaller.marshal(result);
+        } catch (InvocationTargetException e){
+            Throwable t = e.getCause();
+            if(t != null && t instanceof Exception){
+                /* throw the wrapped exception */
+                throw (Exception)t;
+            }
+            throw e;
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error while invoking: " +
                     serviceMethod, e);
