@@ -9,7 +9,7 @@
     <section>
       <title>jManage Overview</title>
       <p>
-jManage is a web and command-line based JMX client, which provides a
+jManage is a open source, web and command-line based JMX client, which provides a
 centralized console for managing application clusters and distributed application
 production environments.
 <br/><br/>
@@ -23,6 +23,9 @@ We are currently developing version 0.5, which has the following features:
 <br/>
     - Support for different J2EE app servers
 <br/>
+    - Cluster level view of MBeans. Also allows changing attribute values
+      and performing operations at the cluster level.
+<br/>
     - Authentication and Role Management
 <br/>
     - Configuring Applications in jManage
@@ -33,13 +36,57 @@ We are currently developing version 0.5, which has the following features:
           jManage is being built keeping security in mind, as the main target
           usage of jManage is in the production environment. Production
           environments usually have limited access and are managed by an
-          operations team. jManage lets the operations team to monitor the
+          operations team. jManage lets the operations team monitor the
           production environment (via browser or command line) and also
           allows the operations team to give controlled access to developers, QA
           and others. Operations team can create jManage users and assign
           roles to these users. Access to different features can be controlled
           by assigining permissions to various roles. Permission can be granted
           even at the level of MBean attributes or operations.
+      </p>
+    </section>
+    <section>
+        <title>jManage Platform</title>
+        <p>
+            jManage is a <a href="http://struts.apache.org/">Struts</a> and
+            <a href="http://jetty.mortbay.org/">Jetty</a> based web application,
+            which provides both web and command line interface to manage JMX enabled
+            applications. jManage 0.5 version (in development) currently supports
+            the following servers:
+        <br/><br/>
+            - JBoss
+        <br/>
+            - JMX Remoting (JSR 160)
+        <br/>
+            - Tomcat
+        <br/>
+            - Bea Weblogic
+        <br/>
+            - IBM WebSphere
+        <br/><br/>
+            jManage command line interface uses XML RPC to connect to the
+            jManage web application. The custom data objects are serialized
+            using Castor.
+        </p>
+    </section>
+    <section>
+      <title>Typical Deployment</title>
+      <p>
+          jManage is typically deployed in a production environment in the
+          same network as the applications to be managed. This allows jManage
+          to access the JMX enabled applications via any protocol supported
+          by that application. Users than then access jManage over HTTP via
+          a web browser or command line.
+          <br/><br/>
+          <img src="/images/jManage-deploy.jpg" alt="Typical jManage Deployment"/>
+          <br/><br/>
+          Access to jManage is controlled via username/password provided
+          by the System Administrators or the Operations team. Access to
+          jManage can be further limited by adding IP restrictions
+          [e.g. allowing access only from the company network.]
+          <br/><br/>
+          User activites are logged in a log file, which can be audited
+          by the System Administrators.
       </p>
     </section>
   </body>
