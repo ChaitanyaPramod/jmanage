@@ -1,0 +1,13 @@
+<jmanage-config>
+
+    <authentication class="org.jmanage.common.auth.FileAuthentication"/>
+
+    <application-types>
+        <application
+            name="Weblogic 6.1"
+            configClass="org.jmanage.core.config.WeblogicApplicationConfig"
+            connectorClass="org.jmanage.core.connector.WeblogicConnector"
+            extJars="weblgic61.jar"/>
+    </application-types>
+
+</jmanage-config>

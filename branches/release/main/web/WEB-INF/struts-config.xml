@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN"
+          "./dtds/struts-config_1_1.dtd">
+
+<struts-config>
+
+    <!-- ============================================= Form Bean Definitions -->
+
+    <form-beans>
+        <form-bean
+            name="emptyForm"
+            type="org.jmanage.webui.forms.EmptyForm">
+        </form-bean>
+        <form-bean
+            name="loginForm"
+            type="org.jmanage.webui.forms.LoginForm">
+        </form-bean>
+        <form-bean
+            name="mbeanQueryForm"
+            type="org.jmanage.webui.forms.MBeanQueryForm">
+        </form-bean>
+        <form-bean
+            name="wlApplicationForm"
+            type="org.jmanage.webui.forms.WeblogicApplicationForm">
+        </form-bean>
+        <form-bean
+            name="mbeanConfigForm"
+            type="org.jmanage.webui.forms.MBeanConfigForm">
+        </form-bean>
+        <form-bean
+            name="userForm"
+            type="org.jmanage.webui.forms.UserForm">
+        </form-bean>
+    </form-beans>
+
+    <!-- ====================================== Global Exception Definitions -->
+
+    <global-exceptions>
+        <exception
+            type="org.jmanage.core.connector.ConnectionFailedException"
+            key="ignore"
+            path="app.connectionFailed" />
+
+    </global-exceptions>
+
+   <!-- ======================================== Global Forward Definitions -->
+
+    <global-forwards>
+        <forward name="unAuthorized" path="/auth/unauthorized.jsp"/>
+        <forward name="login" path="/auth/loginRedirect.jsp"/>
+    </global-forwards>
+
+    <!-- ======================================== Action Mapping Definitions -->
+
+    <action-mappings type="org.jmanage.webui.JManageActionMapping" >
+
+        <!--== Authentication ===============================================-->
+        <action
+            path="/auth/login"
+            name="loginForm"
+            scope="request"
+            input="/index.jsp"
+            type="org.jmanage.webui.actions.auth.LoginAction">
+            <forward name="success" path="/home.jsp"/>
+        </action>
+        <action
+            path="/auth/logout"
+            type="org.jmanage.webui.actions.auth.LogoutAction">
+            <forward name="success" path="/index.jsp"/>
+        </action>
+        <!--== Configuration Management =====================================-->
+        <action
+            path="/config/applicationList"
+            roles="dev,ops"
+            type="org.jmanage.webui.actions.config.ApplicationListAction">
+            <forward name="success" path="/config/applicationList.jsp"/>
+        </action>
+        <action
+            path="/config/managedApplications"
+            roles="dev,ops"
+            type="org.jmanage.webui.actions.config.ApplicationListAction">
+            <forward name="success" path="/config/managedApplications.jsp"/>
+        </action>
+        <action
+            path="/config/showEditApplication"
+            name="wlApplicationForm"
+            scope="request"
+            roles="ops"
+            type="org.jmanage.webui.actions.config.ShowEditApplicationAction">
+            <forward name="success" path="/config/editApplication.jsp"/>
+        </action>
+        <action
+            path="/config/editApplication"
+            name="wlApplicationForm"
+            scope="request"
+            roles="ops"
+            type="org.jmanage.webui.actions.config.EditApplicationAction">
+            <forward name="success" path="/config/managedApplications.do"/>
+        </action>
+        <action
+            path="/config/showAddApplication"
+            name="wlApplicationForm"
+            scope="request"
+            roles="ops"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/config/addApplication.jsp">
+        </action>
+        <action
+            path="/config/addApplication"
+            name="wlApplicationForm"
+            scope="request"
+            roles="ops"
+            type="org.jmanage.webui.actions.config.AddApplicationAction">
+            <forward name="success" path="/config/managedApplications.do"/>
+        </action>
+        <action
+            path="/config/deleteApplication"
+            name="wlApplicationForm"
+            scope="request"
+            roles="ops"
+            type="org.jmanage.webui.actions.config.DeleteApplicationAction">
+            <forward name="success" path="/config/managedApplications.do"/>
+        </action>
+        <action
+            path="/config/addMBeanConfig"
+            name="mbeanConfigForm"
+            scope="request"
+            roles="ops"
+            type="org.jmanage.webui.actions.config.AddMBeanConfigAction">
+            <forward name="success" path="/app/mbeanView.do"/>
+        </action>
+        <action
+            path="/config/removeMBeanConfig"
+            name="mbeanConfigForm"
+            scope="request"
+            roles="ops"
+            type="org.jmanage.webui.actions.config.RemoveMBeanConfigAction">
+            <forward name="success" path="/app/mbeanView.do"/>
+        </action>
+
+        <!--== Application Management =======================================-->
+        <action
+            path="/app/mbeanList"
+            name="mbeanQueryForm"
+            scope="request"
+            roles="dev,ops"
+            type="org.jmanage.webui.actions.app.MBeanListAction">
+            <forward name="success" path="app.mbeanList"/>
+        </action>
+        <action
+            path="/app/mbeanView"
+            name="mbeanConfigForm"
+            scope="request"
+            roles="dev,ops"
+            type="org.jmanage.webui.actions.app.ShowMBeanAction">
+            <forward name="success" path="app.mbeanView"/>
+        </action>
+        <action
+            path="/app/updateAttributes"
+            name="emptyForm"
+            scope="request"
+            roles="ops"
+            type="org.jmanage.webui.actions.app.UpdateMBeanAttributesAction">
+            <forward name="success" path="/app/mbeanView.do"/>
+        </action>
+        <action
+            path="/app/executeOperation"
+            name="emptyForm"
+            scope="request"
+            roles="ops"
+            type="org.jmanage.webui.actions.app.ExecuteMBeanOperationAction">
+            <forward name="success" path="/app/mbeanView.do"/>
+        </action>
+
+        <!--== User Management =======================================-->
+        <action
+            path="/auth/listUsers"
+            roles="ops"
+            type="org.jmanage.webui.actions.auth.ListUsersAction">
+            <forward name="success" path="/auth/configuredUsers.jsp"/>
+        </action>
+        <action
+            path="/auth/deleteUser"
+            roles="ops"
+            type="org.jmanage.webui.actions.auth.DeleteUserAction">
+            <forward name="success" path="/auth/listUsers.do"/>
+        </action>
+        <action
+            path="/auth/showEditUser"
+            name="userForm"
+            scope="request"
+            roles="ops"
+            type="org.jmanage.webui.actions.auth.ShowEditUserAction">
+            <forward name="success" path="/auth/editUser.jsp"/>
+        </action>
+        <action
+            path="/auth/editUser"
+            name="userForm"
+            scope="request"
+            roles="ops"
+            type="org.jmanage.webui.actions.auth.EditUserAction">
+            <forward name="success" path="/auth/listUsers.do"/>
+        </action>
+        <action
+            path="/auth/showAddUser"
+            name="userForm"
+            scope="request"
+            roles="ops"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/auth/adddUser.jsp">
+        </action>
+        <action
+            path="/auth/addUser"
+            name="userForm"
+            scope="request"
+            roles="ops"
+            type="org.jmanage.webui.actions.auth.AddUserAction">
+            <forward name="success" path="/auth/listUsers.do"/>
+        </action>
+    </action-mappings>
+
+    <!-- ========================================== Controller Configuration -->
+
+    <!--controller
+        processorClass=""/-->
+    <controller
+        processorClass="org.jmanage.webui.JManageRequestProcessor"/>
+
+    <!-- ===================================== Message Resources Definitions -->
+
+    <message-resources parameter="resources.application"/>
+
+
+    <!-- ============================================ Plug Ins Configuration -->
+
+
+    <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+        <set-property
+            property="pathnames"
+            value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml"/>
+    </plug-in>
+
+    <!-- ========== Tiles plugin ==========================================  -->
+    <!--
+       This plugin initialize Tiles definition factory. This later can takes some
+           parameters explained here after. The plugin first read parameters from web.xml, then
+           overload them with parameters defined here. All parameters are optional.
+           The plugin should be declared in each struts-config file.
+         - definitions-config: (optional)
+              Specify configuration file names. There can be several comma
+                          separated file names (default: ?? )
+         - moduleAware: (optional - struts1.1)
+              Specify if the Tiles definition factory is module aware. If true (default),
+                              there will be one factory for each Struts module.
+                              If false, there will be one common factory for all module. In this later case,
+                              it is still needed to declare one plugin per module. The factory will be
+                              initialized with parameters found in the first initialized plugin (generally the
+                              one associated with the default module).
+                                true : One factory per module. (default)
+                                false : one single shared factory for all modules
+             - definitions-parser-validate: (optional)
+                  Specify if xml parser should validate the Tiles configuration file.
+                                true : validate. DTD should be specified in file header. (default)
+                                false : no validation
+
+		  Paths found in Tiles definitions are relative to the main context.
+    -->
+    <plug-in className="org.apache.struts.tiles.TilesPlugin">
+        <set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml"/>
+        <set-property property="moduleAware" value="false"/>
+        <set-property property="definitions-parser-validate" value="true"/>
+    </plug-in>
+</struts-config>
