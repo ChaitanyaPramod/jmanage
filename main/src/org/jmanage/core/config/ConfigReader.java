@@ -6,10 +6,7 @@ import org.jdom.Document;
 import org.jdom.Element;
 
 import java.io.File;
-import java.util.List;
-import java.util.Map;
-import java.util.Iterator;
-import java.util.HashMap;
+import java.util.*;
 
 /**
  *
@@ -18,12 +15,9 @@ import java.util.HashMap;
  */
 public class ConfigReader implements ConfigConstants{
 
-    /*  Default config file to use  */
-    private static final String DEFAULT_CONFIG_FILE_NAME =
-            "config/config.xml";
     /*  Single instance */
     private static ConfigReader configReader =
-            new ConfigReader(new File(DEFAULT_CONFIG_FILE_NAME));
+            new ConfigReader(new File(ConfigConstants.DEFAULT_CONFIG_FILE_NAME));
     /*  Last modified time of the configuration file    */
     private static long lastModified = -1;
     /*  Cache the configuration file    */
@@ -40,7 +34,7 @@ public class ConfigReader implements ConfigConstants{
             config = new SAXBuilder().build(configFile);
         }catch(JDOMException jdEx){
             System.out.println("Error reading config file " +
-                    DEFAULT_CONFIG_FILE_NAME);
+                    ConfigConstants.DEFAULT_CONFIG_FILE_NAME);
             jdEx.printStackTrace();
         }
     }
@@ -50,7 +44,7 @@ public class ConfigReader implements ConfigConstants{
      * @return
      */
     public static ConfigReader getInstance(){
-        File configFile = new File(DEFAULT_CONFIG_FILE_NAME);
+        File configFile = new File(ConfigConstants.DEFAULT_CONFIG_FILE_NAME);
         if(lastModified < configFile.lastModified()){
             /*  Refresh the cache   */
             configReader = new ConfigReader(configFile);
@@ -60,9 +54,10 @@ public class ConfigReader implements ConfigConstants{
 
     /**
      * To retrieve the details of all configured applications.
-     * @param applicationConfig
      */
-    public void loadApplications(Map applicationConfig){
+    public List read(){
+
+        List applicationConfigList = new LinkedList();
         List applications =
                 config.getRootElement().getChild(APPLICATIONS).getChildren();
         Iterator appIterator = applications.iterator();
@@ -70,7 +65,7 @@ public class ConfigReader implements ConfigConstants{
             Element application = (Element)appIterator.next();
             /*  App clusters not supported  */
             if("application".equalsIgnoreCase(application.getName())){
-                List params = application.getChildren(PARAMETERS);
+                List params = application.getChildren(PARAMETER);
                 Iterator paramIterator = params.iterator();
                 Map paramValues = new HashMap(1);
                 while(paramIterator.hasNext()){
@@ -78,19 +73,34 @@ public class ConfigReader implements ConfigConstants{
                     paramValues.put(param.getChildTextTrim(PARAMETER_NAME),
                             param.getChildTextTrim(PARAMETER_VALUE));
                 }
+
+                /* read mbeans */
+                List mbeanConfigList = new LinkedList();
+                List mbeans = application.getChild(MBEANS).getChildren(MBEAN);
+                for(Iterator it=mbeans.iterator(); it.hasNext(); ){
+                    Element mbean = (Element)it.next();
+                    MBeanConfig mbeanConfig =
+                            new MBeanConfig(mbean.getAttributeValue(MBEAN_NAME),
+                                    mbean.getChildTextTrim(MBEAN_OBJECT_NAME));
+                    mbeanConfigList.add(mbeanConfig);
+                }
+
                 ApplicationConfig config =
                         ApplicationConfigFactory.create(
                                 application.getAttributeValue(APPLICATION_ID),
                                 application.getAttributeValue(APPLICATION_NAME),
                                 application.getAttributeValue(APPLICATION_TYPE),
-                                application.getAttributeValue(SERVER_URL),
+                                application.getAttributeValue(HOST),
                                 Integer.parseInt(application.getAttributeValue(
-                                        SERVER_PORT)),
+                                        PORT)),
                                 application.getAttributeValue(USERNAME),
                                 application.getAttributeValue(PASSWORD),
                                 paramValues);
-                applicationConfig.put(config.getApplicationId(), config);
+
+                config.setMBeans(mbeanConfigList);
+                applicationConfigList.add(config);
             }
         }
+        return applicationConfigList;
     }
 }
