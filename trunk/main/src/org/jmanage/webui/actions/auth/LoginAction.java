@@ -22,10 +22,7 @@ import org.jmanage.webui.util.Utils;
 import org.jmanage.webui.forms.LoginForm;
 import org.jmanage.core.services.AuthService;
 import org.jmanage.core.services.ServiceFactory;
-import org.jmanage.core.services.ServiceException;
-import org.jmanage.core.util.ErrorCodes;
 import org.apache.struts.action.*;
-import org.apache.struts.Globals;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -53,26 +50,11 @@ public class LoginAction extends BaseAction {
                                  HttpServletRequest request,
                                  HttpServletResponse response)
             throws Exception {
-        ActionErrors errors = new ActionErrors();
         LoginForm loginForm = (LoginForm) actionForm;
         AuthService authService = ServiceFactory.getAuthService();
-
-        try{
-            authService.login(Utils.getServiceContext(context),
-                    loginForm.getUsername(),
-                    loginForm.getPassword());
-        }catch(ServiceException se){
-            errors.add(ActionErrors.GLOBAL_ERROR,
-                    new ActionError(ErrorCodes.WEB_UI_ERROR_KEY, se.getMessage()));
-            request.setAttribute(Globals.ERROR_KEY, errors);
-            return mapping.getInputForward();
-        }catch(Exception ex){
-            //TODO Architcture should handle this (ExceptionHandler)
-            errors.add(ActionErrors.GLOBAL_ERROR,
-                    new ActionError(ErrorCodes.UNKNOWN_ERROR));
-            request.setAttribute(Globals.ERROR_KEY, errors);
-            return mapping.getInputForward();
-        }
+        authService.login(Utils.getServiceContext(context),
+                loginForm.getUsername(),
+                loginForm.getPassword());
         return mapping.findForward(Forwards.SUCCESS);
     }
 }
