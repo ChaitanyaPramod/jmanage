@@ -75,7 +75,7 @@ public class ModuleRegistry {
                         metaConfig,
                         "org.jmanage.core.modules.jboss.JBossServerConnectionFactory"));
         /*  WebSphere module    */
-        metaConfig = new MetaApplicationConfig(true, true, false, false, false,
+        metaConfig = new MetaApplicationConfig(true, true, false, true, true,
                 "org.jmanage.core.modules.websphere.WebSphereApplicationConfig");
         modules.put(ApplicationType.WEBSPHERE,
                 new ModuleConfig(ApplicationType.WEBSPHERE,
