@@ -39,7 +39,7 @@
 
     <global-exceptions>
         <exception
-            type="org.jmanage.core.connector.ConnectionFailedException"
+            type="org.jmanage.core.management.ConnectionFailedException"
             key="ignore"
             path="app.connectionFailed" />
 

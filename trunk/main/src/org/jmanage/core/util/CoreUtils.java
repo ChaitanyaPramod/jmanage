@@ -31,4 +31,8 @@ public class CoreUtils {
     public static String getWebDir(){
         return getRootDir() + "/web";
     }
+
+    public static String getModuleDir(String moduleId){
+        return getRootDir() + "/modules/" + moduleId;
+    }
 }

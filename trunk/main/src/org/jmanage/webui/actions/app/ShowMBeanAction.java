@@ -1,21 +1,21 @@
 package org.jmanage.webui.actions.app;
 
-import org.jmanage.webui.actions.BaseAction;
-import org.jmanage.webui.util.RequestParams;
-import org.jmanage.webui.util.RequestAttributes;
-import org.jmanage.webui.util.Forwards;
-import org.jmanage.webui.util.WebContext;
-import org.jmanage.webui.forms.MBeanConfigForm;
-import org.jmanage.core.connector.MBeanServerConnectionFactory;
-import org.jmanage.core.config.ApplicationConfig;
-import org.jmanage.core.config.ApplicationConfigManager;
+import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionForm;
+import org.jmanage.core.config.ApplicationConfig;
+import org.jmanage.core.management.ObjectAttributeInfo;
+import org.jmanage.core.management.ObjectInfo;
+import org.jmanage.core.management.ObjectName;
+import org.jmanage.core.management.ServerConnection;
+import org.jmanage.webui.actions.BaseAction;
+import org.jmanage.webui.forms.MBeanConfigForm;
+import org.jmanage.webui.util.Forwards;
+import org.jmanage.webui.util.WebContext;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.management.*;
+import java.util.List;
 
 /**
  *
@@ -32,19 +32,22 @@ public class ShowMBeanAction extends BaseAction {
             throws Exception {
 
         final ObjectName objectName = context.getObjectName();
-        MBeanServer mbeanServer = context.getMBeanServer();
-        MBeanInfo mbeanInfo = mbeanServer.getMBeanInfo(objectName);
 
-        MBeanAttributeInfo[] attributes = mbeanInfo.getAttributes();
+        ServerConnection serverConnection = context.getServerConnection();
+
+
+        ObjectInfo objInfo = serverConnection.getObjectInfo(objectName);
+
+        ObjectAttributeInfo[] attributes = objInfo.getAttributes();
         String[] attributeNames = new String[attributes.length];
         for (int i = 0; i < attributes.length; i++) {
             attributeNames[i] = attributes[i].getName();
         }
 
-        AttributeList attrList =
-                mbeanServer.getAttributes(objectName, attributeNames);
+        List attrList =
+                serverConnection.getAttributes(objectName, attributeNames);
 
-        request.setAttribute("mbeanInfo", mbeanInfo);
+        request.setAttribute("objInfo", objInfo);
         request.setAttribute("attributeList", attrList);
 
         /* setup the form to be used in the html form */

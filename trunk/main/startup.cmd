@@ -14,7 +14,7 @@ set JMANAGE_HOME=.\build
 set JMANAGE_LIB_ROOT=.
 
 set LIB_JARS=./lib/javax.servlet.jar;./lib/org.mortbay.jetty.jar;./lib/jasper-compiler.jar;./lib/jasper-runtime.jar;./lib/ant.jar;./lib/jdom.jar
-set EXT_JARS=./ext/weblogic.jar
+rem set EXT_JARS=./ext/weblogic.jar
 
 @rem debug
 set DEBUG_OPTIONS=-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_shmem,server=y,suspend=n,address=jmanagedebug

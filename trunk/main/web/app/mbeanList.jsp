@@ -1,9 +1,9 @@
 <%@ page import="java.util.List,
                  java.util.Iterator,
-                 javax.management.ObjectName,
                  org.jmanage.core.config.ApplicationConfig,
                  org.jmanage.webui.util.RequestAttributes,
-                 java.net.URLEncoder"%>
+                 java.net.URLEncoder,
+                 org.jmanage.core.management.ObjectName"%>
 
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 <%@ taglib uri="/WEB-INF/tags/struts/struts-bean.tld" prefix="bean"%>
@@ -26,7 +26,11 @@
 %>
 <tr>
 <td class="<%=rowStyle%>">
-    <jmhtml:link action="/app/mbeanView" paramId="objName" paramName="objectName" paramProperty="canonicalName"><%=objectName.getCanonicalName()%></jmhtml:link>
+    <jmhtml:link action="/app/mbeanView"
+                 paramId="objName"
+                 paramName="objectName"
+                 paramProperty="canonicalName">
+        <%=objectName.getCanonicalName()%></jmhtml:link>
 </td>
 </tr>
 <%  }%>

@@ -2,12 +2,12 @@
 
     <authentication class="org.jmanage.common.auth.FileAuthentication"/>
 
-    <application-types>
-        <application
+    <application-modules>
+        <module
+            id="weblogic"
             name="Weblogic 6.1"
-            configClass="org.jmanage.core.config.WeblogicApplicationConfig"
-            connectorClass="org.jmanage.core.connector.WeblogicConnector"
-            extJars="weblgic61.jar"/>
-    </application-types>
+            configClass="org.jmanage.modules.weblogic.WeblogicApplicationConfig"
+            connectionFactory="org.jmanage.modules.weblogic.WLServerConnectionFactory"/>
+    </application-modules>
 
 </jmanage-config>
