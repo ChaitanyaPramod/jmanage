@@ -64,22 +64,23 @@ public class LoginAction extends BaseAction {
             user = userManager.getUser(loginForm.getUsername());
             /* Conditionalize the error message */
             if(user == null){
-                errors.add(ActionErrors.GLOBAL_ERROR,
-                        new ActionError("invalid.login"));
-            }else{
-                if(user.getLockCount() < MAX_LOGIN_ATTEMPTS_ALLOWED){
-                    int thisAttempt = user.getLockCount()+1;
+                errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("invalid.login"));
+            }else if("I".equals(user.getStatus())){
+                errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("account.locked"));
+            }else if(user.getLockCount() < MAX_LOGIN_ATTEMPTS_ALLOWED){
+                int thisAttempt = user.getLockCount()+1;
+                user.setLockCount(thisAttempt);
+                if(thisAttempt == MAX_LOGIN_ATTEMPTS_ALLOWED){
+                    user.setStatus("I");
+                    errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("account.locked"));
+                }else{
                     errors.add(ActionErrors.GLOBAL_ERROR,
                             new ActionError("invalid.login.attempt.count",
                                     String.valueOf(MAX_LOGIN_ATTEMPTS_ALLOWED - thisAttempt)));
-                    user.setLockCount(thisAttempt);
-                    if(thisAttempt == MAX_LOGIN_ATTEMPTS_ALLOWED)
-                        user.setStatus("I");
-                    userManager.updateUser(user);
-                }else{
-                    errors.add(ActionErrors.GLOBAL_ERROR,
-                            new ActionError("account.locked"));
                 }
+                userManager.updateUser(user);
+            }else{
+                errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("unknown.error"));
             }
             request.setAttribute(Globals.ERROR_KEY, errors);
             return mapping.getInputForward();
