@@ -53,6 +53,8 @@ public class ShowEditApplicationAction extends BaseAction {
             appForm.setHost(config.getHost());
         if(metaAppConfig.isDisplayPort())
             appForm.setPort(String.valueOf(config.getPort()));
+        if(metaAppConfig.isDisplayURL())
+            appForm.setURL(config.getURL());
         if(metaAppConfig.isDisplayUsername())
             appForm.setUsername(config.getUsername());
         if(metaAppConfig.isDisplayPassword() && config.getPassword() != null
