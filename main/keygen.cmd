@@ -1,3 +1,5 @@
+@echo off
+
 @rem TODO: need to ensure that JMANAGE_HOME and JAVA_HOME are set
 
 if "%JAVA_HOME%" == "" set JAVA_HOME=:\j2sdk1.4.2_04

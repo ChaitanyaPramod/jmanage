@@ -3,13 +3,10 @@ package org.jmanage.core.crypto;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.PBEParameterSpec;
-import javax.crypto.spec.DESKeySpec;
-import java.util.Arrays;
-import java.security.NoSuchAlgorithmException;
-import java.security.InvalidKeyException;
-import java.security.spec.InvalidKeySpecException;
+import javax.crypto.spec.DESedeKeySpec;
 
 /**
  *
@@ -17,6 +14,16 @@ import java.security.spec.InvalidKeySpecException;
  * @author	Rakesh Kalra
  */
 public class EncryptedKey {
+
+    /* encryption/decryption algorigthm */
+    public static final String CRYPTO_ALGORITHM = "DESede";
+
+    private static final String PBE_ALGORITHM = "PBEWithMD5AndDES";
+
+    /* TripleDES key size */
+    private static final int KEY_SIZE = 112; /* 128 bits (112 effective bits) */
+
+
 
     /* Salt */
     private static final byte[] salt = {
@@ -30,9 +37,12 @@ public class EncryptedKey {
     private SecretKey secretKey;
     private byte[] encryptedKey;
 
-    public EncryptedKey(SecretKey key, char[] password)
+    public EncryptedKey(char[] password)
             throws Exception {
 
+        KeyGenerator keyGen = KeyGenerator.getInstance(CRYPTO_ALGORITHM);
+        keyGen.init(KEY_SIZE);
+        SecretKey key = keyGen.generateKey();
         this.secretKey = key;
         this.encryptedKey = getEncrypted(secretKey.getEncoded(), password);
     }
@@ -43,8 +53,8 @@ public class EncryptedKey {
         /* get SecretKey from encryptedKey */
         byte[] key = getDecrypted(encryptedKey, password);
         try {
-            SecretKeyFactory keyFac = SecretKeyFactory.getInstance("DES");
-            this.secretKey = keyFac.generateSecret(new DESKeySpec(key));;
+            SecretKeyFactory keyFac = SecretKeyFactory.getInstance(CRYPTO_ALGORITHM);
+            this.secretKey = keyFac.generateSecret(new DESedeKeySpec(key));;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -93,11 +103,11 @@ public class EncryptedKey {
         pbeParamSpec = new PBEParameterSpec(salt, iteration_count);
 
         pbeKeySpec = new PBEKeySpec(password);
-        keyFac = SecretKeyFactory.getInstance("PBEWithMD5AndDES");
+        keyFac = SecretKeyFactory.getInstance(PBE_ALGORITHM);
         SecretKey pbeKey = keyFac.generateSecret(pbeKeySpec);
 
         /* Create PBE Cipher */
-        Cipher pbeCipher = Cipher.getInstance("PBEWithMD5AndDES");
+        Cipher pbeCipher = Cipher.getInstance(PBE_ALGORITHM);
 
         /* Initialize PBE Cipher with key and parameters */
         pbeCipher.init(mode, pbeKey, pbeParamSpec);

@@ -18,19 +18,51 @@ import java.util.Arrays;
  */
 public class EncryptedKeyGenerator {
 
-    private static final int KEY_SIZE = 56; /* 56 bits */
-
     public static void main(String[] args)
         throws Exception{
 
-        final char[] password = PasswordField.getPassword("Enter password:");
-        KeyGenerator keyGen = KeyGenerator.getInstance("DES");
-        keyGen.init(KEY_SIZE);
-        SecretKey key = keyGen.generateKey();
-        EncryptedKey encryptedKey = new EncryptedKey(key, password);
+        /* display info */
+        message();
+
+        /* get password from user */
+        char[] password = getPassword();
+        if(password == null){
+            return;
+        }
+
+        EncryptedKey encryptedKey = new EncryptedKey(password);
         /* clear the password, for security reasons */
         Arrays.fill(password, ' ');
         /* write the encryptedKey to the key file */
         KeyManager.writeKey(encryptedKey);
+
+        System.out.println();
+        System.out.println("Encrypted key written to "
+                + KeyManager.KEY_FILE_NAME
+                + " file.");
+    }
+
+    private static void message(){
+        System.out.println();
+        System.out.println("This tool generates a 128 bit TripleDES key and then");
+        System.out.println("encrypts it with Password Based Encryption (PBE),");
+        System.out.println("before writing it to jmanage-key file.");
+        System.out.println();
+        System.out.println("Please select a password below. This password will");
+        System.out.println("be required to start jmanage.");
+        System.out.println();
+    }
+
+    private static char[] getPassword()
+        throws Exception {
+
+        final char[] password = PasswordField.getPassword("Enter password:");
+        final char[] password2 = PasswordField.getPassword("Re-enter password:");
+        if(!Arrays.equals(password, password2)){
+            System.out.println("Passwords do not match. " +
+                    "Key has not been generated.");
+            return null;
+        }
+        return password;
     }
 }
