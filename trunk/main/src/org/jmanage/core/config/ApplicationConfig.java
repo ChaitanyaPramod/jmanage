@@ -14,23 +14,36 @@ public abstract class ApplicationConfig {
 
     private static final List EMPTY_LIST = new ArrayList();
 
+    protected String appId;
     protected String name;
     protected String host;
     protected int port;
     protected String username;
     protected String password;
 
-    public ApplicationConfig(String name, String host, int port){
+    public ApplicationConfig(String applicationId,
+                             String name,
+                             String host,
+                             int port){
+        this.appId = applicationId;
         this.name = name;
         this.host = host;
         this.port = port;
     }
 
-    public ApplicationConfig(String name, String host, int port,
-                                     String username, String password){
-        this(name, host, port);
+    public ApplicationConfig(String applicationId,
+                             String name,
+                             String host,
+                             int port,
+                             String username,
+                             String password){
+        this(applicationId, name, host, port);
         this.username = username;
         this.password = password;
+    }
+
+    public String getApplicationId(){
+        return appId;
     }
 
     /**

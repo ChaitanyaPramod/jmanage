@@ -21,10 +21,14 @@ public class WeblogicApplicationConfig extends ApplicationConfig {
 
     private final String serverName;
 
-    public WeblogicApplicationConfig(String name, String host, int port,
-                                     String username, String password,
+    public WeblogicApplicationConfig(String applicationId,
+                                     String name,
+                                     String host,
+                                     int port,
+                                     String username,
+                                     String password,
                                      Map paramValues){
-        super(name, host, port, username, password);
+        super(applicationId, name, host, port, username, password);
         serverName = (String)paramValues.get(serverNameParam.getName());
     }
 

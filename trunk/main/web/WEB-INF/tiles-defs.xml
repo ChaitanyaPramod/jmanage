@@ -27,6 +27,9 @@
     <definition name="app.mbeanList" extends="layouts.application">
         <put name="body.main" value="/app/mbeanList.jsp" />
     </definition>
+    <definition name="app.mbeanView" extends="layouts.application">
+        <put name="body.main" value="/app/mbeanView.jsp" />
+    </definition>
 
 
 

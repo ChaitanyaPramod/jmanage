@@ -1,9 +1,10 @@
 package org.jmanage.webui.actions.app;
 
 import org.jmanage.webui.actions.BaseAction;
+import org.jmanage.webui.util.RequestAttributes;
+import org.jmanage.webui.util.Forwards;
 import org.jmanage.core.config.ApplicationConfig;
-import org.jmanage.core.config.ApplicationConfigFactory;
-import org.jmanage.core.config.WeblogicApplicationConfig;
+import org.jmanage.core.config.ApplicationConfigManager;
 import org.jmanage.core.connector.MBeanServerConnectionFactory;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -27,15 +28,10 @@ public class MBeanListAction extends BaseAction {
                                  HttpServletResponse response)
             throws Exception {
 
-        Map paramValues = new HashMap(1);
-        paramValues.put("serverName", "loyaltyServer");
-        ApplicationConfig config =
-                ApplicationConfigFactory.create("test",
-                        ApplicationConfig.TYPE_WEBLOGIC,
-                        "localhost", 7001,
-                        "system", "12345678",
-                        paramValues);
 
+        ApplicationConfig config =
+                ApplicationConfigManager.getApplicationConfig(
+                        ApplicationConfigManager.TEST_APP_ID);//TODO: get from request
         MBeanServer mbeanServer =
                 MBeanServerConnectionFactory.getConnection(config);
 
@@ -45,7 +41,10 @@ public class MBeanListAction extends BaseAction {
             ObjectInstance oi = (ObjectInstance)it.next();
             objectNameList.add(oi.getObjectName());
         }
+        // TODO: move to central location (RequestProcessor ?)
+        request.setAttribute(RequestAttributes.APPLICATION_CONFIG, config);
+
         request.setAttribute("objectNameList", objectNameList);
-        return mapping.findForward("success");
+        return mapping.findForward(Forwards.SUCCESS);
     }
 }

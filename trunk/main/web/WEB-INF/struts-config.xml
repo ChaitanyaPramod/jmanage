@@ -33,6 +33,12 @@
             type="org.jmanage.webui.actions.app.MBeanListAction">
             <forward name="success" path="app.mbeanList"/>
         </action>
+        <action
+            path="/app/mbeanView"
+            type="org.jmanage.webui.actions.app.ShowMBeanAction">
+            <forward name="success" path="app.mbeanView"/>
+        </action>
+
     </action-mappings>
 
 
