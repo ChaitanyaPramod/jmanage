@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jmanage.modules.jboss;
+package org.jmanage.core.modules.jboss;
 
 import org.jmanage.core.management.ServerConnection;
 import org.jmanage.core.management.ConnectionFailedException;
+import org.jmanage.core.management.ServerConnectionFactory;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jboss.jmx.adaptor.rmi.RMIAdaptor;
 
@@ -29,10 +30,9 @@ import java.util.Hashtable;
 /**
  *
  * date:  Oct 30, 2004
- * @author	Prem
+ * @author	Prem, Shashank Bellary
  */
-public class JBossServerConnectionFactory implements
-        org.jmanage.core.management.ServerConnectionFactory{
+public class JBossServerConnectionFactory implements ServerConnectionFactory{
 
     /**
      * @return  instance of ServerConnection corresponding to this jboss

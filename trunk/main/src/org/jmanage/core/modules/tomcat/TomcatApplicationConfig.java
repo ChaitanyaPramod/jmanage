@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jmanage.modules.tomcat;
+package org.jmanage.core.modules.tomcat;
 
 import org.jmanage.core.config.ApplicationConfig;
 

@@ -32,7 +32,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  *
  * date:  Jul 21, 2004
- * @author	Rakesh Kalra
+ * @author	Rakesh Kalra, Shashank Bellary
  */
 public class RemoveMBeanConfigAction extends BaseAction {
 

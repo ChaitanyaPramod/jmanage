@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jmanage.modules.weblogic;
+package org.jmanage.core.modules.weblogic;
 
 import org.jmanage.core.management.*;
 import org.jmanage.core.management.ObjectName;
@@ -25,7 +25,7 @@ import java.util.*;
 /**
  *
  * date:  Aug 12, 2004
- * @author	Rakesh Kalra
+ * @author	Rakesh Kalra, Shashank Bellary
  */
 public class WLServerConnection extends JMXServerConnection{
 

@@ -25,7 +25,7 @@ import java.util.HashMap;
 /**
  *
  * date:  Aug 13, 2004
- * @author	Rakesh Kalra
+ * @author	Rakesh Kalra, Shashank Bellary
  */
 public class ModuleRegistry {
 
@@ -41,21 +41,21 @@ public class ModuleRegistry {
 
         /* weblogic module */
         metaConfig = new MetaApplicationConfig(true, true, false, true, true,
-                "org.jmanage.modules.weblogic.WeblogicApplicationConfig");
+                "org.jmanage.core.modules.weblogic.WeblogicApplicationConfig");
         modules.put(ApplicationType.WEBLOGIC,
                 new ModuleConfig(ApplicationType.WEBLOGIC,
                         "Weblogic 6.1",
                         metaConfig,
-                        "org.jmanage.modules.weblogic.WLServerConnectionFactory"));
+                        "org.jmanage.core.modules.weblogic.WLServerConnectionFactory"));
 
         /* tomcat module */
         metaConfig = new MetaApplicationConfig(true, true, false, false, false,
-                "org.jmanage.modules.tomcat.TomcatApplicationConfig");
+                "org.jmanage.core.modules.tomcat.TomcatApplicationConfig");
         modules.put(ApplicationType.TOMCAT,
                 new ModuleConfig(ApplicationType.TOMCAT,
                         "Tomcat",
                         metaConfig,
-                        "org.jmanage.modules.tomcat.TomcatServerConnectionFactory"));
+                        "org.jmanage.core.modules.tomcat.TomcatServerConnectionFactory"));
 
         /* jsr160 module */
         metaConfig = new MetaApplicationConfig(false, false, true, true, true,
@@ -68,12 +68,20 @@ public class ModuleRegistry {
 
         /* jboss module */
         metaConfig = new MetaApplicationConfig(true, true, false, false, false,
-                "org.jmanage.modules.jboss.JBossApplicationConfig");
+                "org.jmanage.core.modules.jboss.JBossApplicationConfig");
         modules.put(ApplicationType.JBOSS,
                 new ModuleConfig(ApplicationType.JBOSS,
                         "JBoss 3.2.4",
                         metaConfig,
-                        "org.jmanage.modules.jboss.JBossServerConnectionFactory"));
+                        "org.jmanage.core.modules.jboss.JBossServerConnectionFactory"));
+        /*  WebSphere module    */
+        metaConfig = new MetaApplicationConfig(true, true, false, false, false,
+                "org.jmanage.core.modules.websphere.WebSphereApplicationConfig");
+        modules.put(ApplicationType.WEBSPHERE,
+                new ModuleConfig(ApplicationType.WEBSPHERE,
+                        "WebSphere",
+                        metaConfig,
+                        "org.jmanage.core.modules.websphere.WebSphereServerConnectionFactory"));
     }
 
     public static ModuleConfig getModule(String type){

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jmanage.modules.jboss;
+package org.jmanage.core.modules.jboss;
 
 import org.jmanage.core.management.ObjectName;
 import org.jmanage.core.management.ObjectInfo;
@@ -28,7 +28,7 @@ import java.util.List;
 /**
  *
  * date:  Oct 30, 2004
- * @author	Prem
+ * @author	Prem, Shashank Bellary
  */
 public class JBossServerConnection extends JMXServerConnection {
 

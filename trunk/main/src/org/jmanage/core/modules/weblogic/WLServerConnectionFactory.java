@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jmanage.modules.weblogic;
+package org.jmanage.core.modules.weblogic;
 
 import org.jmanage.core.management.ServerConnection;
 import org.jmanage.core.management.ConnectionFailedException;
+import org.jmanage.core.management.ServerConnectionFactory;
 import org.jmanage.core.config.ApplicationConfig;
 import weblogic.management.MBeanHome;
 
@@ -28,10 +29,9 @@ import java.util.Hashtable;
 /**
  *
  * date:  Aug 12, 2004
- * @author	Rakesh Kalra
+ * @author	Rakesh Kalra, Shashank Bellary
  */
-public class WLServerConnectionFactory implements
-        org.jmanage.core.management.ServerConnectionFactory{
+public class WLServerConnectionFactory implements ServerConnectionFactory{
 
     /**
      * @return  instance of ServerConnection corresponding to this weblogic
