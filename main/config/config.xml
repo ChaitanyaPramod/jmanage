@@ -1,0 +1,38 @@
+
+
+<application-config>
+    <applications>
+        <application id="" name="EmailDaemon" server="" port="" username="" password="" type="Weblogic6.1">
+            <param>
+                <param-name>serverName</param-name>
+                <param-value>loyaltyServer</param-value>
+            </param>
+            <mbeans>
+                <mbean
+                    name="AppProperties"
+                    objectName="UserDomain:name=AppProperties"/>
+            </mbeans>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </application>
+
+        <application-cluster name="App Cluster">
+            <application name="Earth">
+
+            </application>
+            <application name="Venus">
+
+            </application>
+            <application name="Mars">
+                <homepage graph="connectionPoolGraph">
+
+                </homepage>
+
+            </application>
+        </application-cluster>
+    </applications>
+    <graphs>
+
+    </graphs>
+</application-config>
