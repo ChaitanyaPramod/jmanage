@@ -1,30 +1,45 @@
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
-
 <html>
 <head>
 <title>Authorization Failure</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link href="/css/styles.css" rel="stylesheet" type="text/css" />
 </head>
-<body>
-<table border="0" width="100%">
+<body bgcolor="#FFFFFF" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<table width="100%" height="100%" border="0">
   <tr>
-    <td width="100%" bgcolor="#C0C0C0">
-      <p align="center">
-      <span style="background-color: #C0C0C0; letter-spacing: 5pt">
-      <b><font color="#000080" face="Impact" size="5">Not Authorized</font></b>
-      </span>
-      </p>
-    </td>
-  </tr>
-  <tr>
-    <td width="100%">
-      <p align="center">
-      <font face="Arial" size="3" color="#800000">
-        You don't have the permission to view this page
-      </font>
-      </p>
-      <jmhtml:button property="" value="Back" onclick="JavaScript:history.back();" />
-    </td>
+    <td align="center" valign="middle">
+    <table border="0" cellpadding="0" cellspacing="0">
+      <tr><td width="318" class="Inside3d"><font face="Arial, Helvetica, sans-serif" size="5" color="#000080"><jmhtml:img src="/images/logo.jpg" width="408" height="48" /></font></td></tr>
+      <tr>
+        <td height="82">
+        <table width="100%" border="0" cellpadding="7" cellspacing="8" class="loginBg">
+          <tr>
+            <td width="44%"><div class="plaintext">
+              <div align="center" class="headtext1">Not Authorized</div>
+            </div>
+            </td>
+            </tr>
+          <tr>
+            <td><div class="plaintext">
+              <div align="center">
+                <p>You don't have the permission to view this page.</p>
+                </div>
+            </div>
+            </td>
+            </tr>
+          <tr>
+            <td><div align="center">
+                <jmhtml:button property="" value="Back" onclick="JavaScript:history.back();" styleClass="Inside3d" />
+            </div></td>
+          </tr>
+        </table>
+        </td>
+      </tr>
+    </table>
+    <p>&nbsp;</p></td>
   </tr>
 </table>
+<p>&nbsp;</p>
 </body>
 </html>
