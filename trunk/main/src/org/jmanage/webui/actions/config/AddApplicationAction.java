@@ -38,8 +38,7 @@ public class AddApplicationAction extends BaseAction {
                                  HttpServletResponse response) {
 
         ApplicationForm appForm = (ApplicationForm)actionForm;
-        //todo: Need something better
-        String appId = String.valueOf(System.currentTimeMillis());
+        String appId = ApplicationConfig.getNextApplicationId();
         Integer port = appForm.getPort() != null && !"".equals(appForm.getPort()) ?
                 new Integer(appForm.getPort()) :
                 null;

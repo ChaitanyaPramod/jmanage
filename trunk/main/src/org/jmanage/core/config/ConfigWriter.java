@@ -70,15 +70,19 @@ public class ConfigWriter {
         Element applicationElement = createApplicationElement(application);
         for(Iterator it=application.getApplications().iterator(); it.hasNext();){
             ApplicationConfig appConfig = (ApplicationConfig)it.next();
-            Element childAppElement = createApplicationElement(application);
+            Element childAppElement = createApplicationElement(appConfig);
             applicationElement.addContent(childAppElement);
         }
         return applicationElement;
     }
 
     private Element createApplicationElement(ApplicationConfig application){
-        Element applicationElement =
-                    new Element(ConfigConstants.APPLICATION);
+        Element applicationElement = null;
+        if(application.isCluster()){
+            applicationElement = new Element(ConfigConstants.APPLICATION_CLUSTER);
+        }else{
+            applicationElement = new Element(ConfigConstants.APPLICATION);
+        }
         // <application id="1234" name="Weblogic 6.1" server="localhost" port="7001" username="system" password="12345678" type="Weblogic">
         applicationElement.setAttribute(ConfigConstants.APPLICATION_ID,
                 application.getApplicationId());

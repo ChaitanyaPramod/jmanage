@@ -1,5 +1,8 @@
 package org.jmanage.core.management;
 
+import java.util.Arrays;
+import java.util.Comparator;
+
 /**
  *
  * date:  Aug 13, 2004
@@ -27,6 +30,14 @@ public class ObjectInfo {
         this.constructors = constructors;
         this.operations = operations;
         this.notifications = notifications;
+        /* alphabetically sort the attribute list */
+        Arrays.sort(this.attributes, new Comparator(){
+            public int compare(Object o1, Object o2) {
+                ObjectAttributeInfo attrInfo1 = (ObjectAttributeInfo)o1;
+                ObjectAttributeInfo attrInfo2 = (ObjectAttributeInfo)o2;
+                return attrInfo1.getName().compareToIgnoreCase(attrInfo2.getName());
+            }
+        });
     }
 
     public ObjectAttributeInfo[] getAttributes() {

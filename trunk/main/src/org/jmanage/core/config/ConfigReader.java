@@ -62,11 +62,12 @@ public class ConfigReader implements ConfigConstants{
 
         List applications =
                 config.getRootElement().getChild(APPLICATIONS).getChildren();
-        return getApplicationConfigList(applications);
+        return getApplicationConfigList(applications, null);
     }
 
 
-    private List getApplicationConfigList(List applications){
+    private List getApplicationConfigList(List applications,
+                                          ApplicationConfig clusterConfig){
 
         final List applicationConfigList = new LinkedList();
         for(Iterator appIterator = applications.iterator(); appIterator.hasNext();){
@@ -74,7 +75,9 @@ public class ConfigReader implements ConfigConstants{
             ApplicationConfig appConfig = null;
             if(APPLICATION.equalsIgnoreCase(application.getName())){
                 appConfig = getApplicationConfig(application);
+                appConfig.setClusterConfig(clusterConfig);
             }else if(APPLICATION_CLUSTER.equals(application.getName())){
+                assert clusterConfig == null: "found cluster within a cluster";
                 appConfig = getApplicationClusterConfig(application);
             }else{
                 assert false:"Invalid element:" + application.getName();
@@ -131,7 +134,7 @@ public class ConfigReader implements ConfigConstants{
         if(application.getChild(APPLICATIONS) != null){
             List applications =
                     application.getChild(APPLICATIONS).getChildren();
-            List appConfigList = getApplicationConfigList(applications);
+            List appConfigList = getApplicationConfigList(applications, config);
             config.addAllApplications(appConfigList);
         }
 

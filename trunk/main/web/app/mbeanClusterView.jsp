@@ -1,4 +1,3 @@
-<!--    /app/mbeanView.jsp  -->
 <%@ page import="java.util.Iterator,
                  org.jmanage.core.management.*,
                  org.jmanage.webui.util.RequestParams,
@@ -7,6 +6,7 @@
                  org.jmanage.webui.util.WebContext,
                  org.jmanage.core.auth.User,
                  java.util.List,
+                 org.jmanage.core.config.ApplicationConfig,
                  org.jmanage.webui.util.MBeanUtils"%>
 
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
@@ -21,8 +21,9 @@
     ObjectOperationInfo[] operations = objectInfo.getOperations();
     ObjectNotificationInfo[] notifications = objectInfo.getNotifications();
 
-    List attributeList =
-            (List)request.getAttribute("attributeList");
+    ApplicationConfig applicationConfig = webContext.getApplicationConfig();
+    List appAttrList =
+            (List)request.getAttribute("appAttributeList");
 %>
 
 <tr>
@@ -37,7 +38,7 @@
                     <jmhtml:form action="/config/removeMBeanConfig">
                         <jmhtml:hidden property="objectName"/>
                         <jmhtml:hidden property="refreshApps" value="true"/>
-                        <a href="JavaScript:document.mbeanConfigForm.submit();" class="a1">Remove from Application</a>
+                        <a href="JavaScript:document.mbeanConfigForm.submit();" class="a1">Remove from Favorites</a>
                     </jmhtml:form>
                 </c:when>
                 <c:otherwise>
@@ -45,7 +46,7 @@
                         <jmhtml:text property="name"/>
                         <jmhtml:hidden property="objectName"/>
                         <jmhtml:hidden property="refreshApps" value="true"/>
-                        <a href="JavaScript:document.mbeanConfigForm.submit();" class="a1">Add to Application</a>
+                        <a href="JavaScript:document.mbeanConfigForm.submit();" class="a1">Add to Favorites</a>
                     </jmhtml:form>
                 </c:otherwise>
             </c:choose>
@@ -62,7 +63,13 @@
 <table border="0" cellspacing="5">
 <tr>
     <td class="headtext"><b>Name</b></td>
-    <td class="headtext"><b>Value</b></td>
+<%for(Iterator it=applicationConfig.getApplications().iterator(); it.hasNext();){
+    ApplicationConfig childAppConfig = (ApplicationConfig)it.next();
+    %>
+    <td class="headtext"><b><%=childAppConfig.getName()%></b></td>
+<%
+}
+%>
     <td class="headtext"><b>Type</b></td>
 </tr>
 <%
@@ -74,6 +81,9 @@
 <td class="<%=rowStyle%>">
     <a href="JavaScript:showDescription('<%=MBeanUtils.jsEscape(attributeInfo.getDescription())%>');"><%=attributeInfo.getName()%></a>
 </td>
+<%for(Iterator it=appAttrList.iterator(); it.hasNext();){
+    List attributeList = (List)it.next();
+    %>
 <td class="<%=rowStyle%>">
     <%
         String attrValue =
@@ -86,6 +96,10 @@
         <%=attrValue%>
     <%}%>
 </td>
+<%
+}
+%>
+
 <td class="<%=rowStyle%>">
     <%=attributeInfo.getType()%>
 </td>
@@ -113,7 +127,7 @@ To save the changes to the attribute values click on
 <jmhtml:form action="/app/executeOperation">
 <tr>
     <td class="<%=rowStyle%>"><%=operationInfo.getReturnType()%>
-    <a  alt="<%=operationInfo.getName()%>" href="JavaScript:showDescription('<%=MBeanUtils.jsEscape(operationInfo.getDescription())%>');"><%=operationInfo.getName()%></a>
+    <a href="JavaScript:showDescription('<%=MBeanUtils.jsEscape(operationInfo.getDescription())%>');"><%=operationInfo.getName()%></a>
     (
     <%
         ObjectParameterInfo[] params = operationInfo.getSignature();

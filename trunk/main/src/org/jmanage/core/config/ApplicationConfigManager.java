@@ -1,6 +1,7 @@
 package org.jmanage.core.config;
 
 import java.util.*;
+import java.io.File;
 
 /**
  *
@@ -14,8 +15,13 @@ public class ApplicationConfigManager{
     private static final ConfigReader configReader = ConfigReader.getInstance();
 
     static{
-        /*  Currently supporting only Weblogic (Weblogic 6.1)   */
+        /* read the configuration */
         applicationConfigs = configReader.read();
+        /* create a backup of configuration file */
+        new File(ConfigConstants.DEFAULT_CONFIG_FILE_NAME).renameTo(
+                new File(ConfigConstants.BOOTED_CONFIG_FILE_NAME));
+        /* write from memory */
+        ConfigWriter.getInstance().write(applicationConfigs);
     }
 
     public static ApplicationConfig getApplicationConfig(String applicationId){
@@ -59,11 +65,27 @@ public class ApplicationConfigManager{
     }
 
     public static void deleteApplication(String applicationId) {
-
         assert applicationId != null: "applicationId is null";
         ApplicationConfig config = getApplicationConfig(applicationId);
         assert config != null: "there is no application with id="+applicationId;
-        applicationConfigs.remove(config);
+        deleteApplication(config);
+    }
+
+    public static void deleteApplication(ApplicationConfig config) {
+        assert config != null: "application config is null";
+        if(!applicationConfigs.remove(config)){
+            /* this app is in a cluster. remove from cluster */
+            for(Iterator it=applicationConfigs.iterator(); it.hasNext(); ){
+                ApplicationConfig appConfig = (ApplicationConfig)it.next();
+                if(appConfig.isCluster()){
+                    ApplicationClusterConfig clusterConfig =
+                            (ApplicationClusterConfig)appConfig;
+                    if(clusterConfig.removeApplication(config)){
+                        break;
+                    }
+                }
+            }
+        }
         saveConfig();
     }
 

@@ -128,11 +128,14 @@
         <tr><td height="20" bordercolor="#E6EEF9" bgcolor="#E6EEF9">&nbsp;</td></tr>
         <tr>
           <td height="20" bordercolor="#E6EEF9" bgcolor="#E6EEF9">
-            <jmhtml:link href="/config/showAvailableApplications.do" target="basefrm" styleClass="a">Add new Application</jmhtml:link>
+            <a href="/config/showAvailableApplications.do" target="basefrm" class="a">Add New Application</a>
           </td>
         </tr>
-        <tr><td height="20" bordercolor="#E6EEF9" bgcolor="#E6EEF9">&nbsp;</td></tr>
-        <tr><td height="20" bordercolor="#E6EEF9" bgcolor="#E6EEF9">&nbsp;</td></tr>
+        <tr>
+          <td height="20" bordercolor="#E6EEF9" bgcolor="#E6EEF9">
+            <a href="/config/showApplicationCluster.do" target="basefrm" class="a">Add New Application Cluster</a>
+          </td>
+        </tr>
         <tr>
           <td height="20" bordercolor="#E6EEF9" bgcolor="#E6EEF9">
             <jmhtml:link href="/auth/listUsers.do" target="basefrm" styleClass="a">Users</jmhtml:link>
