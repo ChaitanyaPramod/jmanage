@@ -436,7 +436,8 @@
 
     <target name="dist" depends="compile, build-all-modules"
         description="Create binary distribution">
-
+        <!--Create log directory -->
+        <mkdir dir="${dist.home}/logs"/>
         <!-- Copy documentation subdirectories -->
         <mkdir dir="${dist.home}/docs"/>
         <copy todir="${dist.home}/docs">
@@ -537,7 +538,7 @@
         <mkdir dir="${build.home}/web/WEB-INF"/>
         <mkdir dir="${build.home}/web/WEB-INF/classes"/>
         <mkdir dir="${build.home}/config"/>
-
+        <mkdir dir="${build.home}/logs"/>
         <!-- Copy static content of this web application -->
         <copy todir="${build.home}/web">
             <fileset dir="${web.home}"/>
