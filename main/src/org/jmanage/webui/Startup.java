@@ -18,6 +18,7 @@ package org.jmanage.webui;
 import org.mortbay.http.SocketListener;
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.servlet.WebApplicationContext;
+import org.mortbay.http.SunJsseListener;
 import org.jmanage.core.util.CoreUtils;
 import org.jmanage.core.crypto.PasswordField;
 import org.jmanage.core.crypto.Crypto;
@@ -81,11 +82,22 @@ public class Startup {
             throws Exception {
 
         int port = JManageProperties.getPort().intValue();
+        Integer sslPort = JManageProperties.getSslPort();
         String webroot = CoreUtils.getWebDir();
         Server server = new Server();
-        SocketListener listener = new SocketListener();
-        listener.setPort(port);
-        server.addListener(listener);
+        if(sslPort!=null){
+            SunJsseListener listener = new SunJsseListener();
+            String path = CoreUtils.getConfigDir() + "/" + JManageProperties.getKeystrokeFile();
+            listener.setPort(sslPort.intValue());
+            listener.setKeystore(path);
+            listener.setPassword(JManageProperties.getSSLPassword());
+            listener.setKeyPassword(JManageProperties.getSSLKeyPassword());
+            server.addListener(listener);
+        }else{
+            SocketListener listener = new SocketListener();
+            listener.setPort(port);
+            server.addListener(listener);
+        }
         WebApplicationContext webAppContext = server.addWebApplication("/", webroot);
         webAppContext.setClassLoaderJava2Compliant(true);
         server.start();
