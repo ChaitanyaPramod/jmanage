@@ -52,7 +52,8 @@
   <%}//while ends %>
 </table>
 <br>
-<jmhtml:link href="/auth/showAddUser.do" styleClass="a">Add New User</jmhtml:link>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<jmhtml:link href="/auth/showAddUser.do" styleClass="a">Add New User</jmhtml:link>
+<br/>
 <jmhtml:link href="/auth/showUserActivity.do" styleClass="a">View User Activities</jmhtml:link>
 </body>
 </html>
