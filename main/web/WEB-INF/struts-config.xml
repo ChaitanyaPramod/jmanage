@@ -212,7 +212,13 @@
             scope="request"
             roles="ops"
             type="org.jmanage.webui.actions.app.ExecuteMBeanOperationAction">
-            <forward name="success" path="/app/mbeanView.do"/>
+            <forward name="success" path="app.mbeanOperationResult"/>
+        </action>
+        <action
+            path="/app/clusterView"
+            roles="dev,ops"
+            type="org.jmanage.webui.actions.app.ClusterViewAction">
+            <forward name="success" path="app.clusterView"/>
         </action>
         <action
             path="/app/mbeanClusterView"

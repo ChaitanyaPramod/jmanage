@@ -50,12 +50,11 @@
                 </c:otherwise>
             </c:choose>
         </td></tr>
-        <tr><td>&nbsp;</td></tr>
-        <tr><td class="headtext" colspan="2" align="left"><b>Attributes</b></td></tr>
     </table>
     </td>
 </tr>
-
+<tr><td>&nbsp;</td></tr>
+<tr><td class="headtext" align="left"><b>Attributes</b></td></tr>
 <tr>
 <td bgcolor="#E6EEF9" class="plaintext">
 <jmhtml:form action="/app/updateAttributes" method="post">

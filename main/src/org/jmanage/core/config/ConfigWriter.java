@@ -68,10 +68,12 @@ public class ConfigWriter {
     private Element createApplicationClusterElement(ApplicationConfig application){
         assert application.isCluster();
         Element applicationElement = createApplicationElement(application);
+        Element childApplicationsElement = new Element(ConfigConstants.APPLICATIONS);
+        applicationElement.addContent(childApplicationsElement);
         for(Iterator it=application.getApplications().iterator(); it.hasNext();){
             ApplicationConfig appConfig = (ApplicationConfig)it.next();
             Element childAppElement = createApplicationElement(appConfig);
-            applicationElement.addContent(childAppElement);
+            childApplicationsElement.addContent(childAppElement);
         }
         return applicationElement;
     }

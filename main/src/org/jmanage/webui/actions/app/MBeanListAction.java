@@ -13,10 +13,7 @@ import org.jmanage.core.management.ObjectInstance;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  *
@@ -36,16 +33,45 @@ public class MBeanListAction extends BaseAction {
         final String queryObjectName = queryForm.getObjectName();
 
         ServerConnection serverConnection = context.getServerConnection();
-
+        // TODO: change to use queryNames
         Set mbeans =
                 serverConnection.queryObjects(new ObjectName(queryObjectName));
-        List objectNameList = new ArrayList(mbeans.size());
+
+        Map domainToObjectNameListMap = new TreeMap();
+        ObjectNameTuple tuple = new ObjectNameTuple();
         for(Iterator it=mbeans.iterator(); it.hasNext();){
             ObjectInstance oi = (ObjectInstance)it.next();
-            objectNameList.add(oi.getObjectName());
+            tuple.setObjectName(oi.getObjectName());
+            String domain = tuple.getDomain();
+            String name = tuple.getName();
+            List objectNameList = (List)domainToObjectNameListMap.get(domain);
+            if(objectNameList == null){
+                objectNameList = new LinkedList();
+                domainToObjectNameListMap.put(domain, objectNameList);
+            }
+            objectNameList.add(name);
         }
 
-        request.setAttribute("objectNameList", objectNameList);
+        request.setAttribute("domainToObjectNameListMap", domainToObjectNameListMap);
         return mapping.findForward(Forwards.SUCCESS);
+    }
+
+    private static class ObjectNameTuple{
+        String domain;
+        String name;
+
+        void setObjectName(ObjectName objectName){
+            String canonicalName = objectName.getCanonicalName();
+            int index = canonicalName.indexOf(":");
+            domain = canonicalName.substring(0, index);
+            name = canonicalName.substring(index + 1);
+        }
+
+        String getName(){
+            return name;
+        }
+        String getDomain(){
+            return domain;
+        }
     }
 }

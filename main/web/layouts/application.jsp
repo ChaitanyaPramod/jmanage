@@ -29,7 +29,17 @@
     <%}%> >
 <table width="650" border="0" cellpadding="2" cellspacing="1">
   <tr>
-    <td height="31" class="headtext"><b>Application Name:</b> <c:out value="${requestScope.applicationConfig.name}"/></td>
+    <td height="31" class="headtext">
+        <c:choose>
+            <c:when test="${requestScope.applicationConfig.cluster}">
+                Application Cluster Name:
+            </c:when>
+            <c:otherwise>
+                Application Name:
+            </c:otherwise>
+        </c:choose>
+        <c:out value="${requestScope.applicationConfig.name}"/>
+    </td>
   </tr>
   <%-- TODO: we are forcing body.main to start with <tr>. We should fix this. --%>
   <tiles:insert attribute="body.main" />

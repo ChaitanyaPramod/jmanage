@@ -33,9 +33,17 @@
     <definition name="app.mbeanClusterView" extends="layouts.application">
         <put name="body.main" value="/app/mbeanClusterView.jsp" />
     </definition>
+    <definition name="app.clusterView" extends="layouts.application">
+        <put name="body.main" value="/app/clusterView.jsp" />
+    </definition>
+    <definition name="app.mbeanOperationResult" extends="layouts.application">
+        <put name="body.main" value="/app/mbeanOperationResult.jsp" />
+    </definition>
+
     <definition name="app.connectionFailed" extends="layouts.application">
         <put name="body.main" value="/app/connectionFailed.jsp" />
     </definition>
+
 
 
 
