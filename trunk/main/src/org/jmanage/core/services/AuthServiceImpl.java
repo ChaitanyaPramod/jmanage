@@ -20,6 +20,7 @@ import org.jmanage.core.auth.AuthConstants;
 import org.jmanage.core.auth.User;
 import org.jmanage.core.auth.UserManager;
 import org.jmanage.core.config.JManageProperties;
+import org.jmanage.core.util.ErrorCodes;
 
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
@@ -58,23 +59,23 @@ public class AuthServiceImpl implements AuthService {
             loginContext.login();
         }catch(LoginException lex){
             user = userManager.getUser(username);
-            String errorCode = "unknown.error";
+            String errorCode = ErrorCodes.UNKNOWN_ERROR;
             Object[] values = null;
             /* Conditionalize the error message */
             if(user == null){
-                errorCode = "invalid.login";
+                errorCode = ErrorCodes.INVALID_CREDENTIALS;
             }else if("I".equals(user.getStatus())){
-                errorCode = "account.locked";
+                errorCode = ErrorCodes.ACCOUNT_LOCKED;
             }else if(user.getLockCount() < MAX_LOGIN_ATTEMPTS_ALLOWED){
                 int thisAttempt = user.getLockCount()+1;
                 user.setLockCount(thisAttempt);
                 if(thisAttempt == MAX_LOGIN_ATTEMPTS_ALLOWED){
                     user.setStatus("I");
                     userManager.updateUser(user);
-                    errorCode = "account.locked";
+                    errorCode = ErrorCodes.ACCOUNT_LOCKED;
                 }else{
                     userManager.updateUser(user);
-                    errorCode = "invalid.login.attempt.count";
+                    errorCode = ErrorCodes.INVALID_LOGIN_ATTEMPTS;
                     values = new Object[]{
                         String.valueOf(MAX_LOGIN_ATTEMPTS_ALLOWED - thisAttempt)};
                 }
