@@ -239,38 +239,42 @@
     <formset>
         <form name="applicationForm">
             <field property="name" depends="required">
-                <arg0 name="required" key="Application Name" resource="false"/>
+                <arg0 key="Application Name" resource="false"/>
             </field>
             <field property="host" depends="required">
-                <arg0 name="required" key="Host Name or Address" resource="false"/>
+                <arg0 key="Host Name or Address" resource="false"/>
             </field>
-            <field property="port" depends="required">
-                <arg0 name="required" key="Port Number" resource="false"/>
+            <field property="port" depends="required,mask">
+                <arg0 key="Port Number" resource="false"/>
+                <var>
+                    <var-name>mask</var-name>
+                    <var-value>^[0-9]*$</var-value>
+                </var>
             </field>
             <field property="username" depends="required">
-                <arg0 name="required" key="Username" resource="false"/>
+                <arg0 key="Username" resource="false"/>
             </field>
             <field property="password" depends="required">
-                <arg0 name="required" key="Password" resource="false"/>
+                <arg0 key="Password" resource="false"/>
             </field>
         </form>
         <form name="userForm">
             <field property="username" depends="required">
-                <arg0 name="required" key="Username" resource="false"/>
+                <arg0 key="Username" resource="false"/>
             </field>
             <field property="password" depends="required">
-                <arg0 name="required" key="Password" resource="false"/>
+                <arg0 key="Password" resource="false"/>
             </field>
             <field property="role" depends="required">
-                <arg0 name="required" key="Role" resource="false"/>
+                <arg0 key="Role" resource="false"/>
             </field>
         </form>
         <form name="loginForm">
             <field property="username" depends="required">
-                <arg0 name="required" key="Username" resource="false"/>
+                <arg0 key="Username" resource="false"/>
             </field>
             <field property="password" depends="required">
-                <arg0 name="required" key="Password" resource="false"/>
+                <arg0 key="Password" resource="false"/>
             </field>
         </form>
     </formset>

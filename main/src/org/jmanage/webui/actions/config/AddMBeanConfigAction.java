@@ -7,6 +7,7 @@ import org.jmanage.webui.forms.MBeanConfigForm;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.ApplicationConfigManager;
 import org.jmanage.core.config.MBeanConfig;
+import org.jmanage.core.util.UserActivityLogger;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
@@ -33,6 +34,10 @@ public class AddMBeanConfigAction extends BaseAction {
         applicationConfig.addMBean(new MBeanConfig(mbeanConfigForm.getName(),
                 mbeanConfigForm.getObjectName()));
         ApplicationConfigManager.updateApplication(applicationConfig);
+        UserActivityLogger.getInstance().logActivity(
+                context.getUser().getUsername(),
+                "Added "+mbeanConfigForm.getObjectName()+" to favorites under "+
+                applicationConfig.getName());
         return mapping.findForward(Forwards.SUCCESS);
     }
 }

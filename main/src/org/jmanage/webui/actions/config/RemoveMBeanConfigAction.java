@@ -6,6 +6,7 @@ import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.forms.MBeanConfigForm;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.ApplicationConfigManager;
+import org.jmanage.core.util.UserActivityLogger;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
@@ -31,7 +32,10 @@ public class RemoveMBeanConfigAction extends BaseAction {
         ApplicationConfig applicationConfig = context.getApplicationConfig();
         applicationConfig.removeMBean(mbeanConfigForm.getObjectName());
         ApplicationConfigManager.updateApplication(applicationConfig);
+        UserActivityLogger.getInstance().logActivity(
+                context.getUser().getUsername(),
+                "Removed " + mbeanConfigForm.getObjectName() +
+                " from favorites under "+ applicationConfig.getName());
         return mapping.findForward(Forwards.SUCCESS);
     }
-
 }

@@ -5,6 +5,7 @@ import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.forms.ApplicationForm;
 import org.jmanage.core.config.ApplicationConfigManager;
+import org.jmanage.core.util.UserActivityLogger;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
@@ -28,6 +29,9 @@ public class DeleteApplicationAction extends BaseAction{
 
         ApplicationForm appForm = (ApplicationForm)actionForm;
         ApplicationConfigManager.deleteApplication(appForm.getApplicationId());
+        UserActivityLogger.getInstance().logActivity(
+                context.getUser().getUsername(),
+                "Deleted application with ID "+appForm.getApplicationId());
         return mapping.findForward(Forwards.SUCCESS);
     }
 }

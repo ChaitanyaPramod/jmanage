@@ -4,6 +4,7 @@ import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.core.util.CoreUtils;
+import org.jmanage.core.util.UserActivityLogger;
 import org.jmanage.core.management.ServerConnection;
 import org.jmanage.core.management.ObjectName;
 import org.apache.struts.action.ActionForward;
@@ -46,6 +47,9 @@ public class ExecuteMBeanOperationAction extends BaseAction {
 
         final Object result = serverConnection.invoke(objectName, operationName,
                 params, signature);
+        UserActivityLogger.getInstance().logActivity(
+                context.getUser().getUsername(),
+                "Performed "+operationName+" on "+objectName.getCanonicalName());
         request.setAttribute("operationResult", result);
         return mapping.findForward(Forwards.SUCCESS);
     }

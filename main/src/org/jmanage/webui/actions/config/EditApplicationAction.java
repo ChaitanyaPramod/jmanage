@@ -6,6 +6,7 @@ import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.forms.ApplicationForm;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.ApplicationConfigManager;
+import org.jmanage.core.util.UserActivityLogger;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
@@ -44,6 +45,9 @@ public class EditApplicationAction extends BaseAction {
         }
 
         ApplicationConfigManager.updateApplication(config);
+        UserActivityLogger.getInstance().logActivity(
+                context.getUser().getUsername(),
+                "Updated application with ID "+config.getApplicationId());
         return mapping.findForward(Forwards.SUCCESS);
     }
 }
