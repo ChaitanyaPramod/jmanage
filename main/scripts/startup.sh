@@ -23,4 +23,4 @@ LIB_JARS=$JMANAGE_LIB_ROOT/lib/javax.servlet.jar:$JMANAGE_LIB_ROOT/lib/org.mortb
 EXT_JARS=
 JMANAGE_CLASSPATH=$LIB_JARS:$EXT_JARS:$JMANAGE_HOME/classes
 
-$JAVA_HOME/bin/java -classpath $JMANAGE_CLASSPATH $DEBUG_OPTIONS -Djmanage.port=$JMANAGE_PORT -Djmanage.root=$JMANAGE_HOME org.jmanage.webui.Startup
+$JAVA_HOME/bin/java -ea -classpath $JMANAGE_CLASSPATH $DEBUG_OPTIONS -Djmanage.port=$JMANAGE_PORT -Djmanage.root=$JMANAGE_HOME org.jmanage.webui.Startup

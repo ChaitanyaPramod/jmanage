@@ -1,7 +1,8 @@
 package org.jmanage.core.management;
 
 import org.jmanage.core.config.ApplicationConfig;
-import org.jmanage.core.config.WeblogicApplicationConfig;
+import org.jmanage.core.config.ApplicationConfigFactory;
+import org.jmanage.core.config.ApplicationType;
 
 import java.util.Set;
 
@@ -21,9 +22,10 @@ public class ServerConnectorTest {
     }
 
     private static ApplicationConfig getApplicationConfig(){
-        final WeblogicApplicationConfig appConfig =
-                new WeblogicApplicationConfig("1234",
-                        "test", "localhost", 7001,
+        final ApplicationConfig appConfig =
+                ApplicationConfigFactory.create("1234",
+                        "test", ApplicationType.WEBLOGIC,
+                        "localhost", new Integer(7001), null,
                         "system", "12345678", null);
         return appConfig;
     }

@@ -4,10 +4,8 @@ import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.forms.WeblogicApplicationForm;
-import org.jmanage.webui.forms.ApplicationForm;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.ApplicationConfigManager;
-import org.jmanage.core.config.WeblogicApplicationConfig;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
@@ -39,7 +37,7 @@ public class EditApplicationAction extends BaseAction {
 
         config.setName(appForm.getName());
         config.setHost(appForm.getHost());
-        config.setPort(Integer.parseInt(appForm.getPort()));
+        config.setPort(new Integer(appForm.getPort()));
         config.setUsername(appForm.getUsername());
         final String password = appForm.getPassword();
         if(!password.equals(config.getPassword())){

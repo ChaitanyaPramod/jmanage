@@ -6,7 +6,6 @@ import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.forms.ApplicationForm;
 import org.jmanage.webui.forms.WeblogicApplicationForm;
 import org.jmanage.core.config.ApplicationConfig;
-import org.jmanage.core.config.WeblogicApplicationConfig;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
