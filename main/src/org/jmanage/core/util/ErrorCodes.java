@@ -21,6 +21,8 @@ package org.jmanage.core.util;
  * @author	Rakesh Kalra
  */
 public interface ErrorCodes {
+
+    String WEB_UI_ERROR_KEY = "error.message";
     String UNKNOWN_ERROR = "unknown.error";
 
     String INVALID_CREDENTIALS = "invalid.login";
@@ -29,4 +31,7 @@ public interface ErrorCodes {
 
     String INVALID_APPLICATION_NAME = "invalid.appName";
     String OPERATION_NOT_SUPPORTED_FOR_CLUSTER = "cluster.unsupported.operation";
+
+    String INVALID_OLD_PASSWORD = "invalid.oldPassword";
+    String PASSWORD_MISMATCH = "mismatch.password";
 }

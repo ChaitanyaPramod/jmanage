@@ -18,10 +18,12 @@ package org.jmanage.core.services;
 import org.jmanage.core.services.ServiceContext;
 import org.jmanage.core.auth.User;
 
+import javax.security.auth.Subject;
+
 /**
  *
  * date:  Jan 19, 2005
- * @author	Rakesh Kalra
+ * @author	Rakesh Kalra, Shashank Bellary
  */
 public class ServiceContextImpl implements ServiceContext {
 
@@ -33,5 +35,15 @@ public class ServiceContextImpl implements ServiceContext {
 
     public void setUser(User user){
         this.user = user;
+    }
+
+    /**
+     * TODO webcontext should hold User instead of Subject.
+     * TODO Add a _setUser(User user) method on webcontext and on ServiceContext.
+     * TODO Then refactor to code to remove _setSubject(Subject subject) method.
+     *
+     * @param subject
+     */
+    public void _setSubject(Subject subject) {
     }
 }

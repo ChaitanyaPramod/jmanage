@@ -28,7 +28,7 @@ import javax.security.auth.login.LoginException;
 /**
  *
  * date:  Feb 4, 2005
- * @author	Rakesh Kalra
+ * @author	Rakesh Kalra, Shashank Bellary
  */
 public class AuthServiceImpl implements AuthService {
 
@@ -42,15 +42,11 @@ public class AuthServiceImpl implements AuthService {
      */
     public void login(ServiceContext context,
                       String username,
-                      String password)
-        throws ServiceException{
+                      String password) throws ServiceException{
 
         LoginCallbackHandler callbackHandler = new LoginCallbackHandler();
         callbackHandler.setUsername(username);
         callbackHandler.setPassword(password);
-        // TODO: we should set this in startup or in startup script
-        System.setProperty(AuthConstants.AUTH_CONFIG_SYS_PROPERTY,
-                AuthConstants.AUTH_CONFIG_FILE_NAME);
         User user = null;
         UserManager userManager = UserManager.getInstance();
         try{
@@ -58,13 +54,13 @@ public class AuthServiceImpl implements AuthService {
                     new LoginContext(AuthConstants.AUTH_CONFIG_INDEX,
                             callbackHandler);
             loginContext.login();
-
+            /*  set Subject in session */
+            context._setSubject(loginContext.getSubject());
             /* Successful login: update the lock count and status */
             user = userManager.getUser(username);
             user.setLockCount(0);
             user.setStatus(null);
             userManager.updateUser(user);
-
         }catch(LoginException lex){
             user = userManager.getUser(username);
             String errorCode = ErrorCodes.UNKNOWN_ERROR;

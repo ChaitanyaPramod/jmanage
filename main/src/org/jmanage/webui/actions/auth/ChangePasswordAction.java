@@ -21,6 +21,7 @@ import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.forms.ChangePasswordForm;
 import org.jmanage.core.auth.UserManager;
 import org.jmanage.core.crypto.Crypto;
+import org.jmanage.core.util.ErrorCodes;
 import org.apache.struts.action.*;
 import org.apache.struts.Globals;
 
@@ -46,7 +47,8 @@ public class ChangePasswordAction extends BaseAction{
         /*Make sure that entered password is valid*/
         if(!Crypto.hash(changePasswordForm.getOldPassword()).equals
                 (context.getUser().getPassword())){
-            errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("invalid.oldPassword"));
+            errors.add(ActionErrors.GLOBAL_ERROR,
+                    new ActionError(ErrorCodes.INVALID_OLD_PASSWORD));
             request.setAttribute(Globals.ERROR_KEY, errors);
             return mapping.getInputForward();
         }
@@ -54,7 +56,8 @@ public class ChangePasswordAction extends BaseAction{
         /*Make sure that both entered passwords match */
         if(!changePasswordForm.getNewPassword().equals
                 (changePasswordForm.getConfirmPassword())){
-            errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("mismatch.password"));
+            errors.add(ActionErrors.GLOBAL_ERROR,
+                    new ActionError(ErrorCodes.PASSWORD_MISMATCH));
             request.setAttribute(Globals.ERROR_KEY, errors);
             return mapping.getInputForward();
         }
