@@ -2,7 +2,7 @@
 
 <application-config>
     <applications>
-        <application id="" name="EmailDaemon" server="" port="" username="" password="" type="Weblogic6.1">
+        <application id="1234" name="test" server="localhost" port="7001" username="system" password="12345678" type="Weblogic">
             <param>
                 <param-name>serverName</param-name>
                 <param-value>loyaltyServer</param-value>
