@@ -4,15 +4,15 @@ import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.forms.WeblogicApplicationForm;
-import org.jmanage.core.config.*;
+import org.jmanage.core.config.ApplicationConfig;
+import org.jmanage.core.config.ApplicationConfigFactory;
+import org.jmanage.core.config.ApplicationConfigManager;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForward;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
-import java.util.HashMap;
 
 /**
  *
@@ -41,7 +41,7 @@ public class AddApplicationAction extends BaseAction {
         String appId = String.valueOf(System.currentTimeMillis());
         ApplicationConfig config =
                 ApplicationConfigFactory.create(appId, appForm.getName(),
-                        ApplicationType.WEBLOGIC,
+                        appForm.getType(),
                         appForm.getHost(),
                         new Integer(appForm.getPort()),
                         null,

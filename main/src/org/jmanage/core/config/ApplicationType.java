@@ -8,4 +8,5 @@ package org.jmanage.core.config;
 public interface ApplicationType {
     String WEBLOGIC = "weblogic";
     String JSR160 = "jsr160";
+    String TOMCAT = "tomcat";
 }

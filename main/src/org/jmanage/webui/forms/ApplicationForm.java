@@ -17,6 +17,7 @@ public class ApplicationForm extends BaseForm {
     private String port;
     private String username;
     private String password;
+    private String type;
 
     public String getApplicationId() {
         return appId;
@@ -64,5 +65,13 @@ public class ApplicationForm extends BaseForm {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

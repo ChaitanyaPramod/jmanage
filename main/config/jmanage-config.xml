@@ -8,6 +8,16 @@
             name="Weblogic 6.1"
             configClass="org.jmanage.modules.weblogic.WeblogicApplicationConfig"
             connectionFactory="org.jmanage.modules.weblogic.WLServerConnectionFactory"/>
+        <module
+            id="tomcat"
+            name="Tomcat 4.x &amp; 5.x"
+            configClass="org.jmanage.modules.tomcat.TomcatApplicationConfig"
+            connectionFactory="org.jmanage.modules.tomcat.TomcatServerConnectionFactory"/>
+        <module
+            id="jsr160"
+            name="JSR160"
+            configClass="org.jmanage.modules.jsr160.JSR160ApplicationConfig"
+            connectionFactory="org.jmanage.modules.jsr160.JSR160ServerConnectionFactory"/>
     </application-modules>
 
 </jmanage-config>
