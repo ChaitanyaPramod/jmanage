@@ -33,7 +33,7 @@ public class ExitHandler implements CommandHandler {
     }
 
     public String getShortHelp(){
-        return "Exit from jManage command prompt mode";
+        return "Exits from jManage command prompt mode";
     }
 
     public void help() {
