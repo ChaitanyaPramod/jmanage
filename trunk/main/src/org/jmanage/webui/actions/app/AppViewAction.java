@@ -13,48 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jmanage.webui.actions.auth;
+package org.jmanage.webui.actions.app;
 
-import org.jmanage.webui.actions.BaseAction;
-import org.jmanage.webui.util.WebContext;
-import org.jmanage.webui.util.RequestAttributes;
-import org.jmanage.webui.util.Forwards;
-import org.jmanage.core.auth.UserManager;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionForward;
+import org.jmanage.webui.util.WebContext;
+import org.jmanage.webui.util.Forwards;
+import org.jmanage.webui.actions.BaseAction;
+import org.jmanage.core.config.ApplicationConfig;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
-import java.util.TreeMap;
+import javax.servlet.http.HttpServletRequest;
 
 /**
- * Date : Jul 26, 2004 10:23:48 PM
- * @author Shashank
+ *
+ * date:  Dec 15, 2004
+ * @author	Rakesh Kalra
  */
-public class ListUsersAction extends BaseAction{
+public class AppViewAction extends BaseAction {
 
-    /**
-     * Lists all configured users.
-     *
-     * @param context
-     * @param mapping
-     * @param actionForm
-     * @param request
-     * @param response
-     * @return
-     * @throws java.lang.Exception
-     */
     public ActionForward execute(WebContext context,
                                  ActionMapping mapping,
                                  ActionForm actionForm,
                                  HttpServletRequest request,
                                  HttpServletResponse response)
-            throws Exception {
-        Map users = UserManager.getInstance().getAllUsers();
-        Map orderedUsers = new TreeMap(users);
-        request.setAttribute(RequestAttributes.USERS, orderedUsers);
-        return mapping.findForward(Forwards.SUCCESS);
+        throws Exception{
+
+        ApplicationConfig appConfig = context.getApplicationConfig();
+        if(appConfig.isCluster()){
+            return mapping.findForward("cluster");
+        }else{
+            return mapping.findForward("application");
+        }
     }
 }

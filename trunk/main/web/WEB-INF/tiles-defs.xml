@@ -14,16 +14,69 @@
 
 <!-- ========================================================= LAYOUTS ===== -->
 
-    <!-- generic "no side bar" layout, used in several sections -->
-    <definition name="layouts.application" path="/layouts/application.jsp">
-          <put name="title" value="Application" />
-          <!-- optional: <put name="head.style" value="${head.style}" /> -->
-          <put name="header" value="/common/appHeader.jsp" />
-          <put name="body.main" value="${body.main}" />
+    <definition name="layouts.common" path="/layouts/common.jsp">
+        <put name="title" value="jManage - JMX Clent" />
+        <put name="header" value="/common/header.jsp" />
+        <put name="body.header" value="/common/empty.jsp" /> <!-- TODO: remove usage of empty.jsp -rk-->
+        <put name="body.main" value="${body.main}" />
+        <put name="footer" value="/common/footer.jsp" />
+    </definition>
+
+    <definition name="layouts.application" extends="layouts.common">
+        <put name="body.header" value="/app/appHeader.jsp"/>
     </definition>
 
 <!-- =========================================================== PAGES ===== -->
 
+    <definition name="config.admin" extends="layouts.common">
+        <put name="body.main" value="/config/admin.jsp" />
+    </definition>
+
+    <definition name="auth.configuredUsers" extends="layouts.common">
+        <put name="body.main" value="/auth/configuredUsers.jsp" />
+    </definition>
+    <definition name="auth.editUser" extends="layouts.common">
+        <put name="body.main" value="/auth/editUser.jsp" />
+    </definition>
+    <definition name="auth.addUser" extends="layouts.common">
+        <put name="body.main" value="/auth/addUser.jsp" />
+    </definition>
+
+    <definition name="auth.showLogin" extends="layouts.common">
+        <put name="body.main" value="/auth/showLogin.jsp" />
+    </definition>
+    <definition name="auth.profile" extends="layouts.common">
+        <put name="body.main" value="/auth/profile.jsp" />
+    </definition>
+    <definition name="auth.changePassword" extends="layouts.common">
+        <put name="body.main" value="/auth/changePassword.jsp" />
+    </definition>
+    <definition name="auth.confirmChangePassword" extends="layouts.common">
+        <put name="body.main" value="/auth/confirmChangePassword.jsp" />
+    </definition>
+    <definition name="auth.userActivity" extends="layouts.common">
+        <put name="body.main" value="/auth/userActivity.jsp" />
+    </definition>
+
+    <definition name="config.managedApplications" extends="layouts.common">
+        <put name="body.main" value="/config/managedApplications.jsp" />
+    </definition>
+    <definition name="config.availableApplications" extends="layouts.application">
+        <put name="body.main" value="/config/availableApplications.jsp" />
+    </definition>
+    <definition name="config.addApplication" extends="layouts.application">
+        <put name="body.main" value="/config/addApplication.jsp" />
+    </definition>
+    <definition name="config.editApplication" extends="layouts.application">
+        <put name="body.main" value="/config/editApplication.jsp" />
+    </definition>
+    <definition name="config.applicationCluster" extends="layouts.application">
+        <put name="body.main" value="/config/applicationCluster.jsp" />
+    </definition>
+
+    <definition name="app.appView" extends="layouts.application">
+        <put name="body.main" value="/app/appView.jsp" />
+    </definition>
     <definition name="app.mbeanList" extends="layouts.application">
         <put name="body.main" value="/app/mbeanList.jsp" />
     </definition>
@@ -36,12 +89,8 @@
     <definition name="app.mbeanOperationResult" extends="layouts.application">
         <put name="body.main" value="/app/mbeanOperationResult.jsp" />
     </definition>
-
     <definition name="app.connectionFailed" extends="layouts.application">
         <put name="body.main" value="/app/connectionFailed.jsp" />
     </definition>
-
-
-
 
 </tiles-definitions>

@@ -71,7 +71,11 @@ public class WebContext {
         try {
             final String objectNameString =
                     request.getParameter(RequestParams.OBJECT_NAME);
-            return new ObjectName(objectNameString);
+            if(objectNameString != null){
+                return new ObjectName(objectNameString);
+            }else{
+                return null;
+            }
         } catch (MalformedObjectNameException e) {
             throw new RuntimeException(e);
         }

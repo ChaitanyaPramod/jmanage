@@ -70,7 +70,7 @@
 
     <global-forwards>
         <forward name="unAuthorized" path="/auth/unauthorized.jsp"/>
-        <forward name="login" path="/auth/loginRedirect.jsp"/>
+        <forward name="login" path="/auth/showLogin.do"/>
         <forward name="failure" path="/error.jsp"/>
     </global-forwards>
 
@@ -80,13 +80,21 @@
 
         <!--== Authentication ===============================================-->
         <action
+            path="/auth/showLogin"
+            name="loginForm"
+            validate="false"
+            scope="request"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="auth.showLogin">
+        </action>
+        <action
             path="/auth/login"
             name="loginForm"
             validate="true"
-            input="/index.jsp"
+            input="/auth/showLogin.do"
             scope="request"
             type="org.jmanage.webui.actions.auth.LoginAction">
-            <forward name="success" path="/home.jsp"/>
+            <forward name="success" path="/config/managedApplications.do"/>
         </action>
         <action
             path="/auth/logout"
@@ -95,14 +103,9 @@
         </action>
         <!--== Configuration Management =====================================-->
         <action
-            path="/config/applicationList"
-            type="org.jmanage.webui.actions.config.ApplicationListAction">
-            <forward name="success" path="/config/applicationList.jsp"/>
-        </action>
-        <action
             path="/config/managedApplications"
             type="org.jmanage.webui.actions.config.ApplicationListAction">
-            <forward name="success" path="/config/managedApplications.jsp"/>
+            <forward name="success" path="config.managedApplications"/>
         </action>
         <action
             path="/config/showEditApplication"
@@ -110,7 +113,7 @@
             validate="false"
             scope="request"
             type="org.jmanage.webui.actions.config.ShowEditApplicationAction">
-            <forward name="success" path="/config/editApplication.jsp"/>
+            <forward name="success" path="config.editApplication"/>
         </action>
         <action
             path="/config/editApplication"
@@ -127,7 +130,7 @@
             validate="false"
             scope="request"
             type="org.jmanage.webui.actions.config.ShowAvailableApplicationAction">
-            <forward name="success" path="/config/availableApplications.jsp"/>
+            <forward name="success" path="config.availableApplications"/>
         </action>
         <action
             path="/config/showAddApplication"
@@ -135,7 +138,7 @@
             validate="false"
             scope="request"
             type="org.jmanage.webui.actions.config.ShowAddApplicationAction">
-            <forward name="success" path="/config/addApplication.jsp"/>
+            <forward name="success" path="config.addApplication"/>
         </action>
         <action
             path="/config/addApplication"
@@ -173,7 +176,7 @@
             name="applicationClusterForm"
             scope="request"
             type="org.jmanage.webui.actions.config.ShowApplicationClusterAction">
-            <forward name="success" path="/config/applicationCluster.jsp"/>
+            <forward name="success" path="config.applicationCluster"/>
         </action>
         <action
             path="/config/saveApplicationCluster"
@@ -182,6 +185,8 @@
             type="org.jmanage.webui.actions.config.SaveApplicationClusterAction">
             <forward name="success" path="/config/managedApplications.do"/>
         </action>
+
+        <!--TODO: following 2 action mappings are not used -->
         <action
             path="/config/showConfigure"
             name="configureForm"
@@ -201,6 +206,13 @@
         </action>
 
         <!--== Application Management =======================================-->
+        <action
+            path="/app/appView"
+            roles="dev,ops"
+            type="org.jmanage.webui.actions.app.AppViewAction">
+            <forward name="application" path="app.appView"/>
+            <forward name="cluster" path="app.clusterView"/>
+        </action>
         <action
             path="/app/mbeanList"
             name="mbeanQueryForm"
@@ -234,18 +246,19 @@
             type="org.jmanage.webui.actions.app.ExecuteMBeanOperationAction">
             <forward name="success" path="app.mbeanOperationResult"/>
         </action>
-        <action
-            path="/app/clusterView"
-            roles="dev,ops"
-            type="org.jmanage.webui.actions.app.ClusterViewAction">
-            <forward name="success" path="app.clusterView"/>
-        </action>
 
         <!--== User Management =======================================-->
         <action
+            path="/config/admin"
+            roles="ops"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="config.admin">
+        </action>
+
+        <action
             path="/auth/listUsers"
             type="org.jmanage.webui.actions.auth.ListUsersAction">
-            <forward name="success" path="/auth/configuredUsers.jsp"/>
+            <forward name="success" path="auth.configuredUsers"/>
         </action>
         <action
             path="/auth/deleteUser"
@@ -258,7 +271,7 @@
             validate="false"
             scope="request"
             type="org.jmanage.webui.actions.auth.ShowEditUserAction">
-            <forward name="success" path="/auth/editUser.jsp"/>
+            <forward name="success" path="auth.editUser"/>
         </action>
         <action
             path="/auth/editUser"
@@ -275,7 +288,7 @@
             validate="false"
             scope="request"
             type="org.jmanage.webui.actions.auth.ShowAddUserAction">
-            <forward name="success" path="/auth/addUser.jsp" />
+            <forward name="success" path="auth.addUser" />
         </action>
         <action
             path="/auth/addUser"
@@ -287,12 +300,17 @@
             <forward name="success" path="/auth/listUsers.do"/>
         </action>
         <action
+            path="/auth/profile"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="auth.profile">
+        </action>
+        <action
             path="/auth/showChangePassword"
             name="changePasswordForm"
             validate="false"
             scope="request"
             type="org.apache.struts.actions.ForwardAction"
-            parameter="/auth/changePassword.jsp">
+            parameter="auth.changePassword">
         </action>
         <action
             path="/auth/changePassword"
@@ -301,12 +319,12 @@
             input="/auth/showChangePassword.do"
             scope="request"
             type="org.jmanage.webui.actions.auth.ChangePasswordAction">
-            <forward name="success" path="/auth/confirmChangePassword.jsp"/>
+            <forward name="success" path="auth.confirmChangePassword"/>
         </action>
         <action
             path="/auth/showUserActivity"
             type="org.jmanage.webui.actions.auth.ShowUserActivityAction">
-            <forward name="success" path="/auth/userActivity.jsp"/>
+            <forward name="success" path="auth.userActivity"/>
         </action>
 
     </action-mappings>

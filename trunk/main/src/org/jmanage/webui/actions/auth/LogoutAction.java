@@ -20,6 +20,7 @@ import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.core.auth.AuthConstants;
 import org.jmanage.core.auth.LoginCallbackHandler;
+import org.jmanage.core.auth.User;
 import org.jmanage.core.util.UserActivityLogger;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -54,17 +55,16 @@ public class LogoutAction extends BaseAction{
                                  HttpServletResponse response)
             throws Exception {
         Subject subject = context.getSubject();
-        final String userName = context.getUser().getName();
         if(subject != null){
+            final String userName = context.getUser().getName();
             LoginContext loginContext =
                     new LoginContext(AuthConstants.AUTH_CONFIG_INDEX,
                             subject, new LoginCallbackHandler());
             loginContext.logout();
             context.removeSubject();
+            UserActivityLogger.getInstance().logActivity(userName,
+                    "logged out successfully");
         }
-        UserActivityLogger.getInstance().logActivity(userName,
-                userName+" logged out successfully");
-
         return mapping.findForward(Forwards.SUCCESS);
     }
 }

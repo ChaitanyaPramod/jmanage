@@ -73,6 +73,17 @@ public class User implements Principal, java.io.Serializable{
         return roles;
     }
 
+    public String getRolesAsString(){
+        StringBuffer strRoles = new StringBuffer();
+        for(Iterator it=roles.iterator(); it.hasNext();){
+            Role role = (Role)it.next();
+            strRoles.append(role.getName());
+            if(it.hasNext())
+                strRoles.append(", ");
+        }
+        return strRoles.toString();
+    }
+
     public void setRoles(List roles) {
         this.roles = roles;
     }
@@ -97,6 +108,7 @@ public class User implements Principal, java.io.Serializable{
         return getUsername();
     }
 
+    // TODO: check all usage and see if they are valid after ACL impl.
     public boolean isAdmin(){
         for(Iterator it=getRoles().iterator(); it.hasNext();){
             Role role = (Role)it.next();

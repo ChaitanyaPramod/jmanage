@@ -37,9 +37,11 @@ import java.util.ArrayList;
  * @author Shashank Bellary 
  */
 public class ShowUserActivityAction extends BaseAction{
+
     /*  Activity log file   */
     private final String USER_ACTIVITY_LOG_FILE_PATH =
             UserActivityLogger.getActivityLogFilePath();
+
     /**
      * Show activities performed by all the users of jManage.
      *

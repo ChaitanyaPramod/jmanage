@@ -18,6 +18,7 @@ package org.jmanage.webui.actions.config;
 import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
+import org.jmanage.webui.util.RequestAttributes;
 import org.jmanage.webui.forms.ApplicationClusterForm;
 import org.jmanage.core.config.ApplicationConfigManager;
 import org.jmanage.core.config.ApplicationConfig;
@@ -70,6 +71,14 @@ public class ShowApplicationClusterAction extends BaseAction {
         }
         request.setAttribute("applications", applications);
         request.setAttribute("selectedApplications", selectedApplications);
+
+        /*set current page for navigation*/
+        if(applicationId != null){
+            request.setAttribute(RequestAttributes.NAV_CURRENT_PAGE, "Edit Cluster");
+        }else{
+            request.setAttribute(RequestAttributes.NAV_CURRENT_PAGE, "Add Cluster");
+        }
+
         return mapping.findForward(Forwards.SUCCESS);
     }
 }

@@ -32,4 +32,6 @@ public interface RequestAttributes {
     public static final String META_APP_CONFIG = "metaAppConfig";
     public static final String AVAILABLE_APPLICATIONS = "availableApplications";
     public static final String USER_ACTIVITIES = "userActivities";
+
+    public static final String NAV_CURRENT_PAGE = "navCurrentPage";
 }

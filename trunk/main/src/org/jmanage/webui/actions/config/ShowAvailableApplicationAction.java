@@ -57,6 +57,8 @@ public class ShowAvailableApplicationAction extends BaseAction{
         Map availableApplications = ModuleRegistry.getModules();
         request.setAttribute(RequestAttributes.AVAILABLE_APPLICATIONS,
                 availableApplications);
+        /*set current page for navigation*/
+        request.setAttribute(RequestAttributes.NAV_CURRENT_PAGE, "Add Application");
         return mapping.findForward(Forwards.SUCCESS);
     }
 }

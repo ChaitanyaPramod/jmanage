@@ -20,6 +20,8 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.jmanage.core.services.ServiceContext;
 
 import java.util.StringTokenizer;
+import java.net.URLEncoder;
+import java.io.UnsupportedEncodingException;
 
 /**
  *
@@ -46,7 +48,12 @@ public class Utils {
         }
         urlString.append(param);
         urlString.append("=");
-        urlString.append(value);
+        try {
+            urlString.append(URLEncoder.encode(value, "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+
         return urlString.toString();
     }
 

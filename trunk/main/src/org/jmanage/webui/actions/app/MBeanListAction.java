@@ -23,9 +23,7 @@ import org.jmanage.core.services.MBeanService;
 import org.jmanage.core.services.ServiceFactory;
 import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.forms.MBeanQueryForm;
-import org.jmanage.webui.util.Forwards;
-import org.jmanage.webui.util.Utils;
-import org.jmanage.webui.util.WebContext;
+import org.jmanage.webui.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -67,6 +65,8 @@ public class MBeanListAction extends BaseAction {
         }
 
         request.setAttribute("domainToObjectNameListMap", domainToObjectNameListMap);
+        /*set current page for navigation*/
+        request.setAttribute(RequestAttributes.NAV_CURRENT_PAGE, "Query");
         return mapping.findForward(Forwards.SUCCESS);
     }
 

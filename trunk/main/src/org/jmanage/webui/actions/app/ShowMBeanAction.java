@@ -19,6 +19,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.jmanage.core.config.ApplicationConfig;
+import org.jmanage.core.config.MBeanConfig;
 import org.jmanage.core.management.*;
 import org.jmanage.core.util.Loggers;
 import org.jmanage.webui.actions.BaseAction;
@@ -108,17 +109,24 @@ public class ShowMBeanAction extends BaseAction {
         mbeanConfigForm.setObjectName(objectName.getCanonicalName());
 
         ApplicationConfig appConfig = context.getApplicationConfig();
-        if(appConfig.containsMBean(objectName.getCanonicalName())){
+        MBeanConfig mbeanConfig =
+                appConfig.findMBeanByObjectName(objectName.getCanonicalName());
+        if(mbeanConfig != null){
             if(appConfig.isCluster()){
                 request.setAttribute("mbeanIncludedIn", "cluster");
             }else{
                 request.setAttribute("mbeanIncludedIn", "application");
             }
+            request.setAttribute("mbeanConfig", mbeanConfig);
         }else{
             ApplicationConfig clusterConfig = appConfig.getClusterConfig();
-            if(clusterConfig != null &&
-                    clusterConfig.containsMBean(objectName.getCanonicalName())){
+            if(clusterConfig != null){
+                mbeanConfig =
+                    clusterConfig.findMBeanByObjectName(objectName.getCanonicalName());
+            }
+            if(mbeanConfig != null){
                 request.setAttribute("mbeanIncludedIn", "cluster");
+                request.setAttribute("mbeanConfig", mbeanConfig);
             }
         }
 

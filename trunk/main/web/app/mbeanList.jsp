@@ -26,42 +26,40 @@
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 <%@ taglib uri="/WEB-INF/tags/struts/struts-bean.tld" prefix="bean"%>
 
-<tr>
-<td bgcolor="#E6EEF9">
+<div bgcolor="#E6EEF9">
 <jmhtml:form action="/app/mbeanList" method="post">
     <jmhtml:text property="objectName" />&nbsp;&nbsp;<jmhtml:submit styleClass="Inside3d" value="Filter by object name" />
 </jmhtml:form>
-</td>
-</tr>
+</div>
+<br/>
 <%
     Map domainToObjectNameListMap = (Map)request.getAttribute("domainToObjectNameListMap");
-    int row = 0;
     for(Iterator it = domainToObjectNameListMap.keySet().iterator(); it.hasNext(); ){
         String domain = (String)it.next();
         %>
-        <tr>
-        <td class="headtext">
-            <br>
-            <%=domain%>
-        </td>
-        </tr>
+<table border="0" cellspacing="0" cellpadding="5" width="900" class="table">
+    <tr class="tableHeader">
+        <td colspan="2"><%=domain%></td>
+    </tr>
         <%
         Set objectNameList = (Set)domainToObjectNameListMap.get(domain);
         for(Iterator objectNameIt = objectNameList.iterator(); objectNameIt.hasNext();){
             String objectName = (String)objectNameIt.next();
             pageContext.setAttribute("objectName",
                     domain + ":" + objectName, PageContext.PAGE_SCOPE);
-            String rowStyle = row % 2 != 0 ? "oddrow" : "evenrow";
-            row++;
 %>
-            <tr>
-            <td class="<%=rowStyle%>">
+    <tr>
+        <td class="plaintext">
                 <jmhtml:link action="/app/mbeanView"
                              paramId="objName"
                              paramName="objectName">
                     <%=objectName%></jmhtml:link>
-            </td>
-            </tr>
+        </td>
+   </tr>
 <%      } // inner for
+%>
+</table>
+<br/>
+<%
     } // outer for
 %>

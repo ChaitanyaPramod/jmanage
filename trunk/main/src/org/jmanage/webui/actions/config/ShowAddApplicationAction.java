@@ -60,6 +60,8 @@ public class ShowAddApplicationAction extends BaseAction {
         ModuleConfig moduleConfig = ModuleRegistry.getModule(appForm.getType());
         request.setAttribute(RequestAttributes.META_APP_CONFIG,
                 moduleConfig.getMetaApplicationConfig());
+        /*set current page for navigation*/
+        request.setAttribute(RequestAttributes.NAV_CURRENT_PAGE, "Add Application");
         return mapping.findForward(Forwards.SUCCESS);
     }
 }
