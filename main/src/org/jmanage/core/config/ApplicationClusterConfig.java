@@ -20,7 +20,7 @@ import java.util.LinkedList;
  */
 public class ApplicationClusterConfig extends ApplicationConfig {
 
-    private final List applications = new LinkedList();
+    private List applications = new LinkedList();
 
     public ApplicationClusterConfig(String id, String name){
         setApplicationId(id);
@@ -41,6 +41,10 @@ public class ApplicationClusterConfig extends ApplicationConfig {
      */
     public List getApplications(){
         return applications;
+    }
+
+    public void setApplications(List appConfigList) {
+        this.applications = appConfigList;
     }
 
     /**

@@ -20,8 +20,14 @@
             parent.frames.applications.location = '/config/applicationList.do';
         }
 
-        function deleteApplication(appId){
-            if(confirm("Are you sure you want to delete this application?") == true){
+        function deleteApplication(appId, isCluster){
+            var msg;
+            if(isCluster){
+                msg = "Are you sure you want to delete this Application Cluster and all child applications?";
+            }else{
+                msg = "Are you sure you want to delete this Application?";
+            }
+            if(confirm(msg) == true){
                 location = '/config/deleteApplication.do?<%=RequestParams.APPLICATION_ID%>=' + appId + '&refreshApps=true';
             }
         }
@@ -44,10 +50,37 @@
 %>
   <tr class="<%=rowStyle%>">
     <td class="headtext1"><%=applicationConfig.getName()%></td>
-    <td><a href="/config/showEditApplication.do?<%=RequestParams.APPLICATION_ID+"="+applicationConfig.getApplicationId()%>" class="a1">Edit</a></td>
-    <td><a href="JavaScript:deleteApplication('<%=applicationConfig.getApplicationId()%>');" class="a1">Delete</a></td>
+    <%
+      String href = null;
+      if(!applicationConfig.isCluster()){
+        href = "/config/showEditApplication.do";
+      }else{
+        href = "/config/showApplicationCluster.do";
+      }%>
+    <td><a href="<%=href%>?<%=RequestParams.APPLICATION_ID+"="+applicationConfig.getApplicationId()%>" class="a1">Edit</a></td>
+    <td><a href="JavaScript:deleteApplication('<%=applicationConfig.getApplicationId()%>', <%=applicationConfig.isCluster()%>);" class="a1">Delete</a></td>
   </tr>
+  <%-- if this is a cluster, display the child applications as well --%>
+      <%
+      if(applicationConfig.isCluster()){
+        for(Iterator childApps=applicationConfig.getApplications().iterator(); childApps.hasNext();){
+            ApplicationConfig childAppConfig = (ApplicationConfig)childApps.next();
+      %>
+          <tr class="<%=rowStyle%>">
+            <td class="headtext1">&nbsp;&nbsp;&nbsp;<%=childAppConfig.getName()%></td>
+            <td><a href="/config/showEditApplication.do?<%=RequestParams.APPLICATION_ID+"="+childAppConfig.getApplicationId()%>" class="a1">Edit</a></td>
+            <td><a href="JavaScript:deleteApplication('<%=childAppConfig.getApplicationId()%>', false);" class="a1">Delete</a></td>
+          </tr>
+      <%
+        }
+      }
+      %>
   <%}//while ends %>
 </table>
+<br>
+<%-- don't use the link tag here, as it adds applicationId request param --%>
+<a href="/config/showAvailableApplications.do" class="a">Add New Application</a>
+<br>
+<a href="/config/showApplicationCluster.do" class="a">Add New Application Cluster</a>
 </body>
 </html>

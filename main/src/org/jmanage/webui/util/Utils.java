@@ -1,5 +1,7 @@
 package org.jmanage.webui.util;
 
+import java.util.StringTokenizer;
+
 /**
  *
  * date:  Jun 20, 2004
@@ -27,5 +29,25 @@ public class Utils {
         urlString.append("=");
         urlString.append(value);
         return urlString.toString();
+    }
+
+    /**
+     * Converts a csv to String[]
+     *
+     * @param csv
+     * @return
+     */
+    public static String[] csvToStringArray(String csv){
+
+        if(csv == null){
+            return null;
+        }
+        StringTokenizer tokenizer = new StringTokenizer(csv, ",");
+        String[] array = new String[tokenizer.countTokens()];
+        int index = 0;
+        while(tokenizer.hasMoreTokens()){
+            array[index ++] = tokenizer.nextToken().trim();
+        }
+        return array;
     }
 }

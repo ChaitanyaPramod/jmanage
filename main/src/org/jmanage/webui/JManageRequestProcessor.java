@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.logging.Logger;
 import java.util.logging.Level;
+import java.util.Iterator;
+import java.util.Enumeration;
+import java.beans.XMLEncoder;
 
 /**
  * Date : Jul 3, 2004 12:38:42 PM
@@ -88,6 +91,32 @@ public class JManageRequestProcessor extends TilesRequestProcessor{
             }
             logger.info("End Request:" + requestPath +
                     " Forward:" + resultForwardPath);
+        }
+
+        /* handle debug mode*/
+        resultForward = handleDebugMode(request, response, resultForward);
+        return resultForward;
+    }
+
+    private ActionForward handleDebugMode(HttpServletRequest request,
+                                          HttpServletResponse response,
+                                          ActionForward resultForward)
+        throws IOException {
+
+        if("true".equals(request.getParameter("debug.xml"))){
+            response.setContentType("text/xml");
+            XMLEncoder encoder = new XMLEncoder(response.getOutputStream());
+            for(Enumeration enum=request.getAttributeNames();
+                enum.hasMoreElements();){
+                String attribute = (String)enum.nextElement();
+                Object attrValue = request.getAttribute(attribute);
+                encoder.writeObject(attribute);
+                encoder.writeObject(attrValue);
+            }
+
+            encoder.writeObject(request);
+            encoder.close();
+            resultForward = null;
         }
         return resultForward;
     }

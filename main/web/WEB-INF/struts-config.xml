@@ -26,6 +26,14 @@
             type="org.jmanage.webui.forms.ApplicationForm">
         </form-bean>
         <form-bean
+            name="wlApplicationForm"
+            type="org.jmanage.webui.forms.WeblogicApplicationForm">
+        </form-bean>
+        <form-bean
+            name="applicationClusterForm"
+            type="org.jmanage.webui.forms.ApplicationClusterForm">
+        </form-bean>
+        <form-bean
             name="mbeanConfigForm"
             type="org.jmanage.webui.forms.MBeanConfigForm">
         </form-bean>
@@ -156,6 +164,22 @@
             type="org.jmanage.webui.actions.config.RemoveMBeanConfigAction">
             <forward name="success" path="/app/mbeanView.do"/>
         </action>
+        <action
+            path="/config/showApplicationCluster"
+            name="applicationClusterForm"
+            scope="request"
+            roles="ops"
+            type="org.jmanage.webui.actions.config.ShowApplicationClusterAction">
+            <forward name="success" path="/config/applicationCluster.jsp"/>
+        </action>
+        <action
+            path="/config/saveApplicationCluster"
+            name="applicationClusterForm"
+            scope="request"
+            roles="ops"
+            type="org.jmanage.webui.actions.config.SaveApplicationClusterAction">
+            <forward name="success" path="/config/managedApplications.do"/>
+        </action>
 
         <!--== Application Management =======================================-->
         <action
@@ -190,6 +214,16 @@
             type="org.jmanage.webui.actions.app.ExecuteMBeanOperationAction">
             <forward name="success" path="/app/mbeanView.do"/>
         </action>
+        <action
+            path="/app/mbeanClusterView"
+            name="mbeanConfigForm"
+            scope="request"
+            roles="dev,ops"
+            type="org.jmanage.webui.actions.app.MBeanClusterViewAction">
+            <forward name="success" path="app.mbeanClusterView"/>
+        </action>
+
+
 
         <!--== User Management =======================================-->
         <action

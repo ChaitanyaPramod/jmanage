@@ -13,6 +13,11 @@ public abstract class ApplicationConfig {
 
     private static final List EMPTY_LIST = new ArrayList();
 
+    public static String getNextApplicationId(){
+        //todo: Need something better
+        return String.valueOf(System.currentTimeMillis());
+    }
+
     private String appId;
     private String type;
     private String name;
@@ -23,6 +28,8 @@ public abstract class ApplicationConfig {
     private String password;
     protected Map paramValues;
     private List mbeanList = new LinkedList();
+    // clusterConfig: if this is part of a cluster
+    private ApplicationConfig clusterConfig;
 
     public String getApplicationId(){
         return appId;
@@ -188,5 +195,13 @@ public abstract class ApplicationConfig {
 
         assert !containsMBean(mbeanConfig.getObjectName());
         mbeanList.add(mbeanConfig);
+    }
+
+    public ApplicationConfig getClusterConfig() {
+        return clusterConfig;
+    }
+
+    public void setClusterConfig(ApplicationConfig clusterConfig) {
+        this.clusterConfig = clusterConfig;
     }
 }

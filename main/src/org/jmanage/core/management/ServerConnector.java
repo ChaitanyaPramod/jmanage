@@ -24,8 +24,16 @@ public class ServerConnector {
     private static final Logger logger =
             Loggers.getLogger(ServerConnector.class);
 
+    /**
+     * Returns a ServerConnection for the given application config.
+     *
+     * @param appConfig
+     * @return
+     * @throws ConnectionFailedException
+     */
     public static ServerConnection
-            getServerConnection(ApplicationConfig appConfig){
+            getServerConnection(ApplicationConfig appConfig)
+        throws ConnectionFailedException{
 
         ModuleConfig moduleConfig =
                     ModuleRegistry.getModule(appConfig.getType());
@@ -51,6 +59,7 @@ public class ServerConnector {
         }
     }
 
+    // TODO: we should cache the factory instance
     private static ServerConnectionFactory
             getServerConnectionFactory(ModuleConfig moduleConfig,
                                        ClassLoader classLoader) {

@@ -4,13 +4,10 @@ import org.jmanage.core.management.ServerConnection;
 import org.jmanage.core.management.ConnectionFailedException;
 import org.jmanage.core.config.ApplicationConfig;
 import weblogic.management.MBeanHome;
-import weblogic.jndi.WLInitialContextFactory;
-import weblogic.jndi.Environment;
 
 import javax.naming.NamingException;
 import javax.naming.Context;
 import javax.naming.InitialContext;
-import javax.naming.spi.InitialContextFactoryBuilder;
 import java.util.Hashtable;
 
 /**
