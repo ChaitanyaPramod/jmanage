@@ -5,6 +5,7 @@ import org.jmanage.webui.util.RequestParams;
 import org.jmanage.webui.util.RequestAttributes;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.util.WebContext;
+import org.jmanage.webui.forms.MBeanConfigForm;
 import org.jmanage.core.connector.MBeanServerConnectionFactory;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.ApplicationConfigManager;
@@ -34,7 +35,6 @@ public class ShowMBeanAction extends BaseAction {
         MBeanServer mbeanServer = context.getMBeanServer();
         MBeanInfo mbeanInfo = mbeanServer.getMBeanInfo(objectName);
 
-        // TODO: sort the attributes in alphabatic order
         MBeanAttributeInfo[] attributes = mbeanInfo.getAttributes();
         String[] attributeNames = new String[attributes.length];
         for (int i = 0; i < attributes.length; i++) {
@@ -46,6 +46,15 @@ public class ShowMBeanAction extends BaseAction {
 
         request.setAttribute("mbeanInfo", mbeanInfo);
         request.setAttribute("attributeList", attrList);
+
+        /* setup the form to be used in the html form */
+        MBeanConfigForm mbeanConfigForm = (MBeanConfigForm)actionForm;
+        mbeanConfigForm.setObjectName(objectName.getCanonicalName());
+
+        ApplicationConfig appConfig = context.getApplicationConfig();
+        if(appConfig.containsMBean(objectName.getCanonicalName())){
+            request.setAttribute("mbeanIncluded", "true");
+        }
 
         return mapping.findForward(Forwards.SUCCESS);
     }

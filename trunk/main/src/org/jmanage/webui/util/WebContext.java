@@ -3,14 +3,14 @@ package org.jmanage.webui.util;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.ApplicationConfigManager;
 import org.jmanage.core.connector.MBeanServerConnectionFactory;
-import org.jmanage.core.connector.ConnectionFailedException;
+import org.jmanage.core.auth.User;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
 import javax.management.MalformedObjectNameException;
-import javax.security.auth.login.LoginContext;
+import javax.security.auth.Subject;
 
 /**
  *
@@ -24,12 +24,12 @@ public class WebContext {
     private HttpServletRequest request;
     private HttpSession session;
 
-    private WebContext(HttpServletRequest request){
+    private WebContext(HttpServletRequest request) {
 
         this.request = request;
         this.session = request.getSession();
         final String appId = request.getParameter(RequestParams.APPLICATION_ID);
-        if(appId != null){
+        if (appId != null) {
             appConfig =
                     ApplicationConfigManager.getApplicationConfig(appId);
             request.setAttribute(RequestAttributes.APPLICATION_CONFIG,
@@ -37,20 +37,15 @@ public class WebContext {
         }
     }
 
-    public ApplicationConfig getApplicationConfig(){
+    public ApplicationConfig getApplicationConfig() {
         return appConfig;
     }
 
-    public MBeanServer getMBeanServer(){
-        //assert appConfig != null; TODO: assert
-        if(mbeanServer == null){
-            try {
-                mbeanServer =
-                        MBeanServerConnectionFactory.getConnection(appConfig);
-            } catch (ConnectionFailedException e) {
-                throw new RuntimeException("Connection failed for config=" +
-                        appConfig, e);
-            }
+    public MBeanServer getMBeanServer() {
+        assert appConfig != null;
+        if (mbeanServer == null) {
+            mbeanServer =
+                    MBeanServerConnectionFactory.getConnection(appConfig);
         }
         return mbeanServer;
     }
@@ -67,24 +62,33 @@ public class WebContext {
 
     public static WebContext get(HttpServletRequest request) {
         WebContext context =
-                (WebContext)request.getAttribute(RequestAttributes.WEB_CONTEXT);
-        if(context == null){
+                (WebContext) request.getAttribute(RequestAttributes.WEB_CONTEXT);
+        if (context == null) {
             context = new WebContext(request);
             request.setAttribute(RequestAttributes.WEB_CONTEXT, context);
         }
         return context;
     }
 
-    public LoginContext getLoginContext() {
-        return (LoginContext)session.getAttribute(RequestAttributes.LOGIN_CONTEXT);
+    public Subject getSubject() {
+        return (Subject) session.getAttribute(RequestAttributes.SUBJECT);
     }
 
-    public void setLoginContext(LoginContext lContext) {
-        session.setAttribute(RequestAttributes.LOGIN_CONTEXT, lContext);
+    public void setSubject(Subject subject) {
+        session.setAttribute(RequestAttributes.SUBJECT, subject);
     }
 
-    public void removeLoginContext(){
-        session.removeAttribute(RequestAttributes.LOGIN_CONTEXT);
+    public void removeSubject() {
+        session.removeAttribute(RequestAttributes.SUBJECT);
+    }
+
+    public User getUser(){
+        User user = null;
+        final Subject subject = getSubject();
+        if(subject != null){
+            user = (User)subject.getPrincipals().iterator().next();
+        }
+        return user;
     }
 
 }

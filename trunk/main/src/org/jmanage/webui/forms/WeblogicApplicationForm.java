@@ -7,13 +7,4 @@ package org.jmanage.webui.forms;
  */
 public class WeblogicApplicationForm extends ApplicationForm {
 
-    private String serverName;
-
-    public String getServerName(){
-        return serverName;
-    }
-
-    public void setServerName(String serverName){
-        this.serverName = serverName;
-    }
 }

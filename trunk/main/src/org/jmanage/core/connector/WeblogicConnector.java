@@ -23,7 +23,7 @@ public class WeblogicConnector implements ApplicationConnector {
         WeblogicApplicationConfig wlConfig = (WeblogicApplicationConfig)config;
         try {
             MBeanHome home = findExternal(config.getURL(), config.getUsername(),
-                    config.getPassword(), wlConfig.getServerName());
+                    config.getPassword());
             return home.getMBeanServer();
         } catch (NamingException e) {
             throw new ConnectionFailedException(e);
@@ -32,8 +32,7 @@ public class WeblogicConnector implements ApplicationConnector {
 
     private static MBeanHome findExternal(String url,
                                           String username,
-                                          String password,
-                                          String serverName)
+                                          String password)
             throws NamingException {
 
         Environment env = new Environment();
@@ -43,7 +42,7 @@ public class WeblogicConnector implements ApplicationConnector {
 
         Context ctx = env.getInitialContext();
         MBeanHome home = (MBeanHome) ctx.lookup(MBeanHome.JNDI_NAME + "." +
-                serverName);
+                "localhome");
         ctx.close();
         return home;
     }

@@ -68,6 +68,9 @@ public class JManageRequestProcessor extends TilesRequestProcessor{
             /*  execute the action  */
             resultForward = action.execute(mapping, form, request, response);
         }catch (Exception e){
+            /* process exception */
+            resultForward =
+                    processException(request, response, e, form, mapping);
         }
         return resultForward;
     }

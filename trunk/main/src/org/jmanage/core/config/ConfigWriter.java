@@ -73,19 +73,21 @@ public class ConfigWriter {
         applicationElement.setAttribute(ConfigConstants.APPLICATION_TYPE,
                             String.valueOf(application.getType()));
         final Map params = application.getParamValues();
-        for(Iterator param=params.keySet().iterator(); param.hasNext(); ){
-            String paramName = (String)param.next();
-            Element paramElement =
-                    new Element(ConfigConstants.PARAMETER);
-            Element paramNameElement =
-                    new Element(ConfigConstants.PARAMETER_NAME);
-            Element paramValueElement =
-                    new Element(ConfigConstants.PARAMETER_VALUE);
-            paramNameElement.setText(paramName);
-            paramValueElement.setText((String)params.get(paramName));
-            paramElement.addContent(paramNameElement);
-            paramElement.addContent(paramValueElement);
-            applicationElement.addContent(paramElement);
+        if(params != null){
+            for(Iterator param=params.keySet().iterator(); param.hasNext(); ){
+                String paramName = (String)param.next();
+                Element paramElement =
+                        new Element(ConfigConstants.PARAMETER);
+                Element paramNameElement =
+                        new Element(ConfigConstants.PARAMETER_NAME);
+                Element paramValueElement =
+                        new Element(ConfigConstants.PARAMETER_VALUE);
+                paramNameElement.setText(paramName);
+                paramValueElement.setText((String)params.get(paramName));
+                paramElement.addContent(paramNameElement);
+                paramElement.addContent(paramValueElement);
+                applicationElement.addContent(paramElement);
+            }
         }
         return applicationElement;
     }

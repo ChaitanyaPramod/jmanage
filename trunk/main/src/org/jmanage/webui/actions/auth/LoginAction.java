@@ -45,10 +45,12 @@ public class LoginAction extends BaseAction {
 
         System.setProperty(AuthConstants.AUTH_CONFIG_SYS_PROPERTY,
                 AuthConstants.AUTH_CONFIG_FILE_NAME);
-        LoginContext ctx = new LoginContext(AuthConstants.AUTH_CONFIG_INDEX,
-                callbackHandler);
+        LoginContext loginContext =
+                new LoginContext(AuthConstants.AUTH_CONFIG_INDEX,
+                        callbackHandler);
+
         try{
-            ctx.login();
+            loginContext.login();
         }catch(LoginException lex){
             ActionErrors errors = new ActionErrors();
             /* set error message */
@@ -58,7 +60,7 @@ public class LoginAction extends BaseAction {
             return mapping.getInputForward();
         }
         /*  Need LoginContext for logout at a later stage   */
-        context.setLoginContext(ctx);
+        context.setSubject(loginContext.getSubject());
         return mapping.findForward(Forwards.SUCCESS);
     }
 }

@@ -45,9 +45,6 @@ public class ShowEditApplicationAction extends BaseAction {
         appForm.setPort(String.valueOf(config.getPort()));
         appForm.setUsername(config.getUsername());
         appForm.setPassword(config.getPassword());
-        appForm.setServerName((String)config.getParamValues().
-                get(WeblogicApplicationConfig.SERVER_NAME));
-
         return mapping.findForward(Forwards.SUCCESS);
     }
 

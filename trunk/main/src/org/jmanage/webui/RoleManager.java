@@ -23,12 +23,10 @@ public class RoleManager {
     static ActionForward ensureRole(WebContext context, ActionMapping mapping,
                                     String[] roles){
         ActionForward roleForward = null;
-        if(context.getLoginContext() == null){
+        if(context.getUser() == null){
             roleForward = mapping.findForward(Forwards.LOGIN);
         }else{
-            //TODO: Rakesh please take a look
-            User loggedInUser =
-                    (User)context.getLoginContext().getSubject().getPrincipals().iterator().next();
+            User loggedInUser = context.getUser();
             boolean isAuthorized = isAuthorized(loggedInUser.getRoles(), roles);
             roleForward = isAuthorized ?
                     null :

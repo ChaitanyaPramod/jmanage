@@ -1,13 +1,27 @@
 <%@ page import="java.util.Iterator,
                  javax.management.*,
-                 org.jmanage.webui.util.RequestParams"%>
+                 org.jmanage.webui.util.RequestParams,
+                 java.util.Arrays,
+                 java.util.Comparator,
+                 org.jmanage.webui.util.WebContext,
+                 org.jmanage.core.auth.User"%>
 
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 <%@ taglib uri="/WEB-INF/tags/jstl/c.tld" prefix="c"%>
 
 <%
+    final WebContext webContext = WebContext.get(request);
+    final User user = webContext.getUser();
+
     MBeanInfo mbeanInfo = (MBeanInfo)request.getAttribute("mbeanInfo");
     MBeanAttributeInfo[] attributes = mbeanInfo.getAttributes();
+    Arrays.sort(attributes, new Comparator(){
+        public int compare(Object o1, Object o2) {
+            MBeanAttributeInfo attrInfo1 = (MBeanAttributeInfo)o1;
+            MBeanAttributeInfo attrInfo2 = (MBeanAttributeInfo)o2;
+            return attrInfo1.getName().compareToIgnoreCase(attrInfo2.getName());
+        }
+    });
     MBeanOperationInfo[] operations = mbeanInfo.getOperations();
     MBeanNotificationInfo[] notifications = mbeanInfo.getNotifications();
 
@@ -17,10 +31,19 @@
 
 <%!
     private String jsEscape(String str){
-        // TODO: implement to escapge ', "", and others
-        // str = str.replaceAll("\\'", "\'");
-        //str = str.replaceAll("\\\"", "\\\"");
-        return str;
+        StringBuffer buff = new StringBuffer(str.length());
+        for(int i=0; i<str.length(); i++){
+            final char ch = str.charAt(i);
+            if(ch == '"'){
+                buff.append("&quot;");
+            }else if(ch == '\''){
+                buff.append("\\");
+                buff.append(ch);
+            }else{
+                buff.append(ch);
+            }
+        }
+        return buff.toString();
     }
 
     private String getValue(AttributeList attributeList,
@@ -77,6 +100,11 @@
 %>
 
 <script language="JavaScript1.1" type="text/javascript">
+
+    function refreshApplicationsFrame(){
+        parent.frames.applications.location = '/config/applicationList.do';
+    }
+
     function showDescription(description){
         if(description.length == 0){
             description = "No description available.";
@@ -91,6 +119,25 @@
         <tr><td class="headtext" width="30%" nowrap><b>Object Name</b></td><td class="plaintext" width="70%"><c:out value="${param.objName}" /></td></tr>
         <tr><td class="headtext" width="30%" nowrap><b>Class Name</b></td><td class="plaintext" width="70%"><c:out value="${requestScope.mbeanInfo.className}" /></td></tr>
         <tr><td class="headtext" width="30%" nowrap><b>Description</b></td><td class="plaintext" width="70%"><c:out value="${requestScope.mbeanInfo.description}" /></td></tr>
+        <tr><td colspan="2" nowrap>
+            <c:choose>
+                <c:when test="${requestScope.mbeanIncluded == 'true'}">
+                    <jmhtml:form action="/config/removeMBeanConfig">
+                        <jmhtml:hidden property="objectName"/>
+                        <jmhtml:hidden property="refreshApps" value="true"/>
+                        <a href="JavaScript:document.mbeanConfigForm.submit();" class="a1">Remove from Favorites</a>
+                    </jmhtml:form>
+                </c:when>
+                <c:otherwise>
+                    <jmhtml:form action="/config/addMBeanConfig">
+                        <jmhtml:text property="name"/>
+                        <jmhtml:hidden property="objectName"/>
+                        <jmhtml:hidden property="refreshApps" value="true"/>
+                        <a href="JavaScript:document.mbeanConfigForm.submit();" class="a1">Add to Favorites</a>
+                    </jmhtml:form>
+                </c:otherwise>
+            </c:choose>
+        </td></tr>
         <tr><td>&nbsp;</td></tr>
         <tr><td class="headtext" colspan="2" align="left"><b>Attributes</b></td></tr>
     </table>
@@ -120,7 +167,7 @@
         String attrValue =
                 getValue(attributeList, attributeInfo.getName());
     %>
-    <%if(attributeInfo.isWritable() && !attrValue.equals("Object")){%>
+    <%if(user.isAdmin() && attributeInfo.isWritable() && !attrValue.equals("Object")){%>
         <input type="text" name="attr+<%=attributeInfo.getName()%>+<%=attributeInfo.getType()%>" size="50"
         value="<%=attrValue%>"/>
     <%}else{%>
@@ -133,13 +180,15 @@
 </tr>
 <%  }%>
 </table>
+<%if(user.isAdmin()){%>
 To save the changes to the attribute values click on
 <jmhtml:submit value="Save" styleClass="Inside3d" />
+<%}%>
 </jmhtml:form>
 </td>
 </tr>
 
-<%if(operations.length > 0){%>
+<%if(operations.length > 0 && user.isAdmin()){%>
 <tr><td class="headtext" align="left"><b>Operations</b></td></tr>
 <tr>
 <td bgcolor="#E6EEF9" class="plaintext">
@@ -180,7 +229,7 @@ To save the changes to the attribute values click on
 </tr>
 <%}%>
 
-<%if(notifications.length > 0){%>
+<%if(notifications.length > 0 && user.isAdmin()){%>
 <tr><td class="headtext" align="left"><b>Notifications</b></td></tr>
 <tr>
 <td bgcolor="#E6EEF9" class="plaintext">
