@@ -42,7 +42,8 @@ public class AuthServiceImpl implements AuthService {
      */
     public void login(ServiceContext context,
                       String username,
-                      String password) {
+                      String password)
+        throws ServiceException{
 
         LoginCallbackHandler callbackHandler = new LoginCallbackHandler();
         callbackHandler.setUsername(username);
@@ -57,6 +58,13 @@ public class AuthServiceImpl implements AuthService {
                     new LoginContext(AuthConstants.AUTH_CONFIG_INDEX,
                             callbackHandler);
             loginContext.login();
+
+            /* Successful login: update the lock count and status */
+            user = userManager.getUser(username);
+            user.setLockCount(0);
+            user.setStatus(null);
+            userManager.updateUser(user);
+
         }catch(LoginException lex){
             user = userManager.getUser(username);
             String errorCode = ErrorCodes.UNKNOWN_ERROR;

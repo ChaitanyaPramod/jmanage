@@ -21,11 +21,13 @@ import org.jmanage.core.util.Loggers;
 import org.jmanage.core.services.AuthService;
 import org.jmanage.core.services.ServiceFactory;
 import org.jmanage.core.services.ServiceContextImpl;
+import org.jmanage.core.services.ServiceException;
 import org.jmanage.util.StringUtils;
 
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 import java.io.IOException;
+import java.lang.reflect.UndeclaredThrowableException;
 
 /**
  *
@@ -122,11 +124,12 @@ public class Command {
             try {
                 authService.login(new ServiceContextImpl(), username, password);
                 break;
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (ServiceException e){
                 Out.println(e.getMessage());
                 username = null;
                 password = null;
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
         }
 
@@ -154,6 +157,9 @@ public class Command {
             return handler.execute(new HandlerContext(this));
         } catch (InvalidCommandException e) {
             throw new RuntimeException(e);
+        } catch (ServiceException e){
+            Out.println(e.getMessage());
+            return false;
         }
     }
 

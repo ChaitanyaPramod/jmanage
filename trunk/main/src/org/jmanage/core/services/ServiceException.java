@@ -26,8 +26,10 @@ public class ServiceException extends RuntimeException {
 
     private String errorCode;
     private Object[] values;
+    private String message;
 
     public ServiceException(String errorCode){
+        assert errorCode != null;
         this.errorCode = errorCode;
     }
 
@@ -49,15 +51,28 @@ public class ServiceException extends RuntimeException {
         this.values = values;
     }
 
-    public String getErrorCode() {
+    public ServiceException(String errorCode, String message){
+        this.errorCode = errorCode;
+        this.message = message;
+    }
+
+    public String getErrorCode(){
         return errorCode;
     }
 
-    public Object[] getValues() {
-        return values;
+    public String getMessage(){
+        if(message == null){
+            return ErrorCatalog.getMessage(errorCode, values);
+        }else{
+            return message;
+        }
     }
 
-    public String getMessage(){
-        return ErrorCatalog.getMessage(errorCode, values);
+    /**
+     * This is overridden as Apache XmlRpc calls this method to get
+     * error message.
+     */
+    public String toString(){
+        return getMessage();
     }
 }
