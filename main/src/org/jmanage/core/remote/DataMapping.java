@@ -36,10 +36,10 @@ public class DataMapping {
                                      "\"http://castor.exolab.org/mapping.dtd\">\n"+
             "<mapping>\n"+
                     "<description>Description of the mapping</description>\n"+
+                    "<class name=\"org.jmanage.core.data.TestBean\" auto-complete=\"true\" />\n"+
                     "<class name=\"org.jmanage.core.data.ApplicationConfigData\" auto-complete=\"true\" />\n"+
                     "<class name=\"org.jmanage.core.data.OperationResultData\" auto-complete=\"true\" />\n"+
             "</mapping>\n";
-
 
     public static Mapping getMapping() throws IOException, MappingException {
         Mapping mapping = new Mapping();

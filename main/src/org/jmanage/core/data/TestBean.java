@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jmanage.core.remote;
+package org.jmanage.core.data;
 
 /**
+ * Used for unit testing Marshalling/Unmarshalling.
  *
  * date:  Feb 4, 2005
  * @author	Rakesh Kalra
  */
-/* used for testing */
 public class TestBean{
 
     private String x;
