@@ -1,4 +1,4 @@
-package org.jmanage.webui.actions.app;
+package org.jmanage.webui.actions.config;
 
 import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.Forwards;
