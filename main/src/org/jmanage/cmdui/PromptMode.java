@@ -40,9 +40,6 @@ public class PromptMode implements CommandConstants {
             try {
                 /* get input */
                 Command command = getCommand();
-                if(command.getName().equals(EXIT)){
-                    return;
-                }
                 /* execute command */
                 command.execute();
             } catch (Exception e) {

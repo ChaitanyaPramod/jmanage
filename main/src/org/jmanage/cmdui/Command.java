@@ -106,6 +106,17 @@ public class Command {
         return args;
     }
 
+    public boolean isAuthRequired(){
+        boolean authRequired = true;
+        if(name != null &&
+                (name.equals(CommandConstants.HELP) ||
+                name.equals(CommandConstants.EXIT))){
+            /* no auth required */
+            authRequired = false;
+        }
+        return authRequired;
+    }
+
     public boolean authenticate() throws IOException {
 
         while(true){
@@ -154,7 +165,7 @@ public class Command {
             assert getName() != null;
             CommandHandler handler =
                         CommandHandlerFactory.getHandler(getName());
-            return handler.execute(new HandlerContext(this));
+            return handler.execute(getHandlerContext());
         } catch (InvalidCommandException e) {
             throw new RuntimeException(e);
         } catch (ServiceException e){
@@ -170,5 +181,16 @@ public class Command {
             args[i] = tokenizer.nextToken();
         }
         return args;
+    }
+
+    private HandlerContext getHandlerContext(){
+        if(isAuthRequired()){
+            return new HandlerContext(this);
+        }else{
+            /* creation of ServiceContext requires username/password.
+            As the handler for this command doesn't need ServiceContext,
+            pass null as the ServiceContext */
+            return new HandlerContext(this, null);
+        }
     }
 }

@@ -13,23 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jmanage.cmdui;
+package org.jmanage.cmdui.commands;
+
+import org.jmanage.cmdui.CommandHandler;
+import org.jmanage.cmdui.HandlerContext;
+import org.jmanage.cmdui.CommandConstants;
+import org.jmanage.cmdui.util.Out;
 
 /**
  *
  * date:  Feb 4, 2005
  * @author	Rakesh Kalra
  */
-public interface CommandHandler {
+public class ExitHandler implements CommandHandler {
 
-    /**
-     *
-     * @param context
-     * @return true if the command was handled properly; false otherwise
-     */
-    public boolean execute(HandlerContext context);
+    public boolean execute(HandlerContext context) {
+        System.exit(0);
+        return true;
+    }
 
-    public void shortHelp();
+    public void shortHelp(){
+        Out.println(CommandConstants.EXIT + "\t" +
+                "Exit from jManage command prompt mode");
+    }
 
-    public void help();
+    public void help() {
+        shortHelp();
+    }
 }

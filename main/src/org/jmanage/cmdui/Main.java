@@ -49,9 +49,11 @@ public class Main {
         Command command = Command.get(args);
 
         /* authenticate the user */
-        if(!command.authenticate()){
-            System.out.println("Authentication failed.");
-            return;
+        if(command.isAuthRequired()){
+            if(!command.authenticate()){
+                System.out.println("Authentication failed.");
+                return;
+            }
         }
 
         if(command.getName() == null){
