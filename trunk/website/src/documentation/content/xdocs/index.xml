@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+<document> 
+  <header> 
+    <title>jManage - Web Based JMX Client</title> 
+  </header> 
+  <body> 
+    <section>
+      <title>jManage Overview</title>
+      <p>
+jManage is a web and command-line based JMX client, which provides a
+centralized console for managing application clusters and distributed application
+production environments.
+<br/><br/>
+We are currently developing version 0.5, which has the following features:
+<br/><br/>
+    - Web based interface, which allows jManage to be used from behind firewall
+<br/>
+    - Complete security - application server passwords are encrypted
+<br/>
+    - Command line interface
+<br/>
+    - Support for different J2EE app servers
+<br/>
+    - Authentication and Role Management
+<br/>
+    - Configuring Applications in jManage
+<br/>
+    - Runtime Graphing
+<br/>
+<br/><br/>
+          jManage is being built keeping security in mind, as the main target
+          usage of jManage is in the production environment. Production
+          environments usually have limited access and are managed by an
+          operations team. jManage lets the operations team to monitor the
+          production environment (via browser or command line) and also
+          allows the operations team to give controlled access to developers, QA
+          and others. Operations team can create jManage users and assign
+          roles to these users. Access to different features can be controlled
+          by assigining permissions to various roles. Permission can be granted
+          even at the level of MBean attributes or operations.
+      </p>
+    </section>
+  </body>
+</document>
