@@ -56,7 +56,7 @@ public class Crypto {
     private static Cipher getCipher(int mode, SecretKey secretKey){
 
         try {
-            Cipher cipher = Cipher.getInstance("DES");
+            Cipher cipher = Cipher.getInstance(EncryptedKey.CRYPTO_ALGORITHM);
             cipher.init(mode, secretKey);
             return cipher;
         } catch (Exception e) {

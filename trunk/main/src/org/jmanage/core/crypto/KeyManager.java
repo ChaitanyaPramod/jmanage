@@ -12,13 +12,15 @@ import java.io.*;
  */
 public class KeyManager {
 
-    private static final String KEY_FILE_NAME =
-                CoreUtils.getConfigDir() + File.separatorChar + "jmanage-key";
+    public static final String KEY_FILE_NAME = "jmanage-key";
+
+    private static final String KEY_FILE_PATH =
+                CoreUtils.getConfigDir() + File.separatorChar + KEY_FILE_NAME;
 
     public static void writeKey(EncryptedKey encryptedKey)
         throws FileNotFoundException, IOException {
 
-        File file = new File(KEY_FILE_NAME);
+        File file = new File(KEY_FILE_PATH);
         if(file.exists()){
             file.delete();
         }
@@ -42,7 +44,7 @@ public class KeyManager {
     private static byte[] readKey()
         throws FileNotFoundException, IOException {
 
-        File file = new File(KEY_FILE_NAME);
+        File file = new File(KEY_FILE_PATH);
         BufferedInputStream is =
                 new BufferedInputStream(new FileInputStream(file));
         byte[] encryptedKey = new byte[1000];
