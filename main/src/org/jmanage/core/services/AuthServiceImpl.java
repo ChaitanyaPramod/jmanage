@@ -36,7 +36,7 @@ public class AuthServiceImpl implements AuthService {
 
     final JManageProperties jManageProperties = JManageProperties.getInstance();
     private int MAX_LOGIN_ATTEMPTS_ALLOWED =
-            Integer.parseInt(jManageProperties.getProperty(JManageProperties.maxLoginAttempts));
+            Integer.parseInt(jManageProperties.getProperty(JManageProperties.LOGIN_MAX_ATTEMPTS));
 
     /**
      * @see AuthService login()

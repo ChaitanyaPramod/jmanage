@@ -15,24 +15,40 @@
  */
 package org.jmanage.core.config;
 
+import org.jmanage.core.util.Loggers;
+import org.jmanage.core.util.CoreUtils;
+
 import java.util.Properties;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 import java.io.*;
 
 /**
+ * JManageProperties provides an interface to read configuration parameters from
+ * jmanage.properties file.
+ *
  * Date: Dec 4, 2004 2:38:01 AM
- * @author Shashank Bellary 
+ * @author Shashank Bellary
+ * @author Rakesh Kalra
  */
 public class JManageProperties extends Properties{
 
-    public static String maxLoginAttempts = "login.maxAttempts";
-    public static String JMANAGE_HOST = "jmanage.host";
-    public static String JMANAGE_PORT = "jmanage.port";
+    private static final Logger logger =
+            Loggers.getLogger(JManageProperties.class);
+
+    /* see jmanage.properties for documentation of these properties */
+    public static String LOGIN_MAX_ATTEMPTS = "login.maxAttempts";
+    private static String JMANAGE_URL = "jmanage.url";
+    private static String JMANAGE_PORT = "jmanage.port";
 
     /*  The only instance   */
     private static JManageProperties jManageProperties = new JManageProperties();
 
     /**
-     * The only constructor, which is priivate.
+     * The only constructor, which is private.
+     *
+     * TODO: I think we should remove this ctor and initialize in static block.
+     * All get methods on this class can be static - rk
      */
     private JManageProperties(){
       super();
@@ -40,12 +56,10 @@ public class JManageProperties extends Properties{
         InputStream property =
                 new FileInputStream(ConfigConstants.JMANAGE_PROPERTY_FILE);
         load(property);
-      }catch(FileNotFoundException fnfEx){
-        fnfEx.printStackTrace();
-      }catch(IOException ioe){
-        ioe.printStackTrace();
-      }catch(Exception ex){
-        ex.printStackTrace();
+      }catch(Exception e){
+          logger.log(Level.SEVERE, "Error reading " +
+                  ConfigConstants.JMANAGE_PROPERTY_FILE, e);
+          CoreUtils.exitSystem();
       }
     }
 
@@ -58,8 +72,8 @@ public class JManageProperties extends Properties{
       return jManageProperties;
     }
 
-    public static String getHostName(){
-        return jManageProperties.getProperty(JMANAGE_HOST, "localhost");
+    public static String getJManageURL(){
+        return jManageProperties.getProperty(JMANAGE_URL);
     }
 
     public static Integer getPort(){
@@ -67,7 +81,7 @@ public class JManageProperties extends Properties{
     }
 
     public void storeMaxLoginAttempts(int maxLoginAttempt){
-                this.setProperty("login.maxAttempts",
+                this.setProperty(LOGIN_MAX_ATTEMPTS,
                 Integer.toString(maxLoginAttempt));
         try{
            FileOutputStream fileOutputStream =

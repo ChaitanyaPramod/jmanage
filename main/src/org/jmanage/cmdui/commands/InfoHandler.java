@@ -28,14 +28,12 @@ import org.jmanage.core.management.ObjectAttributeInfo;
 import org.jmanage.core.management.ObjectParameterInfo;
 
 /**
- *
- * view       <appName>/<mbeanName[configured name or object name]>
- * view       <appName>/<mbeanName>/[attributeName1|attributeName2|attributeName3]
+ * info       <appName>/<mbeanName[configured name or object name]>
  *
  * date:  Feb 23, 2005
  * @author	Rakesh Kalra
  */
-public class ViewHandler implements CommandHandler {
+public class InfoHandler implements CommandHandler {
 
     /**
      *
@@ -65,16 +63,16 @@ public class ViewHandler implements CommandHandler {
     }
 
     public String getShortHelp() {
-        return "Display information about mbean, mbean attributes. etc.";
+        return "Display information about the mbean.";
     }
 
     public void help() {
         Out.println(getShortHelp());
         Out.println("Usage:");
-        Out.println(CommandConstants.VIEW + " <application name>/<mbean name>");
+        Out.println(CommandConstants.INFO + " <application name>/<mbean name>");
         Out.println("Examples:");
-        Out.println(CommandConstants.VIEW + " myApp/myMBean");
-        Out.println(CommandConstants.VIEW + " myApp/jmanage:name=TestMBean");
+        Out.println(CommandConstants.INFO + " myApp/myMBean");
+        Out.println(CommandConstants.INFO + " myApp/jmanage:name=TestMBean");
     }
 
     private void usage(){

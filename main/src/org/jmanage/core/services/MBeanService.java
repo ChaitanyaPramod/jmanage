@@ -18,6 +18,7 @@ package org.jmanage.core.services;
 import org.jmanage.core.management.ObjectInfo;
 import org.jmanage.core.management.ObjectName;
 import org.jmanage.core.data.OperationResultData;
+import org.jmanage.core.data.AttributeListData;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -49,12 +50,18 @@ public interface MBeanService {
             throws ServiceException;
 
     /**
-     * @return list of attribute values for given attributes
+     * @return list of all attribute values
      */
-    public List getAttributes(ServiceContext context,
-                              String appName,
-                              String mbeanName,
-                              String[] attributes)
+    public AttributeListData[] getAttributes(ServiceContext context,
+                                             String appName,
+                                             String mbeanName)
+            throws ServiceException;
+
+    public AttributeListData[] getAttributes(ServiceContext context,
+                                             String appName,
+                                             String mbeanName,
+                                             String[] attributes,
+                                             boolean handleCluster)
             throws ServiceException;
 
     /**
@@ -82,6 +89,13 @@ public interface MBeanService {
                                         String[] signature)
         throws ServiceException;
 
+
+    public AttributeListData[] setAttributes(ServiceContext context,
+                                             String objName,
+                                             String appName,
+                                             String[][] attributes)
+            throws ServiceException;
+
     /**
      * Updates MBean attributes at a stand alone application level or at a
      * cluster level.
@@ -92,9 +106,9 @@ public interface MBeanService {
      * @param appName
      * @throws ServiceException
      */
-    public void updateAttributes(ServiceContext context,
-                                 HttpServletRequest request,
-                                 String objName,
-                                 String appName)
+    public AttributeListData[] setAttributes(ServiceContext context,
+                                             HttpServletRequest request,
+                                             String objName,
+                                             String appName)
             throws ServiceException;
 }

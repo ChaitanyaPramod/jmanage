@@ -22,6 +22,7 @@ import org.jmanage.cmdui.util.Out;
 import org.jmanage.core.services.MBeanService;
 import org.jmanage.core.services.ServiceFactory;
 import org.jmanage.core.management.ObjectAttribute;
+import org.jmanage.core.data.AttributeListData;
 import org.jmanage.util.StringUtils;
 
 import java.util.*;
@@ -74,10 +75,11 @@ public class PrintHandler implements CommandHandler {
         for(Iterator it=appMBeanToAttributesMap.keySet().iterator(); it.hasNext();){
             AppMBeanKey key = (AppMBeanKey)it.next();
             List attributes = (List)appMBeanToAttributesMap.get(key);
-            List attributeValues =
+            AttributeListData[] attributeValues =
                     service.getAttributes(context.getServiceContext(),
                             key.appName, key.mbeanName,
-                            StringUtils.listToStringArray(attributes));
+                            StringUtils.listToStringArray(attributes),
+                            false);
             print(attributeValues);
         }
         Out.println();
@@ -102,8 +104,9 @@ public class PrintHandler implements CommandHandler {
                 " myApp/jmanage:name=TestMBean/testAttr1 jmanage:name=Configuration/testAttr");
     }
 
-    private void print(List attrValues){
-        for(Iterator it=attrValues.iterator(); it.hasNext(); ){
+    private void print(AttributeListData[] attrValues){
+        assert attrValues.length == 1;
+        for(Iterator it=attrValues[0].getAttributeList().iterator(); it.hasNext(); ){
             ObjectAttribute attribute= (ObjectAttribute)it.next();
             Out.print(attribute.getValue().toString() + "\t");
         }

@@ -20,6 +20,7 @@ import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.forms.ChangePasswordForm;
 import org.jmanage.core.auth.UserManager;
+import org.jmanage.core.auth.AuthConstants;
 import org.jmanage.core.crypto.Crypto;
 import org.jmanage.core.crypto.EncryptedKey;
 import org.jmanage.core.crypto.KeyManager;
@@ -34,6 +35,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * date:  Dec 29, 2004
  * @author	Vandana Taneja
+ * @author Bhavana Kalra
  */
 public class ChangePasswordAction extends BaseAction{
 
@@ -64,7 +66,7 @@ public class ChangePasswordAction extends BaseAction{
             return mapping.getInputForward();
         }
 
-        if(context.getUser().isAdmin()){
+        if(context.getUser().getName().equals(AuthConstants.USER_ADMIN)){
             /* re-encrypt the key */
             EncryptedKey encryptedKey = KeyManager.readKey(changePasswordForm.getOldPassword().toCharArray());
             encryptedKey.setPassword(changePasswordForm.getNewPassword().toCharArray());
@@ -78,5 +80,5 @@ public class ChangePasswordAction extends BaseAction{
 
         return mapping.findForward(Forwards.SUCCESS);
 
-       }
+    }
 }
