@@ -139,7 +139,7 @@
         </fileset>
         <!--TODO: create bootstrap.jar and remove the following from runtime
             classpath -->
-        <pathelement location="${build.home}/WEB-INF/classes"/>
+        <pathelement location="${build.home}/web/WEB-INF/classes"/>
     </path>
 
     <path id="compile.classpath">
@@ -209,9 +209,9 @@
         description="Compile Java sources">
 
         <!-- Compile Java classes as necessary -->
-        <mkdir dir="${build.home}/WEB-INF/classes"/>
+        <mkdir dir="${build.home}/web/WEB-INF/classes"/>
         <javac srcdir="${src.home}"
-            destdir="${build.home}/WEB-INF/classes"
+            destdir="${build.home}/web/WEB-INF/classes"
             debug="${compile.debug}"
             deprecation="${compile.deprecation}"
             optimize="${compile.optimize}"
@@ -220,7 +220,7 @@
         </javac>
 
         <!-- Copy application resources -->
-        <copy todir="${build.home}/WEB-INF/classes">
+        <copy todir="${build.home}/web/WEB-INF/classes">
             <fileset dir="${src.home}" excludes="**/*.java"/>
         </copy>
 
@@ -303,22 +303,23 @@
 
         <!-- Create build directories as needed -->
         <mkdir dir="${build.home}"/>
-        <mkdir dir="${build.home}/WEB-INF"/>
-        <mkdir dir="${build.home}/WEB-INF/classes"/>
+        <mkdir dir="${build.home}/web"/>
+        <mkdir dir="${build.home}/web/WEB-INF"/>
+        <mkdir dir="${build.home}/web/WEB-INF/classes"/>
         <mkdir dir="${build.home}/config"/>
 
         <!-- Copy static content of this web application -->
-        <copy todir="${build.home}">
+        <copy todir="${build.home}/web">
             <fileset dir="${web.home}"/>
         </copy>
         <!-- Copy Config files -->
-        <copy todir="${build.home}/conf">
+        <copy todir="${build.home}/config">
             <fileset dir="${basedir}/config"/>
         </copy>
 
         <!-- Copy external dependencies as required -->
         <!-- *** CUSTOMIZE HERE AS REQUIRED BY YOUR APPLICATION *** -->
-        <mkdir dir="${build.home}/WEB-INF/lib"/>
+        <mkdir dir="${build.home}/web/WEB-INF/lib"/>
         <!--
             <copy todir="${build.home}/WEB-INF/lib" file="${foo.jar}"/>
         -->

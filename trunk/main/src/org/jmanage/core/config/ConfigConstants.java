@@ -8,7 +8,7 @@ package org.jmanage.core.config;
 public interface ConfigConstants {
 
     /*  Default config file to use  */
-    public String DEFAULT_CONFIG_FILE_NAME = "build/conf/config.xml";
+    public String DEFAULT_CONFIG_FILE_NAME = "build/config/config.xml";
 
     public String APPLICATION_CONFIG = "application-config";
     public String APPLICATIONS = "applications";

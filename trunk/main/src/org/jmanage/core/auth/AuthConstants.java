@@ -5,7 +5,7 @@ package org.jmanage.core.auth;
  * @author Shashank
  */
 public interface AuthConstants {
-    public String AUTH_CONFIG_FILE_NAME = "build/conf/jmanage-auth.conf";
+    public String AUTH_CONFIG_FILE_NAME = "build/config/jmanage-auth.conf";
     public String AUTH_CONFIG_NAME = "JManageAuth";
     public String AUTH_CONFIG_SYS_PROPERTY = "java.security.auth.login.config";
 }
