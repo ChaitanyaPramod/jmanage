@@ -15,8 +15,6 @@
  */
 package org.jmanage.core.services;
 
-import org.jmanage.core.data.ApplicationConfigData;
-
 /**
  *
  * date:  Feb 4, 2005
@@ -29,7 +27,6 @@ public interface AuthService {
      * @param context
      * @param username
      * @param password
-     * @return error code if login attempt failed
      */
     public void login(ServiceContext context,
                         String username,

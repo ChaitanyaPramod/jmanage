@@ -21,6 +21,7 @@ import org.jmanage.core.auth.User;
 import org.jmanage.core.auth.UserManager;
 import org.jmanage.core.config.JManageProperties;
 import org.jmanage.core.util.ErrorCodes;
+import org.jmanage.core.util.UserActivityLogger;
 
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
@@ -49,6 +50,7 @@ public class AuthServiceImpl implements AuthService {
         callbackHandler.setPassword(password);
         User user = null;
         UserManager userManager = UserManager.getInstance();
+        UserActivityLogger logger = UserActivityLogger.getInstance();
         try{
             LoginContext loginContext =
                     new LoginContext(AuthConstants.AUTH_CONFIG_INDEX,
@@ -61,6 +63,7 @@ public class AuthServiceImpl implements AuthService {
             user.setLockCount(0);
             user.setStatus(null);
             userManager.updateUser(user);
+            logger.logActivity(username, user.getName()+" logged in successfully");
         }catch(LoginException lex){
             user = userManager.getUser(username);
             String errorCode = ErrorCodes.UNKNOWN_ERROR;
@@ -84,6 +87,7 @@ public class AuthServiceImpl implements AuthService {
                         String.valueOf(MAX_LOGIN_ATTEMPTS_ALLOWED - thisAttempt)};
                 }
             }
+            logger.logActivity(username, user.getName()+" failed to login");
             throw new ServiceException(errorCode, values);
         }
     }
