@@ -46,7 +46,7 @@ public class JMXHelper {
      * registers the MBeans used in the Upromise application
      * and starts the HTML Adaptor
      */
-    public static void registerMBeans() {
+    public static void registerMBeans(int port) {
 
         /* Configuration */
         registerMBean(new Configuration(), ObjectNames.CONFIGURATION);
@@ -62,7 +62,7 @@ public class JMXHelper {
         registerMBean(new TimeNotificationBroadcaster(),
                 ObjectNames.TIME_NOTIFICATION_BROADCASTER);
         /* start RMI connector */
-        startJMXConnectorServer();
+        startJMXConnectorServer(port);
     }
 
 
@@ -78,14 +78,13 @@ public class JMXHelper {
     }
 
     /* start JSR160 RMI connector*/
-    private static void startJMXConnectorServer(){
+    private static void startJMXConnectorServer(int port){
         try {
-            final int port = 9999;
             /* attempt to start the rmi registry */
             startRMIRegistry(port);
             /* start the connector server */
             JMXServiceURL url = new JMXServiceURL(
-              "service:jmx:rmi:///jndi/rmi://localhost:" + port + "/odt");
+              "service:jmx:rmi:///jndi/rmi://localhost:" + port + "/testApp");
             JMXConnectorServer cs =
                  JMXConnectorServerFactory.newJMXConnectorServer(url,
                  null, getMBeanServer());

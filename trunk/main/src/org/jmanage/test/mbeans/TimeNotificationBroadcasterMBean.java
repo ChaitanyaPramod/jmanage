@@ -9,5 +9,4 @@ import javax.management.MBeanNotificationInfo;
  */
 public interface TimeNotificationBroadcasterMBean {
 
-     public MBeanNotificationInfo[] getNotificationInfo();
 }
