@@ -1,17 +1,18 @@
 1.  Install JDK_1.4.X.
 2.  Set JAVA_HOME to JDK_1.4.X installation directory.
-3.  Unjar jmanage-0.1.jar to an installation directory: <INSTALL_DIR>
+3.  Unzip jmanage-0.1.zip to an installation directory: <INSTALL_DIR>
     (E.g.: c:\jmanage OR /jmanage).
 4.  Set JMANAGE_HOME to jManage installation directory.
 5.  Copy weblogic.jar (from Weblogic 6.1 installation) to "<INSTALL_DIR>/ext"
     directory.
 6.  Go to JManage installation directory and run "keygen". This prompts for a
     password which will be used to start the server. This password is also the
-    "admin" user password.
+    "admin" user password. Password won't be displayed on the console while entering.
 7.  By default, jManage starts on port 9090. If you want to change this, you
     need to set JMANAGE_PORT environment variable
 8.  Run "startup" from the jManage installation directory and enter password
-    configured in the previous step. This starts the JManage server.
+    configured in the previous step, which again won't be displayed. This starts
+    the JManage server.
 9.  Access the server with URL "http://<server name>:9090/".
 10. Login to the application with username as "admin" and with configured password.
 11. Now configure your applciations to manage/monitor through jManage.

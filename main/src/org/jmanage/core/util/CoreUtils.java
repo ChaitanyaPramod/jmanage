@@ -35,4 +35,8 @@ public class CoreUtils {
     public static String getModuleDir(String moduleId){
         return getRootDir() + "/modules/" + moduleId;
     }
+
+    public static String getLogDir(){
+        return getRootDir() + "/log";
+    }
 }

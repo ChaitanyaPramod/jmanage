@@ -7,6 +7,7 @@ import org.jmanage.webui.forms.UserForm;
 import org.jmanage.core.auth.UserManager;
 import org.jmanage.core.auth.User;
 import org.jmanage.core.crypto.Crypto;
+import org.jmanage.core.util.UserActivityLogger;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
@@ -41,6 +42,9 @@ public class AddUserAction extends BaseAction{
             throws Exception {
         User user = buildUser(actionForm);
         UserManager.getInstance().addUser(user);
+        UserActivityLogger logger = UserActivityLogger.getInstance();
+        logger.log(context.getUser().getUsername(),"Add User",
+                user.getName()+"/"+user.getPassword());
         return mapping.findForward(Forwards.SUCCESS);
     }
 

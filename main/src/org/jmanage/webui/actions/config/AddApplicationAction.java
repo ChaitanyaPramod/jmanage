@@ -3,7 +3,7 @@ package org.jmanage.webui.actions.config;
 import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
-import org.jmanage.webui.forms.WeblogicApplicationForm;
+import org.jmanage.webui.forms.ApplicationForm;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.ApplicationConfigFactory;
 import org.jmanage.core.config.ApplicationConfigManager;
@@ -36,14 +36,17 @@ public class AddApplicationAction extends BaseAction {
                                  HttpServletRequest request,
                                  HttpServletResponse response) {
 
-        WeblogicApplicationForm appForm = (WeblogicApplicationForm)actionForm;
+        ApplicationForm appForm = (ApplicationForm)actionForm;
         //todo: Need something better
         String appId = String.valueOf(System.currentTimeMillis());
+        Integer port = appForm.getPort() != null && !"".equals(appForm.getPort()) ?
+                new Integer(appForm.getPort()) :
+                null;
         ApplicationConfig config =
                 ApplicationConfigFactory.create(appId, appForm.getName(),
                         appForm.getType(),
                         appForm.getHost(),
-                        new Integer(appForm.getPort()),
+                        port,
                         null,
                         appForm.getUsername(),
                         appForm.getPassword(),

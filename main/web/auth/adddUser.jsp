@@ -1,3 +1,4 @@
+<!--    /auth/addUser.jsp  -->
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 <%@ taglib uri="/WEB-INF/tags/jstl/c.tld" prefix="c"%>
 
@@ -9,8 +10,10 @@
 </head>
 <body leftmargin="10" topmargin="10" marginwidth="0" marginheight="0">
 <span class="headtext"><b><br />Add New User</b></span><br /><br />
-
-<jmhtml:form action="/auth/addUser" method="post">
+<jmhtml:javascript formName="userForm" />
+<jmhtml:errors />
+<jmhtml:form action="/auth/addUser" method="post"
+                                    onsubmit="return validateUserForm(this)">
 <table border="0" bordercolor="black" cellspacing="1" cellpadding="2" width="250">
 <tr class="oddrow">
     <td class="headtext1">Username:</td>
