@@ -1,4 +1,5 @@
-<%@ page import="org.jmanage.core.config.ApplicationConfig"%>
+<%@ page import="org.jmanage.core.config.ApplicationConfig,
+                 org.jmanage.webui.util.RequestParams"%>
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 
 
@@ -12,7 +13,7 @@
 
 <jmhtml:form action="/config/editApplication" method="post">
 <jmhtml:hidden property="applicationId" />
-
+<jmhtml:hidden property="refreshApps" value="true" />
 <table border="0" bordercolor="black" cellspacing="1" cellpadding="2" width="250">
 <tr class="oddrow">
     <td class="headtext1">Name:</td>
@@ -32,11 +33,7 @@
 </tr>
 <tr class="oddrow">
     <td class="headtext1">Password:</td>
-    <td><jmhtml:text property="password" /></td>
-</tr>
-<tr class="evenrow">
-    <td class="headtext1">Server Name:</td>
-    <td><jmhtml:text property="serverName" /></td>
+    <td><jmhtml:password property="password" /></td>
 </tr>
 </table>
 <br>

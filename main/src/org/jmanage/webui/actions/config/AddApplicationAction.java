@@ -42,9 +42,6 @@ public class AddApplicationAction extends BaseAction {
         WeblogicApplicationForm appForm = (WeblogicApplicationForm)actionForm;
         //todo: Need something better
         String appId = String.valueOf(System.currentTimeMillis());
-        Map params = new HashMap(1);
-        params.put(WeblogicApplicationConfig.SERVER_NAME,
-                appForm.getServerName());
         ApplicationConfig config =
                 ApplicationConfigFactory.create(appId, appForm.getName(),
                         ApplicationConfig.TYPE_WEBLOGIC,
@@ -52,7 +49,7 @@ public class AddApplicationAction extends BaseAction {
                         (Integer.parseInt(appForm.getPort())),
                         appForm.getUsername(),
                         appForm.getPassword(),
-                        params);
+                        null);
 
         ApplicationConfigManager.addApplication(config);
 

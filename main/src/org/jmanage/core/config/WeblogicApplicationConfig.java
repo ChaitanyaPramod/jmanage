@@ -20,8 +20,6 @@ public class WeblogicApplicationConfig extends ApplicationConfig {
         additionalParams.add(serverNameParam);
     }
 
-    private final String serverName;
-
     public WeblogicApplicationConfig(String applicationId,
                                      String name,
                                      String host,
@@ -30,7 +28,6 @@ public class WeblogicApplicationConfig extends ApplicationConfig {
                                      String password,
                                      Map paramValues){
         super(applicationId, name, host, port, username, password, paramValues);
-        serverName = (String)paramValues.get(serverNameParam.getName());
     }
 
     public String getURL() {
@@ -43,9 +40,5 @@ public class WeblogicApplicationConfig extends ApplicationConfig {
 
     public List getAdditionalParameters() {
         return additionalParams;
-    }
-
-    public String getServerName(){
-        return serverName;
     }
 }

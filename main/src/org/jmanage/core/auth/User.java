@@ -1,6 +1,7 @@
 package org.jmanage.core.auth;
 
 import java.util.List;
+import java.util.Iterator;
 import java.security.Principal;
 
 /**
@@ -56,5 +57,15 @@ public class User implements Principal{
 
     public String getName() {
         return getUsername();
+    }
+
+    public boolean isAdmin(){
+        for(Iterator it=getRoles().iterator(); it.hasNext();){
+            String role = (String)it.next();
+            if(role.equals(AuthConstants.ROLE_OPS)){
+                return true;
+            }
+        }
+        return false;
     }
 }

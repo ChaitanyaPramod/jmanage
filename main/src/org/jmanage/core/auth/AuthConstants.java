@@ -13,4 +13,7 @@ public interface AuthConstants {
     public String NAME = "name";
     public String PASSWORD = "password";
     public String ROLE = "role";
+
+    public String ROLE_OPS = "ops";
+    public String ROLE_DEV = "dev";
 }

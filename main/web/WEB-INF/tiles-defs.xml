@@ -30,6 +30,9 @@
     <definition name="app.mbeanView" extends="layouts.application">
         <put name="body.main" value="/app/mbeanView.jsp" />
     </definition>
+    <definition name="app.connectionFailed" extends="layouts.application">
+        <put name="body.main" value="/app/connectionFailed.jsp" />
+    </definition>
 
 
 

@@ -1,8 +1,6 @@
 package org.jmanage.core.config;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
+import java.util.*;
 
 /**
   *
@@ -123,7 +121,11 @@ public abstract class ApplicationConfig {
      * @param mbeanList list of MBeanConfig objects
      */
     public void setMBeans(List mbeanList){
-        this.mbeanList = mbeanList;
+        if(mbeanList != null){
+            this.mbeanList = mbeanList;
+        }else{
+            this.mbeanList = new LinkedList();
+        }
     }
 
     public boolean equals(Object obj){
@@ -147,4 +149,33 @@ public abstract class ApplicationConfig {
      * @return  the URL which will be used to connect to the application
      */
     public abstract String getURL();
+
+    public boolean containsMBean(String objectName) {
+
+        for(Iterator it=mbeanList.iterator(); it.hasNext();){
+            MBeanConfig mbeanConfig = (MBeanConfig)it.next();
+            if(mbeanConfig.getObjectName().equals(objectName)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public MBeanConfig removeMBean(String objectName){
+
+        for(Iterator it=mbeanList.iterator(); it.hasNext();){
+            MBeanConfig mbeanConfig = (MBeanConfig)it.next();
+            if(mbeanConfig.getObjectName().equals(objectName)){
+                mbeanList.remove(mbeanConfig);
+                return mbeanConfig;
+            }
+        }
+        return null;
+    }
+
+    public void addMBean(MBeanConfig mbeanConfig){
+
+        assert !containsMBean(mbeanConfig.getObjectName());
+        mbeanList.add(mbeanConfig);
+    }
 }
