@@ -20,7 +20,8 @@
                  org.jmanage.webui.util.RequestAttributes,
                  java.net.URLEncoder,
                  org.jmanage.core.management.ObjectName,
-                 java.util.Map"%>
+                 java.util.Map,
+                 java.util.Set"%>
 
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 <%@ taglib uri="/WEB-INF/tags/struts/struts-bean.tld" prefix="bean"%>
@@ -45,7 +46,7 @@
         </td>
         </tr>
         <%
-        List objectNameList = (List)domainToObjectNameListMap.get(domain);
+        Set objectNameList = (Set)domainToObjectNameListMap.get(domain);
         for(Iterator objectNameIt = objectNameList.iterator(); objectNameIt.hasNext();){
             String objectName = (String)objectNameIt.next();
             pageContext.setAttribute("objectName",

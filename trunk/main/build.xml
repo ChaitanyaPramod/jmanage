@@ -493,17 +493,26 @@
         </copy>
         <!-- copy modules -->
         <copy todir="${dist.home}/modules">
-            <fileset dir="${build.home}/modules"/>
+            <fileset dir="${build.home}/modules">
+                <include name="**"/>
+                <exclude name="weblogic/*.jar" />
+                <exclude name="websphere/*.jar"/>
+            </fileset>
+            <fileset dir="${build.home}/modules">
+                <include name="weblogic/classes.jar"/>
+                <include name="websphere/classes.jar"/>
+            </fileset>
         </copy>
         <!-- copy src directory -->
         <copy todir="${dist.home}/src">
             <fileset dir="${basedir}/src"/>
         </copy>
-
+        <!-- create logs dir -->
+        <mkdir dir="${dist.home}/logs"/>
         <!-- jar up the distribution -->
 
-        <delete file="${dist.home}/jmanage-${app.version}.zip"/>
-        <jar jarfile="${dist.home}/jmanage-${app.version}.zip">
+        <delete file="${dist.home}/jmanage-${app.version}.jar"/>
+        <jar jarfile="${dist.home}/jmanage-${app.version}.jar">
             <fileset dir="${dist.home}" includes="**"/>
         </jar>
 

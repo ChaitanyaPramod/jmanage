@@ -59,9 +59,9 @@ public class MBeanListAction extends BaseAction {
             tuple.setObjectName(oi.getObjectName());
             String domain = tuple.getDomain();
             String name = tuple.getName();
-            List objectNameList = (List)domainToObjectNameListMap.get(domain);
+            Set objectNameList = (Set)domainToObjectNameListMap.get(domain);
             if(objectNameList == null){
-                objectNameList = new LinkedList();
+                objectNameList = new TreeSet();
                 domainToObjectNameListMap.put(domain, objectNameList);
             }
             objectNameList.add(name);

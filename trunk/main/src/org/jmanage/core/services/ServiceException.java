@@ -15,6 +15,8 @@
  */
 package org.jmanage.core.services;
 
+import org.jmanage.core.util.ErrorCatalog;
+
 /**
  *
  * date:  Feb 4, 2005
@@ -56,7 +58,6 @@ public class ServiceException extends RuntimeException {
     }
 
     public String getMessage(){
-        // TODO: look in the message catalog and get an error string
-        return "To be implemented:errorCode:" + errorCode;
+        return ErrorCatalog.getMessage(errorCode, values);
     }
 }
