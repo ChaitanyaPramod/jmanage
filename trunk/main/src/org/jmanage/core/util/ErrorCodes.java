@@ -26,4 +26,7 @@ public interface ErrorCodes {
     String INVALID_CREDENTIALS = "invalid.login";
     String ACCOUNT_LOCKED = "account.locked";
     String INVALID_LOGIN_ATTEMPTS = "invalid.login.attempt.count";
+
+    String INVALID_APPLICATION_NAME = "invalid.appName";
+    String OPERATION_NOT_SUPPORTED_FOR_CLUSTER = "cluster.unsupported.operation";
 }

@@ -43,7 +43,7 @@ public class WLServerConnection extends JMXServerConnection{
      * @param objectName
      * @return
      */
-    public Set queryObjects(ObjectName objectName) {
+    public Set queryNames(ObjectName objectName) {
         Set mbeans =
                 mbeanServer.queryNames(
                         toJMXObjectName(objectName),

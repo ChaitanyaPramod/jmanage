@@ -40,7 +40,7 @@ public class WebSphereServerConnection extends JMXServerConnection{
         this.adminClient = adminClient;
     }
 
-    public Set queryObjects(ObjectName objectName){
+    public Set queryNames(ObjectName objectName){
         try{
             Set mbeans = adminClient.queryNames(toJMXObjectName(objectName), null);
             return toJmanageObjectNameInstance(mbeans);

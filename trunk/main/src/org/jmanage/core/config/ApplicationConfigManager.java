@@ -39,6 +39,25 @@ public class ApplicationConfigManager{
         ConfigWriter.getInstance().write(applicationConfigs);
     }
 
+    public static ApplicationConfig getApplicationConfigByName(String appName){
+
+        for(Iterator it=applicationConfigs.iterator(); it.hasNext(); ){
+            ApplicationConfig appConfig = (ApplicationConfig)it.next();
+            if(appConfig.getName().equals(appName)){
+                return appConfig;
+            }
+            if(appConfig.isCluster()){
+                for(Iterator it2=appConfig.getApplications().iterator(); it2.hasNext();){
+                    appConfig = (ApplicationConfig)it2.next();
+                    if(appConfig.getName().equals(appName)){
+                        return appConfig;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
     public static ApplicationConfig getApplicationConfig(String applicationId){
 
         for(Iterator it=applicationConfigs.iterator(); it.hasNext(); ){

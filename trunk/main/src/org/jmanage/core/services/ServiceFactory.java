@@ -90,6 +90,10 @@ public class ServiceFactory {
         return (AuthService)getService(AuthService.class);
     }
 
+    public static MBeanService getMBeanService() {
+        return (MBeanService)getService(MBeanService.class);
+    }
+
     private static Object createService(Class serviceClass){
         final String implClassName = serviceClass.getName() + "Impl";
         try {

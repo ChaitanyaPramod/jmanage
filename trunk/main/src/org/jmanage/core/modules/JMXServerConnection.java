@@ -16,7 +16,6 @@
 package org.jmanage.core.modules;
 
 import org.jmanage.core.management.*;
-import org.jmanage.core.management.ObjectInstance;
 import org.jmanage.core.management.ObjectName;
 import org.jmanage.core.management.MalformedObjectNameException;
 
@@ -45,14 +44,16 @@ public abstract class JMXServerConnection implements ServerConnection{
         return new ObjectName(objectName.getCanonicalName());
     }
 
+    /**
+     * Converts a Set of javax.management.ObjectName to
+     * org.jmanage.core.management.ObjectName
+     */
     protected static Set toJmanageObjectNameInstance(Set mbeans){
         final Set output = new HashSet(mbeans.size());
         for(Iterator it=mbeans.iterator(); it.hasNext();){
-            javax.management.ObjectName objNameInstance =
+            javax.management.ObjectName objName =
                     (javax.management.ObjectName)it.next();
-            final ObjectName objName =
-                    toJmanageObjectName(objNameInstance);
-            output.add(new ObjectInstance(objName, objNameInstance.getCanonicalName()));
+            output.add(toJmanageObjectName(objName));
         }
         return output;
     }

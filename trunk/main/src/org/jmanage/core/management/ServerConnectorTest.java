@@ -35,7 +35,7 @@ public class ServerConnectorTest {
         ApplicationConfig appConfig = getApplicationConfig(args[0]);
         ServerConnection connection =
                 ServerConnector.getServerConnection(appConfig);
-        Set objects = connection.queryObjects(new ObjectName("*:*"));
+        Set objects = connection.queryNames(new ObjectName("*:*"));
         System.out.println("number of objects:" + objects.size());
     }
 

@@ -44,7 +44,7 @@ public class JSR160ServerConnection extends JMXServerConnection{
      * @param objectName
      * @return
      */
-    public Set queryObjects(ObjectName objectName) {
+    public Set queryNames(ObjectName objectName) {
         Set mbeans = null;
         try {
             mbeans = mbeanServer.queryNames(

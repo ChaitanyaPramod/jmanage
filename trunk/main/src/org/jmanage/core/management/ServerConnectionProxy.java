@@ -44,7 +44,7 @@ public class ServerConnectionProxy implements ServerConnection{
      * @param objectName
      * @return
      */
-    public Set queryObjects(ObjectName objectName) {
+    public Set queryNames(ObjectName objectName) {
 
         final ClassLoader contextClassLoader =
                         Thread.currentThread().getContextClassLoader();
@@ -52,7 +52,7 @@ public class ServerConnectionProxy implements ServerConnection{
             /* temporarily change the thread context classloader */
             Thread.currentThread().setContextClassLoader(classLoader);
             /* invoke the method on the wrapped ServerConnection */
-            return connection.queryObjects(objectName);
+            return connection.queryNames(objectName);
         } finally {
             /* change the thread context classloader back to the
                     original classloader*/

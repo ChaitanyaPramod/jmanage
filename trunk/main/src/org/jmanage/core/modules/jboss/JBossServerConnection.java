@@ -39,7 +39,7 @@ public class JBossServerConnection extends JMXServerConnection {
         this.rmiAdaptor = rmiAdaptor;
     }
 
-    public Set queryObjects(ObjectName objectName) {
+    public Set queryNames(ObjectName objectName) {
         Set mbeans = null;
 
         try {

@@ -38,7 +38,7 @@ public class TomcatServerConnection extends JMXServerConnection{
         this.mbeanServer = mbeanServer;
     }
 
-    public Set queryObjects(ObjectName objectName) {
+    public Set queryNames(ObjectName objectName) {
         Set mbeans =
                 mbeanServer.queryNames(
                         toJMXObjectName(objectName),
