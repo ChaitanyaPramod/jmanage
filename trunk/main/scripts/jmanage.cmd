@@ -17,9 +17,9 @@
 
 if "%JAVA_HOME%" == "" goto javaHomeNotSet
 
-if "%JMANAGE_HOME%" == "" goto jmanageHomeNotSet
+if "%JMANAGE_HOME%" == "" set JMANAGE_HOME=.
 
-echo JMANAGE_HOME is %JMANAGE_HOME%
+if not exist "%JMANAGE_HOME%\config\jmanage.properties" goto jmanageHomeNotSet
 
 if "%JMANAGE_LIB_ROOT%" == "" set JMANAGE_LIB_ROOT=%JMANAGE_HOME%
 

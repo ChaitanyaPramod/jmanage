@@ -33,8 +33,8 @@ if [ ! -n "$JMANAGE_LIB_ROOT" ]; then
 	JMANAGE_LIB_ROOT=$JMANAGE_HOME
 fi
 
-LIB_JARS=$JMANAGE_LIB_ROOT/lib/javax.servlet.jar:$JMANAGE_LIB_ROOT/lib/org.mortbay.jetty.jar:$JMANAGE_LIB_ROOT/lib/jasper-compiler.jar:$JMANAGE_LIB_ROOT/lib/jasper-runtime.jar:$JMANAGE_LIB_ROOT/lib/ant.jar:$JMANAGE_LIB_ROOT/lib/jdom.jar:$JMANAGE_LIB_ROOT/lib/xml-apis.jar:$JMANAGE_LIB_ROOT/lib/commons-beanutils.jar:$JMANAGE_LIB_ROOT/lib/commons-logging.jar
+LIB_JARS=$JMANAGE_LIB_ROOT/lib/javax.servlet.jar:$JMANAGE_LIB_ROOT/lib/org.mortbay.jetty.jar:$JMANAGE_LIB_ROOT/lib/jasper-compiler.jar:$JMANAGE_LIB_ROOT/lib/jasper-runtime.jar:$JMANAGE_LIB_ROOT/lib/ant.jar:$JMANAGE_LIB_ROOT/lib/jdom.jar:$JMANAGE_LIB_ROOT/lib/xml-apis.jar
 EXT_JARS=
 JMANAGE_CLASSPATH=$LIB_JARS:$EXT_JARS:$JMANAGE_HOME/classes
 
-$JAVA_HOME/bin/java -ea -classpath $JMANAGE_CLASSPATH $DEBUG_OPTIONS -Djmanage.root=$JMANAGE_HOME -Djava.util.logging.config.file=$JMANAGE_HOME/config/logging.properties -Djava.security.auth.login.config=$JMANAGE_HOME/config/jmanage-auth.conf org.jmanage.webui.Startup
+$JAVA_HOME/bin/java -ea -classpath $JMANAGE_CLASSPATH $DEBUG_OPTIONS -Djmanage.root=$JMANAGE_HOME org.jmanage.cmdui.Main $*

@@ -4,44 +4,17 @@
 
     <!-- ================== Property Definitions =========================== -->
 
-
-    <!--
-
-      Each of the following properties are used in the build script.
-      Values for these properties are set by the first place they are
-      defined, from the following list:
-
-      * Definitions on the "ant" command line (ant -Dfoo=bar compile).
-
-      * Definitions from a "build.properties" file in the top level
-        source directory of this application.
-
-      * Definitions from a "build.properties" file in the developer's
-        home directory.
-
-      * Default definitions in this build.xml file.
-
-      You will note below that property values can be composed based on the
-      contents of previously defined properties.  This is a powerful technique
-      that helps you minimize the number of changes required when your development
-      environment is modified.  Note that property composition is allowed within
-      "build.properties" files as well as in the "build.xml" script.
-
-    -->
-
+    <property file="${user.home}/jmanage.properties"/>
     <property file="build.properties"/>
-    <!-- <property file="${user.home}/build.properties"/> -->
-
 
     <!-- ================= File and Directory Names ======================== -->
 
-
     <!--
-
-      These properties generally define file and directory names (or paths) that
+      These properties define file and directory names (or paths) that
       affect where the build process stores its outputs.
 
       app.version          Version number of this iteration of the application.
+                           Must be specified for dist target
 
       build.home           The directory into which the "prepare" and
                            "compile" targets will generate their output.
@@ -56,7 +29,6 @@
                            Defaults to "dist".
     -->
 
-    <property name="app.version" value="0.1"/>
     <property name="build.home" value="${basedir}\build"/>
     <property name="dist.home" value="${basedir}/dist"/>
     <property name="docs.home" value="${basedir}/docs"/>
@@ -491,6 +463,8 @@
             <fileset file="${basedir}/scripts/*.sh"/>
             <fileset file="${basedir}/scripts/*.cmd"/>
         </copy>
+        <!-- perform dos to unix conversions -->
+        <fixcrlf srcdir="${dist.home}" includes="*.sh" eol="lf"/>
         <!-- copy modules -->
         <copy todir="${dist.home}/modules">
             <fileset dir="${build.home}/modules">
