@@ -22,6 +22,7 @@ import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.MBeanConfig;
 import org.jmanage.core.management.*;
 import org.jmanage.core.util.Loggers;
+import org.jmanage.core.auth.AccessController;
 import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.forms.MBeanConfigForm;
 import org.jmanage.webui.util.Forwards;
@@ -53,7 +54,13 @@ public class ShowMBeanAction extends BaseAction {
 
         final ObjectName objectName = context.getObjectName();
         final ApplicationConfig config = context.getApplicationConfig();
-
+        final MBeanConfig configuredMBean =
+                config.findMBeanByObjectName(objectName.getCanonicalName());
+        AccessController.canAccess(context.getUser(),
+                ACL_VIEW_CONFIGURED_APPLICATION, config.getName());
+        if(configuredMBean != null)
+            AccessController.canAccess(context.getUser(),
+                    ACL_VIEW_CONFIGURED_MBEAN, configuredMBean.getName());
         List applications = null;
         if(config.isCluster()){
             applications = config.getApplications();

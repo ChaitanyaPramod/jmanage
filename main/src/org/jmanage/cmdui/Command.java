@@ -23,13 +23,13 @@ import org.jmanage.core.services.ServiceFactory;
 import org.jmanage.core.services.ServiceContextImpl;
 import org.jmanage.core.services.ServiceException;
 import org.jmanage.core.crypto.PasswordField;
+import org.jmanage.core.auth.UnAuthorizedAccessException;
 import org.jmanage.util.StringUtils;
 
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import java.io.IOException;
-import java.lang.reflect.UndeclaredThrowableException;
 
 /**
  *
@@ -187,6 +187,10 @@ public class Command {
             throw new RuntimeException(e);
         } catch (ServiceException e){
             Out.println(e.getMessage());
+            Out.println();
+            return false;
+        } catch (UnAuthorizedAccessException e){
+            Out.println(e.getMessage()+ ", You are not authorized to perform this operation");
             Out.println();
             return false;
         }

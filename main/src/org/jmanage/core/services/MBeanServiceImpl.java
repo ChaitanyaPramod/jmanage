@@ -16,11 +16,13 @@
 package org.jmanage.core.services;
 
 import org.jmanage.core.config.ApplicationConfig;
+import org.jmanage.core.config.MBeanConfig;
 import org.jmanage.core.data.MBeanData;
 import org.jmanage.core.data.OperationResultData;
 import org.jmanage.core.data.AttributeListData;
 import org.jmanage.core.management.*;
 import org.jmanage.core.util.*;
+import org.jmanage.core.auth.AccessController;
 import org.jmanage.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -61,6 +63,14 @@ public class MBeanServiceImpl implements MBeanService {
 
     public ObjectInfo getMBeanInfo(ServiceContext context)
             throws ServiceException {
+        final ApplicationConfig config = context.getApplicationConfig();
+        final MBeanConfig configuredMBean =
+                config.findMBeanByObjectName(context.getObjectName().getCanonicalName());
+        AccessController.canAccess(context.getUser(),
+                ACLConstants.ACL_VIEW_CONFIGURED_APPLICATION, config.getName());
+        if(configuredMBean != null)
+            AccessController.canAccess(context.getUser(),
+                    ACLConstants.ACL_VIEW_CONFIGURED_MBEAN, configuredMBean.getName());
 
         ServerConnection serverConnection = context.getServerConnection();
         ObjectInfo objectInfo =

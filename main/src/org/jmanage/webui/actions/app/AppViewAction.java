@@ -19,9 +19,10 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForward;
 import org.jmanage.webui.util.WebContext;
-import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.core.config.ApplicationConfig;
+import org.jmanage.core.auth.AccessController;
+import org.jmanage.core.util.ACLConstants;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
@@ -41,6 +42,8 @@ public class AppViewAction extends BaseAction {
         throws Exception{
 
         ApplicationConfig appConfig = context.getApplicationConfig();
+        AccessController.canAccess(context.getUser(),
+                ACLConstants.ACL_VIEW_CONFIGURED_APPLICATION, appConfig.getName());
         if(appConfig.isCluster()){
             return mapping.findForward("cluster");
         }else{

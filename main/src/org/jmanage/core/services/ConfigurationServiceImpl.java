@@ -23,6 +23,8 @@ import org.jmanage.core.data.ApplicationConfigData;
 import org.jmanage.core.data.MBeanData;
 import org.jmanage.core.util.UserActivityLogger;
 import org.jmanage.core.util.CoreUtils;
+import org.jmanage.core.util.ACLConstants;
+import org.jmanage.core.auth.AccessController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +40,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     public ApplicationConfigData addApplication(ServiceContext context,
                                                 ApplicationConfigData data){
 
-        /* TODO: first check the permission */
-
+        AccessController.canAccess(context.getUser(), ACLConstants.ACL_ADD_APPLICATIONS);
         /* do the operation */
         String appId = ApplicationConfig.getNextApplicationId();
         Integer port = data.getPort();
@@ -89,6 +90,9 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     public List getConfiguredMBeans(ServiceContext context,
                                     String applicationName)
             throws ServiceException {
+        AccessController.canAccess(context.getUser(),
+                ACLConstants.ACL_VIEW_CONFIGURED_APPLICATION, applicationName);
+
         ApplicationConfig appConfig =
                 ServiceUtils.getApplicationConfigByName(applicationName);
         List mbeanList = appConfig.getMBeans();

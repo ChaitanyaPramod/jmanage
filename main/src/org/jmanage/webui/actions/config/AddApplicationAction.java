@@ -20,15 +20,10 @@ import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.util.Utils;
 import org.jmanage.webui.forms.ApplicationForm;
-import org.jmanage.core.config.ApplicationConfig;
-import org.jmanage.core.config.ApplicationConfigFactory;
-import org.jmanage.core.config.ApplicationConfigManager;
-import org.jmanage.core.util.UserActivityLogger;
 import org.jmanage.core.util.CoreUtils;
 import org.jmanage.core.data.ApplicationConfigData;
 import org.jmanage.core.services.ConfigurationService;
 import org.jmanage.core.services.ServiceFactory;
-import org.jmanage.core.auth.AccessController;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForward;
@@ -58,7 +53,6 @@ public class AddApplicationAction extends BaseAction {
                                  HttpServletRequest request,
                                  HttpServletResponse response)
             throws Exception{
-        AccessController.canAccess(context.getUser(), ACL_ADD_APPLICATIONS);
         ApplicationForm appForm = (ApplicationForm)actionForm;
         /* create ApplicationConfigData from this form */
         ApplicationConfigData appConfigData = new ApplicationConfigData();

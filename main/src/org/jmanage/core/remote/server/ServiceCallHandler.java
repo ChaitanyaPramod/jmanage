@@ -17,6 +17,7 @@ package org.jmanage.core.remote.server;
 
 import org.jmanage.core.auth.User;
 import org.jmanage.core.auth.UserManager;
+import org.jmanage.core.auth.UnAuthorizedAccessException;
 import org.jmanage.core.remote.InvocationResult;
 import org.jmanage.core.remote.RemoteInvocation;
 import org.jmanage.core.services.AuthService;
@@ -61,8 +62,8 @@ public class ServiceCallHandler {
         } catch (InvocationTargetException e) {
             Throwable t = e.getCause();
             if(t != null){
-                if(t instanceof ServiceException){
-                    return new InvocationResult((Exception)t);
+                if(t instanceof ServiceException || t instanceof UnAuthorizedAccessException){
+                    return new InvocationResult(t);
                 }else if(t instanceof ConnectionFailedException){
                     return new InvocationResult(
                             new ServiceException(ErrorCodes.CONNECTION_FAILED));
