@@ -5,6 +5,7 @@ import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.forms.ApplicationForm;
 import org.jmanage.core.config.ApplicationConfigManager;
+import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.util.UserActivityLogger;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -28,10 +29,11 @@ public class DeleteApplicationAction extends BaseAction{
             throws Exception {
 
         ApplicationForm appForm = (ApplicationForm)actionForm;
-        ApplicationConfigManager.deleteApplication(appForm.getApplicationId());
+        ApplicationConfig config=ApplicationConfigManager.deleteApplication
+                (appForm.getApplicationId());
         UserActivityLogger.getInstance().logActivity(
                 context.getUser().getUsername(),
-                "Deleted application with ID "+appForm.getApplicationId());
+                "Deleted application "+"\""+config.getName()+"\"");
         return mapping.findForward(Forwards.SUCCESS);
     }
 }

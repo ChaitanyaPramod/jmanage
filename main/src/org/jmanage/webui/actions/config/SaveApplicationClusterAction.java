@@ -8,6 +8,7 @@ import org.jmanage.webui.forms.ApplicationClusterForm;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.ApplicationConfigManager;
 import org.jmanage.core.config.ApplicationClusterConfig;
+import org.jmanage.core.util.UserActivityLogger;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
@@ -70,6 +71,10 @@ public class SaveApplicationClusterAction extends BaseAction {
             clusterConfig.setApplications(newChildApplications);
             ApplicationConfigManager.updateApplication(clusterConfig);
 
+             UserActivityLogger.getInstance().logActivity(
+                context.getUser().getUsername(),
+                "Updated application cluster "+ "\""+clusterConfig.getName()+"\"");
+
         }else{
             /* add new application cluster */
             ApplicationClusterConfig clusterConfig =
@@ -85,6 +90,10 @@ public class SaveApplicationClusterAction extends BaseAction {
             /* remove from stand-alone list */
 
             ApplicationConfigManager.addApplication(clusterConfig);
+
+            UserActivityLogger.getInstance().logActivity(
+               context.getUser().getUsername(),
+               "Added application cluster "+ "\""+clusterConfig.getName()+"\"");
         }
 
         return mapping.findForward(Forwards.SUCCESS);
