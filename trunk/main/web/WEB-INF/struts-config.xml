@@ -9,15 +9,17 @@
     <!-- ============================================= Form Bean Definitions -->
 
     <form-beans>
+        <form-bean
+            name="mbeanQueryForm"
+            type="org.jmanage.webui.forms.MBeanQueryForm">
+        </form-bean>
     </form-beans>
-
 
     <!-- ====================================== Global Exception Definitions -->
 
     <global-exceptions>
 
     </global-exceptions>
-
 
    <!-- ======================================== Global Forward Definitions -->
 
@@ -30,6 +32,8 @@
     <action-mappings>
         <action
             path="/app/mbeanList"
+            name="mbeanQueryForm"
+            scope="request"
             type="org.jmanage.webui.actions.app.MBeanListAction">
             <forward name="success" path="app.mbeanList"/>
         </action>

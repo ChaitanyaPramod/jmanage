@@ -3,6 +3,7 @@ package org.jmanage.webui.actions.app;
 import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.RequestAttributes;
 import org.jmanage.webui.util.Forwards;
+import org.jmanage.webui.forms.MBeanQueryForm;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.ApplicationConfigManager;
 import org.jmanage.core.connector.MBeanServerConnectionFactory;
@@ -28,6 +29,8 @@ public class MBeanListAction extends BaseAction {
                                  HttpServletResponse response)
             throws Exception {
 
+        MBeanQueryForm queryForm = (MBeanQueryForm)actionForm;
+        final String queryObjectName = queryForm.getObjectName();
 
         ApplicationConfig config =
                 ApplicationConfigManager.getApplicationConfig(
@@ -35,7 +38,7 @@ public class MBeanListAction extends BaseAction {
         MBeanServer mbeanServer =
                 MBeanServerConnectionFactory.getConnection(config);
 
-        Set mbeans = mbeanServer.queryMBeans(new ObjectName("*:*"), null);
+        Set mbeans = mbeanServer.queryMBeans(new ObjectName(queryObjectName), null);
         List objectNameList = new ArrayList(mbeans.size());
         for(Iterator it=mbeans.iterator(); it.hasNext();){
             ObjectInstance oi = (ObjectInstance)it.next();

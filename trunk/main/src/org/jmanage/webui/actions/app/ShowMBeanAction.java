@@ -1,13 +1,3 @@
-/*
- * Copyright 2000-2004 by Upromise Inc.
- * 117 Kendrick Street, Suite 200, Needham, MA, 02494, U.S.A.
- * All rights reserved.
- *
- * This software is the confidential and proprietary information of
- * Upromise, Inc. ("Confidential Information").  You shall not disclose
- * such Confidential Information and shall use it only in accordance with
- * the terms of an agreement between you and Upromise.
- */
 package org.jmanage.webui.actions.app;
 
 import org.jmanage.webui.actions.BaseAction;
@@ -23,9 +13,7 @@ import org.apache.struts.action.ActionForm;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.management.MBeanServer;
-import javax.management.ObjectName;
-import javax.management.MBeanInfo;
+import javax.management.*;
 
 /**
  *
@@ -42,20 +30,32 @@ public class ShowMBeanAction extends BaseAction{
 
         final String applicationId=
                 request.getParameter(RequestParams.APPLICATION_ID);
-        final String objectName =
+        final String objectNameString =
                 request.getParameter(RequestParams.OBJECT_NAME);
+        final ObjectName objectName = new ObjectName(objectNameString);
 
         ApplicationConfig config =
                 ApplicationConfigManager.getApplicationConfig(
                         applicationId);
         MBeanServer mbeanServer =
                 MBeanServerConnectionFactory.getConnection(config);
-        MBeanInfo mbeanInfo = mbeanServer.getMBeanInfo(new ObjectName(objectName));
+        MBeanInfo mbeanInfo = mbeanServer.getMBeanInfo(objectName);
+
+        MBeanAttributeInfo[] attributes = mbeanInfo.getAttributes();
+        String[] attributeNames = new String[attributes.length];
+        for(int i=0; i<attributes.length; i++){
+            attributeNames[i] = attributes[i].getName();
+        }
+
+        AttributeList attrList =
+                mbeanServer.getAttributes(objectName, attributeNames);
 
         request.setAttribute("mbeanInfo", mbeanInfo);
+        request.setAttribute("attributeList", attrList);
 
         // TODO: move to central location (RequestProcessor ?)
         request.setAttribute(RequestAttributes.APPLICATION_CONFIG, config);
+
 
         return mapping.findForward(Forwards.SUCCESS);
     }

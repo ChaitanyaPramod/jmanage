@@ -5,6 +5,15 @@
                  org.jmanage.webui.util.RequestAttributes,
                  java.net.URLEncoder"%>
 
+<%@ taglib uri="/WEB-INF/tags/struts/struts-html.tld" prefix="html"%>
+
+
+<html:form action="/app/mbeanList" method="post">
+    Filter by object name: <html:text property="objectName" /> &nbsp;&nbsp;
+    <html:submit/>
+</html:form>
+
+<hr width="100%"/>
 <%
     ApplicationConfig appConfig =
             (ApplicationConfig)request.getAttribute(RequestAttributes.APPLICATION_CONFIG);
