@@ -38,7 +38,7 @@ public class EditApplicationAction extends BaseAction {
         config.setHost(appForm.getHost());
         if(appForm.getPort() != null)
             config.setPort(new Integer(appForm.getPort()));
-        config.setUsername(appForm.getUsername());
+            config.setUsername(appForm.getUsername());
         final String password = appForm.getPassword();
         if(password != null && !password.equals(config.getPassword())){
             config.setPassword(password);
@@ -47,7 +47,7 @@ public class EditApplicationAction extends BaseAction {
         ApplicationConfigManager.updateApplication(config);
         UserActivityLogger.getInstance().logActivity(
                 context.getUser().getUsername(),
-                "Updated application with ID "+config.getApplicationId());
+                "Updated application "+"\""+config.getName()+"\"");
         return mapping.findForward(Forwards.SUCCESS);
     }
 }

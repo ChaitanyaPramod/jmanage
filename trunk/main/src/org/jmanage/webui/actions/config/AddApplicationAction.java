@@ -55,7 +55,7 @@ public class AddApplicationAction extends BaseAction {
         ApplicationConfigManager.addApplication(config);
         UserActivityLogger.getInstance().logActivity(
                 context.getUser().getUsername(),
-                "Added application with ID "+config.getApplicationId());
+                "Added application "+ "\""+config.getName()+"\"");
         return mapping.findForward(Forwards.SUCCESS);
     }
 }
