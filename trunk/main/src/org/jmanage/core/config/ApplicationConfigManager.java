@@ -15,8 +15,6 @@ public class ApplicationConfigManager implements ConfigConstants{
             Collections.synchronizedMap(new HashMap());
 
     private static final ConfigReader configReader = ConfigReader.getInstance();
-    //TODO remove this
-    public static final String TEST_APP_ID = "1234";
 
     static{
         /*  Currently supporting only Weblogic (Weblogic 6.1)   */

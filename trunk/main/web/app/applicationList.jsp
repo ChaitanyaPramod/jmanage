@@ -8,7 +8,7 @@
 <head>
 </head>
 <body>
-<div align="center"><b>Managed Applications</b></div>
+<b>Managed Applications</b>
 <table border="0" width="100%">
 <%
     Map applications = (Map)request.getAttribute(RequestAttributes.APPLICATIONS);
@@ -18,8 +18,8 @@
                 (ApplicationConfig)applications.get(ietrator.next());
 %>
   <tr>
-    <td width="100%" align="center">
-    <a href="/app/mbeanList.do?<%=RequestParams.APPLICATION_ID+"="+applicationConfig.getApplicationId()%>" target="mbeans"><%=applicationConfig.getName()%></a>
+    <td width="100%">
+    <a href="/app/mbeanList.do?<%=RequestParams.APPLICATION_ID+"="+applicationConfig.getApplicationId()%>" target="mbeanDetails"><%=applicationConfig.getName()%></a>
     </td>
   </tr>
 <%  }%>
