@@ -128,14 +128,20 @@
 
     -->
 
-    <path id="compile.classpath">
+    <path id="core.compile.classpath">
+        <fileset dir="${basedir}/lib">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
 
+    <path id="web.compile.classpath">
         <fileset dir="${basedir}/lib">
             <include name="*.jar"/>
         </fileset>
         <fileset dir="${basedir}/web/WEB-INF/lib">
             <include name="*.jar"/>
         </fileset>
+        <pathelement path="${build.home}/classes" />
     </path>
 
     <path id="module.weblogic.classpath">
@@ -246,9 +252,10 @@
             deprecation="${compile.deprecation}"
             optimize="${compile.optimize}"
             source="1.4">
-            <classpath refid="compile.classpath"/>
+            <classpath refid="core.compile.classpath"/>
             <include name="**/webui/Startup.java"/>
             <include name="**/core/**"/>
+            <include name="**/cmdui/**"/>
             <exclude name="**/core/modules/**"/>
         </javac>
 
@@ -260,7 +267,7 @@
             deprecation="${compile.deprecation}"
             optimize="${compile.optimize}"
             source="1.4">
-            <classpath refid="compile.classpath"/>
+            <classpath refid="web.compile.classpath"/>
             <include name="**/webui/**"/>
             <exclude name="**/webui/Startup.java"/>
         </javac>
@@ -270,15 +277,15 @@
     <target name="build-test-app"
             description="Builds test JSR160 application">
 
-        <mkdir dir="${build.home}/applications/classes"/>
+        <mkdir dir="${build.home}/testapp/classes"/>
         <javac srcdir="${src.home}"
-            destdir="${build.home}/applications/classes"
+            destdir="${build.home}/testapp/classes"
             debug="${compile.debug}"
             deprecation="${compile.deprecation}"
             optimize="${compile.optimize}"
             source="1.4">
             <classpath refid="module.jsr160.classpath"/>
-            <include name="org/jmanage/test/**"/>
+            <include name="org/jmanage/testapp/**"/>
         </javac>
     </target>
 
