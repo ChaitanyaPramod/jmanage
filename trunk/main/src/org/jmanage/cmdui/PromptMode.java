@@ -57,9 +57,10 @@ public class PromptMode implements CommandConstants {
     private String readLine() throws IOException{
 
         String line = null;
-        while(line == null || line.trim().length() == 0){
+        while(line == null || line.length() == 0){
             Out.print("jmanage>");
             line = In.readLine();
+            if(line != null) line = line.trim();
         }
         return line;
     }
@@ -70,5 +71,6 @@ public class PromptMode implements CommandConstants {
         }else{
             e.printStackTrace();
         }
+        Out.println();
     }
 }

@@ -26,6 +26,7 @@ import org.jmanage.util.StringUtils;
 
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
+import java.util.logging.Level;
 import java.io.IOException;
 import java.lang.reflect.UndeclaredThrowableException;
 
@@ -42,6 +43,7 @@ public class Command {
     private String password;
     private String url;
     private String name;
+    private Level logLevel = Level.WARNING; // default log level
     private String[] args;
 
     static Command get(String line, Command authenticatedCommand)
@@ -56,6 +58,7 @@ public class Command {
         command.username = authenticatedCommand.username;
         command.password = authenticatedCommand.password;
         command.url = authenticatedCommand.url;
+        command.logLevel = authenticatedCommand.logLevel;
         return command;
     }
 
@@ -69,6 +72,13 @@ public class Command {
                 command.password = args[++index];
             }else if(args[index].equals("-url")){
                 command.url = args[++index];
+            }else if(args[index].startsWith("-verbose")){
+                int i=args[index].indexOf("=");
+                if(i != -1){
+                    command.logLevel = Level.parse(args[index].substring(i + 1));
+                }else{
+                    command.logLevel = Level.FINE; // default verbose level
+                }
             }else{
                 /* we have the command name and arguments */
                 command.name = args[index++];
@@ -104,6 +114,10 @@ public class Command {
 
     public String[] getArgs() {
         return args;
+    }
+
+    public Level getLogLevel() {
+        return logLevel;
     }
 
     public boolean isAuthRequired(){

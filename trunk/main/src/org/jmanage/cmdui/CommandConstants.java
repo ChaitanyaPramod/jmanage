@@ -22,12 +22,16 @@ package org.jmanage.cmdui;
  */
 public interface CommandConstants {
 
-    String LIST_APPS = "listApps";
-    String ALL_MBEANS = "mbeans"; // all mbeans
-    String MBEANS = "cmbeans"; // configured mbeans
     String HELP = "help";
     String EXIT = "exit";
-    String VIEW = "view";
+
+    String APPS = "apps";
+    String QUERY_MBEANS = "mbeans"; // all mbeans
+    String MBEANS = "cmbeans"; // configured mbeans
+    String INFO = "info";
     String PRINT = "print";
     String EXECUTE = "execute";
+    String GET = "get";
+    String SET = "set";
+    String SET_ATTRS = "setattrs";
 }

@@ -29,6 +29,7 @@ public class Table {
 
     private static final int COLUMN_SPACING = 5;
 
+    private Object[] header;
     private final int columns;
     private final List rows;
     /* contains the max column sizes */
@@ -59,6 +60,15 @@ public class Table {
     public void add(Object[] objects){
         assert columns == objects.length;
         rows.add(objects);
+        setColumnSize(objects);
+    }
+
+    public void setHeader(Object[] header) {
+        this.header = header;
+        setColumnSize(header);
+    }
+
+    private void setColumnSize(Object[] objects){
         for(int i=0; i<objects.length; i++){
             if(objects[i].toString().length() > columnSize[i])
                 columnSize[i] = objects[i].toString().length();
@@ -67,6 +77,10 @@ public class Table {
 
     public void print(){
         Out.println();
+        if(header != null){
+            printRow(header);
+            printUnderline(header);
+        }
         for(Iterator it=rows.iterator(); it.hasNext();){
             Object[] cols = (Object[])it.next();
             printRow(cols);
@@ -78,6 +92,17 @@ public class Table {
             String columnValue = CommandUtils.padRight(cols[i].toString(),
                     columnSize[i] + COLUMN_SPACING);
             Out.print(columnValue);
+        }
+        Out.println();
+    }
+
+    private void printUnderline(Object[] cols){
+        for(int i=0; i < columns; i++){
+            String underline =
+                    CommandUtils.getUnderline(cols[i].toString().length());
+            underline = CommandUtils.padRight(underline,
+                    columnSize[i] + COLUMN_SPACING);
+            Out.print(underline);
         }
         Out.println();
     }

@@ -44,7 +44,7 @@ public class ShowConfigureAction extends BaseAction{
            final JManageProperties jManageProperties = JManageProperties.getInstance();
            final int MAX_LOGIN_ATTEMPTS_ALLOWED =
                 Integer.parseInt(jManageProperties.
-                    getProperty(JManageProperties.maxLoginAttempts));
+                    getProperty(JManageProperties.LOGIN_MAX_ATTEMPTS));
            confgForm.setMaxLoginAttempts(MAX_LOGIN_ATTEMPTS_ALLOWED);
            return mapping.findForward(Forwards.SUCCESS);
        }

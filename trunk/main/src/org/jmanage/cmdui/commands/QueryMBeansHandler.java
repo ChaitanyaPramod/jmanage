@@ -30,7 +30,7 @@ import java.util.List;
  * date:  Feb 23, 2005
  * @author	Rakesh Kalra
  */
-public class AllMBeansHandler implements CommandHandler {
+public class QueryMBeansHandler implements CommandHandler {
 
     /**
      * Lists mbeans for the given application based on the filter (optional)
@@ -67,7 +67,7 @@ public class AllMBeansHandler implements CommandHandler {
     public void help() {
         Out.println(getShortHelp());
         Out.println("Usage:");
-        Out.println(CommandConstants.ALL_MBEANS + " <application name> [filter]");
+        Out.println(CommandConstants.QUERY_MBEANS + " <application name> [filter]");
     }
 
     private void usage(){

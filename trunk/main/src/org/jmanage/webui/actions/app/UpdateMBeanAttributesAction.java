@@ -21,6 +21,9 @@ import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.util.Utils;
 import org.jmanage.core.services.MBeanService;
 import org.jmanage.core.services.ServiceFactory;
+import org.jmanage.core.services.ServiceException;
+import org.jmanage.core.data.AttributeListData;
+import org.jmanage.core.util.ErrorCodes;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
@@ -58,8 +61,21 @@ public class UpdateMBeanAttributesAction extends BaseAction {
         final String objectName = context.getObjectName().getCanonicalName();
         final String appName = context.getApplicationConfig().getName();
         MBeanService mbeanService = ServiceFactory.getMBeanService();
-        mbeanService.updateAttributes(Utils.getServiceContext(context), request,
-                objectName, appName);
+        AttributeListData[] attrListData =
+                mbeanService.setAttributes(Utils.getServiceContext(context),
+                        request, objectName, appName);
+        StringBuffer erroneousApps = new StringBuffer();
+        for(int i=0; i<attrListData.length; i++){
+            if(attrListData[i].isError()){
+                if(erroneousApps.length() > 0){
+                    erroneousApps.append(", ");
+                }
+                erroneousApps.append(attrListData[i].getAppName());
+            }
+        }
+        if(erroneousApps.length() > 0){
+            throw new ServiceException(ErrorCodes.ERRONEOUS_APPS, erroneousApps);
+        }
         return mapping.findForward(Forwards.SUCCESS);
     }
 }

@@ -85,6 +85,7 @@ public class ShowMBeanAction extends BaseAction {
                     ObjectAttributeInfo[] attributes = objInfo.getAttributes();
                     attributeNames = new String[attributes.length];
                     for (int i = 0; i < attributes.length; i++) {
+                        // TODO: we should only add the readable attributes here
                         attributeNames[i] = attributes[i].getName();
                     }
                 }

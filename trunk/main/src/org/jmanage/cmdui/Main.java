@@ -16,8 +16,15 @@
 package org.jmanage.cmdui;
 
 import org.jmanage.core.services.ServiceFactory;
+import org.jmanage.core.config.JManageProperties;
+import org.jmanage.core.util.CoreUtils;
+import org.jmanage.core.util.Loggers;
 
 import java.io.IOException;
+import java.util.logging.Logger;
+import java.util.logging.LogManager;
+import java.util.logging.ConsoleHandler;
+import java.util.Enumeration;
 
 /**
  *
@@ -25,17 +32,18 @@ import java.io.IOException;
  *
  * commands:
  *
- * listApps
+ * apps
  * mbeans     <appName> [filter expression]
  * cmbeans    <appName>
- * view       <appName>/<mbeanName[configured name or object name]>
- * view       <appName>/<mbeanName>/[attributeName1|attributeName2|attributeName3]
+ * info       <appName>/<mbeanName[configured name or object name]>
  * execute    <appName>/<mbeanName>/<operationName> [args]
- * modify     <appName>/<mbeanName>/<attributeName> newValue
- * print      <appName>/<mbeanName>/[attributeName1|attributeName2|attributeName3]
+ * print      <appName>/<mbeanName>/attributeName1 [attributeName2]
+ * get        <appName>/<mbeanName> <attributeName> newValue
+ * set        <appName>/<mbeanName>/<attributeName> newValue
  *
- *
- * TODO: we should rename listApps to apps
+ * serverinfo
+ * register
+ * unregister
  *
  * TODO: Ideas from Jboss:
  *
@@ -56,15 +64,25 @@ import java.io.IOException;
  */
 public class Main {
 
+    private static final Logger logger = Loggers.getLogger(Main.class);
+
     static{
         /* initialize ServiceFactory */
-        ServiceFactory.init(ServiceFactory.MODE_REMOTE);
+        if(JManageProperties.getJManageURL() == null){
+            /* run the factory in local mode */
+            ServiceFactory.init(ServiceFactory.MODE_LOCAL);
+        }else{
+            ServiceFactory.init(ServiceFactory.MODE_REMOTE);
+        }
     }
 
     public static void main(String[] args)
         throws Exception {
 
         Command command = Command.get(args);
+
+        /* setup logging */
+        setLogging(command);
 
         /* authenticate the user */
         if(command.isAuthRequired()){
@@ -82,5 +100,18 @@ public class Main {
             /* execute command */
             command.execute();
         }
+    }
+
+    private static void setLogging(Command command){
+        LogManager logManager = LogManager.getLogManager();
+        logManager.reset();
+        /* set the log level on the root logger */
+        Logger rootLogger = Logger.getLogger("");
+        rootLogger.setLevel(command.getLogLevel());
+        ConsoleHandler consoleHandler = new ConsoleHandler();
+        consoleHandler.setLevel(command.getLogLevel());
+        rootLogger.addHandler(consoleHandler);
+
+        logger.fine("Log level=" + command.getLogLevel());
     }
 }

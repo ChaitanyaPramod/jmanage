@@ -16,18 +16,19 @@
 package org.jmanage.cmdui.util;
 
 import org.jmanage.core.data.MBeanData;
+import org.jmanage.core.data.AttributeListData;
+import org.jmanage.core.management.ObjectAttribute;
 
-import java.util.List;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
+import java.util.*;
 
 /**
  *
- * date:  Feb 23, 2005
+ * Date:  Feb 23, 2005
  * @author	Rakesh Kalra
  */
 public class CommandUtils {
+
+    private static final char UNDERLINE_CHAR = '-';
 
     public static void printMBeans(List mbeanList){
         /* first sort the list */
@@ -53,6 +54,36 @@ public class CommandUtils {
         }
     }
 
+    public static void printAttributeLists(AttributeListData[] attributeValues){
+        if(attributeValues.length == 0){
+            return;
+        }
+        Table table = new Table(attributeValues.length + 1);
+        /* add header, if more than one attributeValues are present */
+        if(attributeValues.length > 1){
+            Object[] header = new Object[attributeValues.length + 1];
+            header[0] = "Attributes";
+            for(int i=0; i<attributeValues.length; i++){
+                header[i+1] = attributeValues[i].getAppName();
+            }
+            table.setHeader(header);
+        }
+
+        List attrList = attributeValues[0].getAttributeList();
+        int numberOfAttrs = attrList.size();
+        for(int i=0; i<numberOfAttrs; i++){
+            Object[] cols = new Object[attributeValues.length + 1];
+            cols[0] = ((ObjectAttribute)attrList.get(i)).getName();
+            for(int j=0; j<attributeValues.length; j++){
+                ObjectAttribute objAttribute =
+                        (ObjectAttribute)attributeValues[j].getAttributeList().get(i);
+                cols[j+1] = objAttribute.getValue();
+            }
+            table.add(cols);
+        }
+        table.print();
+    }
+
     public static String padRight(String str, int totalLength) {
         int strLen = str.length();
         StringBuffer buff = new StringBuffer(str);
@@ -60,5 +91,11 @@ public class CommandUtils {
             buff.append(' ');
         }
         return buff.toString();
+    }
+
+    public static String getUnderline(int length) {
+        char[] underline = new char[length];
+        Arrays.fill(underline, UNDERLINE_CHAR);
+        return new String(underline);
     }
 }

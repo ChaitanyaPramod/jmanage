@@ -16,9 +16,11 @@
 package org.jmanage.core.remote.client;
 
 import org.jmanage.core.util.Loggers;
+import org.jmanage.core.util.ErrorCodes;
 import org.jmanage.core.config.JManageProperties;
 import org.jmanage.core.remote.RemoteInvocation;
 import org.jmanage.core.remote.InvocationResult;
+import org.jmanage.core.services.ServiceException;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -27,6 +29,7 @@ import java.util.logging.Level;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.MalformedURLException;
+import java.net.ConnectException;
 import java.io.*;
 
 /**
@@ -45,9 +48,8 @@ public class HttpServiceProxy implements InvocationHandler {
     private static String REQUEST_CONTENT_TYPE =
             "application/x-java-serialized-object; class=org.jmanage.core.remote.RemoteInvocation";
 
-    private static final String url = "http://" +
-            JManageProperties.getHostName() + ":" +
-            JManageProperties.getPort() + "/invokeService";
+    private static final String url =
+            JManageProperties.getJManageURL() + "/invokeService";
     private static final URL remoteURL;
 
     static {
@@ -62,10 +64,15 @@ public class HttpServiceProxy implements InvocationHandler {
             throws Throwable {
 
         logger.log(Level.FINE, "Invoking service method: {0}",
-                method.getClass() + "->" + method.getName());
+                method.getDeclaringClass().getName() + ":" + method.getName());
 
-        RemoteInvocation invocation = new RemoteInvocation(method, args);
-        return invoke(invocation);
+        try {
+            RemoteInvocation invocation = new RemoteInvocation(method, args);
+            return invoke(invocation);
+        } catch (ConnectException e) {
+            throw new ServiceException(ErrorCodes.JMANAGE_SERVER_CONNECTION_FAILED,
+                    JManageProperties.getJManageURL());
+        }
     }
 
     private Object invoke(RemoteInvocation invocation)

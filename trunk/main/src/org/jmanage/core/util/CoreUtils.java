@@ -18,12 +18,16 @@ package org.jmanage.core.util;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 
+import java.util.logging.Logger;
+
 /**
  *
  * date:  Jun 22, 2004
  * @author	Rakesh Kalra
  */
 public class CoreUtils {
+
+    private static final Logger logger = Loggers.getLogger(CoreUtils.class);
 
     public static String getRootDir(){
         return System.getProperty(SystemProperties.JMANAGE_ROOT);
@@ -90,4 +94,8 @@ public class CoreUtils {
         return obj;
     }
 
+    public static void exitSystem(){
+        logger.severe("Shutting down application");
+        System.exit(1);
+    }
 }

@@ -30,10 +30,13 @@ public class CommandHandlerFactory implements CommandConstants {
     private static Set commandNames = new TreeSet();
 
     static{
-        commandNameToInstanceMap.put(LIST_APPS, new ListApplicationsHandler());
+        commandNameToInstanceMap.put(APPS, new ListApplicationsHandler());
         commandNameToInstanceMap.put(MBEANS, new MBeansHandler());
-        commandNameToInstanceMap.put(ALL_MBEANS, new AllMBeansHandler());
-        commandNameToInstanceMap.put(VIEW, new ViewHandler());
+        commandNameToInstanceMap.put(QUERY_MBEANS, new QueryMBeansHandler());
+        commandNameToInstanceMap.put(INFO, new InfoHandler());
+        commandNameToInstanceMap.put(GET, new GetHandler());
+        commandNameToInstanceMap.put(SET, new SetHandler());
+        commandNameToInstanceMap.put(SET_ATTRS, new SetAttributesHandler());
         commandNameToInstanceMap.put(PRINT, new PrintHandler());
         commandNameToInstanceMap.put(EXECUTE, new ExecuteHandler());
         commandNameToInstanceMap.put(HELP, new HelpHandler());
