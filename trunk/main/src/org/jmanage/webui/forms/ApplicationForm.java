@@ -18,7 +18,7 @@ package org.jmanage.webui.forms;
 /**
  *
  * date:  Jun 25, 2004
- * @author	Rakesh Kalra
+ * @author	Rakesh Kalra, Shashank Bellary
  */
 public class ApplicationForm extends BaseForm {
 

@@ -13,17 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jmanage.core.config;
+
+package org.jmanage.core.modules.websphere;
+
+import org.jmanage.core.config.ApplicationConfig;
 
 /**
- *
- * date:  Sep 13, 2004
- * @author	Rakesh Kalra
+ * Date: Jan 23, 2005 5:45:58 PM
+ * @author Shashank Bellary 
  */
-public interface ApplicationType {
-    String WEBLOGIC = "weblogic";
-    String JSR160 = "jsr160";
-    String TOMCAT = "tomcat";
-    String JBOSS = "jboss";
-    String WEBSPHERE = "websphere";
+public class WebSphereApplicationConfig extends ApplicationConfig{
+    /*  For future use  */
 }
