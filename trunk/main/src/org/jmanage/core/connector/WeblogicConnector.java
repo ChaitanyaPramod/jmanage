@@ -22,7 +22,7 @@ public class WeblogicConnector implements ApplicationConnector {
 
         WeblogicApplicationConfig wlConfig = (WeblogicApplicationConfig)config;
         try {
-            MBeanHome home = findExternal(config.getURL(), config.getUserName(),
+            MBeanHome home = findExternal(config.getURL(), config.getUsername(),
                     config.getPassword(), wlConfig.getServerName());
             return home.getMBeanServer();
         } catch (NamingException e) {

@@ -9,18 +9,24 @@ import java.util.*;
  */
 public class ApplicationConfigManager{
 
-    private static final Map applicationConfigs =
-            Collections.synchronizedMap(new HashMap());
+    private static List applicationConfigs = null;
 
     private static final ConfigReader configReader = ConfigReader.getInstance();
 
     static{
         /*  Currently supporting only Weblogic (Weblogic 6.1)   */
-        configReader.loadApplications(applicationConfigs);
+        applicationConfigs = configReader.read();
     }
 
     public static ApplicationConfig getApplicationConfig(String applicationId){
-        return (ApplicationConfig)applicationConfigs.get(applicationId);
+
+        for(Iterator it=applicationConfigs.iterator(); it.hasNext(); ){
+            ApplicationConfig appConfig = (ApplicationConfig)it.next();
+            if(appConfig.getApplicationId().equals(applicationId)){
+                return appConfig;
+            }
+        }
+        return null;
     }
 
     /**
@@ -28,7 +34,17 @@ public class ApplicationConfigManager{
      *
      * @return
      */
-    public static Map getApplications(){
+    public static List getApplications(){
         return applicationConfigs;
+    }
+
+    public static void addApplication(ApplicationConfig config){
+        applicationConfigs.add(config);
+        saveConfig();
+    }
+
+    public static void saveConfig(){
+        ConfigWriter writer = ConfigWriter.getInstance();
+        writer.write(applicationConfigs);
     }
 }

@@ -2,16 +2,17 @@
 
 <application-config>
     <applications>
-        <application id="1234" name="test" server="localhost" port="7001" username="system" password="12345678" type="Weblogic">
+        <application id="1234" name="Weblogic 6.1" host="localhost" port="7001" username="system" password="12345678" type="Weblogic">
             <param>
                 <param-name>serverName</param-name>
-                <param-value>loyaltyServer</param-value>
+                <param-value>localhome</param-value>
             </param>
             <mbeans>
-                <mbean
-                    name="AppProperties"
-                    objectName="UserDomain:name=AppProperties">
-
+                <mbean name="Connection Pool">
+                    <object-name>site:Name=demoPool,Type=JDBCConnectionPool</object-name>
+                </mbean>
+                <mbean name="AppProperties">
+                    <object-name>UserDomain:name=AppProperties</object-name>
                 </mbean>
             </mbeans>
             <roles>
@@ -21,16 +22,12 @@
 
         <application-cluster name="App Cluster">
             <application name="Earth">
-
             </application>
             <application name="Venus">
-
             </application>
             <application name="Mars">
                 <homepage graph="connectionPoolGraph">
-
                 </homepage>
-
             </application>
         </application-cluster>
     </applications>

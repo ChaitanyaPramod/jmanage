@@ -4,6 +4,7 @@ import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.RequestAttributes;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.util.RequestParams;
+import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.forms.MBeanQueryForm;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.ApplicationConfigManager;
@@ -24,7 +25,8 @@ import java.util.*;
  */
 public class MBeanListAction extends BaseAction {
 
-    public ActionForward execute(ActionMapping mapping,
+    public ActionForward execute(WebContext context,
+                                 ActionMapping mapping,
                                  ActionForm actionForm,
                                  HttpServletRequest request,
                                  HttpServletResponse response)
@@ -33,11 +35,7 @@ public class MBeanListAction extends BaseAction {
         MBeanQueryForm queryForm = (MBeanQueryForm)actionForm;
         final String queryObjectName = queryForm.getObjectName();
 
-        ApplicationConfig config =
-                ApplicationConfigManager.getApplicationConfig(
-                        request.getParameter(RequestParams.APPLICATION_ID));
-        MBeanServer mbeanServer =
-                MBeanServerConnectionFactory.getConnection(config);
+        MBeanServer mbeanServer = context.getMBeanServer();
 
         Set mbeans = mbeanServer.queryMBeans(new ObjectName(queryObjectName), null);
         List objectNameList = new ArrayList(mbeans.size());
@@ -45,8 +43,6 @@ public class MBeanListAction extends BaseAction {
             ObjectInstance oi = (ObjectInstance)it.next();
             objectNameList.add(oi.getObjectName());
         }
-        // TODO: move to central location (RequestProcessor ?)
-        request.setAttribute(RequestAttributes.APPLICATION_CONFIG, config);
 
         request.setAttribute("objectNameList", objectNameList);
         return mapping.findForward(Forwards.SUCCESS);

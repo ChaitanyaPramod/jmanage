@@ -10,8 +10,16 @@
 
     <form-beans>
         <form-bean
+            name="emptyForm"
+            type="org.jmanage.webui.forms.EmptyForm">
+        </form-bean>
+        <form-bean
             name="mbeanQueryForm"
             type="org.jmanage.webui.forms.MBeanQueryForm">
+        </form-bean>
+        <form-bean
+            name="applicationForm"
+            type="org.jmanage.webui.forms.ApplicationForm">
         </form-bean>
     </form-beans>
 
@@ -30,6 +38,32 @@
     <!-- ======================================== Action Mapping Definitions -->
 
     <action-mappings>
+
+        <action
+            path="/config/applicationList"
+            type="org.jmanage.webui.actions.config.ApplicationListAction">
+            <forward name="success" path="/config/applicationList.jsp"/>
+        </action>
+        <action
+            path="/config/managedApplications"
+            type="org.jmanage.webui.actions.config.ApplicationListAction">
+            <forward name="success" path="/config/managedApplications.jsp"/>
+        </action>
+        <action
+            path="/config/showEditApplication"
+            name="applicationForm"
+            scope="request"
+            type="org.jmanage.webui.actions.config.ShowEditApplicationAction">
+            <forward name="success" path="/config/editApplication.jsp"/>
+        </action>
+        <action
+            path="/config/editApplication"
+            name="applicationForm"
+            scope="request"
+            type="org.jmanage.webui.actions.config.EditApplicationAction">
+            <forward name="success" path="/config/managedApplications.do"/>
+        </action>
+
         <action
             path="/app/mbeanList"
             name="mbeanQueryForm"
@@ -43,11 +77,19 @@
             <forward name="success" path="app.mbeanView"/>
         </action>
         <action
-            path="/config/applicationList"
-            type="org.jmanage.webui.actions.config.ApplicationListAction">
-            <forward name="success" path="/config/applicationList.jsp"/>
+            path="/app/updateAttributes"
+            name="emptyForm"
+            scope="request"
+            type="org.jmanage.webui.actions.app.UpdateMBeanAttributesAction">
+            <forward name="success" path="/app/mbeanView.do"/>
         </action>
-
+        <action
+            path="/app/executeOperation"
+            name="emptyForm"
+            scope="request"
+            type="org.jmanage.webui.actions.app.ExecuteMBeanOperationAction">
+            <forward name="success" path="/app/mbeanView.do"/>
+        </action>
     </action-mappings>
 
 

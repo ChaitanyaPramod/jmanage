@@ -2,8 +2,10 @@ package org.jmanage.core.config;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
+ * TODO: implement toString method
  *
  * date:  Jun 11, 2004
  * @author	Rakesh Kalra
@@ -20,6 +22,8 @@ public abstract class ApplicationConfig {
     protected int port;
     protected String username;
     protected String password;
+    protected Map paramValues;
+    private List mbeanList;
 
     public ApplicationConfig(String applicationId,
                              String name,
@@ -36,10 +40,12 @@ public abstract class ApplicationConfig {
                              String host,
                              int port,
                              String username,
-                             String password){
+                             String password,
+                             Map paramValues){
         this(applicationId, name, host, port);
         this.username = username;
         this.password = password;
+        this.paramValues = paramValues;
     }
 
     public String getApplicationId(){
@@ -61,7 +67,7 @@ public abstract class ApplicationConfig {
         return port;
     }
 
-    public String getUserName() {
+    public String getUsername() {
         return username;
     }
 
@@ -72,10 +78,29 @@ public abstract class ApplicationConfig {
     /**
      * If there are no additional parameters, the returned list is empty
      *
-     * @return  list of additional configuration parameters
+     * @return  list of additional configuration parameters(ConfigParam objects)
      */
     public List getAdditionalParameters(){
         return EMPTY_LIST;
+    }
+
+    public Map getParamValues(){
+        return paramValues;
+    }
+
+    /**
+     * @return list of MBeanConfig objects
+     */
+    public List getMBeans(){
+        return mbeanList;
+    }
+
+    /**
+     *
+     * @param mbeanList list of MBeanConfig objects
+     */
+    public void setMBeans(List mbeanList){
+        this.mbeanList = mbeanList;
     }
 
     /**

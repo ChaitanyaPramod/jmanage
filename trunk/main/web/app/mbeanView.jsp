@@ -1,6 +1,9 @@
 <%@ page import="java.util.Iterator,
                  javax.management.*,
                  org.jmanage.webui.util.RequestParams"%>
+
+<%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
+
 <%
     MBeanInfo mbeanInfo = (MBeanInfo)request.getAttribute("mbeanInfo");
     MBeanAttributeInfo[] attributes = mbeanInfo.getAttributes();
@@ -87,6 +90,8 @@
 <br><br>
 <b>Attributes:</b>
 <br><br>
+<jmhtml:form action="/app/updateAttributes" method="post">
+
 <table border="1" cellspacing="5">
 <tr>
     <td><b>Name</b></td>
@@ -108,7 +113,7 @@
                     getValue(attributeList, attributeInfo.getName());
         %>
         <%if(attributeInfo.isWritable() && !attrValue.equals("Object")){%>
-            <input type="text" name="attributeInfo.getName()" size="50"
+            <input type="text" name="attr+<%=attributeInfo.getName()%>+<%=attributeInfo.getType()%>" size="50"
             value="<%=attrValue%>"/>
         <%}else{%>
             <%=attrValue%>
@@ -123,7 +128,10 @@
 %>
 </table>
 To save the changes to the attribute values click on
-<input type="button" value="Save"/>
+<jmhtml:submit value="Save"/>
+
+</jmhtml:form>
+
 <%if(operations.length > 0){%>
 <br><br>
 <b>Operations:</b>
@@ -133,6 +141,7 @@ To save the changes to the attribute values click on
     for(int index=0; index < operations.length; index++){
         MBeanOperationInfo operationInfo = operations[index];
 %>
+<jmhtml:form action="/app/executeOperation">
 <tr>
     <td>
         <%=operationInfo.getReturnType()%>
@@ -141,9 +150,14 @@ To save the changes to the attribute values click on
         (
         <%
             MBeanParameterInfo[] params = operationInfo.getSignature();
+            %>
+            <input type="hidden" name="paramCount" value="<%=params.length%>"/>
+            <%
             for(int paramIndex = 0; paramIndex < params.length; paramIndex ++){
         %>
             <%if(paramIndex>0){%>,&nbsp;<%}%>
+            <input type="hidden" name="<%=operationInfo.getName()%><%=paramIndex%>_type" value="<%=params[paramIndex].getType()%>"/>
+            <input type="text" name="<%=operationInfo.getName()%><%=paramIndex%>_value" value=""/>
             <%=params[paramIndex].getType()%>
         <%
             }
@@ -151,10 +165,12 @@ To save the changes to the attribute values click on
         )
     </td>
     <td>
-        <input type="button" value="Execute"/>&nbsp;
+        <input type="hidden" name="operationName" value="<%=operationInfo.getName()%>"/>
+        <jmhtml:submit value="Execute"/>&nbsp;
         [Impact: <%=getImpact(operationInfo.getImpact())%>]
     </td>
 </tr>
+</jmhtml:form>
 <%
     }
 %>

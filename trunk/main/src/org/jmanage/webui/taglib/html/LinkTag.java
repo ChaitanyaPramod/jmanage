@@ -5,6 +5,7 @@ import org.jmanage.webui.util.Utils;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
+import javax.servlet.ServletRequest;
 import java.io.IOException;
 
 /**
@@ -22,11 +23,18 @@ public class LinkTag extends org.apache.struts.taglib.html.LinkTag {
 
     private String appendQueryStringParams(String url) {
 
-        String applicationId = pageContext.getRequest().
-                getParameter(RequestParams.APPLICATION_ID);
+        ServletRequest request = pageContext.getRequest();
+        String applicationId =
+                request.getParameter(RequestParams.APPLICATION_ID);
         if (applicationId != null) {
             url = Utils.appendURLParam(url, RequestParams.APPLICATION_ID,
                     applicationId);
+        }
+        String objectName =
+                request.getParameter(RequestParams.OBJECT_NAME);
+        if (applicationId != null) {
+            url = Utils.appendURLParam(url, RequestParams.OBJECT_NAME,
+                    objectName);
         }
         return url;
     }
