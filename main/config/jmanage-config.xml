@@ -6,13 +6,13 @@
         <module
             id="weblogic"
             name="Weblogic 6.1"
-            configClass="org.jmanage.modules.weblogic.WeblogicApplicationConfig"
-            connectionFactory="org.jmanage.modules.weblogic.WLServerConnectionFactory"/>
+            configClass="org.jmanage.core.modules.weblogic.WeblogicApplicationConfig"
+            connectionFactory="org.jmanage.core.modules.weblogic.WLServerConnectionFactory"/>
         <module
             id="tomcat"
             name="Tomcat 4.x &amp; 5.x"
-            configClass="org.jmanage.modules.tomcat.TomcatApplicationConfig"
-            connectionFactory="org.jmanage.modules.tomcat.TomcatServerConnectionFactory"/>
+            configClass="org.jmanage.core.modules.tomcat.TomcatApplicationConfig"
+            connectionFactory="org.jmanage.core.modules.tomcat.TomcatServerConnectionFactory"/>
         <module
             id="jsr160"
             name="JSR160"
@@ -21,8 +21,13 @@
         <module
             id="jboss"
             name="JBoss 3.2.4"
-            configClass="org.jmanage.modules.jboss.JBossApplicationConfig"
-            connectionFactory="org.jmanage.modules.jboss.JBossServerConnectionFactory"/>
+            configClass="org.jmanage.core.modules.jboss.JBossApplicationConfig"
+            connectionFactory="org.jmanage.core.modules.jboss.JBossServerConnectionFactory"/>
+        <module
+            id="websphere"
+            name="WebSphere 5x &amp; 6"
+            configClass="org.jmanage.core.modules.websphere.WebSphereApplicationConfig"
+            connectionFactory="org.jmanage.core.modules.websphere.WebSphereServerConnectionFactory"/>
     </application-modules>
 
 </jmanage-config>

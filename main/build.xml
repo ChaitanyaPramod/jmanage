@@ -189,6 +189,20 @@
         </fileset>
     </path>
 
+    <path id="module.websphere.classpath">
+        <fileset dir="${basedir}/lib">
+            <include name="*.jar"/>
+        </fileset>
+        <pathelement path="${build.home}/classes" />
+        <fileset dir="${basedir}/ext">
+            <include name="admin.jar"/>
+            <include name="wsexception.jar"/>
+            <include name="jmxc.jar"/>
+            <include name="ras.jar"/>
+            <include name="wssec.jar"/>
+        </fileset>
+    </path>
+
     <!-- ================= All Target ====================================== -->
 
     <!--
@@ -296,6 +310,7 @@
         <antcall target="build-tomcat-module" />
         <antcall target="build-jsr160-module" />
         <antcall target="build-jboss-module" />
+        <antcall target="build-websphere-module" />
     </target>
 
     <!-- target for building weblogic module -->
@@ -346,6 +361,21 @@
             <fileset file="${basedir}/ext/jbossall-client.jar"/>
             <fileset file="${basedir}/ext/jboss-jmx.jar"/>
             <fileset file="${basedir}/ext/jnet.jar"/>
+        </copy>
+    </target>
+
+    <!-- target for building websphere module -->
+    <target name="build-websphere-module" depends="compile"
+        description="Builds WebSphere module">
+        <antcall target="build-module">
+            <param name="module.name" value="websphere"/>
+        </antcall>
+        <copy todir="${build.home}/modules/websphere">
+            <fileset file="${basedir}/ext/admin.jar"/>
+            <fileset file="${basedir}/ext/wsexception.jar"/>
+            <fileset file="${basedir}/ext/jmxc.jar"/>
+            <fileset file="${basedir}/ext/ras.jar"/>
+            <fileset file="${basedir}/ext/wssec.jar"/>
         </copy>
     </target>
 
@@ -421,8 +451,8 @@
         </copy>
         <!-- jar up the distribution -->
 
-        <delete file="${dist.home}/jmanage-${app.version}.jar"/>
-        <jar jarfile="${dist.home}/jmanage-${app.version}.jar">
+        <delete file="${dist.home}/jmanage-${app.version}.zip"/>
+        <jar jarfile="${dist.home}/jmanage-${app.version}.zip">
             <fileset dir="${dist.home}" includes="**"/>
             <fileset dir="${dist.home}/ext" excludes="*.jar"/>
         </jar>
