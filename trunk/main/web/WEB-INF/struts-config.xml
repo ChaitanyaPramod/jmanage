@@ -29,6 +29,10 @@
             name="mbeanConfigForm"
             type="org.jmanage.webui.forms.MBeanConfigForm">
         </form-bean>
+        <form-bean
+            name="userForm"
+            type="org.jmanage.webui.forms.UserForm">
+        </form-bean>
     </form-beans>
 
     <!-- ====================================== Global Exception Definitions -->
@@ -169,8 +173,53 @@
             type="org.jmanage.webui.actions.app.ExecuteMBeanOperationAction">
             <forward name="success" path="/app/mbeanView.do"/>
         </action>
-    </action-mappings>
 
+        <!--== User Management =======================================-->
+        <action
+            path="/auth/listUsers"
+            roles="ops"
+            type="org.jmanage.webui.actions.auth.ListUsersAction">
+            <forward name="success" path="/auth/configuredUsers.jsp"/>
+        </action>
+        <action
+            path="/auth/deleteUser"
+            roles="ops"
+            type="org.jmanage.webui.actions.auth.DeleteUserAction">
+            <forward name="success" path="/auth/listUsers.do"/>
+        </action>
+        <action
+            path="/auth/showEditUser"
+            name="userForm"
+            scope="request"
+            roles="ops"
+            type="org.jmanage.webui.actions.auth.ShowEditUserAction">
+            <forward name="success" path="/auth/editUser.jsp"/>
+        </action>
+        <action
+            path="/auth/editUser"
+            name="userForm"
+            scope="request"
+            roles="ops"
+            type="org.jmanage.webui.actions.auth.EditUserAction">
+            <forward name="success" path="/auth/listUsers.do"/>
+        </action>
+        <action
+            path="/auth/showAddUser"
+            name="userForm"
+            scope="request"
+            roles="ops"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/auth/adddUser.jsp">
+        </action>
+        <action
+            path="/auth/addUser"
+            name="userForm"
+            scope="request"
+            roles="ops"
+            type="org.jmanage.webui.actions.auth.AddUserAction">
+            <forward name="success" path="/auth/listUsers.do"/>
+        </action>
+    </action-mappings>
 
     <!-- ========================================== Controller Configuration -->
 

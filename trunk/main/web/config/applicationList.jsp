@@ -58,6 +58,11 @@
   <table width="97%" border="0" align="center" cellpadding="5" cellspacing="0" class="Inside3d">
     <tr>
       <td height="20" bordercolor="#E6EEF9" bgcolor="#E6EEF9">
+        <jmhtml:link href="/auth/listUsers.do" target="mbeanDetails" styleClass="a">Users</jmhtml:link>
+      </td>
+    </tr>
+    <tr>
+      <td height="20" bordercolor="#E6EEF9" bgcolor="#E6EEF9">
         <jmhtml:link href="/auth/logout.do" target="_parent" styleClass="a">Logout</jmhtml:link>
       </td>
     </tr>
