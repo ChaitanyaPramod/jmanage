@@ -15,11 +15,14 @@
  */
 package org.jmanage.core.remote;
 
-import org.exolab.castor.xml.MarshalException;
-import org.exolab.castor.xml.ValidationException;
+import org.jmanage.core.util.Loggers;
+import org.exolab.castor.mapping.Mapping;
+import org.xml.sax.InputSource;
 
 import java.io.StringWriter;
-import java.io.IOException;
+import java.io.StringReader;
+import java.util.logging.Logger;
+import java.util.List;
 
 /**
  *
@@ -28,7 +31,31 @@ import java.io.IOException;
  */
 public class Marshaller {
 
+    private static final Logger logger = Loggers.getLogger(Marshaller.class);
+
     public static String marshal(Object obj){
+
+        String output;
+        if(obj == null){
+            output = "";
+        }else if(obj.getClass().getName().startsWith("java.lang")){
+            /* just write out the string representation */
+            output = obj.toString();
+        }else{
+            output = marshalToXml(obj);
+        }
+        logger.fine("Marshalled value: " + output);
+        return output;
+    }
+
+    private static String marshalToXml(Object obj){
+
+        /*if(obj instanceof java.util.List){
+            List list = (List)obj;
+            if(list.size() > 0){
+                list.add(0, list.get(0).getClass().getName());
+            }
+        } */
 
         StringWriter writer = new StringWriter();
         try {
@@ -36,7 +63,8 @@ public class Marshaller {
                     new org.exolab.castor.xml.Marshaller(writer);
             marshaller.setRootElement("marshalledObject");
             marshaller.setMarshalAsDocument(false);
-            marshaller.setSuppressXSIType(true);
+            marshaller.setSuppressXSIType(false);
+            marshaller.setMapping(DataMapping.getMapping());
             marshaller.marshal(obj);
         } catch (Exception e) {
             throw new RuntimeException("Error while marshalling obj of type:" +

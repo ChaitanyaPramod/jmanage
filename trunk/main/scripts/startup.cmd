@@ -23,14 +23,14 @@ echo JMANAGE_HOME is %JMANAGE_HOME%
 
 if "%JMANAGE_LIB_ROOT%" == "" set JMANAGE_LIB_ROOT=%JMANAGE_HOME%
 
-set LIB_JARS=%JMANAGE_LIB_ROOT%/lib/javax.servlet.jar;%JMANAGE_LIB_ROOT%/lib/org.mortbay.jetty.jar;%JMANAGE_LIB_ROOT%/lib/jasper-compiler.jar;%JMANAGE_LIB_ROOT%/lib/jasper-runtime.jar;%JMANAGE_LIB_ROOT%/lib/ant.jar;%JMANAGE_LIB_ROOT%/lib/jdom.jar;%JMANAGE_LIB_ROOT%/lib/xml-apis.jar;%JMANAGE_LIB_ROOT%/lib/xmlrpc-1.2-b1.jar;%JMANAGE_LIB_ROOT%/lib/castor.jar
+set LIB_JARS=%JMANAGE_LIB_ROOT%/lib/javax.servlet.jar;%JMANAGE_LIB_ROOT%/lib/org.mortbay.jetty.jar;%JMANAGE_LIB_ROOT%/lib/jasper-compiler.jar;%JMANAGE_LIB_ROOT%/lib/jasper-runtime.jar;%JMANAGE_LIB_ROOT%/lib/ant.jar;%JMANAGE_LIB_ROOT%/lib/jdom.jar;%JMANAGE_LIB_ROOT%/lib/xml-apis.jar;%JMANAGE_LIB_ROOT%/lib/xmlrpc-1.2-b1.jar;%JMANAGE_LIB_ROOT%/lib/castor.jar;%JMANAGE_LIB_ROOT%/lib/commons-beanutils.jar;%JMANAGE_LIB_ROOT%/lib/commons-logging.jar
 set EXT_JARS=
 
-set JMANAGE_CLASSPATH=%LIB_JARS%;%EXT_JARS%;%JMANAGE_HOME%/classes
+set JMANAGE_CLASSPATH=%LIB_JARS%;%EXT   _JARS%;%JMANAGE_HOME%/classes
 
 @echo on
 
-%JAVA_HOME%/bin/java -ea -classpath %JMANAGE_CLASSPATH% %DEBUG_OPTIONS% -Djmanage.root=%JMANAGE_HOME% org.jmanage.webui.Startup
+%JAVA_HOME%/bin/java -ea -classpath %JMANAGE_CLASSPATH% %DEBUG_OPTIONS% -Djava.util.logging.config.file=%JMANAGE_HOME%/config/logging.properties -Djmanage.root=%JMANAGE_HOME% org.jmanage.webui.Startup
 goto finish
 
 :javaHomeNotSet

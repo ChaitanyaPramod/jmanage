@@ -13,22 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jmanage.core.util;
+package org.jmanage.cmdui.commands;
+
+import org.jmanage.cmdui.CommandHandler;
+import org.jmanage.cmdui.HandlerContext;
 
 /**
  *
- * date:  Jul 23, 2004
+ * date:  Feb 4, 2005
  * @author	Rakesh Kalra
  */
-public class Tracer {
+public class NoOpHandler implements CommandHandler {
 
-    public static void message(Object obj, String message){
-        System.out.println(message);
-    }
-
-    public static void exception(Object obj, Throwable t) {
-        if(t != null){
-            t.printStackTrace();
-        }
+    public boolean execute(HandlerContext context) {
+        return true;
     }
 }

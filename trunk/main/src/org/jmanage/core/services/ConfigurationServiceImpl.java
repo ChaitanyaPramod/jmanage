@@ -20,6 +20,11 @@ import org.jmanage.core.config.ApplicationConfigFactory;
 import org.jmanage.core.config.ApplicationConfigManager;
 import org.jmanage.core.data.ApplicationConfigData;
 import org.jmanage.core.util.UserActivityLogger;
+import org.jmanage.core.util.CoreUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Iterator;
 
 /**
  *
@@ -29,7 +34,7 @@ import org.jmanage.core.util.UserActivityLogger;
 public class ConfigurationServiceImpl implements ConfigurationService {
 
     public ApplicationConfigData addApplication(ServiceContext context,
-                                                   ApplicationConfigData data){
+                                                ApplicationConfigData data){
 
         /* TODO: first check the permission */
 
@@ -55,5 +60,16 @@ public class ConfigurationServiceImpl implements ConfigurationService {
                 "Added application "+ "\""+config.getName()+"\"");
 
         return data;
+    }
+
+    public ArrayList getAllApplications(ServiceContext context) {
+        List appConfigs = ApplicationConfigManager.getApplications();
+        ArrayList appDataObjs = new ArrayList(appConfigs.size());
+        for(Iterator it=appConfigs.iterator(); it.hasNext(); ){
+            ApplicationConfigData configData = new ApplicationConfigData();
+            CoreUtils.copyProperties(configData, it.next());
+            appDataObjs.add(configData);
+        }
+        return appDataObjs;
     }
 }

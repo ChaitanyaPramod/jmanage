@@ -24,6 +24,7 @@ import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.ApplicationConfigFactory;
 import org.jmanage.core.config.ApplicationConfigManager;
 import org.jmanage.core.util.UserActivityLogger;
+import org.jmanage.core.util.CoreUtils;
 import org.jmanage.core.data.ApplicationConfigData;
 import org.jmanage.core.services.ConfigurationService;
 import org.jmanage.core.services.ServiceFactory;
@@ -60,7 +61,7 @@ public class AddApplicationAction extends BaseAction {
 
         /* create ApplicationConfigData from this form */
         ApplicationConfigData appConfigData = new ApplicationConfigData();
-        Utils.copyProperties(appConfigData, appForm);
+        CoreUtils.copyProperties(appConfigData, appForm);
 
         ConfigurationService service = ServiceFactory.getConfigurationService();
 

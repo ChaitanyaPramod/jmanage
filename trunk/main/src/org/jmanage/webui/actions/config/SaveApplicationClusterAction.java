@@ -18,12 +18,12 @@ package org.jmanage.webui.actions.config;
 import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
-import org.jmanage.webui.util.Utils;
 import org.jmanage.webui.forms.ApplicationClusterForm;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.ApplicationConfigManager;
 import org.jmanage.core.config.ApplicationClusterConfig;
 import org.jmanage.core.util.UserActivityLogger;
+import org.jmanage.util.StringUtils;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
@@ -52,7 +52,7 @@ public class SaveApplicationClusterAction extends BaseAction {
 
         ApplicationClusterForm clusterForm = (ApplicationClusterForm)actionForm;
         String[] childAppIds =
-                Utils.csvToStringArray(clusterForm.getSelectedChildApplications());
+                StringUtils.csvToStringArray(clusterForm.getSelectedChildApplications());
         /* build list of new child applications */
         List newChildApplications = getNewChildApplications(childAppIds);
 

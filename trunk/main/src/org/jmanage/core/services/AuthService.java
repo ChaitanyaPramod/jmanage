@@ -17,18 +17,21 @@ package org.jmanage.core.services;
 
 import org.jmanage.core.data.ApplicationConfigData;
 
-import java.util.List;
-import java.util.ArrayList;
-
 /**
  *
- * date:  Jan 9, 2005
+ * date:  Feb 4, 2005
  * @author	Rakesh Kalra
  */
-public interface ConfigurationService {
+public interface AuthService {
 
-    public ApplicationConfigData addApplication(ServiceContext context,
-                                                ApplicationConfigData data);
-
-    public ArrayList getAllApplications(ServiceContext context);
+    /**
+     *
+     * @param context
+     * @param username
+     * @param password
+     * @return error code if login attempt failed
+     */
+    public void login(ServiceContext context,
+                        String username,
+                        String password);
 }

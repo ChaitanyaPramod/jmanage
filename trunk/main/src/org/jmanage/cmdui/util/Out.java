@@ -13,22 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jmanage.core.services;
-
-import org.jmanage.core.data.ApplicationConfigData;
-
-import java.util.List;
-import java.util.ArrayList;
+package org.jmanage.cmdui.util;
 
 /**
  *
- * date:  Jan 9, 2005
+ * date:  Feb 4, 2005
  * @author	Rakesh Kalra
  */
-public interface ConfigurationService {
+public class Out {
 
-    public ApplicationConfigData addApplication(ServiceContext context,
-                                                ApplicationConfigData data);
+    public static void print(String msg){
+        System.out.print(msg);
+    }
 
-    public ArrayList getAllApplications(ServiceContext context);
+    public static void println(String msg){
+        System.out.println(msg);
+    }
+
+    public static void println(){
+        System.out.println();
+    }
 }

@@ -30,6 +30,7 @@ public class ApplicationConfigData {
     private String username;
     private String password;
     private String type;
+    private boolean isCluster;
 
     public String getApplicationId() {
         return appId;
@@ -93,5 +94,16 @@ public class ApplicationConfigData {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public void setCluster(boolean isCluster){
+        this.isCluster = isCluster;
+    }
+
+    /**
+     * @return true: if its a application cluster; false: otherwise
+     */
+    public boolean isCluster(){
+        return isCluster;
     }
 }

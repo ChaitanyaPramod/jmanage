@@ -13,22 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jmanage.core.services;
+package org.jmanage.cmdui.util;
 
-import org.jmanage.core.data.ApplicationConfigData;
-
-import java.util.List;
-import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
 
 /**
  *
- * date:  Jan 9, 2005
+ * date:  Feb 4, 2005
  * @author	Rakesh Kalra
  */
-public interface ConfigurationService {
+public class In {
 
-    public ApplicationConfigData addApplication(ServiceContext context,
-                                                ApplicationConfigData data);
+    private static BufferedReader in =
+            new BufferedReader(new InputStreamReader(System.in));
 
-    public ArrayList getAllApplications(ServiceContext context);
+    public static String readLine() throws IOException{
+        return in.readLine();
+    }
 }

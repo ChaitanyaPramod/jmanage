@@ -47,7 +47,7 @@ public class JSR160ServerConnectionFactory implements ServerConnectionFactory{
                                                  config.getPassword()};
             env.put("jmx.remote.credentials", credentials);
             JMXServiceURL url = new JMXServiceURL(config.getURL());
-            JMXConnector jmxc = JMXConnectorFactory.connect(url, null);
+            JMXConnector jmxc = JMXConnectorFactory.connect(url, env);
             MBeanServerConnection mbsc = jmxc.getMBeanServerConnection();
             return new JSR160ServerConnection(mbsc);
         } catch (Throwable e) {

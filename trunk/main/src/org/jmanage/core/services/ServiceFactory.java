@@ -86,6 +86,10 @@ public class ServiceFactory {
         return (ConfigurationService)getService(ConfigurationService.class);
     }
 
+    public static AuthService getAuthService() {
+        return (AuthService)getService(AuthService.class);
+    }
+
     private static Object createService(Class serviceClass){
         final String implClassName = serviceClass.getName() + "Impl";
         try {

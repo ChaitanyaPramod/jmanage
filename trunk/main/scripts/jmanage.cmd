@@ -28,8 +28,7 @@ set EXT_JARS=
 
 set JMANAGE_CLASSPATH=%LIB_JARS%;%EXT_JARS%;%JMANAGE_HOME%/classes
 
-@echo on
-%JAVA_HOME%/bin/java -ea -classpath %JMANAGE_CLASSPATH% -Djmanage.root=%JMANAGE_HOME% org.jmanage.cmdui.CommandInterface
+%JAVA_HOME%/bin/java -ea -classpath %JMANAGE_CLASSPATH% %DEBUG_OPTIONS% -Djava.util.logging.config.file=%JMANAGE_HOME%/config/logging.properties -Djmanage.root=%JMANAGE_HOME% org.jmanage.cmdui.Main %*
 goto finish
 
 :javaHomeNotSet
