@@ -1,5 +1,7 @@
 package org.jmanage.core.config;
 
+import org.jmanage.core.crypto.Crypto;
+
 import java.util.*;
 
 /**
@@ -30,6 +32,7 @@ public abstract class ApplicationConfig {
         this.setName(name);
         this.setHost(host);
         this.setPort(port);
+        this.mbeanList = new LinkedList();
     }
 
     public ApplicationConfig(String applicationId,

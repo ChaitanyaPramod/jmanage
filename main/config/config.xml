@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <application-config>
     <applications>
-        <application id="1234" name="Weblogic 6.1" host="localhost" port="7001" username="system" password="12345678" type="Weblogic">
-            <mbeans>
-                <mbean name="Connection Pool"><object-name>site:Name=demoPool,Type=JDBCConnectionPool</object-name></mbean>
-                <mbean name="AppProperties"><object-name>UserDomain:name=AppProperties</object-name></mbean>
-            </mbeans>
-        </application>
     </applications>
 </application-config>
