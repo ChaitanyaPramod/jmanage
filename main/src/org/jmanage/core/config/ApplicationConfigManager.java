@@ -25,6 +25,14 @@ public class ApplicationConfigManager{
             if(appConfig.getApplicationId().equals(applicationId)){
                 return appConfig;
             }
+            if(appConfig.isCluster()){
+                for(Iterator it2=appConfig.getApplications().iterator(); it2.hasNext();){
+                    appConfig = (ApplicationConfig)it2.next();
+                    if(appConfig.getApplicationId().equals(applicationId)){
+                        return appConfig;
+                    }
+                }
+            }
         }
         return null;
     }
