@@ -66,7 +66,7 @@ We are currently developing version 0.5, which has the following features:
         <br/><br/>
             jManage command line interface uses XML RPC to connect to the
             jManage web application. The custom data objects are serialized
-            using Castor.
+            using <a href="http://www.castor.org">Castor</a>.
         </p>
     </section>
     <section>
