@@ -66,14 +66,25 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 
     public List getAllApplications(ServiceContext context) {
         List appConfigs = ApplicationConfigManager.getApplications();
+        return appConfigListToAppConfigDataList(appConfigs);
+    }
+
+    private List appConfigListToAppConfigDataList(List appConfigs){
         ArrayList appDataObjs = new ArrayList(appConfigs.size());
         for(Iterator it=appConfigs.iterator(); it.hasNext(); ){
             ApplicationConfigData configData = new ApplicationConfigData();
-            CoreUtils.copyProperties(configData, it.next());
+            ApplicationConfig appConfig = (ApplicationConfig)it.next();
+            CoreUtils.copyProperties(configData, appConfig);
             appDataObjs.add(configData);
+            if(appConfig.isCluster()){
+                List childApplications =
+                        appConfigListToAppConfigDataList(appConfig.getApplications());
+                configData.setChildApplications(childApplications);
+            }
         }
         return appDataObjs;
     }
+
 
     public List getConfiguredMBeans(ServiceContext context,
                                     String applicationName)

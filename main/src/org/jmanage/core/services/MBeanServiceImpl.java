@@ -21,10 +21,7 @@ import org.jmanage.core.config.MBeanConfig;
 import org.jmanage.core.data.MBeanData;
 import org.jmanage.core.data.OperationResultData;
 import org.jmanage.core.management.*;
-import org.jmanage.core.util.CoreUtils;
-import org.jmanage.core.util.ErrorCodes;
-import org.jmanage.core.util.Loggers;
-import org.jmanage.core.util.UserActivityLogger;
+import org.jmanage.core.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
@@ -167,6 +164,11 @@ public class MBeanServiceImpl implements MBeanService {
                     + " in application " + appConfig.getName());
         } catch (ConnectionFailedException e) {
             logger.log(Level.INFO, "Error executing operation " +
+                    operationName + " on " + objectName, e);
+            resultData.setResult(OperationResultData.RESULT_ERROR);
+            resultData.setErrorString(ErrorCatalog.getMessage(ErrorCodes.CONNECTION_FAILED));
+        } catch (Exception e){
+            logger.log(Level.SEVERE, "Error executing operation " +
                     operationName + " on " + objectName, e);
             resultData.setResult(OperationResultData.RESULT_ERROR);
             resultData.setErrorString(e.getMessage());
