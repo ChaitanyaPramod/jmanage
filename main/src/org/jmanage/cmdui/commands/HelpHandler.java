@@ -61,6 +61,9 @@ public class HelpHandler implements CommandHandler {
             }
         }
 
+        /* print help about using jmanage command */
+        Out.println("jmanage [-username <username>] [-password <password>] " +
+                "[-verbose[=<level>]] [command]");
         /* print short help for all commands */
         Table table = new Table(2);
         Collection commandNames = CommandHandlerFactory.getCommandNames();

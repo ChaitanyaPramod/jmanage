@@ -17,14 +17,11 @@ package org.jmanage.cmdui;
 
 import org.jmanage.core.services.ServiceFactory;
 import org.jmanage.core.config.JManageProperties;
-import org.jmanage.core.util.CoreUtils;
 import org.jmanage.core.util.Loggers;
 
-import java.io.IOException;
 import java.util.logging.Logger;
 import java.util.logging.LogManager;
 import java.util.logging.ConsoleHandler;
-import java.util.Enumeration;
 
 /**
  *
@@ -39,24 +36,14 @@ import java.util.Enumeration;
  * execute    <appName>/<mbeanName>/<operationName> [args]
  * print      <appName>/<mbeanName>/attributeName1 [attributeName2]
  * get        <appName>/<mbeanName> <attributeName> newValue
- * set        <appName>/<mbeanName>/<attributeName> newValue
+ * set        <appName>/<mbeanName> <attributeName> newValue
+ * setattrs   <appName>/<mbeanName> <attributeName>=newValue ...
+ *
+ * TODO:
  *
  * serverinfo
  * register
  * unregister
- *
- * TODO: Ideas from Jboss:
- *
- *
- *  info          Get the metadata for an MBean
-    get           Get the values of one or more MBean attributes
-    invoke        Invoke an operation on an MBean
-    create        Create an MBean
-    setattrs      Set the values of one or more MBean attributes
-    unregister    Unregister one or more MBeans
-    query         Query the server for a list of matching MBeans
-    set           Set the value of one MBean attribute
-    serverinfo    Get information about the MBean server
  *
  *
  * date:  Feb 4, 2005
