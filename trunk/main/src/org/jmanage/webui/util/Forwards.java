@@ -23,6 +23,7 @@ package org.jmanage.webui.util;
 public interface Forwards {
 
     public static final String SUCCESS = "success";
+    public static final String FAILURE = "failure";
     public static final String UN_AUTHORIZED = "unAuthorized";
     public static final String LOGIN = "login";
 }
