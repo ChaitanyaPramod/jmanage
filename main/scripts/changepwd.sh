@@ -16,4 +16,4 @@ fi
 
 JMANAGE_CLASSPATH=$JMANAGE_HOME/classes:$JMANAGE_LIB_ROOT/lib/jdom.jar
 
-java -classpath $JMANAGE_CLASSPATH -Djmanage.root=$JMANAGE_HOME org.jmanage.core.tools.ChangeAdminPassword
+$JAVA_HOME/bin/java -classpath $JMANAGE_CLASSPATH -Djmanage.root=$JMANAGE_HOME org.jmanage.core.tools.ChangeAdminPassword

@@ -8,7 +8,7 @@ if "%JMANAGE_LIB_ROOT%" == "" set JMANAGE_LIB_ROOT=%JMANAGE_HOME%
 
 set JMANAGE_CLASSPATH=%JMANAGE_HOME%/classes;%JMANAGE_LIB_ROOT%/lib/jdom.jar
 
-java -classpath %JMANAGE_CLASSPATH% -Djmanage.root=%JMANAGE_HOME% org.jmanage.core.tools.EncryptedKeyGenerator
+%JAVA_HOME%\bin\java -classpath %JMANAGE_CLASSPATH% -Djmanage.root=%JMANAGE_HOME% org.jmanage.core.tools.EncryptedKeyGenerator
 
 goto finish
 
