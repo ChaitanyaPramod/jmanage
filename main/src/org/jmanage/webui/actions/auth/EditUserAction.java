@@ -67,6 +67,7 @@ public class EditUserAction extends BaseAction{
         if(!hashedPassword.equals(user.getPassword())){
             user.setPassword(hashedPassword);
         }
+        user.setStatus(userForm.getStatus());
         return user;
     }
 }

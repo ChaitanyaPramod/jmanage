@@ -13,6 +13,8 @@ public class User implements Principal{
     private String username;
     private String password;
     private List roles;
+    private String status;
+    private int lockCount;
 
     /**
      * Default,
@@ -26,10 +28,13 @@ public class User implements Principal{
      * @param password
      * @param roles
      */
-    public User(String username, String password, List roles) {
+    public User(String username, String password, List roles, String status,
+                int lockCount) {
         this.username = username;
         this.password = password;
         this.roles = roles;
+        this.status = status;
+        this.lockCount = lockCount;
     }
 
     public String getUsername() {
@@ -54,6 +59,22 @@ public class User implements Principal{
 
     public void setRoles(List roles) {
         this.roles = roles;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public int getLockCount() {
+        return lockCount;
+    }
+
+    public void setLockCount(int lockCount) {
+        this.lockCount = lockCount;
     }
 
     public String getName() {

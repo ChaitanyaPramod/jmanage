@@ -242,6 +242,12 @@
             type="org.jmanage.webui.actions.auth.AddUserAction">
             <forward name="success" path="/auth/listUsers.do"/>
         </action>
+        <action
+            path="/auth/showUserActivity"
+            roles="ops"
+            type="org.jmanage.webui.actions.auth.ShowUserActivityAction">
+            <forward name="success" path="/auth/userActivity.jsp"/>
+        </action>
     </action-mappings>
 
     <!-- ========================================== Controller Configuration -->

@@ -55,5 +55,6 @@ public class ShowEditUserAction extends BaseAction{
         userForm.setPassword(UserForm.FORM_PASSWORD);
         //TODO Need to handle multiple role scenario
         userForm.setRole(user.getRoles().get(0).toString());
+        userForm.setStatus(user.getStatus());
     }
 }

@@ -19,6 +19,8 @@ public interface AuthConstants {
     public String USER = "user";
     public String NAME = "name";
     public String PASSWORD = "password";
+    public String STATUS = "status";
+    public String LOCK_COUNT = "lockCount";
     public String ROLE = "role";
 
     public String USER_ADMIN = "admin";
