@@ -251,12 +251,12 @@
                     <var-value>^[0-9]*$</var-value>
                 </var>
             </field>
-            <field property="username" depends="required">
+          <!--  <field property="username" depends="required">
                 <arg0 key="Username" resource="false"/>
             </field>
             <field property="password" depends="required">
                 <arg0 key="Password" resource="false"/>
-            </field>
+            </field> -->
         </form>
         <form name="userForm">
             <field property="username" depends="required">
