@@ -18,16 +18,19 @@
   <jmhtml:hidden property="applicationId" />
   <jmhtml:hidden property="refreshApps" value="true" />
   <table border="0" bordercolor="black" cellspacing="1" cellpadding="2" width="250">
+
     <tr class="oddrow">
-      <td class="headtext1">Name:</td>
-      <td><jmhtml:text property="name" /></td>
-    </tr>
-    <tr class="evenrow">
       <td class="headtext1">Type:</td>
       <td><c:out value="${requestScope.applicationForm.type}" />
         <jmhtml:hidden property="type" />
       </td>
     </tr>
+
+    <tr class="evenrow">
+      <td class="headtext1">Name:</td>
+      <td><jmhtml:text property="name" /></td>
+    </tr>
+
     <c:if test="${requestScope.metaAppConfig.displayHost}">
     <tr class="oddrow">
       <td class="headtext1">Host:</td>
