@@ -22,6 +22,7 @@
             <jmhtml:option value=""></jmhtml:option>
             <jmhtml:option value="weblogic">Weblogic</jmhtml:option>
             <jmhtml:option value="tomcat">Tomcat</jmhtml:option>
+            <jmhtml:option value="jboss">JBoss</jmhtml:option>
         </jmhtml:select>
       </td>
     </tr>

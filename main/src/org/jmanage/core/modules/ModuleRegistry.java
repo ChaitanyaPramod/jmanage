@@ -49,6 +49,15 @@ public class ModuleRegistry {
                         "JSR160",
                         metaConfig,
                         "org.jmanage.modules.jsr160.JSR160ServerConnectionFactory"));
+
+        /* jboss module */
+        metaConfig = new MetaApplicationConfig(true, true, false, false, false,
+                "org.jmanage.modules.jboss.JBossApplicationConfig");
+        modules.put(ApplicationType.JBOSS,
+                new ModuleConfig(ApplicationType.JBOSS,
+                        "JBoss 3.2.4",
+                        metaConfig,
+                        "org.jmanage.modules.jboss.JBossServerConnectionFactory"));
     }
 
     public static ModuleConfig getModule(String type){

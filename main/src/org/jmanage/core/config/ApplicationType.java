@@ -9,4 +9,5 @@ public interface ApplicationType {
     String WEBLOGIC = "weblogic";
     String JSR160 = "jsr160";
     String TOMCAT = "tomcat";
+    String JBOSS = "jboss";
 }

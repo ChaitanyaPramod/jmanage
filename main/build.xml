@@ -171,6 +171,18 @@
         </fileset>
     </path>
 
+    <path id="module.jboss.classpath">
+        <fileset dir="${basedir}/lib">
+            <include name="*.jar"/>
+        </fileset>
+        <pathelement path="${build.home}/classes" />
+        <fileset dir="${basedir}/ext">
+            <include name="jbossall-client.jar"/>
+            <include name="jboss-jmx.jar"/>
+            <include name="jnet.jar"/>
+        </fileset>
+    </path>
+
     <!-- ================= All Target ====================================== -->
 
     <!--
@@ -249,6 +261,7 @@
         <antcall target="build-weblogic-module" />
         <antcall target="build-tomcat-module" />
         <antcall target="build-jsr160-module" />
+        <antcall target="build-jboss-module" />
     </target>
 
     <target name="prepare-weblogic" depends="prepare"
@@ -344,6 +357,39 @@
         <copy todir="${build.home}/modules/jsr160">
             <fileset file="${basedir}/ext/jmxri-1_2_1.jar"/>
             <fileset file="${basedir}/ext/jmxremote-1_0_1.jar"/>
+        </copy>
+    </target>
+
+    <target name="prepare-jboss" depends="prepare"
+        description="Compile Common Server connection class">
+        <mkdir dir="${build.home}/modules/jboss/classes" />
+        <javac srcdir="${src.home}"
+            destdir="${build.home}/modules/jboss/classes"
+            debug="${compile.debug}"
+            deprecation="${compile.deprecation}"
+            optimize="${compile.optimize}"
+            source="1.4">
+            <classpath refid="module.jboss.classpath"/>
+            <include name="**/core/management/JMXServerConnection.java"/>
+        </javac>
+    </target>
+    <!-- target for building jboss module -->
+    <target name="build-jboss-module" depends="compile,prepare-jboss">
+        <javac srcdir="${basedir}/modules/jboss/src"
+            destdir="${build.home}/modules/jboss/classes"
+            debug="${compile.debug}"
+            deprecation="${compile.deprecation}"
+            optimize="${compile.optimize}"
+            source="1.4">
+            <classpath refid="module.jboss.classpath"/>
+        </javac>
+        <jar basedir="${build.home}/modules/jboss/classes"
+            jarfile="${build.home}/modules/jboss/classes.jar"/>
+        <delete dir="${build.home}/modules/jboss/classes" />
+        <copy todir="${build.home}/modules/jboss">
+            <fileset file="${basedir}/ext/jbossall-client.jar"/>
+            <fileset file="${basedir}/ext/jboss-jmx.jar"/>
+            <fileset file="${basedir}/ext/jnet.jar"/>
         </copy>
     </target>
 
