@@ -74,8 +74,7 @@ public class UserActivityLogger extends Thread{
         /*  Open the file to write, and set it to append all new entries    */
         try{
             File logDir = new File(CoreUtils.getLogDir());
-            //TODO: Is this really necessary ? build can easily create log directory.
-            logDir.mkdir();
+            logDir.mkdirs();
             File logFile = new File(logDir.getPath() + File.separatorChar +
                     USER_ACTIVITY_LOG_FILE_NAME);
             logWriter = new PrintWriter(new FileWriter(logFile, true));
