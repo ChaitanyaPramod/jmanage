@@ -20,7 +20,7 @@ package org.jmanage.core.management;
  * date:  Aug 12, 2004
  * @author	Rakesh Kalra
  */
-public class ObjectName {
+public class ObjectName implements java.io.Serializable {
 
     private final String objectName;
 

@@ -325,11 +325,6 @@
             <forward name="success" path="/auth/userActivity.jsp"/>
         </action>
 
-        <!--== Remote Service Call ==========================================-->
-        <action
-            path="/remoteService"
-            type="org.jmanage.webui.actions.RemoteServiceAction" />
-
     </action-mappings>
 
     <!-- ========================================== Controller Configuration -->

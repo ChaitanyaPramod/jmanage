@@ -15,12 +15,14 @@
  */
 package org.jmanage.core.data;
 
+import java.io.Serializable;
+
 /**
  *
  * date:  Jan 9, 2005
  * @author	Rakesh Kalra
  */
-public class ApplicationConfigData {
+public class ApplicationConfigData implements Serializable {
 
     private String appId;
     private String name;

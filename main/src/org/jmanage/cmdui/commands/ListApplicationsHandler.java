@@ -52,12 +52,11 @@ public class ListApplicationsHandler implements CommandHandler {
         return true;
     }
 
-    public void shortHelp() {
-        Out.println(CommandConstants.LIST_APPS + "\t" +
-                "Lists all configured applications in jManage");
+    public String getShortHelp() {
+        return "Lists all configured applications in jManage";
     }
 
     public void help() {
-        shortHelp();
+        Out.println(getShortHelp());
     }
 }

@@ -69,6 +69,9 @@ public class ServerConnector {
                     factory.getServerConnection(appConfig);
             logger.info("Connected to " + appConfig.getURL());
             return new ServerConnectionProxy(connection, classLoader);
+        } catch(ConnectionFailedException e){
+            logger.info("Failed to connect. error=" + e.getMessage());
+            throw e;
         } finally {
             /* change the thread context classloader back to the
                     original classloader*/

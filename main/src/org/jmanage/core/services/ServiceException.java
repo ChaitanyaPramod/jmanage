@@ -25,12 +25,11 @@ import org.jmanage.core.util.ErrorCatalog;
 public class ServiceException extends RuntimeException {
 
     private String errorCode;
-    private Object[] values;
+    private transient Object[] values;
     private String message;
 
     public ServiceException(String errorCode){
-        assert errorCode != null;
-        this.errorCode = errorCode;
+        this(errorCode, (Object[])null);
     }
 
     public ServiceException(String errorCode, Object value0){
@@ -47,13 +46,10 @@ public class ServiceException extends RuntimeException {
     }
 
     public ServiceException(String errorCode, Object[] values){
+        assert errorCode != null;
         this.errorCode = errorCode;
         this.values = values;
-    }
-
-    public ServiceException(String errorCode, String message){
-        this.errorCode = errorCode;
-        this.message = message;
+        this.message = ErrorCatalog.getMessage(errorCode, values);
     }
 
     public String getErrorCode(){
@@ -61,14 +57,11 @@ public class ServiceException extends RuntimeException {
     }
 
     public String getMessage(){
-        if(message == null){
-            return ErrorCatalog.getMessage(errorCode, values);
-        }else{
-            return message;
-        }
+        return message;
     }
 
     /**
+     * TODO: remove
      * This is overridden as Apache XmlRpc calls this method to get
      * error message.
      */

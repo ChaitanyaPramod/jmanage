@@ -62,7 +62,7 @@ public class TomcatServerConnection extends JMXServerConnection{
         try {
             javax.management.ObjectName jmxObjName = toJMXObjectName(objectName);
             MBeanInfo mbeanInfo = mbeanServer.getMBeanInfo(jmxObjName);
-            return toObjectInfo(mbeanInfo);
+            return toObjectInfo(objectName, mbeanInfo);
         } catch (Exception e){
             throw new RuntimeException(e);
         }

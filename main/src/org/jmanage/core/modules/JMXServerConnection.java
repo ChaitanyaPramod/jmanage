@@ -58,7 +58,8 @@ public abstract class JMXServerConnection implements ServerConnection{
         return output;
     }
 
-    protected static ObjectInfo toObjectInfo(MBeanInfo mbeanInfo){
+    protected static ObjectInfo toObjectInfo(ObjectName objectName,
+                                             MBeanInfo mbeanInfo){
 
         ObjectAttributeInfo[] attributes =
                 toObjectAttributes(mbeanInfo.getAttributes());
@@ -68,7 +69,7 @@ public abstract class JMXServerConnection implements ServerConnection{
                 toObjectOperations(mbeanInfo.getOperations());
         ObjectNotificationInfo[] notifications =
                 toObjectNotifications(mbeanInfo.getNotifications());
-        return new ObjectInfo(mbeanInfo.getClassName(),
+        return new ObjectInfo(objectName, mbeanInfo.getClassName(),
                 mbeanInfo.getDescription(), attributes,
                 constructors, operations, notifications);
     }

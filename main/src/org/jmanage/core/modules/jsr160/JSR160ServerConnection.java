@@ -89,7 +89,7 @@ public class JSR160ServerConnection extends JMXServerConnection{
         try {
             javax.management.ObjectName jmxObjName = toJMXObjectName(objectName);
             MBeanInfo mbeanInfo = mbeanServer.getMBeanInfo(jmxObjName);
-            return toObjectInfo(mbeanInfo);
+            return toObjectInfo(objectName, mbeanInfo);
         } catch (Exception e){
             // TODO: do we need specific exceptions ?
             throw new RuntimeException(e);

@@ -34,4 +34,5 @@ public interface ErrorCodes {
 
     String INVALID_OLD_PASSWORD = "invalid.oldPassword";
     String PASSWORD_MISMATCH = "mismatch.password";
+    String CONNECTION_FAILED = "app.connection.failed";
 }

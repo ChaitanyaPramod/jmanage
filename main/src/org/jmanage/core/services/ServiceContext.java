@@ -18,13 +18,14 @@ package org.jmanage.core.services;
 import org.jmanage.core.auth.User;
 
 import javax.security.auth.Subject;
+import java.io.Serializable;
 
 /**
  *
  * date:  Jan 9, 2005
  * @author	Rakesh Kalra, Shashank Bellary
  */
-public interface ServiceContext {
+public interface ServiceContext extends Serializable {
 
     public User getUser();
     void _setSubject(Subject subject);

@@ -27,4 +27,6 @@ public interface CommandConstants {
     String MBEANS = "mbeans"; // configured mbeans
     String HELP = "help";
     String EXIT = "exit";
+    String VIEW = "view";
+    String PRINT = "print";
 }

@@ -20,7 +20,7 @@ package org.jmanage.core.management;
  * date:  Aug 13, 2004
  * @author	Rakesh Kalra
  */
-public class ObjectFeatureInfo {
+public class ObjectFeatureInfo implements java.io.Serializable {
 
     protected String name;
     protected String description;

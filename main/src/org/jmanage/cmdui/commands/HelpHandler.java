@@ -17,6 +17,7 @@ package org.jmanage.cmdui.commands;
 
 import org.jmanage.cmdui.*;
 import org.jmanage.cmdui.util.Out;
+import org.jmanage.cmdui.util.Table;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -61,21 +62,23 @@ public class HelpHandler implements CommandHandler {
         }
 
         /* print short help for all commands */
+        Table table = new Table(2);
         Collection commandNames = CommandHandlerFactory.getCommandNames();
         for(Iterator it=commandNames.iterator(); it.hasNext();){
+            String commandName = (String)it.next();
             CommandHandler handler =
-                    CommandHandlerFactory.getHandler((String)it.next());
-            handler.shortHelp();
+                    CommandHandlerFactory.getHandler(commandName);
+            table.add(commandName, handler.getShortHelp());
         }
+        table.print();
         return true;
     }
 
-    public void shortHelp(){
-        Out.println(CommandConstants.HELP + "\t" +
-                "Prints jManage command line help");
+    public String getShortHelp(){
+        return "Prints jManage command line help";
     }
 
     public void help() {
-        shortHelp();
+        Out.println(getShortHelp());
     }
 }

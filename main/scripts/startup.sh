@@ -34,7 +34,7 @@ if [ ! -n "$JMANAGE_PORT" ]; then
 	JMANAGE_PORT=9090
 fi
 
-LIB_JARS=$JMANAGE_LIB_ROOT/lib/javax.servlet.jar:$JMANAGE_LIB_ROOT/lib/org.mortbay.jetty.jar:$JMANAGE_LIB_ROOT/lib/jasper-compiler.jar:$JMANAGE_LIB_ROOT/lib/jasper-runtime.jar:$JMANAGE_LIB_ROOT/lib/ant.jar:$JMANAGE_LIB_ROOT/lib/jdom.jar:$JMANAGE_LIB_ROOT/lib/xmlrpc-1.2-b1.jar:$JMANAGE_LIB_ROOT/lib/castor.jar:$JMANAGE_LIB_ROOT/lib/commons-beanutils.jar:$JMANAGE_LIB_ROOT/lib/commons-logging.jar
+LIB_JARS=$JMANAGE_LIB_ROOT/lib/javax.servlet.jar:$JMANAGE_LIB_ROOT/lib/org.mortbay.jetty.jar:$JMANAGE_LIB_ROOT/lib/jasper-compiler.jar:$JMANAGE_LIB_ROOT/lib/jasper-runtime.jar:$JMANAGE_LIB_ROOT/lib/ant.jar:$JMANAGE_LIB_ROOT/lib/jdom.jar:$JMANAGE_LIB_ROOT/lib/commons-beanutils.jar:$JMANAGE_LIB_ROOT/lib/commons-logging.jar
 EXT_JARS=
 JMANAGE_CLASSPATH=$LIB_JARS:$EXT_JARS:$JMANAGE_HOME/classes
 
