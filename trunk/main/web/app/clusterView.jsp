@@ -14,20 +14,10 @@
 %>
 <tr>
     <td class="plaintext">
-        <%=appConfig.getName()%>
+        <a href="/app/mbeanList.do?applicationId=<%=appConfig.getApplicationId()%>">
+            <%=appConfig.getName()%></a>
     </td>
 </tr>
 <%
     }
 %>
-<tr>
-    <td class="errortext">
-        <br><br>
-        This page should contain functionality to:
-        <ul>
-        <li>Add mbeans from an application to the cluster
-        <li>Server status (if the server is running or not) ?
-        </ul>
-    </td>
-</tr>
-

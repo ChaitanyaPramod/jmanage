@@ -5,6 +5,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.management.*;
+import org.jmanage.core.util.Loggers;
 import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.forms.MBeanConfigForm;
 import org.jmanage.webui.util.Forwards;
@@ -12,9 +13,9 @@ import org.jmanage.webui.util.WebContext;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.*;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 /**
  *
@@ -22,6 +23,8 @@ import java.util.Iterator;
  * @author	Rakesh Kalra
  */
 public class ShowMBeanAction extends BaseAction {
+
+    private static final Logger logger = Loggers.getLogger(ShowMBeanAction.class);
 
     public ActionForward execute(WebContext context,
                                  ActionMapping mapping,
@@ -48,33 +51,41 @@ public class ShowMBeanAction extends BaseAction {
         /* array that will be initialized with all attribute names for this
             mbean */
         String[] attributeNames = null;
-        /* a list which constains list of attribute values for each application
-            in the cluster. */
-        final List appAttrList = new ArrayList(applications.size());
+        /* a Map which constains list of attribute values for each application
+            in the cluster.
+            ApplicationConfig is the key and attribute List is the value*/
+        final Map appConfigToAttrListMap = new HashMap(applications.size());
         for(Iterator it=applications.iterator(); it.hasNext(); ){
             ApplicationConfig childAppConfig = (ApplicationConfig)it.next();
-            ServerConnection serverConnection =
-                    ServerConnector.getServerConnection(childAppConfig);
-            /* assuming that all servers in this cluster have exact same
-                object info, we will get the ObjectInfo from the first
-                server in the list */
-            if(objInfo == null){
-                objInfo = serverConnection.getObjectInfo(objectName);
-                assert objInfo != null;
-                ObjectAttributeInfo[] attributes = objInfo.getAttributes();
-                attributeNames = new String[attributes.length];
-                for (int i = 0; i < attributes.length; i++) {
-                    attributeNames[i] = attributes[i].getName();
-                }
-            }
-            /* add attribute values of this application to the list*/
-            appAttrList.add(
-                    serverConnection.getAttributes(objectName, attributeNames));
 
+            try {
+                ServerConnection serverConnection =
+                        ServerConnector.getServerConnection(childAppConfig);
+                /* assuming that all servers in this cluster have exact same
+                    object info, we will get the ObjectInfo from the first
+                    server in the list */
+                if(objInfo == null){
+                    objInfo = serverConnection.getObjectInfo(objectName);
+                    assert objInfo != null;
+                    ObjectAttributeInfo[] attributes = objInfo.getAttributes();
+                    attributeNames = new String[attributes.length];
+                    for (int i = 0; i < attributes.length; i++) {
+                        attributeNames[i] = attributes[i].getName();
+                    }
+                }
+                /* add attribute values of this application to the map*/
+                appConfigToAttrListMap.put(childAppConfig,
+                        serverConnection.getAttributes(objectName, attributeNames));
+            } catch (Exception e) {
+                logger.log(Level.FINE, "Error retrieving attributes for:" +
+                        childAppConfig.getName(), e);
+                /* add null, indicating that the server is down */
+                appConfigToAttrListMap.put(childAppConfig, null);
+            }
         }
 
         request.setAttribute("objInfo", objInfo);
-        request.setAttribute("appAttributeList", appAttrList);
+        request.setAttribute("appConfigToAttrListMap", appConfigToAttrListMap);
 
         /* setup the form to be used in the html form */
         MBeanConfigForm mbeanConfigForm = (MBeanConfigForm)actionForm;

@@ -1,14 +1,11 @@
 <!--    /app/mbeanView.jsp  -->
-<%@ page import="java.util.Iterator,
-                 org.jmanage.core.management.*,
+<%@ page import="org.jmanage.core.management.*,
                  org.jmanage.webui.util.RequestParams,
-                 java.util.Arrays,
-                 java.util.Comparator,
                  org.jmanage.webui.util.WebContext,
                  org.jmanage.core.auth.User,
-                 java.util.List,
                  org.jmanage.webui.util.MBeanUtils,
-                 org.jmanage.core.config.ApplicationConfig"%>
+                 org.jmanage.core.config.ApplicationConfig,
+                 java.util.*"%>
 
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 <%@ taglib uri="/WEB-INF/tags/jstl/c.tld" prefix="c"%>
@@ -23,8 +20,8 @@
     ObjectNotificationInfo[] notifications = objectInfo.getNotifications();
 
     ApplicationConfig applicationConfig = webContext.getApplicationConfig();
-    List appAttrList =
-            (List)request.getAttribute("appAttributeList");
+    Map appConfigToAttrListMap =
+            (Map)request.getAttribute("appConfigToAttrListMap");
 %>
 <script type="text/javascript" language="Javascript1.1">
 <!--
@@ -110,20 +107,34 @@
 <td class="<%=rowStyle%>">
     <a href="JavaScript:showDescription('<%=MBeanUtils.jsEscape(attributeInfo.getDescription())%>');"><%=attributeInfo.getName()%></a>
 </td>
-<%for(Iterator it=appAttrList.iterator(); it.hasNext();){
-    List attributeList = (List)it.next();
+<%
+        List childApplications = null;
+        if(applicationConfig.isCluster()){
+            childApplications = applicationConfig.getApplications();
+        }else{
+            childApplications = new ArrayList(1);
+            childApplications.add(applicationConfig);
+        }
+
+        for(Iterator it=childApplications.iterator(); it.hasNext();){
+            ApplicationConfig childAppConfig = (ApplicationConfig)it.next();
+            List attributeList = (List)appConfigToAttrListMap.get(childAppConfig);
     %>
 <td class="<%=rowStyle%>">
-    <%
-        String attrValue =
-                MBeanUtils.getAttributeValue(attributeList, attributeInfo.getName());
-    %>
-    <%if(user.isAdmin() && attributeInfo.isWritable() && !attrValue.equals("Object")){%>
-        <input type="text" name="attr+<%=attributeInfo.getName()%>+<%=attributeInfo.getType()%>" size="50"
-        value="<%=attrValue%>"/>
-    <%}else{%>
-        <%=attrValue%>
-    <%}%>
+        <%if(attributeList != null){%>
+            <%
+                String attrValue =
+                        MBeanUtils.getAttributeValue(attributeList, attributeInfo.getName());
+            %>
+            <%if(user.isAdmin() && attributeInfo.isWritable() && !attrValue.equals("Object")){%>
+                <input type="text" name="attr+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>+<%=attributeInfo.getType()%>" size="50"
+                value="<%=attrValue%>"/>
+            <%}else{%>
+                <%=attrValue%>
+            <%}%>
+        <%}else{%>
+            &lt;unavailable&gt;
+        <%}%>
 </td>
 <%
 }
