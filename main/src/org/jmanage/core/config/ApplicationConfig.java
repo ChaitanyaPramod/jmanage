@@ -5,13 +5,14 @@ import org.jmanage.core.crypto.Crypto;
 import java.util.*;
 
 /**
-  *
+ * TODO: Is "Server" a better term than "Application" -rk ?
+ *
  * date:  Jun 11, 2004
  * @author	Rakesh Kalra
  */
 public abstract class ApplicationConfig {
 
-    public static final String TYPE_WEBLOGIC = "Weblogic";
+    public static final String TYPE_WEBLOGIC = "weblogic";
 
     private static final List EMPTY_LIST = new ArrayList();
 

@@ -1,10 +1,11 @@
 <%@ page import="java.util.Iterator,
-                 javax.management.*,
+                 org.jmanage.core.management.*,
                  org.jmanage.webui.util.RequestParams,
                  java.util.Arrays,
                  java.util.Comparator,
                  org.jmanage.webui.util.WebContext,
-                 org.jmanage.core.auth.User"%>
+                 org.jmanage.core.auth.User,
+                 java.util.List"%>
 
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 <%@ taglib uri="/WEB-INF/tags/jstl/c.tld" prefix="c"%>
@@ -13,20 +14,20 @@
     final WebContext webContext = WebContext.get(request);
     final User user = webContext.getUser();
 
-    MBeanInfo mbeanInfo = (MBeanInfo)request.getAttribute("mbeanInfo");
-    MBeanAttributeInfo[] attributes = mbeanInfo.getAttributes();
+    ObjectInfo objectInfo = (ObjectInfo)request.getAttribute("objInfo");
+    ObjectAttributeInfo[] attributes = objectInfo.getAttributes();
     Arrays.sort(attributes, new Comparator(){
         public int compare(Object o1, Object o2) {
-            MBeanAttributeInfo attrInfo1 = (MBeanAttributeInfo)o1;
-            MBeanAttributeInfo attrInfo2 = (MBeanAttributeInfo)o2;
+            ObjectAttributeInfo attrInfo1 = (ObjectAttributeInfo)o1;
+            ObjectAttributeInfo attrInfo2 = (ObjectAttributeInfo)o2;
             return attrInfo1.getName().compareToIgnoreCase(attrInfo2.getName());
         }
     });
-    MBeanOperationInfo[] operations = mbeanInfo.getOperations();
-    MBeanNotificationInfo[] notifications = mbeanInfo.getNotifications();
+    ObjectOperationInfo[] operations = objectInfo.getOperations();
+    ObjectNotificationInfo[] notifications = objectInfo.getNotifications();
 
-    AttributeList attributeList =
-            (AttributeList)request.getAttribute("attributeList");
+    List attributeList =
+            (List)request.getAttribute("attributeList");
 %>
 
 <%!
@@ -46,11 +47,11 @@
         return buff.toString();
     }
 
-    private String getValue(AttributeList attributeList,
+    private String getValue(List attributeList,
                             String attrName){
         String value = null;
         for(Iterator it=attributeList.iterator(); it.hasNext(); ){
-            Attribute attribute = (Attribute)it.next();
+            ObjectAttribute attribute = (ObjectAttribute)it.next();
             if(attribute.getName().equals(attrName)){
                 //TODO: handle different return types
                 Object objValue = attribute.getValue();
@@ -84,13 +85,13 @@
 
     private String getImpact(int impact){
         switch(impact){
-            case MBeanOperationInfo.INFO:
+            case ObjectOperationInfo.INFO:
                 return "Information";
-            case MBeanOperationInfo.ACTION:
+            case ObjectOperationInfo.ACTION:
                 return "Action";
-            case MBeanOperationInfo.ACTION_INFO:
+            case ObjectOperationInfo.ACTION_INFO:
                 return "Action and Information";
-            case MBeanOperationInfo.UNKNOWN:
+            case ObjectOperationInfo.UNKNOWN:
                 return "Unknown";
             default:
                 return "Invalid Impact Value";
@@ -156,7 +157,7 @@
 <%
     for(int index=0; index < attributes.length; index++){
         String rowStyle = index % 2 != 0 ? "oddrow" : "evenrow";
-        MBeanAttributeInfo attributeInfo = attributes[index];
+        ObjectAttributeInfo attributeInfo = attributes[index];
 %>
 <tr>
 <td class="<%=rowStyle%>">
@@ -196,7 +197,7 @@ To save the changes to the attribute values click on
 <%
     for(int index=0; index < operations.length; index++){
         String rowStyle = index % 2 != 0 ? "oddrow" : "evenrow";
-        MBeanOperationInfo operationInfo = operations[index];
+        ObjectOperationInfo operationInfo = operations[index];
 %>
 <jmhtml:form action="/app/executeOperation">
 <tr>
@@ -204,7 +205,7 @@ To save the changes to the attribute values click on
     <a href="JavaScript:showDescription('<%=jsEscape(operationInfo.getDescription())%>');"><%=operationInfo.getName()%></a>
     (
     <%
-        MBeanParameterInfo[] params = operationInfo.getSignature();
+        ObjectParameterInfo[] params = operationInfo.getSignature();
     %>
     <input type="hidden" name="paramCount" value="<%=params.length%>"/>
     <%
@@ -237,7 +238,7 @@ To save the changes to the attribute values click on
 <%
     for(int index=0; index < notifications.length; index++){
         String rowStyle = index % 2 != 0 ? "oddrow" : "evenrow";
-        MBeanNotificationInfo notificationInfo = notifications[index];
+        ObjectNotificationInfo notificationInfo = notifications[index];
 %>
 <tr>
     <td class="<%=rowStyle%>"><%=notificationInfo.getName()%></td>

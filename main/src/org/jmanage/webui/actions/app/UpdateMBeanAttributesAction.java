@@ -5,18 +5,19 @@ import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.util.RequestParams;
 import org.jmanage.core.util.CoreUtils;
+import org.jmanage.core.management.ObjectName;
+import org.jmanage.core.management.ServerConnection;
+import org.jmanage.core.management.ObjectAttribute;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.management.MBeanServer;
-import javax.management.ObjectName;
-import javax.management.AttributeList;
-import javax.management.Attribute;
 import java.util.Enumeration;
 import java.util.StringTokenizer;
+import java.util.List;
+import java.util.LinkedList;
 
 /**
  *
@@ -33,16 +34,16 @@ public class UpdateMBeanAttributesAction extends BaseAction {
             throws Exception {
 
         final ObjectName objectName = context.getObjectName();
-        final MBeanServer server = context.getMBeanServer();
-        AttributeList attributeList = buildAttributeList(request);
-        server.setAttributes(objectName, attributeList);
+        final ServerConnection serverConnection = context.getServerConnection();
+        List attributeList = buildAttributeList(request);
+        serverConnection.setAttributes(objectName, attributeList);
         return mapping.findForward(Forwards.SUCCESS);
     }
 
-    private AttributeList buildAttributeList(HttpServletRequest request){
+    private List buildAttributeList(HttpServletRequest request){
 
         Enumeration enum = request.getParameterNames();
-        AttributeList attributeList = new AttributeList();
+        List attributeList = new LinkedList();
         while(enum.hasMoreElements()){
             String param = (String)enum.nextElement();
             if(param.startsWith("attr+")){
@@ -54,7 +55,7 @@ public class UpdateMBeanAttributesAction extends BaseAction {
                 String attrName = tokenizer.nextToken();
                 String attrType = tokenizer.nextToken();
                 String attrValue = request.getParameter(param);
-                Attribute attribute = new Attribute(attrName,
+                ObjectAttribute attribute = new ObjectAttribute(attrName,
                         CoreUtils.getTypedValue(attrValue, attrType));
                 attributeList.add(attribute);
             }

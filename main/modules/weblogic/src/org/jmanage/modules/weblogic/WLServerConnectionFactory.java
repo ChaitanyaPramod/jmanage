@@ -1,30 +1,36 @@
-package org.jmanage.core.connector;
+package org.jmanage.modules.weblogic;
 
-import org.jmanage.core.config.WeblogicApplicationConfig;
+import org.jmanage.core.management.ServerConnection;
+import org.jmanage.core.management.ConnectionFailedException;
 import org.jmanage.core.config.ApplicationConfig;
-
-import javax.management.MBeanServer;
-import javax.naming.Context;
-import javax.naming.NamingException;
-
+import org.jmanage.core.config.WeblogicApplicationConfig;
 import weblogic.management.MBeanHome;
 import weblogic.jndi.Environment;
 
+import javax.naming.NamingException;
+import javax.naming.Context;
+
 /**
  *
- * date:  Jun 11, 2004
+ * date:  Aug 12, 2004
  * @author	Rakesh Kalra
  */
-public class WeblogicConnector implements ApplicationConnector {
+public class WLServerConnectionFactory implements
+        org.jmanage.core.management.ServerConnectionFactory{
 
-    public MBeanServer connect(ApplicationConfig config)
-        throws ConnectionFailedException{
+    /**
+     * @return  instance of ServerConnection corresponding to this weblogic
+     *              module.
+     */
+    public ServerConnection getServerConnection(ApplicationConfig config)
+        throws ConnectionFailedException {
+
 
         WeblogicApplicationConfig wlConfig = (WeblogicApplicationConfig)config;
         try {
             MBeanHome home = findExternal(config.getURL(), config.getUsername(),
                     config.getPassword());
-            return home.getMBeanServer();
+            return new WLServerConnection(home.getMBeanServer());
         } catch (NamingException e) {
             throw new ConnectionFailedException(e);
         }

@@ -2,14 +2,14 @@ package org.jmanage.webui.util;
 
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.ApplicationConfigManager;
-import org.jmanage.core.connector.MBeanServerConnectionFactory;
 import org.jmanage.core.auth.User;
+import org.jmanage.core.management.ServerConnection;
+import org.jmanage.core.management.ServerConnector;
+import org.jmanage.core.management.ObjectName;
+import org.jmanage.core.management.MalformedObjectNameException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.management.MBeanServer;
-import javax.management.ObjectName;
-import javax.management.MalformedObjectNameException;
 import javax.security.auth.Subject;
 
 /**
@@ -20,9 +20,10 @@ import javax.security.auth.Subject;
 public class WebContext {
 
     private ApplicationConfig appConfig;
-    private MBeanServer mbeanServer;
     private HttpServletRequest request;
     private HttpSession session;
+
+    private ServerConnection serverConnection;
 
     private WebContext(HttpServletRequest request) {
 
@@ -41,13 +42,13 @@ public class WebContext {
         return appConfig;
     }
 
-    public MBeanServer getMBeanServer() {
+    public ServerConnection getServerConnection(){
         assert appConfig != null;
-        if (mbeanServer == null) {
-            mbeanServer =
-                    MBeanServerConnectionFactory.getConnection(appConfig);
+        if (serverConnection == null) {
+            serverConnection =
+                    ServerConnector.getServerConnection(appConfig);
         }
-        return mbeanServer;
+        return serverConnection;
     }
 
     public ObjectName getObjectName() {

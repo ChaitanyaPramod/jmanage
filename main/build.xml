@@ -128,32 +128,9 @@
 
     -->
 
-    <path id="startup.classpath">
-
-        <!-- TODO: use libs from build directory -->
-        <fileset dir="${basedir}/lib">
-            <include name="*.jar"/>
-        </fileset>
-        <fileset dir="${basedir}/ext">
-            <include name="*.jar"/>
-        </fileset>
-        <!--TODO: create bootstrap.jar and remove the following from runtime
-            classpath -->
-        <pathelement location="${build.home}/web/WEB-INF/classes"/>
-    </path>
-
     <path id="compile.classpath">
 
-        <!-- Include all JAR files that will be included in /WEB-INF/lib -->
-        <!-- *** CUSTOMIZE HERE AS REQUIRED BY YOUR APPLICATION *** -->
-        <!--
-            <pathelement location="${foo.jar}"/>
-        -->
-
         <fileset dir="${basedir}/lib">
-            <include name="*.jar"/>
-        </fileset>
-        <fileset dir="${basedir}/ext">
             <include name="*.jar"/>
         </fileset>
         <fileset dir="${basedir}/web/WEB-INF/lib">
@@ -161,6 +138,15 @@
         </fileset>
     </path>
 
+    <path id="module.weblogic.classpath">
+        <fileset dir="${basedir}/lib">
+            <include name="*.jar"/>
+        </fileset>
+        <pathelement path="${build.home}/classes" />
+        <fileset dir="${basedir}/ext">
+            <include name="weblogic.jar"/>
+        </fileset>
+    </path>
 
 
     <!-- ================= All Target ====================================== -->
@@ -233,6 +219,22 @@
             <exclude name="**/core/**"/>
             <exclude name="**/webui/Startup.java"/>
         </javac>
+    </target>
+
+    <!-- target for building weblogic module -->
+    <target name="build-weblogic-module" depends="compile">
+        <mkdir dir="${build.home}/modules/weblogic/classes" />
+        <javac srcdir="${basedir}/modules/weblogic/src"
+            destdir="${build.home}/modules/weblogic/classes"
+            debug="${compile.debug}"
+            deprecation="${compile.deprecation}"
+            optimize="${compile.optimize}"
+            source="1.4">
+            <classpath refid="module.weblogic.classpath"/>
+        </javac>
+        <jar basedir="${build.home}/modules/weblogic/classes"
+            jarfile="${build.home}/modules/weblogic/classes.jar"/>
+        <delete dir="${build.home}/modules/weblogic/classes" />
     </target>
 
 

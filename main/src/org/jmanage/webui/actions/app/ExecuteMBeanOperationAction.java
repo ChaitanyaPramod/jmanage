@@ -4,14 +4,14 @@ import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.core.util.CoreUtils;
+import org.jmanage.core.management.ServerConnection;
+import org.jmanage.core.management.ObjectName;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.management.ObjectName;
-import javax.management.MBeanServer;
 
 /**
  *
@@ -28,7 +28,7 @@ public class ExecuteMBeanOperationAction extends BaseAction {
         throws Exception{
 
         final ObjectName objectName = context.getObjectName();
-        final MBeanServer mbeanServer =  context.getMBeanServer();
+        final ServerConnection serverConnection = context.getServerConnection();
 
         final String operationName = request.getParameter("operationName");
         final int paramCount =
@@ -44,7 +44,7 @@ public class ExecuteMBeanOperationAction extends BaseAction {
             signature[paramIndex] = type;
         }
 
-        final Object result = mbeanServer.invoke(objectName, operationName,
+        final Object result = serverConnection.invoke(objectName, operationName,
                 params, signature);
         request.setAttribute("operationResult", result);
         return mapping.findForward(Forwards.SUCCESS);
