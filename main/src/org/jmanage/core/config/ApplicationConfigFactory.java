@@ -10,14 +10,16 @@ import java.util.Map;
 public class ApplicationConfigFactory {
 
 
-    public static ApplicationConfig create(String name,
+    public static ApplicationConfig create(String applicationId,
+                                           String name,
                                            String type,
                                            String host,
                                            int port){
-        return create(name, type, host, port, null, null, null);
+        return create(applicationId, name, type, host, port, null, null, null);
     }
 
-    public static ApplicationConfig create(String name,
+    public static ApplicationConfig create(String applicationId,
+                                           String name,
                                            String type,
                                            String host,
                                            int port,
@@ -26,7 +28,7 @@ public class ApplicationConfigFactory {
                                            Map paramValues){
 
         if(type.equals(ApplicationConfig.TYPE_WEBLOGIC)){
-            return new WeblogicApplicationConfig(name, host, port,
+            return new WeblogicApplicationConfig(applicationId, name, host, port,
                     username, password, paramValues);
         }else{
             throw new RuntimeException("Invalid application type: " + type);
