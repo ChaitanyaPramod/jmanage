@@ -15,9 +15,9 @@ set JSR160_JARS=./ext/jmxri-1_2_1.jar;./ext/jmxremote-1_0_1.jar
 
 set LIB_JARS=./lib/javax.servlet.jar;./lib/org.mortbay.jetty.jar;./lib/jasper-compiler.jar;./lib/jasper-runtime.jar;./lib/ant.jar;./lib/jdom.jar
 
-set JMANAGE_CLASSPATH=%JMANAGE_HOME%/applications/classes;%JMANAGE_HOME%/classes;./ext/;%JSR160_JARS%
+set JMANAGE_CLASSPATH=%JMANAGE_HOME%/testapp/classes;%JMANAGE_HOME%/classes;./ext/;%JSR160_JARS%
 
-%JAVA_HOME%/bin/java -ea -classpath %JMANAGE_CLASSPATH% org.jmanage.test.jsr160.Startup %1
+%JAVA_HOME%/bin/java -ea -classpath %JMANAGE_CLASSPATH% org.jmanage.testapp.jsr160.Startup %1
 
 
 
