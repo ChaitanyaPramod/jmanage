@@ -32,7 +32,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  *
  * date:  Jun 25, 2004
- * @author	Rakesh Kalra
+ * @author	Rakesh Kalra, Shashank Bellary
  */
 public class EditApplicationAction extends BaseAction {
 

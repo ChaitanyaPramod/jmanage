@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jmanage.modules.weblogic;
+package org.jmanage.core.modules.weblogic;
 
 import org.jmanage.core.util.Loggers;
 import org.jmanage.core.config.ApplicationConfig;

@@ -17,6 +17,7 @@ package org.jmanage.core.modules.jsr160;
 
 import org.jmanage.core.management.ServerConnection;
 import org.jmanage.core.management.ConnectionFailedException;
+import org.jmanage.core.management.ServerConnectionFactory;
 import org.jmanage.core.config.ApplicationConfig;
 
 import javax.management.remote.JMXServiceURL;
@@ -30,8 +31,7 @@ import java.util.HashMap;
  * date:  Aug 12, 2004
  * @author	Rakesh Kalra
  */
-public class JSR160ServerConnectionFactory implements
-        org.jmanage.core.management.ServerConnectionFactory{
+public class JSR160ServerConnectionFactory implements ServerConnectionFactory{
 
     /**
      * @return  instance of ServerConnection corresponding to this weblogic

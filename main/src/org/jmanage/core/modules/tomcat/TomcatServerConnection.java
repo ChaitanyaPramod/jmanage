@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jmanage.modules.tomcat;
+package org.jmanage.core.modules.tomcat;
 
 import org.jmanage.core.management.ObjectName;
 import org.jmanage.core.management.ObjectInfo;
@@ -27,7 +27,7 @@ import java.util.List;
 
 /**
  * Date: Aug 31, 2004 10:33:02 PM
- * @author Shashank Bellary 
+ * @author Shashank Bellary
  */
 public class TomcatServerConnection extends JMXServerConnection{
 

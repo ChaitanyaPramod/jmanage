@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jmanage.modules.jboss;
+package org.jmanage.core.modules.jboss;
 
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.util.Loggers;

@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jmanage.modules.tomcat;
+package org.jmanage.core.modules.tomcat;
 
 import org.jmanage.core.management.ServerConnection;
 import org.jmanage.core.management.ConnectionFailedException;
+import org.jmanage.core.management.ServerConnectionFactory;
 import org.jmanage.core.config.ApplicationConfig;
 import org.apache.commons.modeler.Registry;
 
@@ -26,8 +27,7 @@ import javax.management.MBeanServer;
  * Date: Aug 31, 2004 10:23:59 PM
  * @author Shashank Bellary 
  */
-public class TomcatServerConnectionFactory implements
-        org.jmanage.core.management.ServerConnectionFactory{
+public class TomcatServerConnectionFactory implements ServerConnectionFactory{
 
     public ServerConnection getServerConnection(ApplicationConfig config)
             throws ConnectionFailedException {
