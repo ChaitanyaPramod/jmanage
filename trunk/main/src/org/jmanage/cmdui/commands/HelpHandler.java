@@ -15,9 +15,11 @@
  */
 package org.jmanage.cmdui.commands;
 
-import org.jmanage.cmdui.CommandHandler;
-import org.jmanage.cmdui.HandlerContext;
+import org.jmanage.cmdui.*;
 import org.jmanage.cmdui.util.Out;
+
+import java.util.Collection;
+import java.util.Iterator;
 
 /**
  *
@@ -32,7 +34,47 @@ public class HelpHandler implements CommandHandler {
      * @return true if the command was handled properly; false otherwise
      */
     public boolean execute(HandlerContext context) {
-        Out.println("jManage Help");
+
+        try {
+            return execute0(context);
+        } catch (InvalidCommandException e) {
+            /* this is not possible */
+            throw new RuntimeException(e);
+        }
+    }
+
+    private boolean execute0(HandlerContext context)
+        throws InvalidCommandException {
+
+        String[] args = context.getCommand().getArgs();
+        if(args.length == 1){
+            /* print long help for given command */
+            CommandHandler handler = null;
+            try {
+                handler = CommandHandlerFactory.getHandler(args[0]);
+                handler.help();
+            } catch (InvalidCommandException e) {
+                Out.println(e.getMessage());
+                Out.println();
+            }
+        }
+
+        /* print short help for all commands */
+        Collection commandNames = CommandHandlerFactory.getCommandNames();
+        for(Iterator it=commandNames.iterator(); it.hasNext();){
+            CommandHandler handler =
+                    CommandHandlerFactory.getHandler((String)it.next());
+            handler.shortHelp();
+        }
         return true;
+    }
+
+    public void shortHelp(){
+        Out.println(CommandConstants.HELP + "\t" +
+                "Prints jManage command line help");
+    }
+
+    public void help() {
+        shortHelp();
     }
 }

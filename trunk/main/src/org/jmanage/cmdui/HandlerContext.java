@@ -35,6 +35,11 @@ public class HandlerContext {
         this.serviceContext = getServiceContext(command);
     }
 
+    HandlerContext(Command command, ServiceContext serviceContext){
+        this.command = command;
+        this.serviceContext = serviceContext;
+    }
+
     public Command getCommand(){
         return command;
     }

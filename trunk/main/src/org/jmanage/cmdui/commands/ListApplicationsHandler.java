@@ -17,6 +17,7 @@ package org.jmanage.cmdui.commands;
 
 import org.jmanage.cmdui.CommandHandler;
 import org.jmanage.cmdui.HandlerContext;
+import org.jmanage.cmdui.CommandConstants;
 import org.jmanage.cmdui.util.Out;
 import org.jmanage.core.services.ConfigurationService;
 import org.jmanage.core.services.ServiceFactory;
@@ -49,5 +50,14 @@ public class ListApplicationsHandler implements CommandHandler {
             }
         }
         return true;
+    }
+
+    public void shortHelp() {
+        Out.println(CommandConstants.LIST_APPS + "\t" +
+                "Lists all configured applications in jManage");
+    }
+
+    public void help() {
+        shortHelp();
     }
 }

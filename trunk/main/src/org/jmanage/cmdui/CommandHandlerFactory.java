@@ -16,28 +16,31 @@
 package org.jmanage.cmdui;
 
 import org.jmanage.cmdui.commands.ListApplicationsHandler;
-import org.jmanage.cmdui.commands.NoOpHandler;
+import org.jmanage.cmdui.commands.ExitHandler;
 import org.jmanage.cmdui.commands.HelpHandler;
 
-import java.util.Map;
-import java.util.HashMap;
+import java.util.*;
 
 /**
  *
  * date:  Feb 4, 2005
  * @author	Rakesh Kalra
  */
-class CommandHandlerFactory implements CommandConstants {
+public class CommandHandlerFactory implements CommandConstants {
 
     private static Map commandNameToInstanceMap = new HashMap();
+    private static Set commandNames = new TreeSet();
 
     static{
         commandNameToInstanceMap.put(LIST_APPS, new ListApplicationsHandler());
         commandNameToInstanceMap.put(HELP, new HelpHandler());
-        commandNameToInstanceMap.put(EXIT, new NoOpHandler());
+        commandNameToInstanceMap.put(EXIT, new ExitHandler());
+
+        /* add to the command names set */
+        commandNames.addAll(commandNameToInstanceMap.keySet());
     }
 
-    static CommandHandler getHandler(String commandName)
+    public static CommandHandler getHandler(String commandName)
         throws InvalidCommandException {
 
         CommandHandler handler =
@@ -46,6 +49,10 @@ class CommandHandlerFactory implements CommandConstants {
             throw new InvalidCommandException(commandName);
         }
         return handler;
+    }
+
+    public static Collection getCommandNames(){
+        return commandNames;
     }
 
     static void validateCommand(String commandName)
