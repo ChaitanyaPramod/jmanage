@@ -32,6 +32,7 @@ public interface ErrorCodes {
     String INVALID_APPLICATION_NAME = "invalid.appName";
     String INVALID_MBEAN_ATTRIBUTE = "invalid.mbean.attribute";
     String INVALID_MBEAN_OPERATION = "invalid.mbean.operation";
+    String READ_ONLY_MBEAN_ATTRIBUTE = "readOnly.mbean.attribute";
 
     String OPERATION_NOT_SUPPORTED_FOR_CLUSTER = "cluster.unsupported.operation";
 
@@ -43,4 +44,5 @@ public interface ErrorCodes {
 
     String ERRONEOUS_APPS = "erroneous.apps";
     String JMANAGE_SERVER_CONNECTION_FAILED = "jmanage.connection.failed";
+
 }

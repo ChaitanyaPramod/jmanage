@@ -96,28 +96,8 @@ public class MBeanServiceImpl implements MBeanService {
                 attributeNames.add(attributes[i].getName());
             }
         }
-
-        ObjectName objectName = new ObjectName(mbeanName);
         String[] attributeArray = StringUtils.listToStringArray(attributeNames);
-        ApplicationConfig appConfig =
-                ServiceUtils.getApplicationConfigByName(appName);
-        AttributeListData[] resultData = null;;
-        if(appConfig.isCluster()){
-            /* we need to perform this operation for all servers
-                in this cluster */
-            resultData = new AttributeListData[appConfig.getApplications().size()];
-            int index = 0;
-            for(Iterator it=appConfig.getApplications().iterator(); it.hasNext(); index++){
-                ApplicationConfig childAppConfig = (ApplicationConfig)it.next();
-                resultData[index] =
-                        getAttributes(childAppConfig, objectName, attributeArray);
-            }
-        }else{
-            resultData = new AttributeListData[1];
-            resultData[0] =
-                    getAttributes(appConfig, objectName, attributeArray);
-        }
-        return resultData;
+        return getAttributes(context, appName, mbeanName, attributeArray, true);
     }
 
     /**
@@ -131,6 +111,7 @@ public class MBeanServiceImpl implements MBeanService {
                                              boolean handleCluster)
             throws ServiceException {
 
+        mbeanName = resolveMBeanName(appName, mbeanName);
         ObjectName objectName = new ObjectName(mbeanName);
         ApplicationConfig appConfig =
                 ServiceUtils.getApplicationConfigByName(appName);
@@ -145,8 +126,13 @@ public class MBeanServiceImpl implements MBeanService {
             int index = 0;
             for(Iterator it=appConfig.getApplications().iterator(); it.hasNext(); index++){
                 ApplicationConfig childAppConfig = (ApplicationConfig)it.next();
-                resultData[index] =
-                        getAttributes(childAppConfig, objectName, attributes);
+                try {
+                    resultData[index] =
+                            getAttributes(childAppConfig, objectName, attributes);
+                } catch (ConnectionFailedException e) {
+                    resultData[index] =
+                            new AttributeListData(childAppConfig.getName());
+                }
             }
         }else{
             resultData = new AttributeListData[1];
@@ -162,7 +148,7 @@ public class MBeanServiceImpl implements MBeanService {
     private AttributeListData getAttributes(ApplicationConfig appConfig,
                                             ObjectName objectName,
                                             String[] attributes)
-            throws ServiceException {
+            throws ConnectionFailedException {
 
         ServerConnection connection =
                 ServerConnector.getServerConnection(appConfig);
@@ -373,9 +359,11 @@ public class MBeanServiceImpl implements MBeanService {
     }
 
     /**
-     * Converts a two di
+     * Converts a two dimentional String array containing attribute name and
+     * value to a list of ObjectAttribute objects.
+     *
      * @param attributes
-     * @return
+     * @return list containing ObjectAttribute objects
      */
     private List buildAttributeList(String appName,
                                     ObjectName objectName,
@@ -388,6 +376,9 @@ public class MBeanServiceImpl implements MBeanService {
         for(int i=0; i<attributes.length; i++){
             String attribute = attributes[i][0];
             String type = getAttributeType(objAttributes, attribute, objectName);
+            /* ensure that this attribute is writable */
+            ensureAttributeIsWritable(objAttributes, attribute, objectName);
+
             Object value = CoreUtils.getTypedValue(attributes[i][1], type);
             ObjectAttribute objAttribute =
                     new ObjectAttribute(attribute, value);
@@ -406,6 +397,23 @@ public class MBeanServiceImpl implements MBeanService {
         }
         throw new ServiceException(ErrorCodes.INVALID_MBEAN_ATTRIBUTE,
                 attribute, objectName);
+    }
+
+    private void ensureAttributeIsWritable(ObjectAttributeInfo[] objAttributes,
+                                           String attribute,
+                                           ObjectName objectName){
+        ObjectAttributeInfo attributeInfo = null;
+        for(int i=0; i<objAttributes.length; i++){
+            if(objAttributes[i].getName().equals(attribute)){
+                attributeInfo = objAttributes[i];
+                break;
+            }
+        }
+        assert attributeInfo != null :"attribute not found:" + attribute;
+        if(!attributeInfo.isWritable()){
+            throw new ServiceException(ErrorCodes.READ_ONLY_MBEAN_ATTRIBUTE,
+                    attribute, objectName);
+        }
     }
 
 

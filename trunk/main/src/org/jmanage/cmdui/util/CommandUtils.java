@@ -75,9 +75,13 @@ public class CommandUtils {
             Object[] cols = new Object[attributeValues.length + 1];
             cols[0] = ((ObjectAttribute)attrList.get(i)).getName();
             for(int j=0; j<attributeValues.length; j++){
-                ObjectAttribute objAttribute =
-                        (ObjectAttribute)attributeValues[j].getAttributeList().get(i);
-                cols[j+1] = objAttribute.getValue();
+                if(!attributeValues[j].isError()){
+                    ObjectAttribute objAttribute =
+                            (ObjectAttribute)attributeValues[j].getAttributeList().get(i);
+                    cols[j+1] = objAttribute.getValue();
+                }else{
+                    cols[j+1] = "<unavailable>";
+                }
             }
             table.add(cols);
         }
