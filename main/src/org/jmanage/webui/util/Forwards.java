@@ -8,4 +8,6 @@ package org.jmanage.webui.util;
 public interface Forwards {
 
     public static final String SUCCESS = "success";
+    public static final String UN_AUTHORIZED = "usAuthorized";
+    public static final String LOGIN = "login";
 }

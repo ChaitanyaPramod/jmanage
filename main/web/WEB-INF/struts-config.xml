@@ -36,36 +36,38 @@
    <!-- ======================================== Global Forward Definitions -->
 
     <global-forwards>
-
+        <forward name="usAuthorized" path="/auth/unauthorized.jsp"/>
+        <forward name="login" path="/index.jsp"/>
     </global-forwards>
 
     <!-- ======================================== Action Mapping Definitions -->
 
-    <action-mappings>
+    <action-mappings type="org.jmanage.webui.JManageActionMapping" >
 
         <!--== Authentication ===============================================-->
-        <action
-            path="/auth/showLogin"
-            name="loginForm"
-            scope="request"
-            type="org.apache.struts.actions.ForwardAction"
-            parameter="/auth/login.jsp">
-        </action>
         <action
             path="/auth/login"
             name="loginForm"
             scope="request"
+            input="/index.jsp"
             type="org.jmanage.webui.actions.auth.LoginAction">
+            <forward name="success" path="/home.jsp"/>
+        </action>
+        <action
+            path="/auth/logout"
+            type="org.jmanage.webui.actions.auth.LogoutAction">
             <forward name="success" path="/index.jsp"/>
         </action>
         <!--== Configuration Management =====================================-->
         <action
             path="/config/applicationList"
+            roles="dev,ops"
             type="org.jmanage.webui.actions.config.ApplicationListAction">
             <forward name="success" path="/config/applicationList.jsp"/>
         </action>
         <action
             path="/config/managedApplications"
+            roles="dev,ops"
             type="org.jmanage.webui.actions.config.ApplicationListAction">
             <forward name="success" path="/config/managedApplications.jsp"/>
         </action>
@@ -73,6 +75,7 @@
             path="/config/showEditApplication"
             name="wlApplicationForm"
             scope="request"
+            roles="ops"
             type="org.jmanage.webui.actions.config.ShowEditApplicationAction">
             <forward name="success" path="/config/editApplication.jsp"/>
         </action>
@@ -80,6 +83,7 @@
             path="/config/editApplication"
             name="wlApplicationForm"
             scope="request"
+            roles="ops"
             type="org.jmanage.webui.actions.config.EditApplicationAction">
             <forward name="success" path="/config/managedApplications.do"/>
         </action>
@@ -87,6 +91,7 @@
             path="/config/showAddApplication"
             name="wlApplicationForm"
             scope="request"
+            roles="ops"
             type="org.apache.struts.actions.ForwardAction"
             parameter="/config/addApplication.jsp">
         </action>
@@ -94,6 +99,7 @@
             path="/config/addApplication"
             name="wlApplicationForm"
             scope="request"
+            roles="ops"
             type="org.jmanage.webui.actions.config.AddApplicationAction">
             <forward name="success" path="/config/managedApplications.do"/>
         </action>
@@ -101,6 +107,7 @@
             path="/config/deleteApplication"
             name="wlApplicationForm"
             scope="request"
+            roles="ops"
             type="org.jmanage.webui.actions.config.DeleteApplicationAction">
             <forward name="success" path="/config/managedApplications.do"/>
         </action>
@@ -110,11 +117,13 @@
             path="/app/mbeanList"
             name="mbeanQueryForm"
             scope="request"
+            roles="dev,ops"
             type="org.jmanage.webui.actions.app.MBeanListAction">
             <forward name="success" path="app.mbeanList"/>
         </action>
         <action
             path="/app/mbeanView"
+            roles="dev,ops"
             type="org.jmanage.webui.actions.app.ShowMBeanAction">
             <forward name="success" path="app.mbeanView"/>
         </action>
@@ -122,6 +131,7 @@
             path="/app/updateAttributes"
             name="emptyForm"
             scope="request"
+            roles="ops"
             type="org.jmanage.webui.actions.app.UpdateMBeanAttributesAction">
             <forward name="success" path="/app/mbeanView.do"/>
         </action>
@@ -129,6 +139,7 @@
             path="/app/executeOperation"
             name="emptyForm"
             scope="request"
+            roles="ops"
             type="org.jmanage.webui.actions.app.ExecuteMBeanOperationAction">
             <forward name="success" path="/app/mbeanView.do"/>
         </action>
@@ -140,7 +151,7 @@
     <!--controller
         processorClass=""/-->
     <controller
-        processorClass="org.apache.struts.tiles.TilesRequestProcessor"/>
+        processorClass="org.jmanage.webui.JManageRequestProcessor"/>
 
     <!-- ===================================== Message Resources Definitions -->
 

@@ -6,9 +6,11 @@ import org.jmanage.core.connector.MBeanServerConnectionFactory;
 import org.jmanage.core.connector.ConnectionFailedException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
 import javax.management.MalformedObjectNameException;
+import javax.security.auth.login.LoginContext;
 
 /**
  *
@@ -20,10 +22,12 @@ public class WebContext {
     private ApplicationConfig appConfig;
     private MBeanServer mbeanServer;
     private HttpServletRequest request;
+    private HttpSession session;
 
     private WebContext(HttpServletRequest request){
 
         this.request = request;
+        this.session = request.getSession();
         final String appId = request.getParameter(RequestParams.APPLICATION_ID);
         if(appId != null){
             appConfig =
@@ -70,4 +74,17 @@ public class WebContext {
         }
         return context;
     }
+
+    public LoginContext getLoginContext() {
+        return (LoginContext)session.getAttribute(RequestAttributes.LOGIN_CONTEXT);
+    }
+
+    public void setLoginContext(LoginContext lContext) {
+        session.setAttribute(RequestAttributes.LOGIN_CONTEXT, lContext);
+    }
+
+    public void removeLoginContext(){
+        session.removeAttribute(RequestAttributes.LOGIN_CONTEXT);
+    }
+
 }
