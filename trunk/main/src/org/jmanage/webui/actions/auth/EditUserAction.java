@@ -58,6 +58,7 @@ public class EditUserAction extends BaseAction{
         List roles = new ArrayList(1);
         roles.add(userForm.getRole());
         user.setRoles(roles);
+        // TODO: this is bug while updating
         final String hashedPassword = Crypto.hash(userForm.getPassword());
         if(!hashedPassword.equals(user.getPassword())){
             user.setPassword(hashedPassword);

@@ -235,6 +235,9 @@
         <jar basedir="${build.home}/modules/weblogic/classes"
             jarfile="${build.home}/modules/weblogic/classes.jar"/>
         <delete dir="${build.home}/modules/weblogic/classes" />
+        <copy todir="${build.home}/modules/weblogic">
+            <fileset file="${basedir}/ext/weblogic.jar"/>
+        </copy>
     </target>
 
 

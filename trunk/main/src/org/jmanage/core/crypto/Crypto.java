@@ -1,10 +1,11 @@
 package org.jmanage.core.crypto;
 
-import org.jmanage.core.util.Tracer;
+import org.jmanage.core.util.Loggers;
 
 import javax.crypto.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.logging.Logger;
 
 /**
  * Crypto acts as a facade layer for the crypto classes.
@@ -13,6 +14,8 @@ import java.security.NoSuchAlgorithmException;
  * @author	Rakesh Kalra
  */
 public class Crypto {
+
+    private static final Logger logger = Loggers.getLogger(Crypto.class);
 
     private static Cipher encrypter;
     private static Cipher decrypter;
@@ -24,7 +27,7 @@ public class Crypto {
         assert encrypter != null;
         decrypter = getCipher(Cipher.DECRYPT_MODE, secretKey);
         assert decrypter != null;
-        Tracer.message(Crypto.class, "Crypto initialized");
+        logger.info("Crypto initialized");
     }
 
     public static synchronized byte[] encrypt(String plaintext){
