@@ -31,7 +31,7 @@ See http://forrest.apache.org/docs/linking.html for more info
 
 <site label="jManage" href="" xmlns="http://apache.org/forrest/linkmap/1.0" tab="">
 
-  <home label="Home" href="">
+  <home label="Home" href="/">
     <index label="Index" href="index.html" description="Welcome to jManage"/>
   </home>
   <community label="Community" href="http://sourceforge.net/projects/jmanage/">
@@ -41,6 +41,7 @@ See http://forrest.apache.org/docs/linking.html for more info
   <development label="Development">
     <buildGuide label="Build Guide" href="development/index.html"/>
     <cvs label="CVS" href="http://sourceforge.net/cvs/?group_id=111374"/>
+    <license label="License" href="http://www.apache.org/licenses/LICENSE-2.0"/>
   </development>
 
 <!--
