@@ -3,6 +3,7 @@ package org.jmanage.webui.actions.app;
 import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.RequestAttributes;
 import org.jmanage.webui.util.Forwards;
+import org.jmanage.webui.util.RequestParams;
 import org.jmanage.webui.forms.MBeanQueryForm;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.ApplicationConfigManager;
@@ -34,7 +35,7 @@ public class MBeanListAction extends BaseAction {
 
         ApplicationConfig config =
                 ApplicationConfigManager.getApplicationConfig(
-                        ApplicationConfigManager.TEST_APP_ID);//TODO: get from request
+                        request.getParameter(RequestParams.APPLICATION_ID));
         MBeanServer mbeanServer =
                 MBeanServerConnectionFactory.getConnection(config);
 
