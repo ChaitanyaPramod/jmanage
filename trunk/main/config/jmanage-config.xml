@@ -1,3 +1,5 @@
+<!-- TODO: This file is not used. We should either start using it or remove it. - rk-->
+
 <jmanage-config>
 
     <authentication class="org.jmanage.common.auth.FileAuthentication"/>

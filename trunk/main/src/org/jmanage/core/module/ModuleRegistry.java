@@ -49,6 +49,7 @@ public class ModuleRegistry {
                         "org.jmanage.core.modules.weblogic.WLServerConnectionFactory"));
 
         /* tomcat module */
+        /** TODO: this needs to fixed - rk
         metaConfig = new MetaApplicationConfig(true, true, false, false, false,
                 "org.jmanage.core.modules.tomcat.TomcatApplicationConfig");
         modules.put(ApplicationType.TOMCAT,
@@ -56,7 +57,7 @@ public class ModuleRegistry {
                         "Tomcat",
                         metaConfig,
                         "org.jmanage.core.modules.tomcat.TomcatServerConnectionFactory"));
-
+        */
         /* jsr160 module */
         metaConfig = new MetaApplicationConfig(false, false, true, true, true,
                 "org.jmanage.core.modules.jsr160.JSR160ApplicationConfig");
