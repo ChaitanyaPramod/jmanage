@@ -27,8 +27,10 @@
     </td>
   </tr>
 <%
-        for(Iterator it=applicationConfig.getMBeans().iterator(); it.hasNext();){
-            MBeanConfig mbeanConfig = (MBeanConfig)it.next();
+        List mbeans = applicationConfig.getMBeans();
+        if(mbeans != null){
+            for(Iterator it=mbeans.iterator(); it.hasNext();){
+                MBeanConfig mbeanConfig = (MBeanConfig)it.next();
 %>
     <tr>
       <td>
@@ -38,6 +40,7 @@
       </td>
     </tr>
 <%
+            }
         }
 %>
 

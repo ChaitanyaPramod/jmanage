@@ -5,8 +5,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 /**
- * TODO: implement toString method
- *
+  *
  * date:  Jun 11, 2004
  * @author	Rakesh Kalra
  */
@@ -17,11 +16,11 @@ public abstract class ApplicationConfig {
     private static final List EMPTY_LIST = new ArrayList();
 
     protected String appId;
-    protected String name;
-    protected String host;
-    protected int port;
-    protected String username;
-    protected String password;
+    private String name;
+    private String host;
+    private int port;
+    private String username;
+    private String password;
     protected Map paramValues;
     private List mbeanList;
 
@@ -30,9 +29,9 @@ public abstract class ApplicationConfig {
                              String host,
                              int port){
         this.appId = applicationId;
-        this.name = name;
-        this.host = host;
-        this.port = port;
+        this.setName(name);
+        this.setHost(host);
+        this.setPort(port);
     }
 
     public ApplicationConfig(String applicationId,
@@ -43,8 +42,8 @@ public abstract class ApplicationConfig {
                              String password,
                              Map paramValues){
         this(applicationId, name, host, port);
-        this.username = username;
-        this.password = password;
+        this.setUsername(username);
+        this.setPassword(password);
         this.paramValues = paramValues;
     }
 
@@ -59,20 +58,40 @@ public abstract class ApplicationConfig {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getHost() {
         return host;
+    }
+
+    public void setHost(String host) {
+        this.host = host;
     }
 
     public int getPort() {
         return port;
     }
 
+    public void setPort(int port) {
+        this.port = port;
+    }
+
     public String getUsername() {
         return username;
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String getPassword() {
         return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     /**
@@ -88,6 +107,10 @@ public abstract class ApplicationConfig {
         return paramValues;
     }
 
+    public void setParamValues(Map paramValues){
+        this.paramValues = paramValues;
+    }
+
     /**
      * @return list of MBeanConfig objects
      */
@@ -101,6 +124,18 @@ public abstract class ApplicationConfig {
      */
     public void setMBeans(List mbeanList){
         this.mbeanList = mbeanList;
+    }
+
+    public boolean equals(Object obj){
+        if(obj instanceof ApplicationConfig){
+            ApplicationConfig config = (ApplicationConfig)obj;
+            return config.getApplicationId().equals(this.getApplicationId());
+        }
+        return false;
+    }
+
+    public String toString(){
+        return getApplicationId() + ";" + getName();
     }
 
     /**

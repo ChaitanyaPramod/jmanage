@@ -11,8 +11,9 @@ import java.util.ArrayList;
  */
 public class WeblogicApplicationConfig extends ApplicationConfig {
 
+    public static final String SERVER_NAME = "serverName";
     private static final ConfigParam serverNameParam =
-            new ConfigParam("serverName", "Server Name");
+            new ConfigParam(SERVER_NAME, "Server Name");
 
     private static final List additionalParams = new ArrayList(1);
     static{
@@ -33,7 +34,7 @@ public class WeblogicApplicationConfig extends ApplicationConfig {
     }
 
     public String getURL() {
-        return "t3://" + host + ":" + port;
+        return "t3://" + getHost() + ":" + getPort();
     }
 
     public String getType(){

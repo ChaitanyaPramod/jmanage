@@ -25,9 +25,11 @@
   <tr>
     <td><%=applicationConfig.getName()%></td>
     <td><a href="/config/showEditApplication.do?<%=RequestParams.APPLICATION_ID+"="+applicationConfig.getApplicationId()%>">Edit</a></td>
-    <td>Delete</td>
+    <td><a href="/config/deleteApplication.do?<%=RequestParams.APPLICATION_ID+"="+applicationConfig.getApplicationId()%>">Delete</a></td>
   </tr>
 <%  }//while ends %>
 </table>
+<br>
+<a href="/config/showAddApplication.do">Add New Application</a>
 </body>
 </html>
