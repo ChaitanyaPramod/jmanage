@@ -18,6 +18,11 @@
             name="JSR160"
             configClass="org.jmanage.modules.jsr160.JSR160ApplicationConfig"
             connectionFactory="org.jmanage.modules.jsr160.JSR160ServerConnectionFactory"/>
+        <module
+            id="jboss"
+            name="JBoss 3.2.4"
+            configClass="org.jmanage.modules.jboss.JBossApplicationConfig"
+            connectionFactory="org.jmanage.modules.jboss.JBossServerConnectionFactory"/>
     </application-modules>
 
 </jmanage-config>
