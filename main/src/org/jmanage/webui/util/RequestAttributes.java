@@ -8,4 +8,5 @@ package org.jmanage.webui.util;
 public interface RequestAttributes {
 
     public static final String APPLICATION_CONFIG = "applicationConfig";
+    public static final String APPLICATIONS = "applications";
 }
