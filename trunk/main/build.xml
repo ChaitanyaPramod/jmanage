@@ -311,7 +311,7 @@
             <fileset dir="${web.home}"/>
         </copy>
         <!-- Copy Config files -->
-        <copy todir="${build.home}/config">
+        <copy todir="${build.home}/conf">
             <fileset dir="${basedir}/config"/>
         </copy>
 
