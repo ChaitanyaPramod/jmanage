@@ -29,7 +29,12 @@ public class MBeanData {
     public MBeanData(){}
 
     public MBeanData(String name){
-        this.name = name;
+        this(name, null);
+    }
+
+    public MBeanData(String objectName, String configuredName) {
+        this.name = objectName;
+        this.configuredName = configuredName;
     }
 
     public String getName() {

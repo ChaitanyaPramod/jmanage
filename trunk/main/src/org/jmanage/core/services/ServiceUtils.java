@@ -28,18 +28,25 @@ import org.jmanage.core.util.ErrorCodes;
  */
 public class ServiceUtils {
 
-    public static final ServerConnection getServerConnection(String appName){
+    public static ServerConnection getServerConnection(String appName){
+        ApplicationConfig appConfig = getApplicationConfigByName(appName);
+        if(appConfig.isCluster()){
+            throw new ServiceException(
+                    ErrorCodes.OPERATION_NOT_SUPPORTED_FOR_CLUSTER);
+        }
+        return ServerConnector.getServerConnection(appConfig);
+    }
+
+    public static ApplicationConfig getApplicationConfigByName(String appName)
+        throws ServiceException {
+
         ApplicationConfig appConfig =
                 ApplicationConfigManager.getApplicationConfigByName(appName);
         if(appConfig == null){
             throw new ServiceException(
                     ErrorCodes.INVALID_APPLICATION_NAME, appName);
         }
-        if(appConfig.isCluster()){
-            throw new ServiceException(
-                    ErrorCodes.OPERATION_NOT_SUPPORTED_FOR_CLUSTER);
-        }
-        return ServerConnector.getServerConnection(appConfig);
+        return appConfig;
     }
 
 }

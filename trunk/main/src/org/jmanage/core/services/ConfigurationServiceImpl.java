@@ -18,7 +18,9 @@ package org.jmanage.core.services;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.ApplicationConfigFactory;
 import org.jmanage.core.config.ApplicationConfigManager;
+import org.jmanage.core.config.MBeanConfig;
 import org.jmanage.core.data.ApplicationConfigData;
+import org.jmanage.core.data.MBeanData;
 import org.jmanage.core.util.UserActivityLogger;
 import org.jmanage.core.util.CoreUtils;
 
@@ -71,5 +73,20 @@ public class ConfigurationServiceImpl implements ConfigurationService {
             appDataObjs.add(configData);
         }
         return appDataObjs;
+    }
+
+    public ArrayList getConfiguredMBeans(ServiceContext context,
+                                         String applicationName)
+            throws ServiceException {
+        ApplicationConfig appConfig =
+                ServiceUtils.getApplicationConfigByName(applicationName);
+        List mbeanList = appConfig.getMBeans();
+        ArrayList mbeanDataList = new ArrayList(mbeanList.size());
+        for(Iterator it=mbeanList.iterator(); it.hasNext();){
+            MBeanConfig mbeanConfig = (MBeanConfig)it.next();
+            mbeanDataList.add(new MBeanData(mbeanConfig.getObjectName(),
+                    mbeanConfig.getName()));
+        }
+        return mbeanDataList;
     }
 }

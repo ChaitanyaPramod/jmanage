@@ -26,8 +26,9 @@ import java.io.IOException;
  * commands:
  *
  * listApps
- * mbeans     <appName> [filter expression]
- * view       <appName>/<mbeanName [configured name or object name]>
+ * allmbeans  <appName> [filter expression]
+ * mbeans     <appName>
+ * view       <appName>/<mbeanName[configured name or object name]>
  * view       <appName>/<mbeanName>/[attributeName1|attributeName2|attributeName3]
  * execute    <appName>/<mbeanName>/<operationName> [args]
  * modify     <appName>/<mbeanName>/<attributeName> newValue

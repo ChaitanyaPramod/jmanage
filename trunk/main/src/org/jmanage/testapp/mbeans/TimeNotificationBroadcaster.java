@@ -17,6 +17,7 @@ package org.jmanage.testapp.mbeans;
 
 import javax.management.NotificationBroadcasterSupport;
 import javax.management.MBeanNotificationInfo;
+import javax.management.Notification;
 
 /**
  *
@@ -37,8 +38,9 @@ public class TimeNotificationBroadcaster extends NotificationBroadcasterSupport
         return notifications;
     }
 
+    private int sequence = 1;
 
-
-
-
+    public void emitNotification(){
+        this.sendNotification(new Notification("time.expired", this, sequence++));
+    }
 }

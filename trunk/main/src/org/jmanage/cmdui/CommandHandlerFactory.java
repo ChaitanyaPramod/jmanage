@@ -32,6 +32,7 @@ public class CommandHandlerFactory implements CommandConstants {
     static{
         commandNameToInstanceMap.put(LIST_APPS, new ListApplicationsHandler());
         commandNameToInstanceMap.put(MBEANS, new MBeansHandler());
+        commandNameToInstanceMap.put(ALL_MBEANS, new AllMBeansHandler());
         commandNameToInstanceMap.put(HELP, new HelpHandler());
         commandNameToInstanceMap.put(EXIT, new ExitHandler());
 

@@ -53,6 +53,7 @@ public class HelpHandler implements CommandHandler {
             try {
                 handler = CommandHandlerFactory.getHandler(args[0]);
                 handler.help();
+                return true;
             } catch (InvalidCommandException e) {
                 Out.println(e.getMessage());
                 Out.println();
