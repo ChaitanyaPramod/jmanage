@@ -160,6 +160,17 @@ public class UserManager implements AuthConstants{
     }
 
     /**
+     * Update current user's password.
+     *
+     * @param password
+     */
+    public void updatePassword(String username, String password){
+        User user=(User)users.get(username);
+        user.setPassword(Crypto.hash(password));
+        saveUser();
+    }
+
+    /**
      * Save the changes to "jmanage-users.xml"
      */
     private void saveUser(){

@@ -280,5 +280,16 @@
                 <arg0 key="Password" resource="false"/>
             </field>
         </form>
+        <form name="changePasswordForm">
+            <field property="oldPassword" depends="required">
+                <arg0 key="Old Password" resource="false"/>
+            </field>
+            <field property="newPassword" depends="required">
+                <arg0 key="New Password" resource="false"/>
+            </field>
+            <field property="confirmPassword" depends="required">
+                <arg0 key="Confirm Password" resource="false"/>
+            </field>
+        </form>
     </formset>
 </form-validation>
