@@ -103,29 +103,29 @@ To save the changes to the attribute values click on
 <tr><td class="headtext" align="left"><b>Operations</b></td></tr>
 <tr>
 <td bgcolor="#E6EEF9" class="plaintext">
-<table>
+<table width="100%">
 <%
     for(int index=0; index < operations.length; index++){
         String rowStyle = index % 2 != 0 ? "oddrow" : "evenrow";
         ObjectOperationInfo operationInfo = operations[index];
+        ObjectParameterInfo[] params = operationInfo.getSignature();
 %>
 <jmhtml:form action="/app/executeOperation">
 <tr>
     <td class="<%=rowStyle%>"><%=operationInfo.getReturnType()%>
     <a href="JavaScript:showDescription('<%=MBeanUtils.jsEscape(operationInfo.getDescription())%>');"><%=operationInfo.getName()%></a>
-    (
-    <%
-        ObjectParameterInfo[] params = operationInfo.getSignature();
-    %>
     <input type="hidden" name="paramCount" value="<%=params.length%>"/>
-    <%
-        for(int paramIndex = 0; paramIndex < params.length; paramIndex ++){
-            if(paramIndex>0){%>,&nbsp;<%}%>
-            <input type="hidden" name="<%=operationInfo.getName()%><%=paramIndex%>_type" value="<%=params[paramIndex].getType()%>"/>
-            <input type="text" name="<%=operationInfo.getName()%><%=paramIndex%>_value" value=""/>
-            <%=params[paramIndex].getType()%>
-    <%  }%>
-    )
+    </td>
+    <td class="<%=rowStyle%>">
+    <%if(params.length > 0){
+        int paramIndex = 0;
+    %>
+        <input type="hidden" name="<%=operationInfo.getName()%><%=paramIndex%>_type" value="<%=params[paramIndex].getType()%>"/>
+        <input type="text" name="<%=operationInfo.getName()%><%=paramIndex%>_value" value=""/>
+        <%=params[paramIndex].getType()%>
+    <%}else{%>
+        &nbsp;
+    <%}%>
     </td>
     <td class="<%=rowStyle%>">
         <input type="hidden" name="operationName" value="<%=operationInfo.getName()%>"/>
@@ -133,6 +133,19 @@ To save the changes to the attribute values click on
         [Impact: <%=MBeanUtils.getImpact(operationInfo.getImpact())%>]
     </td>
 </tr>
+    <%
+        for(int paramIndex = 1; paramIndex < params.length; paramIndex ++){
+    %>
+<tr>
+    <td class="<%=rowStyle%>">&nbsp;</td>
+    <td class="<%=rowStyle%>">
+        <input type="hidden" name="<%=operationInfo.getName()%><%=paramIndex%>_type" value="<%=params[paramIndex].getType()%>"/>
+        <input type="text" name="<%=operationInfo.getName()%><%=paramIndex%>_value" value=""/>
+        <%=params[paramIndex].getType()%>
+    </td>
+    <td class="<%=rowStyle%>">&nbsp;</td>
+</tr>
+    <%  }%>
 </jmhtml:form>
 <%  }%>
 </table>
