@@ -1,3 +1,4 @@
+<!--    /config/applicationList.jsp  -->
 <%@ page import="java.util.Map,
                  org.jmanage.webui.util.RequestAttributes,
                  java.util.Set,
@@ -93,39 +94,56 @@
 </head>
 <body bgcolor="#E6EEF9" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
 <div>
-  <br/>
+  <br />
     <%-- tree view --%>
     <table width="97%" border="0" align="center" cellpadding="5" cellspacing="0"  class="Inside3d">
         <tr>
-            <td>
-                <!-- By making any changes to this code you are violating your user agreement.
-                     Corporate users or any others that want to remove the link should check
-                     the online FAQ for instructions on how to obtain a version without the link -->
-                <!-- Removing this link will make the script stop from working -->
-                <div style="position:absolute; top:0; left:0; "><table border=0><tr><td><font size=-2><a
-                style="font-size:7pt;text-decoration:none;color:silver" href="http://www.treemenu.net/" target=_blank>JavaScript Tree
-                Menu</a></font></td></tr></table></div>
-                <script>initializeDocument()</script>
-                <noscript>
-                    You must enable JavaScript in your browser.
-                </noscript>
+            <td bgcolor="#E6EEF9">
+            <!-- By making any changes to this code you are violating your user agreement.
+                 Corporate users or any others that want to remove the link should check
+                 the online FAQ for instructions on how to obtain a version without the link -->
+            <!-- Removing this link will make the script stop from working -->
+            <div style="position:absolute; top:0; left:0; ">
+            <table border="0">
+                <tr>
+                <td>
+                    <font size="-2">
+                    <a style="font-size:7pt;text-decoration:none;color:silver"
+                                href="http://www.treemenu.net/" target="_blank">
+                                JavaScript Tree Menu
+                    </a>
+                    </font>
+                </td>
+                </tr>
+            </table>
+            </div>
+            <script>initializeDocument()</script>
+            <noscript>
+                You must enable JavaScript in your browser.
+            </noscript>
             </td>
         </tr>
+        <%-- --%>
+        <tr><td height="20" bordercolor="#E6EEF9" bgcolor="#E6EEF9">&nbsp;</td></tr>
+        <tr><td height="20" bordercolor="#E6EEF9" bgcolor="#E6EEF9">&nbsp;</td></tr>
+        <tr>
+          <td height="20" bordercolor="#E6EEF9" bgcolor="#E6EEF9">
+            <jmhtml:link href="/config/showAvailableApplications.do" target="basefrm" styleClass="a">Add new Application</jmhtml:link>
+          </td>
+        </tr>
+        <tr><td height="20" bordercolor="#E6EEF9" bgcolor="#E6EEF9">&nbsp;</td></tr>
+        <tr><td height="20" bordercolor="#E6EEF9" bgcolor="#E6EEF9">&nbsp;</td></tr>
+        <tr>
+          <td height="20" bordercolor="#E6EEF9" bgcolor="#E6EEF9">
+            <jmhtml:link href="/auth/listUsers.do" target="basefrm" styleClass="a">Users</jmhtml:link>
+          </td>
+        </tr>
+        <tr>
+          <td height="20" bordercolor="#E6EEF9" bgcolor="#E6EEF9">
+            <jmhtml:link href="/auth/logout.do" target="_parent" styleClass="a">Logout</jmhtml:link>
+          </td>
+        </tr>
     </table>
-    <%-- --%>
-  <p>&nbsp;</p>
-  <table width="97%" border="0" align="center" cellpadding="5" cellspacing="0" class="Inside3d">
-    <tr>
-      <td height="20" bordercolor="#E6EEF9" bgcolor="#E6EEF9">
-        <jmhtml:link href="/auth/listUsers.do" target="basefrm" styleClass="a">Users</jmhtml:link>
-      </td>
-    </tr>
-    <tr>
-      <td height="20" bordercolor="#E6EEF9" bgcolor="#E6EEF9">
-        <jmhtml:link href="/auth/logout.do" target="_parent" styleClass="a">Logout</jmhtml:link>
-      </td>
-    </tr>
-  </table>
 </div>
 
 </body>

@@ -1,7 +1,5 @@
 package org.jmanage.webui.forms;
 
-import org.jmanage.core.config.ApplicationConfig;
-
 /**
  *
  * date:  Jun 25, 2004

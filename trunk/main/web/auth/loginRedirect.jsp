@@ -1,3 +1,4 @@
+<!--    /auth/loginRedirect.jsp  -->
 <html>
 <head>
 <script language="JavaScript1.1">

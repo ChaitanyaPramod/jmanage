@@ -1,3 +1,4 @@
+<!--    /app/connectionFailed.jsp  -->
 <%@ page import="org.jmanage.webui.util.RequestParams,
                  org.jmanage.webui.util.RequestAttributes,
                  org.jmanage.core.config.ApplicationConfig"%>

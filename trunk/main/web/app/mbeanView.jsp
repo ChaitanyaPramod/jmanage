@@ -1,3 +1,4 @@
+<!--    /app/mbeanView.jsp  -->
 <%@ page import="java.util.Iterator,
                  org.jmanage.core.management.*,
                  org.jmanage.webui.util.RequestParams,

@@ -22,8 +22,8 @@
             type="org.jmanage.webui.forms.MBeanQueryForm">
         </form-bean>
         <form-bean
-            name="wlApplicationForm"
-            type="org.jmanage.webui.forms.WeblogicApplicationForm">
+            name="applicationForm"
+            type="org.jmanage.webui.forms.ApplicationForm">
         </form-bean>
         <form-bean
             name="mbeanConfigForm"
@@ -60,8 +60,9 @@
         <action
             path="/auth/login"
             name="loginForm"
-            scope="request"
+            validate="true"
             input="/index.jsp"
+            scope="request"
             type="org.jmanage.webui.actions.auth.LoginAction">
             <forward name="success" path="/home.jsp"/>
         </action>
@@ -85,7 +86,8 @@
         </action>
         <action
             path="/config/showEditApplication"
-            name="wlApplicationForm"
+            name="applicationForm"
+            validate="false"
             scope="request"
             roles="ops"
             type="org.jmanage.webui.actions.config.ShowEditApplicationAction">
@@ -93,23 +95,37 @@
         </action>
         <action
             path="/config/editApplication"
-            name="wlApplicationForm"
+            name="applicationForm"
+            validate="true"
+            input="/config/showEditApplication.do"
             scope="request"
             roles="ops"
             type="org.jmanage.webui.actions.config.EditApplicationAction">
             <forward name="success" path="/config/managedApplications.do"/>
         </action>
         <action
-            path="/config/showAddApplication"
-            name="wlApplicationForm"
+            path="/config/showAvailableApplications"
+            name="applicationForm"
+            validate="false"
             scope="request"
             roles="ops"
-            type="org.apache.struts.actions.ForwardAction"
-            parameter="/config/addApplication.jsp">
+            type="org.jmanage.webui.actions.config.ShowAvailableApplicationAction">
+            <forward name="success" path="/config/availableApplications.jsp"/>
+        </action>
+        <action
+            path="/config/showAddApplication"
+            name="applicationForm"
+            validate="false"
+            scope="request"
+            roles="ops"
+            type="org.jmanage.webui.actions.config.ShowAddApplicationAction">
+            <forward name="success" path="/config/addApplication.jsp"/>
         </action>
         <action
             path="/config/addApplication"
-            name="wlApplicationForm"
+            name="applicationForm"
+            validate="true"
+            input="/config/showAddApplication.do"
             scope="request"
             roles="ops"
             type="org.jmanage.webui.actions.config.AddApplicationAction">
@@ -117,7 +133,8 @@
         </action>
         <action
             path="/config/deleteApplication"
-            name="wlApplicationForm"
+            name="applicationForm"
+            validate="false"
             scope="request"
             roles="ops"
             type="org.jmanage.webui.actions.config.DeleteApplicationAction">
@@ -190,6 +207,7 @@
         <action
             path="/auth/showEditUser"
             name="userForm"
+            validate="false"
             scope="request"
             roles="ops"
             type="org.jmanage.webui.actions.auth.ShowEditUserAction">
@@ -198,6 +216,8 @@
         <action
             path="/auth/editUser"
             name="userForm"
+            validate="true"
+            input="/auth/showEditUser.do"
             scope="request"
             roles="ops"
             type="org.jmanage.webui.actions.auth.EditUserAction">
@@ -206,6 +226,7 @@
         <action
             path="/auth/showAddUser"
             name="userForm"
+            validate="false"
             scope="request"
             roles="ops"
             type="org.apache.struts.actions.ForwardAction"
@@ -214,6 +235,8 @@
         <action
             path="/auth/addUser"
             name="userForm"
+            validate="true"
+            input="/auth/showAddUser.do"
             scope="request"
             roles="ops"
             type="org.jmanage.webui.actions.auth.AddUserAction">

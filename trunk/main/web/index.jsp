@@ -1,3 +1,4 @@
+<!--/index.jsp-->
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 <html>
 <head>
@@ -13,10 +14,14 @@
       <tr><td width="318" class="Inside3d"><font face="Arial, Helvetica, sans-serif" size="5" color="#000080"><jmhtml:img src="/images/logo.jpg" width="408" height="48" /></font></td></tr>
       <tr>
         <td height="82">
-        <jmhtml:form action="/auth/login" method="post" focus="username">
+        <jmhtml:javascript formName="loginForm" />
+        <jmhtml:form action="/auth/login" method="post" focus="username"
+                                    onsubmit="return validateLoginForm(this)" >
             <table width="100%" border="0" cellpadding="7" cellspacing="8" class="loginBg">
               <tr>
-                <td width="100%" colspan="2"><div align="center" class="plaintext"><jmhtml:errors /></div></td>
+                <td colspan="2">
+                    <div align="center"><jmhtml:errors /></div>
+                </td>
               </tr>
               <tr>
                 <td width="44%"><div align="right" class="plaintext">Username : </div>

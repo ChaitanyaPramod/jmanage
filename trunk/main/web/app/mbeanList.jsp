@@ -1,3 +1,4 @@
+<!--    /app/mbeanList.jsp  -->
 <%@ page import="java.util.List,
                  java.util.Iterator,
                  org.jmanage.core.config.ApplicationConfig,

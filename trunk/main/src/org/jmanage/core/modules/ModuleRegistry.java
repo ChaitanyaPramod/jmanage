@@ -65,4 +65,8 @@ public class ModuleRegistry {
         assert config != null: "Invalid module id: " + type;
         return config;
     }
+
+    public static Map getModules() {
+        return modules;
+    }
 }

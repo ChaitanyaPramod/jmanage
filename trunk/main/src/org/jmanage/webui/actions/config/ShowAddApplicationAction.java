@@ -3,9 +3,10 @@ package org.jmanage.webui.actions.config;
 import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
+import org.jmanage.webui.util.RequestAttributes;
 import org.jmanage.webui.forms.ApplicationForm;
-import org.jmanage.core.config.ApplicationConfig;
-import org.jmanage.core.config.ApplicationConfigManager;
+import org.jmanage.core.modules.ModuleRegistry;
+import org.jmanage.core.modules.ModuleConfig;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
@@ -14,36 +15,34 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * This action class creates MetaApplicationConfig instance based on the type of
+ * application being added and sets in the request to make the ApplicationForm
+ * dynamic.
  *
- * date:  Jun 25, 2004
- * @author	Rakesh Kalra
+ * Date: Nov 3, 2004 12:46:00 AM
+ * @author Shashank Bellary 
  */
-public class EditApplicationAction extends BaseAction {
-
+public class ShowAddApplicationAction extends BaseAction {
+    /**
+     *
+     * @param context
+     * @param mapping
+     * @param actionForm
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward execute(WebContext context,
                                  ActionMapping mapping,
                                  ActionForm actionForm,
                                  HttpServletRequest request,
                                  HttpServletResponse response)
             throws Exception {
-
         ApplicationForm appForm = (ApplicationForm)actionForm;
-        ApplicationConfig config =
-                ApplicationConfigManager.getApplicationConfig(
-                        appForm.getApplicationId());
-        assert config != null;
-
-        config.setName(appForm.getName());
-        config.setHost(appForm.getHost());
-        if(appForm.getPort() != null)
-            config.setPort(new Integer(appForm.getPort()));
-        config.setUsername(appForm.getUsername());
-        final String password = appForm.getPassword();
-        if(password != null && !password.equals(config.getPassword())){
-            config.setPassword(password);
-        }
-
-        ApplicationConfigManager.updateApplication(config);
+        ModuleConfig moduleConfig = ModuleRegistry.getModule(appForm.getType());
+        request.setAttribute(RequestAttributes.META_APP_CONFIG,
+                moduleConfig.getMetaApplicationConfig());
         return mapping.findForward(Forwards.SUCCESS);
     }
 }

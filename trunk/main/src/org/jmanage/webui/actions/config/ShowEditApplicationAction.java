@@ -3,9 +3,13 @@ package org.jmanage.webui.actions.config;
 import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
+import org.jmanage.webui.util.RequestAttributes;
 import org.jmanage.webui.forms.ApplicationForm;
-import org.jmanage.webui.forms.WeblogicApplicationForm;
+import org.jmanage.webui.forms.ApplicationForm;
 import org.jmanage.core.config.ApplicationConfig;
+import org.jmanage.core.config.MetaApplicationConfig;
+import org.jmanage.core.modules.ModuleConfig;
+import org.jmanage.core.modules.ModuleRegistry;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
@@ -36,15 +40,25 @@ public class ShowEditApplicationAction extends BaseAction {
                                  HttpServletResponse response) {
 
         ApplicationConfig config = context.getApplicationConfig();
-        WeblogicApplicationForm appForm = (WeblogicApplicationForm)actionForm;
+        ApplicationForm appForm = (ApplicationForm)actionForm;
+        ModuleConfig moduleConfig = ModuleRegistry.getModule(config.getType());
+        MetaApplicationConfig metaAppConfig =
+                moduleConfig.getMetaApplicationConfig();
+
         /* populate the form */
         appForm.setApplicationId(config.getApplicationId());
         appForm.setName(config.getName());
-        appForm.setHost(config.getHost());
-        appForm.setPort(String.valueOf(config.getPort()));
-        appForm.setUsername(config.getUsername());
-        appForm.setPassword(ApplicationForm.FORM_PASSWORD);
+        appForm.setType(config.getType());
+        if(metaAppConfig.isDisplayHost())
+            appForm.setHost(config.getHost());
+        if(metaAppConfig.isDisplayPort())
+            appForm.setPort(String.valueOf(config.getPort()));
+        if(metaAppConfig.isDisplayUsername())
+            appForm.setUsername(config.getUsername());
+        if(metaAppConfig.isDisplayPassword())
+            appForm.setPassword(ApplicationForm.FORM_PASSWORD);
+
+        request.setAttribute(RequestAttributes.META_APP_CONFIG, metaAppConfig);
         return mapping.findForward(Forwards.SUCCESS);
     }
-
 }

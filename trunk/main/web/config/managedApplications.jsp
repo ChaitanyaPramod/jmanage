@@ -1,3 +1,4 @@
+<!--    /config/managedApplications.jsp  -->
 <%@ page import="java.util.Map,
                  org.jmanage.webui.util.RequestAttributes,
                  java.util.Set,
@@ -48,7 +49,5 @@
   </tr>
   <%}//while ends %>
 </table>
-<br>
-<jmhtml:link href="/config/showAddApplication.do" styleClass="a">Add New Application</jmhtml:link>
 </body>
 </html>

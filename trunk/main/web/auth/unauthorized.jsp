@@ -1,3 +1,4 @@
+<!--    /auth/unauthorized.jsp  -->
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 <html>
 <head>
@@ -10,13 +11,13 @@
 <table width="100%" border="0">
   <tr>
 <td class="headtext1">
-Not Authorized
+Access Failure !
 </td>
 </tr>
 <tr>
 <td class="plaintext">
 <br>
-You don't have the permission to view this page.
+You are not authorized to perform this operation.
 <br><br>
 </td>
 </tr>
