@@ -9,6 +9,7 @@ import java.security.Principal;
  * @author Shashank
  */
 public class User implements Principal{
+
     private String username;
     private String password;
     private List roles;

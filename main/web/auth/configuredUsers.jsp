@@ -3,7 +3,8 @@
                  java.util.Collection,
                  java.util.Iterator,
                  org.jmanage.core.auth.User,
-                 org.jmanage.webui.util.RequestParams"%>
+                 org.jmanage.webui.util.RequestParams,
+                 org.jmanage.core.auth.AuthConstants"%>
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 
 <html>
@@ -32,8 +33,20 @@
 %>
   <tr class="<%=rowStyle%>">
     <td class="headtext1"><%=user.getName()%></td>
-    <td><a href="/auth/showEditUser.do?<%=RequestParams.USER_NAME+"="+user.getUsername()%>" class="a1">Edit</a></td>
-    <td><a href="JavaScript:deleteUser('<%=user.getUsername()%>');" class="a1">Delete</a></td>
+    <td>
+    <%if(!AuthConstants.USER_ADMIN.equals(user.getUsername())){%>
+    <a href="/auth/showEditUser.do?<%=RequestParams.USER_NAME+"="+user.getUsername()%>" class="a1">Edit</a>
+    <%}else{%>
+    &nbsp;
+    <%}%>
+    </td>
+    <td>
+    <%if(!AuthConstants.USER_ADMIN.equals(user.getUsername())){%>
+    <a href="JavaScript:deleteUser('<%=user.getUsername()%>');" class="a1">Delete</a>
+    <%}else{%>
+    &nbsp;
+    <%}%>
+    </td>
   </tr>
   <%}//while ends %>
 </table>

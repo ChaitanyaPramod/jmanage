@@ -60,6 +60,16 @@ public class EncryptedKey {
         }
     }
 
+    /**
+     * Re-generates the encryptedKey based on the given password.
+     *
+     * @param password
+     */
+    public void setPassword(char[] password){
+        assert password != null;
+        this.encryptedKey = getEncrypted(secretKey.getEncoded(), password);
+    }
+
     public SecretKey getSecretKey() {
         return secretKey;
     }

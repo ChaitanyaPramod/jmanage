@@ -52,7 +52,7 @@ public class ShowEditUserAction extends BaseAction{
     private void prepareUserForm(ActionForm form, User user){
         UserForm userForm = (UserForm)form;
         userForm.setUsername(user.getUsername());
-        userForm.setPassword(user.getPassword());
+        userForm.setPassword(UserForm.FORM_PASSWORD);
         //TODO Need to handle multiple role scenario
         userForm.setRole(user.getRoles().get(0).toString());
     }

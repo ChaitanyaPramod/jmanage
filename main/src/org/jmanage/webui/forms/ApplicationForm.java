@@ -9,6 +9,8 @@ import org.jmanage.core.config.ApplicationConfig;
  */
 public class ApplicationForm extends BaseForm {
 
+    public static final String FORM_PASSWORD = "$$$$$$$$";
+
     private String appId;
     private String name;
     private String host;

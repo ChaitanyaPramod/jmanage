@@ -4,6 +4,7 @@ import org.apache.struts.config.ModuleConfig;
 import org.apache.struts.action.*;
 import org.apache.struts.tiles.TilesRequestProcessor;
 import org.jmanage.webui.util.WebContext;
+import org.jmanage.core.util.Tracer;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -68,6 +69,7 @@ public class JManageRequestProcessor extends TilesRequestProcessor{
             /*  execute the action  */
             resultForward = action.execute(mapping, form, request, response);
         }catch (Exception e){
+            Tracer.exception(this, e);
             /* process exception */
             resultForward =
                     processException(request, response, e, form, mapping);

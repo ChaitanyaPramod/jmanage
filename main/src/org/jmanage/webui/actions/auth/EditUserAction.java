@@ -6,6 +6,7 @@ import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.forms.UserForm;
 import org.jmanage.core.auth.UserManager;
 import org.jmanage.core.auth.User;
+import org.jmanage.core.crypto.Crypto;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
@@ -51,9 +52,16 @@ public class EditUserAction extends BaseAction{
      */
     private User buildUser(ActionForm form){
         UserForm userForm = (UserForm)form;
+        User user = UserManager.getInstance().getUser(userForm.getUsername());
+        assert user != null;
+
         List roles = new ArrayList(1);
         roles.add(userForm.getRole());
-        User user = new User(userForm.getUsername(), userForm.getPassword(), roles);
+        user.setRoles(roles);
+        final String hashedPassword = Crypto.hash(userForm.getPassword());
+        if(!hashedPassword.equals(user.getPassword())){
+            user.setPassword(hashedPassword);
+        }
         return user;
     }
 }
