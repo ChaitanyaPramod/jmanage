@@ -75,7 +75,7 @@ We are currently developing version 0.5, which has the following features:
           jManage is typically deployed in a production environment in the
           same network as the applications to be managed. This allows jManage
           to access the JMX enabled applications via any protocol supported
-          by that application. Users than then access jManage over HTTP via
+          by that application. Users access jManage over HTTP via
           a web browser or command line.
           <br/><br/>
           <img src="/images/jManage-deploy.jpg" alt="Typical jManage Deployment"/>

@@ -1,0 +1,35 @@
+<project name="jManage web site" default="generate" basedir=".">
+
+    <property file="${user.home}/jmanage.properties"/>
+    <property file="build.properties"/>
+
+    <property name="forrest.build.xml"
+        value="${forrest.home}\src\core\bin\..\forrest.build.xml"/>
+
+    <target name="generate"
+        description="Generates a static HTML website for this project [using forrest]">
+        <ant antfile="${forrest.build.xml}" target="site">
+            <property name="forrest.home" value="${forrest.home}/src/core"/>
+        </ant>
+    </target>
+
+    <target name="run"
+            description="Run Jetty (instant live webapp - for testing) [using forrest]">
+        <ant antfile="${forrest.build.xml}" target="run">
+            <property name="forrest.home" value="${forrest.home}/src/core"/>
+        </ant>
+    </target>
+
+    <target name="upload" description="uploads the web pages">
+        <fail unless="username" message="Please specify sf username via -Dusername"/>
+        <fail unless="password" message="Please specify sf password via -Dpassword"/>
+        <scp
+            trust="true"
+            todir="${username}:${password}@shell.sourceforge.net:/home/groups/j/jm/jmanage/htdocs">
+            <fileset dir="build/site">
+              <include name="**"/>
+            </fileset>
+        </scp>
+    </target>
+</project>
+
