@@ -50,14 +50,17 @@ public class JMXHelper {
 
         /* Configuration */
         registerMBean(new Configuration(), ObjectNames.CONFIGURATION);
-        /* Configuration */
+        /* Calculator */
         registerMBean(new Calculator(), ObjectNames.CALCULATOR);
-        /* Configuration */
-        registerMBean(new PrimitiveDataTypeTest(), ObjectNames.PRIMITIVEDATATYPETEST);
-        /* Configuration */
-        registerMBean(new DataTypeTest(), ObjectNames.DATATYPETEST);
-        /* Configuration */
-        registerMBean(new BigDataTypeTest(), ObjectNames.BIGDATATYPETEST);
+        /* PrimitiveDataTypeTest */
+        registerMBean(new PrimitiveDataTypeTest(), ObjectNames.PRIMITIVE_DATA_TYPE_TEST);
+        /* DataTypeTest */
+        registerMBean(new DataTypeTest(), ObjectNames.DATA_TYPE_TEST);
+        /* BigDataTypeTest */
+        registerMBean(new BigDataTypeTest(), ObjectNames.BIG_DATA_TYPE_TEST);
+         /* TimeNotificationBroadcaster */
+        registerMBean(new TimeNotificationBroadcaster(),
+                ObjectNames.TIME_NOTIFICATION_BROADCASTER);
         /* start RMI connector */
         startJMXConnectorServer();
     }

@@ -8,7 +8,8 @@ package org.jmanage.test.mbeans;
 public interface ObjectNames {
     String CONFIGURATION = "jmanage:name=Configuration";
     String CALCULATOR = "jmanage:name=Calculator";
-    String PRIMITIVEDATATYPETEST = "jmanage:name=PrimitiveDataTypeTest";
-    String DATATYPETEST = "jmanage:name=DataTypeTest";
-    String BIGDATATYPETEST = "jmanage:name=BigDataTypeTest";
+    String PRIMITIVE_DATA_TYPE_TEST = "jmanage:name=PrimitiveDataTypeTest";
+    String DATA_TYPE_TEST = "jmanage:name=DataTypeTest";
+    String BIG_DATA_TYPE_TEST = "jmanage:name=BigDataTypeTest";
+    String TIME_NOTIFICATION_BROADCASTER = "jmanage:name=TimeNotificationBroadcaster";
 }

@@ -1,0 +1,13 @@
+package org.jmanage.test.mbeans;
+
+import javax.management.MBeanNotificationInfo;
+
+/**
+ *
+ * date:  Dec 23, 2004
+ * @author	Vandana Taneja
+ */
+public interface TimeNotificationBroadcasterMBean {
+
+     public MBeanNotificationInfo[] getNotificationInfo();
+}
