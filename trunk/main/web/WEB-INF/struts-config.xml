@@ -59,6 +59,10 @@
             handler="org.jmanage.webui.JManageExceptionHandler"
             key="ignore"
             type="java.lang.Exception"/>
+        <exception
+            key="ignore"
+            type="org.jmanage.core.auth.UnAuthorizedAccessException"
+            path="/auth/unauthorized.jsp" />
 
     </global-exceptions>
 
@@ -254,7 +258,6 @@
         <!--== User Management =======================================-->
         <action
             path="/auth/listUsers"
-            roles="ops"
             type="org.jmanage.webui.actions.auth.ListUsersAction">
             <forward name="success" path="/auth/configuredUsers.jsp"/>
         </action>
@@ -269,7 +272,6 @@
             name="userForm"
             validate="false"
             scope="request"
-            roles="ops"
             type="org.jmanage.webui.actions.auth.ShowEditUserAction">
             <forward name="success" path="/auth/editUser.jsp"/>
         </action>

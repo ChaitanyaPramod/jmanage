@@ -87,17 +87,17 @@ public class UserManager implements AuthConstants{
             Element user = (Element)userIterator.next();
             List roles = user.getChildren(ROLE);
             Iterator roleIterator = roles.iterator();
-            List roleNames = new ArrayList();
+            List userRoles = new ArrayList();
             while(roleIterator.hasNext()){
                 Element role = (Element)roleIterator.next();
-                roleNames.add(role.getTextTrim());
+                userRoles.add(new Role(role.getTextTrim()));
             }
             /* no need to hash password, as it is stored in hash form in
                 the database */
             userData.put(user.getAttributeValue(NAME),
                     new User(user.getAttributeValue(NAME),
                             user.getAttributeValue(PASSWORD),
-                            roleNames, user.getAttributeValue(STATUS),
+                            userRoles, user.getAttributeValue(STATUS),
                             Integer.parseInt(user.getAttributeValue(LOCK_COUNT))));
         }
         return userData;
@@ -106,18 +106,16 @@ public class UserManager implements AuthConstants{
     /**
      * Return instance of User with specified username and passowrd if exists.
      *
-     * TODO: we should probably be more specific with the method name.
-     * e.g.: verifyUsernamePassword
-     *
      * @param username
      * @param password
      * @return
      */
-    public User getUser(String username, char[] password){
+    public User verifyUsernamePassword(String username, char[] password){
         User user = (User)users.get(username);
         if(user != null){
             final String hashedPassword = Crypto.hash(password);
-            user = hashedPassword.equals(user.getPassword()) && "A".equals(user.getStatus()) ? user : null;
+            user = hashedPassword.equals(user.getPassword()) &&
+                    "A".equals(user.getStatus()) ? user : null;
         }
         return user;
     }
@@ -204,9 +202,9 @@ public class UserManager implements AuthConstants{
                         String.valueOf(user.getStatus() != null ? user.getLockCount() : 0));
                 /* add roles */
                 for(Iterator iterator = user.getRoles().iterator(); iterator.hasNext();){
-                    String roleName = (String)iterator.next();
+                    Role role = (Role)iterator.next();
                     Element roleElement = new Element(AuthConstants.ROLE);
-                    roleElement.setText(roleName);
+                    roleElement.setText(role.getName());
                     userElement.addContent(roleElement);
                 }
                 rootElement.addContent(userElement);

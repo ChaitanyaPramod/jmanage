@@ -17,6 +17,7 @@ package org.jmanage.core.auth;
 
 import java.util.List;
 import java.util.Iterator;
+import java.util.StringTokenizer;
 import java.security.Principal;
 
 /**
@@ -98,10 +99,31 @@ public class User implements Principal, java.io.Serializable{
 
     public boolean isAdmin(){
         for(Iterator it=getRoles().iterator(); it.hasNext();){
-            String role = (String)it.next();
-            if(role.equals(AuthConstants.ROLE_OPS)){
+            Role role = (Role)it.next();
+            if(AuthConstants.ROLE_OPS.equals(role.getName())){
                 return true;
             }
+        }
+        return false;
+    }
+
+    /**
+     *
+     * @param acl
+     * @return
+     */
+    public boolean canAccess(String acl){
+        String authorizedList = ACLStore.getInstance().getProperty(acl);
+        StringTokenizer tokenizer = new StringTokenizer(authorizedList, ",");
+        while(tokenizer.hasMoreTokens()){
+            if(getUsername().equalsIgnoreCase(tokenizer.nextToken())){
+                return true;
+            }
+        }
+        for(Iterator it=getRoles().iterator(); it.hasNext();){
+            Role role = (Role)it.next();
+            if(role.canAccess(acl))
+                return true;
         }
         return false;
     }

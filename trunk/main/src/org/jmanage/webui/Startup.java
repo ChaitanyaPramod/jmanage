@@ -16,21 +16,19 @@
 package org.jmanage.webui;
 
 import org.mortbay.http.SocketListener;
-import org.mortbay.http.HttpContext;
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.servlet.WebApplicationContext;
-import org.jmanage.core.util.SystemProperties;
 import org.jmanage.core.util.CoreUtils;
 import org.jmanage.core.crypto.PasswordField;
 import org.jmanage.core.crypto.Crypto;
 import org.jmanage.core.auth.UserManager;
 import org.jmanage.core.auth.AuthConstants;
 import org.jmanage.core.auth.User;
+import org.jmanage.core.auth.ACLStore;
 import org.jmanage.core.services.ServiceFactory;
 import org.jmanage.core.config.JManageProperties;
 
 import java.util.Arrays;
-import java.io.IOException;
 
 /**
  *
@@ -53,7 +51,7 @@ public class Startup {
             /* get the password */
             password = PasswordField.getPassword("Enter password:");
             /* the password should match for the admin user */
-            user = userManager.getUser(AuthConstants.USER_ADMIN, password);
+            user = userManager.verifyUsernamePassword(AuthConstants.USER_ADMIN, password);
             invalidAttempts ++;
             if(invalidAttempts >= 3){
                 break;
@@ -72,6 +70,8 @@ public class Startup {
         Crypto.init(password);
         /* clear the password */
         Arrays.fill(password, ' ');
+        /* load ACLs */
+        ACLStore.init();
 
         /* start the application */
         start();
