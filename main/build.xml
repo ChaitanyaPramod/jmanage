@@ -519,7 +519,7 @@
         <mkdir dir="${build.home}/web/WEB-INF"/>
         <mkdir dir="${build.home}/web/WEB-INF/classes"/>
         <mkdir dir="${build.home}/config"/>
-        <mkdir dir="${build.home}/log"/>
+        <mkdir dir="${build.home}/logs"/>
 
         <!-- Copy static content of this web application -->
         <copy todir="${build.home}/web">
@@ -528,10 +528,6 @@
         <!-- Copy Config files -->
         <copy todir="${build.home}/config">
             <fileset dir="${basedir}/config"/>
-        </copy>
-        <!-- Copy activity log file -->
-        <copy todir="${build.home}/log">
-            <fileset dir="${basedir}/log"/>
         </copy>
 
         <!-- Copy external dependencies as required -->

@@ -37,6 +37,6 @@ public class CoreUtils {
     }
 
     public static String getLogDir(){
-        return getRootDir() + "/log";
+        return getRootDir() + "/logs";
     }
 }
