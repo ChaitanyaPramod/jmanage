@@ -3,6 +3,7 @@ package org.jmanage.webui.actions.config;
 import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.util.RequestAttributes;
+import org.jmanage.webui.util.WebContext;
 import org.jmanage.core.config.ApplicationConfigManager;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -10,7 +11,7 @@ import org.apache.struts.action.ActionForm;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
+import java.util.List;
 
 /**
  *
@@ -27,14 +28,13 @@ public class ApplicationListAction extends BaseAction {
      * @param request
      * @param response
      * @return
-     * @throws Exception
      */
-    public ActionForward execute(ActionMapping mapping,
+    public ActionForward execute(WebContext context,
+                                 ActionMapping mapping,
                                  ActionForm actionForm,
                                  HttpServletRequest request,
-                                 HttpServletResponse response)
-            throws Exception {
-        Map applications = ApplicationConfigManager.getApplications();
+                                 HttpServletResponse response) {
+        List applications = ApplicationConfigManager.getApplications();
         request.setAttribute(RequestAttributes.APPLICATIONS, applications);
         return mapping.findForward(Forwards.SUCCESS);
     }
