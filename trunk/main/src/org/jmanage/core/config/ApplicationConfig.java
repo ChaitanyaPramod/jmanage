@@ -156,6 +156,10 @@ public abstract class ApplicationConfig {
         }
     }
 
+    public int hashCode(){
+        return getApplicationId().hashCode();
+    }
+
     public boolean equals(Object obj){
         if(obj instanceof ApplicationConfig){
             ApplicationConfig config = (ApplicationConfig)obj;

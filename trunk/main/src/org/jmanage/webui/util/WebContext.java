@@ -44,6 +44,7 @@ public class WebContext {
 
     public ServerConnection getServerConnection(){
         assert appConfig != null;
+        assert !appConfig.isCluster():"not supported for cluster";
         if (serverConnection == null) {
             serverConnection =
                     ServerConnector.getServerConnection(appConfig);

@@ -251,10 +251,27 @@
             optimize="${compile.optimize}"
             source="1.4">
             <classpath refid="compile.classpath"/>
-            <exclude name="**/core/**"/>
+            <include name="**/webui/**"/>
             <exclude name="**/webui/Startup.java"/>
         </javac>
     </target>
+
+
+    <target name="build-test-app"
+            description="Builds test application">
+
+        <mkdir dir="${build.home}/applications/classes"/>
+        <javac srcdir="${src.home}"
+            destdir="${build.home}/applications/classes"
+            debug="${compile.debug}"
+            deprecation="${compile.deprecation}"
+            optimize="${compile.optimize}"
+            source="1.4">
+            <classpath refid="module.jsr160.classpath"/>
+            <include name="org/jmanage/test/**"/>
+        </javac>
+    </target>
+
 
     <!-- target for building all modules -->
     <target name="build-all-modules" description="Builds all modules">
@@ -264,8 +281,7 @@
         <antcall target="build-jboss-module" />
     </target>
 
-    <target name="prepare-weblogic" depends="prepare"
-        description="Compile Common Server connection class">
+    <target name="prepare-weblogic" depends="prepare">
         <mkdir dir="${build.home}/modules/weblogic/classes" />
         <javac srcdir="${src.home}"
             destdir="${build.home}/modules/weblogic/classes"
@@ -278,7 +294,8 @@
         </javac>
     </target>
     <!-- target for building weblogic module -->
-    <target name="build-weblogic-module" depends="compile,prepare-weblogic">
+    <target name="build-weblogic-module" depends="compile,prepare-weblogic"
+        description="Builds weblogic module. You will need to copy weblogic.jar to ext folder.">
         <javac srcdir="${basedir}/modules/weblogic/src"
             destdir="${build.home}/modules/weblogic/classes"
             debug="${compile.debug}"
@@ -295,8 +312,7 @@
         </copy>
     </target>
 
-    <target name="prepare-tomcat" depends="prepare"
-        description="Compile Common Server connection class">
+    <target name="prepare-tomcat" depends="prepare">
         <mkdir dir="${build.home}/modules/tomcat/classes" />
         <javac srcdir="${src.home}"
             destdir="${build.home}/modules/tomcat/classes"
@@ -309,7 +325,8 @@
         </javac>
     </target>
     <!-- target for building tomcat module -->
-    <target name="build-tomcat-module" depends="compile,prepare-tomcat">
+    <target name="build-tomcat-module" depends="compile,prepare-tomcat"
+        description="Builds tomcat module">
         <javac srcdir="${basedir}/modules/tomcat/src"
             destdir="${build.home}/modules/tomcat/classes"
             debug="${compile.debug}"
@@ -328,8 +345,7 @@
         </copy>
     </target>
 
-    <target name="prepare-jsr160" depends="prepare"
-        description="Compile Common Server connection class">
+    <target name="prepare-jsr160" depends="prepare">
         <mkdir dir="${build.home}/modules/jsr160/classes" />
         <javac srcdir="${src.home}"
             destdir="${build.home}/modules/jsr160/classes"
@@ -342,7 +358,8 @@
         </javac>
     </target>
     <!-- target for building jsr160 module -->
-    <target name="build-jsr160-module" depends="compile,prepare-jsr160">
+    <target name="build-jsr160-module" depends="compile,prepare-jsr160"
+        description="Builds JSR160 module">
         <javac srcdir="${basedir}/modules/jsr160/src"
             destdir="${build.home}/modules/jsr160/classes"
             debug="${compile.debug}"
@@ -360,8 +377,7 @@
         </copy>
     </target>
 
-    <target name="prepare-jboss" depends="prepare"
-        description="Compile Common Server connection class">
+    <target name="prepare-jboss" depends="prepare">
         <mkdir dir="${build.home}/modules/jboss/classes" />
         <javac srcdir="${src.home}"
             destdir="${build.home}/modules/jboss/classes"
@@ -374,7 +390,8 @@
         </javac>
     </target>
     <!-- target for building jboss module -->
-    <target name="build-jboss-module" depends="compile,prepare-jboss">
+    <target name="build-jboss-module" depends="compile,prepare-jboss"
+        description="Builds jboss module">
         <javac srcdir="${basedir}/modules/jboss/src"
             destdir="${build.home}/modules/jboss/classes"
             debug="${compile.debug}"
