@@ -19,4 +19,16 @@ public class CoreUtils {
         }
         throw new RuntimeException("Unknown type: " + type);
     }
+
+    public static String getRootDir(){
+        return System.getProperty(SystemProperties.JMANAGE_ROOT);
+    }
+
+    public static String getConfigDir(){
+        return getRootDir() + "/config";
+    }
+
+    public static String getWebDir(){
+        return getRootDir() + "/web";
+    }
 }

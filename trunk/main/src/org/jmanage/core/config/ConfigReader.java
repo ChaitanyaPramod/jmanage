@@ -4,6 +4,7 @@ import org.jdom.input.SAXBuilder;
 import org.jdom.JDOMException;
 import org.jdom.Document;
 import org.jdom.Element;
+import org.jmanage.core.crypto.Crypto;
 
 import java.io.File;
 import java.util.*;
@@ -87,6 +88,8 @@ public class ConfigReader implements ConfigConstants{
                     mbeanConfigList.add(mbeanConfig);
                 }
 
+                final String password =
+                        Crypto.decrypt(application.getAttributeValue(PASSWORD));
                 ApplicationConfig config =
                         ApplicationConfigFactory.create(
                                 application.getAttributeValue(APPLICATION_ID),
@@ -96,7 +99,7 @@ public class ConfigReader implements ConfigConstants{
                                 Integer.parseInt(application.getAttributeValue(
                                         PORT)),
                                 application.getAttributeValue(USERNAME),
-                                application.getAttributeValue(PASSWORD),
+                                password,
                                 paramValues);
 
                 config.setMBeans(mbeanConfigList);

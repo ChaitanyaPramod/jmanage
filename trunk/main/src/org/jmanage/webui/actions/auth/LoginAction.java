@@ -43,6 +43,7 @@ public class LoginAction extends BaseAction {
         callbackHandler.setUsername(loginForm.getUsername());
         callbackHandler.setPassword(loginForm.getPassword());
 
+        // TODO: we should set this in startup or in startup script
         System.setProperty(AuthConstants.AUTH_CONFIG_SYS_PROPERTY,
                 AuthConstants.AUTH_CONFIG_FILE_NAME);
         LoginContext loginContext =
@@ -59,7 +60,7 @@ public class LoginAction extends BaseAction {
             request.setAttribute(Globals.ERROR_KEY, errors);
             return mapping.getInputForward();
         }
-        /*  Need LoginContext for logout at a later stage   */
+        /*  set Subject in session */
         context.setSubject(loginContext.getSubject());
         return mapping.findForward(Forwards.SUCCESS);
     }

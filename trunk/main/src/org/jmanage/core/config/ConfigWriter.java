@@ -6,6 +6,7 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
+import org.jmanage.core.crypto.Crypto;
 
 import java.util.List;
 import java.util.Iterator;
@@ -67,11 +68,13 @@ public class ConfigWriter {
         applicationElement.setAttribute(ConfigConstants.PORT,
                 String.valueOf(application.getPort()));
         applicationElement.setAttribute(ConfigConstants.USERNAME,
-                String.valueOf(application.getUsername()));
+                application.getUsername());
+        String encryptedPassword =
+                Crypto.encryptToString(application.getPassword());
         applicationElement.setAttribute(ConfigConstants.PASSWORD,
-                String.valueOf(application.getPassword()));
+                encryptedPassword);
         applicationElement.setAttribute(ConfigConstants.APPLICATION_TYPE,
-                            String.valueOf(application.getType()));
+                            application.getType());
         final Map params = application.getParamValues();
         if(params != null){
             for(Iterator param=params.keySet().iterator(); param.hasNext(); ){

@@ -208,7 +208,20 @@
     <target name="compile" depends="prepare"
         description="Compile Java sources">
 
-        <!-- Compile Java classes as necessary -->
+        <!-- Compile core Java classes as necessary -->
+        <mkdir dir="${build.home}/classes"/>
+        <javac srcdir="${src.home}"
+            destdir="${build.home}/classes"
+            debug="${compile.debug}"
+            deprecation="${compile.deprecation}"
+            optimize="${compile.optimize}"
+            source="1.4">
+            <classpath refid="compile.classpath"/>
+            <include name="**/webui/Startup.java"/>
+            <include name="**/core/**"/>
+        </javac>
+
+        <!-- Compile web Java classes as necessary -->
         <mkdir dir="${build.home}/web/WEB-INF/classes"/>
         <javac srcdir="${src.home}"
             destdir="${build.home}/web/WEB-INF/classes"
@@ -217,6 +230,8 @@
             optimize="${compile.optimize}"
             source="1.4">
             <classpath refid="compile.classpath"/>
+            <exclude name="**/core/**"/>
+            <exclude name="**/webui/Startup.java"/>
         </javac>
 
         <!-- Copy application resources -->
