@@ -21,6 +21,7 @@ import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.forms.ApplicationClusterForm;
 import org.jmanage.core.config.ApplicationConfigManager;
 import org.jmanage.core.config.ApplicationConfig;
+import org.jmanage.core.auth.AccessController;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
@@ -30,7 +31,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Iterator;
 import java.util.List;
 import java.util.LinkedList;
-import java.util.Collections;
 
 /**
  *
@@ -45,8 +45,7 @@ public class ShowApplicationClusterAction extends BaseAction {
                                  HttpServletRequest request,
                                  HttpServletResponse response)
             throws Exception {
-
-
+        AccessController.canAccess(context.getUser(), ACL_ADD_APPLICATIONS);
         ApplicationClusterForm clusterForm =
                 (ApplicationClusterForm)actionForm;
         String applicationId = clusterForm.getApplicationId();

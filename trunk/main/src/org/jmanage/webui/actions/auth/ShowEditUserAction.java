@@ -19,18 +19,16 @@ import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.RequestParams;
 import org.jmanage.webui.util.Forwards;
+import org.jmanage.webui.util.RequestAttributes;
 import org.jmanage.webui.forms.UserForm;
-import org.jmanage.core.auth.UserManager;
-import org.jmanage.core.auth.User;
-import org.jmanage.core.auth.Role;
-import org.jmanage.core.auth.AccessController;
-import org.jmanage.core.util.ACLConstants;
+import org.jmanage.core.auth.*;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * Date : Jul 28, 2004 12:25:24 AM
@@ -59,6 +57,8 @@ public class ShowEditUserAction extends BaseAction{
         String username = request.getParameter(RequestParams.USER_NAME);
         User user = UserManager.getInstance().getUser(username);
         prepareUserForm(actionForm, user);
+        List roles = RoleManager.getAll();
+        request.setAttribute(RequestAttributes.ROLES, roles);
         return mapping.findForward(Forwards.SUCCESS);
     }
 

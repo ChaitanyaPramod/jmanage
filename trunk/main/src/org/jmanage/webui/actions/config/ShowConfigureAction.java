@@ -20,6 +20,7 @@ import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.forms.ConfigureForm;
 import org.jmanage.core.config.JManageProperties;
+import org.jmanage.core.auth.AccessController;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
@@ -38,15 +39,15 @@ public class ShowConfigureAction extends BaseAction{
                                     ActionMapping mapping,
                                     ActionForm actionForm,
                                     HttpServletRequest request,
-                                    HttpServletResponse response){
-
-           ConfigureForm confgForm = (ConfigureForm)actionForm;
-           final JManageProperties jManageProperties = JManageProperties.getInstance();
-           final int MAX_LOGIN_ATTEMPTS_ALLOWED =
+                                    HttpServletResponse response)
+            throws Exception{
+        AccessController.canAccess(context.getUser(), ACL_EDIT_JMANAGE_CONFIG);
+        ConfigureForm confgForm = (ConfigureForm)actionForm;
+        final JManageProperties jManageProperties = JManageProperties.getInstance();
+        final int MAX_LOGIN_ATTEMPTS_ALLOWED =
                 Integer.parseInt(jManageProperties.
                     getProperty(JManageProperties.LOGIN_MAX_ATTEMPTS));
            confgForm.setMaxLoginAttempts(MAX_LOGIN_ATTEMPTS_ALLOWED);
            return mapping.findForward(Forwards.SUCCESS);
-       }
-
+    }
 }

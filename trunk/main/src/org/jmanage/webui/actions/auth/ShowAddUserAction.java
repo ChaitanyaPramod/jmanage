@@ -13,15 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jmanage.webui.actions.config;
+
+package org.jmanage.webui.actions.auth;
 
 import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.WebContext;
+import org.jmanage.webui.util.RequestAttributes;
 import org.jmanage.webui.util.Forwards;
-import org.jmanage.webui.forms.ApplicationForm;
-import org.jmanage.core.config.ApplicationConfigManager;
-import org.jmanage.core.config.ApplicationConfig;
-import org.jmanage.core.util.UserActivityLogger;
+import org.jmanage.core.auth.RoleManager;
 import org.jmanage.core.auth.AccessController;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -29,27 +28,38 @@ import org.apache.struts.action.ActionForm;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
+ * Show addUser JSP with configured roles populated.
  *
- * date:  Jun 27, 2004
- * @author	Rakesh Kalra, Shashank Bellary
+ * Date: Mar 20, 2005 9:06:20 PM
+ * @author Shashank Bellary 
  */
-public class DeleteApplicationAction extends BaseAction{
+public class ShowAddUserAction extends BaseAction{
 
+    /**
+     * Get all configured roles from the configuration file and send it for
+     * per-population.
+     *
+     * @param context
+     * @param mapping
+     * @param actionForm
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward execute(WebContext context,
                                  ActionMapping mapping,
                                  ActionForm actionForm,
                                  HttpServletRequest request,
                                  HttpServletResponse response)
             throws Exception {
-        AccessController.canAccess(context.getUser(), ACL_EDIT_APPLICATIONS);
-        ApplicationForm appForm = (ApplicationForm)actionForm;
-        ApplicationConfig config=ApplicationConfigManager.deleteApplication
-                (appForm.getApplicationId());
-        UserActivityLogger.getInstance().logActivity(
-                context.getUser().getUsername(),
-                "Deleted application "+"\""+config.getName()+"\"");
+        AccessController.canAccess(context.getUser(), ACL_ADD_USERS);
+
+        List roles = RoleManager.getAll();
+        request.setAttribute(RequestAttributes.ROLES, roles);
         return mapping.findForward(Forwards.SUCCESS);
     }
 }

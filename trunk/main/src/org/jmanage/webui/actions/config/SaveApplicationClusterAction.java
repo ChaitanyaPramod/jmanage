@@ -23,6 +23,7 @@ import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.ApplicationConfigManager;
 import org.jmanage.core.config.ApplicationClusterConfig;
 import org.jmanage.core.util.UserActivityLogger;
+import org.jmanage.core.auth.AccessController;
 import org.jmanage.util.StringUtils;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -49,7 +50,7 @@ public class SaveApplicationClusterAction extends BaseAction {
                                  HttpServletRequest request,
                                  HttpServletResponse response)
             throws Exception {
-
+        AccessController.canAccess(context.getUser(), ACL_ADD_APPLICATIONS);
         ApplicationClusterForm clusterForm = (ApplicationClusterForm)actionForm;
         String[] childAppIds =
                 StringUtils.csvToStringArray(clusterForm.getSelectedChildApplications());

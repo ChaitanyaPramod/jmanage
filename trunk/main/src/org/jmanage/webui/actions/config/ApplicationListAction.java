@@ -48,7 +48,8 @@ public class ApplicationListAction extends BaseAction {
                                  ActionMapping mapping,
                                  ActionForm actionForm,
                                  HttpServletRequest request,
-                                 HttpServletResponse response) {
+                                 HttpServletResponse response)
+            throws Exception{
         List applications = ApplicationConfigManager.getApplications();
         request.setAttribute(RequestAttributes.APPLICATIONS, applications);
         return mapping.findForward(Forwards.SUCCESS);

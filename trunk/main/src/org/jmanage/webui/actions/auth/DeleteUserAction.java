@@ -20,6 +20,7 @@ import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.RequestParams;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.core.auth.UserManager;
+import org.jmanage.core.auth.AccessController;
 import org.jmanage.core.util.UserActivityLogger;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -51,6 +52,7 @@ public class DeleteUserAction extends BaseAction{
                                  HttpServletRequest request,
                                  HttpServletResponse response)
             throws Exception {
+        AccessController.canAccess(context.getUser(), ACL_EDIT_USERS);
         String username = request.getParameter(RequestParams.USER_NAME);
         UserManager.getInstance().deleteUser(username);
         UserActivityLogger.getInstance().logActivity(

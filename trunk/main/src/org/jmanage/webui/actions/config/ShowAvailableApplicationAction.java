@@ -20,6 +20,7 @@ import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.util.RequestAttributes;
 import org.jmanage.core.module.ModuleRegistry;
+import org.jmanage.core.auth.AccessController;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
@@ -52,6 +53,7 @@ public class ShowAvailableApplicationAction extends BaseAction{
                                  HttpServletRequest request,
                                  HttpServletResponse response)
             throws Exception {
+        AccessController.canAccess(context.getUser(), ACL_ADD_APPLICATIONS);
         Map availableApplications = ModuleRegistry.getModules();
         request.setAttribute(RequestAttributes.AVAILABLE_APPLICATIONS,
                 availableApplications);

@@ -28,7 +28,8 @@ public interface AuthConstants {
     public String AUTH_CONFIG_FILE_NAME = CoreUtils.getConfigDir()
             + "/jmanage-auth.conf";
     public String AUTH_CONFIG_SYS_PROPERTY = "java.security.auth.login.config";
-
+    public String ROLE_CONFIG_FILE_NAME = CoreUtils.getConfigDir()
+            + "/jmanage-user-groups.xml";
     /*  'jmanage-users.xml' file related constants  */
     public String JM_USERS = "jmanage-users";
     public String USER = "user";
