@@ -22,6 +22,7 @@ import org.jmanage.core.services.AuthService;
 import org.jmanage.core.services.ServiceFactory;
 import org.jmanage.core.services.ServiceContextImpl;
 import org.jmanage.core.services.ServiceException;
+import org.jmanage.core.crypto.PasswordField;
 import org.jmanage.util.StringUtils;
 
 import java.util.StringTokenizer;
@@ -140,8 +141,8 @@ public class Command {
             }
 
             if(password == null){
-                Out.print("Password: ");
-                password = In.readLine();
+                /* get the password */
+                password = new String(PasswordField.getPassword("Password:"));
             }
 
             /* authenticate with the server */
