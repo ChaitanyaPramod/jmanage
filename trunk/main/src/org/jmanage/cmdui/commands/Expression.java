@@ -39,7 +39,7 @@ class Expression {
     public Expression(String exprString, Expression context){
 
         this.exprString = exprString;
-        StringTokenizer tokenizer = new StringTokenizer(exprString, DELIMITER);
+        StringTokenizer tokenizer = new CustomStringTokenizer(exprString);
         if(context != null){
             this.appName = context.getAppName();
             this.mbeanName = context.getMBeanName();
@@ -98,5 +98,38 @@ class Expression {
 
     public String toString(){
         return exprString;
+    }
+
+    private class CustomStringTokenizer extends StringTokenizer{
+
+        public CustomStringTokenizer(String expr){
+            super(expr, DELIMITER);
+        }
+
+        /**
+         * Handles "/" within the expression.
+         */
+        public String nextToken(){
+            String token = super.nextToken();
+            if(token.startsWith("\"")){
+                /* token starts with double quotes. Keep getting next token,
+                    till we find ending double quotes */
+                StringBuffer buff = new StringBuffer(token.substring(1));
+
+                while(true){
+                    String nextToken = super.nextToken();
+                    buff.append(DELIMITER);
+                    if(nextToken.endsWith("\"")){
+                        buff.append(nextToken.substring(0, nextToken.length()-1));
+                        break;
+                    }else{
+                        buff.append(nextToken);
+                    }
+                }
+                token = buff.toString();
+            }
+            return token;
+        }
+
     }
 }

@@ -184,7 +184,7 @@ public abstract class ApplicationConfig {
     }
 
     public String toString(){
-        return getApplicationId() + ";" + getName();
+        return getApplicationId() + ";" + getName() + ";" + getURL();
     }
 
     public boolean containsMBean(String objectName) {

@@ -16,6 +16,8 @@
 package org.jmanage.core.services;
 
 import org.jmanage.core.management.ObjectInfo;
+import org.jmanage.core.management.ObjectName;
+import org.jmanage.core.data.OperationResultData;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -55,6 +57,30 @@ public interface MBeanService {
                               String[] attributes)
             throws ServiceException;
 
+    /**
+     * Invokes MBean operation
+     * @return
+     * @throws ServiceException
+     */
+    public OperationResultData[] invoke(ServiceContext context,
+                                        String appName,
+                                        String mbeanName,
+                                        String operationName,
+                                        String[] params)
+            throws ServiceException;
+
+    /**
+     * Invokes MBean operation
+     * @return
+     * @throws ServiceException
+     */
+    public OperationResultData[] invoke(ServiceContext context,
+                                        String appName,
+                                        ObjectName objectName,
+                                        String operationName,
+                                        String[] params,
+                                        String[] signature)
+        throws ServiceException;
 
     /**
      * Updates MBean attributes at a stand alone application level or at a

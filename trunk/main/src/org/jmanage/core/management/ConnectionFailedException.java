@@ -27,6 +27,6 @@ public class ConnectionFailedException extends RuntimeException {
     }
 
     public String getMessage(){
-        return getCause().getMessage();
+        return getCause()!=null?getCause().getMessage():"Unknown";
     }
 }

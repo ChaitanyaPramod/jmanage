@@ -595,6 +595,13 @@
             tofile="${build.home}/config/config.xml"/>
     </target>
 
+    <target name="cluster-config">
+        <!-- Copy cluster Config files -->
+        <delete file="${build.home}/config/config.xml"/>
+        <copy file="${basedir}/config/sample/cluster-config.xml"
+            tofile="${build.home}/config/config.xml"/>
+    </target>
+
     <!-- ================= Test targets ==================================== -->
 
     <!-- compiles the unit test classes -->

@@ -17,9 +17,14 @@ package org.jmanage.core.services;
 
 import org.jmanage.core.management.ServerConnection;
 import org.jmanage.core.management.ServerConnector;
+import org.jmanage.core.management.ConnectionFailedException;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.ApplicationConfigManager;
 import org.jmanage.core.util.ErrorCodes;
+import org.jmanage.core.util.Loggers;
+
+import java.util.Iterator;
+import java.util.logging.Logger;
 
 /**
  *
@@ -28,6 +33,8 @@ import org.jmanage.core.util.ErrorCodes;
  */
 public class ServiceUtils {
 
+    private static final Logger logger = Loggers.getLogger(ServiceUtils.class);
+
     public static ServerConnection getServerConnection(String appName){
         ApplicationConfig appConfig = getApplicationConfigByName(appName);
         if(appConfig.isCluster()){
@@ -35,6 +42,29 @@ public class ServiceUtils {
                     ErrorCodes.OPERATION_NOT_SUPPORTED_FOR_CLUSTER);
         }
         return ServerConnector.getServerConnection(appConfig);
+    }
+
+    // TODO: It will be nice to have a concept of ClusterServerConnection
+    //      which will implement all cluster level operations - rk
+    public static ServerConnection getServerConnectionEvenIfCluster(String appName){
+        ApplicationConfig appConfig = getApplicationConfigByName(appName);
+        if(!appConfig.isCluster()){
+            return ServerConnector.getServerConnection(appConfig);
+        }else{
+            if(appConfig.getApplications().size() == 0){
+                throw new ServiceException(ErrorCodes.CLUSTER_NO_APPLICATIONS);
+            }
+            for(Iterator it=appConfig.getApplications().iterator(); it.hasNext();){
+                ApplicationConfig childAppConfig = (ApplicationConfig)it.next();
+                try {
+                    return ServerConnector.getServerConnection(childAppConfig);
+                } catch (ConnectionFailedException e) {
+                    logger.info("Couldn't connect to childApp=" +
+                            childAppConfig);
+                }
+            }
+        }
+        throw new ConnectionFailedException(null);
     }
 
     public static ApplicationConfig getApplicationConfigByName(String appName)

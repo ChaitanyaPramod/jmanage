@@ -62,6 +62,4 @@ public class UpdateMBeanAttributesAction extends BaseAction {
                 objectName, appName);
         return mapping.findForward(Forwards.SUCCESS);
     }
-
-
 }

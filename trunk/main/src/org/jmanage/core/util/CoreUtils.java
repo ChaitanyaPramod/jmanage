@@ -16,6 +16,7 @@
 package org.jmanage.core.util;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.ConvertUtils;
 
 /**
  *
@@ -53,4 +54,40 @@ public class CoreUtils {
             throw new RuntimeException(ex);
         }
     }
+
+    public static Object getTypedValue(String value, String type){
+
+        if(type.equals("int")){
+            type = "java.lang.Integer";
+        }else if(type.equals("long")){
+            type = "java.lang.Long";
+        }else if(type.equals("short")){
+            type = "java.lang.Short";
+        }else if(type.equals("float")){
+            type = "java.lang.Float";
+        }else if(type.equals("double")){
+            type = "java.lang.Double";
+        }else if(type.equals("char")){
+            type = "java.lang.Character";
+        }else if(type.equals("boolean")){
+            type = "java.lang.Boolean";
+        }else if(type.equals("byte")){
+            type = "java.lang.Byte";
+        }
+
+        try {
+            return ConvertUtils.convert(value, Class.forName(type));
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static Object[] getTypedArray(String[] values, String[] type){
+        Object[] obj = new Object[values.length];
+        for(int i=0; i<values.length; i++){
+            obj[i] = getTypedValue(values[i], type[i]);
+        }
+        return obj;
+    }
+
 }

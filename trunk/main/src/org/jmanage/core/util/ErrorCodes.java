@@ -30,10 +30,15 @@ public interface ErrorCodes {
     String INVALID_LOGIN_ATTEMPTS = "invalid.login.attempt.count";
 
     String INVALID_APPLICATION_NAME = "invalid.appName";
+    String INVALID_MBEAN_OPERATION = "invalid.mbean.operation";
+
     String OPERATION_NOT_SUPPORTED_FOR_CLUSTER = "cluster.unsupported.operation";
 
     String INVALID_OLD_PASSWORD = "invalid.oldPassword";
     String PASSWORD_MISMATCH = "mismatch.password";
     String CONNECTION_FAILED = "app.connection.failed";
+
+    String CLUSTER_NO_APPLICATIONS = "cluster.noApplicationsDefined";
+
     String ERRONEOUS_APPS = "erroneous.apps";
 }

@@ -15,15 +15,16 @@
  */
 package org.jmanage.core.services;
 
-import org.jmanage.core.management.*;
-import org.jmanage.core.data.MBeanData;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.ApplicationConfigManager;
 import org.jmanage.core.config.MBeanConfig;
-import org.jmanage.core.util.UserActivityLogger;
+import org.jmanage.core.data.MBeanData;
+import org.jmanage.core.data.OperationResultData;
+import org.jmanage.core.management.*;
+import org.jmanage.core.util.CoreUtils;
 import org.jmanage.core.util.ErrorCodes;
 import org.jmanage.core.util.Loggers;
-import org.jmanage.webui.util.Utils;
+import org.jmanage.core.util.UserActivityLogger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
@@ -37,9 +38,9 @@ import java.util.logging.Logger;
  */
 public class MBeanServiceImpl implements MBeanService {
 
+    private static final Logger logger = Loggers.getLogger(MBeanService.class);
+
     private static final String DEFAULT_FILTER = "*:*";
-    private static final Logger logger =
-            Loggers.getLogger(MBeanServiceImpl.class);
 
     public List getMBeans(ServiceContext context,
                           String applicationName,
@@ -89,6 +90,90 @@ public class MBeanServiceImpl implements MBeanService {
         return connection.getAttributes(new ObjectName(mbeanName), attributes);
     }
 
+    public OperationResultData[] invoke(ServiceContext context,
+                                        String appName,
+                                        String mbeanName,
+                                        String operationName,
+                                        String[] params)
+            throws ServiceException {
+
+        mbeanName = resolveMBeanName(appName, mbeanName);
+        ObjectName objectName = new ObjectName(mbeanName);
+        /* try to determine the method, based on params */
+        ObjectOperationInfo operationInfo =
+                findOperation(appName, objectName, operationName,
+                        params!=null?params.length:0);
+        return invoke(context, appName, objectName, operationName, params,
+                operationInfo.getParameters());
+    }
+
+    /**
+     * Invokes MBean operation
+     * @return
+     * @throws ServiceException
+     */
+    public OperationResultData[] invoke(ServiceContext context,
+                                        String appName,
+                                        ObjectName objectName,
+                                        String operationName,
+                                        String[] params,
+                                        String[] signature)
+            throws ServiceException {
+
+        ApplicationConfig appConfig =
+                ServiceUtils.getApplicationConfigByName(appName);
+
+        OperationResultData[] resultData = null;;
+        if(appConfig.isCluster()){
+            /* we need to perform this operation for all servers
+                in this cluster */
+            resultData = new OperationResultData[appConfig.getApplications().size()];
+            int index = 0;
+            for(Iterator it=appConfig.getApplications().iterator(); it.hasNext(); index++){
+                ApplicationConfig childAppConfig = (ApplicationConfig)it.next();
+                resultData[index] =
+                        executeMBeanOperation(context, childAppConfig, objectName,
+                                operationName, params, signature);
+            }
+        }else{
+            resultData = new OperationResultData[1];
+            resultData[0] =
+                    executeMBeanOperation(context, appConfig, objectName,
+                            operationName, params, signature);
+        }
+        return resultData;
+    }
+
+    private static OperationResultData executeMBeanOperation(
+            ServiceContext context,
+            ApplicationConfig appConfig,
+            ObjectName objectName,
+            String operationName,
+            String[] params,
+            String[] signature){
+
+        OperationResultData resultData =
+                new OperationResultData(appConfig.getName());
+        try {
+            final ServerConnection serverConnection =
+                    ServerConnector.getServerConnection(appConfig);
+            Object[] typedParams = CoreUtils.getTypedArray(params, signature);
+            final Object result = serverConnection.invoke(objectName, operationName,
+                            typedParams, signature);
+            resultData.setOutput(result.toString());
+            UserActivityLogger.getInstance().logActivity(
+                    context.getUser().getUsername(),
+                    "Performed "+operationName+" on "+objectName.getCanonicalName()
+                    + " in application " + appConfig.getName());
+        } catch (ConnectionFailedException e) {
+            logger.log(Level.INFO, "Error executing operation " +
+                    operationName + " on " + objectName, e);
+            resultData.setResult(OperationResultData.RESULT_ERROR);
+            resultData.setErrorString(e.getMessage());
+        }
+        return resultData;
+    }
+
     private String resolveMBeanName(String appName, String mbeanName){
         ApplicationConfig appConfig =
                 ApplicationConfigManager.getApplicationConfigByName(appName);
@@ -99,6 +184,26 @@ public class MBeanServiceImpl implements MBeanService {
         }
         return mbeanName;
     }
+
+    private ObjectOperationInfo findOperation(String appName,
+                                              ObjectName objectName,
+                                              String operationName,
+                                              int paramCount){
+
+        ServerConnection connection =
+                ServiceUtils.getServerConnectionEvenIfCluster(appName);
+        ObjectInfo objectInfo = connection.getObjectInfo(objectName);
+        ObjectOperationInfo[] operationInfo = objectInfo.getOperations();
+        for(int i=0; i< operationInfo.length; i++){
+            if(operationInfo[i].getName().equals(operationName) &&
+                    operationInfo[i].getSignature().length == paramCount){
+                return operationInfo[i];
+            }
+        }
+        throw new ServiceException(ErrorCodes.INVALID_MBEAN_OPERATION,
+                operationName, objectName);
+    }
+
 
     /**
      * Updates MBean attributes at a stand alone application level or at a
@@ -150,6 +255,7 @@ public class MBeanServiceImpl implements MBeanService {
                 erroneousApps.append(",");
             }
         }
+        // TODO: should we instead check if all apps are up before doing the update ?
         if(erroneousApps.toString().endsWith(",")){
             throw new ServiceException(ErrorCodes.ERRONEOUS_APPS,
                     erroneousApps.substring(0, erroneousApps.length() - 1));
@@ -179,7 +285,7 @@ public class MBeanServiceImpl implements MBeanService {
                     String attrType = tokenizer.nextToken();
                     String attrValue = request.getParameter(param);
                     ObjectAttribute attribute = new ObjectAttribute(attrName,
-                            Utils.getTypedValue(attrValue, attrType));
+                            CoreUtils.getTypedValue(attrValue, attrType));
                     attributeList.add(attribute);
                 }
             }
