@@ -5,6 +5,7 @@ import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.RequestParams;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.core.auth.UserManager;
+import org.jmanage.core.util.UserActivityLogger;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
@@ -37,6 +38,8 @@ public class DeleteUserAction extends BaseAction{
             throws Exception {
         String username = request.getParameter(RequestParams.USER_NAME);
         UserManager.getInstance().deleteUser(username);
+        UserActivityLogger.getInstance().logActivity(
+                context.getUser().getUsername(), "Deleted user "+username);
         return mapping.findForward(Forwards.SUCCESS);
     }
 }

@@ -1,69 +1,134 @@
 package org.jmanage.core.util;
 
-import java.util.Date;
+import java.util.*;
 import java.io.*;
 
 /**
  * Date: Nov 7, 2004 6:31:22 PM
  * @author Shashank Bellary
  */
-public class UserActivityLogger {
+public class UserActivityLogger extends Thread{
+    /*  Location of activity log file   */
     private static final String USER_ACTIVITY_LOG_FILE_NAME =
             CoreUtils.getLogDir() + "/userActivityLog.txt";
-    private static UserActivityLogger logger = new UserActivityLogger();
-    private static String activities;
 
-    private UserActivityLogger() {
-        loadActivity();
-    }
+    /*  Create the only instance of UserActivityLogger  */
+    private static UserActivityLogger logger = new UserActivityLogger();
+
+    /*  Create a private store where all activities can be stored for
+        logging.  */
+    private Vector activities, activityBuffer;
+
+    /*  This variable is used to control the running of the thread. Setting it
+        to true causes the logger to stop.  */
+    public static boolean INTERRUPT_THREAD = false;
+
+    /*  This is the default length of "sleep" time for the logger thread
+        between writes to the log file  */
+    private static final long DEFAULT_SLEEP_TIME = 30000;
+
+    /*  File writer that actually writes to the log file    */
+    private PrintWriter logWriter;
+
+    /*  Represents the current logging date */
+    private Date date;
 
     /**
-     * Read the contents of userActivityLog file and cache it for further
-     * updation.
+     * The only access to the single instance.
+     *
+     * @return
      */
-    private void loadActivity(){
-        StringBuffer logBuffer = new StringBuffer();
-        try{
-            BufferedReader reader =
-                    new BufferedReader(new FileReader(
-                            new File(USER_ACTIVITY_LOG_FILE_NAME)));
-            while((activities = reader.readLine()) != null){
-                logBuffer.append(activities);
-            }
-            activities = logBuffer.toString();
-        }catch(IOException ioe){
-            throw new RuntimeException(ioe.getMessage());
-        }
-    }
-
-
     public static UserActivityLogger getInstance(){
         return logger;
     }
 
     /**
+     * Now start the static thread running
+     */
+    static{
+        logger.start();
+    }
+
+    /**
+     * The constuctor for UserActivityLogger is made private so that only the
+     * logger itself can create an instance of itself.
+     */
+    private UserActivityLogger(){
+        super();
+        activities = new Vector();
+        activityBuffer = new Vector();
+        /*  Open the file to write, and set it to append all new entries    */
+        try{
+            logWriter =
+                    new PrintWriter(new FileWriter(USER_ACTIVITY_LOG_FILE_NAME,
+                            true));
+        }catch (IOException ioe){
+            ioe.printStackTrace();
+        }
+    }
+
+    /**
+     * This ensures that all the activities stored in the local stored are
+     * written at regular intervals of time to the designated log file.
+     */
+    public void run() {
+        try{
+            while(INTERRUPT_THREAD == false){
+                sleep(DEFAULT_SLEEP_TIME);
+                writeToFile();
+            }
+        }catch(java.lang.InterruptedException ie){
+            ie.printStackTrace();
+        }
+    }
+
+    /**
+     * This is the function that is accessed by programs or modules that
+     * actually want to write a log to the log file.
+     *
      * Logs user activity by capturing user actions and writing the same to the
      * userActivityLog file.
      *
-     * @param user
-     * @param activity
-     * @param logInfo
+     * @param user this is the user who performed the activity.
+     * @param activity this is the activity that needs to be written to the
+     *        log file.
      */
-    public void log(String user, String activity, String logInfo){
-        StringBuffer logBuffer = new StringBuffer(activities);
-        logBuffer.append("\n");
-        logBuffer.append(user+" performed "+activity+" on "+
-                new Date().toString()+": Details ["+logInfo+"]");
-        try{
-            BufferedWriter writer =
-                    new BufferedWriter(new FileWriter(
-                            new File(USER_ACTIVITY_LOG_FILE_NAME)));
-            writer.write(logBuffer.toString());
-            writer.flush();
-            writer.close();
-        }catch(IOException ioe){
-            throw new RuntimeException(ioe.getMessage());
+    public synchronized void logActivity(String user, String activity){
+        date = Calendar.getInstance(Locale.getDefault()).getTime();
+        activity = user.toUpperCase()+" "+activity+" on "+date.toString();
+        activities.add(activity);
+    }
+
+    /**
+     * This writes the accumulated activities to a file.
+     */
+    private void writeToFile() {
+        /*  First clone the activities, so that people can still keep writing
+            to the log even while we're writing the log to the disk.    */
+        cloneActivities();
+        /*  Now write the cloned activities (buffer) to the log file   */
+        for(Iterator iterator = activityBuffer.iterator(); iterator.hasNext();){
+            String activity = (String)iterator.next();
+            logWriter.println(activity);
+            logWriter.flush();
         }
-        loadActivity();
+    }
+
+    /**
+     * This makes a copy of the activity Vector so that it can be written to a
+     * file in a non-blocking way.
+     */
+    private synchronized void cloneActivities() {
+        activityBuffer= (Vector) activities.clone();
+        activities.clear();
+    }
+
+    /**
+     * Release resources used when class exits.
+     */
+    public void finalize() {
+        logWriter.close();
+        activityBuffer.clear();
+        activities.clear();
     }
 }

@@ -7,6 +7,7 @@ import org.jmanage.webui.forms.ApplicationForm;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.ApplicationConfigFactory;
 import org.jmanage.core.config.ApplicationConfigManager;
+import org.jmanage.core.util.UserActivityLogger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForward;
@@ -53,7 +54,9 @@ public class AddApplicationAction extends BaseAction {
                         null);
 
         ApplicationConfigManager.addApplication(config);
-
+        UserActivityLogger.getInstance().logActivity(
+                context.getUser().getUsername(),
+                "Added application with ID "+config.getApplicationId());
         return mapping.findForward(Forwards.SUCCESS);
     }
 }

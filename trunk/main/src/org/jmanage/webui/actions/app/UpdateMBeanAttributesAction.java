@@ -5,6 +5,7 @@ import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.util.RequestParams;
 import org.jmanage.core.util.CoreUtils;
+import org.jmanage.core.util.UserActivityLogger;
 import org.jmanage.core.management.ObjectName;
 import org.jmanage.core.management.ServerConnection;
 import org.jmanage.core.management.ObjectAttribute;
@@ -14,10 +15,7 @@ import org.apache.struts.action.ActionForm;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Enumeration;
-import java.util.StringTokenizer;
-import java.util.List;
-import java.util.LinkedList;
+import java.util.*;
 
 /**
  *
@@ -37,6 +35,11 @@ public class UpdateMBeanAttributesAction extends BaseAction {
         final ServerConnection serverConnection = context.getServerConnection();
         List attributeList = buildAttributeList(request);
         serverConnection.setAttributes(objectName, attributeList);
+        String logString = getLogString(attributeList);
+        UserActivityLogger.getInstance().logActivity(
+                context.getUser().getUsername(),
+                "Updated the attributes of "+ objectName.getCanonicalName() +
+                logString);
         return mapping.findForward(Forwards.SUCCESS);
     }
 
@@ -63,4 +66,21 @@ public class UpdateMBeanAttributesAction extends BaseAction {
         return attributeList;
     }
 
+    /**
+     *
+     * @param attributes
+     * @return
+     */
+    private String getLogString(List attributes){
+        StringBuffer logString = new StringBuffer("");
+        for(Iterator iterator = attributes.iterator(); iterator.hasNext(); ){
+            ObjectAttribute attribute = (ObjectAttribute)iterator.next();
+            logString.append(" [");
+            logString.append(attribute.getName());
+            logString.append("=");
+            logString.append(attribute.getValue());
+            logString.append("]");
+        }
+        return logString.toString();
+    }
 }

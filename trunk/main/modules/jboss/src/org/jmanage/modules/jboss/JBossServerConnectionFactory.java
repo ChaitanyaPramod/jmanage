@@ -27,27 +27,28 @@ public class JBossServerConnectionFactory implements
         throws ConnectionFailedException {
 
         try {
-            RMIAdaptor rmiAdaptor = findExternal(config.getURL(), config.getUsername(),
-                    config.getPassword());
+            RMIAdaptor rmiAdaptor = findExternal(config.getURL());
             return new JBossServerConnection(rmiAdaptor);
         } catch (Throwable e) {
             throw new ConnectionFailedException(e);
         }
     }
 
-    private static RMIAdaptor findExternal(String url,
-                                          String username,
-                                          String password)
+    /**
+     *
+     * @param url
+     * @return
+     * @throws NamingException
+     */
+    private static RMIAdaptor findExternal(String url)
             throws NamingException {
 
         Hashtable props = new Hashtable();
         props.put(Context.INITIAL_CONTEXT_FACTORY, "org.jnp.interfaces.NamingContextFactory");
-        props.put(Context.PROVIDER_URL,         url);
+        props.put(Context.PROVIDER_URL, url);
         props.put(Context.URL_PKG_PREFIXES, "org.jboss.naming:org.jnp.interfaces");
-        props.put(Context.SECURITY_PRINCIPAL,   username);
-        props.put(Context.SECURITY_CREDENTIALS, password);
-        Context ctx =  new InitialContext(props);
-        RMIAdaptor rmiAdaptor = (RMIAdaptor) ctx.lookup("jmx/rmi/RMIAdaptor");
+        Context ctx = new InitialContext(props);
+        RMIAdaptor rmiAdaptor = (RMIAdaptor)ctx.lookup("jmx/rmi/RMIAdaptor");
         ctx.close();
         return rmiAdaptor;
     }
