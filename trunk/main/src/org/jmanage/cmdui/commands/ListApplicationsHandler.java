@@ -17,7 +17,6 @@ package org.jmanage.cmdui.commands;
 
 import org.jmanage.cmdui.CommandHandler;
 import org.jmanage.cmdui.HandlerContext;
-import org.jmanage.cmdui.CommandConstants;
 import org.jmanage.cmdui.util.Out;
 import org.jmanage.core.services.ConfigurationService;
 import org.jmanage.core.services.ServiceFactory;
@@ -37,19 +36,29 @@ public class ListApplicationsHandler implements CommandHandler {
 
         ConfigurationService configService =
                 ServiceFactory.getConfigurationService();
-        List appConfigDataList = configService.getAllApplications(
+        List appConfigList = configService.getAllApplications(
                 context.getServiceContext());
-        Out.println("Total " + appConfigDataList.size() + " applications");
-        for(Iterator it=appConfigDataList.iterator(); it.hasNext();){
-            ApplicationConfigData configData = (ApplicationConfigData)it.next();
-            Out.print(configData.getName() + " [" + configData.getType() + "]" + "\t" + configData.getURL() + "\t" + configData.getUsername());
-            if(configData.isCluster()){
-                Out.println("\t*cluster*");
+        for(Iterator it=appConfigList.iterator(); it.hasNext();){
+            ApplicationConfigData appConfig = (ApplicationConfigData)it.next();
+            if(appConfig.isCluster()){
+                Out.println(appConfig.getName() + " [cluster]");
+                for(Iterator it2=appConfig.getChildApplications().iterator();it2.hasNext();){
+                    Out.print("+ ");
+                    printApplication((ApplicationConfigData)it2.next());
+                }
             }else{
-                Out.println();
+                printApplication(appConfig);
             }
         }
         return true;
+    }
+
+    private void printApplication(ApplicationConfigData appConfig){
+        assert !appConfig.isCluster();
+        Out.print(appConfig.getName());
+        Out.println(" [" + appConfig.getType() + "]" +
+                        "\t" + appConfig.getURL() +
+                        "\t" + appConfig.getUsername());
     }
 
     public String getShortHelp() {

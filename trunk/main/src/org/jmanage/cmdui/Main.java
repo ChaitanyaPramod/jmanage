@@ -26,13 +26,30 @@ import java.io.IOException;
  * commands:
  *
  * listApps
- * allmbeans  <appName> [filter expression]
- * mbeans     <appName>
+ * mbeans     <appName> [filter expression]
+ * cmbeans    <appName>
  * view       <appName>/<mbeanName[configured name or object name]>
  * view       <appName>/<mbeanName>/[attributeName1|attributeName2|attributeName3]
  * execute    <appName>/<mbeanName>/<operationName> [args]
  * modify     <appName>/<mbeanName>/<attributeName> newValue
  * print      <appName>/<mbeanName>/[attributeName1|attributeName2|attributeName3]
+ *
+ *
+ * TODO: we should rename listApps to apps
+ *
+ * TODO: Ideas from Jboss:
+ *
+ *
+ *  info          Get the metadata for an MBean
+    get           Get the values of one or more MBean attributes
+    invoke        Invoke an operation on an MBean
+    create        Create an MBean
+    setattrs      Set the values of one or more MBean attributes
+    unregister    Unregister one or more MBeans
+    query         Query the server for a list of matching MBeans
+    set           Set the value of one MBean attribute
+    serverinfo    Get information about the MBean server
+ *
  *
  * date:  Feb 4, 2005
  * @author	Rakesh Kalra

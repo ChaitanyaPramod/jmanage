@@ -16,6 +16,7 @@
 package org.jmanage.core.data;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  *
@@ -33,6 +34,7 @@ public class ApplicationConfigData implements Serializable {
     private String password;
     private String type;
     private boolean isCluster;
+    private List childApplications;
 
     public String getApplicationId() {
         return appId;
@@ -107,5 +109,14 @@ public class ApplicationConfigData implements Serializable {
      */
     public boolean isCluster(){
         return isCluster;
+    }
+
+    public List getChildApplications() {
+        return childApplications;
+    }
+
+    public void setChildApplications(List childApplications) {
+        assert isCluster;
+        this.childApplications = childApplications;
     }
 }

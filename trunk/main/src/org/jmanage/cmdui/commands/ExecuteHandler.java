@@ -64,12 +64,13 @@ public class ExecuteHandler implements CommandHandler {
 
         for(int i=0; i<resultData.length; i++){
             Out.println();
-            Out.println("Application name: " + resultData[i].getApplicationName());
+            Out.print(resultData[i].getApplicationName() + " > ");
             if(resultData[i].getResult() == OperationResultData.RESULT_ERROR){
-                Out.println("Operation Failed. Error=" +
-                        resultData[i].getErrorString());
+                Out.println("Operation Failed.");
+                Out.println("Error:");
+                Out.println(resultData[i].getErrorString());
             }else{
-                Out.print("Operation Successful. ");
+                Out.println("Operation Successful. ");
                 if(resultData[i].getOutput() != null){
                     Out.println("Result: ");
                     Out.println(resultData[i].getOutput());
