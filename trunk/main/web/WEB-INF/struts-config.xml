@@ -41,6 +41,11 @@
             name="userForm"
             type="org.jmanage.webui.forms.UserForm">
         </form-bean>
+        <form-bean
+            name="configureForm"
+            type="org.jmanage.webui.forms.ConfigureForm">
+        </form-bean>
+
     </form-beans>
 
     <!-- ====================================== Global Exception Definitions -->
@@ -179,6 +184,25 @@
             roles="ops"
             type="org.jmanage.webui.actions.config.SaveApplicationClusterAction">
             <forward name="success" path="/config/managedApplications.do"/>
+        </action>
+        <action
+            path="/config/showConfigure"
+            name="configureForm"
+            validate="false"
+            scope="request"
+            roles="ops"
+            type="org.jmanage.webui.actions.config.ShowConfigureAction">
+            <forward name="success" path="/config/configure.jsp"/>
+        </action>
+        <action
+            path="/config/configure"
+            name="configureForm"
+            validate="true"
+            input="/config/configure.do"
+            scope="request"
+            roles="ops"
+            type="org.jmanage.webui.actions.config.ConfigureAction">
+            <forward name="success" path="/config/showConfigure.do"/>
         </action>
 
         <!--== Application Management =======================================-->

@@ -1,10 +1,7 @@
 package org.jmanage.core.config;
 
 import java.util.Properties;
-import java.io.InputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 
 /**
  * Date: Dec 4, 2004 2:38:01 AM
@@ -37,6 +34,22 @@ public class JManageProperties extends Properties{
      * that any class can get and access a JManageProperties object, since the
      * constructor is private
      **/
+
+    private static int maxLoginAttempt;
+
+    public void storeMaxLoginAttempts(int maxLoginAttempt){
+                this.setProperty("login.maxAttempts",
+                Integer.toString(maxLoginAttempt));
+        try{
+           FileOutputStream fileOutputStream =
+                 new FileOutputStream(ConfigConstants.JMANAGE_PROPERTY_FILE);
+            this.store(fileOutputStream, null);
+        } catch( Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+
+
     public static JManageProperties getInstance() {
       return jManageProperties;
     }
