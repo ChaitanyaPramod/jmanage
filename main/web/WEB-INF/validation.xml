@@ -257,6 +257,9 @@
             <field property="password" depends="required">
                 <arg0 key="Password" resource="false"/>
             </field> -->
+            <field property="URL" depends="required">
+                <arg0 key="URL" resource="false"/>
+            </field>
         </form>
         <form name="userForm">
             <field property="username" depends="required">

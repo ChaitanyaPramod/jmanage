@@ -13,6 +13,7 @@ public class ApplicationForm extends BaseForm {
     private String name;
     private String host;
     private String port;
+    private String url;
     private String username;
     private String password;
     private String type;
@@ -47,6 +48,14 @@ public class ApplicationForm extends BaseForm {
 
     public void setPort(String port) {
         this.port = port;
+    }
+
+    public String getURL() {
+        return url;
+    }
+
+    public void setURL(String url) {
+        this.url = url;
     }
 
     public String getUsername() {

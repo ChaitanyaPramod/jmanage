@@ -47,7 +47,7 @@ public class AddApplicationAction extends BaseAction {
                         appForm.getType(),
                         appForm.getHost(),
                         port,
-                        null,
+                        appForm.getURL(),
                         appForm.getUsername(),
                         appForm.getPassword(),
                         null);

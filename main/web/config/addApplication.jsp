@@ -38,14 +38,20 @@
       <td><jmhtml:text property="port" /></td>
     </tr>
     </c:if>
-    <c:if test="${requestScope.metaAppConfig.displayUsername}">
+    <c:if test="${requestScope.metaAppConfig.displayURL}">
     <tr class="oddrow">
+      <td class="headtext1">URL:</td>
+      <td><jmhtml:text property="URL" /></td>
+    </tr>
+    </c:if>
+    <c:if test="${requestScope.metaAppConfig.displayUsername}">
+    <tr class="evenrow">
       <td class="headtext1">Username:</td>
       <td><jmhtml:text property="username" /></td>
     </tr>
     </c:if>
     <c:if test="${requestScope.metaAppConfig.displayPassword}">
-    <tr class="evenrow">
+    <tr class="oddrow">
       <td class="headtext1">Password:</td>
       <td><jmhtml:password property="password" /></td>
     </tr>
