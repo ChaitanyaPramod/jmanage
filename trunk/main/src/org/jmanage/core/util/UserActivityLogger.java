@@ -24,8 +24,7 @@ import java.io.*;
  */
 public class UserActivityLogger extends Thread{
     /*  Location of activity log file   */
-    private static final String USER_ACTIVITY_LOG_FILE_NAME =
-            CoreUtils.getLogDir() + "/userActivityLog.txt";
+    private static final String USER_ACTIVITY_LOG_FILE_NAME = "userActivity.log";
 
     /*  Create the only instance of UserActivityLogger  */
     private static UserActivityLogger logger = new UserActivityLogger();
@@ -74,9 +73,12 @@ public class UserActivityLogger extends Thread{
         activityBuffer = new Vector();
         /*  Open the file to write, and set it to append all new entries    */
         try{
-            logWriter =
-                    new PrintWriter(new FileWriter(USER_ACTIVITY_LOG_FILE_NAME,
-                            true));
+            File logDir = new File(CoreUtils.getLogDir());
+            //TODO: Is this really necessary ? build can easily create log directory.
+            logDir.mkdir();
+            File logFile = new File(logDir.getPath() + File.separatorChar +
+                    USER_ACTIVITY_LOG_FILE_NAME);
+            logWriter = new PrintWriter(new FileWriter(logFile, true));
         }catch (IOException ioe){
             ioe.printStackTrace();
         }

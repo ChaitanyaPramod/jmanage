@@ -507,10 +507,8 @@
         <copy todir="${dist.home}/src">
             <fileset dir="${basedir}/src"/>
         </copy>
-        <!-- create logs dir -->
-        <mkdir dir="${dist.home}/logs"/>
-        <!-- jar up the distribution -->
 
+        <!-- jar up the distribution -->
         <delete file="${dist.home}/jmanage-${app.version}.jar"/>
         <jar jarfile="${dist.home}/jmanage-${app.version}.jar">
             <fileset dir="${dist.home}" includes="**"/>
@@ -565,7 +563,6 @@
         <mkdir dir="${build.home}/web/WEB-INF"/>
         <mkdir dir="${build.home}/web/WEB-INF/classes"/>
         <mkdir dir="${build.home}/config"/>
-        <mkdir dir="${build.home}/logs"/>
 
         <!-- Copy static content of this web application -->
         <copy todir="${build.home}/web">
