@@ -37,7 +37,10 @@ See http://forrest.apache.org/docs/linking.html for more info
   </home>
   <community label="Community" href="http://sourceforge.net/projects/jmanage/">
     <sfProject label="SF Project" href="http://sourceforge.net/projects/jmanage/"/>
-    <featureRequest label="Submit a Feature Request" href="http://sourceforge.net/tracker/?func=add&amp;group_id=111374&amp;atid=659060"/>
+    <featureRequest label="Feature Request" href="http://sourceforge.net/tracker/?func=add&amp;group_id=111374&amp;atid=659060"/>
+    <bug label="Report a Bug" href="http://sourceforge.net/tracker/?func=add&amp;group_id=111374&amp;atid=659057"/>
+    <supportRequest label="Support Request" href="http://sourceforge.net/tracker/?func=add&amp;group_id=111374&amp;atid=659058"/>
+    <mailingLists label="Mailing Lists" href="http://sourceforge.net/mail/?group_id=111374"/>
   </community>
   <development label="Development">
     <buildGuide label="Build Guide" href="development/index.html"/>
