@@ -10,7 +10,9 @@
             <mbeans>
                 <mbean
                     name="AppProperties"
-                    objectName="UserDomain:name=AppProperties"/>
+                    objectName="UserDomain:name=AppProperties">
+
+                </mbean>
             </mbeans>
             <roles>
                 <role>developer</role>
