@@ -17,12 +17,15 @@ package org.jmanage.core.services;
 
 import org.jmanage.core.auth.User;
 
+import javax.security.auth.Subject;
+
 /**
  *
  * date:  Jan 9, 2005
- * @author	Rakesh Kalra
+ * @author	Rakesh Kalra, Shashank Bellary
  */
 public interface ServiceContext {
 
     public User getUser();
+    void _setSubject(Subject subject);
 }

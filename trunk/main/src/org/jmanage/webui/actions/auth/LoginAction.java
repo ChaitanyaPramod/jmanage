@@ -18,19 +18,17 @@ package org.jmanage.webui.actions.auth;
 import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
+import org.jmanage.webui.util.Utils;
 import org.jmanage.webui.forms.LoginForm;
-import org.jmanage.core.auth.LoginCallbackHandler;
-import org.jmanage.core.auth.AuthConstants;
-import org.jmanage.core.auth.UserManager;
-import org.jmanage.core.auth.User;
-import org.jmanage.core.config.JManageProperties;
+import org.jmanage.core.services.AuthService;
+import org.jmanage.core.services.ServiceFactory;
+import org.jmanage.core.services.ServiceException;
+import org.jmanage.core.util.ErrorCodes;
 import org.apache.struts.action.*;
 import org.apache.struts.Globals;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.security.auth.login.LoginContext;
-import javax.security.auth.login.LoginException;
 
 /**
  *
@@ -38,9 +36,6 @@ import javax.security.auth.login.LoginException;
  * @author	Rakesh Kalra, Shashank Bellary
  */
 public class LoginAction extends BaseAction {
-    final JManageProperties jManageProperties = JManageProperties.getInstance();
-    private int MAX_LOGIN_ATTEMPTS_ALLOWED =
-            Integer.parseInt(jManageProperties.getProperty(JManageProperties.maxLoginAttempts));
 
     /**
      *
@@ -58,54 +53,25 @@ public class LoginAction extends BaseAction {
                                  HttpServletRequest request,
                                  HttpServletResponse response)
             throws Exception {
-
+        ActionErrors errors = new ActionErrors();
         LoginForm loginForm = (LoginForm) actionForm;
-        LoginCallbackHandler callbackHandler = new LoginCallbackHandler();
-        callbackHandler.setUsername(loginForm.getUsername());
-        callbackHandler.setPassword(loginForm.getPassword());
+        AuthService authService = ServiceFactory.getAuthService();
 
-        // TODO: we should set this in startup or in startup script
-        System.setProperty(AuthConstants.AUTH_CONFIG_SYS_PROPERTY,
-                AuthConstants.AUTH_CONFIG_FILE_NAME);
-        LoginContext loginContext =
-                new LoginContext(AuthConstants.AUTH_CONFIG_INDEX,
-                        callbackHandler);
-        User user = null;
-        UserManager userManager = UserManager.getInstance();
         try{
-            loginContext.login();
-        }catch(LoginException lex){
-            ActionErrors errors = new ActionErrors();
-            user = userManager.getUser(loginForm.getUsername());
-            /* Conditionalize the error message */
-            if(user == null){
-                errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("invalid.login"));
-            }else if("I".equals(user.getStatus())){
-                errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("account.locked"));
-            }else if(user.getLockCount() < MAX_LOGIN_ATTEMPTS_ALLOWED){
-                int thisAttempt = user.getLockCount()+1;
-                user.setLockCount(thisAttempt);
-                if(thisAttempt == MAX_LOGIN_ATTEMPTS_ALLOWED){
-                    user.setStatus("I");
-                    errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("account.locked"));
-                }else{
-                    errors.add(ActionErrors.GLOBAL_ERROR,
-                            new ActionError("invalid.login.attempt.count",
-                                    String.valueOf(MAX_LOGIN_ATTEMPTS_ALLOWED - thisAttempt)));
-                }
-                userManager.updateUser(user);
-            }else{
-                errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("unknown.error"));
-            }
+            authService.login(Utils.getServiceContext(context),
+                    loginForm.getUsername(),
+                    loginForm.getPassword());
+        }catch(ServiceException se){
+            errors.add(ActionErrors.GLOBAL_ERROR,
+                    new ActionError(ErrorCodes.WEB_UI_ERROR_KEY, se.getMessage()));
             request.setAttribute(Globals.ERROR_KEY, errors);
             return mapping.getInputForward();
-        }
-        /*  set Subject in session */
-        context.setSubject(loginContext.getSubject());
-        user = context.getUser();
-        if(user.getLockCount() > 0){
-            user.setLockCount(0);
-            userManager.updateUser(user);
+        }catch(Exception ex){
+            //TODO Architcture should handle this (ExceptionHandler)
+            errors.add(ActionErrors.GLOBAL_ERROR,
+                    new ActionError(ErrorCodes.UNKNOWN_ERROR));
+            request.setAttribute(Globals.ERROR_KEY, errors);
+            return mapping.getInputForward();
         }
         return mapping.findForward(Forwards.SUCCESS);
     }
