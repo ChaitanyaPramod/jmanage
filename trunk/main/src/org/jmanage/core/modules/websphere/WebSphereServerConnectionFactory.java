@@ -47,6 +47,8 @@ public class WebSphereServerConnectionFactory implements ServerConnectionFactory
         adminProps.setProperty(AdminClient.CONNECTOR_HOST, config.getHost());
         adminProps.setProperty(AdminClient.CONNECTOR_PORT,
               config.getPort().toString());
+        adminProps.setProperty(AdminClient.USERNAME, config.getUsername());
+        adminProps.setProperty(AdminClient.PASSWORD, config.getPassword());
         try{
             AdminClient adminClient = AdminClientFactory.createAdminClient(adminProps);
             return new WebSphereServerConnection(adminClient);
