@@ -21,6 +21,8 @@ import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.forms.ChangePasswordForm;
 import org.jmanage.core.auth.UserManager;
 import org.jmanage.core.crypto.Crypto;
+import org.jmanage.core.crypto.EncryptedKey;
+import org.jmanage.core.crypto.KeyManager;
 import org.jmanage.core.util.ErrorCodes;
 import org.apache.struts.action.*;
 import org.apache.struts.Globals;
@@ -60,6 +62,14 @@ public class ChangePasswordAction extends BaseAction{
                     new ActionError(ErrorCodes.PASSWORD_MISMATCH));
             request.setAttribute(Globals.ERROR_KEY, errors);
             return mapping.getInputForward();
+        }
+
+        if(context.getUser().isAdmin()){
+            /* re-encrypt the key */
+            EncryptedKey encryptedKey = KeyManager.readKey(changePasswordForm.getOldPassword().toCharArray());
+            encryptedKey.setPassword(changePasswordForm.getNewPassword().toCharArray());
+            /* write the encryptedKey to the key file */
+            KeyManager.writeKey(encryptedKey);
         }
 
         String username = context.getUser().getUsername();
