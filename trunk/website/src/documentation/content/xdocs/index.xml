@@ -3,7 +3,7 @@
 <!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
 <document>
   <header>
-    <title>jManage - Web Based JMX Client</title>
+    <title>jManage - Web and Command Line Based JMX Client</title>
   </header>
   <body>
     <section>
@@ -61,8 +61,6 @@ We are currently developing version 0.5, which has the following features:
             - JBoss
         <br/>
             - JMX Remoting (JSR 160)
-        <br/>
-            - Tomcat
         <br/>
             - Bea Weblogic
         <br/>

@@ -94,7 +94,7 @@ which will be used to configure the chosen Forrest skin.
   <favicon-url></favicon-url>
 
   <!-- The following are used to construct a copyright statement -->
-  <year>2005</year>
+  <year>2004-2005</year>
   <vendor>jManage.org</vendor>
   <!-- The optional copyright-link URL will be used as a link in the
     copyright statement
@@ -358,6 +358,13 @@ which will be used to configure the chosen Forrest skin.
       <height>31</height>
     </credit>
 
+    <credit>
+      <name>Nedstat Basic - Free web site statistics</name>
+      <url>http://www.nedstatbasic.net/stats?ADTmqwa0y6BbV4TZcRNlR6Mfkung</url>
+      <image>http://m1.nedstatbasic.net/n?id=ADTmqwa0y6BbV4TZcRNlR6Mfkung</image>
+      <width>18</width>
+      <height>18</height>
+    </credit>
     <!-- A credit with @role="pdf" will be used to compose a footer
      for each page in the PDF, using either "name" or "url" or both.
     -->
