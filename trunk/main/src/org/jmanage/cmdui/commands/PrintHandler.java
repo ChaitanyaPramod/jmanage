@@ -76,8 +76,8 @@ public class PrintHandler implements CommandHandler {
             AppMBeanKey key = (AppMBeanKey)it.next();
             List attributes = (List)appMBeanToAttributesMap.get(key);
             AttributeListData[] attributeValues =
-                    service.getAttributes(context.getServiceContext(),
-                            key.appName, key.mbeanName,
+                    service.getAttributes(
+                            context.getServiceContext(key.appName, key.mbeanName),
                             StringUtils.listToStringArray(attributes),
                             false);
             print(attributeValues);

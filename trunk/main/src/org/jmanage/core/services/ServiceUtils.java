@@ -20,6 +20,7 @@ import org.jmanage.core.management.ServerConnector;
 import org.jmanage.core.management.ConnectionFailedException;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.ApplicationConfigManager;
+import org.jmanage.core.config.MBeanConfig;
 import org.jmanage.core.util.ErrorCodes;
 import org.jmanage.core.util.Loggers;
 
@@ -46,8 +47,7 @@ public class ServiceUtils {
 
     // TODO: It will be nice to have a concept of ClusterServerConnection
     //      which will implement all cluster level operations - rk
-    public static ServerConnection getServerConnectionEvenIfCluster(String appName){
-        ApplicationConfig appConfig = getApplicationConfigByName(appName);
+    public static ServerConnection getServerConnectionEvenIfCluster(ApplicationConfig appConfig){
         if(!appConfig.isCluster()){
             return ServerConnector.getServerConnection(appConfig);
         }else{
@@ -79,4 +79,13 @@ public class ServiceUtils {
         return appConfig;
     }
 
+    public static String resolveMBeanName(ApplicationConfig appConfig,
+                                          String mbeanName){
+        /* check if the mbeanName is the configured mbean name */
+        MBeanConfig mbeanConfig = appConfig.findMBean(mbeanName);
+        if(mbeanConfig != null){
+            mbeanName = mbeanConfig.getObjectName();
+        }
+        return mbeanName;
+    }
 }

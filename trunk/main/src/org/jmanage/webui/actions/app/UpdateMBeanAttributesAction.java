@@ -58,12 +58,10 @@ public class UpdateMBeanAttributesAction extends BaseAction {
                                  HttpServletResponse response)
             throws Exception {
 
-        final String objectName = context.getObjectName().getCanonicalName();
-        final String appName = context.getApplicationConfig().getName();
         MBeanService mbeanService = ServiceFactory.getMBeanService();
         AttributeListData[] attrListData =
                 mbeanService.setAttributes(Utils.getServiceContext(context),
-                        request, objectName, appName);
+                        request);
         StringBuffer erroneousApps = new StringBuffer();
         for(int i=0; i<attrListData.length; i++){
             if(attrListData[i].isError()){

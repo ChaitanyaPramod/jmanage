@@ -16,7 +16,6 @@
 package org.jmanage.core.services;
 
 import org.jmanage.core.management.ObjectInfo;
-import org.jmanage.core.management.ObjectName;
 import org.jmanage.core.data.OperationResultData;
 import org.jmanage.core.data.AttributeListData;
 
@@ -26,12 +25,12 @@ import java.util.List;
 /**
  *
  * date:  Feb 21, 2005
- * @author	Rakesh Kalra, Shashank Bellary
+ * @author	Rakesh Kalra
+ * @author  Shashank Bellary
  */
 public interface MBeanService {
 
-    public List getMBeans(ServiceContext context,
-                          String applicationName,
+    public List queryMBeans(ServiceContext context,
                           String filter)
             throws ServiceException;
 
@@ -39,27 +38,19 @@ public interface MBeanService {
      * Gets the MBean information.
      *
      * @param context   instance of ServiceContext
-     * @param appName   configured application name
-     * @param mbeanName mbean name: either configured name or object name
      * @return  instance of ObjectInfo
      * @throws ServiceException
      */
-    public ObjectInfo getMBean(ServiceContext context,
-                               String appName,
-                               String mbeanName)
+    public ObjectInfo getMBeanInfo(ServiceContext context)
             throws ServiceException;
 
     /**
      * @return list of all attribute values
      */
-    public AttributeListData[] getAttributes(ServiceContext context,
-                                             String appName,
-                                             String mbeanName)
+    public AttributeListData[] getAttributes(ServiceContext context)
             throws ServiceException;
 
     public AttributeListData[] getAttributes(ServiceContext context,
-                                             String appName,
-                                             String mbeanName,
                                              String[] attributes,
                                              boolean handleCluster)
             throws ServiceException;
@@ -70,8 +61,6 @@ public interface MBeanService {
      * @throws ServiceException
      */
     public OperationResultData[] invoke(ServiceContext context,
-                                        String appName,
-                                        String mbeanName,
                                         String operationName,
                                         String[] params)
             throws ServiceException;
@@ -82,8 +71,6 @@ public interface MBeanService {
      * @throws ServiceException
      */
     public OperationResultData[] invoke(ServiceContext context,
-                                        String appName,
-                                        ObjectName objectName,
                                         String operationName,
                                         String[] params,
                                         String[] signature)
@@ -91,8 +78,6 @@ public interface MBeanService {
 
 
     public AttributeListData[] setAttributes(ServiceContext context,
-                                             String objName,
-                                             String appName,
                                              String[][] attributes)
             throws ServiceException;
 
@@ -102,13 +87,9 @@ public interface MBeanService {
      *
      * @param context
      * @param request
-     * @param objName
-     * @param appName
      * @throws ServiceException
      */
     public AttributeListData[] setAttributes(ServiceContext context,
-                                             HttpServletRequest request,
-                                             String objName,
-                                             String appName)
+                                             HttpServletRequest request)
             throws ServiceException;
 }

@@ -23,6 +23,7 @@ import org.jmanage.cmdui.util.Table;
 import org.jmanage.cmdui.util.CommandUtils;
 import org.jmanage.core.services.MBeanService;
 import org.jmanage.core.services.ServiceFactory;
+import org.jmanage.core.services.ServiceContext;
 import org.jmanage.core.management.ObjectAttribute;
 import org.jmanage.core.data.AttributeListData;
 
@@ -60,14 +61,15 @@ public class GetHandler implements CommandHandler {
                 attributeNames[i] = args[i+1];
             }
         }
+        ServiceContext serviceContext =
+                context.getServiceContext(expression.getAppName(),
+                            expression.getMBeanName());
         AttributeListData[] attributeValues = null;
         if(attributeNames != null){
-            attributeValues = service.getAttributes(context.getServiceContext(),
-                    expression.getAppName(), expression.getMBeanName(),
+            attributeValues = service.getAttributes(serviceContext,
                     attributeNames, true);
         }else{
-            attributeValues = service.getAttributes(context.getServiceContext(),
-                    expression.getAppName(), expression.getMBeanName());
+            attributeValues = service.getAttributes(serviceContext);
         }
         CommandUtils.printAttributeLists(attributeValues);
         return true;

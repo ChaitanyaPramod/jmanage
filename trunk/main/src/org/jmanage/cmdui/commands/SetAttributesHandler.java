@@ -58,8 +58,9 @@ public class SetAttributesHandler implements CommandHandler {
         MBeanService service = ServiceFactory.getMBeanService();
         String[][] attributes = getAttributes(args);
         AttributeListData[] attrListData =
-                service.setAttributes(context.getServiceContext(),
-                        expression.getMBeanName(), expression.getAppName(),
+                service.setAttributes(
+                        context.getServiceContext(expression.getAppName(),
+                                expression.getMBeanName()),
                         attributes);
         Out.println();
         Out.println("Changed Attributes:");

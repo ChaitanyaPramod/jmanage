@@ -18,16 +18,14 @@ package org.jmanage.webui.actions.app;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.jmanage.core.data.MBeanData;
+import org.jmanage.core.services.MBeanService;
+import org.jmanage.core.services.ServiceFactory;
 import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.forms.MBeanQueryForm;
 import org.jmanage.webui.util.Forwards;
-import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Utils;
-import org.jmanage.core.management.ServerConnection;
-import org.jmanage.core.management.ObjectName;
-import org.jmanage.core.services.MBeanService;
-import org.jmanage.core.services.ServiceFactory;
-import org.jmanage.core.data.MBeanData;
+import org.jmanage.webui.util.WebContext;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -49,10 +47,9 @@ public class MBeanListAction extends BaseAction {
 
         MBeanQueryForm queryForm = (MBeanQueryForm)actionForm;
         final String queryObjectName = queryForm.getObjectName();
-        final String appName = context.getApplicationConfig().getName();
         MBeanService mbeanService = ServiceFactory.getMBeanService();
-        List mbeanDataList = mbeanService.getMBeans(Utils.getServiceContext(context),
-                appName, queryObjectName);
+        List mbeanDataList = mbeanService.queryMBeans(Utils.getServiceContext(context),
+                queryObjectName);
 
         Map domainToObjectNameListMap = new TreeMap();
         ObjectNameTuple tuple = new ObjectNameTuple();

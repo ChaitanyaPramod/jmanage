@@ -28,16 +28,15 @@ import org.jmanage.core.crypto.Crypto;
 public class HandlerContext {
 
     private final Command command;
-    private final ServiceContext serviceContext;
+    private final ServiceContextImpl serviceContext;
 
     HandlerContext(Command command){
-        this.command = command;
-        this.serviceContext = getServiceContext(command);
+        this(command, true);
     }
 
-    HandlerContext(Command command, ServiceContext serviceContext){
+    HandlerContext(Command command, boolean isAuthRequired){
         this.command = command;
-        this.serviceContext = serviceContext;
+        this.serviceContext = getServiceContext(command, isAuthRequired);
     }
 
     public Command getCommand(){
@@ -48,13 +47,31 @@ public class HandlerContext {
         return serviceContext;
     }
 
-    private static ServiceContext getServiceContext(Command command){
-        assert command.getUsername() != null;
-        assert command.getPassword() != null;
+    public ServiceContext getServiceContext(String appName){
+        assert appName != null;
+        ServiceContextImpl serviceContext = getServiceContext(command, true);
+        serviceContext.setApplicationName(appName);
+        return serviceContext;
+    }
+
+    public ServiceContext getServiceContext(String appName, String mbeanName) {
+        assert mbeanName != null;
+        ServiceContextImpl serviceContext =
+                (ServiceContextImpl)getServiceContext(appName);
+        serviceContext.setMBeanName(mbeanName);
+        return serviceContext;
+    }
+
+    private static ServiceContextImpl getServiceContext(Command command,
+                                                        boolean isAuthRequired){
         ServiceContextImpl context = new ServiceContextImpl();
-        User user = new User(command.getUsername(),
-                Crypto.hash(command.getPassword()), null, null, 0);
-        context.setUser(user);
+        if(isAuthRequired){
+            assert command.getUsername() != null;
+            assert command.getPassword() != null;
+            User user = new User(command.getUsername(),
+                    Crypto.hash(command.getPassword()), null, null, 0);
+            context.setUser(user);
+        }
         return context;
     }
 }

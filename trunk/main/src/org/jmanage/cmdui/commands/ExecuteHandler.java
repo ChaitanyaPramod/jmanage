@@ -21,6 +21,7 @@ import org.jmanage.cmdui.CommandConstants;
 import org.jmanage.cmdui.util.Out;
 import org.jmanage.core.services.MBeanService;
 import org.jmanage.core.services.ServiceFactory;
+import org.jmanage.core.services.ServiceContext;
 import org.jmanage.core.data.OperationResultData;
 
 /**
@@ -55,10 +56,10 @@ public class ExecuteHandler implements CommandHandler {
         }
         /* execute the operation */
         MBeanService service = ServiceFactory.getMBeanService();
+        ServiceContext serviceContext = context.getServiceContext(expression.getAppName(),
+                        expression.getMBeanName());
         OperationResultData[] resultData =
-                service.invoke(context.getServiceContext(),
-                        expression.getAppName(),
-                        expression.getMBeanName(),
+                service.invoke(serviceContext,
                         expression.getTargetName(),
                         params);
 

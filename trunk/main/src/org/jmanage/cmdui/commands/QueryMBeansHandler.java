@@ -53,8 +53,8 @@ public class QueryMBeansHandler implements CommandHandler {
 
         MBeanService mbeanService = ServiceFactory.getMBeanService();
         List mbeanDataList =
-                mbeanService.getMBeans(context.getServiceContext(),
-                        appName, filter);
+                mbeanService.queryMBeans(context.getServiceContext(appName),
+                        filter);
         assert mbeanDataList != null;
         CommandUtils.printMBeans(mbeanDataList);
         return true;

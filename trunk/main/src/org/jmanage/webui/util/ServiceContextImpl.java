@@ -17,13 +17,17 @@ package org.jmanage.webui.util;
 
 import org.jmanage.core.services.ServiceContext;
 import org.jmanage.core.auth.User;
+import org.jmanage.core.config.ApplicationConfig;
+import org.jmanage.core.management.ObjectName;
+import org.jmanage.core.management.ServerConnection;
 
 import javax.security.auth.Subject;
 
 /**
  *
  * date:  Jan 17, 2005
- * @author	Rakesh Kalra, Shashank Bellary
+ * @author	Rakesh Kalra
+ * @author  Shashank Bellary
  */
 public class ServiceContextImpl implements ServiceContext {
 
@@ -39,5 +43,17 @@ public class ServiceContextImpl implements ServiceContext {
 
     public void _setSubject(Subject subject){
         this.webContext.setSubject(subject);
+    }
+
+    public ApplicationConfig getApplicationConfig() {
+        return webContext.getApplicationConfig();
+    }
+
+    public ObjectName getObjectName() {
+        return webContext.getObjectName();
+    }
+
+    public ServerConnection getServerConnection() {
+        return webContext.getServerConnection();
     }
 }
