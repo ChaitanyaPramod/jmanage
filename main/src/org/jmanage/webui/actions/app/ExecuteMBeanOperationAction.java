@@ -6,10 +6,12 @@ import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.util.Utils;
 import org.jmanage.core.util.CoreUtils;
 import org.jmanage.core.util.UserActivityLogger;
+import org.jmanage.core.util.Loggers;
 import org.jmanage.core.management.ServerConnection;
 import org.jmanage.core.management.ObjectName;
 import org.jmanage.core.management.ServerConnector;
 import org.jmanage.core.config.ApplicationConfig;
+import org.jmanage.core.data.OperationResultData;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
@@ -19,6 +21,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 /**
  * Executes mbean operation for Application as well as Application Cluster.
@@ -27,6 +31,9 @@ import java.util.TreeMap;
  * @author	Rakesh Kalra
  */
 public class ExecuteMBeanOperationAction extends BaseAction {
+
+    private static final Logger logger =
+            Loggers.getLogger(ExecuteMBeanOperationAction.class);
 
     public ActionForward execute(WebContext context,
                                  ActionMapping mapping,
@@ -59,18 +66,37 @@ public class ExecuteMBeanOperationAction extends BaseAction {
                 in this cluster */
             for(Iterator it=appConfig.getApplications().iterator(); it.hasNext();){
                 ApplicationConfig childAppConfig = (ApplicationConfig)it.next();
-                Object result = executeMBeanOperation(context, childAppConfig,
-                        operationName, params, signature);
-                appNameToResultMap.put(childAppConfig.getName(), result);
+                executeMBeanOperation(context, childAppConfig,
+                        operationName, params, signature, appNameToResultMap);
             }
         }else{
-            Object result = executeMBeanOperation(context, appConfig,
-                    operationName, params, signature);
-            appNameToResultMap.put(appConfig.getName(), result);
+            executeMBeanOperation(context, appConfig,
+                    operationName, params, signature, appNameToResultMap);
         }
 
         request.setAttribute("appNameToResultMap", appNameToResultMap);
         return mapping.findForward(Forwards.SUCCESS);
+    }
+
+    private static void executeMBeanOperation(WebContext context,
+                                              ApplicationConfig appConfig,
+                                              String operationName,
+                                              Object[] params,
+                                              String[] signature,
+                                              Map appNameToResultMap){
+
+        OperationResultData resultData = new OperationResultData();
+        try {
+            Object result = executeMBeanOperation(context, appConfig,
+                            operationName, params, signature);
+            resultData.setOutput(result);
+        } catch (Exception e) {
+            logger.log(Level.FINE, "Error executing operation " +
+                    operationName + " on " + context.getObjectName(), e);
+            resultData.setResult(OperationResultData.RESULT_ERROR);
+            resultData.setErrorString(e.getMessage());
+        }
+        appNameToResultMap.put(appConfig.getName(), resultData);
     }
 
     private static Object executeMBeanOperation(WebContext context,

@@ -1,7 +1,8 @@
 <!-- /app/mbeanOperationResult.jsp -->
 
 <%@ page import="java.util.Map,
-                 java.util.Iterator"%>
+                 java.util.Iterator,
+                 org.jmanage.core.data.OperationResultData"%>
 <%@ taglib uri="/WEB-INF/tags/jstl/c.tld" prefix="c"%>
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 
@@ -42,12 +43,15 @@
                         (Map)request.getAttribute("appNameToResultMap");
                 for(Iterator it=appNameToResultMap.keySet().iterator(); it.hasNext();){
                     String appName = (String)it.next();
-                    Object output = appNameToResultMap.get(appName);
+                    OperationResultData operationResult =
+                            (OperationResultData)appNameToResultMap.get(appName);
                 %>
                     <tr>
                         <td class="plaintext"><%=appName%></td>
-                        <td class="plaintext">OK</td>
-                        <td class="plaintext"><%=output%></td>
+                        <td class="plaintext">
+                            <%=(operationResult.getResult() == OperationResultData.RESULT_OK)?"OK":"Error"%>
+                        </td>
+                        <td class="plaintext"><%=operationResult.getOutput()%></td>
                     </tr>
                 <%
                 }
