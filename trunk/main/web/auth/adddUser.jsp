@@ -46,6 +46,11 @@
         </jmhtml:select>
     </td>
 </tr>
+<tr class="evenrow">
+    <td class="headtext1">Lock Account:</td>
+    <td><jmhtml:checkbox property="status" value="I" styleId="checked"/></td>
+</tr>
+
 </table>
 <br>
 &nbsp;&nbsp;

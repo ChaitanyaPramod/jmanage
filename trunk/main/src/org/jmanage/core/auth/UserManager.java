@@ -82,7 +82,8 @@ public class UserManager implements AuthConstants{
             userData.put(user.getAttributeValue(NAME),
                     new User(user.getAttributeValue(NAME),
                             user.getAttributeValue(PASSWORD),
-                            roleNames));
+                            roleNames, user.getAttributeValue(STATUS),
+                            Integer.parseInt(user.getAttributeValue(LOCK_COUNT))));
         }
         return userData;
     }
@@ -101,7 +102,7 @@ public class UserManager implements AuthConstants{
         User user = (User)users.get(username);
         if(user != null){
             final String hashedPassword = Crypto.hash(password);
-            user = hashedPassword .equals(user.getPassword()) ? user : null;
+            user = hashedPassword.equals(user.getPassword()) ? user : null;
         }
         return user;
     }
@@ -171,6 +172,10 @@ public class UserManager implements AuthConstants{
                 Element userElement = new Element(AuthConstants.USER);
                 userElement.setAttribute(AuthConstants.NAME, user.getUsername());
                 userElement.setAttribute(AuthConstants.PASSWORD, user.getPassword());
+                userElement.setAttribute(AuthConstants.STATUS,
+                        user.getStatus() != null ? user.getStatus() : "A");
+                userElement.setAttribute(AuthConstants.LOCK_COUNT,
+                        String.valueOf(user.getLockCount()));
                 /* add roles */
                 for(Iterator iterator = user.getRoles().iterator(); iterator.hasNext();){
                     String roleName = (String)iterator.next();

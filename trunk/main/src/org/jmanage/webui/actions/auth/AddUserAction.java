@@ -60,7 +60,7 @@ public class AddUserAction extends BaseAction{
         roles.add(userForm.getRole());
         User user = new User(userForm.getUsername(),
                 Crypto.hash(userForm.getPassword()),
-                roles);
+                roles, userForm.getStatus(), 0);
         return user;
     }
 }
