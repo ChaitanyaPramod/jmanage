@@ -1,13 +1,13 @@
 <%@ page import="java.util.List,
                  java.util.Iterator,
-                 javax.management.MBeanInfo"%>
+                 javax.management.ObjectName"%>
 
 <%
-    List mbeanInfoList = (List)request.getAttribute("mbeanInfoList");
+    List mbeanInfoList = (List)request.getAttribute("objectNameList");
     for(Iterator it = mbeanInfoList.iterator(); it.hasNext(); ){
-        MBeanInfo mbeanInfo = (MBeanInfo)it.next();
+        ObjectName objectName = (ObjectName)it.next();
         %>
-            <%=mbeanInfo.getClassName()%><br>
+            <%=objectName.getCanonicalName()%><br>
         <%
     }
 

@@ -27,14 +27,14 @@ public class MBeanListAction extends BaseAction {
                                  HttpServletResponse response)
             throws Exception {
 
-        Map attributes = new HashMap(1);
-        attributes.put(WeblogicApplicationConfig.SERVER_NAME, "loyaltyServer");
+        Map paramValues = new HashMap(1);
+        paramValues.put("serverName", "loyaltyServer");
         ApplicationConfig config =
                 ApplicationConfigFactory.create("test",
                         ApplicationConfig.TYPE_WEBLOGIC,
                         "localhost", 7001,
                         "system", "12345678",
-                        attributes);
+                        paramValues);
 
         MBeanServer mbeanServer =
                 MBeanServerConnectionFactory.getConnection(config);

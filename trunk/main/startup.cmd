@@ -13,6 +13,6 @@ set EXT_JARS=./ext/weblogic61.jar
 set CLASSPATH=%LIB_JARS%;%EXT_JARS%;./build/WEB-INF/classes
 
 @echo on
-%JAVA_HOME%/bin/java -verbose:class -classpath %CLASSPATH% -Djmanage.port=%JMANAGE_PORT% -Djmanage.root=%JMANAGE_ROOT% org.jmanage.webui.Startup
+%JAVA_HOME%/bin/java -classpath %CLASSPATH% -Djmanage.port=%JMANAGE_PORT% -Djmanage.root=%JMANAGE_ROOT% org.jmanage.webui.Startup
 
 

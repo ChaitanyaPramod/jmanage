@@ -9,6 +9,7 @@ import java.util.Map;
  */
 public class ApplicationConfigFactory {
 
+
     public static ApplicationConfig create(String name,
                                            String type,
                                            String host,
@@ -22,11 +23,11 @@ public class ApplicationConfigFactory {
                                            int port,
                                            String username,
                                            String password,
-                                           Map attributes){
+                                           Map paramValues){
 
         if(type.equals(ApplicationConfig.TYPE_WEBLOGIC)){
             return new WeblogicApplicationConfig(name, host, port,
-                    username, password, attributes);
+                    username, password, paramValues);
         }else{
             throw new RuntimeException("Invalid application type: " + type);
         }
