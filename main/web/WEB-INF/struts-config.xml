@@ -318,13 +318,18 @@
             type="org.jmanage.webui.actions.auth.ChangePasswordAction">
             <forward name="success" path="/auth/confirmChangePassword.jsp"/>
         </action>
-
         <action
             path="/auth/showUserActivity"
             roles="ops"
             type="org.jmanage.webui.actions.auth.ShowUserActivityAction">
             <forward name="success" path="/auth/userActivity.jsp"/>
         </action>
+
+        <!--== Remote Service Call ==========================================-->
+        <action
+            path="/remoteService"
+            type="org.jmanage.webui.actions.RemoteServiceAction" />
+
     </action-mappings>
 
     <!-- ========================================== Controller Configuration -->

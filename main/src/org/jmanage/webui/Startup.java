@@ -11,6 +11,8 @@ import org.jmanage.core.crypto.Crypto;
 import org.jmanage.core.auth.UserManager;
 import org.jmanage.core.auth.AuthConstants;
 import org.jmanage.core.auth.User;
+import org.jmanage.core.services.ServiceFactory;
+import org.jmanage.core.config.JManageProperties;
 
 import java.util.Arrays;
 import java.io.IOException;
@@ -50,6 +52,8 @@ public class Startup {
             return;
         }
 
+        /* initialize ServiceFactory */
+        ServiceFactory.init(ServiceFactory.MODE_LOCAL);
         /* initialize crypto */
         Crypto.init(password);
         /* clear the password */
@@ -62,7 +66,7 @@ public class Startup {
     private static void start()
             throws Exception {
 
-        int port = Integer.parseInt(System.getProperty(SystemProperties.JMANAGE_PORT));
+        int port = JManageProperties.getPort().intValue();
         String webroot = CoreUtils.getWebDir();
         Server server = new Server();
         SocketListener listener = new SocketListener();

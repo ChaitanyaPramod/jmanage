@@ -1,6 +1,8 @@
 package org.jmanage.webui.util;
 
 import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.beanutils.BeanUtils;
+import org.jmanage.core.services.ServiceContext;
 
 import java.util.StringTokenizer;
 
@@ -82,4 +84,16 @@ public class Utils {
 
     }
 
+    public static void copyProperties(Object dest, Object source) {
+        try {
+            BeanUtils.copyProperties(dest, source);
+        }
+        catch(Exception ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public static ServiceContext getServiceContext(WebContext webContext){
+        return new ServiceContextImpl(webContext);
+    }
 }
