@@ -105,6 +105,7 @@ To save the changes to the attribute values click on
 <td bgcolor="#E6EEF9" class="plaintext">
 <table width="100%">
 <%
+    int tabIndex=1;
     for(int index=0; index < operations.length; index++){
         String rowStyle = index % 2 != 0 ? "oddrow" : "evenrow";
         ObjectOperationInfo operationInfo = operations[index];
@@ -121,7 +122,7 @@ To save the changes to the attribute values click on
         int paramIndex = 0;
     %>
         <input type="hidden" name="<%=operationInfo.getName()%><%=paramIndex%>_type" value="<%=params[paramIndex].getType()%>"/>
-        <input type="text" name="<%=operationInfo.getName()%><%=paramIndex%>_value" value=""/>
+        <input tabindex="<%=tabIndex++%>" type="text" name="<%=operationInfo.getName()%><%=paramIndex%>_value" value=""/>
         <%=params[paramIndex].getType()%>
     <%}else{%>
         &nbsp;
@@ -129,7 +130,7 @@ To save the changes to the attribute values click on
     </td>
     <td class="<%=rowStyle%>">
         <input type="hidden" name="operationName" value="<%=operationInfo.getName()%>"/>
-        <jmhtml:submit value="Execute" styleClass="Inside3d"/>&nbsp;
+        <input tabindex="<%=(tabIndex++) + params.length%>" type="submit" value="Execute" class="Inside3d"/>&nbsp;
         [Impact: <%=MBeanUtils.getImpact(operationInfo.getImpact())%>]
     </td>
 </tr>
@@ -140,12 +141,13 @@ To save the changes to the attribute values click on
     <td class="<%=rowStyle%>">&nbsp;</td>
     <td class="<%=rowStyle%>">
         <input type="hidden" name="<%=operationInfo.getName()%><%=paramIndex%>_type" value="<%=params[paramIndex].getType()%>"/>
-        <input type="text" name="<%=operationInfo.getName()%><%=paramIndex%>_value" value=""/>
+        <input tabindex="<%=tabIndex++%>" type="text" name="<%=operationInfo.getName()%><%=paramIndex%>_value" value=""/>
         <%=params[paramIndex].getType()%>
     </td>
     <td class="<%=rowStyle%>">&nbsp;</td>
 </tr>
-    <%  }%>
+    <%  } %>
+
 </jmhtml:form>
 <%  }%>
 </table>
