@@ -29,8 +29,6 @@ public class AddMBeanConfigAction extends BaseAction {
                                  HttpServletResponse response)
             throws Exception {
 
-        makeResponseNotCacheable(response);
-
         MBeanConfigForm mbeanConfigForm = (MBeanConfigForm)actionForm;
         ApplicationConfig applicationConfig = context.getApplicationConfig();
 

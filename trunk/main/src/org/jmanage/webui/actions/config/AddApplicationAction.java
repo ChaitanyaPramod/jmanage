@@ -3,11 +3,15 @@ package org.jmanage.webui.actions.config;
 import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
+import org.jmanage.webui.util.Utils;
 import org.jmanage.webui.forms.ApplicationForm;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.ApplicationConfigFactory;
 import org.jmanage.core.config.ApplicationConfigManager;
 import org.jmanage.core.util.UserActivityLogger;
+import org.jmanage.core.data.ApplicationConfigData;
+import org.jmanage.core.services.ConfigurationService;
+import org.jmanage.core.services.ServiceFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForward;
@@ -38,24 +42,15 @@ public class AddApplicationAction extends BaseAction {
                                  HttpServletResponse response) {
 
         ApplicationForm appForm = (ApplicationForm)actionForm;
-        String appId = ApplicationConfig.getNextApplicationId();
-        Integer port = appForm.getPort() != null && !"".equals(appForm.getPort()) ?
-                new Integer(appForm.getPort()) :
-                null;
-        ApplicationConfig config =
-                ApplicationConfigFactory.create(appId, appForm.getName(),
-                        appForm.getType(),
-                        appForm.getHost(),
-                        port,
-                        appForm.getURL(),
-                        appForm.getUsername(),
-                        appForm.getPassword(),
-                        null);
 
-        ApplicationConfigManager.addApplication(config);
-        UserActivityLogger.getInstance().logActivity(
-                context.getUser().getUsername(),
-                "Added application "+ "\""+config.getName()+"\"");
+        /* create ApplicationConfigData from this form */
+        ApplicationConfigData appConfigData = new ApplicationConfigData();
+        Utils.copyProperties(appConfigData, appForm);
+
+        ConfigurationService service = ServiceFactory.getConfigurationService();
+
+        service.addApplication(Utils.getServiceContext(context), appConfigData);
+
         return mapping.findForward(Forwards.SUCCESS);
     }
 }

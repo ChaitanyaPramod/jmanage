@@ -30,6 +30,8 @@ public class ShowMBeanAction extends BaseAction {
                                  HttpServletResponse response)
             throws Exception {
 
+        makeResponseNotCacheable(response);
+
         final ObjectName objectName = context.getObjectName();
         final ApplicationConfig config = context.getApplicationConfig();
 

@@ -23,7 +23,7 @@ public class RoleManager {
     static ActionForward ensureRole(WebContext context, ActionMapping mapping,
                                     String[] roles){
         ActionForward roleForward = null;
-        if(context.getUser() == null){
+        if(context.getUser() == null && !mapping.getPath().equals("/remoteService")){
             roleForward = mapping.findForward(Forwards.LOGIN);
         }else{
             User loggedInUser = context.getUser();

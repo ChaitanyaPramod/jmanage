@@ -8,7 +8,11 @@ import java.io.*;
  * @author Shashank Bellary 
  */
 public class JManageProperties extends Properties{
+
     public static String maxLoginAttempts = "login.maxAttempts";
+    public static String JMANAGE_HOST = "jmanage.host";
+    public static String JMANAGE_PORT = "jmanage.port";
+
     /*  The only instance   */
     private static JManageProperties jManageProperties = new JManageProperties();
 
@@ -18,7 +22,8 @@ public class JManageProperties extends Properties{
     private JManageProperties(){
       super();
       try{
-        InputStream property = new FileInputStream(ConfigConstants.JMANAGE_PROPERTY_FILE);
+        InputStream property =
+                new FileInputStream(ConfigConstants.JMANAGE_PROPERTY_FILE);
         load(property);
       }catch(FileNotFoundException fnfEx){
         fnfEx.printStackTrace();
@@ -34,8 +39,17 @@ public class JManageProperties extends Properties{
      * that any class can get and access a JManageProperties object, since the
      * constructor is private
      **/
+    public static JManageProperties getInstance() {
+      return jManageProperties;
+    }
 
-    private static int maxLoginAttempt;
+    public static String getHostName(){
+        return jManageProperties.getProperty(JMANAGE_HOST, "localhost");
+    }
+
+    public static Integer getPort(){
+        return new Integer(jManageProperties.getProperty(JMANAGE_PORT, "9090"));
+    }
 
     public void storeMaxLoginAttempts(int maxLoginAttempt){
                 this.setProperty("login.maxAttempts",
@@ -47,10 +61,5 @@ public class JManageProperties extends Properties{
         } catch( Exception e){
             throw new RuntimeException(e);
         }
-    }
-
-
-    public static JManageProperties getInstance() {
-      return jManageProperties;
     }
 }
