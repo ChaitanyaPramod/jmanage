@@ -72,6 +72,14 @@
     %>
             aux1 = insFld(foldersTree, gFld("<%=applicationConfig.getName()%>", "<%=applicationConfig.isCluster()?"/app/clusterView.do":"/app/mbeanList.do"%>?<%=RequestParams.APPLICATION_ID+"="+applicationConfig.getApplicationId()%>"));
             aux1.id = '<%=applicationConfig.getApplicationId()%>';
+        <%if(applicationConfig.isCluster()){%>
+            aux1.iconSrc = ICONPATH + "cluster.gif";
+            aux1.iconSrcClosed = ICONPATH + "cluster.gif";
+        <%}else{%>
+            aux1.iconSrc = ICONPATH + "application.gif";
+            aux1.iconSrcClosed = ICONPATH + "application.gif";
+        <%}%>
+
         <%
             List mbeans = applicationConfig.getMBeans();
             if(mbeans != null){
@@ -80,6 +88,7 @@
         %>
             doc1 = insDoc(aux1, gLnk("R", "<%=mbeanConfig.getName()%>", "/app/mbeanView.do?<%=RequestParams.APPLICATION_ID%>=<%=applicationConfig.getApplicationId()%>&<%=RequestParams.OBJECT_NAME%>=<%=URLEncoder.encode(mbeanConfig.getObjectName(), "UTF-8")%>"));
             doc1.id = '<%=applicationConfig.getApplicationId()%>_<%=URLEncoder.encode(mbeanConfig.getObjectName(), "UTF-8")%>';
+            doc1.iconSrc = ICONPATH + "mbean.gif";
          <%
                 }// for ends
             }// if ends
@@ -90,6 +99,8 @@
                  %>
                     aux2 = insFld(aux1, gFld("<%=childAppConfig.getName()%>", "/app/mbeanList.do?<%=RequestParams.APPLICATION_ID+"="+childAppConfig.getApplicationId()%>"));
                     aux2.id = '<%=childAppConfig.getApplicationId()%>';
+                    aux2.iconSrc = ICONPATH + "application.gif";
+                    aux2.iconSrcClosed = ICONPATH + "application.gif";
                 <%
                     mbeans = childAppConfig.getMBeans();
                     if(mbeans != null){
@@ -98,6 +109,7 @@
                     %>
                         doc2 = insDoc(aux2, gLnk("R", "<%=mbeanConfig.getName()%>", "/app/mbeanView.do?<%=RequestParams.APPLICATION_ID%>=<%=childAppConfig.getApplicationId()%>&<%=RequestParams.OBJECT_NAME%>=<%=URLEncoder.encode(mbeanConfig.getObjectName(), "UTF-8")%>"));
                         doc2.id = '<%=childAppConfig.getApplicationId()%>_<%=URLEncoder.encode(mbeanConfig.getObjectName(), "UTF-8")%>';
+                        doc2.iconSrc = ICONPATH + "mbean.gif";
                     <%
                         }// for ends
                     }// if ends
