@@ -1,23 +1,31 @@
 package org.jmanage.core.config;
 
 import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  *
  * date:  Jun 11, 2004
  * @author	Rakesh Kalra
  */
-public class WeblogicApplicationConfig extends AbstractApplicationConfig {
+public class WeblogicApplicationConfig extends ApplicationConfig {
 
-    public static final String SERVER_NAME = "serverName";
+    private static final ConfigParam serverNameParam =
+            new ConfigParam("serverName", "Server Name");
 
-    private String serverName;
+    private static final List additionalParams = new ArrayList(1);
+    static{
+        additionalParams.add(serverNameParam);
+    }
+
+    private final String serverName;
 
     public WeblogicApplicationConfig(String name, String host, int port,
                                      String username, String password,
-                                     Map attributes){
+                                     Map paramValues){
         super(name, host, port, username, password);
-        serverName = (String)attributes.get(SERVER_NAME);
+        serverName = (String)paramValues.get(serverNameParam.getName());
     }
 
     public String getURL() {
@@ -26,6 +34,10 @@ public class WeblogicApplicationConfig extends AbstractApplicationConfig {
 
     public String getType(){
         return ApplicationConfig.TYPE_WEBLOGIC;
+    }
+
+    public List getAdditionalParameters() {
+        return additionalParams;
     }
 
     public String getServerName(){
