@@ -22,6 +22,9 @@ import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.forms.UserForm;
 import org.jmanage.core.auth.UserManager;
 import org.jmanage.core.auth.User;
+import org.jmanage.core.auth.Role;
+import org.jmanage.core.auth.AccessController;
+import org.jmanage.core.util.ACLConstants;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
@@ -52,6 +55,7 @@ public class ShowEditUserAction extends BaseAction{
                                  HttpServletRequest request,
                                  HttpServletResponse response)
             throws Exception {
+        AccessController.canAccess(context.getUser(), ACL_EDIT_USERS);
         String username = request.getParameter(RequestParams.USER_NAME);
         User user = UserManager.getInstance().getUser(username);
         prepareUserForm(actionForm, user);
@@ -69,7 +73,7 @@ public class ShowEditUserAction extends BaseAction{
         userForm.setUsername(user.getUsername());
         userForm.setPassword(UserForm.FORM_PASSWORD);
         //TODO Need to handle multiple role scenario
-        userForm.setRole(user.getRoles().get(0).toString());
+        userForm.setRole(((Role)user.getRoles().get(0)).getName());
         userForm.setStatus(user.getStatus());
     }
 }

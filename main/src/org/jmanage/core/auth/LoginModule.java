@@ -103,7 +103,7 @@ public class LoginModule implements javax.security.auth.spi.LoginModule {
         }
         /* check username and password */
         UserManager userManager = UserManager.getInstance();
-        loggedInUser = userManager.getUser(username, password);
+        loggedInUser = userManager.verifyUsernamePassword(username, password);
         loginStatus = loggedInUser != null;
         return loginStatus;
     }

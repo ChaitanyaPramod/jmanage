@@ -38,7 +38,7 @@ public class ChangeAdminPassword {
         final UserManager userManager = UserManager.getInstance();
         final char[] oldPassword =
                 PasswordField.getPassword("Enter Old password:");
-        final User admin = userManager.getUser(AuthConstants.USER_ADMIN,
+        final User admin = userManager.verifyUsernamePassword(AuthConstants.USER_ADMIN,
                 oldPassword);
         if(admin == null){
             System.out.println("Invalid password.");

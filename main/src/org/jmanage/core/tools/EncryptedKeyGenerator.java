@@ -19,6 +19,7 @@ import org.jmanage.core.util.CoreUtils;
 import org.jmanage.core.auth.UserManager;
 import org.jmanage.core.auth.User;
 import org.jmanage.core.auth.AuthConstants;
+import org.jmanage.core.auth.Role;
 import org.jmanage.core.crypto.EncryptedKey;
 import org.jmanage.core.crypto.KeyManager;
 import org.jmanage.core.crypto.Crypto;
@@ -61,9 +62,9 @@ public class EncryptedKeyGenerator {
         KeyManager.writeKey(encryptedKey);
 
         List roles = new ArrayList(1);
-        roles.add(AuthConstants.ROLE_OPS);
+        roles.add(new Role(AuthConstants.ROLE_OPS));
         UserManager.getInstance().addUser(new User(AuthConstants.USER_ADMIN,
-                Crypto.hash(password), roles,"A",0));
+                Crypto.hash(password), roles, "A", 0));
 
         /* clear the password, for security reasons */
         Arrays.fill(password, ' ');

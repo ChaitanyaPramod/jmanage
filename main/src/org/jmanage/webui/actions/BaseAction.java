@@ -20,6 +20,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
 import org.jmanage.webui.util.WebContext;
+import org.jmanage.core.util.ACLConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,7 +30,7 @@ import javax.servlet.http.HttpServletResponse;
  * date:  Jun 6, 2004
  * @author	Rakesh Kalra
  */
-public abstract class BaseAction extends Action {
+public abstract class BaseAction extends Action implements ACLConstants{
 
     public final ActionForward execute(ActionMapping mapping,
                                        ActionForm actionForm,
