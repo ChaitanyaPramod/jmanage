@@ -22,7 +22,7 @@ package org.jmanage.testapp.mbeans;
  */
 public interface ObjectNames {
     String CONFIGURATION = "jmanage:name=Configuration";
-    String CALCULATOR = "jmanage:name=Calculator";
+    String CALCULATOR = "jmanage:name=Calculator/test";
     String PRIMITIVE_DATA_TYPE_TEST = "jmanage:name=PrimitiveDataTypeTest";
     String DATA_TYPE_TEST = "jmanage:name=DataTypeTest";
     String BIG_DATA_TYPE_TEST = "jmanage:name=BigDataTypeTest";

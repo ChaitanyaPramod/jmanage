@@ -32,6 +32,9 @@ public class TomcatServerConnectionFactory implements ServerConnectionFactory{
     public ServerConnection getServerConnection(ApplicationConfig config)
             throws ConnectionFailedException {
         try {
+
+            // TODO: where are we using the server url and port?
+
             /*  Though the methods are depricated, currently this is the best
                 way to get hold of MBeanServer. */
             MBeanServer mBeanServer = Registry.getRegistry().getServer();

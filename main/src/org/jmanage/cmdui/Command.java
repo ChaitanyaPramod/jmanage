@@ -172,6 +172,7 @@ public class Command {
             throw new RuntimeException(e);
         } catch (ServiceException e){
             Out.println(e.getMessage());
+            Out.println();
             return false;
         }
     }

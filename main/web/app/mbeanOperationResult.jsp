@@ -15,9 +15,7 @@
 --%>
 <!-- /app/mbeanOperationResult.jsp -->
 
-<%@ page import="java.util.Map,
-                 java.util.Iterator,
-                 org.jmanage.core.data.OperationResultData"%>
+<%@ page import="org.jmanage.core.data.OperationResultData"%>
 <%@ taglib uri="/WEB-INF/tags/jstl/c.tld" prefix="c"%>
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 
@@ -38,10 +36,6 @@
 <tr>
     <td>&nbsp;</td>
 </tr>
-<%--
-          TODO: we will have to create a OperationResult object which contains
-          the application name, result (error, ok), error message.
-        --%>
 <tr>
     <td class="headtext">Results</td>
 </tr>
@@ -54,15 +48,13 @@
                 <td class="headtext">Output</td>
             </tr>
             <%
-                Map appNameToResultMap =
-                        (Map)request.getAttribute("appNameToResultMap");
-                for(Iterator it=appNameToResultMap.keySet().iterator(); it.hasNext();){
-                    String appName = (String)it.next();
-                    OperationResultData operationResult =
-                            (OperationResultData)appNameToResultMap.get(appName);
+                OperationResultData[] resultData =
+                        (OperationResultData[])request.getAttribute("operationResultData");
+                for(int i=0; i<resultData.length; i++){
+                    OperationResultData operationResult = resultData[i];
                 %>
                     <tr>
-                        <td class="plaintext"><%=appName%></td>
+                        <td class="plaintext"><%=operationResult.getApplicationName()%></td>
                         <td class="plaintext">
                             <%=(operationResult.getResult() == OperationResultData.RESULT_OK)?"OK":"Error"%>
                         </td>

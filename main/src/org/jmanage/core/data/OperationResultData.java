@@ -25,24 +25,24 @@ public class OperationResultData implements java.io.Serializable {
     public static final int RESULT_OK = 0;
     public static final int RESULT_ERROR =1;
 
-    private Object output;
+    private String appName;
+    private String output;
     private int result = RESULT_OK;
     private String errorString;
 
-    /** default ctor */
-    public OperationResultData(){}
-
-    public OperationResultData(Object output, int result, String errorString){
-        this.setOutput(output);
-        this.setResult(result);
-        this.setErrorString(errorString);
+    public OperationResultData(String appName){
+        this.appName = appName;
     }
 
-    public Object getOutput() {
+    public String getApplicationName(){
+        return appName;
+    }
+
+    public String getOutput() {
         return output;
     }
 
-    public void setOutput(Object output) {
+    public void setOutput(String output) {
         this.output = output;
     }
 

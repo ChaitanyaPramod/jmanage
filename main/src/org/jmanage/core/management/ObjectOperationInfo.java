@@ -53,4 +53,12 @@ public class ObjectOperationInfo extends ObjectFeatureInfo {
     public ObjectParameterInfo[] getSignature() {
         return signature;
     }
+
+    public String[] getParameters(){
+        String[] parameters = new String[signature.length];
+        for(int i=0; i<signature.length; i++){
+            parameters[i] = signature[i].getType();
+        }
+        return parameters;
+    }
 }
