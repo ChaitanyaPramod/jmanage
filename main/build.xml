@@ -304,11 +304,15 @@
         <mkdir dir="${build.home}"/>
         <mkdir dir="${build.home}/WEB-INF"/>
         <mkdir dir="${build.home}/WEB-INF/classes"/>
-
+        <mkdir dir="${build.home}/config"/>
 
         <!-- Copy static content of this web application -->
         <copy todir="${build.home}">
             <fileset dir="${web.home}"/>
+        </copy>
+        <!-- Copy Config files -->
+        <copy todir="${build.home}/config">
+            <fileset dir="${basedir}/config"/>
         </copy>
 
         <!-- Copy external dependencies as required -->
