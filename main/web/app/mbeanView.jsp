@@ -112,7 +112,7 @@ To save the changes to the attribute values click on
 <jmhtml:form action="/app/executeOperation">
 <tr>
     <td class="<%=rowStyle%>"><%=operationInfo.getReturnType()%>
-    <a  alt="<%=operationInfo.getName()%>" href="JavaScript:showDescription('<%=MBeanUtils.jsEscape(operationInfo.getDescription())%>');"><%=operationInfo.getName()%></a>
+    <a href="JavaScript:showDescription('<%=MBeanUtils.jsEscape(operationInfo.getDescription())%>');"><%=operationInfo.getName()%></a>
     (
     <%
         ObjectParameterInfo[] params = operationInfo.getSignature();

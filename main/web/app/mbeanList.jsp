@@ -17,9 +17,6 @@
 </jmhtml:form>
 </td>
 </tr>
-<%-- TODO: /config/saveMBeanConfig has to be implemented
-<jmhtml:form action="/config/saveMBeanConfig" method="post">
---%>
 <%
     Map domainToObjectNameListMap = (Map)request.getAttribute("domainToObjectNameListMap");
     int row = 0;
@@ -43,7 +40,6 @@
 %>
             <tr>
             <td class="<%=rowStyle%>">
-                <input type="checkbox" name="mbeans" value="<%=domain + ":" + objectName%>"/>
                 <jmhtml:link action="/app/mbeanView"
                              paramId="objName"
                              paramName="objectName">
@@ -53,9 +49,3 @@
 <%      } // inner for
     } // outer for
 %>
-<tr>
-    <td>
-        <jmhtml:submit styleClass="Inside3d" value="Add to Application" />
-    </td>
-</tr>
-<%--</jmhtml:form> --%>
