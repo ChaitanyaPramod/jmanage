@@ -1,0 +1,95 @@
+<html>
+<head>
+<title>JManage</title>
+</head>
+<body>
+<h1>JManage</h1>
+<table width="800" height="700" border="0" cellspacing="10">
+<tr>
+<td align="left" width="100" valign="top">
+<table width="100%">
+<tr>
+    <td>
+        <a href="index.html">Home</a>
+    </td>
+</tr>
+<tr>
+    <td>
+        <nobr><a href="howtobuild.html">Build Guide</a></nobr>
+    </td>
+</tr>
+<tr>
+    <td>
+        <a href="http://sourceforge.net/cvs/?group_id=111374">CVS</a>
+    </td>
+</tr>
+<tr>
+    <td>
+        <a href="http://sourceforge.net/tracker/?func=add&group_id=111374&atid=659060">
+        <nobr>Submit a Feature Request</nobr></a>
+    </td>
+</tr>
+<tr>
+    <td>
+        <a href="http://sourceforge.net/projects/jmanage/">
+        <nobr>SF Project</nobr></a>
+    </td>
+</tr>
+</table>
+<br><br><br><br>
+<div valign="bottom">
+<a href="http://sourceforge.net">
+<img src="http://sourceforge.net/sflogo.php?group_id=111374&type=1" width="88"
+height="31" border="0" alt="SourceForge.net Logo"/></a>
+</div>
+</td>
+<td width="0.1" bgcolor="gray"></td>
+<td valign="top">
+
+<!-- page content : begin -->
+<h2>Building JManage</h2>
+<hr width="100%" align="left" />
+<br>
+<b>Preparing</b>
+<ul>
+<li>JManage requires JDK 1.4+ to build and run. You can download JDK
+<a href="http://java.sun.com/j2se/1.4.2/download.html" target="_blank">here</a>.
+<li>Ant 1.6.1 is used to build JManage. You can download ant
+<a href="http://ant.apache.org/bindownload.cgi" target="_blank">here</a>.
+<li>Get the JManage source tree from cvs.sourceforge.net. Windows developer can
+setup WinCVS as described in this
+<a href="http://sourceforge.net/docman/display_doc.php?docid=766&group_id=1"
+    target="_blank">document</a>.
+    <br>
+    &lt;jmanage-home&gt; in this document refers to
+    c:\cvsroot\main, where c:\cvsroot is you CVS root.
+<li>JManage in this initial development stage, only supports Weblogic 6.1 and
+requires Weblogic 6.1 to build.
+<br>After you install Weblogic 6.1, you must copy weblogic.jar
+to &lt;jmanage-home&gt;/ext folder (you will need to create this folder).
+<br>The weblogic.jar should be renamed to weblogic61.jar.
+<br>[This dependency will be removed before the first release.]
+</ul>
+<br>
+<b>Building</b>
+<ul>
+<li>Make sure that JAVA_HOME and ANT_HOME environment variables are properly
+set.
+<li>Run "ant" from &lt;jmanage-home&gt; directory to create the build.
+</ul>
+<br>
+<b>Running JManage</b>
+<ul>
+<li>Execute startup.cmd from &lt;jmanage-home&gt;. JManage runs on port 9090
+by default. JManage homepage:
+<br>http://localhost:9090/index.jsp
+<br>(We don't yet have a startup.sh for unix developers. Please add this script
+if you are developing on unix environment.)
+</ul>
+<!-- page content : end -->
+
+</td>
+</tr>
+</table>
+</body>
+</html>
