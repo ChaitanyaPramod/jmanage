@@ -252,10 +252,17 @@
         <copy todir="${dist.home}/docs">
             <fileset dir="${docs.home}"/>
         </copy>
-
+        <!-- Copy config -->
+        <copy todir="${dist.home}/config">
+            <fileset dir="${build.home}/config"/>
+        </copy>
+        <!-- Copy lib -->
+        <copy todir="${dist.home}/lib">
+            <fileset dir="${basedir}/lib"/>
+        </copy>
         <!-- Create application JAR file -->
         <jar jarfile="${dist.home}/jmanage-${app.version}.war"
-            basedir="${build.home}"/>
+            basedir="${build.home}/web"/>
 
         <!-- Copy additional files to ${dist.home} as necessary -->
 
@@ -280,7 +287,8 @@
         <mkdir dir="${dist.home}/docs/api"/>
         <javadoc sourcepath="${src.home}"
             destdir="${dist.home}/docs/api"
-            packagenames="*">
+            packagenames="*"
+            source="1.4">
             <classpath refid="compile.classpath"/>
         </javadoc>
 
