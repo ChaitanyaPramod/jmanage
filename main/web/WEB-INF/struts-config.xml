@@ -47,17 +47,16 @@
             path="/auth/showLogin"
             name="loginForm"
             scope="request"
-            type="org.apache.struts.actions.ForwardAction">
-            <forward name="success" path="/auth/login.jsp"/>
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/auth/login.jsp">
         </action>
         <action
             path="/auth/login"
             name="loginForm"
             scope="request"
-            type="org.jmanage.webui.action.auth.LoginAction">
+            type="org.jmanage.webui.actions.auth.LoginAction">
             <forward name="success" path="/index.jsp"/>
         </action>
-
         <action
             path="/config/applicationList"
             type="org.jmanage.webui.actions.config.ApplicationListAction">
