@@ -14,6 +14,10 @@
             type="org.jmanage.webui.forms.EmptyForm">
         </form-bean>
         <form-bean
+            name="loginForm"
+            type="org.jmanage.webui.forms.LoginForm">
+        </form-bean>
+        <form-bean
             name="mbeanQueryForm"
             type="org.jmanage.webui.forms.MBeanQueryForm">
         </form-bean>
@@ -38,6 +42,21 @@
     <!-- ======================================== Action Mapping Definitions -->
 
     <action-mappings>
+
+        <action
+            path="/auth/showLogin"
+            name="loginForm"
+            scope="request"
+            type="org.apache.struts.actions.ForwardAction">
+            <forward name="success" path="/auth/login.jsp"/>
+        </action>
+        <action
+            path="/auth/login"
+            name="loginForm"
+            scope="request"
+            type="org.jmanage.webui.action.auth.LoginAction">
+            <forward name="success" path="/index.jsp"/>
+        </action>
 
         <action
             path="/config/applicationList"
