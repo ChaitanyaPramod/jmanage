@@ -27,6 +27,7 @@ import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.util.Utils;
 import org.jmanage.webui.util.WebContext;
+import org.jmanage.webui.util.RequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -70,6 +71,9 @@ public class ExecuteMBeanOperationAction extends BaseAction {
                         operationName,
                         params, signature);
         request.setAttribute("operationResultData", resultData);
+
+        /*set current page for navigation*/
+        request.setAttribute(RequestAttributes.NAV_CURRENT_PAGE, "Execute Operation");
         return mapping.findForward(Forwards.SUCCESS);
     }
 }

@@ -19,6 +19,8 @@ import org.apache.struts.config.ModuleConfig;
 import org.apache.struts.action.*;
 import org.apache.struts.tiles.TilesRequestProcessor;
 import org.jmanage.core.util.Loggers;
+import org.jmanage.webui.util.WebContext;
+import org.jmanage.webui.util.Forwards;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -74,14 +76,18 @@ public class JManageRequestProcessor extends TilesRequestProcessor{
             throws IOException, ServletException{
 
         final String requestPath = mapping.getPath();
-        logger.info("Start Request Path:" + requestPath);
+        logger.fine("Start Request Path:" + requestPath);
 
         ActionForward resultForward = null;
         try{
-            /*  execute the action  */
-            resultForward = action.execute(mapping, form, request, response);
+            /* ensure user is logged-in (except for login page)*/
+            resultForward = ensureLoggedIn(request, response, mapping);
+            if(resultForward == null){
+                /*  execute the action  */
+                resultForward = action.execute(mapping, form, request, response);
+            }
         }catch (Exception e){
-            logger.log(Level.INFO, "Exception on Request: " + requestPath, e);
+            logger.log(Level.FINE, "Exception on Request: " + requestPath, e);
             /* process exception */
             resultForward =
                     processException(request, response, e, form, mapping);
@@ -92,13 +98,26 @@ public class JManageRequestProcessor extends TilesRequestProcessor{
                 /* the path attribute of resultForward was null */
                 resultForwardPath = "none";
             }
-            logger.info("End Request:" + requestPath +
+            logger.fine("End Request:" + requestPath +
                     " Forward:" + resultForwardPath);
         }
 
         /* handle debug mode*/
         resultForward = handleDebugMode(request, response, resultForward);
         return resultForward;
+    }
+
+    private ActionForward ensureLoggedIn(HttpServletRequest request,
+                                         HttpServletResponse response,
+                                         ActionMapping mapping) {
+        WebContext context = WebContext.get(request);
+        if(context.getSubject() == null){
+            String path = mapping.getPath();
+            if(!path.equals("/auth/showLogin") && !path.equals("/auth/login")){
+                return mapping.findForward(Forwards.LOGIN);
+            }
+        }
+        return null;
     }
 
     private ActionForward handleDebugMode(HttpServletRequest request,

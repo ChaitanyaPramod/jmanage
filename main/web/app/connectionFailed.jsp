@@ -22,14 +22,11 @@
             (ApplicationConfig)
             request.getAttribute(RequestAttributes.APPLICATION_CONFIG);
 %>
-<tr>
-<td class="headtext1">
+<p class="headtext1">
 Connection to the application failed
-</td>
-</tr>
-<tr>
-<td class="plaintext">
-<br>
+</p>
+<br/>
+<p class="plaintext">
 Please check the following:
 <ol>
 <li>Application is running.
@@ -38,5 +35,4 @@ Click
 <a href="/config/showEditApplication.do?<%=RequestParams.APPLICATION_ID+"="+applicationConfig.getApplicationId()%>" class="a1">here</a>
 to edit configuration.
 </ol>
-</td>
-</tr>
+</p>

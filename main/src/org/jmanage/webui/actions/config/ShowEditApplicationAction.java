@@ -79,6 +79,10 @@ public class ShowEditApplicationAction extends BaseAction {
             appForm.setPassword(ApplicationForm.FORM_PASSWORD);
 
         request.setAttribute(RequestAttributes.META_APP_CONFIG, metaAppConfig);
+
+        /*set current page for navigation*/
+        request.setAttribute(RequestAttributes.NAV_CURRENT_PAGE, "Edit Application");
+
         return mapping.findForward(Forwards.SUCCESS);
     }
 }

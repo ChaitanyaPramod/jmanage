@@ -63,7 +63,7 @@ public class AuthServiceImpl implements AuthService {
             user.setLockCount(0);
             user.setStatus(null);
             userManager.updateUser(user);
-            logger.logActivity(username, user.getName()+" logged in successfully");
+            logger.logActivity(username, "logged in successfully");
         }catch(LoginException lex){
             user = userManager.getUser(username);
             String errorCode = ErrorCodes.UNKNOWN_ERROR;

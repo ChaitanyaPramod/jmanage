@@ -187,17 +187,6 @@ public abstract class ApplicationConfig {
         return getApplicationId() + ";" + getName() + ";" + getURL();
     }
 
-    public boolean containsMBean(String objectName) {
-
-        for(Iterator it=mbeanList.iterator(); it.hasNext();){
-            MBeanConfig mbeanConfig = (MBeanConfig)it.next();
-            if(mbeanConfig.getObjectName().equals(objectName)){
-                return true;
-            }
-        }
-        return false;
-    }
-
     public MBeanConfig removeMBean(String objectName){
 
         for(Iterator it=mbeanList.iterator(); it.hasNext();){
@@ -232,5 +221,19 @@ public abstract class ApplicationConfig {
             }
         }
         return null;
+    }
+
+    public MBeanConfig findMBeanByObjectName(String objectName){
+        for(Iterator it=mbeanList.iterator(); it.hasNext();){
+            MBeanConfig mbeanConfig = (MBeanConfig)it.next();
+            if(mbeanConfig.getObjectName().equals(objectName)){
+                return mbeanConfig;
+            }
+        }
+        return null;
+    }
+
+    public boolean containsMBean(String objectName) {
+        return findMBeanByObjectName(objectName) != null;
     }
 }

@@ -14,6 +14,7 @@
   limitations under the License.
 --%>
 <!--    /config/cofigure.jsp  -->
+<%-- TODO: not used --%>
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 <%@ taglib uri="/WEB-INF/tags/jstl/c.tld" prefix="c"%>
 

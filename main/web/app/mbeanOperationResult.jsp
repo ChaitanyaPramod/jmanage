@@ -19,56 +19,38 @@
 <%@ taglib uri="/WEB-INF/tags/jstl/c.tld" prefix="c"%>
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 
-<tr>
-    <td>
-    <table border="0">
+<table class="table" border="0" cellspacing="0" cellpadding="5" width="900">
+    <tr>
+        <td class="headtext" width="150" nowrap><b>Object Name</b></td>
+        <td class="plaintext"><c:out value="${param.objName}" /></td>
+    </tr>
+    <tr>
+        <td class="headtext" width="150"><b>Operation Name</b></td>
+        <td class="plaintext"><c:out value="${param.operationName}" /></td>
+    </tr>
+</table>
+<br/>
+<table class="table" border="0" cellspacing="0" cellpadding="5" width="900">
+<tr class="tableHeader">
+    <td width="150" nowrap>Application</td>
+    <td width="50" nowrap>Status</td>
+    <td>Output</td>
+</tr>
+<%
+    OperationResultData[] resultData =
+            (OperationResultData[])request.getAttribute("operationResultData");
+    for(int i=0; i<resultData.length; i++){
+        OperationResultData operationResult = resultData[i];
+    %>
         <tr>
-            <td class="headtext" width="30%" nowrap><b>Object Name</b></td>
-            <td class="plaintext" width="70%"><c:out value="${param.objName}" /></td>
+            <td valign="top" class="plaintext"><%=operationResult.getApplicationName()%></td>
+            <td valign="top" class="plaintext">
+                <%=(operationResult.getResult() == OperationResultData.RESULT_OK)?"OK":"Error"%>
+            </td>
+            <td valign="top" class="plaintext"><%=operationResult.getOutput()%></td>
         </tr>
-        <tr>
-            <td class="headtext" width="30%" nowrap><b>Operation Name</b></td>
-            <td class="plaintext" width="70%"><c:out value="${param.operationName}" /></td>
-        </tr>
-    </table>
-    </td>
-</tr>
-<tr>
-    <td>&nbsp;</td>
-</tr>
-<tr>
-    <td class="headtext">Results</td>
-</tr>
-<tr>
-    <td>
-        <table border="0">
-            <tr>
-                <td class="headtext">Application</td>
-                <td class="headtext">Status</td>
-                <td class="headtext">Output</td>
-            </tr>
-            <%
-                OperationResultData[] resultData =
-                        (OperationResultData[])request.getAttribute("operationResultData");
-                for(int i=0; i<resultData.length; i++){
-                    OperationResultData operationResult = resultData[i];
-                %>
-                    <tr>
-                        <td class="plaintext"><%=operationResult.getApplicationName()%></td>
-                        <td class="plaintext">
-                            <%=(operationResult.getResult() == OperationResultData.RESULT_OK)?"OK":"Error"%>
-                        </td>
-                        <td class="plaintext"><%=operationResult.getOutput()%></td>
-                    </tr>
-                <%
-                }
-            %>
-        </table>
-    </td>
-</tr>
-<tr>
-    <td>&nbsp;</td>
-</tr>
-<tr>
-    <td class="plaintext"><jmhtml:link action="/app/mbeanView">Back</jmhtml:link></td>
-</tr>
+    <%
+    }
+%>
+</table>
+<p class="plaintext"><jmhtml:link action="/app/mbeanView">Back</jmhtml:link></p>

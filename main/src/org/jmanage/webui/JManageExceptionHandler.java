@@ -61,6 +61,7 @@ public class JManageExceptionHandler extends ExceptionHandler{
                             exception.getMessage()));
         }else if(exception instanceof ConnectionFailedException){
             //TODO: We need not handle this condition once all the code throwing this exception gets moved to service layer.
+            // TODO: this is not right. We have a special page for such exceptions -rk
             errors.add(ActionErrors.GLOBAL_ERROR,
                     new ActionError(ErrorCodes.CONNECTION_FAILED));
         }else{

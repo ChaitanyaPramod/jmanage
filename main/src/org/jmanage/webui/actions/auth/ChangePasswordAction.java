@@ -68,6 +68,7 @@ public class ChangePasswordAction extends BaseAction{
             return mapping.getInputForward();
         }
 
+        /* TODO: there is some odd behavior with this code - rk*/
         if(context.getUser().getName().equals(AuthConstants.USER_ADMIN)){
             /* re-encrypt the key */
             EncryptedKey encryptedKey = KeyManager.readKey(changePasswordForm.getOldPassword().toCharArray());

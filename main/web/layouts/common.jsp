@@ -13,18 +13,22 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 --%>
+<%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
+<%@ taglib uri="/WEB-INF/tags/struts/struts-tiles.tld" prefix="tiles" %>
+
 <html>
 <head>
-<title>jManage Home</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link href="/css/styles.css" rel="stylesheet" type="text/css" />
+    <title><tiles:getAsString name="title" /></title>
 </head>
-<frameset rows="48,*" cols="*" frameborder="NO" border="0" framespacing="0">
-	<frame src="/top.jsp" name="applications">
-	<frameset rows="*" cols="100, 680" framespacing="no" border="0">
-		<frame src="/config/applicationList.do" name="applications">
-		<frame src="/config/managedApplications.do" name="basefrm">
-	</frameset>
-</frameset>
-<noframes></noframes>
-<noframes>
-</noframes>
+<body leftmargin="20" topmargin="12" marginwidth="0" marginheight="0">
+<div width="800">
+<tiles:insert attribute="header" />
+<br/>
+<tiles:insert attribute="body.header" />
+<tiles:insert attribute="body.main" />
+<tiles:insert attribute="footer" />
+</div>
+</body>
 </html>

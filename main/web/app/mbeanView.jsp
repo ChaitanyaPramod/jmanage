@@ -47,19 +47,29 @@
     }
 -->
 </script>
-<tr><td><jmhtml:errors /></td></tr>
-<tr>
-    <td>
-    <table border="0">
-        <tr><td class="headtext" width="30%" nowrap><b>Object Name</b></td><td class="plaintext" width="70%"><c:out value="${param.objName}" /></td></tr>
-        <tr><td class="headtext" width="30%" nowrap><b>Class Name</b></td><td class="plaintext" width="70%"><c:out value="${requestScope.objInfo.className}" /></td></tr>
-        <tr><td class="headtext" width="30%" nowrap><b>Description</b></td><td class="plaintext" width="70%"><c:out value="${requestScope.objInfo.description}" /></td></tr>
-        <tr><td colspan="2" nowrap class="plaintext">
+<jmhtml:errors />
+<table class="table" border="0" cellspacing="0" cellpadding="5" width="900">
+    <tr>
+        <td class="headtext" width="100">Object Name</td>
+        <td class="plaintext"><c:out value="${param.objName}" /></td>
+    </tr>
+    <tr>
+        <td class="headtext" width="100">Class Name</td>
+        <td class="plaintext"><c:out value="${requestScope.objInfo.className}" /></td>
+    </tr>
+    <tr>
+        <td class="headtext" width="100">Description</td>
+        <td class="plaintext"><c:out value="${requestScope.objInfo.description}" /></td>
+    </tr>
+    <tr>
+        <td class="headtext" width="150" valign="top">Configured Name</td>
+        <td class="plaintext">
             <c:choose>
                 <c:when test="${requestScope.mbeanIncludedIn != null}">
                     <jmhtml:form action="/config/removeMBeanConfig">
                         <jmhtml:hidden property="objectName"/>
                         <jmhtml:hidden property="refreshApps" value="true"/>
+                        <c:out value="${requestScope.mbeanConfig.name}"/>&nbsp;
                         <a href="JavaScript:document.mbeanConfigForm.submit();" class="a1">
                             Remove from Application <c:if test="${requestScope.mbeanIncludedIn == 'cluster'}">Cluster</c:if></a>
                     </jmhtml:form>
@@ -80,46 +90,41 @@
                     <%}%>
                 </c:otherwise>
             </c:choose>
-        </td></tr>
-    </table>
-    </td>
-</tr>
-<tr><td>&nbsp;</td></tr>
+        </td>
+    </tr>
+</table>
+
 <%
     if(attributes.length > 0){
+        int columns = 3;
 %>
-<tr><td class="headtext" align="left"><b>Attributes</b>&nbsp;&nbsp;
-<jmhtml:link action="/app/mbeanView" styleClass="a1">Refresh</jmhtml:link>
-</td></tr>
-<tr>
-<td bgcolor="#E6EEF9" class="plaintext">
 <jmhtml:form action="/app/updateAttributes" method="post">
-<table border="0" cellspacing="5">
-<tr>
-    <td class="headtext"><b>Name</b></td>
+<table class="table" border="0" cellspacing="0" cellpadding="5">
+<tr class="tableHeader">
+    <td><b>Name</b></td>
 <%
     if(applicationConfig.isCluster()){
+        columns = 3 + (applicationConfig.getApplications().size() - 1);
         for(Iterator it=applicationConfig.getApplications().iterator(); it.hasNext();){
             ApplicationConfig childAppConfig = (ApplicationConfig)it.next();
 %>
-    <td class="headtext"><b><%=childAppConfig.getName()%></b></td>
+    <td><b><%=childAppConfig.getName()%></b></td>
 <%
         }
     }else{
 %>
-    <td class="headtext"><b><%=applicationConfig.getName()%></b></td>
+    <td><b><%=applicationConfig.getName()%></b></td>
 <%
     }
 %>
-    <td class="headtext"><b>Type</b></td>
+    <td><b>Type</b></td>
 </tr>
 <%
     for(int index=0; index < attributes.length; index++){
-        String rowStyle = index % 2 != 0 ? "oddrow" : "evenrow";
         ObjectAttributeInfo attributeInfo = attributes[index];
 %>
 <tr>
-<td class="<%=rowStyle%>">
+<td class="plaintext">
     <a href="JavaScript:showDescription('<%=MBeanUtils.jsEscape(attributeInfo.getDescription())%>');"><%=attributeInfo.getName()%></a>
 </td>
 <%
@@ -135,7 +140,7 @@
             ApplicationConfig childAppConfig = (ApplicationConfig)it.next();
             List attributeList = (List)appConfigToAttrListMap.get(childAppConfig);
     %>
-<td class="<%=rowStyle%>">
+<td class="plaintext">
         <%if(attributeList != null){%>
             <%
                 String attrValue =
@@ -154,42 +159,43 @@
 <%
 }
 %>
-
-<td class="<%=rowStyle%>">
+<td class="plaintext">
     <%=attributeInfo.getType()%>
 </td>
 </tr>
-<%  }%>
-</table>
+<%  }// for ends%>
 <%if(user.isAdmin()){%>
-To save the changes to the attribute values click on
-<jmhtml:submit value="Save" styleClass="Inside3d" />
-<%}%>
-</jmhtml:form>
-</td>
+<tr>
+    <td class="plaintext" colspan="<%=columns%>">
+        To save the changes to the attribute values click on
+        <jmhtml:submit value="Save" styleClass="Inside3d" />
+    </td>
 </tr>
+<%}%>
+</table>
+</jmhtml:form>
 <%
     }
 %>
 <%if(operations.length > 0 && user.isAdmin()){%>
-<tr><td class="headtext" align="left"><b>Operations</b></td></tr>
-<tr>
-<td bgcolor="#E6EEF9" class="plaintext">
-<table width="100%">
+<br/>
+<table class="table" border="0" cellspacing="0" cellpadding="5" width="900">
+<tr class="tableHeader">
+    <td colspan="3">Operations</td>
+</tr>
 <%
     int tabIndex=1;
     for(int index=0; index < operations.length; index++){
-        String rowStyle = index % 2 != 0 ? "oddrow" : "evenrow";
         ObjectOperationInfo operationInfo = operations[index];
         ObjectParameterInfo[] params = operationInfo.getSignature();
 %>
 <jmhtml:form action="/app/executeOperation">
 <tr>
-    <td class="<%=rowStyle%>"><%=operationInfo.getReturnType()%>
+    <td class="plaintext"><%=operationInfo.getReturnType()%>
     <a href="JavaScript:showDescription('<%=MBeanUtils.jsEscape(operationInfo.getDescription())%>');"><%=operationInfo.getName()%></a>
     <input type="hidden" name="paramCount" value="<%=params.length%>"/>
     </td>
-    <td class="<%=rowStyle%>">
+    <td class="plaintext">
     <%if(params.length > 0){
         int paramIndex = 0;
     %>
@@ -200,7 +206,7 @@ To save the changes to the attribute values click on
         &nbsp;
     <%}%>
     </td>
-    <td class="<%=rowStyle%>">
+    <td class="plaintext">
         <input type="hidden" name="operationName" value="<%=operationInfo.getName()%>"/>
         <input tabindex="<%=(tabIndex++) + params.length%>" type="submit" value="Execute" class="Inside3d"/>&nbsp;
         [Impact: <%=MBeanUtils.getImpact(operationInfo.getImpact())%>]
@@ -210,39 +216,35 @@ To save the changes to the attribute values click on
         for(int paramIndex = 1; paramIndex < params.length; paramIndex ++){
     %>
 <tr>
-    <td class="<%=rowStyle%>">&nbsp;</td>
-    <td class="<%=rowStyle%>">
+    <td class="plaintext">&nbsp;</td>
+    <td class="plaintext">
         <input type="hidden" name="<%=operationInfo.getName()%><%=paramIndex%>_type" value="<%=params[paramIndex].getType()%>"/>
         <input tabindex="<%=tabIndex++%>" type="text" name="<%=operationInfo.getName()%><%=paramIndex%>_value" value=""/>
         <%=params[paramIndex].getType()%>
     </td>
-    <td class="<%=rowStyle%>">&nbsp;</td>
+    <td class="plaintext">&nbsp;</td>
 </tr>
     <%  } %>
 
 </jmhtml:form>
 <%  }%>
 </table>
-</td>
-</tr>
 <%}%>
 
 <%if(notifications.length > 0 && user.isAdmin()){%>
-<tr><td class="headtext" align="left"><b>Notifications</b></td></tr>
-<tr>
-<td bgcolor="#E6EEF9" class="plaintext">
-<table>
+<br/>
+<table class="table" border="0" cellspacing="0" cellpadding="5" width="900">
+    <tr class="tableHeader">
+        <td colspan=2">Notifications</td>
+    </tr>
 <%
     for(int index=0; index < notifications.length; index++){
-        String rowStyle = index % 2 != 0 ? "oddrow" : "evenrow";
         ObjectNotificationInfo notificationInfo = notifications[index];
 %>
 <tr>
-    <td class="<%=rowStyle%>"><%=notificationInfo.getName()%></td>
-    <td class="<%=rowStyle%>"><%=notificationInfo.getDescription()%></td>
+    <td class="plaintext"><%=notificationInfo.getName()%></td>
+    <td class="plaintext"><%=notificationInfo.getDescription()%></td>
 </tr>
 <%  }%>
 </table>
-</td>
-</tr>
 <%}%>

@@ -37,7 +37,7 @@ public class KeyManager {
 
         File file = new File(KEY_FILE_PATH);
         if(file.exists()){
-            file.delete();
+            file.renameTo(new File(KEY_FILE_PATH + ".bak"));
         }
         file.createNewFile();
 

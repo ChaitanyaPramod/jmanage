@@ -62,7 +62,7 @@ public class EditUserAction extends BaseAction{
         UserManager.getInstance().updateUser(user);
         UserActivityLogger.getInstance().logActivity(
                 context.getUser().getUsername(),
-                "Edited user "+user.getName()+"/"+user.getPassword());
+                "Edited user "+user.getName());
         return mapping.findForward(Forwards.SUCCESS);
     }
 
