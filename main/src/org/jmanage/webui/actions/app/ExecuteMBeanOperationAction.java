@@ -3,6 +3,7 @@ package org.jmanage.webui.actions.app;
 import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
+import org.jmanage.webui.util.Utils;
 import org.jmanage.core.util.CoreUtils;
 import org.jmanage.core.util.UserActivityLogger;
 import org.jmanage.core.management.ServerConnection;
@@ -46,7 +47,7 @@ public class ExecuteMBeanOperationAction extends BaseAction {
                     request.getParameter(operationName + paramIndex + "_type");
             String value =
                     request.getParameter(operationName + paramIndex + "_value");
-            params[paramIndex] = CoreUtils.getTypedValue(value, type);
+            params[paramIndex] = Utils.getTypedValue(value, type);
             signature[paramIndex] = type;
         }
 

@@ -15,6 +15,9 @@ import org.jmanage.core.management.ObjectOperationInfo;
 
 import java.util.List;
 import java.util.Iterator;
+import java.util.Date;
+import java.math.BigInteger;
+import java.math.BigDecimal;
 
 /**
  * Contains some mbean utility methods, which are used in the web layer
@@ -48,7 +51,7 @@ public class MBeanUtils {
             if(attribute.getName().equals(attrName)){
                 //TODO: handle different return types
                 Object objValue = attribute.getValue();
-                if(isPrimitive(objValue.getClass())){
+                if(isKnownDataType(objValue.getClass())){
                     value = objValue.toString();
                 }else{
                     value = "Object";
@@ -59,7 +62,7 @@ public class MBeanUtils {
         return value;
     }
 
-    public static boolean isPrimitive(Class clazz){
+    public static boolean isKnownDataType(Class clazz){
         if(clazz.isPrimitive()
             || clazz.isAssignableFrom(Boolean.class)
             || clazz.isAssignableFrom(Character.class)
@@ -70,7 +73,10 @@ public class MBeanUtils {
             || clazz.isAssignableFrom(Float.class)
             || clazz.isAssignableFrom(Double.class)
             || clazz.isAssignableFrom(Void.class)
-            || clazz.isAssignableFrom(String.class)){
+            || clazz.isAssignableFrom(String.class)
+            || clazz.isAssignableFrom(BigInteger.class)
+            || clazz.isAssignableFrom(BigDecimal.class)
+            || clazz.isAssignableFrom(Date.class)){
             return true;
         }
         return false;

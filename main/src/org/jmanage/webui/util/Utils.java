@@ -1,5 +1,7 @@
 package org.jmanage.webui.util;
 
+import org.apache.commons.beanutils.ConvertUtils;
+
 import java.util.StringTokenizer;
 
 /**
@@ -50,4 +52,34 @@ public class Utils {
         }
         return array;
     }
+
+    public static Object getTypedValue(String value, String type){
+
+
+        if(type.equals("int")){
+            type = "java.lang.Integer";
+        }else if(type.equals("long")){
+            type = "java.lang.Long";
+        }else if(type.equals("short")){
+            type = "java.lang.Short";
+        }else if(type.equals("float")){
+            type = "java.lang.Float";
+        }else if(type.equals("double")){
+            type = "java.lang.Double";
+        }else if(type.equals("char")){
+            type = "java.lang.Character";
+        }else if(type.equals("boolean")){
+            type = "java.lang.Boolean";
+        }else if(type.equals("byte")){
+            type = "java.lang.Byte";
+        }
+
+        try {
+            return ConvertUtils.convert(value, Class.forName(type));
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
 }

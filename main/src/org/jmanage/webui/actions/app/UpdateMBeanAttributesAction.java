@@ -4,6 +4,7 @@ import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.util.RequestParams;
+import org.jmanage.webui.util.Utils;
 import org.jmanage.core.util.CoreUtils;
 import org.jmanage.core.util.UserActivityLogger;
 import org.jmanage.core.management.ObjectName;
@@ -59,7 +60,7 @@ public class UpdateMBeanAttributesAction extends BaseAction {
                 String attrType = tokenizer.nextToken();
                 String attrValue = request.getParameter(param);
                 ObjectAttribute attribute = new ObjectAttribute(attrName,
-                        CoreUtils.getTypedValue(attrValue, attrType));
+                        Utils.getTypedValue(attrValue, attrType));
                 attributeList.add(attribute);
             }
         }

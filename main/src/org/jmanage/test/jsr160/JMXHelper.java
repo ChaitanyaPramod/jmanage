@@ -1,9 +1,7 @@
 package org.jmanage.test.jsr160;
 
 import org.jmanage.core.util.Loggers;
-import org.jmanage.test.mbeans.Configuration;
-import org.jmanage.test.mbeans.ObjectNames;
-import org.jmanage.test.mbeans.Calculator;
+import org.jmanage.test.mbeans.*;
 
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
@@ -54,9 +52,16 @@ public class JMXHelper {
         registerMBean(new Configuration(), ObjectNames.CONFIGURATION);
         /* Configuration */
         registerMBean(new Calculator(), ObjectNames.CALCULATOR);
+        /* Configuration */
+        registerMBean(new PrimitiveDataTypeTest(), ObjectNames.PRIMITIVEDATATYPETEST);
+        /* Configuration */
+        registerMBean(new DataTypeTest(), ObjectNames.DATATYPETEST);
+        /* Configuration */
+        registerMBean(new BigDataTypeTest(), ObjectNames.BIGDATATYPETEST);
         /* start RMI connector */
         startJMXConnectorServer();
     }
+
 
     public static void registerMBean(Object instance, String objName) {
         try {
