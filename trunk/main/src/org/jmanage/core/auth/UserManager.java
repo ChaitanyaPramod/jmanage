@@ -5,6 +5,7 @@ import org.jdom.JDOMException;
 import org.jdom.Element;
 import org.jdom.output.XMLOutputter;
 import org.jdom.input.SAXBuilder;
+import org.jmanage.core.crypto.Crypto;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -76,6 +77,8 @@ public class UserManager implements AuthConstants{
                 Element role = (Element)roleIterator.next();
                 roleNames.add(role.getTextTrim());
             }
+            /* no need to hash password, as it is stored in hash form in
+                the database */
             userData.put(user.getAttributeValue(NAME),
                     new User(user.getAttributeValue(NAME),
                             user.getAttributeValue(PASSWORD),
@@ -87,15 +90,18 @@ public class UserManager implements AuthConstants{
     /**
      * Return instance of User with specified username and passowrd if exists.
      *
+     * TODO: we should probably be more specific with the method name.
+     * e.g.: verifyUsernamePassword
+     *
      * @param username
      * @param password
      * @return
      */
-    public User getUser(String username, String password){
-        User user = null;
-        if(users.containsKey(username)){
-            user = (User)users.get(username);
-            user = password.equals(user.getPassword()) ? user : null;
+    public User getUser(String username, char[] password){
+        User user = (User)users.get(username);
+        if(user != null){
+            final String hashedPassword = Crypto.hash(password);
+            user = hashedPassword .equals(user.getPassword()) ? user : null;
         }
         return user;
     }

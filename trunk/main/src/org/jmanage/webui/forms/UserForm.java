@@ -5,6 +5,9 @@ package org.jmanage.webui.forms;
  * @author Shashank
  */
 public class UserForm extends BaseForm{
+
+    public static final String FORM_PASSWORD = "$$$$$$$$";
+
     private String username;
     private String password;
     private String role;

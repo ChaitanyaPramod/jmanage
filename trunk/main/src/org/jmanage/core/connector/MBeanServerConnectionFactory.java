@@ -1,6 +1,7 @@
 package org.jmanage.core.connector;
 
 import org.jmanage.core.config.ApplicationConfig;
+import org.jmanage.core.util.Tracer;
 
 import javax.management.MBeanServer;
 import java.util.Map;

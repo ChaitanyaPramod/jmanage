@@ -249,11 +249,10 @@
       * "compile" so that the entire web application (including external
         dependencies) will have been assembled
 
-      * "javadoc" so that the application Javadocs will have been created
-
+      add javadoc target in depends, if javadoc needs to be built
     -->
 
-    <target name="dist" depends="compile,javadoc"
+    <target name="dist" depends="compile"
         description="Create binary distribution">
 
         <!-- Copy documentation subdirectories -->
@@ -269,9 +268,27 @@
         <copy todir="${dist.home}/lib">
             <fileset dir="${basedir}/lib"/>
         </copy>
-        <!-- Create application JAR file -->
-        <jar jarfile="${dist.home}/jmanage-${app.version}.war"
-            basedir="${build.home}/web"/>
+        <!-- Copy ext -->
+        <copy todir="${dist.home}/ext">
+            <fileset dir="${basedir}/ext"/>
+        </copy>
+        <!-- Copy classes -->
+        <copy todir="${dist.home}/classes">
+            <fileset dir="${build.home}/classes"/>
+        </copy>
+        <!-- copy web -->
+        <copy todir="${dist.home}/web">
+            <fileset dir="${build.home}/web"/>
+        </copy>
+        <!-- copy scripts -->
+        <copy todir="${dist.home}">
+            <fileset file="${basedir}/scripts/*.sh"/>
+            <fileset file="${basedir}/scripts/*.cmd"/>
+        </copy>
+        <!-- copy src directory -->
+        <copy todir="${dist.home}/src">
+            <fileset dir="${basedir}/src"/>
+        </copy>
 
         <!-- Copy additional files to ${dist.home} as necessary -->
 

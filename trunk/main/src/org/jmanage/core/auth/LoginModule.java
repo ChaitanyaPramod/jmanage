@@ -76,12 +76,11 @@ public class LoginModule implements javax.security.auth.spi.LoginModule {
         callbacks[1] = new PasswordCallback("password", false);
 
         String username = null;
-        String password = null;
+        char[] password = null;
         try {
             callbackHandler.handle(callbacks);
             username = ((NameCallback)callbacks[0]).getName();
-            char[] pwd = ((PasswordCallback)callbacks[1]).getPassword();
-            password = new String(pwd);
+            password = ((PasswordCallback)callbacks[1]).getPassword();
         } catch (java.io.IOException ioe) {
             throw new LoginException(ioe.toString());
         } catch (UnsupportedCallbackException ce) {

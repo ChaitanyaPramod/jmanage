@@ -3,6 +3,8 @@ package org.jmanage.core.crypto;
 import org.jmanage.core.util.Tracer;
 
 import javax.crypto.*;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * Crypto acts as a facade layer for the crypto classes.
@@ -14,8 +16,6 @@ public class Crypto {
 
     private static Cipher encrypter;
     private static Cipher decrypter;
-
-    private static Object obj = new Object();
 
     public static void init(char[] password){
         EncryptedKey encryptedKey = KeyManager.readKey(password);
@@ -53,6 +53,26 @@ public class Crypto {
         return new String(plaintext);
     }
 
+    /**
+     * hash method can be used without calling init() method on Crypto.
+     *
+     * @param plaintext
+     * @return
+     */
+    public static String hash(String plaintext){
+        return hash(plaintext.toCharArray());
+    }
+
+    public static String hash(char[] plaintext){
+        try {
+            MessageDigest sha = MessageDigest.getInstance("SHA-1");
+            byte[] hash = sha.digest(charArrayToByteArray(plaintext));
+            return byteArrayToHexString(hash);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private static Cipher getCipher(int mode, SecretKey secretKey){
 
         try {
@@ -62,6 +82,14 @@ public class Crypto {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private static byte[] charArrayToByteArray(char[] array){
+        final byte[] output = new byte[array.length];
+        for(int i=0; i<output.length; i++){
+            output[i] = (byte) array[i];
+        }
+        return output;
     }
 
     private static String byteArrayToHexString(byte[] ba)

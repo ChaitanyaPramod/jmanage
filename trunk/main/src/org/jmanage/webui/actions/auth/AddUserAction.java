@@ -6,6 +6,7 @@ import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.forms.UserForm;
 import org.jmanage.core.auth.UserManager;
 import org.jmanage.core.auth.User;
+import org.jmanage.core.crypto.Crypto;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
@@ -53,7 +54,9 @@ public class AddUserAction extends BaseAction{
         UserForm userForm = (UserForm)form;
         List roles = new ArrayList(1);
         roles.add(userForm.getRole());
-        User user = new User(userForm.getUsername(), userForm.getPassword(), roles);
+        User user = new User(userForm.getUsername(),
+                Crypto.hash(userForm.getPassword()),
+                roles);
         return user;
     }
 }

@@ -44,7 +44,7 @@ public class ShowEditApplicationAction extends BaseAction {
         appForm.setHost(config.getHost());
         appForm.setPort(String.valueOf(config.getPort()));
         appForm.setUsername(config.getUsername());
-        appForm.setPassword(config.getPassword());
+        appForm.setPassword(ApplicationForm.FORM_PASSWORD);
         return mapping.findForward(Forwards.SUCCESS);
     }
 

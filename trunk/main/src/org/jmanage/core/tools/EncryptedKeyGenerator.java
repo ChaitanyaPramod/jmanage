@@ -1,6 +1,13 @@
-package org.jmanage.core.crypto;
+package org.jmanage.core.tools;
 
 import org.jmanage.core.util.CoreUtils;
+import org.jmanage.core.auth.UserManager;
+import org.jmanage.core.auth.User;
+import org.jmanage.core.auth.AuthConstants;
+import org.jmanage.core.crypto.EncryptedKey;
+import org.jmanage.core.crypto.KeyManager;
+import org.jmanage.core.crypto.Crypto;
+import org.jmanage.core.crypto.PasswordField;
 
 import javax.crypto.SecretKey;
 import javax.crypto.KeyGenerator;
@@ -9,6 +16,8 @@ import java.io.FileOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Generates a symmetric key and encrypts it based on the given password.
@@ -17,6 +26,8 @@ import java.util.Arrays;
  * @author	Rakesh Kalra
  */
 public class EncryptedKeyGenerator {
+
+
 
     public static void main(String[] args)
         throws Exception{
@@ -31,10 +42,17 @@ public class EncryptedKeyGenerator {
         }
 
         EncryptedKey encryptedKey = new EncryptedKey(password);
-        /* clear the password, for security reasons */
-        Arrays.fill(password, ' ');
         /* write the encryptedKey to the key file */
         KeyManager.writeKey(encryptedKey);
+
+        List roles = new ArrayList(1);
+        roles.add(AuthConstants.ROLE_OPS);
+        UserManager.getInstance().addUser(new User(AuthConstants.USER_ADMIN,
+                Crypto.hash(password),
+                roles));
+
+        /* clear the password, for security reasons */
+        Arrays.fill(password, ' ');
 
         System.out.println();
         System.out.println("Encrypted key written to "
