@@ -143,6 +143,11 @@
         </tr>
         <tr>
           <td height="20" bordercolor="#E6EEF9" bgcolor="#E6EEF9">
+            <jmhtml:link action="/config/showConfigure" target="basefrm" styleClass="a">Configure</jmhtml:link>
+          </td>
+        </tr>
+        <tr>
+          <td height="20" bordercolor="#E6EEF9" bgcolor="#E6EEF9">
             <jmhtml:link href="/auth/logout.do" target="_parent" styleClass="a">Logout</jmhtml:link>
           </td>
         </tr>

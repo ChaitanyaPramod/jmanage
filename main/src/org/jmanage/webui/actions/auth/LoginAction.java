@@ -24,7 +24,7 @@ import javax.security.auth.login.LoginException;
  */
 public class LoginAction extends BaseAction {
     final JManageProperties jManageProperties = JManageProperties.getInstance();
-    private final int MAX_LOGIN_ATTEMPTS_ALLOWED =
+    private int MAX_LOGIN_ATTEMPTS_ALLOWED =
             Integer.parseInt(jManageProperties.getProperty(JManageProperties.maxLoginAttempts));
 
     /**
