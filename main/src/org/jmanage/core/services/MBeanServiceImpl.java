@@ -15,27 +15,31 @@
  */
 package org.jmanage.core.services;
 
-import org.jmanage.core.management.ServerConnection;
-import org.jmanage.core.management.ObjectName;
-import org.jmanage.core.management.ObjectInfo;
+import org.jmanage.core.management.*;
 import org.jmanage.core.data.MBeanData;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.ApplicationConfigManager;
 import org.jmanage.core.config.MBeanConfig;
+import org.jmanage.core.util.UserActivityLogger;
+import org.jmanage.core.util.ErrorCodes;
+import org.jmanage.core.util.Loggers;
+import org.jmanage.webui.util.Utils;
 
-import java.util.ArrayList;
-import java.util.Set;
-import java.util.Iterator;
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * date:  Feb 21, 2005
- * @author	Rakesh Kalra
+ * @author	Rakesh Kalra, Shashank Bellary
  */
 public class MBeanServiceImpl implements MBeanService {
 
     private static final String DEFAULT_FILTER = "*:*";
+    private static final Logger logger =
+            Loggers.getLogger(MBeanServiceImpl.class);
 
     public List getMBeans(ServiceContext context,
                           String applicationName,
@@ -94,5 +98,110 @@ public class MBeanServiceImpl implements MBeanService {
             mbeanName = mbeanConfig.getObjectName();
         }
         return mbeanName;
+    }
+
+    /**
+     * Updates MBean attributes at a stand alone application level or at a
+     * cluster level.
+     *
+     * @param context
+     * @param request
+     * @param objName
+     * @param appName
+     * @throws ServiceException
+     */
+    public void updateAttributes(ServiceContext context,
+                                 HttpServletRequest request,
+                                 String objName,
+                                 String appName)
+            throws ServiceException{
+        ApplicationConfig appConfig =
+                ApplicationConfigManager.getApplicationConfigByName(appName);
+        ObjectName objectName = new ObjectName(objName);
+
+        List applications = null;
+        if(appConfig.isCluster()){
+            applications = appConfig.getApplications();
+        }else{
+            applications = new ArrayList(1);
+            applications.add(appConfig);
+        }
+        StringBuffer erroneousApps = new StringBuffer("");
+        for(Iterator it=applications.iterator(); it.hasNext(); ){
+            final ApplicationConfig childAppConfig =
+                        (ApplicationConfig)it.next();
+            try{
+                final ServerConnection serverConnection =
+                        ServerConnector.getServerConnection(childAppConfig);
+                List attributeList = buildAttributeList(request,
+                        childAppConfig.getApplicationId());
+                serverConnection.setAttributes(objectName, attributeList);
+                String logString = getLogString(attributeList);
+                UserActivityLogger.getInstance().logActivity(
+                        context.getUser().getUsername(),
+                        "Updated the attributes of application:" +
+                        childAppConfig.getName() + ", object name:" +
+                        objectName.getCanonicalName() +
+                        logString);
+            }catch(ConnectionFailedException e){
+                logger.log(Level.FINE, "Error connecting to :" +
+                        childAppConfig.getName(), e);
+                erroneousApps.append(childAppConfig.getName());
+                erroneousApps.append(",");
+            }
+        }
+        if(erroneousApps.toString().endsWith(",")){
+            throw new ServiceException(ErrorCodes.ERRONEOUS_APPS,
+                    erroneousApps.substring(0, erroneousApps.length() - 1));
+        }
+    }
+
+    /**
+     * request parameter is of the format:
+     * attr+<applicationId>+<attrName>+<attrType>
+     *
+     */
+    private List buildAttributeList(HttpServletRequest request,
+                                    String applicationId){
+
+        Enumeration enum = request.getParameterNames();
+        List attributeList = new LinkedList();
+        while(enum.hasMoreElements()){
+            String param = (String)enum.nextElement();
+            if(param.startsWith("attr+")){
+                StringTokenizer tokenizer = new StringTokenizer(param, "+");
+                if(tokenizer.countTokens() < 4){
+                    throw new RuntimeException("Invalid param name: " + param);
+                }
+                tokenizer.nextToken(); // equals to "attr"
+                if(applicationId.equals(tokenizer.nextToken())){ // applicationId
+                    String attrName = tokenizer.nextToken();
+                    String attrType = tokenizer.nextToken();
+                    String attrValue = request.getParameter(param);
+                    ObjectAttribute attribute = new ObjectAttribute(attrName,
+                            Utils.getTypedValue(attrValue, attrType));
+                    attributeList.add(attribute);
+                }
+            }
+        }
+        return attributeList;
+    }
+
+    /**
+     *
+     * @param attributes
+     * @return
+     */
+    private String getLogString(List attributes){
+        StringBuffer logString = new StringBuffer("");
+        for(Iterator iterator = attributes.iterator(); iterator.hasNext(); ){
+            ObjectAttribute attribute = (ObjectAttribute)iterator.next();
+            logString.append(" [");
+            logString.append(attribute.getName());
+            logString.append("=");
+            logString.append(attribute.getValue());
+            logString.append("]");
+        }
+        return logString.toString();
     }
 }

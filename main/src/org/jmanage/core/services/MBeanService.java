@@ -17,12 +17,13 @@ package org.jmanage.core.services;
 
 import org.jmanage.core.management.ObjectInfo;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
  *
  * date:  Feb 21, 2005
- * @author	Rakesh Kalra
+ * @author	Rakesh Kalra, Shashank Bellary
  */
 public interface MBeanService {
 
@@ -52,5 +53,22 @@ public interface MBeanService {
                               String appName,
                               String mbeanName,
                               String[] attributes)
+            throws ServiceException;
+
+
+    /**
+     * Updates MBean attributes at a stand alone application level or at a
+     * cluster level.
+     *
+     * @param context
+     * @param request
+     * @param objName
+     * @param appName
+     * @throws ServiceException
+     */
+    public void updateAttributes(ServiceContext context,
+                                 HttpServletRequest request,
+                                 String objName,
+                                 String appName)
             throws ServiceException;
 }

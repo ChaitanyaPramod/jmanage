@@ -47,7 +47,7 @@
     }
 -->
 </script>
-
+<tr><td><jmhtml:errors /></td></tr>
 <tr>
     <td>
     <table border="0">

@@ -56,9 +56,9 @@
 
     <global-exceptions>
         <exception
-            type="org.jmanage.core.management.ConnectionFailedException"
+            handler="org.jmanage.webui.JManageExceptionHandler"
             key="ignore"
-            path="app.connectionFailed" />
+            type="java.lang.Exception"/>
 
     </global-exceptions>
 
@@ -67,6 +67,7 @@
     <global-forwards>
         <forward name="unAuthorized" path="/auth/unauthorized.jsp"/>
         <forward name="login" path="/auth/loginRedirect.jsp"/>
+        <forward name="failure" path="/error.jsp"/>
     </global-forwards>
 
     <!-- ======================================== Action Mapping Definitions -->
@@ -233,6 +234,7 @@
             roles="ops"
             type="org.jmanage.webui.actions.app.UpdateMBeanAttributesAction">
             <forward name="success" path="/app/mbeanView.do"/>
+            <forward name="failure" path="/app/mbeanView.do"/>
         </action>
         <action
             path="/app/executeOperation"
