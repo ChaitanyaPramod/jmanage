@@ -12,7 +12,8 @@ public interface ConfigConstants {
     /*  Default config file to use  */
     public String DEFAULT_CONFIG_FILE_NAME = CoreUtils.getConfigDir()
             + "/config.xml";
-
+    public String JMANAGE_PROPERTY_FILE = CoreUtils.getConfigDir() +
+            "/jmanage.properties";
     public String APPLICATION_CONFIG = "application-config";
     public String APPLICATIONS = "applications";
     public String APPLICATION_CLUSTER = "application-cluster";
