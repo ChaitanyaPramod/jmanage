@@ -4,18 +4,15 @@ import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.forms.LoginForm;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionForm;
+import org.jmanage.core.auth.LoginCallbackHandler;
+import org.jmanage.core.auth.AuthConstants;
+import org.apache.struts.action.*;
+import org.apache.struts.Globals;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.security.auth.callback.UnsupportedCallbackException;
-import javax.security.auth.callback.NameCallback;
-import javax.security.auth.callback.Callback;
-import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.login.LoginContext;
-import java.io.IOException;
+import javax.security.auth.login.LoginException;
 
 /**
  *
@@ -24,6 +21,16 @@ import java.io.IOException;
  */
 public class LoginAction extends BaseAction {
 
+    /**
+     *
+     * @param context
+     * @param mapping
+     * @param actionForm
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward execute(WebContext context,
                                  ActionMapping mapping,
                                  ActionForm actionForm,
@@ -33,33 +40,25 @@ public class LoginAction extends BaseAction {
 
         LoginForm loginForm = (LoginForm) actionForm;
         LoginCallbackHandler callbackHandler = new LoginCallbackHandler();
-        callbackHandler.username = loginForm.getUsername();
-        callbackHandler.password = loginForm.getPassword();
+        callbackHandler.setUsername(loginForm.getUsername());
+        callbackHandler.setPassword(loginForm.getPassword());
 
-        LoginContext ctx =
-                new LoginContext("JManageAuth", callbackHandler);
-        ctx.login();
-
+        System.setProperty(AuthConstants.AUTH_CONFIG_SYS_PROPERTY,
+                AuthConstants.AUTH_CONFIG_FILE_NAME);
+        LoginContext ctx = new LoginContext(AuthConstants.AUTH_CONFIG_INDEX,
+                callbackHandler);
+        try{
+            ctx.login();
+        }catch(LoginException lex){
+            ActionErrors errors = new ActionErrors();
+            /* set error message */
+            errors.add(ActionErrors.GLOBAL_ERROR,
+                    new ActionError("invalid.login"));
+            request.setAttribute(Globals.ERROR_KEY, errors);
+            return mapping.getInputForward();
+        }
+        /*  Need LoginContext for logout at a later stage   */
+        context.setLoginContext(ctx);
         return mapping.findForward(Forwards.SUCCESS);
     }
-
-
-    private class LoginCallbackHandler implements CallbackHandler {
-
-        private String username;
-        private String password;
-
-        public void handle(Callback[] callbacks)
-                throws IOException, UnsupportedCallbackException {
-            for (int i = 0; i < callbacks.length; i++) {
-                if (callbacks[i] instanceof NameCallback) {
-                    NameCallback nc = (NameCallback) callbacks[0];
-                    //nc.setName(name);
-                } else {
-                    throw(new UnsupportedCallbackException(callbacks[i], "Callback handler not support"));
-                }
-            }
-        }
-    }
-
 }

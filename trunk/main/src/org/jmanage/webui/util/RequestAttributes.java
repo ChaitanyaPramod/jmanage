@@ -11,4 +11,5 @@ public interface RequestAttributes {
     public static final String APPLICATIONS = "applications";
 
     public static final String WEB_CONTEXT = "webContext";
+    public static final String LOGIN_CONTEXT = "loginContext";
 }

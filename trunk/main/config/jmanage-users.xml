@@ -1,0 +1,9 @@
+<jmanage-users>
+    <user name="shashank" password="letmein">
+        <role>ops</role>
+        <role>dev</role>
+    </user>
+    <user name="chetan" password="letmein">
+        <role>dev</role>
+    </user>
+</jmanage-users>

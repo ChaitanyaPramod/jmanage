@@ -7,6 +7,8 @@
                  org.jmanage.core.config.MBeanConfig,
                  java.net.URLEncoder,
                  java.util.List"%>
+<%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
+
 <html>
 <head>
 </head>
@@ -46,5 +48,9 @@
 
 <%  }//while ends %>
 </table>
+<br />
+<div>
+<jmhtml:link href="/auth/logout.do" target="_parent" >Logout</jmhtml:link>
+</div>
 </body>
 </html>

@@ -14,6 +14,8 @@ public class LoginModule implements javax.security.auth.spi.LoginModule {
 
     private Subject subject;
     private CallbackHandler callbackHandler;
+    private boolean loginStatus;
+    private User loggedInUser = null;
 
     /**
      * Initialize this LoginModule.
@@ -44,6 +46,7 @@ public class LoginModule implements javax.security.auth.spi.LoginModule {
                            Map sharedState, Map options) {
         this.subject = subject;
         this.callbackHandler = callbackHandler;
+        loginStatus = false;
     }
 
     /**
@@ -64,19 +67,19 @@ public class LoginModule implements javax.security.auth.spi.LoginModule {
      *			<code>LoginModule</code> should be ignored.
      */
     public boolean login() throws LoginException {
-
+        /*  Authenticate user   */
         if (callbackHandler == null) {
             throw new LoginException("No callback handler is available");
         }
         Callback callbacks[] = new Callback[2];
-        callbacks[0] = new NameCallback("");
-        callbacks[1] = new PasswordCallback("", false);
+        callbacks[0] = new NameCallback("username");
+        callbacks[1] = new PasswordCallback("password", false);
 
         String username = null;
         String password = null;
         try {
             callbackHandler.handle(callbacks);
-            username = ((NameCallback) callbacks[0]).getName();
+            username = ((NameCallback)callbacks[0]).getName();
             char[] pwd = ((PasswordCallback)callbacks[1]).getPassword();
             password = new String(pwd);
         } catch (java.io.IOException ioe) {
@@ -84,11 +87,11 @@ public class LoginModule implements javax.security.auth.spi.LoginModule {
         } catch (UnsupportedCallbackException ce) {
             throw new LoginException("Error: " + ce.getCallback().toString());
         }
-
         /* check username and password */
-
-        return false;
-
+        UserManager userManager = UserManager.getInstance();
+        loggedInUser = userManager.getUser(username, password);
+        loginStatus = loggedInUser != null;
+        return loginStatus;
     }
 
     /**
@@ -115,6 +118,10 @@ public class LoginModule implements javax.security.auth.spi.LoginModule {
      *			<code>LoginModule</code> should be ignored.
      */
     public boolean commit() throws LoginException {
+        if(loginStatus){
+            subject.getPrincipals().add(loggedInUser);
+            return true;
+        }
         return false;
     }
 
@@ -139,7 +146,7 @@ public class LoginModule implements javax.security.auth.spi.LoginModule {
      *			<code>LoginModule</code> should be ignored.
      */
     public boolean abort() throws LoginException {
-        return false;
+        return true;
     }
 
     /**
@@ -156,6 +163,9 @@ public class LoginModule implements javax.security.auth.spi.LoginModule {
      *			<code>LoginModule</code> should be ignored.
      */
     public boolean logout() throws LoginException {
-        return false;
+        subject.getPrincipals().remove(loggedInUser);
+        subject = null;
+        loginStatus = false;
+        return true;
     }
 }

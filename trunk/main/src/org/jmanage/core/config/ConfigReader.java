@@ -17,7 +17,7 @@ public class ConfigReader implements ConfigConstants{
 
     /*  Single instance */
     private static ConfigReader configReader =
-            new ConfigReader(new File(ConfigConstants.DEFAULT_CONFIG_FILE_NAME));
+            new ConfigReader(new File(DEFAULT_CONFIG_FILE_NAME));
     /*  Last modified time of the configuration file    */
     private static long lastModified = -1;
     /*  Cache the configuration file    */
@@ -34,17 +34,19 @@ public class ConfigReader implements ConfigConstants{
             config = new SAXBuilder().build(configFile);
         }catch(JDOMException jdEx){
             System.out.println("Error reading config file " +
-                    ConfigConstants.DEFAULT_CONFIG_FILE_NAME);
+                    DEFAULT_CONFIG_FILE_NAME);
             jdEx.printStackTrace();
         }
     }
 
     /**
+     * Invalidate cached information about configured applciations if the
+     * configuration file got updated after last read.
      *
      * @return
      */
     public static ConfigReader getInstance(){
-        File configFile = new File(ConfigConstants.DEFAULT_CONFIG_FILE_NAME);
+        File configFile = new File(DEFAULT_CONFIG_FILE_NAME);
         if(lastModified < configFile.lastModified()){
             /*  Refresh the cache   */
             configReader = new ConfigReader(configFile);
