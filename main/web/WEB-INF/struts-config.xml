@@ -22,8 +22,8 @@
             type="org.jmanage.webui.forms.MBeanQueryForm">
         </form-bean>
         <form-bean
-            name="applicationForm"
-            type="org.jmanage.webui.forms.ApplicationForm">
+            name="wlApplicationForm"
+            type="org.jmanage.webui.forms.WeblogicApplicationForm">
         </form-bean>
     </form-beans>
 
@@ -43,6 +43,7 @@
 
     <action-mappings>
 
+        <!--== Authentication ===============================================-->
         <action
             path="/auth/showLogin"
             name="loginForm"
@@ -57,6 +58,7 @@
             type="org.jmanage.webui.actions.auth.LoginAction">
             <forward name="success" path="/index.jsp"/>
         </action>
+        <!--== Configuration Management =====================================-->
         <action
             path="/config/applicationList"
             type="org.jmanage.webui.actions.config.ApplicationListAction">
@@ -69,19 +71,41 @@
         </action>
         <action
             path="/config/showEditApplication"
-            name="applicationForm"
+            name="wlApplicationForm"
             scope="request"
             type="org.jmanage.webui.actions.config.ShowEditApplicationAction">
             <forward name="success" path="/config/editApplication.jsp"/>
         </action>
         <action
             path="/config/editApplication"
-            name="applicationForm"
+            name="wlApplicationForm"
             scope="request"
             type="org.jmanage.webui.actions.config.EditApplicationAction">
             <forward name="success" path="/config/managedApplications.do"/>
         </action>
+        <action
+            path="/config/showAddApplication"
+            name="wlApplicationForm"
+            scope="request"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/config/addApplication.jsp">
+        </action>
+        <action
+            path="/config/addApplication"
+            name="wlApplicationForm"
+            scope="request"
+            type="org.jmanage.webui.actions.config.AddApplicationAction">
+            <forward name="success" path="/config/managedApplications.do"/>
+        </action>
+        <action
+            path="/config/deleteApplication"
+            name="wlApplicationForm"
+            scope="request"
+            type="org.jmanage.webui.actions.config.DeleteApplicationAction">
+            <forward name="success" path="/config/managedApplications.do"/>
+        </action>
 
+        <!--== Application Management =======================================-->
         <action
             path="/app/mbeanList"
             name="mbeanQueryForm"

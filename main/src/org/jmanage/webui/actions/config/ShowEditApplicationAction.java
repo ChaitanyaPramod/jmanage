@@ -4,7 +4,9 @@ import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.forms.ApplicationForm;
+import org.jmanage.webui.forms.WeblogicApplicationForm;
 import org.jmanage.core.config.ApplicationConfig;
+import org.jmanage.core.config.WeblogicApplicationConfig;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
@@ -35,7 +37,7 @@ public class ShowEditApplicationAction extends BaseAction {
                                  HttpServletResponse response) {
 
         ApplicationConfig config = context.getApplicationConfig();
-        ApplicationForm appForm = (ApplicationForm)actionForm;
+        WeblogicApplicationForm appForm = (WeblogicApplicationForm)actionForm;
         /* populate the form */
         appForm.setApplicationId(config.getApplicationId());
         appForm.setName(config.getName());
@@ -43,6 +45,8 @@ public class ShowEditApplicationAction extends BaseAction {
         appForm.setPort(String.valueOf(config.getPort()));
         appForm.setUsername(config.getUsername());
         appForm.setPassword(config.getPassword());
+        appForm.setServerName((String)config.getParamValues().
+                get(WeblogicApplicationConfig.SERVER_NAME));
 
         return mapping.findForward(Forwards.SUCCESS);
     }

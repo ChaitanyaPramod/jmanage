@@ -5,11 +5,11 @@
 <head>
 </head>
 <body>
-<b>Edit Application</b>
+<b>Add Application</b>
 <br><br>
 
-<jmhtml:form action="/config/editApplication" method="post">
-<jmhtml:hidden property="applicationId" />
+<jmhtml:form action="/config/addApplication" method="post">
+
 <table border="1" bordercolor="black" cellspacing="0" cellpadding="2" width="200" bgcolor="lightgreen">
 <tr>
     <td>Name:</td>

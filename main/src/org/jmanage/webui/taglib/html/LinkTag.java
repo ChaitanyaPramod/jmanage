@@ -32,7 +32,7 @@ public class LinkTag extends org.apache.struts.taglib.html.LinkTag {
         }
         String objectName =
                 request.getParameter(RequestParams.OBJECT_NAME);
-        if (applicationId != null) {
+        if (objectName != null) {
             url = Utils.appendURLParam(url, RequestParams.OBJECT_NAME,
                     objectName);
         }

@@ -43,7 +43,23 @@ public class ApplicationConfigManager{
         saveConfig();
     }
 
-    public static void saveConfig(){
+    public static void updateApplication(ApplicationConfig config) {
+        int index = applicationConfigs.indexOf(config);
+        applicationConfigs.remove(index);
+        applicationConfigs.add(index, config);
+        saveConfig();
+    }
+
+    public static void deleteApplication(String applicationId) {
+
+        assert applicationId != null: "applicationId is null";
+        ApplicationConfig config = getApplicationConfig(applicationId);
+        assert config != null: "there is no application with id="+applicationId;
+        applicationConfigs.remove(config);
+        saveConfig();
+    }
+
+    private static void saveConfig(){
         ConfigWriter writer = ConfigWriter.getInstance();
         writer.write(applicationConfigs);
     }

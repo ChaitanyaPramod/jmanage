@@ -1,6 +1,7 @@
 package org.jmanage.core.config;
 
 import org.jdom.output.SAXOutputter;
+import org.jdom.output.XMLOutputter;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
@@ -9,6 +10,8 @@ import org.jdom.input.SAXBuilder;
 import java.util.List;
 import java.util.Iterator;
 import java.util.Map;
+import java.io.FileOutputStream;
+import java.io.FileNotFoundException;
 
 /**
  *
@@ -28,9 +31,10 @@ public class ConfigWriter {
     public void write(List applications) {
 
         try {
-            SAXBuilder builder = new SAXBuilder();
-            Document doc = builder.build(ConfigConstants.DEFAULT_CONFIG_FILE_NAME);
-            Element rootElement = new Element(ConfigConstants.APPLICATIONS);
+            Document doc = new Document();
+            Element rootElement = new Element(ConfigConstants.APPLICATION_CONFIG);
+            Element applicationsElement = new Element(ConfigConstants.APPLICATIONS);
+            rootElement.addContent(applicationsElement);
             for(Iterator it=applications.iterator(); it.hasNext();){
                 ApplicationConfig application = (ApplicationConfig)it.next();
                 /* get the application element */
@@ -39,13 +43,13 @@ public class ConfigWriter {
                 Element mbeansElement = createMBeansElement(application);
                 applicationElement.addContent(mbeansElement);
                 /* add this application element to the root node */
-                rootElement.addContent(applicationElement);
+                applicationsElement.addContent(applicationElement);
             }
             doc.setRootElement(rootElement);
             /* write to the disc */
-            SAXOutputter writer = new SAXOutputter();
-            writer.output(doc);
-        } catch (JDOMException e) {
+            XMLOutputter writer = new XMLOutputter();
+            writer.output(doc, new FileOutputStream(ConfigConstants.DEFAULT_CONFIG_FILE_NAME));
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -88,6 +92,9 @@ public class ConfigWriter {
 
     private Element createMBeansElement(ApplicationConfig application){
         Element mbeansElement = new Element(ConfigConstants.MBEANS);
+        if(application.getMBeans() == null){
+            return mbeansElement;
+        }
         for(Iterator mbeans = application.getMBeans().iterator();
             mbeans.hasNext();){
             MBeanConfig mbeanConfig = (MBeanConfig)mbeans.next();

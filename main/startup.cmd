@@ -11,9 +11,11 @@ set LIB_JARS=./lib/javax.servlet.jar;./lib/org.mortbay.jetty.jar;./lib/jasper-co
 set EXT_JARS=./ext/weblogic61.jar
 
 @rem debug
-set DEBUG_OPTIONS=-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_shmem,server=y,suspend=n,address=javadebug
+set DEBUG_OPTIONS=-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_shmem,server=y,suspend=n,address=jmanagedebug
 
 set CLASSPATH=%LIB_JARS%;%EXT_JARS%;./build/WEB-INF/classes
 
 @echo on
 %JAVA_HOME%/bin/java -classpath %CLASSPATH% %DEBUG_OPTIONS% -Djmanage.port=%JMANAGE_PORT% -Djmanage.root=%JMANAGE_ROOT% org.jmanage.webui.Startup
+
+
