@@ -30,7 +30,7 @@
     -->
 
     <property name="build.home" value="${basedir}\build"/>
-    <property name="dist.home" value="${basedir}/dist"/>
+    <property name="dist.home" value="${basedir}/dist/jmanage-${app.version}"/>
     <property name="docs.home" value="${basedir}/docs"/>
     <property name="src.home" value="${basedir}/src"/>
     <property name="web.home" value="${basedir}/web"/>
@@ -445,11 +445,17 @@
         </copy>
         <!-- Copy config -->
         <copy todir="${dist.home}/config">
-            <fileset dir="${build.home}/config"/>
+            <fileset dir="${build.home}/config">
+                <excludesfile name="${build.home}/config/logging.properties"/>
+            </fileset>
         </copy>
+        <rename src="${dist.home}/config/dist-logging.properties"
+            dest="${dist.home}/config/logging.properties"/>
         <!-- Copy lib -->
         <copy todir="${dist.home}/lib">
-            <fileset dir="${basedir}/lib"/>
+            <fileset dir="${basedir}/lib">
+                <exclude name="ant/**"/>
+            </fileset>
         </copy>
         <!-- Copy classes -->
         <copy todir="${dist.home}/classes">
@@ -484,15 +490,26 @@
         </copy>
 
         <!-- jar up the distribution -->
-        <delete file="${dist.home}/jmanage-${app.version}.jar"/>
-        <jar jarfile="${dist.home}/jmanage-${app.version}.jar">
-            <fileset dir="${dist.home}" includes="**"/>
+        <delete file="${dist.home}/../jmanage-${app.version}.jar"/>
+        <jar jarfile="${dist.home}/../jmanage-${app.version}.jar">
+            <fileset dir="${dist.home}/.." includes="**"/>
         </jar>
-
     </target>
 
-
-
+    <!--TODO: this doesn't work. Need to take a closer look  -->
+    <!--add "set CLASSPATH=%CLASSPATH%;./lib/ant/jakarta-oro-2.0.8.jar" in setEnv.cmd-->
+<!--
+        <target name="upload" description="Uploads the distribution jar file to sourceforge">
+            <ftp
+               server="upload.sourceforge.net"
+               remotedir="incoming"
+               userid="anonymous"
+               password="rkalra@users.sourceforge.net"
+               depends="yes">
+               <fileset dir="${dist.home}/.." includes="jmanage-${app.version}.jar"/>
+            </ftp>
+        </target>
+-->
     <!-- ================= Javadoc Target ================================== -->
 
     <!--
