@@ -6,13 +6,17 @@ import org.jdom.Document;
 import org.jdom.Element;
 
 import java.io.File;
+import java.util.List;
+import java.util.Map;
+import java.util.Iterator;
+import java.util.HashMap;
 
 /**
  *
  * Date: Jun 19, 2004
  * @author  Shashank
  */
-public class ConfigReader {
+public class ConfigReader implements ConfigConstants{
 
     /*  Default config file to use  */
     private static final String DEFAULT_CONFIG_FILE_NAME =
@@ -56,11 +60,37 @@ public class ConfigReader {
 
     /**
      * To retrieve the details of all configured applications.
-     *
-     * @return
+     * @param applicationConfig
      */
-    public Element getApplications(){
-        return config.getRootElement().getChild(
-                ConfigConstants.APPLICATIONS);
+    public void loadApplications(Map applicationConfig){
+        List applications =
+                config.getRootElement().getChild(APPLICATIONS).getChildren();
+        Iterator appIterator = applications.iterator();
+        while(appIterator.hasNext()){
+            Element application = (Element)appIterator.next();
+            /*  App clusters not supported  */
+            if("application".equalsIgnoreCase(application.getName())){
+                List params = application.getChildren(PARAMETERS);
+                Iterator paramIterator = params.iterator();
+                Map paramValues = new HashMap(1);
+                while(paramIterator.hasNext()){
+                    Element param = (Element)paramIterator.next();
+                    paramValues.put(param.getChildTextTrim(PARAMETER_NAME),
+                            param.getChildTextTrim(PARAMETER_VALUE));
+                }
+                ApplicationConfig config =
+                        ApplicationConfigFactory.create(
+                                application.getAttributeValue(APPLICATION_ID),
+                                application.getAttributeValue(APPLICATION_NAME),
+                                application.getAttributeValue(APPLICATION_TYPE),
+                                application.getAttributeValue(SERVER_URL),
+                                Integer.parseInt(application.getAttributeValue(
+                                        SERVER_PORT)),
+                                application.getAttributeValue(USERNAME),
+                                application.getAttributeValue(PASSWORD),
+                                paramValues);
+                applicationConfig.put(config.getApplicationId(), config);
+            }
+        }
     }
 }
