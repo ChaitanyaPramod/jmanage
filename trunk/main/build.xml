@@ -200,6 +200,8 @@
             <include name="jmxc.jar"/>
             <include name="ras.jar"/>
             <include name="wssec.jar"/>
+            <include name="j2ee.jar"/>
+            <include name="ffdc.jar"/>
         </fileset>
     </path>
 
@@ -376,6 +378,8 @@
             <fileset file="${basedir}/ext/jmxc.jar"/>
             <fileset file="${basedir}/ext/ras.jar"/>
             <fileset file="${basedir}/ext/wssec.jar"/>
+            <fileset file="${basedir}/ext/j2ee.jar"/>
+            <fileset file="${basedir}/ext/ffdc.jar"/>
         </copy>
     </target>
 
