@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
-<document> 
-  <header> 
-    <title>jManage - Web Based JMX Client</title> 
-  </header> 
-  <body> 
+<document>
+  <header>
+    <title>jManage - Web Based JMX Client</title>
+  </header>
+  <body>
     <section>
       <title>jManage Overview</title>
       <p>
@@ -19,18 +19,18 @@ We are currently developing version 0.5, which has the following features:
 <br/>
     - Complete security - application server passwords are encrypted
 <br/>
-    - Command line interface
+    - Command line interface - can be used standalone or with jmanage server
 <br/>
     - Support for different J2EE app servers
 <br/>
     - Cluster level view of MBeans. Also allows changing attribute values
       and performing operations at the cluster level.
 <br/>
-    - Authentication and Role Management
+    - Authentication and fine-grained Authorization
 <br/>
     - Configuring Applications in jManage
 <br/>
-    - Runtime Graphing
+    - Runtime Graphing - This has been moved out of 0.5 release
 <br/>
 <br/><br/>
           jManage is being built keeping security in mind, as the main target
@@ -43,6 +43,10 @@ We are currently developing version 0.5, which has the following features:
           roles to these users. Access to different features can be controlled
           by assigining permissions to various roles. Permission can be granted
           even at the level of MBean attributes or operations.
+<br/><br/>
+          jManage 0.5 early access versions are available on the
+          <a href="http://sourceforge.net/project/showfiles.php?group_id=111374&amp;package_id=120380">
+              downloads</a> page.
       </p>
     </section>
     <section>
@@ -64,9 +68,9 @@ We are currently developing version 0.5, which has the following features:
         <br/>
             - IBM WebSphere
         <br/><br/>
-            jManage command line interface uses XML RPC to connect to the
-            jManage web application. The custom data objects are serialized
-            using <a href="http://www.castor.org">Castor</a>.
+            jManage command line interface uses java serialization over HTTP
+            to connect to the jManage web application. This allows the command
+            line client to talk to the jmanage server across the firewall.
         </p>
     </section>
     <section>
@@ -74,16 +78,15 @@ We are currently developing version 0.5, which has the following features:
       <p>
           jManage is typically deployed in a production environment in the
           same network as the applications to be managed. This allows jManage
-          to access the JMX enabled applications via any protocol supported
-          by that application. Users access jManage over HTTP via
+          to access the JMX enabled applications via any JMX remoting protocol
+          supported by that application. Users access jManage over HTTP via
           a web browser or command line.
           <br/><br/>
           <img src="/images/jManage-deploy.jpg" alt="Typical jManage Deployment"/>
           <br/><br/>
           Access to jManage is controlled via username/password provided
-          by the System Administrators or the Operations team. Access to
-          jManage can be further limited by adding IP restrictions
-          [e.g. allowing access only from the company network.]
+          by the System Administrators or the Operations team. Admins can
+          control access even at the MBean attribute or operation level.
           <br/><br/>
           User activites are logged in a log file, which can be audited
           by the System Administrators.
