@@ -102,7 +102,7 @@ public class UserManager implements AuthConstants{
         User user = (User)users.get(username);
         if(user != null){
             final String hashedPassword = Crypto.hash(password);
-            user = hashedPassword.equals(user.getPassword()) ? user : null;
+            user = hashedPassword.equals(user.getPassword()) && "A".equals(user.getStatus()) ? user : null;
         }
         return user;
     }
