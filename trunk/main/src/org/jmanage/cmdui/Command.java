@@ -148,6 +148,7 @@ public class Command {
 
     public boolean execute() {
         try {
+            assert getName() != null;
             CommandHandler handler =
                         CommandHandlerFactory.getHandler(getName());
             return handler.execute(new HandlerContext(this));
