@@ -32,12 +32,11 @@ public class ExitHandler implements CommandHandler {
         return true;
     }
 
-    public void shortHelp(){
-        Out.println(CommandConstants.EXIT + "\t" +
-                "Exit from jManage command prompt mode");
+    public String getShortHelp(){
+        return "Exit from jManage command prompt mode";
     }
 
     public void help() {
-        shortHelp();
+        Out.println(getShortHelp());
     }
 }

@@ -223,4 +223,14 @@ public abstract class ApplicationConfig {
     public void setClusterConfig(ApplicationConfig clusterConfig) {
         this.clusterConfig = clusterConfig;
     }
+
+    public MBeanConfig findMBean(String mbeanName) {
+        for(Iterator it=mbeanList.iterator(); it.hasNext();){
+            MBeanConfig mbeanConfig = (MBeanConfig)it.next();
+            if(mbeanConfig.getName().equals(mbeanName)){
+                return mbeanConfig;
+            }
+        }
+        return null;
+    }
 }

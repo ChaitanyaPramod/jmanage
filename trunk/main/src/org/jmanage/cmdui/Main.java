@@ -32,7 +32,7 @@ import java.io.IOException;
  * view       <appName>/<mbeanName>/[attributeName1|attributeName2|attributeName3]
  * execute    <appName>/<mbeanName>/<operationName> [args]
  * modify     <appName>/<mbeanName>/<attributeName> newValue
- * printValue <appName>/<mbeanName>/[attributeName1|attributeName2|attributeName3]
+ * print      <appName>/<mbeanName>/[attributeName1|attributeName2|attributeName3]
  *
  * date:  Feb 4, 2005
  * @author	Rakesh Kalra

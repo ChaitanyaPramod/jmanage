@@ -65,7 +65,7 @@ public class WebSphereServerConnection extends JMXServerConnection{
         try{
             javax.management.ObjectName jmxObjName = toJMXObjectName(objectName);
             MBeanInfo mbeanInfo = adminClient.getMBeanInfo(jmxObjName);
-            return toObjectInfo(mbeanInfo);
+            return toObjectInfo(objectName, mbeanInfo);
         }catch (Exception e){
             throw new RuntimeException(e);
         }

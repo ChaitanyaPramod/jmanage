@@ -20,7 +20,7 @@ package org.jmanage.core.data;
  * date:  Jan 23, 2005
  * @author	Rakesh Kalra
  */
-public class OperationResultData {
+public class OperationResultData implements java.io.Serializable {
 
     public static final int RESULT_OK = 0;
     public static final int RESULT_ERROR =1;

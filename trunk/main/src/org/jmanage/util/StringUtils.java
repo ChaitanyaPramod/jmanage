@@ -16,6 +16,8 @@
 package org.jmanage.util;
 
 import java.util.StringTokenizer;
+import java.util.List;
+import java.util.Iterator;
 
 /**
  *
@@ -56,5 +58,14 @@ public class StringUtils {
             }
         }
         return buff.toString();
+    }
+
+    public static String[] listToStringArray(List list){
+        String[] output = new String[list.size()];
+        int i=0;
+        for(Iterator it=list.iterator(); it.hasNext(); i++){
+            output[i] = it.next().toString();
+        }
+        return output;
     }
 }

@@ -39,6 +39,9 @@ public class CommandUtils {
             }
         });
 
+        if(mbeanList.size() > 0)
+            Out.println();
+
         for(Iterator it=mbeanList.iterator(); it.hasNext(); ){
             MBeanData mbeanData = (MBeanData)it.next();
             Out.print(mbeanData.getName());
@@ -48,5 +51,14 @@ public class CommandUtils {
                 Out.println();
             }
         }
+    }
+
+    public static String padRight(String str, int totalLength) {
+        int strLen = str.length();
+        StringBuffer buff = new StringBuffer(str);
+        for(int i=0;i<totalLength - strLen; i++){
+            buff.append(' ');
+        }
+        return buff.toString();
     }
 }

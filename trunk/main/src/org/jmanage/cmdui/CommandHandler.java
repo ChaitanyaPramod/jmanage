@@ -29,7 +29,7 @@ public interface CommandHandler {
      */
     public boolean execute(HandlerContext context);
 
-    public void shortHelp();
+    public String getShortHelp();
 
     public void help();
 }

@@ -23,8 +23,9 @@ import java.util.Comparator;
  * date:  Aug 13, 2004
  * @author	Rakesh Kalra
  */
-public class ObjectInfo {
+public class ObjectInfo implements java.io.Serializable {
 
+    private ObjectName objectName;
     private String description;
     private boolean isOpen;
     private String className;
@@ -33,12 +34,14 @@ public class ObjectInfo {
     private ObjectConstructorInfo[] constructors;
     private ObjectNotificationInfo[] notifications;
 
-    public ObjectInfo(String className,
+    public ObjectInfo(ObjectName objectName,
+                      String className,
                       String description,
                       ObjectAttributeInfo[] attributes,
                       ObjectConstructorInfo[] constructors,
                       ObjectOperationInfo[] operations,
                       ObjectNotificationInfo[] notifications) {
+        this.objectName = objectName;
         this.className = className;
         this.description = description;
         this.attributes = attributes;
@@ -77,5 +80,9 @@ public class ObjectInfo {
 
     public ObjectOperationInfo[] getOperations() {
         return operations;
+    }
+
+    public ObjectName getObjectName() {
+        return objectName;
     }
 }

@@ -23,11 +23,20 @@
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    <!-- servlet to remotely invoke service methods -->
+    <servlet>
+        <servlet-name>ServiceInvokerServlet</servlet-name>
+        <servlet-class>org.jmanage.webui.servlets.ServiceInvokerServlet</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
 
     <!-- Standard Action Servlet Mapping -->
     <servlet-mapping>
         <servlet-name>action</servlet-name>
         <url-pattern>*.do</url-pattern>
     </servlet-mapping>
-
+    <servlet-mapping>
+        <servlet-name>ServiceInvokerServlet</servlet-name>
+        <url-pattern>/invokeService</url-pattern>
+    </servlet-mapping>
 </web-app>

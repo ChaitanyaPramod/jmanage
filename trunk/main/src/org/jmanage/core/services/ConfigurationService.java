@@ -18,7 +18,6 @@ package org.jmanage.core.services;
 import org.jmanage.core.data.ApplicationConfigData;
 
 import java.util.List;
-import java.util.ArrayList;
 
 /**
  *
@@ -30,9 +29,9 @@ public interface ConfigurationService {
     public ApplicationConfigData addApplication(ServiceContext context,
                                                 ApplicationConfigData data);
 
-    public ArrayList getAllApplications(ServiceContext context);
+    public List getAllApplications(ServiceContext context);
 
-    public ArrayList getConfiguredMBeans(ServiceContext context,
+    public List getConfiguredMBeans(ServiceContext context,
                                          String applicationName)
             throws ServiceException;
 }

@@ -15,7 +15,9 @@
  */
 package org.jmanage.core.services;
 
-import java.util.ArrayList;
+import org.jmanage.core.management.ObjectInfo;
+
+import java.util.List;
 
 /**
  *
@@ -24,8 +26,31 @@ import java.util.ArrayList;
  */
 public interface MBeanService {
 
-    public ArrayList getMBeans(ServiceContext context,
-                               String applicationName,
-                               String filter)
+    public List getMBeans(ServiceContext context,
+                          String applicationName,
+                          String filter)
+            throws ServiceException;
+
+    /**
+     * Gets the MBean information.
+     *
+     * @param context   instance of ServiceContext
+     * @param appName   configured application name
+     * @param mbeanName mbean name: either configured name or object name
+     * @return  instance of ObjectInfo
+     * @throws ServiceException
+     */
+    public ObjectInfo getMBean(ServiceContext context,
+                               String appName,
+                               String mbeanName)
+            throws ServiceException;
+
+    /**
+     * @return list of attribute values for given attributes
+     */
+    public List getAttributes(ServiceContext context,
+                              String appName,
+                              String mbeanName,
+                              String[] attributes)
             throws ServiceException;
 }

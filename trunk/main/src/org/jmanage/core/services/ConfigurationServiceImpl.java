@@ -64,7 +64,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
         return data;
     }
 
-    public ArrayList getAllApplications(ServiceContext context) {
+    public List getAllApplications(ServiceContext context) {
         List appConfigs = ApplicationConfigManager.getApplications();
         ArrayList appDataObjs = new ArrayList(appConfigs.size());
         for(Iterator it=appConfigs.iterator(); it.hasNext(); ){
@@ -75,8 +75,8 @@ public class ConfigurationServiceImpl implements ConfigurationService {
         return appDataObjs;
     }
 
-    public ArrayList getConfiguredMBeans(ServiceContext context,
-                                         String applicationName)
+    public List getConfiguredMBeans(ServiceContext context,
+                                    String applicationName)
             throws ServiceException {
         ApplicationConfig appConfig =
                 ServiceUtils.getApplicationConfigByName(applicationName);

@@ -13,20 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jmanage.core.management;
+package org.jmanage.core.remote;
+
+import java.io.Serializable;
 
 /**
  *
- * date:  Aug 12, 2004
+ * date:  Feb 24, 2005
  * @author	Rakesh Kalra
  */
-public class ConnectionFailedException extends RuntimeException {
+public class InvocationResult implements Serializable {
 
-    public ConnectionFailedException(Throwable cause){
-        super(cause);
+    private Object result;
+    private Throwable t;
+
+    public InvocationResult(Object result){
+        this.result = result;
     }
 
-    public String getMessage(){
-        return getCause().getMessage();
+    public InvocationResult(Throwable t){
+        assert t != null;
+        this.t = t;
     }
+
+    public Object get(){
+        if(t != null){
+            return t;
+        }else{
+            return result;
+        }
+    }
+
 }

@@ -17,11 +17,16 @@ package org.jmanage.core.services;
 
 import org.jmanage.core.management.ServerConnection;
 import org.jmanage.core.management.ObjectName;
+import org.jmanage.core.management.ObjectInfo;
 import org.jmanage.core.data.MBeanData;
+import org.jmanage.core.config.ApplicationConfig;
+import org.jmanage.core.config.ApplicationConfigManager;
+import org.jmanage.core.config.MBeanConfig;
 
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  *
@@ -32,9 +37,9 @@ public class MBeanServiceImpl implements MBeanService {
 
     private static final String DEFAULT_FILTER = "*:*";
 
-    public ArrayList getMBeans(ServiceContext context,
-                               String applicationName,
-                               String filter)
+    public List getMBeans(ServiceContext context,
+                          String applicationName,
+                          String filter)
             throws ServiceException {
 
         ServerConnection serverConnection =
@@ -51,5 +56,43 @@ public class MBeanServiceImpl implements MBeanService {
             mbeanDataList.add(new MBeanData(objName.getCanonicalName()));
         }
         return mbeanDataList;
+    }
+
+    public ObjectInfo getMBean(ServiceContext context,
+                               String appName,
+                               String mbeanName)
+            throws ServiceException {
+
+        ServerConnection serverConnection =
+                ServiceUtils.getServerConnection(appName);
+        mbeanName = resolveMBeanName(appName, mbeanName);
+        ObjectInfo objectInfo =
+                serverConnection.getObjectInfo(new ObjectName(mbeanName));
+        return objectInfo;
+    }
+
+    /**
+     * @return list of attribute values for given attributes
+     */
+    public List getAttributes(ServiceContext context,
+                              String appName,
+                              String mbeanName,
+                              String[] attributes)
+            throws ServiceException {
+        ServerConnection connection =
+                ServiceUtils.getServerConnection(appName);
+        mbeanName = resolveMBeanName(appName, mbeanName);
+        return connection.getAttributes(new ObjectName(mbeanName), attributes);
+    }
+
+    private String resolveMBeanName(String appName, String mbeanName){
+        ApplicationConfig appConfig =
+                ApplicationConfigManager.getApplicationConfigByName(appName);
+        /* check if the mbeanName is the configured mbean name */
+        MBeanConfig mbeanConfig = appConfig.findMBean(mbeanName);
+        if(mbeanConfig != null){
+            mbeanName = mbeanConfig.getObjectName();
+        }
+        return mbeanName;
     }
 }

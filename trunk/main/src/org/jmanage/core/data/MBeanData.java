@@ -20,7 +20,7 @@ package org.jmanage.core.data;
  * date:  Feb 21, 2005
  * @author	Rakesh Kalra
  */
-public class MBeanData {
+public class MBeanData implements java.io.Serializable {
 
     private String name;
     /* jmanage configured name (if configured) */

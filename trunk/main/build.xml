@@ -573,7 +573,9 @@
         </copy>
         <!-- Copy Config files -->
         <copy todir="${build.home}/config">
-            <fileset dir="${basedir}/config"/>
+            <fileset dir="${basedir}/config">
+                <exclude name="sample/**"/>
+            </fileset>
         </copy>
 
         <!-- Copy external dependencies as required -->
@@ -586,6 +588,14 @@
         <!-- Copy static files from external dependencies as needed -->
         <!-- *** CUSTOMIZE HERE AS REQUIRED BY YOUR APPLICATION *** -->
 
+    </target>
+
+    <!-- ================= Config targets - for testing ==================== -->
+    <target name="simple-config">
+        <!-- Copy simple Config files -->
+        <delete file="${build.home}/config/config.xml"/>
+        <copy file="${basedir}/config/sample/simple-config.xml"
+            tofile="${build.home}/config/config.xml"/>
     </target>
 
     <!-- ================= Test targets ==================================== -->

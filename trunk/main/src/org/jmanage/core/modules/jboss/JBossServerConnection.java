@@ -66,7 +66,7 @@ public class JBossServerConnection extends JMXServerConnection {
         try {
             javax.management.ObjectName jmxObjName = toJMXObjectName(objectName);
             MBeanInfo mbeanInfo = rmiAdaptor.getMBeanInfo(jmxObjName);
-            return toObjectInfo(mbeanInfo);
+            return toObjectInfo(objectName, mbeanInfo);
         } catch (Exception e){
             throw new RuntimeException(e);
         }

@@ -57,13 +57,12 @@ public class MBeansHandler implements CommandHandler {
         return true;
     }
 
-    public void shortHelp() {
-        Out.println(CommandConstants.MBEANS + "\t" +
-                "Lists configured mbeans for the given application");
+    public String getShortHelp() {
+        return "Lists configured mbeans for the given application";
     }
 
     public void help() {
-        shortHelp();
+        Out.println(getShortHelp());
         Out.println("Usage:");
         Out.println(CommandConstants.MBEANS + " <application name>");
     }

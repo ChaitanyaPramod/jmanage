@@ -17,25 +17,131 @@ package org.jmanage.cmdui.commands;
 
 import org.jmanage.cmdui.CommandHandler;
 import org.jmanage.cmdui.HandlerContext;
+import org.jmanage.cmdui.CommandConstants;
+import org.jmanage.cmdui.util.Out;
+import org.jmanage.cmdui.util.Table;
+import org.jmanage.core.services.MBeanService;
+import org.jmanage.core.services.ServiceFactory;
+import org.jmanage.core.management.ObjectInfo;
+import org.jmanage.core.management.ObjectOperationInfo;
+import org.jmanage.core.management.ObjectAttributeInfo;
+import org.jmanage.core.management.ObjectParameterInfo;
 
 /**
+ *
+ * view       <appName>/<mbeanName[configured name or object name]>
+ * view       <appName>/<mbeanName>/[attributeName1|attributeName2|attributeName3]
  *
  * date:  Feb 23, 2005
  * @author	Rakesh Kalra
  */
 public class ViewHandler implements CommandHandler {
+
     /**
      *
      * @param context
      * @return true if the command was handled properly; false otherwise
      */
     public boolean execute(HandlerContext context) {
-        return false;
+
+        String[] args = context.getCommand().getArgs();
+        if(args.length != 1){
+            usage();
+            return false;
+        }
+
+        Expression expression = new Expression(args[0]);
+        if(expression.getAppName() == null || expression.getMBeanName() == null){
+            usage();
+            return false;
+        }
+
+        MBeanService service = ServiceFactory.getMBeanService();
+        ObjectInfo objectInfo =
+                service.getMBean(context.getServiceContext(),
+                        expression.getAppName(), expression.getMBeanName());
+        printObjectInfo(objectInfo);
+        return true;
     }
 
-    public void shortHelp() {
+    public String getShortHelp() {
+        return "Display information about mbean, mbean attributes. etc.";
     }
 
     public void help() {
+        Out.println(getShortHelp());
+        Out.println("Usage:");
+        Out.println(CommandConstants.VIEW + " <application name>/<mbean name>");
+        Out.println("Examples:");
+        Out.println(CommandConstants.VIEW + " myApp/myMBean");
+        Out.println(CommandConstants.VIEW + " myApp/jmanage:name=TestMBean");
+    }
+
+    private void usage(){
+        Out.println("Invalid arguments");
+        help();
+    }
+
+    private void printObjectInfo(ObjectInfo objectInfo){
+        Out.println();
+        Out.println("Object Name: " + objectInfo.getObjectName());
+        Out.println("Class Name : " + objectInfo.getClassName());
+        Out.println("Description: " + objectInfo.getDescription());
+        printAttributes(objectInfo.getAttributes());
+        printOperations(objectInfo.getOperations());
+    }
+
+    private void printAttributes(ObjectAttributeInfo[] attributes) {
+        if(attributes.length == 0)
+            return;
+
+        Out.println();
+        Out.println("Attributes:");
+        Table table = new Table(4);
+        for(int i=0; i<attributes.length; i++){
+            table.add(attributes[i].getName(),
+                    attributes[i].getType(),
+                    readWrite(attributes[i]),
+                    attributes[i].getDescription());
+        }
+        table.print();
+    }
+
+    private String readWrite(ObjectAttributeInfo attribute) {
+        String readWrite = "";
+        if(attribute.isReadable()){
+            readWrite += "R";
+        }
+        if(attribute.isWritable()){
+            readWrite += "W";
+        }
+        return readWrite;
+    }
+
+    private void printOperations(ObjectOperationInfo[] operations) {
+        if(operations.length == 0)
+            return;
+
+        Out.println();
+        Out.println("Operations:");
+        Table table = new Table(3);
+        for(int i=0; i<operations.length; i++){
+            table.add(operations[i].getName()+ "(" +
+                    signature(operations[i].getSignature()) + ")",
+                    operations[i].getReturnType(),
+                    operations[i].getDescription());
+        }
+        table.print();
+    }
+
+    private String signature(ObjectParameterInfo[] signature){
+        StringBuffer buff = new StringBuffer();
+        for(int i=0; i<signature.length; i++){
+            if(i > 0){
+                buff.append(", ");
+            }
+            buff.append(signature[i].getType() + " " + signature[i].getName());
+        }
+        return buff.toString();
     }
 }

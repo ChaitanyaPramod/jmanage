@@ -15,10 +15,9 @@
  */
 package org.jmanage.core.services;
 
-import org.jmanage.core.remote.client.ServiceProxy;
+import org.jmanage.core.remote.client.HttpServiceProxy;
 
 import java.util.Map;
-import java.util.HashMap;
 import java.util.Hashtable;
 import java.lang.reflect.Proxy;
 
@@ -27,14 +26,14 @@ import java.lang.reflect.Proxy;
  * factory needs to be initialized by calling the <code>init()</code> method.
  * The factory runs in local or remote mode. When in local mode, local
  * Service objects are created. When running in remote mode, an instance
- * of ServiceProxy is returned, which uses XML RPC to talk to the jmanage
- * web server.
+ * of HttpServiceProxy is returned, which uses java serialization over HTTP
+ * to talk to the jmanage web server.
  * <p>
  * When creating the local instance of Service interfaces, ServiceFactory
  * determines the implementation class name by appending "Impl" to the
  * Service interface name..
  *
- * @see org.jmanage.core.remote.client.ServiceProxy
+ * @see org.jmanage.core.remote.client.HttpServiceProxy
  * date:  Jan 18, 2005
  * @author	Rakesh Kalra
  */
@@ -115,6 +114,6 @@ public class ServiceFactory {
         return Proxy.newProxyInstance
                 (serviceClass.getClassLoader(),
                         new Class[]{serviceClass},
-                        new ServiceProxy());
+                        new HttpServiceProxy());
     }
 }

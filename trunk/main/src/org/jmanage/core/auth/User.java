@@ -23,7 +23,7 @@ import java.security.Principal;
  * Date : Jun 27, 2004 11:52:43 PM
  * @author Shashank
  */
-public class User implements Principal{
+public class User implements Principal, java.io.Serializable{
 
     private String username;
     private String password;
