@@ -45,6 +45,10 @@
             name="configureForm"
             type="org.jmanage.webui.forms.ConfigureForm">
         </form-bean>
+        <form-bean
+            name="changePasswordForm"
+            type="org.jmanage.webui.forms.ChangePasswordForm">
+        </form-bean>
 
     </form-beans>
 
@@ -306,6 +310,25 @@
             type="org.jmanage.webui.actions.auth.AddUserAction">
             <forward name="success" path="/auth/listUsers.do"/>
         </action>
+        <action
+            path="/auth/showChangePassword"
+            name="changePasswordForm"
+            validate="false"
+            scope="request"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/auth/changePassword.jsp">
+        </action>
+        <action
+            path="/auth/changePassword"
+            name="changePasswordForm"
+            validate="true"
+            input="/auth/showChangePassword.do"
+            scope="request"
+            roles="ops"
+            type="org.jmanage.webui.actions.auth.ChangePasswordAction">
+            <forward name="success" path="/auth/confirmChangePassword.jsp"/>
+        </action>
+
         <action
             path="/auth/showUserActivity"
             roles="ops"
