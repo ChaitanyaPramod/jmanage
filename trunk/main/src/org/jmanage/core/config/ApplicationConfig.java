@@ -15,7 +15,6 @@
  */
 package org.jmanage.core.config;
 
-import org.jmanage.core.crypto.Crypto;
 
 import java.util.*;
 

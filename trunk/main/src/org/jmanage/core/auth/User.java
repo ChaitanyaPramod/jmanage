@@ -126,6 +126,8 @@ public class User implements Principal, java.io.Serializable{
      */
     public boolean canAccess(String acl){
         String authorizedList = ACLStore.getInstance().getProperty(acl);
+        if(authorizedList == null)
+            return false;
         StringTokenizer tokenizer = new StringTokenizer(authorizedList, ",");
         while(tokenizer.hasMoreTokens()){
             if(getUsername().equalsIgnoreCase(tokenizer.nextToken())){

@@ -21,7 +21,6 @@ package org.jmanage.core.util;
  * @author Shashank Bellary 
  */
 public interface ACLConstants {
-    public static final String ACL_VIEW_MBEAN = "acl.view.jmanage.mbean";
     public static final String ACL_EDIT_USERS = "acl.edit.jmanage.users";
     public static final String ACL_ADD_USERS = "acl.add.jmanage.users";
     public static final String ACL_VIEW_USER_ACTIVITY = "acl.view.jmanage.user.activity";
@@ -30,4 +29,7 @@ public interface ACLConstants {
     public static final String ACL_ADD_MBEAN_CONFIG = "acl.add.jmanage.mbean.config";
     public static final String ACL_EDIT_MBEAN_CONFIG = "acl.edit.jmanage.mbean.config";
     public static final String ACL_EDIT_JMANAGE_CONFIG = "acl.edit.jmanage.config";
+    public static final String ACL_VIEW_CONFIGURED_APPLICATION =
+            "acl.view.configured.application";
+    public static final String ACL_VIEW_CONFIGURED_MBEAN = "acl.view.configured.mbean";
 }

@@ -34,4 +34,22 @@ public class AccessController {
         else
             throw new UnAuthorizedAccessException("Insufficient Privileges");
     }
+
+
+    /**
+     *
+     * @param user
+     * @param acl
+     * @param dynamicResourceName
+     * @return
+     */
+    public static boolean canAccess(User user, String acl,
+                                    String dynamicResourceName){
+        try{
+            return canAccess(user, acl);
+        }catch(UnAuthorizedAccessException uae){
+            return canAccess(user, acl + "." + dynamicResourceName);
+        }
+    }
+
 }
