@@ -1,8 +1,6 @@
 package org.jmanage.modules.weblogic;
 
 import org.jmanage.core.management.*;
-import org.jmanage.core.management.MalformedObjectNameException;
-import org.jmanage.core.management.ObjectInstance;
 import org.jmanage.core.management.ObjectName;
 
 import javax.management.*;
@@ -13,8 +11,7 @@ import java.util.*;
  * date:  Aug 12, 2004
  * @author	Rakesh Kalra
  */
-public class WLServerConnection implements
-        org.jmanage.core.management.ServerConnection{
+public class WLServerConnection extends JMXServerConnection{
 
     private final MBeanServer mbeanServer;
 
@@ -32,10 +29,10 @@ public class WLServerConnection implements
      */
     public Set queryObjects(ObjectName objectName) {
         Set mbeans =
-                mbeanServer.queryMBeans(
+                mbeanServer.queryNames(
                         toJMXObjectName(objectName),
                         null);
-        return toJmanageObjectInstance(mbeans);
+        return toJmanageObjectNameInstance(mbeans);
     }
 
     /**
@@ -118,167 +115,4 @@ public class WLServerConnection implements
             throw new RuntimeException(e);
         }
     }
-
-    ///////////////////////////////////////////////////////////////////////////
-    // Utility methods
-
-    private static javax.management.ObjectName
-            toJMXObjectName(ObjectName objectName){
-        try {
-            return new javax.management.ObjectName(objectName.toString());
-        } catch (javax.management.MalformedObjectNameException e) {
-            throw new MalformedObjectNameException(e);
-        }
-    }
-
-    private static ObjectName toJmanageObjectName(
-            javax.management.ObjectName objectName){
-        return new ObjectName(objectName.getCanonicalName());
-    }
-
-    private static Set toJmanageObjectInstance(Set mbeans){
-        final Set output = new HashSet(mbeans.size());
-        for(Iterator it=mbeans.iterator(); it.hasNext();){
-            javax.management.ObjectInstance objInstance =
-                    (javax.management.ObjectInstance)it.next();
-            final ObjectName objName =
-                    toJmanageObjectName(objInstance.getObjectName());
-            output.add(new ObjectInstance(objName,
-                    objInstance.getClassName()));
-        }
-        return output;
-    }
-
-    private static ObjectInfo toObjectInfo(MBeanInfo mbeanInfo){
-
-        ObjectAttributeInfo[] attributes =
-                toObjectAttributes(mbeanInfo.getAttributes());
-        ObjectConstructorInfo[] constructors =
-                toObjectConstructors(mbeanInfo.getConstructors());
-        ObjectOperationInfo[] operations =
-                toObjectOperations(mbeanInfo.getOperations());
-        ObjectNotificationInfo[] notifications =
-                toObjectNotifications(mbeanInfo.getNotifications());
-        return new ObjectInfo(mbeanInfo.getClassName(),
-                mbeanInfo.getDescription(), attributes,
-                constructors, operations, notifications);
-    }
-
-    private static ObjectAttributeInfo[]
-            toObjectAttributes(MBeanAttributeInfo[] attributes){
-        ObjectAttributeInfo[] objAttributes =
-                new ObjectAttributeInfo[attributes.length];
-        for(int i=0; i < attributes.length; i++) {
-            objAttributes[i] = toObjectAttributeInfo(attributes[i]);
-        }
-        return objAttributes;
-    }
-
-    private static ObjectAttributeInfo
-            toObjectAttributeInfo(MBeanAttributeInfo attribute){
-
-        return new ObjectAttributeInfo(attribute.getName(),
-                attribute.getDescription(),
-                attribute.getType(),
-                attribute.isWritable(),
-                attribute.isReadable(),
-                attribute.isIs());
-    }
-
-    private static ObjectConstructorInfo[]
-            toObjectConstructors(MBeanConstructorInfo[] constructors){
-        ObjectConstructorInfo[] objCtors =
-                new ObjectConstructorInfo[constructors.length];
-        for(int i=0; i < constructors.length; i++) {
-            objCtors[i] = toObjectConstructorInfo(constructors[i]);
-        }
-        return objCtors;
-    }
-
-    private static ObjectConstructorInfo
-            toObjectConstructorInfo(MBeanConstructorInfo constructor){
-        return new ObjectConstructorInfo(constructor.getName(),
-                constructor.getDescription(),
-                toObjectParameters(constructor.getSignature()));
-    }
-
-    private static ObjectOperationInfo[]
-            toObjectOperations(MBeanOperationInfo[] operations){
-        ObjectOperationInfo[] objOperations =
-                new ObjectOperationInfo[operations.length];
-        for(int i=0; i < operations.length; i++) {
-            objOperations[i] = toObjectOperationInfo(operations[i]);
-        }
-        return objOperations;
-    }
-
-    private static ObjectOperationInfo
-            toObjectOperationInfo(MBeanOperationInfo operation){
-        return new ObjectOperationInfo(operation.getName(),
-                operation.getDescription(),
-                toObjectParameters(operation.getSignature()),
-                operation.getReturnType(),
-                operation.getImpact());
-    }
-
-    private static ObjectNotificationInfo[]
-                toObjectNotifications(MBeanNotificationInfo[] notifications){
-        ObjectNotificationInfo[] objNotifications =
-                new ObjectNotificationInfo[notifications.length];
-        for(int i=0; i < notifications.length; i++) {
-            objNotifications[i] = toObjectNotificationInfo(notifications[i]);
-        }
-        return objNotifications;
-    }
-
-    private static ObjectNotificationInfo
-            toObjectNotificationInfo(MBeanNotificationInfo notification){
-        return new ObjectNotificationInfo(notification.getNotifTypes(),
-                notification.getName(),
-                notification.getDescription());
-    }
-
-    private static ObjectParameterInfo[]
-            toObjectParameters(MBeanParameterInfo[] parameters){
-        ObjectParameterInfo[] objParameters =
-                new ObjectParameterInfo[parameters.length];
-        for(int i=0; i < parameters.length; i++) {
-            objParameters[i] = toObjectParameterInfo(parameters[i]);
-        }
-        return objParameters;
-    }
-
-    private static ObjectParameterInfo
-            toObjectParameterInfo(MBeanParameterInfo parameter){
-
-        return new ObjectParameterInfo(parameter.getName(),
-                parameter.getDescription(), parameter.getType());
-    }
-
-    private static List toObjectAttributeList(AttributeList attrList){
-        final List objAttrList = new ArrayList(attrList.size());
-        for(Iterator it=attrList.iterator(); it.hasNext(); ){
-            Attribute attr = (Attribute)it.next();
-            objAttrList.add(toObjectAttribute(attr));
-        }
-        return objAttrList;
-    }
-
-    private static ObjectAttribute toObjectAttribute(Attribute attr){
-        return new ObjectAttribute(attr.getName(), attr.getValue());
-    }
-
-    private static AttributeList toJMXAttributeList(List objAttrs){
-        AttributeList attrList = new AttributeList(objAttrs.size());
-        for(Iterator it=objAttrs.iterator(); it.hasNext(); ){
-            attrList.add(toJMXAttribute((ObjectAttribute)it.next()));
-        }
-        return attrList;
-    }
-
-    private static Attribute toJMXAttribute(ObjectAttribute objAttr){
-        return new Attribute(objAttr.getName(), objAttr.getValue());
-    }
 }
-
-

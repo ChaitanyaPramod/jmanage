@@ -148,6 +148,18 @@
         </fileset>
     </path>
 
+    <path id="module.tomcat.classpath">
+        <fileset dir="${basedir}/lib">
+            <include name="*.jar"/>
+        </fileset>
+        <pathelement path="${build.home}/classes" />
+        <fileset dir="${basedir}/ext">
+            <include name="jmx.jar"/>
+            <include name="commons-modeler.jar"/>
+            <include name="commons-logging-api.jar"/>
+        </fileset>
+    </path>
+
     <path id="module.jsr160.classpath">
         <fileset dir="${basedir}/lib">
             <include name="*.jar"/>
@@ -158,7 +170,6 @@
             <include name="jmxremote-1_0_1.jar"/>
         </fileset>
     </path>
-
 
     <!-- ================= All Target ====================================== -->
 
@@ -216,6 +227,7 @@
             <classpath refid="compile.classpath"/>
             <include name="**/webui/Startup.java"/>
             <include name="**/core/**"/>
+            <exclude name="**/core/management/JMXServerConnection.java"/>
         </javac>
 
         <!-- Compile web Java classes as necessary -->
@@ -235,12 +247,25 @@
     <!-- target for building all modules -->
     <target name="build-all-modules" description="Builds all modules">
         <antcall target="build-weblogic-module" />
+        <antcall target="build-tomcat-module" />
         <antcall target="build-jsr160-module" />
     </target>
 
-    <!-- target for building weblogic module -->
-    <target name="build-weblogic-module" depends="compile">
+    <target name="prepare-weblogic" depends="prepare"
+        description="Compile Common Server connection class">
         <mkdir dir="${build.home}/modules/weblogic/classes" />
+        <javac srcdir="${src.home}"
+            destdir="${build.home}/modules/weblogic/classes"
+            debug="${compile.debug}"
+            deprecation="${compile.deprecation}"
+            optimize="${compile.optimize}"
+            source="1.4">
+            <classpath refid="module.weblogic.classpath"/>
+            <include name="**/core/management/JMXServerConnection.java"/>
+        </javac>
+    </target>
+    <!-- target for building weblogic module -->
+    <target name="build-weblogic-module" depends="compile,prepare-weblogic">
         <javac srcdir="${basedir}/modules/weblogic/src"
             destdir="${build.home}/modules/weblogic/classes"
             debug="${compile.debug}"
@@ -257,9 +282,54 @@
         </copy>
     </target>
 
-    <!-- target for building jsr160 module -->
-    <target name="build-jsr160-module" depends="compile">
+    <target name="prepare-tomcat" depends="prepare"
+        description="Compile Common Server connection class">
+        <mkdir dir="${build.home}/modules/tomcat/classes" />
+        <javac srcdir="${src.home}"
+            destdir="${build.home}/modules/tomcat/classes"
+            debug="${compile.debug}"
+            deprecation="${compile.deprecation}"
+            optimize="${compile.optimize}"
+            source="1.4">
+            <classpath refid="module.tomcat.classpath"/>
+            <include name="**/core/management/JMXServerConnection.java"/>
+        </javac>
+    </target>
+    <!-- target for building tomcat module -->
+    <target name="build-tomcat-module" depends="compile,prepare-tomcat">
+        <javac srcdir="${basedir}/modules/tomcat/src"
+            destdir="${build.home}/modules/tomcat/classes"
+            debug="${compile.debug}"
+            deprecation="${compile.deprecation}"
+            optimize="${compile.optimize}"
+            source="1.4">
+            <classpath refid="module.tomcat.classpath"/>
+        </javac>
+        <jar basedir="${build.home}/modules/tomcat/classes"
+            jarfile="${build.home}/modules/tomcat/classes.jar"/>
+        <delete dir="${build.home}/modules/tomcat/classes" />
+        <copy todir="${build.home}/modules/tomcat">
+            <fileset file="${basedir}/ext/jmx.jar"/>
+            <fileset file="${basedir}/ext/commons-modeler.jar"/>
+            <fileset file="${basedir}/ext/commons-logging-api.jar"/>
+        </copy>
+    </target>
+
+    <target name="prepare-jsr160" depends="prepare"
+        description="Compile Common Server connection class">
         <mkdir dir="${build.home}/modules/jsr160/classes" />
+        <javac srcdir="${src.home}"
+            destdir="${build.home}/modules/jsr160/classes"
+            debug="${compile.debug}"
+            deprecation="${compile.deprecation}"
+            optimize="${compile.optimize}"
+            source="1.4">
+            <classpath refid="module.jsr160.classpath"/>
+            <include name="**/core/management/JMXServerConnection.java"/>
+        </javac>
+    </target>
+    <!-- target for building jsr160 module -->
+    <target name="build-jsr160-module" depends="compile,prepare-jsr160">
         <javac srcdir="${basedir}/modules/jsr160/src"
             destdir="${build.home}/modules/jsr160/classes"
             debug="${compile.debug}"
@@ -276,7 +346,6 @@
             <fileset file="${basedir}/ext/jmxremote-1_0_1.jar"/>
         </copy>
     </target>
-
 
     <!-- ================= Dist Target ===================================== -->
 

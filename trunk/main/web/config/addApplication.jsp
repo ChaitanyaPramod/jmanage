@@ -16,18 +16,28 @@
       <td><jmhtml:text property="name" /></td>
     </tr>
     <tr class="evenrow">
+      <td class="headtext1">Type:</td>
+      <td>
+        <jmhtml:select property="type">
+            <jmhtml:option value=""></jmhtml:option>
+            <jmhtml:option value="weblogic">Weblogic</jmhtml:option>
+            <jmhtml:option value="tomcat">Tomcat</jmhtml:option>
+        </jmhtml:select>
+      </td>
+    </tr>
+    <tr class="oddrow">
       <td class="headtext1">Host:</td>
       <td><jmhtml:text property="host" /></td>
     </tr>
-    <tr class="oddrow">
+    <tr class="evenrow">
       <td class="headtext1">Port:</td>
       <td><jmhtml:text property="port" /></td>
     </tr>
-    <tr class="evenrow">
+    <tr class="oddrow">
       <td class="headtext1">Username:</td>
       <td><jmhtml:text property="username" /></td>
     </tr>
-    <tr class="oddrow">
+    <tr class="evenrow">
       <td class="headtext1">Password:</td>
       <td><jmhtml:password property="password" /></td>
     </tr>
