@@ -175,7 +175,7 @@ public class UserManager implements AuthConstants{
                 userElement.setAttribute(AuthConstants.STATUS,
                         user.getStatus() != null ? user.getStatus() : "A");
                 userElement.setAttribute(AuthConstants.LOCK_COUNT,
-                        String.valueOf(user.getLockCount()));
+                        String.valueOf(user.getStatus() != null ? user.getLockCount() : 0));
                 /* add roles */
                 for(Iterator iterator = user.getRoles().iterator(); iterator.hasNext();){
                     String roleName = (String)iterator.next();
