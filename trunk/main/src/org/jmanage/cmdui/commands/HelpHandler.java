@@ -63,8 +63,10 @@ public class HelpHandler implements CommandHandler {
 
         /* print help about using jmanage command */
         Out.println("jmanage [-username <username>] [-password <password>] " +
-                "[-verbose[=<level>]] [command]");
+                "[-verbose[=<level>]] [command] [command args]");
         /* print short help for all commands */
+        Out.println();
+        Out.println("Commands:");
         Table table = new Table(2);
         Collection commandNames = CommandHandlerFactory.getCommandNames();
         for(Iterator it=commandNames.iterator(); it.hasNext();){
@@ -74,6 +76,8 @@ public class HelpHandler implements CommandHandler {
             table.add(commandName, handler.getShortHelp());
         }
         table.print();
+        Out.println();
+        Out.println("Type \"help <command>\" for detailed command help.");
         return true;
     }
 
