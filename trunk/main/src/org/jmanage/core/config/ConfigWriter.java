@@ -38,11 +38,15 @@ public class ConfigWriter {
             rootElement.addContent(applicationsElement);
             for(Iterator it=applications.iterator(); it.hasNext();){
                 ApplicationConfig application = (ApplicationConfig)it.next();
-                /* get the application element */
-                Element applicationElement = createApplicationElement(application);
-                /* add mbeans */
-                Element mbeansElement = createMBeansElement(application);
-                applicationElement.addContent(mbeansElement);
+                /* get the application or application-cluster element */
+                Element applicationElement = null;
+                if(application.isCluster()){
+                    applicationElement =
+                            createApplicationClusterElement(application);
+                }else{
+                    applicationElement = createApplicationElement(application);
+                }
+
                 /* add this application element to the root node */
                 applicationsElement.addContent(applicationElement);
             }
@@ -53,6 +57,23 @@ public class ConfigWriter {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * Creates the complete XML for ApplicationCluster
+     *
+     * @param application
+     * @return
+     */
+    private Element createApplicationClusterElement(ApplicationConfig application){
+        assert application.isCluster();
+        Element applicationElement = createApplicationElement(application);
+        for(Iterator it=application.getApplications().iterator(); it.hasNext();){
+            ApplicationConfig appConfig = (ApplicationConfig)it.next();
+            Element childAppElement = createApplicationElement(application);
+            applicationElement.addContent(childAppElement);
+        }
+        return applicationElement;
     }
 
     private Element createApplicationElement(ApplicationConfig application){
@@ -83,8 +104,10 @@ public class ConfigWriter {
             applicationElement.setAttribute(ConfigConstants.PASSWORD,
                     encryptedPassword);
         }
-        applicationElement.setAttribute(ConfigConstants.APPLICATION_TYPE,
-                            application.getType());
+        if(!application.isCluster()){
+            applicationElement.setAttribute(ConfigConstants.APPLICATION_TYPE,
+                                application.getType());
+        }
         final Map params = application.getParamValues();
         if(params != null){
             for(Iterator param=params.keySet().iterator(); param.hasNext(); ){
@@ -102,6 +125,11 @@ public class ConfigWriter {
                 applicationElement.addContent(paramElement);
             }
         }
+
+        /* add mbeans */
+        Element mbeansElement = createMBeansElement(application);
+        applicationElement.addContent(mbeansElement);
+
         return applicationElement;
     }
 

@@ -6,7 +6,7 @@
 	<frame src="/top.jsp" name="applications">
 	<frameset rows="*" cols="100, 680" framespacing="no" border="0">
 		<frame src="/config/applicationList.do" name="applications">
-		<frame src="/config/managedApplications.do" name="mbeanDetails">
+		<frame src="/config/managedApplications.do" name="basefrm">
 	</frameset>
 </frameset>
 <noframes></noframes>
