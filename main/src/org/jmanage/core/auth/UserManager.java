@@ -3,9 +3,11 @@ package org.jmanage.core.auth;
 import org.jdom.Document;
 import org.jdom.JDOMException;
 import org.jdom.Element;
+import org.jdom.output.XMLOutputter;
 import org.jdom.input.SAXBuilder;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.*;
 
 /**
@@ -96,5 +98,88 @@ public class UserManager implements AuthConstants{
             user = password.equals(user.getPassword()) ? user : null;
         }
         return user;
+    }
+
+    /**
+     * Overloaded for use in User management functionality.
+     *
+     * @param username
+     * @return
+     */
+    public User getUser(String username){
+        return users.containsKey(username) ? (User)users.get(username) : null;
+    }
+
+    /**
+     * Retrieve all configured users of the application.
+     *
+     * @return
+     */
+    public Map getAllUsers(){
+        return users;
+    }
+
+    /**
+     * Add a new user to the list.
+     *
+     * @param user
+     */
+    public void addUser(User user){
+        users.put(user.getName(), user);
+        saveUser();
+    }
+
+    /**
+     * Update the selected user information.
+     *
+     * @param user
+     */
+    public void updateUser(User user){
+        users.remove(user.getName());
+        users.put(user.getName(), user);
+        saveUser();
+    }
+
+    /**
+     * Remove the selected user from the list.
+     *
+     * @param username
+     */
+    public void deleteUser(String username){
+        if(users.containsKey(username)){
+            users.remove(username);
+            saveUser();
+        }
+    }
+
+    /**
+     * Save the changes to "jmanage-users.xml"
+     */
+    private void saveUser(){
+        try {
+            Document doc = new Document();
+            Element rootElement = new Element(AuthConstants.JM_USERS);
+            for(Iterator it=users.values().iterator(); it.hasNext();){
+                User user = (User)it.next();
+                /* create a user element */
+                Element userElement = new Element(AuthConstants.USER);
+                userElement.setAttribute(AuthConstants.NAME, user.getUsername());
+                userElement.setAttribute(AuthConstants.PASSWORD, user.getPassword());
+                /* add roles */
+                for(Iterator iterator = user.getRoles().iterator(); iterator.hasNext();){
+                    String roleName = (String)iterator.next();
+                    Element roleElement = new Element(AuthConstants.ROLE);
+                    roleElement.setText(roleName);
+                    userElement.addContent(roleElement);
+                }
+                rootElement.addContent(userElement);
+            }
+            doc.setRootElement(rootElement);
+            /* write to the disc */
+            XMLOutputter writer = new XMLOutputter();
+            writer.output(doc, new FileOutputStream(AuthConstants.USER_CONFIG_FILE_NAME));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
