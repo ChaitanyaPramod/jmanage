@@ -206,14 +206,31 @@
             <include name="*.jar"/>
         </fileset>
         <pathelement path="${build.home}/classes" />
-        <fileset dir="${basedir}/ext">
+        <fileset dir="${basedir}/ext/websphere">
             <include name="admin.jar"/>
-            <include name="wsexception.jar"/>
-            <include name="jmxc.jar"/>
-            <include name="ras.jar"/>
-            <include name="wssec.jar"/>
-            <include name="j2ee.jar"/>
+            <include name="bootstrap.jar"/>
+            <include name="classloader.jar"/>
+            <include name="client.jar"/>
+            <include name="emf.jar"/>
             <include name="ffdc.jar"/>
+            <include name="ibmcertpathprovider.jar"/>
+            <include name="ibmjceprovider.jar"/>
+            <include name="j2ee.jar"/>
+            <include name="jmxc.jar"/>
+            <include name="mail-impl.jar"/>
+            <include name="management.jar"/>
+            <include name="ras.jar"/>
+            <include name="sas.jar"/>
+            <include name="security.jar"/>
+            <include name="soap.jar"/>
+            <include name="tmx4jTransform.jar"/>
+            <include name="utils.jar"/>
+            <include name="wasjmx.jar"/>
+            <include name="wasproduct.jar"/>
+            <include name="wsexception.jar"/>
+            <include name="wsprofile.jar"/>
+            <include name="wssec.jar"/>
+            <include name="wssoap.jar"/>
         </fileset>
     </path>
 
@@ -385,13 +402,30 @@
             <param name="module.name" value="websphere"/>
         </antcall>
         <copy todir="${build.home}/modules/websphere">
-            <fileset file="${basedir}/ext/admin.jar"/>
-            <fileset file="${basedir}/ext/wsexception.jar"/>
-            <fileset file="${basedir}/ext/jmxc.jar"/>
-            <fileset file="${basedir}/ext/ras.jar"/>
-            <fileset file="${basedir}/ext/wssec.jar"/>
-            <fileset file="${basedir}/ext/j2ee.jar"/>
-            <fileset file="${basedir}/ext/ffdc.jar"/>
+            <fileset file="${basedir}/ext/websphere/admin.jar"/>
+            <fileset file="${basedir}/ext/websphere/bootstrap.jar"/>
+            <fileset file="${basedir}/ext/websphere/classloader.jar"/>
+            <fileset file="${basedir}/ext/websphere/client.jar"/>
+            <fileset file="${basedir}/ext/websphere/emf.jar"/>
+            <fileset file="${basedir}/ext/websphere/ffdc.jar"/>
+            <fileset file="${basedir}/ext/websphere/ibmcertpathprovider.jar"/>
+            <fileset file="${basedir}/ext/websphere/ibmjceprovider.jar"/>
+            <fileset file="${basedir}/ext/websphere/j2ee.jar"/>
+            <fileset file="${basedir}/ext/websphere/jmxc.jar"/>
+            <fileset file="${basedir}/ext/websphere/mail-impl.jar"/>
+            <fileset file="${basedir}/ext/websphere/management.jar"/>
+            <fileset file="${basedir}/ext/websphere/ras.jar"/>
+            <fileset file="${basedir}/ext/websphere/sas.jar"/>
+            <fileset file="${basedir}/ext/websphere/security.jar"/>
+            <fileset file="${basedir}/ext/websphere/soap.jar"/>
+            <fileset file="${basedir}/ext/websphere/tmx4jTransform.jar"/>
+            <fileset file="${basedir}/ext/websphere/utils.jar"/>
+            <fileset file="${basedir}/ext/websphere/wasjmx.jar"/>
+            <fileset file="${basedir}/ext/websphere/wasproduct.jar"/>
+            <fileset file="${basedir}/ext/websphere/wsexception.jar"/>
+            <fileset file="${basedir}/ext/websphere/wsprofile.jar"/>
+            <fileset file="${basedir}/ext/websphere/wssec.jar"/>
+            <fileset file="${basedir}/ext/websphere/wssoap.jar"/>
         </copy>
     </target>
 
