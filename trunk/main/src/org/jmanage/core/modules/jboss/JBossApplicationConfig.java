@@ -35,6 +35,6 @@ public class JBossApplicationConfig extends ApplicationConfig {
     }
 
     public String getURL() {
-        return "jnp://" + getHost() + ":" + 1099;
+        return "jnp://" + getHost() + ":" + getPort();
     }
 }
