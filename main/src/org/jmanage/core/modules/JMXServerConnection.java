@@ -1,4 +1,9 @@
-package org.jmanage.core.management;
+package org.jmanage.core.modules;
+
+import org.jmanage.core.management.*;
+import org.jmanage.core.management.ObjectInstance;
+import org.jmanage.core.management.ObjectName;
+import org.jmanage.core.management.MalformedObjectNameException;
 
 import javax.management.*;
 import java.util.*;

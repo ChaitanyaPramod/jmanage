@@ -1,4 +1,4 @@
-package org.jmanage.core.modules;
+package org.jmanage.core.module;
 
 import org.jmanage.core.config.MetaApplicationConfig;
 import org.jmanage.core.util.CoreUtils;

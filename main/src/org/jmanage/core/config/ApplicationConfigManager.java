@@ -58,9 +58,21 @@ public class ApplicationConfigManager{
     }
 
     public static void updateApplication(ApplicationConfig config) {
+        assert config != null: "application config is null";
         int index = applicationConfigs.indexOf(config);
-        applicationConfigs.remove(index);
-        applicationConfigs.add(index, config);
+        if(index != -1){
+            applicationConfigs.remove(index);
+            applicationConfigs.add(index, config);
+        }else{
+            /* its part of a cluster */
+            assert config.isCluster() == false;
+            ApplicationConfig clusterConfig = config.getClusterConfig();
+            assert clusterConfig != null;
+            index = clusterConfig.getApplications().indexOf(config);
+            assert index != -1: "application not found in cluster";
+            clusterConfig.getApplications().remove(index);
+            clusterConfig.getApplications().add(index, config);
+        }
         saveConfig();
     }
 

@@ -9,6 +9,7 @@ public class MBeanConfigForm extends BaseForm {
 
     private String name;
     private String objectName;
+    private boolean applicationCluster;
 
     public String getName() {
         return name;
@@ -24,5 +25,13 @@ public class MBeanConfigForm extends BaseForm {
 
     public void setObjectName(String objectName) {
         this.objectName = objectName;
+    }
+
+    public boolean isApplicationCluster(){
+        return applicationCluster;
+    }
+
+    public void setApplicationCluster(boolean applicationCluster){
+        this.applicationCluster = applicationCluster;
     }
 }
