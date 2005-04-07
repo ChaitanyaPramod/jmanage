@@ -113,7 +113,7 @@
         }
     }else{
 %>
-    <td><b><%=applicationConfig.getName()%></b></td>
+    <td><b>Value</b></td>
 <%
     }
 %>
@@ -147,8 +147,13 @@
                         MBeanUtils.getAttributeValue(attributeList, attributeInfo.getName());
             %>
             <%if(user.isAdmin() && attributeInfo.isWritable() && !attrValue.equals("Object")){%>
-                <input type="text" name="attr+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>+<%=attributeInfo.getType()%>" size="50"
-                value="<%=attrValue%>"/>
+                <%if(attributeInfo.getType().equals("boolean") || attributeInfo.getType().equals("java.lang.Boolean")){%>
+                    <input type="radio" name="attr+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>+<%=attributeInfo.getType()%>" value="true" <%=attrValue.equals("true")?" CHECKED":""%> />&nbsp;True
+                    &nbsp;&nbsp;&nbsp;<input type="radio" name="attr+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>+<%=attributeInfo.getType()%>" value="false" <%=attrValue.equals("false")?" CHECKED":""%>/>&nbsp;False
+                <%}else{%>
+                    <input type="text" name="attr+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>+<%=attributeInfo.getType()%>" size="50"
+                    value="<%=attrValue%>"/>
+                <%}%>
             <%}else{%>
                 <%=attrValue%>
             <%}%>

@@ -79,7 +79,10 @@ public class HttpServiceProxy implements InvocationHandler {
             throws Exception {
 
         HttpURLConnection conn = (HttpURLConnection) remoteURL.openConnection();
-        //TODO: handle invalid HTTPS host certificate
+
+        // refer: http://jasigch.princeton.edu:9000/display/CAS/Solving+SSL+issues
+        //((HttpsURLConnection)conn).setSSLSocketFactory(new DummySSLSocketFactory());
+
         conn.setDoInput(true);
         conn.setDoOutput(true);
         conn.setRequestProperty("ContentType", REQUEST_CONTENT_TYPE);

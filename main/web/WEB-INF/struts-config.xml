@@ -72,6 +72,7 @@
         <forward name="unAuthorized" path="/auth/unauthorized.jsp"/>
         <forward name="login" path="/auth/showLogin.do"/>
         <forward name="failure" path="/error.jsp"/>
+        <forward name="connectionFailed" path="app.connectionFailed"/>
     </global-forwards>
 
     <!-- ======================================== Action Mapping Definitions -->

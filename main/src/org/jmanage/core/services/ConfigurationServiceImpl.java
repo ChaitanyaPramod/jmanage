@@ -65,6 +65,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
         return data;
     }
 
+    // TODO: sort the list before returning
     public List getAllApplications(ServiceContext context) {
         List appConfigs = ApplicationConfigManager.getApplications();
         return appConfigListToAppConfigDataList(appConfigs);

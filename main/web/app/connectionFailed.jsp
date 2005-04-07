@@ -22,17 +22,21 @@
             (ApplicationConfig)
             request.getAttribute(RequestAttributes.APPLICATION_CONFIG);
 %>
-<p class="headtext1">
-Connection to the application failed
-</p>
-<br/>
-<p class="plaintext">
-Please check the following:
-<ol>
-<li>Application is running.
-<li>Application is correctly configured in jManage.
-Click
-<a href="/config/showEditApplication.do?<%=RequestParams.APPLICATION_ID+"="+applicationConfig.getApplicationId()%>" class="a1">here</a>
-to edit configuration.
-</ol>
-</p>
+<table cellspacing="0" cellpadding="5" width="600" class="table">
+    <tr class="tableHeader">
+        <td>Connection to the application failed</td>
+    </tr>
+    <tr>
+        <td class="plaintext">
+            Please check the following:
+            <ol>
+                <li class="plaintext">Application is running.</li>
+                <li class="plaintext">Application is correctly configured in jManage.
+                Click
+                <a href="/config/showEditApplication.do?<%=RequestParams.APPLICATION_ID+"="+applicationConfig.getApplicationId()%>" class="a1">here</a>
+                to edit configuration.
+                </li>
+            </ol>
+        </td>
+    </tr>
+</table>

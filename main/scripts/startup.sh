@@ -21,7 +21,7 @@ if [ ! -n "$JAVA_HOME" ]; then
 fi
 
 if [ ! -n "$JMANAGE_HOME" ]; then
-    JMANAGE_HOME=.
+    JMANAGE_HOME=..
 fi
 
 if [ ! -f "$JMANAGE_HOME/config/jmanage.properties" ]; then
@@ -37,4 +37,4 @@ LIB_JARS=$JMANAGE_LIB_ROOT/lib/javax.servlet.jar:$JMANAGE_LIB_ROOT/lib/org.mortb
 EXT_JARS=
 JMANAGE_CLASSPATH=$LIB_JARS:$EXT_JARS:$JMANAGE_HOME/classes
 
-$JAVA_HOME/bin/java -ea -classpath $JMANAGE_CLASSPATH $DEBUG_OPTIONS -Djmanage.root=$JMANAGE_HOME -Djava.util.logging.config.file=$JMANAGE_HOME/config/logging.properties -Djava.security.auth.login.config=$JMANAGE_HOME/config/jmanage-auth.conf org.jmanage.webui.Startup
+$JAVA_HOME/bin/java -ea -classpath $JMANAGE_CLASSPATH $DEBUG_OPTIONS -Djmanage.root=$JMANAGE_HOME -Djava.util.logging.config.file=$JMANAGE_HOME/config/logging.properties -Djava.security.auth.login.config=$JMANAGE_HOME/config/jmanage-auth.conf org.jmanage.webui.Startup $*

@@ -13,5 +13,5 @@ set JMANAGE_LIB_ROOT=.
 @rem debug
 set DEBUG_OPTIONS=-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_shmem,server=y,suspend=n,address=jmanagedebug
 
-call ./scripts/startup.cmd
+call ./scripts/startup.cmd %*
 

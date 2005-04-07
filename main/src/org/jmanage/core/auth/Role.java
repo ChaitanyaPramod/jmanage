@@ -39,6 +39,9 @@ public class Role {
     public boolean canAccess(String acl){
         boolean canAccess = false;
         String authorizedList = ACLStore.getInstance().getProperty(acl);
+        /*if acl is not configured, by default there is access */
+        if(authorizedList == null)
+            return true;
         StringTokenizer tokenizer = new StringTokenizer(authorizedList, ",");
         while(tokenizer.hasMoreTokens()){
             if(getName().equals(tokenizer.nextToken())){

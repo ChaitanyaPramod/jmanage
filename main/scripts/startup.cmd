@@ -17,7 +17,7 @@
 
 if "%JAVA_HOME%" == "" goto javaHomeNotSet
 
-if "%JMANAGE_HOME%" == "" set JMANAGE_HOME=.
+if "%JMANAGE_HOME%" == "" set JMANAGE_HOME=..
 
 if not exist "%JMANAGE_HOME%\config\jmanage.properties" goto jmanageHomeNotSet
 
@@ -30,7 +30,7 @@ set JMANAGE_CLASSPATH=%LIB_JARS%;%EXT   _JARS%;%JMANAGE_HOME%/classes
 
 @echo on
 
-%JAVA_HOME%/bin/java -ea -classpath %JMANAGE_CLASSPATH% %DEBUG_OPTIONS% -Djava.util.logging.config.file=%JMANAGE_HOME%/config/logging.properties -Djmanage.root=%JMANAGE_HOME% -Djava.security.auth.login.config=%JMANAGE_HOME%/config/jmanage-auth.conf org.jmanage.webui.Startup
+%JAVA_HOME%/bin/java -ea -classpath %JMANAGE_CLASSPATH% %DEBUG_OPTIONS% -Djava.util.logging.config.file=%JMANAGE_HOME%/config/logging.properties -Djmanage.root=%JMANAGE_HOME% -Djava.security.auth.login.config=%JMANAGE_HOME%/config/jmanage-auth.conf org.jmanage.webui.Startup %*
 goto finish
 
 :javaHomeNotSet
