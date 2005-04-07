@@ -21,7 +21,11 @@ if [ ! -n "$JAVA_HOME" ]; then
 fi
 
 if [ ! -n "$JMANAGE_HOME" ]; then
-	echo "Please set JMANAGE_HOME environment variable pointing to jManage installation directory."
+    JMANAGE_HOME=..
+fi
+
+if [ ! -f "$JMANAGE_HOME/config/jmanage.properties" ]; then
+    echo "Please set JMANAGE_HOME environment variable pointing to jManage installation directory."
     exit 0
 fi
 

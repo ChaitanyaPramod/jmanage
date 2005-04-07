@@ -16,6 +16,7 @@
 package org.jmanage.webui;
 
 import org.mortbay.http.SocketListener;
+import org.mortbay.http.SunJsseListener;
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.servlet.WebApplicationContext;
 import org.mortbay.http.SunJsseListener;
@@ -45,19 +46,31 @@ public class Startup {
         User user = null;
         char[] password = null;
         int invalidAttempts = 0;
-        do{
+
+        if(args.length == 1){
+            password = args[0].toCharArray();
+            user = userManager.verifyUsernamePassword(
+                    AuthConstants.USER_ADMIN, password);
+            /* invalid password was tried */
+            if(user == null){
+                invalidAttempts ++;
+            }
+        }
+
+        while(user == null){
             if(invalidAttempts > 0){
                 System.out.println("Invalid Admin Password.");
             }
             /* get the password */
             password = PasswordField.getPassword("Enter password:");
             /* the password should match for the admin user */
-            user = userManager.verifyUsernamePassword(AuthConstants.USER_ADMIN, password);
+            user = userManager.verifyUsernamePassword(
+                    AuthConstants.USER_ADMIN, password);
             invalidAttempts ++;
             if(invalidAttempts >= 3){
                 break;
             }
-        }while(user == null);
+        }
 
         /* exit if the admin password is still invalid */
         if(user == null){
@@ -98,6 +111,7 @@ public class Startup {
             listener.setPort(port);
             server.addListener(listener);
         }
+
         WebApplicationContext webAppContext = server.addWebApplication("/", webroot);
         webAppContext.setClassLoaderJava2Compliant(true);
         server.start();

@@ -17,14 +17,6 @@
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 <%@ taglib uri="/WEB-INF/tags/jstl/c.tld" prefix="c"%>
 
-
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-    <link href="/css/styles.css" rel="stylesheet" type="text/css" />
-</head>
-<body leftmargin="10" topmargin="10" marginwidth="0" marginheight="0">
-<span class="headtext"><b><br />Add New User</b></span><br /><br />
 <jmhtml:javascript formName="userForm" />
 <jmhtml:errors />
 <jmhtml:form action="/auth/addUser" method="post"
@@ -32,7 +24,7 @@
 
 <table cellspacing="0" cellpadding="5" width="400" class="table">
 <tr class="tableHeader">
-    <td colspan="2">Edit User</td>
+    <td colspan="2">Add User</td>
 </tr>
 <tr>
     <td class="headtext1">Username:</td>

@@ -18,10 +18,15 @@ if [ ! -n "$JAVA_HOME" ]; then
 	echo "Please set JAVA_HOME environment variable. JAVA_HOME must point to a JDK 1.4 installation directory."
     exit 0
 fi
+
 if [ ! -n "$JMANAGE_HOME" ]; then
-	echo "Please set JMANAGE_HOME environment variable pointing to jManage installation directory."
+    JMANAGE_HOME=..
+fi
+if [ ! -f "$JMANAGE_HOME/config/jmanage.properties" ]; then
+    echo "Please set JMANAGE_HOME environment variable pointing to jManage installation directory."
     exit 0
 fi
+
 if [ ! -n "$JMANAGE_LIB_ROOT" ]; then
 	JMANAGE_LIB_ROOT=$JMANAGE_HOME
 fi
