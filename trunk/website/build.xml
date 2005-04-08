@@ -6,7 +6,14 @@
     <property name="forrest.build.xml"
         value="${forrest.home}\src\core\bin\..\forrest.build.xml"/>
 
+    <target name="copy-skins" description="Copies jmanage skin to forrest home">
+         <copy todir="${forrest.home}/src/core/context/skins">
+            <fileset file="./skins/**"/>
+        </copy>
+    </target>
+
     <target name="generate"
+        depends="copy-skins"
         description="Generates a static HTML website for this project [using forrest]">
         <ant antfile="${forrest.build.xml}" target="site">
             <property name="forrest.home" value="${forrest.home}/src/core"/>
@@ -14,6 +21,7 @@
     </target>
 
     <target name="run"
+            depends="copy-skins"
             description="Run Jetty (instant live webapp - for testing) [using forrest]">
         <ant antfile="${forrest.build.xml}" target="run">
             <property name="forrest.home" value="${forrest.home}/src/core"/>

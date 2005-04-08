@@ -13,6 +13,9 @@ jManage is a open source, web and command-line based JMX client, which provides 
 centralized console for managing application clusters and distributed application
 production environments.
 <br/><br/>
+    <a href="/images/screenshots/clusterMBeanView.gif">
+        <img src="/images/screenshots/clusterMBeanView.gif" alt="Screenshot" width="466" height="272"/></a>
+<br/><br/>
 We are currently developing version 0.5, which has the following features:
 <br/><br/>
     - Web based interface, which allows jManage to be used from behind firewall

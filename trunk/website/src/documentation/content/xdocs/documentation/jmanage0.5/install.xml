@@ -27,7 +27,7 @@
           &gt; chmod +x *.sh
           </li>
           <li>
-          Go to jManage installation directory and run "keygen". This prompts for a
+          Go to jManage "bin" directory and run "keygen". This prompts for a
           password which will be used to start the server. This password is also the
           "admin" user password. Password won't be displayed on the console while entering.
           If you are using jManage for non-production environment, you can skip this
@@ -38,7 +38,7 @@
           should change jmanage.properties in config directory.
           </li>
           <li>
-          Run "startup" from the jManage installation directory and enter password
+          Run "startup" from the jManage "bin" directory and enter password
           configured in the previous step. This starts the jManage server. Use
           admin/123456 if you didn't run "keygen".
           </li>

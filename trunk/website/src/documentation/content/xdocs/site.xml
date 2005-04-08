@@ -31,12 +31,13 @@ See http://forrest.apache.org/docs/linking.html for more info
 
 <site label="jManage" href="" xmlns="http://apache.org/forrest/linkmap/1.0" tab="">
 
-  <home label="Home" href="/">
-    <index label="Index" href="index.html" description="Welcome to jManage"/>
-    <downloads label="Downloads" href="http://sourceforge.net/project/showfiles.php?group_id=111374&amp;package_id=120380" description="jManage Downloads"/>
+  <home label="jManage" href="/">
+    <index label="About" href="index.html" description="Welcome to jManage"/>
+    <downloads label="Download" href="http://sourceforge.net/project/showfiles.php?group_id=111374&amp;package_id=120380" description="jManage Downloads"/>
+    <screenshots label="Screenshots" href="/screenshots.html" description="Screen Shots"/>
   </home>
   <documentation label="Documentation" href="/documentation/jmanage0.5/install.html">
-    <cli label="Installation" href="/documentation/jmanage0.5/install.html" description="jManage Installation"/>
+    <installation label="Installation" href="/documentation/jmanage0.5/install.html" description="jManage Installation"/>
     <cli label="Command Line" href="/documentation/jmanage0.5/cli.html" description="Command line reference"/>
   </documentation>
   <community label="Community" href="http://sourceforge.net/projects/jmanage/">
