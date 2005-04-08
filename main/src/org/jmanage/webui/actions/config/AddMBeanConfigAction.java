@@ -44,7 +44,7 @@ public class AddMBeanConfigAction extends BaseAction {
                                  HttpServletRequest request,
                                  HttpServletResponse response)
             throws Exception {
-        AccessController.canAccess(context.getUser(), ACL_ADD_MBEAN_CONFIG);
+        AccessController.checkAccess(context.getServiceContext(), ACL_ADD_MBEAN_CONFIG);
         MBeanConfigForm mbeanConfigForm = (MBeanConfigForm)actionForm;
         ApplicationConfig applicationConfig = context.getApplicationConfig();
 

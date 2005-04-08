@@ -43,7 +43,8 @@ public class RemoveMBeanConfigAction extends BaseAction {
                                  HttpServletRequest request,
                                  HttpServletResponse response)
             throws Exception {
-        AccessController.canAccess(context.getUser(), ACL_EDIT_MBEAN_CONFIG);
+        AccessController.checkAccess(context.getServiceContext(),
+                ACL_EDIT_MBEAN_CONFIG);
         String logMsg = null;
         MBeanConfigForm mbeanConfigForm = (MBeanConfigForm)actionForm;
         ApplicationConfig applicationConfig = context.getApplicationConfig();

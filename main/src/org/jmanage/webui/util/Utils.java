@@ -58,6 +58,6 @@ public class Utils {
     }
 
     public static ServiceContext getServiceContext(WebContext webContext){
-        return new ServiceContextImpl(webContext);
+        return webContext.getServiceContext();
     }
 }

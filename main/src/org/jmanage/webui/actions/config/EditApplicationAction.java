@@ -44,7 +44,8 @@ public class EditApplicationAction extends BaseAction {
                                  HttpServletResponse response)
             throws Exception {
 
-        AccessController.canAccess(context.getUser(), ACL_EDIT_APPLICATIONS);
+        AccessController.checkAccess(context.getServiceContext(),
+                ACL_EDIT_APPLICATIONS);
         ApplicationForm appForm = (ApplicationForm)actionForm;
         ApplicationConfig config =
                 ApplicationConfigManager.getApplicationConfig(

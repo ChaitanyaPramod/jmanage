@@ -55,4 +55,15 @@ public class ObjectAttributeInfo extends ObjectFeatureInfo {
     public boolean isWritable() {
         return isWrite;
     }
+
+    public String getReadWrite(){
+        String readWrite = "";
+        if(isReadable()){
+            readWrite += "R";
+        }
+        if(isWritable()){
+            readWrite += "W";
+        }
+        return readWrite;
+    }
 }

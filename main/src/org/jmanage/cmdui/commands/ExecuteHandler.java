@@ -23,6 +23,7 @@ import org.jmanage.core.services.MBeanService;
 import org.jmanage.core.services.ServiceFactory;
 import org.jmanage.core.services.ServiceContext;
 import org.jmanage.core.data.OperationResultData;
+import org.jmanage.core.util.Expression;
 
 /**
  *

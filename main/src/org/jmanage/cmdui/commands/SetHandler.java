@@ -23,6 +23,7 @@ import org.jmanage.cmdui.util.CommandUtils;
 import org.jmanage.core.services.MBeanService;
 import org.jmanage.core.services.ServiceFactory;
 import org.jmanage.core.util.Loggers;
+import org.jmanage.core.util.Expression;
 import org.jmanage.core.data.AttributeListData;
 
 import java.util.logging.Logger;

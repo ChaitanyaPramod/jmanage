@@ -45,7 +45,8 @@ public class ConfigureAction extends BaseAction {
                                  HttpServletRequest request,
                                  HttpServletResponse response)
             throws Exception{
-        AccessController.canAccess(context.getUser(), ACL_EDIT_JMANAGE_CONFIG);
+        AccessController.checkAccess(context.getServiceContext(),
+                ACL_EDIT_JMANAGE_CONFIG);
         JManageProperties jmanageProperties = JManageProperties.getInstance();
         ConfigureForm configureForm = (ConfigureForm)actionForm;
         jmanageProperties.storeMaxLoginAttempts(configureForm.getMaxLoginAttempts());

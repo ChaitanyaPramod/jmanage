@@ -40,7 +40,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     public ApplicationConfigData addApplication(ServiceContext context,
                                                 ApplicationConfigData data){
 
-        AccessController.canAccess(context.getUser(), ACLConstants.ACL_ADD_APPLICATIONS);
+        AccessController.checkAccess(context, ACLConstants.ACL_ADD_APPLICATIONS);
         /* do the operation */
         String appId = ApplicationConfig.getNextApplicationId();
         Integer port = data.getPort();
@@ -88,12 +88,13 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     }
 
 
-    public List getConfiguredMBeans(ServiceContext context,
-                                    String applicationName)
+    public List getConfiguredMBeans(ServiceContext context)
             throws ServiceException {
-        AccessController.canAccess(context.getUser(),
-                ACLConstants.ACL_VIEW_APPLICATIONS, applicationName);
 
+        AccessController.checkAccess(context,
+                ACLConstants.ACL_VIEW_APPLICATIONS);
+
+        String applicationName = context.getApplicationConfig().getName();
         ApplicationConfig appConfig =
                 ServiceUtils.getApplicationConfigByName(applicationName);
         List mbeanList = appConfig.getMBeans();

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jmanage.cmdui.commands;
+package org.jmanage.core.util;
 
 import java.util.StringTokenizer;
 
@@ -22,7 +22,7 @@ import java.util.StringTokenizer;
  * date:  Feb 26, 2005
  * @author	Rakesh Kalra
  */
-class Expression {
+public class Expression {
 
     private static final String DELIMITER = "/";
 

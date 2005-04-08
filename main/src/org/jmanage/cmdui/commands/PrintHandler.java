@@ -23,6 +23,7 @@ import org.jmanage.core.services.MBeanService;
 import org.jmanage.core.services.ServiceFactory;
 import org.jmanage.core.management.ObjectAttribute;
 import org.jmanage.core.data.AttributeListData;
+import org.jmanage.core.util.Expression;
 import org.jmanage.util.StringUtils;
 
 import java.util.*;

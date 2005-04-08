@@ -57,7 +57,7 @@ public class EditUserAction extends BaseAction{
                                  HttpServletRequest request,
                                  HttpServletResponse response)
             throws Exception {
-        AccessController.canAccess(context.getUser(), ACL_EDIT_USERS);
+        AccessController.checkAccess(context.getServiceContext(), ACL_EDIT_USERS);
         User user = buildUser(actionForm);
         UserManager.getInstance().updateUser(user);
         UserActivityLogger.getInstance().logActivity(

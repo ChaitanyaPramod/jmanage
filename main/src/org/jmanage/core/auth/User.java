@@ -108,37 +108,12 @@ public class User implements Principal, java.io.Serializable{
         return getUsername();
     }
 
-    // TODO: check all usage and see if they are valid after ACL impl.
-    public boolean isAdmin(){
-        for(Iterator it=getRoles().iterator(); it.hasNext();){
-            Role role = (Role)it.next();
-            if(AuthConstants.ROLE_OPS.equals(role.getName())){
+    public boolean hasRole(String role) {
+        for(Iterator it=getRoles().iterator(); it.hasNext(); ){
+            Role roleObj = (Role)it.next();
+            if(role.equals(roleObj.getName())){
                 return true;
             }
-        }
-        return false;
-    }
-
-    /**
-     *
-     * @param acl
-     * @return
-     */
-    public boolean canAccess(String acl){
-        String authorizedList = ACLStore.getInstance().getProperty(acl);
-        /*if acl is not configured, by default there is access */
-        if(authorizedList == null)
-            return true;
-        StringTokenizer tokenizer = new StringTokenizer(authorizedList, ",");
-        while(tokenizer.hasMoreTokens()){
-            if(getUsername().equalsIgnoreCase(tokenizer.nextToken())){
-                return true;
-            }
-        }
-        for(Iterator it=getRoles().iterator(); it.hasNext();){
-            Role role = (Role)it.next();
-            if(role.canAccess(acl))
-                return true;
         }
         return false;
     }

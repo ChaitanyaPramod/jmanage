@@ -55,7 +55,8 @@ public class ShowEditApplicationAction extends BaseAction {
                                  HttpServletRequest request,
                                  HttpServletResponse response)
             throws Exception{
-        AccessController.canAccess(context.getUser(), ACL_EDIT_APPLICATIONS);
+        AccessController.checkAccess(context.getServiceContext(),
+                ACL_EDIT_APPLICATIONS);
         ApplicationConfig config = context.getApplicationConfig();
         ApplicationForm appForm = (ApplicationForm)actionForm;
         ModuleConfig moduleConfig = ModuleRegistry.getModule(config.getType());

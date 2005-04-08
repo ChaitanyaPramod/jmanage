@@ -15,21 +15,11 @@
 --%>
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 
-<html>
-<head>
-<title>Error</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-    <link href="/css/styles.css" rel="stylesheet" type="text/css" />
-
-</head>
-<body leftmargin="8" topmargin="12" marginwidth="0" marginheight="0">
-<table width="650" border="0" cellpadding="2" cellspacing="1">
-  <tr>
-    <td height="31" class="headtext">Error</td>
-  </tr>
-  <tr>
-    <td height="31"><jmhtml:errors /></td>
-  </tr>
+<table cellspacing="0" cellpadding="5" width="600" class="table">
+    <tr class="tableHeader">
+        <td>Error</td>
+    </tr>
+    <tr>
+        <td height="31"><jmhtml:errors /></td>
+    </tr>
 </table>
-</body>
-</html>

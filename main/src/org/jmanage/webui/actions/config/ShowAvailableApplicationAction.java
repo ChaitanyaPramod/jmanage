@@ -53,7 +53,8 @@ public class ShowAvailableApplicationAction extends BaseAction{
                                  HttpServletRequest request,
                                  HttpServletResponse response)
             throws Exception {
-        AccessController.canAccess(context.getUser(), ACL_ADD_APPLICATIONS);
+        AccessController.checkAccess(context.getServiceContext(),
+                ACL_ADD_APPLICATIONS);
         Map availableApplications = ModuleRegistry.getModules();
         request.setAttribute(RequestAttributes.AVAILABLE_APPLICATIONS,
                 availableApplications);

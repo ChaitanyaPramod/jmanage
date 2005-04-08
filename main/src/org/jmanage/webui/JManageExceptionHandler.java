@@ -21,18 +21,24 @@ import org.apache.struts.config.ExceptionConfig;
 import org.apache.struts.Globals;
 import org.jmanage.core.services.ServiceException;
 import org.jmanage.core.util.ErrorCodes;
+import org.jmanage.core.util.Loggers;
 import org.jmanage.core.management.ConnectionFailedException;
 import org.jmanage.webui.util.Forwards;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.ServletException;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 /**
  * Date: Feb 27, 2005 6:52:10 PM
  * @author Shashank Bellary 
  */
 public class JManageExceptionHandler extends ExceptionHandler{
+
+    private static final Logger logger =
+            Loggers.getLogger(JManageExceptionHandler.class);
 
     /**
      * Custom handler of exceptions in jManage.
@@ -63,6 +69,7 @@ public class JManageExceptionHandler extends ExceptionHandler{
             //TODO: We need not handle this condition once all the code throwing this exception gets moved to service layer.
             return mapping.findForward(Forwards.CONNECTION_FAILED);
         }else{
+            logger.log(Level.SEVERE, "unknown exception", exception);
             errors.add(ActionErrors.GLOBAL_ERROR,
                     new ActionError(ErrorCodes.UNKNOWN_ERROR));
         }

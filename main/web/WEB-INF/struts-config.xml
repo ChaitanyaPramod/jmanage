@@ -62,7 +62,7 @@
         <exception
             key="ignore"
             type="org.jmanage.core.auth.UnAuthorizedAccessException"
-            path="/auth/unauthorized.jsp" />
+            path="auth.unauthorized" />
 
     </global-exceptions>
 
@@ -71,7 +71,7 @@
     <global-forwards>
         <forward name="unAuthorized" path="/auth/unauthorized.jsp"/>
         <forward name="login" path="/auth/showLogin.do"/>
-        <forward name="failure" path="/error.jsp"/>
+        <forward name="failure" path="common.error"/>
         <forward name="connectionFailed" path="app.connectionFailed"/>
     </global-forwards>
 

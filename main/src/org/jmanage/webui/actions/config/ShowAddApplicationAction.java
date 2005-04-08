@@ -55,7 +55,8 @@ public class ShowAddApplicationAction extends BaseAction {
                                  HttpServletRequest request,
                                  HttpServletResponse response)
             throws Exception {
-        AccessController.canAccess(context.getUser(), ACL_ADD_APPLICATIONS);
+        AccessController.checkAccess(context.getServiceContext(),
+                ACL_ADD_APPLICATIONS);
         ApplicationForm appForm = (ApplicationForm)actionForm;
         ModuleConfig moduleConfig = ModuleRegistry.getModule(appForm.getType());
         request.setAttribute(RequestAttributes.META_APP_CONFIG,

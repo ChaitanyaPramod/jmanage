@@ -85,7 +85,7 @@ public class Startup {
         /* clear the password */
         Arrays.fill(password, ' ');
         /* load ACLs */
-        ACLStore.init();
+        ACLStore.getInstance();
 
         /* start the application */
         start();

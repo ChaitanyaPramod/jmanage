@@ -21,14 +21,15 @@
                  org.jmanage.webui.util.MBeanUtils,
                  org.jmanage.core.config.ApplicationConfig,
                  java.util.*,
-                 org.jmanage.core.util.ACLConstants"%>
+                 org.jmanage.core.util.ACLConstants,
+                 org.jmanage.core.auth.AccessController,
+                 org.jmanage.webui.util.Utils"%>
 
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 <%@ taglib uri="/WEB-INF/tags/jstl/c.tld" prefix="c"%>
 
 <%
     final WebContext webContext = WebContext.get(request);
-    final User user = webContext.getUser();
 
     ObjectInfo objectInfo = (ObjectInfo)request.getAttribute("objInfo");
     ObjectAttributeInfo[] attributes = objectInfo.getAttributes();
@@ -98,7 +99,7 @@
 <%
     if(attributes.length > 0){
         boolean showUpdateButton = false;
-        int columns = 3;
+        int columns = 4;
 %>
 <jmhtml:form action="/app/updateAttributes" method="post">
 <table class="table" border="0" cellspacing="0" cellpadding="5">
@@ -106,7 +107,7 @@
     <td><b>Name</b></td>
 <%
     if(applicationConfig.isCluster()){
-        columns = 3 + (applicationConfig.getApplications().size() - 1);
+        columns = columns + (applicationConfig.getApplications().size() - 1);
         for(Iterator it=applicationConfig.getApplications().iterator(); it.hasNext();){
             ApplicationConfig childAppConfig = (ApplicationConfig)it.next();
 %>
@@ -119,6 +120,7 @@
 <%
     }
 %>
+    <td><b>RW</b></td>
     <td><b>Type</b></td>
 </tr>
 <%
@@ -143,13 +145,12 @@
             List attributeList = (List)appConfigToAttrListMap.get(childAppConfig);
     %>
 <td class="plaintext">
-        <%if(attributeList != null){%>
-            <%
-                String attrValue =
+        <%if(attributeList != null){
+            String attrValue =
                         MBeanUtils.getAttributeValue(attributeList, attributeInfo.getName());
-            %>
-            <%if((user.canAccess(ACLConstants.ACL_UPDATE_MBEAN_ATTRIBUTES) ||
-                    user.canAccess(ACLConstants.ACL_UPDATE_MBEAN_ATTRIBUTES+"."+attributeInfo.getName())) &&
+            if(AccessController.canAccess(webContext.getServiceContext(),
+                        ACLConstants.ACL_UPDATE_MBEAN_ATTRIBUTES,
+                        attributeInfo.getName()) &&
                     attributeInfo.isWritable() && !attrValue.equals("Object")){
                 showUpdateButton = true;
             %>
@@ -170,6 +171,9 @@
 <%
 }
 %>
+<td class="plaintext">
+    <%=attributeInfo.getReadWrite()%>
+</td>
 <td class="plaintext">
     <%=attributeInfo.getType()%>
 </td>
@@ -221,8 +225,9 @@
     </td>
     <td class="plaintext">
         <input type="hidden" name="operationName" value="<%=operationInfo.getName()%>"/>
-        <%  if(user.canAccess(ACLConstants.ACL_EXECUTE_MBEAN_OPERATIONS) ||
-                user.canAccess(ACLConstants.ACL_EXECUTE_MBEAN_OPERATIONS+"."+operationInfo.getName())){  %>
+        <%  if(AccessController.canAccess(webContext.getServiceContext(),
+                        ACLConstants.ACL_EXECUTE_MBEAN_OPERATIONS,
+                        operationInfo.getName())){  %>
         <input tabindex="<%=(tabIndex++) + params.length%>" type="submit" value="Execute" class="Inside3d"/>&nbsp;
         <%  }else{  %>
         <input tabindex="<%=(tabIndex++) + params.length%>" type="submit" value="Execute" class="Inside3d" disabled/>&nbsp;
@@ -250,7 +255,8 @@
 <%}%>
 
 <%if(notifications.length > 0 &&
-        user.canAccess(ACLConstants.ACL_VIEW_MBEAN_NOTIFICATIONS)){%>
+        AccessController.canAccess(webContext.getServiceContext(),
+                        ACLConstants.ACL_VIEW_MBEAN_NOTIFICATIONS)){%>
 <br/>
 <table class="table" border="0" cellspacing="0" cellpadding="5" width="900">
     <tr class="tableHeader">
