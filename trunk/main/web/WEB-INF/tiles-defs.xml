@@ -28,6 +28,10 @@
 
 <!-- =========================================================== PAGES ===== -->
 
+    <definition name="common.error" extends="layouts.common">
+        <put name="body.main" value="/error.jsp" />
+    </definition>
+
     <definition name="config.admin" extends="layouts.common">
         <put name="body.main" value="/config/admin.jsp" />
     </definition>
@@ -56,6 +60,9 @@
     </definition>
     <definition name="auth.userActivity" extends="layouts.common">
         <put name="body.main" value="/auth/userActivity.jsp" />
+    </definition>
+    <definition name="auth.unauthorized" extends="layouts.common">
+        <put name="body.main" value="/auth/unauthorized.jsp" />
     </definition>
 
     <definition name="config.managedApplications" extends="layouts.common">

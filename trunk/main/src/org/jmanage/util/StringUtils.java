@@ -15,9 +15,7 @@
  */
 package org.jmanage.util;
 
-import java.util.StringTokenizer;
-import java.util.List;
-import java.util.Iterator;
+import java.util.*;
 
 /**
  *
@@ -67,5 +65,17 @@ public class StringUtils {
             output[i] = it.next().toString();
         }
         return output;
+    }
+
+    public static List csvToList(String csv) {
+        if(csv == null){
+            return null;
+        }
+        StringTokenizer tokenizer = new StringTokenizer(csv, ",");
+        List list = new ArrayList(tokenizer.countTokens());
+        while(tokenizer.hasMoreTokens()){
+            list.add(tokenizer.nextToken().trim());
+        }
+        return list;
     }
 }

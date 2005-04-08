@@ -56,7 +56,7 @@ public class ShowAddUserAction extends BaseAction{
                                  HttpServletRequest request,
                                  HttpServletResponse response)
             throws Exception {
-        AccessController.canAccess(context.getUser(), ACL_ADD_USERS);
+        AccessController.checkAccess(context.getServiceContext(), ACL_ADD_USERS);
 
         List roles = RoleManager.getAll();
         request.setAttribute(RequestAttributes.ROLES, roles);

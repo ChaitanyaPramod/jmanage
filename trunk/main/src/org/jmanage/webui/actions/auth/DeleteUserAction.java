@@ -52,7 +52,7 @@ public class DeleteUserAction extends BaseAction{
                                  HttpServletRequest request,
                                  HttpServletResponse response)
             throws Exception {
-        AccessController.canAccess(context.getUser(), ACL_EDIT_USERS);
+        AccessController.checkAccess(context.getServiceContext(), ACL_EDIT_USERS);
         String username = request.getParameter(RequestParams.USER_NAME);
         UserManager.getInstance().deleteUser(username);
         UserActivityLogger.getInstance().logActivity(

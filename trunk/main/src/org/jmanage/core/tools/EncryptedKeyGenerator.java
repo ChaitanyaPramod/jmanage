@@ -43,8 +43,6 @@ import java.util.List;
  */
 public class EncryptedKeyGenerator {
 
-
-
     public static void main(String[] args)
         throws Exception{
 
@@ -62,7 +60,6 @@ public class EncryptedKeyGenerator {
         KeyManager.writeKey(encryptedKey);
 
         List roles = new ArrayList(1);
-        roles.add(new Role(AuthConstants.ROLE_OPS));
         UserManager.getInstance().addUser(new User(AuthConstants.USER_ADMIN,
                 Crypto.hash(password), roles, "A", 0));
 

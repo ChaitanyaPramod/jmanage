@@ -30,28 +30,6 @@ public class Role {
         this.name = name;
     }
 
-    /**
-     * Check whether this role/group is in the controlled list.
-     *
-     * @param acl
-     * @return
-     */
-    public boolean canAccess(String acl){
-        boolean canAccess = false;
-        String authorizedList = ACLStore.getInstance().getProperty(acl);
-        /*if acl is not configured, by default there is access */
-        if(authorizedList == null)
-            return true;
-        StringTokenizer tokenizer = new StringTokenizer(authorizedList, ",");
-        while(tokenizer.hasMoreTokens()){
-            if(getName().equals(tokenizer.nextToken())){
-                canAccess = true;
-                break;
-            }
-        }
-        return canAccess;
-    }
-
     public String getName() {
         return name;
     }

@@ -15,19 +15,16 @@
  */
 package org.jmanage.cmdui.commands;
 
+import org.jmanage.cmdui.CommandConstants;
 import org.jmanage.cmdui.CommandHandler;
 import org.jmanage.cmdui.HandlerContext;
-import org.jmanage.cmdui.CommandConstants;
-import org.jmanage.cmdui.util.Out;
-import org.jmanage.cmdui.util.Table;
 import org.jmanage.cmdui.util.CommandUtils;
-import org.jmanage.core.services.MBeanService;
-import org.jmanage.core.services.ServiceFactory;
-import org.jmanage.core.services.ServiceContext;
-import org.jmanage.core.management.ObjectAttribute;
+import org.jmanage.cmdui.util.Out;
 import org.jmanage.core.data.AttributeListData;
-
-import java.util.List;
+import org.jmanage.core.services.MBeanService;
+import org.jmanage.core.services.ServiceContext;
+import org.jmanage.core.services.ServiceFactory;
+import org.jmanage.core.util.Expression;
 
 /**
  * Gets attribute values for given mbean.

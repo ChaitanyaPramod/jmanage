@@ -53,7 +53,7 @@ public class ShowEditUserAction extends BaseAction{
                                  HttpServletRequest request,
                                  HttpServletResponse response)
             throws Exception {
-        AccessController.canAccess(context.getUser(), ACL_EDIT_USERS);
+        AccessController.checkAccess(context.getServiceContext(), ACL_EDIT_USERS);
         String username = request.getParameter(RequestParams.USER_NAME);
         User user = UserManager.getInstance().getUser(username);
         prepareUserForm(actionForm, user);

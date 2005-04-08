@@ -59,7 +59,7 @@ public class ShowUserActivityAction extends BaseAction{
                                  HttpServletRequest request,
                                  HttpServletResponse response)
             throws Exception {
-        AccessController.canAccess(context.getUser(), ACL_VIEW_USER_ACTIVITY);
+        AccessController.checkAccess(context.getServiceContext(), ACL_VIEW_USER_ACTIVITY);
         BufferedReader reader =
                 new BufferedReader(new FileReader(USER_ACTIVITY_LOG_FILE_PATH));
         List activities = new ArrayList(1);

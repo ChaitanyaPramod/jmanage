@@ -50,8 +50,8 @@ public class MBeansHandler implements CommandHandler {
         ConfigurationService configService =
                 ServiceFactory.getConfigurationService();
         List mbeanDataList =
-                configService.getConfiguredMBeans(context.getServiceContext(),
-                        appName);
+                configService.getConfiguredMBeans(
+                        context.getServiceContext(appName));
         assert mbeanDataList != null;
         CommandUtils.printMBeans(mbeanDataList);
         return true;

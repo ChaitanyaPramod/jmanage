@@ -22,6 +22,7 @@ import org.jmanage.core.management.ServerConnection;
 import org.jmanage.core.management.ServerConnector;
 import org.jmanage.core.management.ObjectName;
 import org.jmanage.core.management.MalformedObjectNameException;
+import org.jmanage.core.services.ServiceContext;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -37,6 +38,7 @@ public class WebContext {
     private ApplicationConfig appConfig;
     private HttpServletRequest request;
     private HttpSession session;
+    private ServiceContext serviceContext;
 
     private ServerConnection serverConnection;
 
@@ -112,4 +114,10 @@ public class WebContext {
         return user;
     }
 
+    public ServiceContext getServiceContext(){
+        if(serviceContext == null){
+            serviceContext = new ServiceContextImpl(this);
+        }
+        return serviceContext;
+    }
 }

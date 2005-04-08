@@ -23,7 +23,6 @@ import org.jmanage.core.data.AttributeListData;
 import org.jmanage.core.management.*;
 import org.jmanage.core.util.*;
 import org.jmanage.core.auth.AccessController;
-import org.jmanage.core.auth.User;
 import org.jmanage.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -119,8 +118,8 @@ public class MBeanServiceImpl implements MBeanService {
                 ApplicationConfig childAppConfig = (ApplicationConfig)it.next();
                 try {
                     resultData[index] =
-                            getAttributes(childAppConfig, objectName, attributes,
-                                    context.getUser());
+                            getAttributes(context,
+                                    childAppConfig, objectName, attributes);
                 } catch (ConnectionFailedException e) {
                     resultData[index] =
                             new AttributeListData(childAppConfig.getName());
@@ -129,8 +128,7 @@ public class MBeanServiceImpl implements MBeanService {
         }else{
             resultData = new AttributeListData[1];
             resultData[0] =
-                    getAttributes(appConfig, objectName, attributes,
-                            context.getUser());
+                    getAttributes(context, appConfig, objectName, attributes);
         }
         return resultData;
     }
@@ -138,13 +136,15 @@ public class MBeanServiceImpl implements MBeanService {
     /**
      * @return list of attribute values for given attributes
      */
-    private AttributeListData getAttributes(ApplicationConfig appConfig,
+    private AttributeListData getAttributes(ServiceContext context,
+                                            ApplicationConfig appConfig,
                                             ObjectName objectName,
-                                            String[] attributes,
-                                            User user)
+                                            String[] attributes)
             throws ConnectionFailedException {
+
+        // TODO: we should hide the attributes in the jsp
         for(int attrCount = 0; attrCount < attributes.length; attrCount++){
-            AccessController.canAccess(user,
+            AccessController.checkAccess(context,
                     ACLConstants.ACL_VIEW_MBEAN_ATTRIBUTES,
                     attributes[attrCount]);
         }
@@ -160,7 +160,7 @@ public class MBeanServiceImpl implements MBeanService {
                                         String[] params)
             throws ServiceException {
         canAccessThisMBean(context);
-        AccessController.canAccess(context.getUser(),
+        AccessController.checkAccess(context,
                 ACLConstants.ACL_EXECUTE_MBEAN_OPERATIONS, operationName);
 
         /* try to determine the method, based on params */
@@ -182,7 +182,7 @@ public class MBeanServiceImpl implements MBeanService {
                                         String[] signature)
             throws ServiceException {
         canAccessThisMBean(context);
-        AccessController.canAccess(context.getUser(),
+        AccessController.checkAccess(context,
                 ACLConstants.ACL_EXECUTE_MBEAN_OPERATIONS, operationName);
 
         ApplicationConfig appConfig = context.getApplicationConfig();
@@ -321,7 +321,7 @@ public class MBeanServiceImpl implements MBeanService {
                                                List attributeList){
         for(Iterator attrIterator = attributeList.iterator(); attrIterator.hasNext();){
             ObjectAttribute objAttr = (ObjectAttribute)attrIterator.next();
-            AccessController.canAccess(context.getUser(),
+            AccessController.checkAccess(context,
                     ACLConstants.ACL_UPDATE_MBEAN_ATTRIBUTES,
                     objAttr.getName());
         }
@@ -472,10 +472,10 @@ public class MBeanServiceImpl implements MBeanService {
         final ApplicationConfig config = context.getApplicationConfig();
         final MBeanConfig configuredMBean =
                 config.findMBeanByObjectName(context.getObjectName().getCanonicalName());
-        AccessController.canAccess(context.getUser(),
-                ACLConstants.ACL_VIEW_APPLICATIONS, config.getName());
+        AccessController.checkAccess(context,
+                ACLConstants.ACL_VIEW_APPLICATIONS);
         if(configuredMBean != null)
-            AccessController.canAccess(context.getUser(),
-                    ACLConstants.ACL_VIEW_MBEANS, configuredMBean.getName());
+            AccessController.checkAccess(context,
+                    ACLConstants.ACL_VIEW_MBEANS);
     }
 }

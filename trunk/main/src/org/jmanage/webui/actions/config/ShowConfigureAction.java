@@ -41,7 +41,8 @@ public class ShowConfigureAction extends BaseAction{
                                     HttpServletRequest request,
                                     HttpServletResponse response)
             throws Exception{
-        AccessController.canAccess(context.getUser(), ACL_EDIT_JMANAGE_CONFIG);
+        AccessController.checkAccess(context.getServiceContext(),
+                ACL_EDIT_JMANAGE_CONFIG);
         ConfigureForm confgForm = (ConfigureForm)actionForm;
         final JManageProperties jManageProperties = JManageProperties.getInstance();
         final int MAX_LOGIN_ATTEMPTS_ALLOWED =

@@ -43,7 +43,8 @@ public class DeleteApplicationAction extends BaseAction{
                                  HttpServletRequest request,
                                  HttpServletResponse response)
             throws Exception {
-        AccessController.canAccess(context.getUser(), ACL_EDIT_APPLICATIONS);
+        AccessController.checkAccess(context.getServiceContext(),
+                ACL_EDIT_APPLICATIONS);
         ApplicationForm appForm = (ApplicationForm)actionForm;
         ApplicationConfig config=ApplicationConfigManager.deleteApplication
                 (appForm.getApplicationId());

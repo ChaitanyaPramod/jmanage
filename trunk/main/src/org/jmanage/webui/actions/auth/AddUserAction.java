@@ -57,7 +57,7 @@ public class AddUserAction extends BaseAction{
                                  HttpServletRequest request,
                                  HttpServletResponse response)
             throws Exception {
-        AccessController.canAccess(context.getUser(), ACL_ADD_USERS);
+        AccessController.checkAccess(context.getServiceContext(), ACL_ADD_USERS);
         User user = buildUser(actionForm);
         UserManager.getInstance().addUser(user);
         UserActivityLogger.getInstance().logActivity(

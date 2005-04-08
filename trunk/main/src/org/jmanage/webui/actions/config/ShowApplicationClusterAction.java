@@ -46,7 +46,8 @@ public class ShowApplicationClusterAction extends BaseAction {
                                  HttpServletRequest request,
                                  HttpServletResponse response)
             throws Exception {
-        AccessController.canAccess(context.getUser(), ACL_ADD_APPLICATIONS);
+        AccessController.checkAccess(context.getServiceContext(),
+                ACL_ADD_APPLICATIONS);
         ApplicationClusterForm clusterForm =
                 (ApplicationClusterForm)actionForm;
         String applicationId = clusterForm.getApplicationId();

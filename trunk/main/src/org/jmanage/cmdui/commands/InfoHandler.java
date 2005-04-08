@@ -26,6 +26,7 @@ import org.jmanage.core.management.ObjectInfo;
 import org.jmanage.core.management.ObjectOperationInfo;
 import org.jmanage.core.management.ObjectAttributeInfo;
 import org.jmanage.core.management.ObjectParameterInfo;
+import org.jmanage.core.util.Expression;
 
 /**
  * info       <appName>/<mbeanName[configured name or object name]>
@@ -99,21 +100,10 @@ public class InfoHandler implements CommandHandler {
         for(int i=0; i<attributes.length; i++){
             table.add(attributes[i].getName(),
                     attributes[i].getType(),
-                    readWrite(attributes[i]),
+                    attributes[i].getReadWrite(),
                     attributes[i].getDescription());
         }
         table.print();
-    }
-
-    private String readWrite(ObjectAttributeInfo attribute) {
-        String readWrite = "";
-        if(attribute.isReadable()){
-            readWrite += "R";
-        }
-        if(attribute.isWritable()){
-            readWrite += "W";
-        }
-        return readWrite;
     }
 
     private void printOperations(ObjectOperationInfo[] operations) {
