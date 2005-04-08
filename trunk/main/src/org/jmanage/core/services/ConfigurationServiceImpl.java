@@ -92,7 +92,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
                                     String applicationName)
             throws ServiceException {
         AccessController.canAccess(context.getUser(),
-                ACLConstants.ACL_VIEW_CONFIGURED_APPLICATION, applicationName);
+                ACLConstants.ACL_VIEW_APPLICATIONS, applicationName);
 
         ApplicationConfig appConfig =
                 ServiceUtils.getApplicationConfigByName(applicationName);

@@ -43,7 +43,7 @@ public class AppViewAction extends BaseAction {
 
         ApplicationConfig appConfig = context.getApplicationConfig();
         AccessController.canAccess(context.getUser(),
-                ACLConstants.ACL_VIEW_CONFIGURED_APPLICATION, appConfig.getName());
+                ACLConstants.ACL_VIEW_APPLICATIONS, appConfig.getName());
         if(appConfig.isCluster()){
             return mapping.findForward("cluster");
         }else{

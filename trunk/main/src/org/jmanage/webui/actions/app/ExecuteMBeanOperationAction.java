@@ -19,7 +19,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.jmanage.core.data.OperationResultData;
-import org.jmanage.core.management.ObjectName;
 import org.jmanage.core.services.MBeanService;
 import org.jmanage.core.services.ServiceFactory;
 import org.jmanage.core.util.Loggers;
@@ -51,7 +50,6 @@ public class ExecuteMBeanOperationAction extends BaseAction {
                                  HttpServletResponse response)
         throws Exception{
 
-        final ObjectName objectName = context.getObjectName();
         /* get the information about the operation to be executed */
         final String operationName = request.getParameter("operationName");
         final int paramCount =

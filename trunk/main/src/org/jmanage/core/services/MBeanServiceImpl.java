@@ -23,6 +23,7 @@ import org.jmanage.core.data.AttributeListData;
 import org.jmanage.core.management.*;
 import org.jmanage.core.util.*;
 import org.jmanage.core.auth.AccessController;
+import org.jmanage.core.auth.User;
 import org.jmanage.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -63,15 +64,7 @@ public class MBeanServiceImpl implements MBeanService {
 
     public ObjectInfo getMBeanInfo(ServiceContext context)
             throws ServiceException {
-        final ApplicationConfig config = context.getApplicationConfig();
-        final MBeanConfig configuredMBean =
-                config.findMBeanByObjectName(context.getObjectName().getCanonicalName());
-        AccessController.canAccess(context.getUser(),
-                ACLConstants.ACL_VIEW_CONFIGURED_APPLICATION, config.getName());
-        if(configuredMBean != null)
-            AccessController.canAccess(context.getUser(),
-                    ACLConstants.ACL_VIEW_CONFIGURED_MBEAN, configuredMBean.getName());
-
+        canAccessThisMBean(context);
         ServerConnection serverConnection = context.getServerConnection();
         ObjectInfo objectInfo =
                 serverConnection.getObjectInfo(context.getObjectName());
@@ -83,7 +76,7 @@ public class MBeanServiceImpl implements MBeanService {
      */
     public AttributeListData[] getAttributes(ServiceContext context)
             throws ServiceException {
-
+        canAccessThisMBean(context);
         ServerConnection serverConnection =
                 ServiceUtils.getServerConnectionEvenIfCluster(
                         context.getApplicationConfig());
@@ -109,11 +102,11 @@ public class MBeanServiceImpl implements MBeanService {
                                              String[] attributes,
                                              boolean handleCluster)
             throws ServiceException {
-
+        canAccessThisMBean(context);
         ApplicationConfig appConfig = context.getApplicationConfig();
         ObjectName objectName = context.getObjectName();
 
-        AttributeListData[] resultData = null;;
+        AttributeListData[] resultData = null;
         if(appConfig.isCluster()){
             if(!handleCluster){
                 throw new ServiceException(ErrorCodes.OPERATION_NOT_SUPPORTED_FOR_CLUSTER);
@@ -126,7 +119,8 @@ public class MBeanServiceImpl implements MBeanService {
                 ApplicationConfig childAppConfig = (ApplicationConfig)it.next();
                 try {
                     resultData[index] =
-                            getAttributes(childAppConfig, objectName, attributes);
+                            getAttributes(childAppConfig, objectName, attributes,
+                                    context.getUser());
                 } catch (ConnectionFailedException e) {
                     resultData[index] =
                             new AttributeListData(childAppConfig.getName());
@@ -135,7 +129,8 @@ public class MBeanServiceImpl implements MBeanService {
         }else{
             resultData = new AttributeListData[1];
             resultData[0] =
-                    getAttributes(appConfig, objectName, attributes);
+                    getAttributes(appConfig, objectName, attributes,
+                            context.getUser());
         }
         return resultData;
     }
@@ -145,9 +140,14 @@ public class MBeanServiceImpl implements MBeanService {
      */
     private AttributeListData getAttributes(ApplicationConfig appConfig,
                                             ObjectName objectName,
-                                            String[] attributes)
+                                            String[] attributes,
+                                            User user)
             throws ConnectionFailedException {
-
+        for(int attrCount = 0; attrCount < attributes.length; attrCount++){
+            AccessController.canAccess(user,
+                    ACLConstants.ACL_VIEW_MBEAN_ATTRIBUTES,
+                    attributes[attrCount]);
+        }
         ServerConnection connection =
                 ServerConnector.getServerConnection(appConfig);
         List attrList =
@@ -159,11 +159,14 @@ public class MBeanServiceImpl implements MBeanService {
                                         String operationName,
                                         String[] params)
             throws ServiceException {
+        canAccessThisMBean(context);
+        AccessController.canAccess(context.getUser(),
+                ACLConstants.ACL_EXECUTE_MBEAN_OPERATIONS, operationName);
 
         /* try to determine the method, based on params */
         ObjectOperationInfo operationInfo =
                 findOperation(context, operationName,
-                        params!=null?params.length:0);
+                        params != null ? params.length : 0);
         return invoke(context, operationName, params,
                 operationInfo.getParameters());
     }
@@ -178,11 +181,14 @@ public class MBeanServiceImpl implements MBeanService {
                                         String[] params,
                                         String[] signature)
             throws ServiceException {
+        canAccessThisMBean(context);
+        AccessController.canAccess(context.getUser(),
+                ACLConstants.ACL_EXECUTE_MBEAN_OPERATIONS, operationName);
 
         ApplicationConfig appConfig = context.getApplicationConfig();
         ObjectName objectName = context.getObjectName();
 
-        OperationResultData[] resultData = null;;
+        OperationResultData[] resultData = null;
         if(appConfig.isCluster()){
             /* we need to perform this operation for all servers
                 in this cluster */
@@ -263,6 +269,7 @@ public class MBeanServiceImpl implements MBeanService {
     public AttributeListData[] setAttributes(ServiceContext context,
                                              String[][] attributes)
             throws ServiceException{
+        canAccessThisMBean(context);
         List applications = getApplications(context.getApplicationConfig());
         ObjectName objectName = context.getObjectName();
         List attributeList = buildAttributeList(context, attributes);
@@ -291,6 +298,7 @@ public class MBeanServiceImpl implements MBeanService {
     public AttributeListData[] setAttributes(ServiceContext context,
                                              HttpServletRequest request)
             throws ServiceException{
+        canAccessThisMBean(context);
         List applications = getApplications(context.getApplicationConfig());
         ObjectName objectName = context.getObjectName();
         AttributeListData[] attrListData =
@@ -311,6 +319,12 @@ public class MBeanServiceImpl implements MBeanService {
                                                ApplicationConfig appConfig,
                                                ObjectName objectName,
                                                List attributeList){
+        for(Iterator attrIterator = attributeList.iterator(); attrIterator.hasNext();){
+            ObjectAttribute objAttr = (ObjectAttribute)attrIterator.next();
+            AccessController.canAccess(context.getUser(),
+                    ACLConstants.ACL_UPDATE_MBEAN_ATTRIBUTES,
+                    objAttr.getName());
+        }
         AttributeListData attrListData = null;
         try{
             final ServerConnection serverConnection =
@@ -451,5 +465,17 @@ public class MBeanServiceImpl implements MBeanService {
             logString.append("]");
         }
         return logString.toString();
+    }
+
+
+    private void canAccessThisMBean(ServiceContext context){
+        final ApplicationConfig config = context.getApplicationConfig();
+        final MBeanConfig configuredMBean =
+                config.findMBeanByObjectName(context.getObjectName().getCanonicalName());
+        AccessController.canAccess(context.getUser(),
+                ACLConstants.ACL_VIEW_APPLICATIONS, config.getName());
+        if(configuredMBean != null)
+            AccessController.canAccess(context.getUser(),
+                    ACLConstants.ACL_VIEW_MBEANS, configuredMBean.getName());
     }
 }

@@ -29,7 +29,15 @@ public interface ACLConstants {
     public static final String ACL_ADD_MBEAN_CONFIG = "acl.add.jmanage.mbean.config";
     public static final String ACL_EDIT_MBEAN_CONFIG = "acl.edit.jmanage.mbean.config";
     public static final String ACL_EDIT_JMANAGE_CONFIG = "acl.edit.jmanage.config";
-    public static final String ACL_VIEW_CONFIGURED_APPLICATION =
-            "acl.view.configured.application";
-    public static final String ACL_VIEW_CONFIGURED_MBEAN = "acl.view.configured.mbean";
+    public static final String ACL_VIEW_APPLICATIONS =
+            "acl.view.jmanage.applications";
+    public static final String ACL_VIEW_MBEANS = "acl.view.jmanage.mbeans";
+    public static final String ACL_VIEW_MBEAN_ATTRIBUTES =
+            "acl.view.jmanage.mbean.attributes";
+    public static final String ACL_UPDATE_MBEAN_ATTRIBUTES =
+            "acl.update.jmanage.mbean.attributes";
+    public static final String ACL_EXECUTE_MBEAN_OPERATIONS =
+            "acl.execute.jmanage.mbean.operations";
+    public static final String ACL_VIEW_MBEAN_NOTIFICATIONS =
+            "acl.view.jmanage.mbean.notifications";
 }
