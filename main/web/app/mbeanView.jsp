@@ -20,7 +20,8 @@
                  org.jmanage.core.auth.User,
                  org.jmanage.webui.util.MBeanUtils,
                  org.jmanage.core.config.ApplicationConfig,
-                 java.util.*"%>
+                 java.util.*,
+                 org.jmanage.core.util.ACLConstants"%>
 
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 <%@ taglib uri="/WEB-INF/tags/jstl/c.tld" prefix="c"%>
@@ -96,6 +97,7 @@
 
 <%
     if(attributes.length > 0){
+        boolean showUpdateButton = false;
         int columns = 3;
 %>
 <jmhtml:form action="/app/updateAttributes" method="post">
@@ -146,7 +148,11 @@
                 String attrValue =
                         MBeanUtils.getAttributeValue(attributeList, attributeInfo.getName());
             %>
-            <%if(user.isAdmin() && attributeInfo.isWritable() && !attrValue.equals("Object")){%>
+            <%if((user.canAccess(ACLConstants.ACL_UPDATE_MBEAN_ATTRIBUTES) ||
+                    user.canAccess(ACLConstants.ACL_UPDATE_MBEAN_ATTRIBUTES+"."+attributeInfo.getName())) &&
+                    attributeInfo.isWritable() && !attrValue.equals("Object")){
+                showUpdateButton = true;
+            %>
                 <%if(attributeInfo.getType().equals("boolean") || attributeInfo.getType().equals("java.lang.Boolean")){%>
                     <input type="radio" name="attr+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>+<%=attributeInfo.getType()%>" value="true" <%=attrValue.equals("true")?" CHECKED":""%> />&nbsp;True
                     &nbsp;&nbsp;&nbsp;<input type="radio" name="attr+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>+<%=attributeInfo.getType()%>" value="false" <%=attrValue.equals("false")?" CHECKED":""%>/>&nbsp;False
@@ -169,20 +175,22 @@
 </td>
 </tr>
 <%  }// for ends%>
-<%if(user.isAdmin()){%>
 <tr>
     <td class="plaintext" colspan="<%=columns%>">
         To save the changes to the attribute values click on
-        <jmhtml:submit value="Save" styleClass="Inside3d" />
+        <%if(showUpdateButton){%>
+            <jmhtml:submit value="Save" styleClass="Inside3d" />
+        <%}else{%>
+            <jmhtml:submit value="Save" styleClass="Inside3d" disabled="true" />
+        <%}%>
     </td>
 </tr>
-<%}%>
 </table>
 </jmhtml:form>
 <%
     }
 %>
-<%if(operations.length > 0 && user.isAdmin()){%>
+<%if(operations.length > 0){%>
 <br/>
 <table class="table" border="0" cellspacing="0" cellpadding="5" width="900">
 <tr class="tableHeader">
@@ -213,7 +221,12 @@
     </td>
     <td class="plaintext">
         <input type="hidden" name="operationName" value="<%=operationInfo.getName()%>"/>
+        <%  if(user.canAccess(ACLConstants.ACL_EXECUTE_MBEAN_OPERATIONS) ||
+                user.canAccess(ACLConstants.ACL_EXECUTE_MBEAN_OPERATIONS+"."+operationInfo.getName())){  %>
         <input tabindex="<%=(tabIndex++) + params.length%>" type="submit" value="Execute" class="Inside3d"/>&nbsp;
+        <%  }else{  %>
+        <input tabindex="<%=(tabIndex++) + params.length%>" type="submit" value="Execute" class="Inside3d" disabled/>&nbsp;
+        <%  }   %>
         [Impact: <%=MBeanUtils.getImpact(operationInfo.getImpact())%>]
     </td>
 </tr>
@@ -236,11 +249,12 @@
 </table>
 <%}%>
 
-<%if(notifications.length > 0 && user.isAdmin()){%>
+<%if(notifications.length > 0 &&
+        user.canAccess(ACLConstants.ACL_VIEW_MBEAN_NOTIFICATIONS)){%>
 <br/>
 <table class="table" border="0" cellspacing="0" cellpadding="5" width="900">
     <tr class="tableHeader">
-        <td colspan=2">Notifications</td>
+        <td colspan="2">Notifications</td>
     </tr>
 <%
     for(int index=0; index < notifications.length; index++){
