@@ -35,6 +35,10 @@
     <td><jmhtml:password property="password" /></td>
 </tr>
 <tr>
+    <td class="headtext1">Re-enter Password:</td>
+    <td><jmhtml:password property="confirmPassword" /></td>
+</tr>
+<tr>
     <td class="headtext1">Role:</td>
     <td><jmhtml:select property="role">
             <jmhtml:option value="" > --------- Select --------- </jmhtml:option>

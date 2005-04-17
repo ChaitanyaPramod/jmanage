@@ -1042,5 +1042,49 @@
             }]]>
          </javascript>
       </validator>
+
+      <validator name="matchFields"
+             classname="org.jmanage.webui.validator.JManageFieldChecks"
+             method="validateMatch"
+           methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionErrors,
+                       javax.servlet.http.HttpServletRequest"
+           msg="errors.match">
+           <javascript><![CDATA[
+           function validateMatch(form){
+               var bValid = true;
+               var focusField = null;
+               var i = 0;
+               var fields = new Array();
+               oMatchFields = new matchFields();
+               for (x in oMatchFields) {
+                   /* skip validation if field is undefined */
+                   if (typeof form[oMatchFields[x][0]] == "undefined") {
+                       continue;
+                   }
+                   if ((form[oMatchFields[x][0]].type == 'text' || form[oMatchFields[x][0]].type == 'textarea' || form[oMatchFields[x][0]].type == 'password') && (form[oMatchFields[x][0]].value.length > 0)) {
+                       if (form[oMatchFields[x][0]].value != null) {
+                           if(form[oMatchFields[x][2]("secondProperty")].type == 'hidden' || (form[oMatchFields[x][2]("secondProperty")].value != null && form[oMatchFields[x][0]].value == form[oMatchFields[x][2]("secondProperty")].value)){
+                               bValid = true;
+                           }else{
+                               focusField = form[oMatchFields[x][2]("secondProperty")];
+                               fields[i++] = oMatchFields[x][1];
+                               bValid = false;
+                               break;
+                           }
+                       }
+                   }
+               }
+               if (fields.length > 0) {
+                   focusField.focus();
+                   alert(fields.join('\n'));
+               }
+               return bValid;
+           }]]>
+           </javascript>
+       </validator>
+
    </global>
 </form-validation>

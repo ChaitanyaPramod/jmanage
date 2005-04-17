@@ -58,8 +58,9 @@ public class EditApplicationAction extends BaseAction {
             config.setPort(new Integer(appForm.getPort()));
             config.setURL(appForm.getURL());
             config.setUsername(appForm.getUsername());
+
         final String password = appForm.getPassword();
-        if(password != null && !password.equals(config.getPassword())){
+        if(!password.equals(ApplicationForm.FORM_PASSWORD)){
             config.setPassword(password);
         }
 

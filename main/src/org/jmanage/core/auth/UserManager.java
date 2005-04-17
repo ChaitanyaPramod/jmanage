@@ -118,7 +118,7 @@ public class UserManager implements AuthConstants{
         if(user != null){
             final String hashedPassword = Crypto.hash(password);
             user = hashedPassword.equals(user.getPassword()) &&
-                    "A".equals(user.getStatus()) ? user : null;
+                    User.STATUS_ACTIVE.equals(user.getStatus()) ? user : null;
         }
         return user;
     }
@@ -200,7 +200,7 @@ public class UserManager implements AuthConstants{
                 userElement.setAttribute(AuthConstants.NAME, user.getUsername());
                 userElement.setAttribute(AuthConstants.PASSWORD, user.getPassword());
                 userElement.setAttribute(AuthConstants.STATUS,
-                        user.getStatus() != null ? user.getStatus() : "A");
+                        user.getStatus() != null ? user.getStatus() : User.STATUS_ACTIVE);
                 userElement.setAttribute(AuthConstants.LOCK_COUNT,
                         String.valueOf(user.getStatus() != null ? user.getLockCount() : 0));
                 /* add roles */

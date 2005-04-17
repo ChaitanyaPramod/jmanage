@@ -70,6 +70,36 @@ public class JManageFieldChecks implements Serializable{
     }
 
     /**
+     * This method compares two specified fields for equality.
+     * @param bean
+     * @param validatorAction
+     * @param field
+     * @param errors
+     * @param request
+     * @return
+     */
+    public static boolean validateMatch(Object bean,
+                                        ValidatorAction validatorAction,
+                                        Field field, ActionErrors errors,
+                                        HttpServletRequest request) {
+
+        String value = ValidatorUtil.getValueAsString(bean, field.getProperty());
+        String sProperty2 = field.getVarValue("secondProperty");
+        String value2 = ValidatorUtil.getValueAsString(bean, sProperty2);
+
+        if (!GenericValidator.isBlankOrNull(value) &&
+                !GenericValidator.isBlankOrNull(value2) &&
+                !value.equals(value2)) {
+            errors.add(field.getKey(),
+                    Resources.getActionError(request, validatorAction,
+                            field));
+            return false;
+        }
+        return true;
+    }
+
+
+    /**
      *  Return <code>true</code> if the specified object is a String or a
      * <code>null</code> value.
      *

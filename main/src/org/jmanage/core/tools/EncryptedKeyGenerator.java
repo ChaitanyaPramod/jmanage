@@ -61,7 +61,7 @@ public class EncryptedKeyGenerator {
 
         List roles = new ArrayList(1);
         UserManager.getInstance().addUser(new User(AuthConstants.USER_ADMIN,
-                Crypto.hash(password), roles, "A", 0));
+                Crypto.hash(password), roles, User.STATUS_ACTIVE, 0));
 
         /* clear the password, for security reasons */
         Arrays.fill(password, ' ');
