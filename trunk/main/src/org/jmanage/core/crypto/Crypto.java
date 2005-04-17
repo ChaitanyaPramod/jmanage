@@ -16,6 +16,7 @@
 package org.jmanage.core.crypto;
 
 import org.jmanage.core.util.Loggers;
+import org.jmanage.core.config.JManageProperties;
 
 import javax.crypto.*;
 import java.security.MessageDigest;
@@ -25,12 +26,19 @@ import java.util.logging.Logger;
 /**
  * Crypto acts as a facade layer for the crypto classes.
  *
+ * Note that the crypto functions must not be called directly from CLI. This
+ * is because server has the crypto keys and the crypto configuration.
+ *
  * date:  Jul 23, 2004
  * @author	Rakesh Kalra
  */
 public class Crypto {
 
     private static final Logger logger = Loggers.getLogger(Crypto.class);
+
+    /* get the hashing algorithm from jmanage.properties */
+    private static final String hashAlgorithm =
+            JManageProperties.getHashAlgorithm();
 
     private static Cipher encrypter;
     private static Cipher decrypter;
@@ -83,7 +91,7 @@ public class Crypto {
 
     public static String hash(char[] plaintext){
         try {
-            MessageDigest sha = MessageDigest.getInstance("SHA-1");
+            MessageDigest sha = MessageDigest.getInstance(hashAlgorithm);
             byte[] hash = sha.digest(charArrayToByteArray(plaintext));
             return byteArrayToHexString(hash);
         } catch (NoSuchAlgorithmException e) {

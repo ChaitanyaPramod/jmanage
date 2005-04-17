@@ -38,12 +38,20 @@ public class JManageProperties extends Properties{
 
     /* see jmanage.properties for documentation of these properties */
     public static String LOGIN_MAX_ATTEMPTS = "login.maxAttempts";
-    private static String JMANAGE_URL = "jmanage.url";
     private static String JMANAGE_PORT = "jmanage.port";
     private static String JMANAGE_SSL_PORT = "jmanage.ssl.port";
     private static String JMANAGE_KEYSTORE_FILENAME = "jmanage.ssl.keyfilename";
     private static String JMANAGE_SSL_PASSWORD = "jmanage.ssl.password";
     private static String JMANAGE_SSL_KEY_PASSWORD = "jmanage.ssl.keypassword";
+    private static String JMANAGE_HASH_ALGORITHM = "jmanage.hash.algorithm";
+
+    /* CLI properties */
+    private static String JMANAGE_URL = "jmanage.url";
+    private static String CLI_SSL_IGNORE_BAD_SSL_CERT =
+            "jmanage.cli.ssl.ignoreBadSSLCertificate";
+    private static String CLI_SSL_TRUST_STORE_PWD =
+            "jmanage.cli.ssl.trustStorePassword";
+
     /*  The only instance   */
     private static JManageProperties jManageProperties = new JManageProperties();
 
@@ -101,6 +109,20 @@ public class JManageProperties extends Properties{
 
     public static String getSSLKeyPassword(){
         return jManageProperties.getProperty(JMANAGE_SSL_KEY_PASSWORD);
+    }
+
+    public static String getHashAlgorithm(){
+        return jManageProperties.getProperty(JMANAGE_HASH_ALGORITHM, "SHA-1");
+    }
+
+    public static boolean isIgnoreBadSSLCertificate(){
+        String value =
+                jManageProperties.getProperty(CLI_SSL_IGNORE_BAD_SSL_CERT, "false");
+        return value.equalsIgnoreCase("true");
+    }
+
+    public static String getSSLTrustStorePassword(){
+        return jManageProperties.getProperty(CLI_SSL_TRUST_STORE_PWD, "changeit");
     }
 
     public void storeMaxLoginAttempts(int maxLoginAttempt){

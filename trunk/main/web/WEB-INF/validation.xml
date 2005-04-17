@@ -230,10 +230,11 @@
             <constant-value>^\d{5}\d*$</constant-value>
         </constant>
         end example-->
+        <!--
         <constant>
             <constant-name>zipCode</constant-name>
             <constant-value>^\d{5}\d*$</constant-value>
-        </constant>
+        </constant>-->
     </global>
 
     <formset>
@@ -265,8 +266,13 @@
             <field property="username" depends="required">
                 <arg0 key="Username" resource="false"/>
             </field>
-            <field property="password" depends="required">
+            <field property="password" depends="required, matchFields">
                 <arg0 key="Password" resource="false"/>
+                <msg name="matchFields" key="error.user.passwordMatch"/>
+                <var>
+                  <var-name>secondProperty</var-name>
+                  <var-value>confirmPassword</var-value>
+                </var>
             </field>
             <field property="role" depends="required">
                 <arg0 key="Role" resource="false"/>

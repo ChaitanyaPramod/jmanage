@@ -15,6 +15,8 @@
  */
 package org.jmanage.core.auth;
 
+import org.jmanage.core.crypto.Crypto;
+
 import java.util.List;
 import java.util.Iterator;
 import java.util.StringTokenizer;
@@ -26,11 +28,17 @@ import java.security.Principal;
  */
 public class User implements Principal, java.io.Serializable{
 
+    public final static String STATUS_ACTIVE = "A";
+    public final static String STATUS_LOCKED = "L";
+    //public final static String STATUS_INACTIVE = "I";
+
     private String username;
-    private String password;
+    private String plaintextPassword;
+    private String password; // hashed password
     private List roles;
     private String status;
     private int lockCount;
+
 
     /**
      * Default,
@@ -61,8 +69,27 @@ public class User implements Principal, java.io.Serializable{
         this.username = username;
     }
 
+    /**
+     *
+     * @return password hash
+     */
     public String getPassword() {
+        if(password == null){
+            assert plaintextPassword != null;
+            password = Crypto.hash(plaintextPassword);
+        }
         return password;
+    }
+
+    /**
+     * This is used by the CLI to set the plaintext password. Note that this
+     * is used as we don't want to use the hash function in CLI. Password
+     * is hashed later on when getPassword() is called.
+     *
+     * @param plaintext
+     */
+    public void setPlaintextPassword(String plaintext){
+        this.plaintextPassword = plaintext;
     }
 
     public void setPassword(String password) {

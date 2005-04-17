@@ -15,22 +15,27 @@
  */
 package org.jmanage.core.remote.client;
 
-import org.jmanage.core.util.Loggers;
-import org.jmanage.core.util.ErrorCodes;
 import org.jmanage.core.config.JManageProperties;
-import org.jmanage.core.remote.RemoteInvocation;
 import org.jmanage.core.remote.InvocationResult;
+import org.jmanage.core.remote.RemoteInvocation;
 import org.jmanage.core.services.ServiceException;
+import org.jmanage.core.util.ErrorCodes;
+import org.jmanage.core.util.Loggers;
+import org.jmanage.core.util.CoreUtils;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLSession;
+import java.io.*;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-import java.util.logging.Logger;
-import java.util.logging.Level;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.MalformedURLException;
 import java.net.ConnectException;
-import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 /**
  * Acts as a Proxy for Service layer method calls. This is used by the
@@ -75,14 +80,29 @@ public class HttpServiceProxy implements InvocationHandler {
         }
     }
 
+    static{
+        if(JManageProperties.isIgnoreBadSSLCertificate()){
+            System.setProperty("javax.net.ssl.trustStore",
+                    CoreUtils.getConfigDir() + "/cacerts");
+            System.setProperty("javax.net.ssl.trustStorePassword",
+                    JManageProperties.getSSLTrustStorePassword());
+
+            HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier(){
+                public boolean verify(String s, String s1) {
+                    return true;
+                }
+
+                public boolean verify(String s, SSLSession sslSession) {
+                    return true;
+                }
+            });
+        }
+    }
+
     private Object invoke(RemoteInvocation invocation)
             throws Exception {
 
         HttpURLConnection conn = (HttpURLConnection) remoteURL.openConnection();
-
-        // refer: http://jasigch.princeton.edu:9000/display/CAS/Solving+SSL+issues
-        //((HttpsURLConnection)conn).setSSLSocketFactory(new DummySSLSocketFactory());
-
         conn.setDoInput(true);
         conn.setDoOutput(true);
         conn.setRequestProperty("ContentType", REQUEST_CONTENT_TYPE);

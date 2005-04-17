@@ -124,10 +124,10 @@ public class ServiceCallHandler {
                 userManager.getUser(user.getUsername());
         /* validate password */
         if(!user.getPassword().equals(completeUser.getPassword())
-            || !"A".equals(completeUser.getStatus())){
+            || !User.STATUS_ACTIVE.equals(completeUser.getStatus())){
             throw new RuntimeException("Invalid user credentials.");
         }
 
-        context .setUser(completeUser);
+        context.setUser(completeUser);
     }
 }

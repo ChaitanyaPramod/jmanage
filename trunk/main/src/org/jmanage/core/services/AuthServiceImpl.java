@@ -71,13 +71,13 @@ public class AuthServiceImpl implements AuthService {
             /* Conditionalize the error message */
             if(user == null){
                 errorCode = ErrorCodes.INVALID_CREDENTIALS;
-            }else if("I".equals(user.getStatus())){
+            }else if(User.STATUS_LOCKED.equals(user.getStatus())){
                 errorCode = ErrorCodes.ACCOUNT_LOCKED;
             }else if(user.getLockCount() < MAX_LOGIN_ATTEMPTS_ALLOWED){
                 int thisAttempt = user.getLockCount()+1;
                 user.setLockCount(thisAttempt);
                 if(thisAttempt == MAX_LOGIN_ATTEMPTS_ALLOWED){
-                    user.setStatus("I");
+                    user.setStatus(User.STATUS_LOCKED);
                     userManager.updateUser(user);
                     errorCode = ErrorCodes.ACCOUNT_LOCKED;
                 }else{
@@ -87,7 +87,8 @@ public class AuthServiceImpl implements AuthService {
                         String.valueOf(MAX_LOGIN_ATTEMPTS_ALLOWED - thisAttempt)};
                 }
             }
-            logger.logActivity(username, user.getName()+" failed to login");
+            if(user != null)
+                logger.logActivity(username, user.getName()+" failed to login");
             throw new ServiceException(errorCode, values);
         }
     }

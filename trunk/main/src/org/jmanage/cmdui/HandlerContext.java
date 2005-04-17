@@ -18,7 +18,6 @@ package org.jmanage.cmdui;
 import org.jmanage.core.services.ServiceContext;
 import org.jmanage.core.services.ServiceContextImpl;
 import org.jmanage.core.auth.User;
-import org.jmanage.core.crypto.Crypto;
 
 /**
  *
@@ -69,7 +68,8 @@ public class HandlerContext {
             assert command.getUsername() != null;
             assert command.getPassword() != null;
             User user = new User(command.getUsername(),
-                    Crypto.hash(command.getPassword()), null, null, 0);
+                    null, null, null, 0);
+            user.setPlaintextPassword(command.getPassword());
             context.setUser(user);
         }
         return context;
