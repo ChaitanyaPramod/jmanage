@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+<document>
+  <header>
+    <title>jManage Access Control</title>
+  </header>
+  <body>
+    <section>
+      <title>Overview</title>
+      <p>
+          ACLs are a collection of access and authorization rules called
+          ACL entries (ACEs) that set the boundaries on user movements through
+          the application.
+          <br/><br/>
+          Access can be restricted to a given user and/or to a group of users.
+          By default, jManage provides two groups namely 'Administrator', 'User'
+          and a super user 'admin' who doesn't belong to either of these
+          two groups. One can add their own group by editing "jmanage-user-roles.xml".
+          <br/><br/>
+          ACEs are defined in "acl-config.properties".
+          <br/><br/>
+          Absence of an ACE implies no access restriction. One can comment out
+          ACEs by prefixing it with '#' (hash).
+      </p>
+    </section>
+    <section>
+       <title>Available ACEs</title>
+       <table>
+          <tr>
+            <td>acl.edit.jmanage.users</td>
+            <td>Edit jManage user information.</td>
+          </tr>
+          <tr>
+           <td>acl.add.jmanage.users</td>
+           <td>Add jManage users.</td>
+          </tr>
+          <tr>
+            <td>acl.view.jmanage.user.activity</td>
+            <td>View audit log.</td>
+          </tr>
+          <tr>
+            <td>acl.add.jmanage.applications</td>
+            <td>Add/configure applications to manage through jManage.</td>
+          </tr>
+          <tr>
+            <td>acl.edit.jmanage.applications</td>
+            <td>Edit a configured application.</td>
+          </tr>
+          <tr>
+            <td>acl.add.jmanage.mbean.config</td>
+            <td>Add/configure an mbean as a favorite.</td>
+          </tr>
+          <tr>
+            <td>acl.edit.jmanage.mbean.config</td>
+            <td>Edit the details of a configured (favorite) mbean.</td>
+          </tr>
+           <!-- We don't currently expose this application
+           <tr>
+            <td>acl.edit.jmanage.config</td>
+            <td>To authorize an user to edit the configurations of jManage.</td>
+          </tr>-->
+          <tr>
+            <td>acl.view.jmanage.applications</td>
+            <td>View an application configured (to be managed by jManage).</td>
+          </tr>
+          <tr>
+            <td>acl.view.jmanage.mbeans</td>
+            <td>View the mbeans of a configured application.</td>
+          </tr>
+          <tr>
+            <td>acl.view.jmanage.mbean.attributes</td>
+            <td>View the attributes of an mbean.</td>
+          </tr>
+          <tr>
+            <td>acl.update.jmanage.mbean.attributes</td>
+            <td>Update the attribute values of an mbean.</td>
+          </tr>
+          <tr>
+            <td>acl.execute.jmanage.mbean.operations</td>
+            <td>Execute operations of an mbean.</td>
+          </tr>
+          <tr>
+            <td>acl.view.jmanage.mbean.notifications</td>
+            <td>View the notifications exposed by an mbean.</td>
+          </tr>
+       </table>
+    </section>
+    <section>
+        <title>Fine-grained Access Control</title>
+        <p>
+            These pre-defined ACLs can be used at a higher level where one can
+            restrict the access to configured applications, to mbeans, to mbean
+            attributes or to mbean operations. More refined access can be provided
+            with the help of dynamic ACEs, which are nothing but an extension of
+            above mentioned static ACLs.
+            <br/><br/>
+            Examples of Dynamic ACEs:
+            <br/><br/>
+            1. If one wants to provide update access for the attribute attr1
+            of mbean abcMBean of application app1, to user xyz only then the
+            dynamic ACE can be built as follows;
+            <br/><br/>
+            acl.update.jmanage.mbean.attributes@app1/myDomain:name=abcMBean/attr1=xyz
+            <br/><br/>
+            By specifying this ACE no user other than "xyz" can update attribute
+            "attr1" of the specified mbean.
+            <br/><br/>
+            2. If one wants to provide the same to a group, grpX, of users then the ACE is,
+            <br/>
+            <br/>
+            acl.update.jmanage.mbean.attributes@app1/abcMBean/attr1=grpX
+            <br/><br/>
+            3. If one wants to restrict view access for mbean xyzMBean of
+            application appABC, to user pqr only, then the ACE would be,
+            <br/><br/>
+            acl.view.jmanage.mbeans@appABC/myDomain:xyzMBean=pqr
+        </p>
+    </section>
+  </body>
+</document>

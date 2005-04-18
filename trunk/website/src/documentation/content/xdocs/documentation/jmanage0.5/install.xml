@@ -108,5 +108,12 @@
               23.&lt;websphere_install_dir&gt;\\WebSphere\AppServer\lib\wssoap.jar<br/>
         </p>
     </section>
+    <section>
+       <title>Setup for JSR160</title>
+       <p>
+          There is no additional setup required for connecting to an application
+          which supports JSR160.
+       </p>
+    </section>
   </body>
 </document>
