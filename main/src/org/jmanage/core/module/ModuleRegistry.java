@@ -68,7 +68,7 @@ public class ModuleRegistry {
                         "org.jmanage.core.modules.jsr160.JSR160ServerConnectionFactory"));
 
         /* jboss module */
-        metaConfig = new MetaApplicationConfig(true, true, false, false, false,
+        metaConfig = new MetaApplicationConfig(true, true, false, true, true,
                 "org.jmanage.core.modules.jboss.JBossApplicationConfig");
         modules.put(ApplicationType.JBOSS,
                 new ModuleConfig(ApplicationType.JBOSS,
