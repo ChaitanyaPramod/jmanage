@@ -146,12 +146,25 @@
     %>
 <td class="plaintext">
         <%if(attributeList != null){
-            String attrValue =
-                        MBeanUtils.getAttributeValue(attributeList, attributeInfo.getName());
+            ObjectAttribute objAttribute =
+                        MBeanUtils.getObjectAttribute(attributeList, attributeInfo);
+            String attrValue = null;
+            if(objAttribute.getStatus() == ObjectAttribute.STATUS_OK){
+                if(objAttribute.getValue() != null){
+                    attrValue = objAttribute.getValue().toString();
+                }
+            }else if(objAttribute.getStatus() == ObjectAttribute.STATUS_NOT_FOUND){
+                attrValue = "&lt;not found&gt;";
+            }else{
+                attrValue = "&lt;error&gt;";
+            }
+
             if(AccessController.canAccess(webContext.getServiceContext(),
                         ACLConstants.ACL_UPDATE_MBEAN_ATTRIBUTES,
                         attributeInfo.getName()) &&
-                    attributeInfo.isWritable() && !attrValue.equals("Object")){
+                    attributeInfo.isWritable() &&
+                    MBeanUtils.isDataTypeEditable(attributeInfo.getType()) &&
+                    objAttribute.getStatus() == ObjectAttribute.STATUS_OK){
                 showUpdateButton = true;
             %>
                 <%if(attributeInfo.getType().equals("boolean") || attributeInfo.getType().equals("java.lang.Boolean")){%>
