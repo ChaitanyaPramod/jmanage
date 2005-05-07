@@ -15,8 +15,13 @@
  */
 package org.jmanage.core.management;
 
+import org.jmanage.core.util.Loggers;
+
 import java.util.Set;
 import java.util.List;
+import java.util.LinkedList;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 /**
  * ServerConnectionProxy updates the context classloader before calling
@@ -27,6 +32,9 @@ import java.util.List;
  * @author	Rakesh Kalra
  */
 public class ServerConnectionProxy implements ServerConnection{
+
+    private static final Logger logger =
+            Loggers.getLogger(ServerConnectionProxy.class);
 
     private ServerConnection connection;
     private ClassLoader classLoader;
@@ -127,13 +135,40 @@ public class ServerConnectionProxy implements ServerConnection{
         try {
             /* temporarily change the thread context classloader */
             Thread.currentThread().setContextClassLoader(classLoader);
-            /* invoke the method on the wrapped ServerConnection */
-            return connection.getAttributes(objectName, attributeNames);
+            /* some attribute values may not be serializable, hence may fail,
+                hence we need to get one attribute at a time */
+            List attributeList = new LinkedList();
+            for(int i=0; i<attributeNames.length; i++){
+                attributeList.add(getAttribute(objectName, attributeNames[i]));
+            }
+            return attributeList;
         } finally {
             /* change the thread context classloader back to the
                     original classloader*/
             Thread.currentThread().setContextClassLoader(contextClassLoader);
         }
+    }
+
+    private ObjectAttribute getAttribute(ObjectName objectName,
+                                         String attributeName){
+
+        try {
+            // TODO: It will be better to have a getAttribute method which
+            // just works on a single attribute
+            List attrList = connection.getAttributes(objectName,
+                    new String[]{attributeName});
+            if(attrList.size() > 0)
+                return (ObjectAttribute)attrList.get(0);
+        } catch (Exception e) {
+            String msg = "Error retriving attribute=" +
+                    attributeName + ", objectName=" + objectName;
+            logger.log(Level.WARNING, msg);
+            logger.log(Level.FINE, msg, e);
+            return new ObjectAttribute(attributeName,
+                    ObjectAttribute.STATUS_ERROR, e.getMessage());
+        }
+        return new ObjectAttribute(attributeName,
+                ObjectAttribute.STATUS_NOT_FOUND, null);
     }
 
     /**

@@ -22,12 +22,24 @@ package org.jmanage.core.management;
  */
 public class ObjectAttribute implements java.io.Serializable {
 
+    public static final int STATUS_OK = 0;
+    public static final int STATUS_ERROR = 1;
+    public static final int STATUS_NOT_FOUND = 2;
+
     private String name;
     private Object value;
+    private int status = STATUS_OK;
+    private String errorString;
 
     public ObjectAttribute(String name, Object value) {
         this.name = name;
         this.value = value;
+    }
+
+    public ObjectAttribute(String name, int status, String errorString){
+        this.name = name;
+        this.status = status;
+        this.errorString = errorString;
     }
 
     public boolean equals(Object o) {
@@ -46,5 +58,13 @@ public class ObjectAttribute implements java.io.Serializable {
 
     public Object getValue() {
         return value;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public String getErrorString() {
+        return errorString;
     }
 }

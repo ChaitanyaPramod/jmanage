@@ -100,7 +100,7 @@ public class ShowMBeanAction extends BaseAction {
                 /* add attribute values of this application to the map*/
                 appConfigToAttrListMap.put(childAppConfig,
                         serverConnection.getAttributes(objectName, attributeNames));
-            } catch (Exception e) {
+            } catch (ConnectionFailedException e){
                 logger.log(Level.FINE, "Error retrieving attributes for:" +
                         childAppConfig.getName(), e);
                 /* add null, indicating that the server is down */

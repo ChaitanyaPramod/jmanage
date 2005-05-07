@@ -17,6 +17,7 @@ package org.jmanage.webui.util;
 
 import org.jmanage.core.management.ObjectAttribute;
 import org.jmanage.core.management.ObjectOperationInfo;
+import org.jmanage.core.management.ObjectAttributeInfo;
 
 import java.util.List;
 import java.util.Iterator;
@@ -48,26 +49,60 @@ public class MBeanUtils {
         return buff.toString();
     }
 
-    public static String getAttributeValue(List attributeList,
-                            String attrName){
-        String value = null;
+    // TODO: value should be converted to actual data type in the proper
+    //      classloader: e.g. in the case of javax.managed.ObjectName
+    public static ObjectAttribute getObjectAttribute(
+            List attributeList,
+            ObjectAttributeInfo attrInfo){
+
+        String attrName = attrInfo.getName();
         for(Iterator it=attributeList.iterator(); it.hasNext(); ){
             ObjectAttribute attribute = (ObjectAttribute)it.next();
-            if(attribute.getName().equals(attrName)){
-                //TODO: handle different return types
-                Object objValue = attribute.getValue();
-                if(isKnownDataType(objValue.getClass())){
-                    value = objValue.toString();
-                }else{
-                    value = "Object";
-                }
-                break;
+            if(attribute != null && attribute.getName().equals(attrName)){
+                return attribute;
             }
         }
-        return value;
+        return new ObjectAttribute(attrName, ObjectAttribute.STATUS_NOT_FOUND, null);
     }
 
-    public static boolean isKnownDataType(Class clazz){
+    public static boolean isDataTypeEditable(String type){
+        return isKnownDataType(type);
+    }
+
+    public static boolean isKnownDataType(String type){
+
+        if(type.equals("boolean")
+                || type.equals("char")
+                || type.equals("byte")
+                || type.equals("short")
+                || type.equals("int")
+                || type.equals("long")
+                || type.equals("float")
+                || type.equals("double")
+                || type.equals("void")
+                || type.equals("java.lang.Boolean")
+                || type.equals("java.lang.Character")
+                || type.equals("java.lang.Byte")
+                || type.equals("java.lang.Short")
+                || type.equals("java.lang.Integer")
+                || type.equals("java.lang.Long")
+                || type.equals("java.lang.Float")
+                || type.equals("java.lang.Double")
+                || type.equals("java.lang.Void")
+                || type.equals("java.lang.String")
+                || type.equals("java.math.BigInteger")
+                || type.equals("java.math.BigDecimal")
+                || type.equals("java.util.Date")){
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isKnownDataType(Object obj){
+        if(obj == null)
+            return false;
+
+        Class clazz = obj.getClass();
         if(clazz.isPrimitive()
             || clazz.isAssignableFrom(Boolean.class)
             || clazz.isAssignableFrom(Character.class)
@@ -81,7 +116,8 @@ public class MBeanUtils {
             || clazz.isAssignableFrom(String.class)
             || clazz.isAssignableFrom(BigInteger.class)
             || clazz.isAssignableFrom(BigDecimal.class)
-            || clazz.isAssignableFrom(Date.class)){
+            || clazz.isAssignableFrom(Date.class)
+            || clazz.getName().equals("javax.management.ObjectName")){
             return true;
         }
         return false;
