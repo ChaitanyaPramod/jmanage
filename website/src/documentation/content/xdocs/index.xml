@@ -10,31 +10,33 @@
       <title>jManage Overview</title>
       <p>
 jManage is a open source, web and command-line based JMX client, which provides a
-centralized console for managing application clusters and distributed application
+centralized console for managing application clusters and distributed-application
 production environments.
 <br/><br/>
+Following is a screenshot of jManage 0.5 version:
+<br/><br/>
     <a href="/images/screenshots/clusterMBeanView.gif">
-        <img src="/images/screenshots/clusterMBeanView.gif" alt="Screenshot" width="466" height="272"/></a>
+        <img src="/images/screenshots/clusterMBeanView.gif" alt="Screenshot" width="300" height="150"/></a>
 <br/><br/>
-We are currently developing version 0.5, which has the following features:
+    <a href="/screenshots.html">See More Screenshots</a>
 <br/><br/>
-    - Web based interface, which allows jManage to be used from behind firewall
+          jManage 0.5 beta is available for download on the
+          <a href="http://sourceforge.net/project/showfiles.php?group_id=111374&amp;package_id=120380">
+              downloads</a> page. This release has the following features:
+<br/><br/>
+    - Web based interface, which allows jManage to be used from behind firewall.
 <br/>
-    - Complete security - application server passwords are encrypted
+    - Production level security.
 <br/>
-    - Command line interface - can be used standalone or with jmanage server
+    - Command line interface - Useful for scripting and automation.
 <br/>
-    - Support for different J2EE app servers
+    - Application Cluster Support - Change attribute values
+      and perform operations across the cluster.
 <br/>
-    - Cluster level view of MBeans. Also allows changing attribute values
-      and performing operations at the cluster level.
+    - Authentication and fine-grained Authorization - Control what operations
+      and attributes are accessible.
 <br/>
-    - Authentication and fine-grained Authorization
-<br/>
-    - Configuring Applications in jManage
-<br/>
-    - Runtime Graphing - This has been moved out of 0.5 release
-<br/>
+    - Support for different J2EE app servers.
 <br/><br/>
           jManage is being built keeping security in mind, as the main target
           usage of jManage is in the production environment. Production
@@ -46,10 +48,6 @@ We are currently developing version 0.5, which has the following features:
           roles to these users. Access to different features can be controlled
           by assigining permissions to various roles. Permission can be granted
           even at the level of MBean attributes or operations.
-<br/><br/>
-          jManage 0.5 early access versions are available on the
-          <a href="http://sourceforge.net/project/showfiles.php?group_id=111374&amp;package_id=120380">
-              downloads</a> page.
       </p>
     </section>
     <section>
@@ -58,7 +56,7 @@ We are currently developing version 0.5, which has the following features:
             jManage is a <a href="http://struts.apache.org/">Struts</a> and
             <a href="http://jetty.mortbay.org/">Jetty</a> based web application,
             which provides both web and command line interface to manage JMX enabled
-            applications. jManage 0.5 version (in development) currently supports
+            applications. jManage 0.5 version supports
             the following servers:
         <br/><br/>
             - JBoss
