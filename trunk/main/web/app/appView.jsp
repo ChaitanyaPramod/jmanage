@@ -1,11 +1,10 @@
 <!--/app/appView.jsp-->
 <%@ page import="org.jmanage.webui.util.WebContext,
                  org.jmanage.core.config.ApplicationConfig,
-                 java.util.Iterator,
                  org.jmanage.core.config.MBeanConfig,
                  org.jmanage.webui.util.RequestParams,
-                 java.util.List,
-                 java.net.URLEncoder"%>
+                 java.net.URLEncoder,
+                 java.util.*"%>
 
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 
@@ -20,7 +19,15 @@
     </tr>
 <%
     List mbeans = appConfig.getMBeans();
-    for(Iterator it=mbeans.iterator(); it.hasNext();){
+    List sortedMBeans = new ArrayList(mbeans);
+    Collections.sort(sortedMBeans, new Comparator(){
+        public int compare(Object obj1, Object obj2){
+            String name1 = ((MBeanConfig)obj1).getName();
+            String name2 = ((MBeanConfig)obj2).getName();
+            return name1.compareTo(name2);
+        }
+    });
+    for(Iterator it=sortedMBeans.iterator(); it.hasNext();){
         MBeanConfig mbeanConfig = (MBeanConfig)it.next();
 %>
     <tr>
