@@ -86,7 +86,8 @@ public class ShowMBeanAction extends BaseAction {
                         ServerConnector.getServerConnection(childAppConfig);
                 /* assuming that all servers in this cluster have exact same
                     object info, we will get the ObjectInfo from the first
-                    server in the list */
+                    server in the list (could be further down in the list,
+                    if the first server(s) is down */
                 if(objInfo == null){
                     objInfo = serverConnection.getObjectInfo(objectName);
                     assert objInfo != null;
@@ -106,6 +107,11 @@ public class ShowMBeanAction extends BaseAction {
                 /* add null, indicating that the server is down */
                 appConfigToAttrListMap.put(childAppConfig, null);
             }
+        }
+        /* if objInfo is null, that means that we couldn't get connection to
+            any server */
+        if(objInfo == null){
+            throw new ConnectionFailedException(null);
         }
 
         request.setAttribute("objInfo", objInfo);
