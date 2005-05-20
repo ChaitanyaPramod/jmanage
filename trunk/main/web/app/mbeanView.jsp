@@ -257,7 +257,15 @@
     <td class="plaintext">
         <input type="hidden" name="<%=operationInfo.getName()%><%=paramIndex%>_type" value="<%=params[paramIndex].getType()%>"/>
         <input tabindex="<%=tabIndex++%>" type="text" name="<%=operationInfo.getName()%><%=paramIndex%>_value" value=""/>
-        <%=params[paramIndex].getType()%>
+        <%
+            String description = params[paramIndex].getDescription();
+            if(description != null && description.length() > 0){
+        %>
+           <a href="JavaScript:showDescription('<%=MBeanUtils.jsEscape(description)%>');">
+                    <%=params[paramIndex].getType()%></a>
+        <%}else{%>
+            <%=params[paramIndex].getType()%>
+        <%}%>
     </td>
     <td class="plaintext">&nbsp;</td>
 </tr>
