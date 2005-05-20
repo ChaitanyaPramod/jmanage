@@ -101,6 +101,7 @@
         boolean showUpdateButton = false;
         int columns = 4;
 %>
+<br/>
 <jmhtml:form action="/app/updateAttributes" method="post">
 <table class="table" border="0" cellspacing="0" cellpadding="5">
 <tr class="tableHeader">

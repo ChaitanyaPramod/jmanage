@@ -22,7 +22,7 @@
     <link href="/css/styles.css" rel="stylesheet" type="text/css" />
     <title><tiles:getAsString name="title" /></title>
 </head>
-<body leftmargin="20" topmargin="12" marginwidth="0" marginheight="0">
+<body>
 <div width="800">
 <tiles:insert attribute="header" />
 <br/>
