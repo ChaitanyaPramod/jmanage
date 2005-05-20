@@ -567,6 +567,14 @@
         <copy todir="${build.home}/web">
             <fileset dir="${web.home}"/>
         </copy>
+        <!-- set version in footer.jsp -->
+        <loadfile property="expand.temp.property" srcFile="${build.home}/web/common/footer.jsp">
+			<filterchain>
+				<filterreader classname="org.apache.tools.ant.filters.ExpandProperties"/>
+			</filterchain>
+		</loadfile>
+		<echo message="${expand.temp.property}" file="${build.home}/web/common/footer.jsp"/>
+
         <!-- Copy Config files -->
         <copy todir="${build.home}/config">
             <fileset dir="${basedir}/config">
