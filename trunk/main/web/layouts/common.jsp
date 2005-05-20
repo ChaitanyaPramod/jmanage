@@ -23,12 +23,10 @@
     <title><tiles:getAsString name="title" /></title>
 </head>
 <body>
-<div width="800">
 <tiles:insert attribute="header" />
 <br/>
 <tiles:insert attribute="body.header" />
 <tiles:insert attribute="body.main" />
 <tiles:insert attribute="footer" />
-</div>
 </body>
 </html>
