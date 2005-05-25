@@ -52,6 +52,11 @@ public class JManageProperties extends Properties{
     private static String CLI_SSL_TRUST_STORE_PWD =
             "jmanage.cli.ssl.trustStorePassword";
 
+    /*Email properties*/
+    private static String ALERT_EMAIL_FROM_NAME = "alert.email.from.name";
+    private static String  EMAIL_HOST = "email.host";
+    private static String  ALERT_EMAIL_FROM_EMAIL = "alert.email.from.email";
+
     /*  The only instance   */
     private static JManageProperties jManageProperties = new JManageProperties();
 
@@ -135,5 +140,15 @@ public class JManageProperties extends Properties{
         } catch( Exception e){
             throw new RuntimeException(e);
         }
+    }
+
+    public static String getAlertEmailFromName(){
+        return jManageProperties.getProperty(ALERT_EMAIL_FROM_NAME);
+    }
+    public static String getEmailHost(){
+        return jManageProperties.getProperty(EMAIL_HOST);
+    }
+    public static String getAlertEmailFrom(){
+        return jManageProperties.getProperty(ALERT_EMAIL_FROM_EMAIL);
     }
 }
