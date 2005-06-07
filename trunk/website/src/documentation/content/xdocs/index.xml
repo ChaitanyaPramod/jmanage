@@ -7,6 +7,16 @@
   </header>
   <body>
     <section>
+      <title>News !</title>
+      <p>
+          - jManage 0.5.1 - first bug fix release - is available. It can be downloaded
+            <a href="http://sourceforge.net/project/showfiles.php?group_id=111374&amp;package_id=120380&amp;release_id=333125">here</a>.
+          <br/><br/>
+          - Do you use CruiseControl? Manage it with jManage 0.5.
+            <a href="http://www.coffeebreaks.org/blogs/?p=7">See how</a>.
+      </p>
+    </section>
+    <section>
       <title>jManage Overview</title>
       <p>
 jManage is a open source, web and command-line based JMX client, which provides a
@@ -20,7 +30,7 @@ Following is a screenshot of jManage 0.5 version:
 <br/><br/>
     <a href="/screenshots.html">See More Screenshots</a>
 <br/><br/>
-          jManage 0.5.0 is available for download on the
+          jManage 0.5 is available for download on the
           <a href="http://sourceforge.net/project/showfiles.php?group_id=111374&amp;package_id=120380">
               downloads</a> page. This release has the following features:
 <br/><br/>
