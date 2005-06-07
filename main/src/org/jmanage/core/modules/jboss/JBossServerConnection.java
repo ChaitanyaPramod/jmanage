@@ -18,12 +18,16 @@ package org.jmanage.core.modules.jboss;
 import org.jmanage.core.management.ObjectName;
 import org.jmanage.core.management.ObjectInfo;
 import org.jmanage.core.modules.JMXServerConnection;
+import org.jmanage.core.util.Loggers;
 import org.jboss.jmx.adaptor.rmi.RMIAdaptor;
+import org.jboss.net.protocol.URLStreamHandlerFactory;
 
 import javax.management.MBeanInfo;
 import javax.management.AttributeList;
 import java.util.Set;
 import java.util.List;
+import java.util.logging.Logger;
+import java.net.URL;
 
 /**
  *
@@ -31,6 +35,9 @@ import java.util.List;
  * @author	Prem, Shashank Bellary
  */
 public class JBossServerConnection extends JMXServerConnection {
+
+    private static final Logger logger =
+            Loggers.getLogger(JBossServerConnection.class);
 
     private final RMIAdaptor rmiAdaptor;
 
@@ -63,12 +70,25 @@ public class JBossServerConnection extends JMXServerConnection {
     }
 
     public ObjectInfo getObjectInfo(ObjectName objectName) {
+
+        String existingProtocolHandler =
+                System.getProperty("java.protocol.handler.pkgs");
+        logger.fine("Existing value for java.protocol.handler.pkgs: " +
+                existingProtocolHandler);
         try {
             javax.management.ObjectName jmxObjName = toJMXObjectName(objectName);
+            // fix for Bug# 1211202
+            System.setProperty("java.protocol.handler.pkgs",
+                            "org.jmanage.net.protocol");
             MBeanInfo mbeanInfo = rmiAdaptor.getMBeanInfo(jmxObjName);
             return toObjectInfo(objectName, mbeanInfo);
         } catch (Exception e){
             throw new RuntimeException(e);
+        }finally{
+            if(existingProtocolHandler != null){
+                System.setProperty("java.protocol.handler.pkgs",
+                                    existingProtocolHandler);
+            }
         }
     }
 

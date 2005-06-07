@@ -273,6 +273,8 @@
             <include name="**/webui/Startup.java"/>
             <include name="**/core/**"/>
             <include name="**/cmdui/**"/>
+            <include name="**/net/**"/>
+            <include name="**/util/**"/>
             <exclude name="**/core/modules/**"/>
         </javac>
 
