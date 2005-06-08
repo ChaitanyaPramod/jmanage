@@ -232,7 +232,22 @@
     %>
         <input type="hidden" name="<%=operationInfo.getName()%><%=paramIndex%>_type" value="<%=params[paramIndex].getType()%>"/>
         <input tabindex="<%=tabIndex++%>" type="text" name="<%=operationInfo.getName()%><%=paramIndex%>_value" value=""/>
-        <%=params[paramIndex].getType()%>
+        <%
+            String argName = params[paramIndex].getName();
+            if(argName == null || argName.length() == 0){
+                argName = params[paramIndex].getType();
+            }
+            String description = params[paramIndex].getDescription();
+            if(description != null && description.length() > 0){
+        %>
+           <a href="JavaScript:showDescription('<%=MBeanUtils.jsEscape(description)%>');">
+                    <%=argName%></a>
+        <%}else{%>
+            <%=argName%>
+        <%}%>
+        <%if(!params[paramIndex].getType().equals(argName)){%>
+            (<%=params[paramIndex].getType()%>)
+        <%}%>
     <%}else{%>
         &nbsp;
     <%}%>
@@ -258,13 +273,20 @@
         <input type="hidden" name="<%=operationInfo.getName()%><%=paramIndex%>_type" value="<%=params[paramIndex].getType()%>"/>
         <input tabindex="<%=tabIndex++%>" type="text" name="<%=operationInfo.getName()%><%=paramIndex%>_value" value=""/>
         <%
+            String argName = params[paramIndex].getName();
+            if(argName == null || argName.length() == 0){
+                argName = params[paramIndex].getType();
+            }
             String description = params[paramIndex].getDescription();
             if(description != null && description.length() > 0){
         %>
            <a href="JavaScript:showDescription('<%=MBeanUtils.jsEscape(description)%>');">
-                    <%=params[paramIndex].getType()%></a>
+                    <%=argName%></a>
         <%}else{%>
-            <%=params[paramIndex].getType()%>
+            <%=argName%>
+        <%}%>
+        <%if(!params[paramIndex].getType().equals(argName)){%>
+            (<%=params[paramIndex].getType()%>)
         <%}%>
     </td>
     <td class="plaintext">&nbsp;</td>
