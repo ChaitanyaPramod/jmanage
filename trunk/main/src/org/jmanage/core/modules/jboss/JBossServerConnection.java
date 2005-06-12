@@ -85,6 +85,7 @@ public class JBossServerConnection extends JMXServerConnection {
         } catch (Exception e){
             throw new RuntimeException(e);
         }finally{
+            // todo: there is a minor bug here. if the existing values was null, it won't be reset
             if(existingProtocolHandler != null){
                 System.setProperty("java.protocol.handler.pkgs",
                                     existingProtocolHandler);
