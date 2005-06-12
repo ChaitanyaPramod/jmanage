@@ -43,6 +43,8 @@ public class GraphApplet extends Applet implements GraphAppletParameters {
     private long pollingInterval;
     // attributes to be graphed
     private String attributes;
+    // attribute display names
+    private String displayNames;
     // remoteURL to get the data from
     private URL remoteURL;
 
@@ -51,6 +53,8 @@ public class GraphApplet extends Applet implements GraphAppletParameters {
         graphTitle = getParameter(GRAPH_TITLE);
         pollingInterval = Long.parseLong(getParameter(POLLING_INTERVAL));
         attributes = getParameter(ATTRIBUTES);
+        displayNames = getParameter(ATTRIBUTE_DISPLAY_NAMES);
+
         try {
             remoteURL = new URL(getParameter(REMOTE_URL));
         } catch (MalformedURLException e) {
@@ -100,13 +104,14 @@ public class GraphApplet extends Applet implements GraphAppletParameters {
     private void poll() {
         Properties properties = getNewValues();
         long timestamp = Long.parseLong(properties.getProperty("timestamp"));
+        // todo: this is not used
         String attributes = properties.getProperty("attributes");
         String values = properties.getProperty("values");
 
         if(dataset == null){
             dataset = new TimeSeriesCollection();
             dataset.setDomainIsPointsInTime(false);
-            StringTokenizer tokenizer = new StringTokenizer(attributes, "|");
+            StringTokenizer tokenizer = new StringTokenizer(displayNames, "|");
             series = new TimeSeries[tokenizer.countTokens()];
             for(int i=0; tokenizer.hasMoreTokens(); i++){
                 series[i] = new TimeSeries(tokenizer.nextToken(), Second.class);

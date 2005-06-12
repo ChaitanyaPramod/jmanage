@@ -15,19 +15,15 @@
  */
 package org.jmanage.core.config;
 
-import org.jdom.output.SAXOutputter;
-import org.jdom.output.XMLOutputter;
 import org.jdom.Document;
 import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.input.SAXBuilder;
+import org.jdom.output.XMLOutputter;
 import org.jmanage.core.crypto.Crypto;
 
-import java.util.List;
-import java.util.Iterator;
-import java.util.Map;
 import java.io.FileOutputStream;
-import java.io.FileNotFoundException;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -150,7 +146,11 @@ public class ConfigWriter {
         /* add mbeans */
         Element mbeansElement = createMBeansElement(application);
         applicationElement.addContent(mbeansElement);
-
+        if(!application.isCluster()){
+            /* add graphs */
+            Element graphsElement = createGraphsElement(application);
+            applicationElement.addContent(graphsElement);
+        }
         return applicationElement;
     }
 
@@ -172,5 +172,39 @@ public class ConfigWriter {
             mbeansElement.addContent(mbeanElement);
         }
         return mbeansElement;
+    }
+
+    private Element createGraphsElement(ApplicationConfig application){
+        Element graphsElement = new Element(ConfigConstants.GRAPHS);
+        if(application.getGraphs() == null){
+            return graphsElement;
+        }
+        for(Iterator graphs = application.getGraphs().iterator();
+            graphs.hasNext();){
+            GraphConfig graphConfig = (GraphConfig)graphs.next();
+            Element graphElement = new Element(ConfigConstants.GRAPH);
+            graphElement.setAttribute(ConfigConstants.GRAPH_ID,
+                    graphConfig.getId());
+            graphElement.setAttribute(ConfigConstants.GRAPH_NAME,
+                    graphConfig.getName());
+            graphElement.setAttribute(ConfigConstants.GRAPH_POLLING_INTERVAL,
+                    Long.toString(graphConfig.getPollingInterval()));
+            for(Iterator attributes = graphConfig.getAttributes().iterator();
+                    attributes.hasNext();){
+                GraphAttributeConfig attrConfig =
+                        (GraphAttributeConfig)attributes.next();
+                Element attributeElement =
+                        new Element(ConfigConstants.GRAPH_ATTRIBUTE);
+                attributeElement.setAttribute(ConfigConstants.GRAPH_ATTRIBUTE_MBEAN,
+                        attrConfig.getMBean());
+                attributeElement.setAttribute(ConfigConstants.GRAPH_ATTRIBUTE_NAME,
+                        attrConfig.getAttribute());
+                attributeElement.setAttribute(ConfigConstants.GRAPH_ATTRIBUTE_DISPLAY_NAME,
+                        attrConfig.getDisplayName());
+                graphElement.addContent(attributeElement);
+            }
+            graphsElement.addContent(graphElement);
+        }
+        return graphsElement;
     }
 }

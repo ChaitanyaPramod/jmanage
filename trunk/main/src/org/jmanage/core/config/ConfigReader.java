@@ -39,6 +39,7 @@ public class ConfigReader implements ConfigConstants{
     /*  Cache the configuration file    */
     private static Document config = null;
 
+
     /**
      * Initilizations done here.
      *
@@ -136,6 +137,7 @@ public class ConfigReader implements ConfigConstants{
                         paramValues);
 
         config.setMBeans(getMBeanConfigList(application));
+        config.setGraphs(getGraphConfigList(application, config));
         return config;
     }
 
@@ -154,6 +156,10 @@ public class ConfigReader implements ConfigConstants{
         }
 
         config.setMBeans(getMBeanConfigList(application));
+
+        // todo: graphs are not yet supported at the cluster level
+        // todo: to enable this, we will have to store applicationId at graph attribute level
+        //config.setGraphs(getGraphConfigList(application, config));
         return config;
     }
 
@@ -171,5 +177,37 @@ public class ConfigReader implements ConfigConstants{
             }
         }
         return mbeanConfigList;
+    }
+
+    private List getGraphConfigList(Element application, ApplicationConfig appConfig){
+        /* read graphs */
+        List graphConfigList = new LinkedList();
+        if(application.getChild(GRAPHS) != null){
+            List graphs = application.getChild(GRAPHS).getChildren(GRAPH);
+            for(Iterator it=graphs.iterator(); it.hasNext(); ){
+                Element graph = (Element)it.next();
+                List attributes = graph.getChildren(GRAPH_ATTRIBUTE);
+                List attributeConfigList = new LinkedList();
+                for(Iterator attrIt=attributes.iterator(); attrIt.hasNext(); ){
+                    Element attribute = (Element)attrIt.next();
+                    GraphAttributeConfig graphAttrConfig =
+                            new GraphAttributeConfig(
+                                    attribute.getAttributeValue(GRAPH_ATTRIBUTE_MBEAN),
+                                    attribute.getAttributeValue(GRAPH_ATTRIBUTE_NAME),
+                                    attribute.getAttributeValue(GRAPH_ATTRIBUTE_DISPLAY_NAME));
+                    attributeConfigList.add(graphAttrConfig);
+                }
+                String graphId = graph.getAttributeValue(GRAPH_ID);
+                String graphName = graph.getAttributeValue(GRAPH_NAME);
+                long pollingInterval = Long.parseLong(
+                        graph.getAttributeValue(GRAPH_POLLING_INTERVAL));
+
+                GraphConfig graphConfig =
+                        new GraphConfig(graphId, graphName, pollingInterval,
+                                appConfig, attributeConfigList);
+                graphConfigList.add(graphConfig);
+            }
+        }
+        return graphConfigList;
     }
 }

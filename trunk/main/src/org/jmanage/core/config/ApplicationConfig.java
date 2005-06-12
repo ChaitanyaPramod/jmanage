@@ -42,6 +42,7 @@ public abstract class ApplicationConfig {
     private String password;
     protected Map paramValues;
     private List mbeanList = new LinkedList();
+    private List graphList = new LinkedList();
     // clusterConfig: if this is part of a cluster
     private ApplicationConfig clusterConfig;
 
@@ -234,5 +235,27 @@ public abstract class ApplicationConfig {
 
     public boolean containsMBean(String objectName) {
         return findMBeanByObjectName(objectName) != null;
+    }
+
+    public void setGraphs(List graphList) {
+        if(graphList != null){
+            this.graphList = graphList;
+        }else{
+            this.graphList = new LinkedList();
+        }
+    }
+
+    public List getGraphs(){
+        return graphList;
+    }
+
+    public GraphConfig findGraph(String graphId) {
+        for(Iterator it=graphList.iterator(); it.hasNext(); ){
+            GraphConfig graphConfig = (GraphConfig)it.next();
+            if(graphConfig.getId().equals(graphId)){
+                return graphConfig;
+            }
+        }
+        return null;
     }
 }
