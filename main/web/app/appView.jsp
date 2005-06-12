@@ -4,7 +4,8 @@
                  org.jmanage.core.config.MBeanConfig,
                  org.jmanage.webui.util.RequestParams,
                  java.net.URLEncoder,
-                 java.util.*"%>
+                 java.util.*,
+                 org.jmanage.core.config.GraphConfig"%>
 
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 
@@ -12,6 +13,7 @@
     WebContext webContext = WebContext.get(request);
     ApplicationConfig appConfig = webContext.getApplicationConfig();
 %>
+<%-- Configured MBeans --%>
 <%if(appConfig.getMBeans().size() > 0){%>
 <table border="0" cellspacing="0" cellpadding="5" width="600" class="table">
     <tr class="tableHeader">
@@ -53,3 +55,32 @@
     <jmhtml:text property="objectName" />&nbsp;&nbsp;<jmhtml:submit styleClass="Inside3d" value="Find More Objects" />
 </jmhtml:form>
 </p>
+<%-- Configured Graphs --%>
+<%if(appConfig.getGraphs().size() > 0){%>
+<table border="0" cellspacing="0" cellpadding="5" width="600" class="table">
+    <tr class="tableHeader">
+       <td colspan="1">Graphs</td>
+    </tr>
+<%
+    for(Iterator it=appConfig.getGraphs().iterator(); it.hasNext();){
+        GraphConfig graphConfig = (GraphConfig)it.next();
+%>
+    <tr>
+        <td class="plaintext" width="25%">
+            <a href="/app/graphView.do?<%=RequestParams.APPLICATION_ID%>=<%=appConfig.getApplicationId()%>&graphId=<%=graphConfig.getId()%>">
+                    <%=graphConfig.getName()%></a>
+        </td>
+    </tr>
+<%
+    }
+%>
+</table>
+<%}else{%>
+<p class="plaintext">
+    There are no configured graphs.
+</p>
+<%}%>
+<p>
+Add Graph
+</p>
+

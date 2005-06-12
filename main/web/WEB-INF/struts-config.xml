@@ -254,6 +254,11 @@
             type="org.jmanage.webui.actions.app.MBeanAttributeValuesAction">
             <forward name="success" path="/app/attributeValues.jsp"/>
         </action>
+        <action
+            path="/app/graphView"
+            type="org.jmanage.webui.actions.app.GraphViewAction">
+            <forward name="success" path="app.graphView"/>
+        </action>
 
 
         <!--== User Management =======================================-->

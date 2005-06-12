@@ -99,5 +99,7 @@
     <definition name="app.connectionFailed" extends="layouts.application">
         <put name="body.main" value="/app/connectionFailed.jsp" />
     </definition>
-
+    <definition name="app.graphView" extends="layouts.application">
+        <put name="body.main" value="/app/graphView.jsp" />
+    </definition>
 </tiles-definitions>

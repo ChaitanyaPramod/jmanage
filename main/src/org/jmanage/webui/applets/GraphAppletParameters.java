@@ -28,6 +28,8 @@ public interface GraphAppletParameters {
     String POLLING_INTERVAL = "pollingInterval";
     // attributes to be graphed
     String ATTRIBUTES = "attributes";
+    // display names of the attributes
+    String ATTRIBUTE_DISPLAY_NAMES = "displayNames";
     // the jmanage server url
     String REMOTE_URL = "remoteURL";
 }

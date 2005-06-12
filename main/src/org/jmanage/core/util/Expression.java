@@ -112,21 +112,27 @@ public class Expression {
         public String nextToken(){
             String token = super.nextToken();
             if(token.startsWith("\"")){
-                /* token starts with double quotes. Keep getting next token,
-                    till we find ending double quotes */
-                StringBuffer buff = new StringBuffer(token.substring(1));
+                if(token.endsWith("\"")){
+                    // token ends with double quotes. just drop the double quotes
+                    token = token.substring(1, token.length() -1);
+                }else{
+                    /* token starts with double quotes, but doesn't end with it.
+                        Keep getting next token,
+                        till we find ending double quotes */
+                    StringBuffer buff = new StringBuffer(token.substring(1));
 
-                while(true){
-                    String nextToken = super.nextToken();
-                    buff.append(DELIMITER);
-                    if(nextToken.endsWith("\"")){
-                        buff.append(nextToken.substring(0, nextToken.length()-1));
-                        break;
-                    }else{
-                        buff.append(nextToken);
+                    while(true){
+                        String nextToken = super.nextToken();
+                        buff.append(DELIMITER);
+                        if(nextToken.endsWith("\"")){
+                            buff.append(nextToken.substring(0, nextToken.length()-1));
+                            break;
+                        }else{
+                            buff.append(nextToken);
+                        }
                     }
+                    token = buff.toString();
                 }
-                token = buff.toString();
             }
             return token;
         }
