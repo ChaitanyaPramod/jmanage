@@ -110,6 +110,9 @@
         <fileset dir="${basedir}/lib">
             <include name="*.jar"/>
         </fileset>
+        <fileset dir="${basedir}/lib/jfreechart">
+            <include name="*.jar"/>
+        </fileset>
         <fileset dir="${basedir}/web/WEB-INF/lib">
             <include name="*.jar"/>
         </fileset>
@@ -273,6 +276,8 @@
             <include name="**/webui/Startup.java"/>
             <include name="**/core/**"/>
             <include name="**/cmdui/**"/>
+            <include name="**/net/**"/>
+            <include name="**/util/**"/>
             <exclude name="**/core/modules/**"/>
         </javac>
 
@@ -288,6 +293,20 @@
             <include name="**/webui/**"/>
             <exclude name="**/webui/Startup.java"/>
         </javac>
+
+        <!-- add applet specific jars to /applets dir -->
+        <mkdir dir="${build.home}/web/applets"/>
+        <!-- create jar for jmanage applets -->
+        <jar jarfile="${build.home}/web/applets/applets.jar">
+            <fileset dir="${build.home}/web/WEB-INF/classes"
+                includes="org/jmanage/webui/applets/**"/>
+        </jar>
+        <!-- copy jfreechart jars -->
+        <copy todir="${build.home}/web/applets">
+            <fileset dir="${basedir}/lib/jfreechart">
+                <include name="*.jar"/>
+            </fileset>
+        </copy>
     </target>
 
 

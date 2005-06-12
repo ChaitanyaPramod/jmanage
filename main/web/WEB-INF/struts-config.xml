@@ -247,6 +247,14 @@
             type="org.jmanage.webui.actions.app.ExecuteMBeanOperationAction">
             <forward name="success" path="app.mbeanOperationResult"/>
         </action>
+        <!-- this action mapping is used by the GraphApplet to get the attribute
+                values -->
+        <action
+            path="/app/fetchAttributeValues"
+            type="org.jmanage.webui.actions.app.MBeanAttributeValuesAction">
+            <forward name="success" path="/app/attributeValues.jsp"/>
+        </action>
+
 
         <!--== User Management =======================================-->
         <action

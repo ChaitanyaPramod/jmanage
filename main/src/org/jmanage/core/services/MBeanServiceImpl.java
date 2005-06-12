@@ -133,6 +133,26 @@ public class MBeanServiceImpl implements MBeanService {
         return resultData;
     }
 
+    public ObjectAttribute getObjectAttribute(ServiceContext context,
+                                              String attribute)
+            throws ServiceException{
+        assert context.getObjectName() != null;
+        assert context.getApplicationConfig() != null;
+        canAccessThisMBean(context);
+        AccessController.checkAccess(context,
+                ACLConstants.ACL_VIEW_MBEAN_ATTRIBUTES,
+                attribute);
+        // we don't support clustering here
+        assert !context.getApplicationConfig().isCluster();
+
+        ServerConnection connection =
+                        context.getServerConnection();
+        List attrList =
+                connection.getAttributes(context.getObjectName(),
+                        new String[]{attribute});
+        return (ObjectAttribute)attrList.get(0);
+    }
+
     /**
      * @return list of attribute values for given attributes
      */
