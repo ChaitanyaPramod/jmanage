@@ -13,18 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jmanage.webui.util;
+package org.jmanage.core.config;
 
 /**
- *
- * date:  Jun 13, 2004
- * @author	Rakesh Kalra
+ * Date: May 25, 2005  3:18:12 PM
+ * @author Bhavana
  */
-public interface RequestParams {
+public class AlertDeliveryConstants {
 
-    public static final String APPLICATION_ID = "applicationId";
-    public static final String OBJECT_NAME = "objName";
-    public static final String REFRESH_APPS = "refreshApps";
-    public static final String USER_NAME = "username";
-    public static final String ALERT_ID = "alertId";
+    public static final String EMAIL_ALERT_DELIVERY_TYPE="Email";
+    public static final String CONSOLE_ALERT_DELIVERY_TYPE="Console";
+
 }
