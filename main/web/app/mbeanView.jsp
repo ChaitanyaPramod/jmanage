@@ -152,7 +152,7 @@
             String attrValue = null;
             if(objAttribute.getStatus() == ObjectAttribute.STATUS_OK){
                 if(objAttribute.getValue() != null){
-                    attrValue = objAttribute.getValue().toString();
+                    attrValue = MBeanUtils.toString(objAttribute.getValue());
                 }
             }else if(objAttribute.getStatus() == ObjectAttribute.STATUS_NOT_FOUND){
                 attrValue = "&lt;not found&gt;";
