@@ -505,20 +505,17 @@
         </jar>
     </target>
 
-    <!--TODO: this doesn't work. Need to take a closer look  -->
-    <!--add "set CLASSPATH=%CLASSPATH%;./lib/ant/jakarta-oro-2.0.8.jar" in setEnv.cmd-->
-<!--
-        <target name="upload" description="Uploads the distribution jar file to sourceforge">
-            <ftp
-               server="upload.sourceforge.net"
-               remotedir="incoming"
-               userid="anonymous"
-               password="rkalra@users.sourceforge.net"
-               depends="yes">
-               <fileset dir="${dist.home}/.." includes="jmanage-${app.version}.jar"/>
-            </ftp>
-        </target>
--->
+    <target name="upload" description="Uploads the distribution jar file to sourceforge">
+        <ftp
+           server="upload.sourceforge.net"
+           remotedir="incoming"
+           userid="anonymous"
+           password="rkalra@users.sourceforge.net"
+           depends="yes">
+           <fileset dir="${dist.home}/.." includes="jmanage-${app.version}.jar"/>
+        </ftp>
+    </target>
+
     <!-- ================= Javadoc Target ================================== -->
 
     <!--
