@@ -297,10 +297,5 @@
                 <arg0 key="Confirm Password" resource="false"/>
             </field>
         </form>
-        <form name="alertForm">
-            <field property="alertName" depends="required">
-                <arg0 key="Alert Name" resource="false"/>
-            </field>
-        </form>
     </formset>
 </form-validation>

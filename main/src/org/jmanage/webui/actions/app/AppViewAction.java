@@ -19,18 +19,13 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForward;
 import org.jmanage.webui.util.WebContext;
-import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.core.config.ApplicationConfig;
-import org.jmanage.core.config.ApplicationConfigManager;
 import org.jmanage.core.auth.AccessController;
 import org.jmanage.core.util.ACLConstants;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  *
@@ -49,8 +44,6 @@ public class AppViewAction extends BaseAction {
         ApplicationConfig appConfig = context.getApplicationConfig();
         AccessController.checkAccess(context.getServiceContext(),
                 ACLConstants.ACL_VIEW_APPLICATIONS);
-        List appAlerts = appConfig.getAlerts();
-        request.setAttribute("alerts", appAlerts);
         if(appConfig.isCluster()){
             return mapping.findForward("cluster");
         }else{

@@ -22,8 +22,10 @@ import org.jmanage.core.management.ObjectAttributeInfo;
 import java.util.List;
 import java.util.Iterator;
 import java.util.Date;
+import java.util.Arrays;
 import java.math.BigInteger;
 import java.math.BigDecimal;
+import java.lang.reflect.Array;
 
 /**
  * Contains some mbean utility methods, which are used in the web layer
@@ -137,5 +139,28 @@ public class MBeanUtils {
                 return "Invalid Impact Value";
 
         }
+    }
+
+    public static String toString(Object obj){
+        if(obj == null){
+            return null;
+        }
+        if(obj.getClass().isArray()){
+            return arrayToString(obj);
+        }
+        return obj.toString();
+    }
+
+    private static String arrayToString(Object array){
+        assert array.getClass().isArray();
+        int length = Array.getLength(array);
+        StringBuffer buff = new StringBuffer();
+        for(int i=0; i<length; i++){
+            if(i>0){
+                buff.append("<br/>");
+            }
+            buff.append(Array.get(array, i));
+        }
+        return buff.toString();
     }
 }

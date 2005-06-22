@@ -49,10 +49,7 @@
             name="changePasswordForm"
             type="org.jmanage.webui.forms.ChangePasswordForm">
         </form-bean>
-        <form-bean
-            name="alertForm"
-            type="org.jmanage.webui.forms.AlertForm">
-        </form-bean>
+
     </form-beans>
 
     <!-- ====================================== Global Exception Definitions -->
@@ -250,19 +247,6 @@
             type="org.jmanage.webui.actions.app.ExecuteMBeanOperationAction">
             <forward name="success" path="app.mbeanOperationResult"/>
         </action>
-        <!-- this action mapping is used by the GraphApplet to get the attribute
-                values -->
-        <action
-            path="/app/fetchAttributeValues"
-            type="org.jmanage.webui.actions.app.MBeanAttributeValuesAction">
-            <forward name="success" path="/app/attributeValues.jsp"/>
-        </action>
-        <action
-            path="/app/graphView"
-            type="org.jmanage.webui.actions.app.GraphViewAction">
-            <forward name="success" path="app.graphView"/>
-        </action>
-
 
         <!--== User Management =======================================-->
         <action
@@ -343,37 +327,7 @@
             type="org.jmanage.webui.actions.auth.ShowUserActivityAction">
             <forward name="success" path="auth.userActivity"/>
         </action>
-        <action
-            path="/config/showAddAlert"
-            name="alertForm"
-            scope="request"
-            validate="false"
-            type="org.jmanage.webui.actions.config.ShowAddAlertAction">
-            <forward name="success" path="config.addAlert"/>
-        </action>
-        <action
-            path="/config/addAlert"
-            name="alertForm"
-            scope="request"
-            validate="true"
-            input="/config/showAddAlert.do"
-            type="org.jmanage.webui.actions.config.AddAlertAction">
-            <forward name="success" path="/app/appView.do"/>
-        </action>
-        <action
-            path="/config/showEditAlert"
-            name="alertForm"
-            scope="request"
-            validate="false"
-            type="org.jmanage.webui.actions.config.ShowEditAlertAction">
-            <forward name="success" path="config.addAlert"/>
-        </action>
-        <action path="/config/deleteAlert"
-                name="alertForm"
-                scope="request"
-                type="org.jmanage.webui.actions.config.RemoveAlertAction">
-                <forward name="success" path="/app/appView.do"/>
-        </action>
+
     </action-mappings>
 
     <!-- ========================================== Controller Configuration -->

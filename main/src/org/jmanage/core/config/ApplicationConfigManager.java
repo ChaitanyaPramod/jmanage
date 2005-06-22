@@ -140,17 +140,4 @@ public class ApplicationConfigManager{
         ConfigWriter writer = ConfigWriter.getInstance();
         writer.write(applicationConfigs);
     }
-
-    public static List getAllApplications(){
-        Iterator appItr = applicationConfigs.iterator();
-        List applications = new LinkedList();
-        while(appItr.hasNext()){
-            ApplicationConfig appConfig = (ApplicationConfig)appItr.next();
-            applications.add(appConfig);
-            if(appConfig.isCluster()){
-                applications.addAll(appConfig.getApplications());
-            }
-        }
-        return applications;
-    }
 }

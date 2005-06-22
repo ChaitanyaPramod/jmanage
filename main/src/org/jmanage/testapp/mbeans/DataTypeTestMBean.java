@@ -21,7 +21,6 @@ import java.util.Date;
  *
  * date:  Dec 23, 2004
  * @author	Vandana Taneja
- * @author Rakesh Kalra
  */
 public interface DataTypeTestMBean {
 
@@ -43,8 +42,4 @@ public interface DataTypeTestMBean {
     public void setByte(Byte b);
     public Date getDate();
     public void setDate(Date dt);
-    public String[] getStringArray();
-    public void setStringArray(String[] strArray);
-    public int[] getIntArray();
-    public void setIntArray(int[] intArray);
 }
