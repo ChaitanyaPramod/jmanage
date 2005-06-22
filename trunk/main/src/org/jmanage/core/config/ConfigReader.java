@@ -137,6 +137,7 @@ public class ConfigReader implements ConfigConstants{
                         paramValues);
 
         config.setMBeans(getMBeanConfigList(application));
+
         config.setGraphs(getGraphConfigList(application, config));
         return config;
     }
@@ -147,7 +148,6 @@ public class ConfigReader implements ConfigConstants{
                 new ApplicationClusterConfig(
                         application.getAttributeValue(APPLICATION_ID),
                         application.getAttributeValue(APPLICATION_NAME));
-
         if(application.getChild(APPLICATIONS) != null){
             List applications =
                     application.getChild(APPLICATIONS).getChildren();
@@ -156,7 +156,7 @@ public class ConfigReader implements ConfigConstants{
         }
 
         config.setMBeans(getMBeanConfigList(application));
-
+        config.setAlerts(getAlertsList(application));
         // todo: graphs are not yet supported at the cluster level
         // todo: to enable this, we will have to store applicationId at graph attribute level
         //config.setGraphs(getGraphConfigList(application, config));
@@ -209,5 +209,33 @@ public class ConfigReader implements ConfigConstants{
             }
         }
         return graphConfigList;
+    }
+
+    private List getAlertsList(Element application){
+        List alertsList = new LinkedList();
+        if(application.getChild(ALERTS)!=null){
+            List alerts = application.getChild(ALERTS).getChildren(ALERT);
+            AlertConfig alertConfig = new AlertConfig();
+            for(Iterator it=alerts.iterator(); it.hasNext();){
+                Element alert = (Element)it.next();
+                alertConfig.setAlertId(alert.getAttributeValue(ALERT_ID));
+                alertConfig.setAlertName(alert.getAttributeValue(ALERT_NAME));
+                alertConfig.setSubject(alert.getAttributeValue(ALERT_SUBJECT));
+                List alertDeliveryList = alert.getChildren(ALERT_DELIVERY);
+                String[] alertDelivery = new String[alertDeliveryList.size()];
+                for(int i=0;i<alertDeliveryList.size();i++){
+                    Element alertDel = (Element)alertDeliveryList.get(i);
+                    alertDelivery[i] = alertDel.getAttributeValue(
+                            ALERT_DELIVERY_TYPE);
+                    if(alertDelivery[i]=="email"){
+                        alertConfig.setEmailAddress(alertDel.getAttributeValue(
+                                ConfigConstants.ALERT_EMAIL_ADDRESS));
+                    }
+                }
+                alertConfig.setAlertDelivery(alertDelivery);
+                alertsList.add(alertConfig);
+            }
+        }
+        return alertsList;
     }
 }

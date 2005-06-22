@@ -13,48 +13,47 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jmanage.webui.actions.app;
+package org.jmanage.webui.actions.config;
 
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionForward;
+import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
-import org.jmanage.webui.actions.BaseAction;
+import org.jmanage.webui.util.RequestParams;
+import org.jmanage.webui.forms.AlertForm;
 import org.jmanage.core.config.ApplicationConfig;
-import org.jmanage.core.config.ApplicationConfigManager;
-import org.jmanage.core.auth.AccessController;
-import org.jmanage.core.util.ACLConstants;
+import org.jmanage.core.config.AlertConfig;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionForm;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
- *
- * date:  Dec 15, 2004
- * @author	Rakesh Kalra
+ * Date: Jun 21, 2005 10:57:31 AM
+ * @author Bhavana
  */
-public class AppViewAction extends BaseAction {
-
+public class ShowEditAlertAction extends BaseAction{
     public ActionForward execute(WebContext context,
                                  ActionMapping mapping,
                                  ActionForm actionForm,
                                  HttpServletRequest request,
                                  HttpServletResponse response)
-        throws Exception{
+            throws Exception {
 
+        AlertForm form = (AlertForm)actionForm;
+        String alertId = request.getParameter(RequestParams.ALERT_ID);
         ApplicationConfig appConfig = context.getApplicationConfig();
-        AccessController.checkAccess(context.getServiceContext(),
-                ACLConstants.ACL_VIEW_APPLICATIONS);
-        List appAlerts = appConfig.getAlerts();
-        request.setAttribute("alerts", appAlerts);
-        if(appConfig.isCluster()){
-            return mapping.findForward("cluster");
-        }else{
-            return mapping.findForward("application");
+        AlertConfig alertConfig = appConfig.findAlertById(alertId);
+        if(alertConfig!=null){
+            form.setAlertName(alertConfig.getAlertName());
+            form.setSubject(alertConfig.getSubject());
+            form.setAlertDelivery(alertConfig.getAlertDelivery());
+            form.setEmailAddress(alertConfig.getEmailAddress());
         }
+        return mapping.findForward(Forwards.SUCCESS);
     }
+
 }

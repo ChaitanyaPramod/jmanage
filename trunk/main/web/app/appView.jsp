@@ -5,10 +5,19 @@
                  org.jmanage.webui.util.RequestParams,
                  java.net.URLEncoder,
                  java.util.*,
-                 org.jmanage.core.config.GraphConfig"%>
+                 org.jmanage.core.config.GraphConfig,
+                 org.jmanage.core.config.AlertConfig"%>
 
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
-
+<script language="JavaScript">
+    function deleteAlert(alertId, appId){
+        var msg;
+        msg = "Are you sure you want to delete this Alert?";
+        if(confirm(msg) == true){
+            location = '/config/deleteAlert.do?<%=RequestParams.ALERT_ID%>=' + alertId + '&<%=RequestParams.APPLICATION_ID%>=' + appId + '&refreshApps=true';
+        }
+    }
+</script>
 <%
     WebContext webContext = WebContext.get(request);
     ApplicationConfig appConfig = webContext.getApplicationConfig();
@@ -83,4 +92,46 @@
 <p>
 Add Graph
 </p>
+<table cellspacing="0" cellpadding="5" width="600" class="table">
+    <tr class="tableHeader">
+        <td colspan="5">Alerts</td>
+    </tr>
+    <tr>
+        <td class="headtext1">Alert Name</td>
+        <td class="headtext1">Application Name</td>
+        <td class="headtext1">Alert Delivery</td>
+        <td class="headtext1">Subject</td>
+    </tr>
+    <%
+        List alerts = (List)request.getAttribute("alerts");
+        Iterator itr = alerts.iterator();
+        while(itr.hasNext()){
+            AlertConfig alertConfig = (AlertConfig)itr.next();
+            String appName = alertConfig.getApplicationConfig().getName();
+            String[] alertDelivery = alertConfig.getAlertDelivery();
+            String alertDel = "";
+            for(int i=0; i<alertDelivery.length;i++){
+                if(i>0){
+                    alertDel = alertDel + "," + alertDelivery[i];
+                }else{
+                    alertDel = alertDel + alertDelivery[i];
+                }
+            }
+    %>
+    <tr>
+        <td class="plaintext"><a href="/config/showEditAlert.do?<%=RequestParams.APPLICATION_ID%>=<%=appConfig.getApplicationId()%>&<%=RequestParams.ALERT_ID%>=<%=alertConfig.getAlertId()%>">
+             <%=alertConfig.getAlertName()%>
+        </td>
+        <td class="plaintext">
+             <%=appName%>
+        </td>
+        <td class="plaintext"><%=alertDel%></td>
+        <td class="plaintext"><%=alertConfig.getSubject()%></td>
+        <td align="right" width="60"><a href="JavaScript:deleteAlert('<%=alertConfig.getAlertId()%>',<%=appConfig.getApplicationId()%>);" class="a1">Delete</a></td>
+    </tr>
+    <%}%>
+</table>
+<br>
+<jmhtml:link href="/config/showAddAlert.do" styleClass="a">Add New Alert</jmhtml:link>
+
 

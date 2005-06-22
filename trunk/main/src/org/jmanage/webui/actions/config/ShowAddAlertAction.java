@@ -13,48 +13,48 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jmanage.webui.actions.app;
+package org.jmanage.webui.actions.config;
 
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionForward;
-import org.jmanage.webui.util.WebContext;
-import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.actions.BaseAction;
-import org.jmanage.core.config.ApplicationConfig;
+import org.jmanage.webui.util.WebContext;
+import org.jmanage.webui.util.RequestAttributes;
+import org.jmanage.webui.util.Forwards;
+import org.jmanage.core.config.AlertDeliveryConstants;
 import org.jmanage.core.config.ApplicationConfigManager;
-import org.jmanage.core.auth.AccessController;
-import org.jmanage.core.util.ACLConstants;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionForm;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
- *
- * date:  Dec 15, 2004
- * @author	Rakesh Kalra
+ * Date: May 26, 2005 4:16:42 PM
+ * @author Bhavana
  */
-public class AppViewAction extends BaseAction {
-
+public class ShowAddAlertAction extends BaseAction{
+    /**
+     * Get all configured alert delivery mechanism
+     *
+     * @param context
+     * @param mapping
+     * @param actionForm
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward execute(WebContext context,
                                  ActionMapping mapping,
                                  ActionForm actionForm,
                                  HttpServletRequest request,
                                  HttpServletResponse response)
-        throws Exception{
+            throws Exception {
 
-        ApplicationConfig appConfig = context.getApplicationConfig();
-        AccessController.checkAccess(context.getServiceContext(),
-                ACLConstants.ACL_VIEW_APPLICATIONS);
-        List appAlerts = appConfig.getAlerts();
-        request.setAttribute("alerts", appAlerts);
-        if(appConfig.isCluster()){
-            return mapping.findForward("cluster");
-        }else{
-            return mapping.findForward("application");
-        }
+        request.setAttribute("applications",
+                ApplicationConfigManager.getAllApplications());
+        return mapping.findForward(Forwards.SUCCESS);
     }
 }

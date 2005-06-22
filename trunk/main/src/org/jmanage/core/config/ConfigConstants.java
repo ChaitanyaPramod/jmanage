@@ -54,6 +54,15 @@ public interface ConfigConstants {
     public String MBEAN_NAME = "name";
     public String MBEAN_OBJECT_NAME = "object-name";
 
+    public String ALERTS="alerts";
+    public String ALERT="alert";
+    public String ALERT_ID="id";
+    public String ALERT_NAME="name";
+    public String ALERT_DELIVERY = "delivery";
+    public String ALERT_DELIVERY_TYPE="type";
+    public String ALERT_EMAIL_ADDRESS="emailAddress";
+    public String ALERT_SUBJECT="subject";
+
     public String GRAPHS = "graphs";
     public String GRAPH = "graph";
     public String GRAPH_ID = "id";
@@ -63,4 +72,5 @@ public interface ConfigConstants {
     public String GRAPH_ATTRIBUTE_MBEAN = "mbean";
     public String GRAPH_ATTRIBUTE_NAME = "attribute";
     public String GRAPH_ATTRIBUTE_DISPLAY_NAME = "displayName";
+
 }

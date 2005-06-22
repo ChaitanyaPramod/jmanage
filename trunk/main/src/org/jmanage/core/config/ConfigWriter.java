@@ -146,6 +146,10 @@ public class ConfigWriter {
         /* add mbeans */
         Element mbeansElement = createMBeansElement(application);
         applicationElement.addContent(mbeansElement);
+
+        /* add alerts*/
+        Element alertsElement = createAlertsElement(application);
+        applicationElement.addContent(alertsElement);
         if(!application.isCluster()){
             /* add graphs */
             Element graphsElement = createGraphsElement(application);
@@ -172,6 +176,38 @@ public class ConfigWriter {
             mbeansElement.addContent(mbeanElement);
         }
         return mbeansElement;
+    }
+
+    private Element createAlertsElement(ApplicationConfig application){
+        Element alertsElement = new Element(ConfigConstants.ALERTS);
+        if(application.getAlerts()==null){
+            return alertsElement;
+        }
+        for(Iterator alerts = application.getAlerts().iterator();
+            alerts.hasNext();){
+            AlertConfig alertConfig = (AlertConfig)alerts.next();
+            Element alertElement = new Element(ConfigConstants.ALERT);
+            alertElement.setAttribute(ConfigConstants.ALERT_ID,
+                    alertConfig.getAlertId());
+            alertElement.setAttribute(ConfigConstants.ALERT_NAME,
+                    alertConfig.getAlertName());
+            alertElement.setAttribute(ConfigConstants.ALERT_SUBJECT,
+                    alertConfig.getSubject());
+            String[] alertDelivery = alertConfig.getAlertDelivery();
+            for(int i=0;i<alertDelivery.length;i++){
+                Element alertDel = new Element(ConfigConstants.ALERT_DELIVERY);
+                alertDel.setAttribute(ConfigConstants.ALERT_DELIVERY_TYPE,
+                        alertDelivery[i]);
+                if(alertDelivery[i]=="email"){
+                    alertDel.setAttribute(ConfigConstants.ALERT_EMAIL_ADDRESS,
+                            alertConfig.getEmailAddress());
+                }
+                alertElement.addContent(alertDel);
+            }
+
+            alertsElement.addContent(alertElement);
+        }
+        return alertsElement;
     }
 
     private Element createGraphsElement(ApplicationConfig application){
@@ -207,4 +243,5 @@ public class ConfigWriter {
         }
         return graphsElement;
     }
+
 }
