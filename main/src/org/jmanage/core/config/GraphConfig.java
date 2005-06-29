@@ -15,6 +15,8 @@
  */
 package org.jmanage.core.config;
 
+import org.jmanage.core.util.Expression;
+
 import java.util.List;
 import java.util.Iterator;
 
@@ -78,15 +80,15 @@ public class GraphConfig {
                 graphAttributes.append(",");
             }
             GraphAttributeConfig attrConfig = (GraphAttributeConfig)it.next();
-            // todo: it will be better to use Expression object for this purpose
+
+            // todo: it will be good to bring in a concept of ExpressionList
+            // todo:    object which parses an expression into multiple
+            // todo:    Expression objects - RK
             graphAttributes.append("[");
-            graphAttributes.append(appConfig.getName());
-            graphAttributes.append("/");
-            graphAttributes.append("\"");
-            graphAttributes.append(attrConfig.getMBean());
-            graphAttributes.append("\"");
-            graphAttributes.append("/");
-            graphAttributes.append(attrConfig.getAttribute());
+            Expression expr = new Expression(appConfig.getName(),
+                    attrConfig.getMBean(),
+                    attrConfig.getAttribute());
+            graphAttributes.append(expr.toString());
             graphAttributes.append("]");
         }
         return graphAttributes.toString();

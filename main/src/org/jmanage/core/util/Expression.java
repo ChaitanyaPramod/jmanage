@@ -32,8 +32,22 @@ public class Expression {
     /* this could be attribute or operation name */
     private String targetName;
 
+    public Expression(String appName, String mbeanName, String targetName){
+        this.appName = appName!=null?appName:"";
+        this.mbeanName = mbeanName!=null?mbeanName:"";
+        this.targetName = targetName!=null?targetName:"";
+        StringBuffer buff = new StringBuffer(this.appName);
+        buff.append(DELIMITER);
+        buff.append("\"");
+        buff.append(this.mbeanName);
+        buff.append("\"");
+        buff.append(DELIMITER);
+        buff.append(targetName);
+        this.exprString = buff.toString();
+    }
+
     public Expression(String exprString){
-        this(exprString, null);
+        this(exprString, (Expression)null);
     }
 
     public Expression(String exprString, Expression context){
