@@ -18,13 +18,25 @@ package org.jmanage.core.util;
 import java.util.StringTokenizer;
 
 /**
+ * Provides a mechanism to specify application name, mbean name and
+ * attribute or operation name as a single String expression. The expression
+ * looks like the following:
+ * <br/>
+ * &lt;appName&gt;/&lt;mbeaName&gt;/&lt;attrName&gt;
+ * <p>
+ * The mbeanName could be the "configured" mbean name or the object name.
+ * This depends on the context in which Expression object is used.
+ * <p>
+ * This object is widely used in the jManage application specifically in
+ * the command line UI and the access control system.
  *
- * date:  Feb 26, 2005
+ * Date:  Feb 26, 2005
  * @author	Rakesh Kalra
  */
 public class Expression {
 
-    private static final String DELIMITER = "/";
+    public static final String WILDCARD = "*";
+    public static final String DELIMITER = "/";
 
     private final String exprString;
     private String appName;
@@ -33,9 +45,9 @@ public class Expression {
     private String targetName;
 
     public Expression(String appName, String mbeanName, String targetName){
-        this.appName = appName!=null?appName:"";
-        this.mbeanName = mbeanName!=null?mbeanName:"";
-        this.targetName = targetName!=null?targetName:"";
+        this.appName = appName!=null && appName.length()>0?appName:WILDCARD;
+        this.mbeanName = mbeanName!=null && mbeanName.length()>0?mbeanName:WILDCARD;
+        this.targetName = targetName!=null && targetName.length()>0?targetName:WILDCARD;
         StringBuffer buff = new StringBuffer(this.appName);
         buff.append(DELIMITER);
         buff.append("\"");
@@ -58,35 +70,30 @@ public class Expression {
             this.appName = context.getAppName();
             this.mbeanName = context.getMBeanName();
             this.targetName = context.getTargetName();
-            switch(tokenizer.countTokens()){
+            int tokenCount = 0;
+            // we only expect max 3 tokens
+            String[] tokens = new String[3];
+            for(int i=0;tokenizer.hasMoreTokens() && i<3;i++){
+                tokenCount ++;
+                tokens[i] = tokenizer.nextToken();
+            }
+            if(tokenizer.hasMoreTokens()){
+                throw new RuntimeException("invalid expression");
+            }
+            switch(tokenCount){
                 case 1:
-                    if(targetName != null){
-                        targetName = tokenizer.nextToken();
-                    }else if(mbeanName != null){
-                        mbeanName = tokenizer.nextToken();
-                    }else{
-                        appName = tokenizer.nextToken();
-                    }
+                    targetName = tokens[0];
                     break;
                 case 2:
-                    if(targetName != null){
-                        mbeanName = tokenizer.nextToken();
-                        targetName = tokenizer.nextToken();
-                    }else{
-                        appName = tokenizer.nextToken();
-                        mbeanName = tokenizer.nextToken();
-                    }
+                    mbeanName = tokens[0];
+                    targetName = tokens[1];
                     break;
                 case 3:
-                    appName = tokenizer.nextToken();
-                    mbeanName = tokenizer.nextToken();
-                    targetName = tokenizer.nextToken();
+                    appName = tokens[0];
+                    mbeanName = tokens[1];
+                    targetName = tokens[2];
                     break;
-                default:
-                    // TODO: handle gracefully
-                    throw new RuntimeException("Invalid expression");
             }
-
         }else{
             if(tokenizer.hasMoreTokens())
                 appName = tokenizer.nextToken();
@@ -114,6 +121,11 @@ public class Expression {
         return exprString;
     }
 
+    /**
+     * Handles the case where the delimiter "/" is within the expression.
+     * Note that this tokenizer doesn't return the right value for
+     * countTokens()
+     */
     private class CustomStringTokenizer extends StringTokenizer{
 
         public CustomStringTokenizer(String expr){
@@ -151,5 +163,8 @@ public class Expression {
             return token;
         }
 
+        public int countTokens(){
+            throw new RuntimeException("countTokens() is not supported");
+        }
     }
 }
