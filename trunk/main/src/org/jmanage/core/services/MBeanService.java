@@ -22,6 +22,7 @@ import org.jmanage.core.data.AttributeListData;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -34,6 +35,8 @@ public interface MBeanService {
     public List queryMBeans(ServiceContext context,
                           String filter)
             throws ServiceException;
+
+    public Map queryMBeansOutputMap(ServiceContext context, String filter);
 
     /**
      * Gets the MBean information.

@@ -13,46 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jmanage.webui.actions.app;
+package org.jmanage.webui.actions.config;
 
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionForm;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
+import org.jmanage.webui.util.Utils;
 import org.jmanage.webui.actions.BaseAction;
-import org.jmanage.core.config.ApplicationConfig;
-import org.jmanage.core.config.ApplicationConfigManager;
-import org.jmanage.core.auth.AccessController;
-import org.jmanage.core.util.ACLConstants;
+import org.jmanage.core.services.MBeanService;
+import org.jmanage.core.services.ServiceFactory;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 /**
- *
- * date:  Dec 15, 2004
- * @author	Rakesh Kalra
+ * Date: Jun 28, 2005 9:12:52 PM
+ * @author Bhavana
  */
-public class AppViewAction extends BaseAction {
-
+public class ShowMBeanAction extends BaseAction {
     public ActionForward execute(WebContext context,
                                  ActionMapping mapping,
                                  ActionForm actionForm,
                                  HttpServletRequest request,
                                  HttpServletResponse response)
-        throws Exception{
+            throws Exception {
 
-        ApplicationConfig appConfig = context.getApplicationConfig();
-        AccessController.checkAccess(context.getServiceContext(),
-                ACLConstants.ACL_VIEW_APPLICATIONS);
-        if(appConfig.isCluster()){
-            return mapping.findForward("cluster");
-        }else{
-            return mapping.findForward("application");
-        }
+        MBeanService mbeanService = ServiceFactory.getMBeanService();
+        Map domainToObjectNameListMap = mbeanService.queryMBeansOutputMap
+                (Utils.getServiceContext(context),null);
+        request.setAttribute("domainToObjectNameListMap", domainToObjectNameListMap);
+        return mapping.findForward(Forwards.SUCCESS);
     }
 }

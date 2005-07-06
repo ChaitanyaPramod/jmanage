@@ -108,4 +108,13 @@
     <definition name="app.graphView" extends="layouts.application">
         <put name="body.main" value="/app/graphView.jsp" />
     </definition>
+    <definition name="config.showAddGraph" extends="layouts.application">
+        <put name="body.main" value="/config/addGraph.jsp"/>
+    </definition>
+    <definition name="config.showMBeans" extends="layouts.application">
+        <put name="body.main" value="/config/selectMBeans.jsp"/>
+    </definition>
+    <definition name="config.showAttributes" extends="layouts.application">
+        <put name="body.main" value="/config/showAttributes.jsp"/>
+    </definition>
 </tiles-definitions>

@@ -34,6 +34,10 @@ public class GraphConfig {
     private List attributes;
     private ApplicationConfig appConfig;
 
+    public static String getNextGraphId(){
+        return String.valueOf(System.currentTimeMillis());
+    }
+
     public GraphConfig(String id,
                        String name,
                        long pollingInterval,

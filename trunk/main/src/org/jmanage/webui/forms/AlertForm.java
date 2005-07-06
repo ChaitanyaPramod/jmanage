@@ -21,14 +21,6 @@ package org.jmanage.webui.forms;
  */
 public class AlertForm extends BaseForm{
 
-    public String getAlertId() {
-        return alertId;
-    }
-
-    public void setAlertId(String alertId) {
-        this.alertId = alertId;
-    }
-
     private String alertId;
     private String alertName;
     private String[] alertDelivery;
@@ -43,6 +35,14 @@ public class AlertForm extends BaseForm{
     public void setApplication(String application) {
         this.application = application;
     }  */
+
+    public String getAlertId() {
+        return alertId;
+    }
+
+    public void setAlertId(String alertId) {
+        this.alertId = alertId;
+    }
 
     public String getAlertName() {
         return alertName;

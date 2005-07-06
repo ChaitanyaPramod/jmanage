@@ -15,10 +15,7 @@
  */
 package org.jmanage.core.services;
 
-import org.jmanage.core.config.ApplicationConfig;
-import org.jmanage.core.config.ApplicationConfigFactory;
-import org.jmanage.core.config.ApplicationConfigManager;
-import org.jmanage.core.config.MBeanConfig;
+import org.jmanage.core.config.*;
 import org.jmanage.core.data.ApplicationConfigData;
 import org.jmanage.core.data.MBeanData;
 import org.jmanage.core.util.UserActivityLogger;
@@ -105,5 +102,12 @@ public class ConfigurationServiceImpl implements ConfigurationService {
                     mbeanConfig.getName()));
         }
         return mbeanDataList;
+    }
+
+    public GraphConfig addGraph(ServiceContext context,GraphConfig graphConfig){
+        ApplicationConfig appConfig = context.getApplicationConfig();
+        appConfig.addGraph(graphConfig);
+        ApplicationConfigManager.updateApplication(appConfig);
+        return graphConfig;
     }
 }
