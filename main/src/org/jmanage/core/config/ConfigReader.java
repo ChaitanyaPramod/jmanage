@@ -137,7 +137,7 @@ public class ConfigReader implements ConfigConstants{
                         paramValues);
 
         config.setMBeans(getMBeanConfigList(application));
-
+        config.setAlerts(getAlertsList(application, config));
         config.setGraphs(getGraphConfigList(application, config));
         return config;
     }
@@ -156,7 +156,6 @@ public class ConfigReader implements ConfigConstants{
         }
 
         config.setMBeans(getMBeanConfigList(application));
-        config.setAlerts(getAlertsList(application));
         // todo: graphs are not yet supported at the cluster level
         // todo: to enable this, we will have to store applicationId at graph attribute level
         //config.setGraphs(getGraphConfigList(application, config));
@@ -211,7 +210,7 @@ public class ConfigReader implements ConfigConstants{
         return graphConfigList;
     }
 
-    private List getAlertsList(Element application){
+    private List getAlertsList(Element application, ApplicationConfig appConfig){
         List alertsList = new LinkedList();
         if(application.getChild(ALERTS)!=null){
             List alerts = application.getChild(ALERTS).getChildren(ALERT);
@@ -233,6 +232,7 @@ public class ConfigReader implements ConfigConstants{
                     }
                 }
                 alertConfig.setAlertDelivery(alertDelivery);
+                alertConfig.setApplicationConfig(appConfig);
                 alertsList.add(alertConfig);
             }
         }

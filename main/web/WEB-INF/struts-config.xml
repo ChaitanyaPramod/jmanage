@@ -53,6 +53,10 @@
             name="alertForm"
             type="org.jmanage.webui.forms.AlertForm">
         </form-bean>
+        <form-bean
+            name="graphForm"
+            type="org.jmanage.webui.forms.GraphForm">
+        </form-bean>
     </form-beans>
 
     <!-- ====================================== Global Exception Definitions -->
@@ -372,6 +376,32 @@
                 name="alertForm"
                 scope="request"
                 type="org.jmanage.webui.actions.config.RemoveAlertAction">
+                <forward name="success" path="/app/appView.do"/>
+        </action>
+        <action path="/config/showMBeans"
+            name="graphForm"
+            scope="request"
+            type="org.jmanage.webui.actions.config.ShowMBeanAction">
+            <forward name="success" path="config.showMBeans"/>
+        </action>
+        <action path="/config/showAttributes"
+            name="graphForm"
+            scope="request"
+            input="/config/showMBeans.do"
+            type="org.jmanage.webui.actions.config.ShowAttributesAction">
+            <forward name="success" path="config.showAttributes"/>
+        </action>
+        <action path="/config/showAddGraph"
+            name="graphForm"
+            scope="request"
+            input="/config/showAttributes"
+            type="org.jmanage.webui.actions.config.ShowAddGraphAction">
+            <forward name="success" path="config.showAddGraph"/>
+        </action>
+        <action path="/config/addGraph"
+                name="graphForm"
+                scope="request"
+                type="org.jmanage.webui.actions.config.AddGraphAction">
                 <forward name="success" path="/app/appView.do"/>
         </action>
     </action-mappings>

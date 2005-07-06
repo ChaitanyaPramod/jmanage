@@ -90,8 +90,11 @@
 </p>
 <%}%>
 <p>
-Add Graph
+<jmhtml:link href="/config/showMBeans.do" styleClass="a">Add Graph</jmhtml:link>
 </p>
+<%
+if(appConfig.getAlerts().size() > 0){
+%>
 <table cellspacing="0" cellpadding="5" width="600" class="table">
     <tr class="tableHeader">
         <td colspan="5">Alerts</td>
@@ -103,10 +106,11 @@ Add Graph
         <td class="headtext1">Subject</td>
     </tr>
     <%
-        List alerts = (List)request.getAttribute("alerts");
+        List alerts = appConfig.getAlerts();
         Iterator itr = alerts.iterator();
         while(itr.hasNext()){
             AlertConfig alertConfig = (AlertConfig)itr.next();
+            ApplicationConfig appConfig1 = alertConfig.getApplicationConfig();
             String appName = alertConfig.getApplicationConfig().getName();
             String[] alertDelivery = alertConfig.getAlertDelivery();
             String alertDel = "";
@@ -131,7 +135,14 @@ Add Graph
     </tr>
     <%}%>
 </table>
-<br>
+<%
+}else{
+%>
+<p class="plaintext">
+    There are no configured alerts.
+</p>
+<%}%>
+<p>
 <jmhtml:link href="/config/showAddAlert.do" styleClass="a">Add New Alert</jmhtml:link>
 
 

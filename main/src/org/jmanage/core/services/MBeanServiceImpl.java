@@ -24,7 +24,6 @@ import org.jmanage.core.management.*;
 import org.jmanage.core.util.*;
 import org.jmanage.core.auth.AccessController;
 import org.jmanage.util.StringUtils;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 import java.util.logging.Level;
@@ -59,6 +58,43 @@ public class MBeanServiceImpl implements MBeanService {
             mbeanDataList.add(new MBeanData(objName.getCanonicalName()));
         }
         return mbeanDataList;
+    }
+
+    public Map queryMBeansOutputMap(ServiceContext context, String filter){
+        List mbeanDataList = queryMBeans(context,filter);
+        Map domainToObjectNameListMap = new TreeMap();
+        ObjectNameTuple tuple = new ObjectNameTuple();
+        for(Iterator it=mbeanDataList.iterator(); it.hasNext();){
+            MBeanData mbeanData = (MBeanData)it.next();
+            tuple.setObjectName(mbeanData.getName());
+            String domain = tuple.getDomain();
+            String name = tuple.getName();
+            Set objectNameList = (Set)domainToObjectNameListMap.get(domain);
+            if(objectNameList == null){
+                objectNameList = new TreeSet();
+                domainToObjectNameListMap.put(domain, objectNameList);
+            }
+            objectNameList.add(name);
+        }
+        return domainToObjectNameListMap;
+    }
+
+    private static class ObjectNameTuple{
+        String domain;
+        String name;
+
+        void setObjectName(String canonicalName){
+            int index = canonicalName.indexOf(":");
+            domain = canonicalName.substring(0, index);
+            name = canonicalName.substring(index + 1);
+        }
+
+        String getName(){
+            return name;
+        }
+        String getDomain(){
+            return domain;
+        }
     }
 
     public ObjectInfo getMBeanInfo(ServiceContext context)

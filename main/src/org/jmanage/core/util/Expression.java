@@ -45,6 +45,7 @@ public class Expression {
     private String targetName;
 
     public Expression(String appName, String mbeanName, String targetName){
+
         this.appName = appName!=null && appName.length()>0?appName:WILDCARD;
         this.mbeanName = mbeanName!=null && mbeanName.length()>0?mbeanName:WILDCARD;
         this.targetName = targetName!=null && targetName.length()>0?targetName:WILDCARD;
@@ -121,11 +122,16 @@ public class Expression {
         return exprString;
     }
 
+    public String getHtmlEscaped(){
+        return exprString.replaceAll("\"","&quot;");
+    }
+
     /**
      * Handles the case where the delimiter "/" is within the expression.
      * Note that this tokenizer doesn't return the right value for
      * countTokens()
      */
+
     private class CustomStringTokenizer extends StringTokenizer{
 
         public CustomStringTokenizer(String expr){
