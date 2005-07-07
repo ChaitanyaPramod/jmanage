@@ -43,7 +43,7 @@
 %>
   <tr>
     <td class="plaintext">
-        <a href="#" onclick="setType('<%=applicationType%>')"><b><%=applicationType%> application</b></a>
+        <a href="javascript:setType('<%=applicationType%>');"><b><%=applicationType%> application</b></a>
     </td>
   </tr>
   <%}//while ends %>
