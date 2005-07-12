@@ -45,4 +45,5 @@ public interface ErrorCodes {
     String ERRONEOUS_APPS = "erroneous.apps";
     String JMANAGE_SERVER_CONNECTION_FAILED = "jmanage.connection.failed";
 
+    String APPLICATION_NAME_ALREADY_EXISTS = "application.name.already.exists";
 }

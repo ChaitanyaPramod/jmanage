@@ -15,6 +15,9 @@
  */
 package org.jmanage.core.config;
 
+import org.jmanage.core.services.ServiceException;
+import org.jmanage.core.util.ErrorCodes;
+
 import java.util.*;
 import java.io.File;
 
@@ -152,5 +155,17 @@ public class ApplicationConfigManager{
             }
         }
         return applications;
+    }
+
+    public static void checkAppNameAlreadyPresent(String appName) {
+
+        assert(appName != null);
+
+        for(Iterator it=getApplications().iterator(); it.hasNext(); ){
+            ApplicationConfig appConfig = (ApplicationConfig)it.next();
+            if((appConfig.getName().toUpperCase()).equals(appName.toUpperCase())) {
+                throw new ServiceException(ErrorCodes.APPLICATION_NAME_ALREADY_EXISTS, appName);
+            }
+        }
     }
 }
