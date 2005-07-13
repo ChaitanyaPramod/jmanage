@@ -90,14 +90,12 @@ public class ApplicationConfigManager{
     }
 
     public static void addApplication(ApplicationConfig config){
-        checkAppNameAlreadyPresent(config.getName());
         applicationConfigs.add(config);
         saveConfig();
     }
 
     public static void updateApplication(ApplicationConfig config) {
         assert config != null: "application config is null";
-        checkAppNameAlreadyPresent(config.getName());
         int index = applicationConfigs.indexOf(config);
         if(index != -1){
             applicationConfigs.remove(index);
