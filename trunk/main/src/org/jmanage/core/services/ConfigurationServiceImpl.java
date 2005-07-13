@@ -38,6 +38,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
                                                 ApplicationConfigData data){
 
         AccessController.checkAccess(context, ACLConstants.ACL_ADD_APPLICATIONS);
+        ApplicationConfigManager.checkAppNameAlreadyPresent(data.getName());
         /* do the operation */
         String appId = ApplicationConfig.getNextApplicationId();
         Integer port = data.getPort();
