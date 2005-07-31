@@ -16,6 +16,9 @@
 package org.jmanage.core.config;
 
 
+import org.jmanage.core.module.ModuleRegistry;
+import org.jmanage.core.module.ModuleConfig;
+
 import java.util.*;
 
 /**
@@ -234,5 +237,11 @@ public abstract class ApplicationConfig {
 
     public boolean containsMBean(String objectName) {
         return findMBeanByObjectName(objectName) != null;
+    }
+
+    public ClassLoader getModuleClassLoader(){
+        ModuleConfig moduleConfig = ModuleRegistry.getModule(getType());
+        assert moduleConfig != null;
+        return moduleConfig.getClassLoader();
     }
 }
