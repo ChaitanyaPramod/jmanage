@@ -68,11 +68,15 @@ public class JMXHelper {
         /* Calculator */
         registerMBean(new Calculator(), ObjectNames.CALCULATOR);
         /* PrimitiveDataTypeTest */
-        registerMBean(new PrimitiveDataTypeTest(), ObjectNames.PRIMITIVE_DATA_TYPE_TEST);
+        registerMBean(new PrimitiveDataTypeTest(),
+                ObjectNames.PRIMITIVE_DATA_TYPE_TEST);
         /* DataTypeTest */
         registerMBean(new DataTypeTest(), ObjectNames.DATA_TYPE_TEST);
         /* BigDataTypeTest */
         registerMBean(new BigDataTypeTest(), ObjectNames.BIG_DATA_TYPE_TEST);
+        /* BigDataTypeTest */
+        registerMBean(new ObjectNameDataTypeTest(),
+                ObjectNames.OBJECT_NAME_DATA_TYPE_TEST);
          /* TimeNotificationBroadcaster */
         registerMBean(new TimeNotificationBroadcaster(),
                 ObjectNames.TIME_NOTIFICATION_BROADCASTER);

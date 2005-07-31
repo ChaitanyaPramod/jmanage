@@ -233,7 +233,8 @@ public class MBeanServiceImpl implements MBeanService {
         ServerConnection serverConnection = null;
         try {
             serverConnection = ServerConnector.getServerConnection(appConfig);
-            Object[] typedParams = CoreUtils.getTypedArray(params, signature);
+            Object[] typedParams = CoreUtils.getTypedArray(appConfig,
+                    params, signature);
             final Object result = serverConnection.invoke(objectName, operationName,
                             typedParams, signature);
 
@@ -327,7 +328,7 @@ public class MBeanServiceImpl implements MBeanService {
             final ApplicationConfig childAppConfig =
                         (ApplicationConfig)it.next();
             List attributeList = buildAttributeList(request,
-                        childAppConfig.getApplicationId());
+                        childAppConfig);
             attrListData[index] = updateAttributes(context, childAppConfig,
                     objectName, attributeList);
         }
@@ -398,7 +399,8 @@ public class MBeanServiceImpl implements MBeanService {
             /* ensure that this attribute is writable */
             ensureAttributeIsWritable(objAttributes, attribute, objectName);
 
-            Object value = CoreUtils.getTypedValue(attributes[i][1], type);
+            Object value = CoreUtils.getTypedValue(
+                    context.getApplicationConfig(), attributes[i][1], type);
             ObjectAttribute objAttribute =
                     new ObjectAttribute(attribute, value);
             attributeList.add(objAttribute);
@@ -453,8 +455,9 @@ public class MBeanServiceImpl implements MBeanService {
      *
      */
     private List buildAttributeList(HttpServletRequest request,
-                                    String applicationId){
+                                    ApplicationConfig appConfig){
 
+        String applicationId = appConfig.getApplicationId();
         Enumeration enum = request.getParameterNames();
         List attributeList = new LinkedList();
         while(enum.hasMoreElements()){
@@ -470,7 +473,8 @@ public class MBeanServiceImpl implements MBeanService {
                     String attrType = tokenizer.nextToken();
                     String attrValue = request.getParameter(param);
                     ObjectAttribute attribute = new ObjectAttribute(attrName,
-                            CoreUtils.getTypedValue(attrValue, attrType));
+                            CoreUtils.getTypedValue(appConfig, attrValue,
+                                    attrType));
                     attributeList.add(attribute);
                 }
             }

@@ -68,11 +68,6 @@ public class MBeanUtils {
     }
 
     public static boolean isDataTypeEditable(String type){
-        return isKnownDataType(type);
-    }
-
-    public static boolean isKnownDataType(String type){
-
         if(type.equals("boolean")
                 || type.equals("char")
                 || type.equals("byte")
@@ -94,7 +89,8 @@ public class MBeanUtils {
                 || type.equals("java.lang.String")
                 || type.equals("java.math.BigInteger")
                 || type.equals("java.math.BigDecimal")
-                || type.equals("java.util.Date")){
+                || type.equals("java.util.Date")
+                || type.equals("javax.management.ObjectName")){
             return true;
         }
         return false;
