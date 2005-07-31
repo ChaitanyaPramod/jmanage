@@ -36,15 +36,6 @@ public class ServiceUtils {
 
     private static final Logger logger = Loggers.getLogger(ServiceUtils.class);
 
-    public static ServerConnection getServerConnection(String appName){
-        ApplicationConfig appConfig = getApplicationConfigByName(appName);
-        if(appConfig.isCluster()){
-            throw new ServiceException(
-                    ErrorCodes.OPERATION_NOT_SUPPORTED_FOR_CLUSTER);
-        }
-        return ServerConnector.getServerConnection(appConfig);
-    }
-
     // TODO: It will be nice to have a concept of ClusterServerConnection
     //      which will implement all cluster level operations - rk
     public static ServerConnection getServerConnectionEvenIfCluster(ApplicationConfig appConfig){

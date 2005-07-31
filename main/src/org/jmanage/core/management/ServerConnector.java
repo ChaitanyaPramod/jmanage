@@ -62,12 +62,12 @@ public class ServerConnector {
         Thread.currentThread().setContextClassLoader(classLoader);
 
         try {
-            logger.info("Connecting to " + appConfig.getURL());
+            logger.fine("Connecting to " + appConfig.getURL());
             final ServerConnectionFactory factory =
                     getServerConnectionFactory(moduleConfig, classLoader);
             ServerConnection connection =
                     factory.getServerConnection(appConfig);
-            logger.info("Connected to " + appConfig.getURL());
+            logger.fine("Connected to " + appConfig.getURL());
             return new ServerConnectionProxy(connection, classLoader);
         } catch(ConnectionFailedException e){
             logger.info("Failed to connect. error=" + e.getMessage());

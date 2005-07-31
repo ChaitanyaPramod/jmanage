@@ -17,8 +17,10 @@ package org.jmanage.core.util;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
+import org.jmanage.core.management.ServerConnection;
 
 import java.util.logging.Logger;
+import java.io.IOException;
 
 /**
  *
@@ -97,5 +99,15 @@ public class CoreUtils {
     public static void exitSystem(){
         logger.severe("Shutting down application");
         System.exit(1);
+    }
+
+    public static void close(ServerConnection connection){
+        if(connection != null){
+            try {
+                connection.close();
+            } catch (IOException e) {
+                logger.info("Error closing connection: " + e.getMessage());
+            }
+        }
     }
 }

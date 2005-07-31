@@ -11,7 +11,7 @@ set JMANAGE_PORT=9090
 set JMANAGE_HOME=.\build
 set JMANAGE_LIB_ROOT=.
 
-set JSR160_JARS=./ext/jmxri-1_2_1.jar;./ext/jmxremote-1_0_1.jar
+set JSR160_JARS=./ext/jmxri-1_2_1.jar;./ext/jmxremote-1_0_1.jar;./ext/jmxremote_optional.jar
 
 set LIB_JARS=./lib/javax.servlet.jar;./lib/org.mortbay.jetty.jar;./lib/jasper-compiler.jar;./lib/jasper-runtime.jar;./lib/ant.jar;./lib/jdom.jar
 

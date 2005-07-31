@@ -22,6 +22,7 @@ import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.MBeanConfig;
 import org.jmanage.core.management.*;
 import org.jmanage.core.util.Loggers;
+import org.jmanage.core.util.CoreUtils;
 import org.jmanage.core.auth.AccessController;
 import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.forms.MBeanConfigForm;
@@ -80,9 +81,9 @@ public class ShowMBeanAction extends BaseAction {
         final Map appConfigToAttrListMap = new HashMap(applications.size());
         for(Iterator it=applications.iterator(); it.hasNext(); ){
             ApplicationConfig childAppConfig = (ApplicationConfig)it.next();
-
+            ServerConnection serverConnection = null;
             try {
-                ServerConnection serverConnection =
+                serverConnection =
                         ServerConnector.getServerConnection(childAppConfig);
                 /* assuming that all servers in this cluster have exact same
                     object info, we will get the ObjectInfo from the first
@@ -106,6 +107,8 @@ public class ShowMBeanAction extends BaseAction {
                         childAppConfig.getName(), e);
                 /* add null, indicating that the server is down */
                 appConfigToAttrListMap.put(childAppConfig, null);
+            } finally{
+                CoreUtils.close(serverConnection);
             }
         }
         /* if objInfo is null, that means that we couldn't get connection to

@@ -353,6 +353,7 @@
         <copy todir="${build.home}/modules/jsr160">
             <fileset file="${basedir}/ext/jmxri-1_2_1.jar"/>
             <fileset file="${basedir}/ext/jmxremote-1_0_1.jar"/>
+            <fileset file="${basedir}/ext/jmxremote_optional.jar"/>
         </copy>
     </target>
 

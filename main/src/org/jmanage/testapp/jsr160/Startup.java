@@ -27,11 +27,19 @@ public class Startup {
     public static void main(String[] args){
 
         int port = DEFAULT_PORT;
-        if(args.length > 0){
-            port = Integer.parseInt(args[0]);
+        boolean jmxmpConnector = false;
+
+        for(int index=0; index < args.length; index++){
+            if(args[index].equals("-port")){
+                port = Integer.parseInt(args[++index]);
+            }else if(args[index].equals("-jmxmp")){
+                jmxmpConnector = true;
+            }else{
+                assert false:"Unknown argument:" + args[index];
+            }
         }
 
-        JMXHelper.registerMBeans(port);
+        JMXHelper.registerMBeans(port, jmxmpConnector);
         while(true){
             try {
                 Thread.sleep(100000);
