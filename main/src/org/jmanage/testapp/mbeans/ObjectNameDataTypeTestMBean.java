@@ -13,23 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jmanage.webui.applets;
+package org.jmanage.testapp.mbeans;
+
+import javax.management.ObjectName;
 
 /**
  *
- * Date:  Jun 11, 2005
+ * Date:  Jul 31, 2005
  * @author	Rakesh Kalra
  */
-public interface GraphAppletParameters {
-    /* Parameters for this applet */
-    // title of the graph
-    String GRAPH_TITLE = "graphTitle";
-    // polling interval in seconds
-    String POLLING_INTERVAL = "pollingInterval";
-    // attributes to be graphed
-    String ATTRIBUTES = "attributes";
-    // display names of the attributes
-    String ATTRIBUTE_DISPLAY_NAMES = "displayNames";
-    // the jmanage server url
-    String REMOTE_URL = "remoteURL";
+public interface ObjectNameDataTypeTestMBean {
+
+    public ObjectName getObjectName();
+
+    public void setObjectName(ObjectName objectName);
+
+    public String objectNameToString(ObjectName objectName);
 }

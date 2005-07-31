@@ -16,13 +16,11 @@
 package org.jmanage.core.services;
 
 import org.jmanage.core.management.ObjectInfo;
-import org.jmanage.core.management.ObjectAttribute;
 import org.jmanage.core.data.OperationResultData;
 import org.jmanage.core.data.AttributeListData;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Map;
 
 /**
  *
@@ -35,8 +33,6 @@ public interface MBeanService {
     public List queryMBeans(ServiceContext context,
                           String filter)
             throws ServiceException;
-
-    public Map queryMBeansOutputMap(ServiceContext context, String filter);
 
     /**
      * Gets the MBean information.
@@ -57,10 +53,6 @@ public interface MBeanService {
     public AttributeListData[] getAttributes(ServiceContext context,
                                              String[] attributes,
                                              boolean handleCluster)
-            throws ServiceException;
-
-    public ObjectAttribute getObjectAttribute(ServiceContext context,
-                                              String attribute)
             throws ServiceException;
 
     /**

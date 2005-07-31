@@ -23,7 +23,7 @@ if not exist "%JMANAGE_HOME%\config\jmanage.properties" goto jmanageHomeNotSet
 
 if "%JMANAGE_LIB_ROOT%" == "" set JMANAGE_LIB_ROOT=%JMANAGE_HOME%
 
-set LIB_JARS=%JMANAGE_LIB_ROOT%/lib/javax.servlet.jar;%JMANAGE_LIB_ROOT%/lib/org.mortbay.jetty.jar;%JMANAGE_LIB_ROOT%/lib/jasper-compiler.jar;%JMANAGE_LIB_ROOT%/lib/jasper-runtime.jar;%JMANAGE_LIB_ROOT%/lib/ant.jar;%JMANAGE_LIB_ROOT%/lib/jdom.jar;%JMANAGE_LIB_ROOT%/lib/xml-apis.jar;%JMANAGE_LIB_ROOT%/lib/commons-beanutils.jar;%JMANAGE_LIB_ROOT%/lib/commons-logging.jar;%JMANAGE_LIB_ROOT%/lib/mail.jar;%JMANAGE_LIB_ROOT%/lib/activation.jar;
+set LIB_JARS=%JMANAGE_LIB_ROOT%/lib/javax.servlet.jar;%JMANAGE_LIB_ROOT%/lib/org.mortbay.jetty.jar;%JMANAGE_LIB_ROOT%/lib/jasper-compiler.jar;%JMANAGE_LIB_ROOT%/lib/jasper-runtime.jar;%JMANAGE_LIB_ROOT%/lib/ant.jar;%JMANAGE_LIB_ROOT%/lib/jdom.jar;%JMANAGE_LIB_ROOT%/lib/xml-apis.jar;%JMANAGE_LIB_ROOT%/lib/commons-beanutils.jar;%JMANAGE_LIB_ROOT%/lib/commons-logging.jar
 set EXT_JARS=
 
 set JMANAGE_CLASSPATH=%LIB_JARS%;%EXT   _JARS%;%JMANAGE_HOME%/classes

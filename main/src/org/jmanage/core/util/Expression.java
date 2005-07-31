@@ -18,25 +18,13 @@ package org.jmanage.core.util;
 import java.util.StringTokenizer;
 
 /**
- * Provides a mechanism to specify application name, mbean name and
- * attribute or operation name as a single String expression. The expression
- * looks like the following:
- * <br/>
- * &lt;appName&gt;/&lt;mbeaName&gt;/&lt;attrName&gt;
- * <p>
- * The mbeanName could be the "configured" mbean name or the object name.
- * This depends on the context in which Expression object is used.
- * <p>
- * This object is widely used in the jManage application specifically in
- * the command line UI and the access control system.
  *
- * Date:  Feb 26, 2005
+ * date:  Feb 26, 2005
  * @author	Rakesh Kalra
  */
 public class Expression {
 
-    public static final String WILDCARD = "*";
-    public static final String DELIMITER = "/";
+    private static final String DELIMITER = "/";
 
     private final String exprString;
     private String appName;
@@ -44,23 +32,8 @@ public class Expression {
     /* this could be attribute or operation name */
     private String targetName;
 
-    public Expression(String appName, String mbeanName, String targetName){
-
-        this.appName = appName!=null && appName.length()>0?appName:WILDCARD;
-        this.mbeanName = mbeanName!=null && mbeanName.length()>0?mbeanName:WILDCARD;
-        this.targetName = targetName!=null && targetName.length()>0?targetName:WILDCARD;
-        StringBuffer buff = new StringBuffer(this.appName);
-        buff.append(DELIMITER);
-        buff.append("\"");
-        buff.append(this.mbeanName);
-        buff.append("\"");
-        buff.append(DELIMITER);
-        buff.append(targetName);
-        this.exprString = buff.toString();
-    }
-
     public Expression(String exprString){
-        this(exprString, (Expression)null);
+        this(exprString, null);
     }
 
     public Expression(String exprString, Expression context){
@@ -71,30 +44,35 @@ public class Expression {
             this.appName = context.getAppName();
             this.mbeanName = context.getMBeanName();
             this.targetName = context.getTargetName();
-            int tokenCount = 0;
-            // we only expect max 3 tokens
-            String[] tokens = new String[3];
-            for(int i=0;tokenizer.hasMoreTokens() && i<3;i++){
-                tokenCount ++;
-                tokens[i] = tokenizer.nextToken();
-            }
-            if(tokenizer.hasMoreTokens()){
-                throw new RuntimeException("invalid expression");
-            }
-            switch(tokenCount){
+            switch(tokenizer.countTokens()){
                 case 1:
-                    targetName = tokens[0];
+                    if(targetName != null){
+                        targetName = tokenizer.nextToken();
+                    }else if(mbeanName != null){
+                        mbeanName = tokenizer.nextToken();
+                    }else{
+                        appName = tokenizer.nextToken();
+                    }
                     break;
                 case 2:
-                    mbeanName = tokens[0];
-                    targetName = tokens[1];
+                    if(targetName != null){
+                        mbeanName = tokenizer.nextToken();
+                        targetName = tokenizer.nextToken();
+                    }else{
+                        appName = tokenizer.nextToken();
+                        mbeanName = tokenizer.nextToken();
+                    }
                     break;
                 case 3:
-                    appName = tokens[0];
-                    mbeanName = tokens[1];
-                    targetName = tokens[2];
+                    appName = tokenizer.nextToken();
+                    mbeanName = tokenizer.nextToken();
+                    targetName = tokenizer.nextToken();
                     break;
+                default:
+                    // TODO: handle gracefully
+                    throw new RuntimeException("Invalid expression");
             }
+
         }else{
             if(tokenizer.hasMoreTokens())
                 appName = tokenizer.nextToken();
@@ -122,16 +100,6 @@ public class Expression {
         return exprString;
     }
 
-    public String getHtmlEscaped(){
-        return exprString.replaceAll("\"","&quot;");
-    }
-
-    /**
-     * Handles the case where the delimiter "/" is within the expression.
-     * Note that this tokenizer doesn't return the right value for
-     * countTokens()
-     */
-
     private class CustomStringTokenizer extends StringTokenizer{
 
         public CustomStringTokenizer(String expr){
@@ -144,33 +112,24 @@ public class Expression {
         public String nextToken(){
             String token = super.nextToken();
             if(token.startsWith("\"")){
-                if(token.endsWith("\"")){
-                    // token ends with double quotes. just drop the double quotes
-                    token = token.substring(1, token.length() -1);
-                }else{
-                    /* token starts with double quotes, but doesn't end with it.
-                        Keep getting next token,
-                        till we find ending double quotes */
-                    StringBuffer buff = new StringBuffer(token.substring(1));
+                /* token starts with double quotes. Keep getting next token,
+                    till we find ending double quotes */
+                StringBuffer buff = new StringBuffer(token.substring(1));
 
-                    while(true){
-                        String nextToken = super.nextToken();
-                        buff.append(DELIMITER);
-                        if(nextToken.endsWith("\"")){
-                            buff.append(nextToken.substring(0, nextToken.length()-1));
-                            break;
-                        }else{
-                            buff.append(nextToken);
-                        }
+                while(true){
+                    String nextToken = super.nextToken();
+                    buff.append(DELIMITER);
+                    if(nextToken.endsWith("\"")){
+                        buff.append(nextToken.substring(0, nextToken.length()-1));
+                        break;
+                    }else{
+                        buff.append(nextToken);
                     }
-                    token = buff.toString();
                 }
+                token = buff.toString();
             }
             return token;
         }
 
-        public int countTokens(){
-            throw new RuntimeException("countTokens() is not supported");
-        }
     }
 }

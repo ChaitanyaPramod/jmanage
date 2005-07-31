@@ -18,13 +18,6 @@
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 <%@ taglib uri="/WEB-INF/tags/jstl/c.tld" prefix="c"%>
 
-<script language="JavaScript">
-    function showAvailableApplications(){
-        document.forms[0].action="/config/showAvailableApplications.do";
-        document.forms[0].submit();
-    }
-</script>
-
 <jmhtml:javascript formName="applicationForm" />
 <jmhtml:errors />
 <jmhtml:form action="/config/addApplication" method="post"
@@ -78,7 +71,7 @@
         <td>&nbsp;</td>
         <td>
             <jmhtml:submit value="Save" styleClass="Inside3d"/>&nbsp;&nbsp;&nbsp;
-            <jmhtml:button property="" value="Cancel" onclick="showAvailableApplications()" styleClass="Inside3d" />
+            <jmhtml:button property="" value="Cancel" onclick="JavaScript:history.back();" styleClass="Inside3d" />
         </td>
   </table>
 </jmhtml:form>

@@ -46,7 +46,7 @@ public class ChangePasswordAction extends BaseAction{
                                  HttpServletRequest request,
                                  HttpServletResponse response)
             throws Exception {
-        AccessController.checkAccess(context.getServiceContext(), ACL_EDIT_USERS);
+
         ChangePasswordForm changePasswordForm = (ChangePasswordForm)actionForm;
         ActionErrors errors = new ActionErrors();
 

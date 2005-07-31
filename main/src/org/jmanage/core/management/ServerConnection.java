@@ -17,6 +17,7 @@ package org.jmanage.core.management;
 
 import java.util.Set;
 import java.util.List;
+import java.io.IOException;
 
 /**
  * This interface is the abstraction between different MBeanServer
@@ -80,4 +81,9 @@ public interface ServerConnection {
      * @param attributeList list of ObjectAttribute objects
      */
     public List setAttributes(ObjectName objectName, List attributeList);
+
+    /**
+     * Closes the connection to the server
+     */
+    public void close() throws IOException;
 }

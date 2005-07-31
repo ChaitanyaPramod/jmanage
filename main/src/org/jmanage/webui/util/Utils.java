@@ -15,10 +15,11 @@
  */
 package org.jmanage.webui.util;
 
+import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.beanutils.BeanUtils;
 import org.jmanage.core.services.ServiceContext;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.Cookie;
+import java.util.StringTokenizer;
 import java.net.URLEncoder;
 import java.io.UnsupportedEncodingException;
 
@@ -58,18 +59,5 @@ public class Utils {
 
     public static ServiceContext getServiceContext(WebContext webContext){
         return webContext.getServiceContext();
-    }
-
-    public static String getCookieValue(HttpServletRequest request,
-                                        String cookieName){
-        Cookie[] cookies = request.getCookies();
-        if(cookies != null){
-            for(int i=0; i<cookies.length; i++){
-                if(cookies[i].getName().equals(cookieName)){
-                    return cookies[i].getValue();
-                }
-            }
-        }
-        return null;
     }
 }
