@@ -87,15 +87,20 @@ public class ServiceCallHandler {
                                           Object[] args)
         throws Exception {
 
-        /* authenticate the request */
-        authenticate((ServiceContextImpl)args[0], className, methodName);
-        /* invoke the method */
-        Class serviceClass = Class.forName(className);
-        Method method = serviceClass.getMethod(methodName, parameterTypes);
-        Object serviceObject = ServiceFactory.getService(serviceClass);
-        /* invoke the method */
-        return method.invoke(serviceObject, args);
-
+        /* take the service context */
+        ServiceContextImpl serviceContext = (ServiceContextImpl)args[0];
+        try {
+            /* authenticate the request */
+            authenticate((ServiceContextImpl)args[0], className, methodName);
+            /* invoke the method */
+            Class serviceClass = Class.forName(className);
+            Method method = serviceClass.getMethod(methodName, parameterTypes);
+            Object serviceObject = ServiceFactory.getService(serviceClass);
+            /* invoke the method */
+            return method.invoke(serviceObject, args);
+        } finally {
+            serviceContext.releaseResources();
+        }
     }
 
     private static void authenticate(ServiceContextImpl context,

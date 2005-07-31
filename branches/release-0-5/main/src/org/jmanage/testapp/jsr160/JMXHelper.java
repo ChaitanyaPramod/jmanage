@@ -61,7 +61,7 @@ public class JMXHelper {
      * registers the MBeans used in the application
      * and starts the HTML Adaptor
      */
-    public static void registerMBeans(int port) {
+    public static void registerMBeans(int port, boolean jmxmpConnector) {
 
         /* Configuration */
         registerMBean(new Configuration(), ObjectNames.CONFIGURATION);
@@ -76,8 +76,13 @@ public class JMXHelper {
          /* TimeNotificationBroadcaster */
         registerMBean(new TimeNotificationBroadcaster(),
                 ObjectNames.TIME_NOTIFICATION_BROADCASTER);
-        /* start RMI connector */
-        startJMXConnectorServer(port);
+        if(!jmxmpConnector){
+            /* start RMI connector */
+            startJMXConnectorServer(port);
+        }else{
+            /* start the JMXMP Connector */
+            startJMXMPConnectorServer(port);
+        }
     }
 
 
@@ -100,6 +105,22 @@ public class JMXHelper {
             /* start the connector server */
             JMXServiceURL url = new JMXServiceURL(
               "service:jmx:rmi:///jndi/rmi://localhost:" + port + "/testApp");
+            JMXConnectorServer cs =
+                 JMXConnectorServerFactory.newJMXConnectorServer(url,
+                 null, getMBeanServer());
+            cs.start();
+            logger.info("JMXConnectorServer started. URL: " + url.toString());
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "Failure while starting RMI connector", e);
+        }
+    }
+
+    /* start JSR160 JMXMP connector*/
+    private static void startJMXMPConnectorServer(int port){
+        try {
+            /* start the connector server */
+            JMXServiceURL url = new JMXServiceURL(
+              "service:jmx:jmxmp://localhost:" + port);
             JMXConnectorServer cs =
                  JMXConnectorServerFactory.newJMXConnectorServer(url,
                  null, getMBeanServer());

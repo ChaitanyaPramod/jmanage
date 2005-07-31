@@ -21,8 +21,12 @@ import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.management.ObjectName;
 import org.jmanage.core.management.ServerConnection;
 import org.jmanage.core.management.ServerConnector;
+import org.jmanage.core.util.Loggers;
+import org.jmanage.core.util.CoreUtils;
 
 import javax.security.auth.Subject;
+import java.io.IOException;
+import java.util.logging.Logger;
 
 /**
  *
@@ -31,6 +35,9 @@ import javax.security.auth.Subject;
  * @author  Shashank Bellary
  */
 public class ServiceContextImpl implements ServiceContext {
+
+    private static final Logger logger =
+            Loggers.getLogger(ServiceContextImpl.class);
 
     private User user;
     private String appName;
@@ -92,5 +99,9 @@ public class ServiceContextImpl implements ServiceContext {
      */
     public void setMBeanName(String mbeanName){
         this.mbeanName =  mbeanName;
+    }
+
+    public void releaseResources() {
+        CoreUtils.close(serverConnection);
     }
 }
