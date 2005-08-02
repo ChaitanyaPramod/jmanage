@@ -115,6 +115,12 @@ public class JBossServerConnection extends JMXServerConnection {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * Closes the connection to the server
+     */
+    public void close() {
+    }
 }
 
 

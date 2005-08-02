@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.LinkedList;
 import java.util.logging.Logger;
 import java.util.logging.Level;
+import java.io.IOException;
 
 /**
  * ServerConnectionProxy updates the context classloader before calling
@@ -209,5 +210,12 @@ public class ServerConnectionProxy implements ServerConnection{
                     original classloader*/
             Thread.currentThread().setContextClassLoader(contextClassLoader);
         }
+    }
+
+    /**
+     * Closes the connection to the server
+     */
+    public void close() throws IOException {
+        connection.close();
     }
 }

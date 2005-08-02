@@ -23,10 +23,14 @@ import org.jmanage.core.management.ServerConnector;
 import org.jmanage.core.management.ObjectName;
 import org.jmanage.core.management.MalformedObjectNameException;
 import org.jmanage.core.services.ServiceContext;
+import org.jmanage.core.util.Loggers;
+import org.jmanage.core.util.CoreUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.security.auth.Subject;
+import java.io.IOException;
+import java.util.logging.Logger;
 
 /**
  *
@@ -34,6 +38,8 @@ import javax.security.auth.Subject;
  * @author	Rakesh Kalra
  */
 public class WebContext {
+
+    private static final Logger logger = Loggers.getLogger(WebContext.class);
 
     private ApplicationConfig appConfig;
     private HttpServletRequest request;
@@ -119,5 +125,9 @@ public class WebContext {
             serviceContext = new ServiceContextImpl(this);
         }
         return serviceContext;
+    }
+
+    public void releaseResources() {
+        CoreUtils.close(serverConnection);
     }
 }

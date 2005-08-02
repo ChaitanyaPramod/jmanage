@@ -78,10 +78,12 @@ public class JManageRequestProcessor extends TilesRequestProcessor{
         final String requestPath = mapping.getPath();
         logger.fine("Start Request Path:" + requestPath);
 
+        WebContext context = null;
         ActionForward resultForward = null;
         try{
+            context = WebContext.get(request);
             /* ensure user is logged-in (except for login page)*/
-            resultForward = ensureLoggedIn(request, response, mapping);
+            resultForward = ensureLoggedIn(context, request, response, mapping);
             if(resultForward == null){
                 /*  execute the action  */
                 resultForward = action.execute(mapping, form, request, response);
@@ -92,6 +94,10 @@ public class JManageRequestProcessor extends TilesRequestProcessor{
             resultForward =
                     processException(request, response, e, form, mapping);
         }finally{
+            /* release resources */
+            if(context != null)
+                context.releaseResources();
+            /* logging */
             String resultForwardPath = (resultForward == null) ?
                     "none" : resultForward.getPath();
             if(resultForwardPath == null){
@@ -107,10 +113,11 @@ public class JManageRequestProcessor extends TilesRequestProcessor{
         return resultForward;
     }
 
-    private ActionForward ensureLoggedIn(HttpServletRequest request,
+    private ActionForward ensureLoggedIn(WebContext context,
+                                         HttpServletRequest request,
                                          HttpServletResponse response,
                                          ActionMapping mapping) {
-        WebContext context = WebContext.get(request);
+
         if(context.getSubject() == null){
             String path = mapping.getPath();
             if(!path.equals("/auth/showLogin") && !path.equals("/auth/login")){

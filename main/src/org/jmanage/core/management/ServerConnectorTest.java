@@ -27,7 +27,7 @@ import java.util.Set;
  */
 public class ServerConnectorTest {
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws Exception {
         if(args.length == 0){
             System.out.println("Usage: java ServerConnectorTest [weblogic, tomcat, jsr160]");
             System.exit(0);
@@ -36,6 +36,7 @@ public class ServerConnectorTest {
         ServerConnection connection =
                 ServerConnector.getServerConnection(appConfig);
         Set objects = connection.queryNames(new ObjectName("*:*"));
+        connection.close();
         System.out.println("number of objects:" + objects.size());
     }
 
