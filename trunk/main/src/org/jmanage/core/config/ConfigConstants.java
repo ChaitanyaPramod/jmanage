@@ -62,6 +62,10 @@ public interface ConfigConstants {
     public String ALERT_DELIVERY_TYPE="type";
     public String ALERT_EMAIL_ADDRESS="emailAddress";
     public String ALERT_SUBJECT="subject";
+    public String ALERT_SOURCE = "source";
+    public String ALERT_SOURCE_TYPE = "type";
+    public String ALERT_SOURCE_MBEAN = "mbean";
+    public String ALERT_SOURCE_NOTIFICATION_TYPE = "notificationType";
 
     public String GRAPHS = "graphs";
     public String GRAPH = "graph";

@@ -29,6 +29,17 @@
                                 displayName="Application life"/>
                         </graph>
                     </graphs>
+                    <alerts>
+                        <alert id="1"
+                            name="Test Alert"
+                            subject="Something is wrong">
+                            <source type="notification"
+                                mbean="jmanage:name=TimeNotificationBroadcaster"
+                                notificationType="time.expired"/>
+                            <delivery type="email"
+                                emailAddress="getkalra@yahoo.com"/>
+                        </alert>
+                    </alerts>
                 </application>
             </applications>
         </application-cluster>

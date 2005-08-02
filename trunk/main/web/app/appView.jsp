@@ -110,8 +110,8 @@ if(appConfig.getAlerts().size() > 0){
         Iterator itr = alerts.iterator();
         while(itr.hasNext()){
             AlertConfig alertConfig = (AlertConfig)itr.next();
-            ApplicationConfig appConfig1 = alertConfig.getApplicationConfig();
-            String appName = alertConfig.getApplicationConfig().getName();
+            String appName = alertConfig.getAlertSourceConfig().
+                    getApplicationConfig().getName();
             String[] alertDelivery = alertConfig.getAlertDelivery();
             String alertDel = "";
             for(int i=0; i<alertDelivery.length;i++){

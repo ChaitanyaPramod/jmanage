@@ -191,4 +191,23 @@ public class ServerConnectionProxy implements ServerConnection{
             Thread.currentThread().setContextClassLoader(contextClassLoader);
         }
     }
+
+    public void addNotificationListener(ObjectName objectName,
+                                        ObjectNotificationListener listener,
+                                        ObjectNotificationFilter filter,
+                                        Object handback) {
+        final ClassLoader contextClassLoader =
+                        Thread.currentThread().getContextClassLoader();
+        try {
+            /* temporarily change the thread context classloader */
+            Thread.currentThread().setContextClassLoader(classLoader);
+            /* invoke the method on the wrapped ServerConnection */
+            connection.addNotificationListener(objectName, listener,
+                    filter, handback);
+        } finally {
+            /* change the thread context classloader back to the
+                    original classloader*/
+            Thread.currentThread().setContextClassLoader(contextClassLoader);
+        }
+    }
 }

@@ -13,15 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jmanage.core.config;
+package org.jmanage.core.management;
 
 /**
- * Date: May 25, 2005  3:18:12 PM
- * @author Bhavana
+ *
+ * Date:  Jul 1, 2005
+ * @author	Rakesh Kalra
  */
-public class AlertDeliveryConstants {
+public interface ObjectNotificationListener {
 
-    public static final String EMAIL_ALERT_DELIVERY_TYPE="email";
-    public static final String CONSOLE_ALERT_DELIVERY_TYPE="console";
-
+    /**
+     * Callback method from the notification broadcaster this listener
+     * implementation is registered to.
+     *
+     * @param   notification   the notification object
+     * @param   handback       the handback object given to the broadcaster
+     *                         upon listener registration
+     */
+    public void handleNotification(ObjectNotification notification,
+                                   Object handback);
 }

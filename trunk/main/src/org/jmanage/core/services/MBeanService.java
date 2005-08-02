@@ -100,4 +100,6 @@ public interface MBeanService {
     public AttributeListData[] setAttributes(ServiceContext context,
                                              HttpServletRequest request)
             throws ServiceException;
+
+
 }

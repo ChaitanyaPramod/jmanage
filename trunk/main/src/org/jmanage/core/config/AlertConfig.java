@@ -15,20 +15,19 @@
  */
 package org.jmanage.core.config;
 
-import java.util.List;
-import java.util.LinkedList;
-
 /**
   * Date: May 25, 2005 2:34:02 PM
  * @author Bhavana
+ * @author Rakesh Kalra
  */
 public class AlertConfig {
-    private ApplicationConfig applicationConfig;
+
     private String alertId;
     private String alertName;
     private String[] alertDelivery;
     private String subject;
     private String emailAddress;
+    private AlertSourceConfig alertSourceConfig;
 
     public static String getNextAlertId(){
         return String.valueOf(System.currentTimeMillis());
@@ -36,10 +35,9 @@ public class AlertConfig {
     public AlertConfig(){
 
     }
-    public AlertConfig(ApplicationConfig applicationConfig, String alertId, String alertName,
+    public AlertConfig(String alertId, String alertName,
                        String[] alertDelivery, String emailAddress,
                        String subject){
-        this.applicationConfig = applicationConfig;
         this.alertId = alertId;
         this.alertName = alertName;
         this.alertDelivery = alertDelivery;
@@ -61,14 +59,6 @@ public class AlertConfig {
 
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
-    }
-
-    public ApplicationConfig getApplicationConfig() {
-        return applicationConfig;
-    }
-
-    public void setApplicationConfig(ApplicationConfig applicationConfig) {
-        this.applicationConfig = applicationConfig;
     }
 
     public String getAlertId() {
@@ -95,5 +85,13 @@ public class AlertConfig {
         if(alertDelivery!=null){
             this.alertDelivery = alertDelivery;
         }
+    }
+
+    public AlertSourceConfig getAlertSourceConfig() {
+        return alertSourceConfig;
+    }
+
+    public void setAlertSourceConfig(AlertSourceConfig alertSourceConfig) {
+        this.alertSourceConfig = alertSourceConfig;
     }
 }
