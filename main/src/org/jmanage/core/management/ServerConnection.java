@@ -80,4 +80,9 @@ public interface ServerConnection {
      * @param attributeList list of ObjectAttribute objects
      */
     public List setAttributes(ObjectName objectName, List attributeList);
+
+    public void addNotificationListener(ObjectName objectName,
+                                        ObjectNotificationListener listener,
+                                        ObjectNotificationFilter filter,
+                                        Object handback);
 }

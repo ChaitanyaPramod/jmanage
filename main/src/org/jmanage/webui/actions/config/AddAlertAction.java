@@ -59,9 +59,10 @@ public class AddAlertAction extends BaseAction{
         AlertConfig alertConfig = null;
         String alertId = request.getParameter(RequestParams.ALERT_ID);
         if(alertId==null || alertId.equals("")){
-            alertConfig = new AlertConfig(appConfig,
-                    AlertConfig.getNextAlertId(),form.getAlertName()
-                    ,form.getAlertDelivery(),form.getEmailAddress(),
+            alertConfig = new AlertConfig(AlertConfig.getNextAlertId(),
+                    form.getAlertName(),
+                    form.getAlertDelivery(),
+                    form.getEmailAddress(),
                     form.getSubject());
             appConfig.addAlert(alertConfig);
         }else{

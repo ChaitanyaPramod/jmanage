@@ -226,13 +226,26 @@ public class ConfigReader implements ConfigConstants{
                     Element alertDel = (Element)alertDeliveryList.get(i);
                     alertDelivery[i] = alertDel.getAttributeValue(
                             ALERT_DELIVERY_TYPE);
-                    if(alertDelivery[i]=="email"){
+                    if(alertDelivery[i].equals(AlertDeliveryConstants.EMAIL_ALERT_DELIVERY_TYPE)){
                         alertConfig.setEmailAddress(alertDel.getAttributeValue(
                                 ConfigConstants.ALERT_EMAIL_ADDRESS));
                     }
                 }
                 alertConfig.setAlertDelivery(alertDelivery);
-                alertConfig.setApplicationConfig(appConfig);
+
+                /* set alert source */
+                Element source = alert.getChild(ALERT_SOURCE);
+                String sourceType = source.getAttributeValue(ALERT_SOURCE_TYPE);
+                String mbean = source.getAttributeValue(ALERT_SOURCE_MBEAN);
+                String notificationType =
+                        source.getAttributeValue(ALERT_SOURCE_NOTIFICATION_TYPE);
+                // todo: support other types
+                assert sourceType.equals(AlertSourceConfig.SOURCE_TYPE_NOTIFICATION);
+                AlertSourceConfig sourceConfig = new AlertSourceConfig(mbean,
+                        notificationType);
+                sourceConfig.setApplicationConfig(appConfig);
+                alertConfig.setAlertSourceConfig(sourceConfig);
+
                 alertsList.add(alertConfig);
             }
         }

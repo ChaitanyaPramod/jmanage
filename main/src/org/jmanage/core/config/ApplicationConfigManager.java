@@ -157,6 +157,24 @@ public class ApplicationConfigManager{
         return applications;
     }
 
+    public static List getAllAlerts() {
+        Iterator appItr = applicationConfigs.iterator();
+        List alerts = new LinkedList();
+        while(appItr.hasNext()){
+            ApplicationConfig appConfig = (ApplicationConfig)appItr.next();
+            alerts.addAll(appConfig.getAlerts());
+            if(appConfig.isCluster()){
+                for(Iterator it=appConfig.getApplications().iterator();
+                    it.hasNext();){
+                    ApplicationConfig childAppConfig =
+                            (ApplicationConfig)it.next();
+                    alerts.addAll(childAppConfig.getAlerts());
+                }
+            }
+        }
+        return alerts;
+    }
+
     public static void checkAppNameAlreadyPresent(String appName) {
         for(Iterator it=getApplications().iterator(); it.hasNext(); ){
             ApplicationConfig appConfig = (ApplicationConfig)it.next();

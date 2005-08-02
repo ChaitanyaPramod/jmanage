@@ -27,6 +27,15 @@ import java.util.*;
  * @author Shashank Bellary 
  */
 public abstract class JMXServerConnection implements ServerConnection{
+
+    // todo: remove after all sub classes start supporting notifications
+    public void addNotificationListener(ObjectName objectName,
+                                        ObjectNotificationListener listener,
+                                        ObjectNotificationFilter filter,
+                                        Object handback){
+        throw new RuntimeException("Notifications not supported");
+    }
+
     ///////////////////////////////////////////////////////////////////////////
     // Utility methods
 
@@ -188,5 +197,34 @@ public abstract class JMXServerConnection implements ServerConnection{
 
     protected static Attribute toJMXAttribute(ObjectAttribute objAttr){
         return new Attribute(objAttr.getName(), objAttr.getValue());
+    }
+
+    protected static ObjectNotification toObjectNotification(
+            Notification n){
+
+        return new ObjectNotification(n.getType(), n.getSource(),
+                n.getSequenceNumber(), n.getTimeStamp(),
+                n.getMessage(), n.getUserData());
+    }
+
+    protected static NotificationListener toJMXNotificationListener(
+            final ObjectNotificationListener listener){
+        return new NotificationListener(){
+            public void handleNotification(Notification notification,
+                                           Object handback) {
+                listener.handleNotification(toObjectNotification(notification),
+                        handback);
+            }
+        };
+    }
+
+    protected static NotificationFilter toJMXNotificationFilter(
+            final ObjectNotificationFilter filter){
+        NotificationFilterSupport notificationFilter =
+                new NotificationFilterSupport();
+        for(Iterator it=filter.getEnabledTypes().iterator(); it.hasNext();){
+            notificationFilter.enableType((String)it.next());
+        }
+        return notificationFilter;
     }
 }

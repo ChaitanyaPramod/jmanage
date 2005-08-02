@@ -41,7 +41,7 @@ public class DataTypeTest implements DataTypeTestMBean {
         return i;
     }
 
-    public void setInteger(Integer ii){
+    public void setInteger(Integer i){
         this.i = i;
     }
 
@@ -49,7 +49,7 @@ public class DataTypeTest implements DataTypeTestMBean {
         return s;
     }
 
-    public void setShort(Short ss){
+    public void setShort(Short s){
         this.s = s;
     }
 

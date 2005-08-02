@@ -1,3 +1,15 @@
+/**
+ * Copyright (c) 2004-2005 jManage.org
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ */
 package org.jmanage.core.util;
 
 import org.jmanage.core.config.JManageProperties;
@@ -7,17 +19,21 @@ import javax.mail.Message;
 import javax.mail.Transport;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Administrator
- * Date: May 19, 2005
- * Time: 12:03:03 PM
- * To change this template use Options | File Templates.
+ * @author Bhavana
+ * @author Rakesh Kalra
  */
 public class EmailUtils {
 
-    public static void sendEmail(String to, String subject, String content) throws MessagingException{
+    private static final Logger logger = Loggers.getLogger(EmailUtils.class);
+
+    public static void sendEmail(String to, String subject, String content)
+            throws MessagingException{
+
+        logger.fine("Sending email to: " + to);
+
         Properties properties = new Properties();
         properties.put("mail.user", JManageProperties.getAlertEmailFromName());
         properties.put("mail.host", JManageProperties.getEmailHost());
