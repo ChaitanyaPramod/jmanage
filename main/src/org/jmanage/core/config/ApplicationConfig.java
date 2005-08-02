@@ -240,7 +240,6 @@ public abstract class ApplicationConfig {
     public boolean containsMBean(String objectName) {
         return findMBeanByObjectName(objectName) != null;
     }
-<<<<<<< ApplicationConfig.java
 
     public void addGraph(GraphConfig graphConfig){
         assert graphConfig!=null:"graphConfig is null";
@@ -268,24 +267,25 @@ public abstract class ApplicationConfig {
         return null;
     }
 
-    public void addAlert(AlertConfig alertConfig){
-           assert alertConfig!=null:"alert config is null";
-           alertsList.add(alertConfig);
+   public void addAlert(AlertConfig alertConfig){
+       assert alertConfig!=null:"alert config is null";
+       alertsList.add(alertConfig);
+   }
+
+   public List getAlerts(){
+       return alertsList;
+   }
+   /**
+    *
+    * @param alertsList list of MBeanConfig objects
+    */
+   public void setAlerts(List alertsList){
+       if(alertsList != null){
+           this.alertsList = alertsList;
+       }else{
+           this.alertsList = new LinkedList();
        }
-       public List getAlerts(){
-           return alertsList;
-       }
-       /**
-        *
-        * @param alertsList list of MBeanConfig objects
-        */
-       public void setAlerts(List alertsList){
-           if(alertsList != null){
-               this.alertsList = alertsList;
-           }else{
-               this.alertsList = new LinkedList();
-           }
-       }
+   }
 
     public AlertConfig findAlertById(String alertId){
         AlertConfig alert = null;
@@ -313,5 +313,4 @@ public abstract class ApplicationConfig {
         assert moduleConfig != null;
         return moduleConfig.getClassLoader();
     }
-
 }
