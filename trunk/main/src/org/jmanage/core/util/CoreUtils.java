@@ -17,8 +17,12 @@ package org.jmanage.core.util;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
+import org.jmanage.core.management.ServerConnection;
+import org.jmanage.core.config.ApplicationConfig;
 
 import java.util.logging.Logger;
+import java.io.IOException;
+import java.lang.reflect.Constructor;
 
 /**
  *
@@ -59,7 +63,9 @@ public class CoreUtils {
         }
     }
 
-    public static Object getTypedValue(String value, String type){
+    public static Object getTypedValue(ApplicationConfig appConfig,
+                                       String value,
+                                       String type){
 
         if(type.equals("int")){
             type = "java.lang.Integer";
@@ -80,16 +86,31 @@ public class CoreUtils {
         }
 
         try {
+            /* handle ObjectName as a special type */
+            if(type.equals("javax.management.ObjectName")){
+                Class clazz = Class.forName(type, true,
+                        appConfig.getModuleClassLoader());
+                try {
+                    Constructor ctor = clazz.getConstructor(new Class[]{String.class});
+                    return ctor.newInstance(new Object[]{value});
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+            /* other types */
             return ConvertUtils.convert(value, Class.forName(type));
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static Object[] getTypedArray(String[] values, String[] type){
+    public static Object[] getTypedArray(ApplicationConfig appConfig,
+                                         String[] values,
+                                         String[] type){
         Object[] obj = new Object[values.length];
         for(int i=0; i<values.length; i++){
-            obj[i] = getTypedValue(values[i], type[i]);
+            obj[i] = getTypedValue(appConfig, values[i], type[i]);
         }
         return obj;
     }
@@ -97,5 +118,15 @@ public class CoreUtils {
     public static void exitSystem(){
         logger.severe("Shutting down application");
         System.exit(1);
+    }
+
+    public static void close(ServerConnection connection){
+        if(connection != null){
+            try {
+                connection.close();
+            } catch (IOException e) {
+                logger.info("Error closing connection: " + e.getMessage());
+            }
+        }
     }
 }

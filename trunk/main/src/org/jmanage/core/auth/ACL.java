@@ -15,8 +15,6 @@
  */
 package org.jmanage.core.auth;
 
-import org.jmanage.core.services.ServiceContext;
-
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Iterator;

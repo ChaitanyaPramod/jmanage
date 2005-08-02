@@ -15,17 +15,18 @@
  */
 package org.jmanage.testapp.mbeans;
 
+import javax.management.ObjectName;
+
 /**
  *
- * date:  Dec 19, 2004
+ * Date:  Jul 31, 2005
  * @author	Rakesh Kalra
  */
-public interface ObjectNames {
-    String CONFIGURATION = "jmanage:name=Configuration";
-    String CALCULATOR = "jmanage:name=Calculator/test";
-    String PRIMITIVE_DATA_TYPE_TEST = "jmanage:name=PrimitiveDataTypeTest";
-    String DATA_TYPE_TEST = "jmanage:name=DataTypeTest";
-    String BIG_DATA_TYPE_TEST = "jmanage:name=BigDataTypeTest";
-    String OBJECT_NAME_DATA_TYPE_TEST = "jmanage:name=ObjectNameDataTypeTest";
-    String TIME_NOTIFICATION_BROADCASTER = "jmanage:name=TimeNotificationBroadcaster";
+public interface ObjectNameDataTypeTestMBean {
+
+    public ObjectName getObjectName();
+
+    public void setObjectName(ObjectName objectName);
+
+    public String objectNameToString(ObjectName objectName);
 }

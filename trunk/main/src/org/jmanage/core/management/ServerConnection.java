@@ -17,6 +17,7 @@ package org.jmanage.core.management;
 
 import java.util.Set;
 import java.util.List;
+import java.io.IOException;
 
 /**
  * This interface is the abstraction between different MBeanServer
@@ -85,4 +86,9 @@ public interface ServerConnection {
                                         ObjectNotificationListener listener,
                                         ObjectNotificationFilter filter,
                                         Object handback);
+
+    /**
+     * Closes the connection to the server
+     */
+    public void close() throws IOException;
 }
