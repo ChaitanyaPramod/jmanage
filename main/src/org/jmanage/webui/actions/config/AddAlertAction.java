@@ -26,6 +26,7 @@ import org.jmanage.core.auth.RoleManager;
 import org.jmanage.core.config.AlertConfig;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.ApplicationConfigManager;
+import org.jmanage.core.config.AlertSourceConfig;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
@@ -64,6 +65,7 @@ public class AddAlertAction extends BaseAction{
                     form.getAlertDelivery(),
                     form.getEmailAddress(),
                     form.getSubject());
+            alertConfig.setAlertSourceConfig(getAlertSourceConfig(context,form));
             appConfig.addAlert(alertConfig);
         }else{
             alertConfig = appConfig.findAlertById(form.getAlertId());
@@ -73,8 +75,23 @@ public class AddAlertAction extends BaseAction{
             if(form.getEmailAddress()!=null){
                 alertConfig.setEmailAddress(form.getEmailAddress());
             }
+            alertConfig.setAlertSourceConfig(getAlertSourceConfig(context,form));
         }
         ApplicationConfigManager.updateApplication(appConfig);
         return mapping.findForward(Forwards.SUCCESS);
+    }
+
+    private AlertSourceConfig getAlertSourceConfig(WebContext context,
+                                                   AlertForm form){
+        AlertSourceConfig sourceConfig = null;
+        if(AlertSourceConfig.SOURCE_TYPE_NOTIFICATION.equals(
+                form.getAlertSourceType())){
+            sourceConfig = new AlertSourceConfig(form.getObjectName(),
+                    form.getNotificationType());
+            sourceConfig.setApplicationConfig(context.getApplicationConfig());
+        }else{
+            assert false: "not supported type";
+        }
+        return sourceConfig;
     }
 }

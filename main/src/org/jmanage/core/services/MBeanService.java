@@ -101,5 +101,6 @@ public interface MBeanService {
                                              HttpServletRequest request)
             throws ServiceException;
 
-
+    public Map queryMBeansWithNotifications(ServiceContext context)
+            throws ServiceException;
 }

@@ -22,6 +22,7 @@ import org.jmanage.core.config.ApplicationConfig;
 
 import java.util.logging.Logger;
 import java.io.IOException;
+import java.io.File;
 import java.lang.reflect.Constructor;
 
 /**
@@ -53,6 +54,17 @@ public class CoreUtils {
         return getRootDir() + "/logs";
     }
 
+    private static String dataDir = getRootDir() + "/data";
+
+    static{
+        File dataDirFile = new File(dataDir);
+        if(!dataDirFile.exists()){
+             dataDirFile.mkdirs();
+        }
+    }
+    public static String getDataDir() {
+        return dataDir;
+    }
 
     public static void copyProperties(Object dest, Object source) {
         try {
@@ -129,4 +141,5 @@ public class CoreUtils {
             }
         }
     }
+
 }

@@ -15,6 +15,8 @@
  */
 package org.jmanage.webui.forms;
 
+import org.jmanage.core.config.AlertSourceConfig;
+
 /**
  * Date: May 26, 2005 4:46:35 PM
  * @author Bhavana
@@ -26,6 +28,11 @@ public class AlertForm extends BaseForm{
     private String[] alertDelivery;
     private String subject;
     private String emailAddress;
+    private String alertSourceType = AlertSourceConfig.SOURCE_TYPE_NOTIFICATION;
+    private String notification;
+    private String objectName;
+    private String notificationType;
+
     //private String application;
 
     /**public String getApplication() {
@@ -74,5 +81,37 @@ public class AlertForm extends BaseForm{
 
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
+    }
+
+    public String getAlertSourceType() {
+        return alertSourceType;
+    }
+
+    public void setAlertSourceType(String alertSourceType) {
+        this.alertSourceType = alertSourceType;
+    }
+
+    public String getNotification() {
+        return notification;
+    }
+
+    public void setNotification(String notification) {
+        this.notification = notification;
+    }
+
+    public void setObjectName(String objectName) {
+        this.objectName = objectName;
+    }
+
+    public void setNotificationType(String notificationType) {
+        this.notificationType = notificationType;
+    }
+
+    public String getObjectName() {
+        return objectName;
+    }
+
+    public String getNotificationType() {
+        return notificationType;
     }
 }

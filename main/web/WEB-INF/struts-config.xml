@@ -347,6 +347,43 @@
             type="org.jmanage.webui.actions.auth.ShowUserActivityAction">
             <forward name="success" path="auth.userActivity"/>
         </action>
+
+        <!-- Alerts Config - Begin -->
+        <action
+            path="/config/showSelectAlertSourceType"
+            name="alertForm"
+            scope="request"
+            validate="false"
+            type="org.jmanage.webui.actions.config.alert.ShowSelectAlertSourceTypeAction">
+            <forward name="success" path="config.selectAlertSourceType"/>
+        </action>
+        <action
+            path="/config/selectAlertSourceType"
+            name="alertForm"
+            scope="request"
+            validate="false"
+            type="org.jmanage.webui.actions.config.alert.SelectAlertSourceTypeAction">
+
+            <forward name="notification" path="/config/showSelectNotification.do"/>
+            <forward name="gauge" path="config.selectAlertSourceType"/>
+            <forward name="string" path="config.selectAlertSourceType"/>
+        </action>
+        <action
+            path="/config/showSelectNotification"
+            name="alertForm"
+            scope="request"
+            validate="false"
+            type="org.jmanage.webui.actions.config.alert.ShowSelectNotificationAction">
+            <forward name="success" path="config.selectNotification"/>
+        </action>
+        <action
+            path="/config/selectNotificationType"
+            name="alertForm"
+            scope="request"
+            validate="false"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/config/showAddAlert.do">
+        </action>
         <action
             path="/config/showAddAlert"
             name="alertForm"
@@ -378,6 +415,8 @@
                 type="org.jmanage.webui.actions.config.RemoveAlertAction">
                 <forward name="success" path="/app/appView.do"/>
         </action>
+        <!-- Alerts Config - End -->
+
         <action path="/config/showMBeans"
             name="graphForm"
             scope="request"
@@ -404,6 +443,7 @@
                 type="org.jmanage.webui.actions.config.AddGraphAction">
                 <forward name="success" path="/app/appView.do"/>
         </action>
+
     </action-mappings>
 
     <!-- ========================================== Controller Configuration -->

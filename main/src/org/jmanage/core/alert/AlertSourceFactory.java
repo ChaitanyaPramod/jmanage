@@ -13,6 +13,7 @@
 package org.jmanage.core.alert;
 
 import org.jmanage.core.config.AlertSourceConfig;
+import org.jmanage.core.alert.source.NotificationAlertSource;
 
 /**
  *

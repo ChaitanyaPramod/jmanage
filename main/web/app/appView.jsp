@@ -143,6 +143,6 @@ if(appConfig.getAlerts().size() > 0){
 </p>
 <%}%>
 <p>
-<jmhtml:link href="/config/showAddAlert.do" styleClass="a">Add New Alert</jmhtml:link>
+<jmhtml:link href="/config/showSelectAlertSourceType.do" styleClass="a">Add New Alert</jmhtml:link>
 
 

@@ -19,8 +19,11 @@ import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.RequestAttributes;
 import org.jmanage.webui.util.Forwards;
+import org.jmanage.webui.forms.AlertForm;
 import org.jmanage.core.config.AlertDeliveryConstants;
 import org.jmanage.core.config.ApplicationConfigManager;
+import org.jmanage.core.config.AlertSourceConfig;
+import org.jmanage.core.util.Expression;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
@@ -52,6 +55,22 @@ public class ShowAddAlertAction extends BaseAction{
                                  HttpServletRequest request,
                                  HttpServletResponse response)
             throws Exception {
+
+        AlertForm alertForm = (AlertForm)actionForm;
+        if(alertForm.getNotification() != null){
+
+            request.setAttribute("alertSourceType",
+                    AlertSourceConfig.SOURCE_TYPE_NOTIFICATION);
+            alertForm.setAlertSourceType(AlertSourceConfig.SOURCE_TYPE_NOTIFICATION);
+
+            Expression expr = new Expression(alertForm.getNotification());
+
+            request.setAttribute("sourceMBean", expr.getMBeanName());
+            alertForm.setObjectName(expr.getMBeanName());
+
+            request.setAttribute("notificationType", expr.getTargetName());
+            alertForm.setNotificationType(expr.getTargetName());
+        }
 
         request.setAttribute("applications",
                 ApplicationConfigManager.getAllApplications());

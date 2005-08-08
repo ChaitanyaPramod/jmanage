@@ -38,6 +38,7 @@
                                 notificationType="time.expired"/>
                             <delivery type="email"
                                 emailAddress="getkalra@yahoo.com"/>
+                            <delivery type="console"/>
                         </alert>
                     </alerts>
                 </application>

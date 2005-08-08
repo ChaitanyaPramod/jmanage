@@ -10,25 +10,21 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  */
-package org.jmanage.core.alert;
+package org.jmanage.core.services;
 
-import org.jmanage.core.config.AlertConfig;
+import java.util.List;
 
 /**
  *
- * Date:  Jul 1, 2005
+ * Date:  Aug 2, 2005
  * @author	Rakesh Kalra
  */
-public class ConsoleDelivery implements AlertDelivery {
+public interface AlertService {
 
-    private final AlertConfig alertConfig;
+    public List getConsoleAlerts(ServiceContext context)
+            throws ServiceException;
 
-    public ConsoleDelivery(AlertConfig alertConfig){
-        assert alertConfig != null;
-        this.alertConfig = alertConfig;
-    }
+    public void removeConsoleAlert(ServiceContext context,
+                                   String alertId);
 
-    public void deliver(AlertInfo alertInfo) {
-        // todo: implement
-    }
 }

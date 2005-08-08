@@ -13,9 +13,12 @@
 package org.jmanage.core.alert;
 
 import org.jmanage.core.config.AlertConfig;
+import org.jmanage.core.util.Loggers;
 
 import java.util.List;
 import java.util.Iterator;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 /**
  *
@@ -23,6 +26,8 @@ import java.util.Iterator;
  * @author	Rakesh Kalra
  */
 public class Alert implements AlertHandler {
+
+    private static Logger logger = Loggers.getLogger(Alert.class);
 
     private final AlertConfig alertConfig;
     private final AlertSource source;
@@ -45,9 +50,15 @@ public class Alert implements AlertHandler {
     }
 
     public void handle(AlertInfo alertInfo) {
+        alertInfo.setAlertConfig(this.alertConfig);
         for(Iterator it=deliveries.iterator(); it.hasNext(); ){
-            AlertDelivery delivery = (AlertDelivery)it.next();
-            delivery.deliver(alertInfo);
+            try {
+                AlertDelivery delivery = (AlertDelivery)it.next();
+                delivery.deliver(alertInfo);
+            } catch (Exception e) {
+                logger.log(Level.SEVERE, "Error while deliverying alert", e);
+                // continue deliverying thru other modes (if any)
+            }
         }
     }
 
@@ -56,7 +67,7 @@ public class Alert implements AlertHandler {
     }
 
     public boolean equals(Object obj){
-        if(obj instanceof Alert){
+        if(obj != null && obj instanceof Alert){
             Alert alert = (Alert)obj;
             return alert.alertConfig.getAlertId().equals(
                     alertConfig.getAlertId());

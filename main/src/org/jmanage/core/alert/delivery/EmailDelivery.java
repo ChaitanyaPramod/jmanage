@@ -10,10 +10,12 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  */
-package org.jmanage.core.alert;
+package org.jmanage.core.alert.delivery;
 
 import org.jmanage.core.util.EmailUtils;
 import org.jmanage.core.config.AlertConfig;
+import org.jmanage.core.alert.AlertDelivery;
+import org.jmanage.core.alert.AlertInfo;
 
 import javax.mail.MessagingException;
 
@@ -24,18 +26,11 @@ import javax.mail.MessagingException;
  */
 public class EmailDelivery implements AlertDelivery {
 
-    private final AlertConfig alertConfig;
-
-    public EmailDelivery(AlertConfig alertConfig){
-        assert alertConfig != null;
-        this.alertConfig = alertConfig;
-    }
-
     public void deliver(AlertInfo alertInfo) {
         try {
             EmailUtils.sendEmail(
-                    alertConfig.getEmailAddress(),
-                    alertConfig.getSubject(),
+                    alertInfo.getEmailAddress(),
+                    alertInfo.getSubject(),
                     getEmailContent(alertInfo));
         } catch (MessagingException e) {
             throw new RuntimeException(e);
@@ -44,6 +39,6 @@ public class EmailDelivery implements AlertDelivery {
 
     private String getEmailContent(AlertInfo alertInfo){
         // todo: implement
-        return "content for " + alertConfig.getAlertName();
+        return "Alert Content for " + alertInfo.getAlertName();
     }
 }
