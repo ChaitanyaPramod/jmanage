@@ -193,17 +193,30 @@ public class ConfigWriter {
                     alertConfig.getAlertName());
             alertElement.setAttribute(ConfigConstants.ALERT_SUBJECT,
                     alertConfig.getSubject());
+            // add source
+            AlertSourceConfig sourceConfig = alertConfig.getAlertSourceConfig();
+            Element source = new Element(ConfigConstants.ALERT_SOURCE);
+            source.setAttribute(ConfigConstants.ALERT_SOURCE_TYPE,
+                    sourceConfig.getSourceType());
+            source.setAttribute(ConfigConstants.ALERT_SOURCE_MBEAN,
+                    sourceConfig.getObjectName().getCanonicalName());
+            source.setAttribute(ConfigConstants.ALERT_SOURCE_NOTIFICATION_TYPE,
+                    sourceConfig.getNotificationType());
+            alertElement.addContent(source);
+
+            // add delivery
             String[] alertDelivery = alertConfig.getAlertDelivery();
             for(int i=0;i<alertDelivery.length;i++){
                 Element alertDel = new Element(ConfigConstants.ALERT_DELIVERY);
                 alertDel.setAttribute(ConfigConstants.ALERT_DELIVERY_TYPE,
                         alertDelivery[i]);
-                if(alertDelivery[i]=="email"){
+                if(alertDelivery[i].equals(AlertDeliveryConstants.EMAIL_ALERT_DELIVERY_TYPE)){
                     alertDel.setAttribute(ConfigConstants.ALERT_EMAIL_ADDRESS,
                             alertConfig.getEmailAddress());
                 }
                 alertElement.addContent(alertDel);
             }
+
 
             alertsElement.addContent(alertElement);
         }

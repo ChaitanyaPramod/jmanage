@@ -3,7 +3,8 @@
                  org.jmanage.core.config.ApplicationConfigManager,
                  org.jmanage.webui.util.WebContext,
                  org.jmanage.core.config.ApplicationConfig,
-                 org.jmanage.webui.util.RequestParams"%>
+                 org.jmanage.webui.util.RequestParams,
+                 org.jmanage.core.config.AlertSourceConfig"%>
  <%--
   Copyright 2004-2005 jManage.org
 
@@ -28,11 +29,6 @@
 <jmhtml:form action="/config/addAlert" method="post"
                                     onsubmit="return validateAlertForm(this)">
 <jmhtml:hidden property="alertId" />
-
-<%
-    WebContext webContext = WebContext.get(request);
-    ApplicationConfig appConfig = webContext.getApplicationConfig();
-%>
 
 <table cellspacing="0" cellpadding="5" width="400" class="table">
 <tr class="tableHeader">
@@ -67,7 +63,34 @@
     <td class="headtext1">Email Address:</td>
     <td><jmhtml:text property="emailAddress" /></td>
 </tr>
-
+<tr>
+    <td class="headtext1"><nobr>Alert Source Type:</nobr></td>
+    <td>
+        <%=request.getAttribute("alertSourceType")%>
+        <jmhtml:hidden property="alertSourceType"/>
+    </td>
+</tr>
+<tr>
+    <td class="headtext1"><nobr>Alert Source MBean:</nobr></td>
+    <td>
+        <%=request.getAttribute("sourceMBean")%>
+        <jmhtml:hidden property="objectName"/>
+    </td>
+</tr>
+<%
+    String sourceType = (String)request.getAttribute("alertSourceType");
+    if(sourceType.equals(AlertSourceConfig.SOURCE_TYPE_NOTIFICATION)){
+%>
+<tr>
+    <td class="headtext1">Notification Type:</td>
+    <td>
+        <%=request.getAttribute("notificationType")%>
+        <jmhtml:hidden property="notificationType"/>
+    </td>
+</tr>
+<%
+    }
+%>
 <tr>
     <td align="center" colspan="2">
         <jmhtml:submit property="" value="Save" styleClass="Inside3d" />

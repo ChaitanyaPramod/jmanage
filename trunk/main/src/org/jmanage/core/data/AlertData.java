@@ -10,17 +10,14 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  */
-package org.jmanage.core.alert;
-
-import org.jmanage.core.management.ObjectNotification;
-import org.jmanage.core.config.AlertConfig;
+package org.jmanage.core.data;
 
 /**
  *
- * Date:  Jul 31, 2005
+ * Date:  Aug 2, 2005
  * @author	Rakesh Kalra
  */
-public class AlertInfo {
+public class AlertData implements java.io.Serializable {
 
     // unique id for the alert
     private String alertId = null;
@@ -35,26 +32,6 @@ public class AlertInfo {
     private String alertName;
     private String subject;
     private String emailAddress;
-
-    public AlertInfo(){}
-
-    public AlertInfo(ObjectNotification notification){
-        // todo: figure out a better way to generate unique alert ids
-        setAlertId(notification.getType() + System.currentTimeMillis());
-        setType(notification.getType());
-        setSequenceNumber(notification.getSequenceNumber());
-        setMessage(notification.getMessage());
-        setTimeStamp(notification.getTimeStamp());
-        setUserData(notification.getUserData());
-        setSource(notification.getMySource());
-    }
-
-    public void setAlertConfig(AlertConfig alertConfig) {
-        this.alertConfigId = alertConfig.getAlertId();
-        this.alertName = alertConfig.getAlertName();
-        this.subject = alertConfig.getSubject();
-        this.emailAddress = alertConfig.getEmailAddress();
-    }
 
     public String getAlertId() {
         return alertId;

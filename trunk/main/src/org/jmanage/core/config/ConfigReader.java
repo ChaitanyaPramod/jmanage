@@ -20,9 +20,12 @@ import org.jdom.JDOMException;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jmanage.core.crypto.Crypto;
+import org.jmanage.core.util.Loggers;
 
 import java.io.File;
 import java.util.*;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 /**
  *
@@ -30,6 +33,8 @@ import java.util.*;
  * @author  Shashank
  */
 public class ConfigReader implements ConfigConstants{
+
+    private static final Logger logger = Loggers.getLogger(ConfigReader.class);
 
     /*  Single instance */
     private static ConfigReader configReader =
@@ -50,9 +55,9 @@ public class ConfigReader implements ConfigConstants{
             lastModified = configFile.lastModified();
             config = new SAXBuilder().build(configFile);
         }catch(JDOMException jdEx){
-            System.out.println("Error reading config file " +
+            logger.log(Level.SEVERE, "Error reading config file " +
                     DEFAULT_CONFIG_FILE_NAME);
-            jdEx.printStackTrace();
+            throw new RuntimeException(jdEx);
         }
     }
 

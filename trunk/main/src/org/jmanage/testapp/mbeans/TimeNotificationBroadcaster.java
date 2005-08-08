@@ -32,7 +32,7 @@ public class TimeNotificationBroadcaster extends NotificationBroadcasterSupport
         String type = "time.expired";
         MBeanNotificationInfo[] notifications = new MBeanNotificationInfo[1];
         notifications[0] = new MBeanNotificationInfo(new String[]{type},
-                "Notification Types",
+                "TimeNotification",
                 "Types of notifications emitted by this broadcaster");
 
         return notifications;

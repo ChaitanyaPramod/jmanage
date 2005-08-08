@@ -10,11 +10,14 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  */
-package org.jmanage.core.alert;
+package org.jmanage.core.alert.source;
 
 import org.jmanage.core.config.AlertSourceConfig;
 import org.jmanage.core.management.*;
 import org.jmanage.core.util.Loggers;
+import org.jmanage.core.alert.AlertSource;
+import org.jmanage.core.alert.AlertHandler;
+import org.jmanage.core.alert.AlertInfo;
 
 import java.util.logging.Logger;
 import java.util.logging.Level;
@@ -46,7 +49,8 @@ public class NotificationAlertSource extends AlertSource {
             public void handleNotification(ObjectNotification notification,
                                            Object handback) {
                 try {
-                    NotificationAlertSource.this.handler.handle(new AlertInfo(notification));
+                    NotificationAlertSource.this.handler.handle(
+                            new AlertInfo(notification));
                 } catch (Exception e) {
                     logger.log(Level.SEVERE, "Error while handling alert", e);
                 }

@@ -41,6 +41,9 @@ public class MBeanServiceImpl implements MBeanService {
 
     private static final String DEFAULT_FILTER = "*:*";
 
+    private static final ObjectName DEFAULT_FILTER_OBJECT_NAME =
+            new ObjectName(DEFAULT_FILTER);
+
     public List queryMBeans(ServiceContext context,
                           String filter)
             throws ServiceException {
@@ -48,11 +51,15 @@ public class MBeanServiceImpl implements MBeanService {
         ServerConnection serverConnection =
                 context.getServerConnection();
 
+        ObjectName filterObjectName = null;
         if(filter == null){
-            filter = DEFAULT_FILTER;
+            filterObjectName = DEFAULT_FILTER_OBJECT_NAME;
+        }else{
+            filterObjectName = new ObjectName(filter);
         }
+
         Set mbeans =
-                serverConnection.queryNames(new ObjectName(filter));
+                serverConnection.queryNames(filterObjectName);
         ArrayList mbeanDataList = new ArrayList(mbeans.size());
         for(Iterator it=mbeans.iterator();it.hasNext(); ){
             ObjectName objName = (ObjectName)it.next();
@@ -389,6 +396,24 @@ public class MBeanServiceImpl implements MBeanService {
                     objectName, attributeList);
         }
         return attrListData;
+    }
+
+    public Map queryMBeansWithNotifications(ServiceContext context)
+            throws ServiceException {
+
+        ServerConnection serverConnection =
+                context.getServerConnection();
+        Set mbeans = serverConnection.queryNames(DEFAULT_FILTER_OBJECT_NAME);
+        Map mbeanToNoficationsMap = new TreeMap();
+        for(Iterator it=mbeans.iterator(); it.hasNext(); ){
+            ObjectName objName = (ObjectName)it.next();
+            ObjectInfo objInfo = serverConnection.getObjectInfo(objName);
+            ObjectNotificationInfo[] notifications = objInfo.getNotifications();
+            if(notifications != null && notifications.length > 0){
+                mbeanToNoficationsMap.put(objName.getCanonicalName(), notifications);
+            }
+        }
+        return mbeanToNoficationsMap;
     }
 
     private AttributeListData updateAttributes(ServiceContext context,
