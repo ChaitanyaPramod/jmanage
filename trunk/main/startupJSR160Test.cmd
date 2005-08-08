@@ -17,7 +17,7 @@ set LIB_JARS=./lib/javax.servlet.jar;./lib/org.mortbay.jetty.jar;./lib/jasper-co
 
 set JMANAGE_CLASSPATH=%JMANAGE_HOME%/testapp/classes;%JMANAGE_HOME%/classes;./ext/;%JSR160_JARS%
 
-%JAVA_HOME%/bin/java -ea -classpath %JMANAGE_CLASSPATH% org.jmanage.testapp.jsr160.Startup %1
+%JAVA_HOME%/bin/java -ea -classpath %JMANAGE_CLASSPATH% org.jmanage.testapp.jsr160.Startup %*
 
 
 
