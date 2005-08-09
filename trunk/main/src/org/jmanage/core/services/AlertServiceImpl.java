@@ -35,6 +35,7 @@ public class AlertServiceImpl implements AlertService {
         for(Iterator it=ConsoleAlerts.getAll().iterator(); it.hasNext();){
             AlertData alertData = new AlertData();
             CoreUtils.copyProperties(alertData, it.next());
+
             alerts.add(alertData);
         }
         return alerts;

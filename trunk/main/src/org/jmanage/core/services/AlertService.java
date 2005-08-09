@@ -21,6 +21,12 @@ import java.util.List;
  */
 public interface AlertService {
 
+    /**
+     *
+     * @param context
+     * @return list of AlertData objects
+     * @throws ServiceException
+     */
     public List getConsoleAlerts(ServiceContext context)
             throws ServiceException;
 

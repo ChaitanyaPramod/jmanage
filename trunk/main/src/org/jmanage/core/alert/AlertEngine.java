@@ -19,6 +19,7 @@ import org.jmanage.core.util.Loggers;
 import java.util.List;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Collections;
 import java.util.logging.Logger;
 
 /**
@@ -37,7 +38,7 @@ public class AlertEngine {
         return alertEngine;
     }
 
-    private List alerts = new LinkedList();
+    private List alerts = Collections.synchronizedList(new LinkedList());
 
     private AlertEngine(){}
 
@@ -59,5 +60,19 @@ public class AlertEngine {
         // remove all alerts
         alerts.clear();
         logger.info("AlertEngine stopped.");
+    }
+
+    public synchronized void updateAlertConfig(AlertConfig alertConfig) {
+        Alert alert = new Alert(alertConfig);
+        int index = alerts.indexOf(alert);
+        if(index != -1){
+            // its an existing alert
+            Alert oldAlert = (Alert)alerts.remove(index);
+            oldAlert.unregister();
+        }
+        // register the alert
+        alert.register();
+        // add it to the list
+        alerts.add(alert);
     }
 }
