@@ -20,6 +20,8 @@ import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.util.RequestAttributes;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.core.config.ApplicationConfigManager;
+import org.jmanage.core.services.AlertService;
+import org.jmanage.core.services.ServiceFactory;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
@@ -50,8 +52,15 @@ public class ApplicationListAction extends BaseAction {
                                  HttpServletRequest request,
                                  HttpServletResponse response)
             throws Exception{
+        /* applications */
         List applications = ApplicationConfigManager.getApplications();
         request.setAttribute(RequestAttributes.APPLICATIONS, applications);
+
+        /* alerts */
+        AlertService alertService = ServiceFactory.getAlertService();
+        List alerts = alertService.getConsoleAlerts(context.getServiceContext());
+        request.setAttribute("alerts", alerts);
+
         return mapping.findForward(Forwards.SUCCESS);
     }
 }

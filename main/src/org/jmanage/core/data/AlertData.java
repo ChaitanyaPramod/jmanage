@@ -12,12 +12,17 @@
  */
 package org.jmanage.core.data;
 
+import java.text.SimpleDateFormat;
+
 /**
  *
  * Date:  Aug 2, 2005
  * @author	Rakesh Kalra
  */
 public class AlertData implements java.io.Serializable {
+
+    private static final SimpleDateFormat formatter =
+            new SimpleDateFormat("yyyy, MMM dd HH:mm:ss");
 
     // unique id for the alert
     private String alertId = null;
@@ -32,6 +37,9 @@ public class AlertData implements java.io.Serializable {
     private String alertName;
     private String subject;
     private String emailAddress;
+
+    private String appId;
+    private String appName;
 
     public String getAlertId() {
         return alertId;
@@ -67,6 +75,10 @@ public class AlertData implements java.io.Serializable {
 
     public long getTimeStamp() {
         return timeStamp;
+    }
+
+    public String getFormattedTimeStamp(){
+        return formatter.format(new java.util.Date(timeStamp));
     }
 
     public void setTimeStamp(long timeStamp) {
@@ -119,5 +131,21 @@ public class AlertData implements java.io.Serializable {
 
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
+    }
+
+    public String getApplicationId() {
+        return appId;
+    }
+
+    public void setApplicationId(String appId) {
+        this.appId = appId;
+    }
+
+    public String getApplicationName() {
+        return appName;
+    }
+
+    public void setApplicationName(String appName) {
+        this.appName = appName;
     }
 }

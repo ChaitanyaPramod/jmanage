@@ -14,6 +14,7 @@ package org.jmanage.core.alert;
 
 import org.jmanage.core.management.ObjectNotification;
 import org.jmanage.core.config.AlertConfig;
+import org.jmanage.core.config.ApplicationConfig;
 
 /**
  *
@@ -36,6 +37,9 @@ public class AlertInfo {
     private String subject;
     private String emailAddress;
 
+    private String appId;
+    private String appName;
+
     public AlertInfo(){}
 
     public AlertInfo(ObjectNotification notification){
@@ -54,6 +58,10 @@ public class AlertInfo {
         this.alertName = alertConfig.getAlertName();
         this.subject = alertConfig.getSubject();
         this.emailAddress = alertConfig.getEmailAddress();
+        ApplicationConfig appConfig =
+                alertConfig.getAlertSourceConfig().getApplicationConfig();
+        this.setApplicationId(appConfig.getApplicationId());
+        this.setApplicationName(appConfig.getName());
     }
 
     public String getAlertId() {
@@ -142,5 +150,21 @@ public class AlertInfo {
 
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
+    }
+
+    public String getApplicationId() {
+        return appId;
+    }
+
+    public void setApplicationId(String appId) {
+        this.appId = appId;
+    }
+
+    public String getApplicationName() {
+        return appName;
+    }
+
+    public void setApplicationName(String appName) {
+        this.appName = appName;
     }
 }

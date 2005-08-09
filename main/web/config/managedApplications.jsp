@@ -22,7 +22,8 @@
                  org.jmanage.webui.util.RequestParams,
                  org.jmanage.core.config.MBeanConfig,
                  java.net.URLEncoder,
-                 java.util.List"%>
+                 java.util.List,
+                 org.jmanage.core.data.AlertData"%>
 
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 
@@ -104,3 +105,35 @@
 <a href="/config/showAvailableApplications.do" class="a">Add New Application</a>
 <br>
 <a href="/config/showApplicationCluster.do" class="a">Add New Application Cluster</a>
+<br><br>
+<table cellspacing="0" cellpadding="5" width="800" class="table">
+    <tr class="tableHeader">
+        <td colspan="6">Triggered Alerts</td>
+    </tr>
+    <tr>
+        <td class="headtext">Alert Name</td>
+        <td class="headtext">Message</td>
+        <td class="headtext">Sequence#</td>
+        <td class="headtext">Timestamp</td>
+        <td class="headtext">Application</td>
+        <td class="headtext">&nbsp;</td>
+    </tr>
+<%
+    List alerts = (List)request.getAttribute("alerts");
+    for(Iterator it=alerts.iterator(); it.hasNext(); ){
+        AlertData alert = (AlertData)it.next();
+%>
+    <tr>
+        <td class="plaintext"><%=alert.getAlertName()%></td>
+        <td class="plaintext"><%=alert.getMessage()%></td>
+        <td class="plaintext"><%=alert.getSequenceNumber()%></td>
+        <td class="plaintext"><%=alert.getFormattedTimeStamp()%></td>
+        <td class="plaintext"><%=alert.getApplicationName()%></td>
+        <td class="plaintext"><a href="/app/removeConsoleAlert.do?alertId=<%=alert.getAlertId()%>">Remove</a></td>
+    </tr>
+<%
+    }
+%>
+</table>
+
+
