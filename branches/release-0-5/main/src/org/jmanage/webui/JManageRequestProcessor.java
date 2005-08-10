@@ -19,8 +19,12 @@ import org.apache.struts.config.ModuleConfig;
 import org.apache.struts.action.*;
 import org.apache.struts.tiles.TilesRequestProcessor;
 import org.jmanage.core.util.Loggers;
+import org.jmanage.core.services.ServiceFactory;
+import org.jmanage.core.services.AuthService;
+import org.jmanage.core.services.ServiceException;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
+import org.jmanage.webui.util.RequestParams;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -121,10 +125,34 @@ public class JManageRequestProcessor extends TilesRequestProcessor{
         if(context.getSubject() == null){
             String path = mapping.getPath();
             if(!path.equals("/auth/showLogin") && !path.equals("/auth/login")){
+                /* check if username and pwd are specifed as URL params */
+                String username =
+                        request.getParameter(RequestParams.JMANAGE_USERNAME);
+                String password =
+                        request.getParameter(RequestParams.JMANAGE_PASSWORD);
+                if(username != null && password != null){
+                    // try logging-in the user
+                    if(login(context, username, password)){
+                        return null;
+                    }
+                }
                 return mapping.findForward(Forwards.LOGIN);
             }
         }
         return null;
+    }
+
+    // logs-in the user if the username and password are valid
+    private boolean login(WebContext context, String username, String password){
+        AuthService authService = ServiceFactory.getAuthService();
+        try {
+            authService.login(context.getServiceContext(),
+                    username,
+                    password);
+            return true;
+        } catch (ServiceException e) {
+            return false;
+        }
     }
 
     private ActionForward handleDebugMode(HttpServletRequest request,
