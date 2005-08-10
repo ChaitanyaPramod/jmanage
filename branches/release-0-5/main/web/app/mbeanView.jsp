@@ -23,7 +23,8 @@
                  java.util.*,
                  org.jmanage.core.util.ACLConstants,
                  org.jmanage.core.auth.AccessController,
-                 org.jmanage.webui.util.Utils"%>
+                 org.jmanage.webui.util.Utils,
+                 java.net.URLEncoder"%>
 
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 <%@ taglib uri="/WEB-INF/tags/jstl/c.tld" prefix="c"%>
@@ -53,7 +54,16 @@
 <table class="table" border="0" cellspacing="0" cellpadding="5" width="900">
     <tr>
         <td class="headtext" width="100">Object Name</td>
-        <td class="plaintext"><c:out value="${param.objName}" /></td>
+        <td class="plaintext">
+            <c:out value="${param.objName}" />
+            <%-- If this mbean is being viewed from an application which is
+                part of a cluster, provide a link to view this mbean as
+                part of the cluster --%>
+            <%if(applicationConfig.getClusterConfig() != null){%>
+                <a href="/app/mbeanView.do?<%=RequestParams.APPLICATION_ID%>=<%=applicationConfig.getClusterConfig().getApplicationId()%>&<%=RequestParams.OBJECT_NAME%>=<%=URLEncoder.encode(objectInfo.getObjectName().getCanonicalName(), "UTF-8")%>">
+                    Cluster View</a>
+            <%}%>
+        </td>
     </tr>
     <tr>
         <td class="headtext" width="100">Class Name</td>
