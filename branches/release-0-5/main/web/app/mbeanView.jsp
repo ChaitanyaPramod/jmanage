@@ -178,6 +178,16 @@
             <%}else{%>
                 <%=attrValue%>
             <%}%>
+            <%if(attributeInfo.getType().equals("javax.management.ObjectName")){
+                pageContext.setAttribute("objectName",
+                        attrValue, PageContext.PAGE_SCOPE);
+                // provide a link to this mbean
+            %>
+                <jmhtml:link action="/app/mbeanView"
+                             paramId="objName"
+                             paramName="objectName">
+                    View</jmhtml:link>
+            <%}%>
         <%}else{%>
             &lt;unavailable&gt;
         <%}%>
