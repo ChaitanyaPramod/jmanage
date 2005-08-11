@@ -11,11 +11,10 @@
           This roadmap will change based on the needs of the jManage users.
       </p>
       <p>
+          <br/>
           <strong>1.0 release</strong>
           <br/><br/>
-          In 1.0 release, we plan to add support for:
-          <br/>
-          - JMX Notifications
+          - JMX Notifications.
           <br/>
           - Alerts - based on MBean notifications, attribute changes, etc.
           <br/>
@@ -29,14 +28,29 @@
       <p>
         <strong>1.5 release</strong>
         <br/><br/>
+          - Operating system monitoring (unix family).
+        <br/>
+          - Network interface monitoring.
+        <br/>
           - Historical Graphing - View graphs over a period of time in the past.
         <br/>
           - Audit logs in the database - Will provide better auditing capabilities.
         <br/>
-          - Customizable UI.
+          - Customizable UI (skins).
+        <br/>
+        <br/>
       </p>
       <p>
-           If there are other features that you want in jManage, please
+        <strong>2.0 release</strong>
+        <br/><br/>
+          - Dashboards.
+        <br/>
+          - Application specific knowledge modules.
+      </p>
+
+      <p>
+           <br/>
+           If there are other features that you would like to see in jManage, please
            add them <a href="http://sourceforge.net/tracker/?func=add&amp;group_id=111374&amp;atid=659060">here</a>.
       </p>
   </body>

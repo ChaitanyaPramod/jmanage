@@ -36,6 +36,7 @@ See http://forrest.apache.org/docs/linking.html for more info
     <downloads label="Download" href="http://sourceforge.net/project/showfiles.php?group_id=111374&amp;package_id=120380" description="jManage Downloads"/>
     <screenshots label="Screenshots" href="/screenshots.html" description="Screen Shots"/>
     <roadmap label="Roadmap" href="/roadmap.html" description="jManage Roadmap"/>
+    <!--<team label="The Team" href="/team.html" description="jManage team"/>-->
     <contactUs label="Contact Us" href="/contactus.html" description="Contact Us"/>
   </home>
   <documentation label="Documentation" href="/documentation/jmanage0.5/install.html">
