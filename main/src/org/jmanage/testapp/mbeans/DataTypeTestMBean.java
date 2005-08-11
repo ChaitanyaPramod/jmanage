@@ -45,6 +45,8 @@ public interface DataTypeTestMBean {
     public void setDate(Date dt);
     public String[] getStringArray();
     public void setStringArray(String[] strArray);
+    public String[] stringArrayOperation();
     public int[] getIntArray();
     public void setIntArray(int[] intArray);
+    public int[] intArrayOperation();
 }
