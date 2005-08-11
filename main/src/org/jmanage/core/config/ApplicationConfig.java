@@ -45,10 +45,8 @@ public abstract class ApplicationConfig {
     private String password;
     protected Map paramValues;
     private List mbeanList = new LinkedList();
-    private List graphList = new LinkedList();
     // clusterConfig: if this is part of a cluster
     private ApplicationConfig clusterConfig;
-    private List alertsList = new LinkedList();
 
     public String getApplicationId(){
         return appId;
@@ -239,73 +237,6 @@ public abstract class ApplicationConfig {
 
     public boolean containsMBean(String objectName) {
         return findMBeanByObjectName(objectName) != null;
-    }
-
-    public void addGraph(GraphConfig graphConfig){
-        assert graphConfig!=null:"graphConfig is null";
-        graphList.add(graphConfig);
-    }
-    public void setGraphs(List graphList) {
-        if(graphList != null){
-            this.graphList = graphList;
-        }else{
-            this.graphList = new LinkedList();
-        }
-    }
-
-    public List getGraphs(){
-        return graphList;
-    }
-
-    public GraphConfig findGraph(String graphId) {
-        for(Iterator it=graphList.iterator(); it.hasNext(); ){
-            GraphConfig graphConfig = (GraphConfig)it.next();
-            if(graphConfig.getId().equals(graphId)){
-                return graphConfig;
-            }
-        }
-        return null;
-    }
-
-   public void addAlert(AlertConfig alertConfig){
-       assert alertConfig!=null:"alert config is null";
-       alertsList.add(alertConfig);
-   }
-
-   public List getAlerts(){
-       return alertsList;
-   }
-   /**
-    *
-    * @param alertsList list of MBeanConfig objects
-    */
-   public void setAlerts(List alertsList){
-       if(alertsList != null){
-           this.alertsList = alertsList;
-       }else{
-           this.alertsList = new LinkedList();
-       }
-   }
-
-    public AlertConfig findAlertById(String alertId){
-        AlertConfig alert = null;
-        for(Iterator itr=alertsList.iterator();itr.hasNext();){
-            AlertConfig alertConfig = (AlertConfig)itr.next();
-            if(alertConfig.getAlertId().equals(alertId)){
-                alert = alertConfig;
-                break;
-            }
-        }
-        return alert;
-    }
-
-    public AlertConfig removeAlert(String alertId){
-        AlertConfig alertConfig = findAlertById(alertId);
-        if(alertConfig!=null){
-            alertsList.remove(alertConfig);
-            return alertConfig;
-        }
-        return null;
     }
 
     public ClassLoader getModuleClassLoader(){

@@ -16,7 +16,7 @@
 package org.jmanage.core.crypto;
 
 import org.jmanage.core.util.Loggers;
-import org.jmanage.core.util.JManageProperties;
+import org.jmanage.core.config.JManageProperties;
 
 import javax.crypto.*;
 import java.security.MessageDigest;

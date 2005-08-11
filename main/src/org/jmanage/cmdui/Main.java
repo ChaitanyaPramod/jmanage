@@ -16,7 +16,7 @@
 package org.jmanage.cmdui;
 
 import org.jmanage.core.services.ServiceFactory;
-import org.jmanage.core.util.JManageProperties;
+import org.jmanage.core.config.JManageProperties;
 import org.jmanage.core.util.Loggers;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -30,18 +30,18 @@ import java.security.Security;
 /**
  *
  * jmanage -username admin -password 123456 -url <jmanage-url> <command> <command args>
- * <p>
+ *
  * commands:
- * <p>
- * <li>apps
- * <li>mbeans     &lt;appName&gt; [filter expression]
- * <li>cmbeans    &lt;appName&gt;
- * <li>info       &lt;appName&gt;/&lt;mbeanName[configured name or object name]&gt;
- * <li>execute    &lt;appName&gt;/&lt;mbeanName&gt;/&lt;operationName&gt; [args]
- * <li>print      &lt;appName&gt;/&lt;mbeanName&gt;/attributeName1 [attributeName2]
- * <li>get        &lt;appName&gt;/&lt;mbeanName&gt; &lt;attributeName&gt; newValue
- * <li>set        &lt;appName&gt;/&lt;mbeanName&gt; &lt;attributeName&gt; newValue
- * <li>setattrs   &lt;appName&gt;/&lt;mbeanName&gt; &lt;attributeName&gt;=newValue ...
+ *
+ * apps
+ * mbeans     <appName> [filter expression]
+ * cmbeans    <appName>
+ * info       <appName>/<mbeanName[configured name or object name]>
+ * execute    <appName>/<mbeanName>/<operationName> [args]
+ * print      <appName>/<mbeanName>/attributeName1 [attributeName2]
+ * get        <appName>/<mbeanName> <attributeName> newValue
+ * set        <appName>/<mbeanName> <attributeName> newValue
+ * setattrs   <appName>/<mbeanName> <attributeName>=newValue ...
  *
  * TODO:
  *

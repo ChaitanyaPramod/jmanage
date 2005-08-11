@@ -24,7 +24,7 @@ import org.jmanage.core.util.Expression;
  */
 public class ACLContext {
 
-    private static final String WILDCARD = Expression.WILDCARD;
+    private static final String WILDCARD = "*";
 
     private String appName = WILDCARD;
     /* object name or configured name */

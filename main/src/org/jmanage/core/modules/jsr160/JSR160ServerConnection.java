@@ -141,25 +141,6 @@ public class JSR160ServerConnection extends JMXServerConnection{
         }
     }
 
-    public void addNotificationListener(ObjectName objectName,
-                                        ObjectNotificationListener listener,
-                                        ObjectNotificationFilter filter,
-                                        Object handback){
-
-        try {
-            mbeanServer.addNotificationListener(toJMXObjectName(objectName),
-                    toJMXNotificationListener(listener),
-                    toJMXNotificationFilter(filter),
-                    handback);
-        } catch (InstanceNotFoundException e) {
-            // TODO: do we need specific exceptions ?
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            // TODO: do we need specific exceptions ?
-            throw new RuntimeException(e);
-        }
-    }
-
     /**
      * Closes the connection to the server
      */

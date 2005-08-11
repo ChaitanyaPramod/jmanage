@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jmanage.core.util;
+package org.jmanage.core.config;
 
 import org.jmanage.core.util.Loggers;
 import org.jmanage.core.util.CoreUtils;
@@ -36,9 +36,6 @@ public class JManageProperties extends Properties{
     private static final Logger logger =
             Loggers.getLogger(JManageProperties.class);
 
-    private String JMANAGE_PROPERTY_FILE = CoreUtils.getConfigDir() +
-            "/jmanage.properties";
-
     /* see jmanage.properties for documentation of these properties */
     public static String LOGIN_MAX_ATTEMPTS = "login.maxAttempts";
     private static String JMANAGE_PORT = "jmanage.port";
@@ -55,11 +52,6 @@ public class JManageProperties extends Properties{
     private static String CLI_SSL_TRUST_STORE_PWD =
             "jmanage.cli.ssl.trustStorePassword";
 
-    /*Email properties*/
-    private static String ALERT_EMAIL_FROM_NAME = "alert.email.from.name";
-    private static String  EMAIL_HOST = "email.host";
-    private static String  ALERT_EMAIL_FROM_EMAIL = "alert.email.from.email";
-
     /*  The only instance   */
     private static JManageProperties jManageProperties = new JManageProperties();
 
@@ -73,11 +65,11 @@ public class JManageProperties extends Properties{
       super();
       try{
         InputStream property =
-                new FileInputStream(JMANAGE_PROPERTY_FILE);
+                new FileInputStream(ConfigConstants.JMANAGE_PROPERTY_FILE);
         load(property);
       }catch(Exception e){
           logger.log(Level.SEVERE, "Error reading " +
-                  JMANAGE_PROPERTY_FILE, e);
+                  ConfigConstants.JMANAGE_PROPERTY_FILE, e);
           CoreUtils.exitSystem();
       }
     }
@@ -138,20 +130,10 @@ public class JManageProperties extends Properties{
                 Integer.toString(maxLoginAttempt));
         try{
            FileOutputStream fileOutputStream =
-                 new FileOutputStream(JMANAGE_PROPERTY_FILE);
+                 new FileOutputStream(ConfigConstants.JMANAGE_PROPERTY_FILE);
             this.store(fileOutputStream, null);
         } catch( Exception e){
             throw new RuntimeException(e);
         }
-    }
-
-    public static String getAlertEmailFromName(){
-        return jManageProperties.getProperty(ALERT_EMAIL_FROM_NAME);
-    }
-    public static String getEmailHost(){
-        return jManageProperties.getProperty(EMAIL_HOST);
-    }
-    public static String getAlertEmailFrom(){
-        return jManageProperties.getProperty(ALERT_EMAIL_FROM_EMAIL);
     }
 }

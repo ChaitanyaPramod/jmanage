@@ -82,11 +82,6 @@ public interface ServerConnection {
      */
     public List setAttributes(ObjectName objectName, List attributeList);
 
-    public void addNotificationListener(ObjectName objectName,
-                                        ObjectNotificationListener listener,
-                                        ObjectNotificationFilter filter,
-                                        Object handback);
-
     /**
      * Closes the connection to the server
      */

@@ -21,7 +21,6 @@ import java.util.Date;
  *
  * date:  Dec 23, 2004
  * @author	Vandana Taneja
- * @author Rakesh Kalra
  */
 public class DataTypeTest implements DataTypeTestMBean {
 
@@ -34,14 +33,12 @@ public class DataTypeTest implements DataTypeTestMBean {
     private Boolean bo=new Boolean(true);
     private Byte b=new Byte((byte)1);
     private Date dt=new Date();
-    private String[] strArray = new String[]{"abc", "xyz", "efg"};
-    private int[] intArray = new int[]{1,2,3,4};
 
     public Integer getInteger(){
         return i;
     }
 
-    public void setInteger(Integer i){
+    public void setInteger(Integer ii){
         this.i = i;
     }
 
@@ -49,7 +46,7 @@ public class DataTypeTest implements DataTypeTestMBean {
         return s;
     }
 
-    public void setShort(Short s){
+    public void setShort(Short ss){
         this.s = s;
     }
 
@@ -108,27 +105,4 @@ public class DataTypeTest implements DataTypeTestMBean {
         this.dt = dt;
     }
 
-    public String[] getStringArray(){
-        return strArray;
-    }
-
-    public void setStringArray(String[] strArray){
-        this.strArray = strArray;
-    }
-
-    public String[] stringArrayOperation(){
-        return strArray;
-    }
-
-    public int[] getIntArray(){
-        return intArray;
-    }
-
-    public void setIntArray(int[] intArray){
-        this.intArray = intArray;
-    }
-
-    public int[] intArrayOperation(){
-        return intArray;
-    }
 }

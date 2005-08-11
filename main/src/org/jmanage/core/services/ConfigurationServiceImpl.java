@@ -15,7 +15,10 @@
  */
 package org.jmanage.core.services;
 
-import org.jmanage.core.config.*;
+import org.jmanage.core.config.ApplicationConfig;
+import org.jmanage.core.config.ApplicationConfigFactory;
+import org.jmanage.core.config.ApplicationConfigManager;
+import org.jmanage.core.config.MBeanConfig;
 import org.jmanage.core.data.ApplicationConfigData;
 import org.jmanage.core.data.MBeanData;
 import org.jmanage.core.util.UserActivityLogger;
@@ -38,7 +41,6 @@ public class ConfigurationServiceImpl implements ConfigurationService {
                                                 ApplicationConfigData data){
 
         AccessController.checkAccess(context, ACLConstants.ACL_ADD_APPLICATIONS);
-        ApplicationConfigManager.checkAppNameAlreadyPresent(data.getName());
         /* do the operation */
         String appId = ApplicationConfig.getNextApplicationId();
         Integer port = data.getPort();
@@ -103,12 +105,5 @@ public class ConfigurationServiceImpl implements ConfigurationService {
                     mbeanConfig.getName()));
         }
         return mbeanDataList;
-    }
-
-    public GraphConfig addGraph(ServiceContext context,GraphConfig graphConfig){
-        ApplicationConfig appConfig = context.getApplicationConfig();
-        appConfig.addGraph(graphConfig);
-        ApplicationConfigManager.updateApplication(appConfig);
-        return graphConfig;
     }
 }

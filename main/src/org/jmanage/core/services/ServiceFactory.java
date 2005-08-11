@@ -93,10 +93,6 @@ public class ServiceFactory {
         return (MBeanService)getService(MBeanService.class);
     }
 
-    public static AlertService getAlertService() {
-        return (AlertService)getService(AlertService.class);
-    }
-
     private static Object createService(Class serviceClass){
         final String implClassName = serviceClass.getName() + "Impl";
         try {

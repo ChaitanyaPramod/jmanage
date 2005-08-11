@@ -30,6 +30,9 @@ public interface ConfigConstants {
     /* booted config file */
     public String BOOTED_CONFIG_FILE_NAME = DEFAULT_CONFIG_FILE_NAME + ".booted";
 
+    public String JMANAGE_PROPERTY_FILE = CoreUtils.getConfigDir() +
+            "/jmanage.properties";
+
     public String APPLICATION_CONFIG = "application-config";
     public String APPLICATIONS = "applications";
     public String APPLICATION_CLUSTER = "application-cluster";
@@ -50,28 +53,4 @@ public interface ConfigConstants {
     public String MBEAN = "mbean";
     public String MBEAN_NAME = "name";
     public String MBEAN_OBJECT_NAME = "object-name";
-
-    public String ALERTS="alerts";
-    public String ALERT="alert";
-    public String ALERT_ID="id";
-    public String ALERT_NAME="name";
-    public String ALERT_DELIVERY = "delivery";
-    public String ALERT_DELIVERY_TYPE="type";
-    public String ALERT_EMAIL_ADDRESS="emailAddress";
-    public String ALERT_SUBJECT="subject";
-    public String ALERT_SOURCE = "source";
-    public String ALERT_SOURCE_TYPE = "type";
-    public String ALERT_SOURCE_MBEAN = "mbean";
-    public String ALERT_SOURCE_NOTIFICATION_TYPE = "notificationType";
-
-    public String GRAPHS = "graphs";
-    public String GRAPH = "graph";
-    public String GRAPH_ID = "id";
-    public String GRAPH_NAME = "name";
-    public String GRAPH_POLLING_INTERVAL = "pollingInterval";
-    public String GRAPH_ATTRIBUTE = "attribute";
-    public String GRAPH_ATTRIBUTE_MBEAN = "mbean";
-    public String GRAPH_ATTRIBUTE_NAME = "attribute";
-    public String GRAPH_ATTRIBUTE_DISPLAY_NAME = "displayName";
-
 }

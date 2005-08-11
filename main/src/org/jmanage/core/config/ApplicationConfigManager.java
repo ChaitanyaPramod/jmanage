@@ -15,9 +15,6 @@
  */
 package org.jmanage.core.config;
 
-import org.jmanage.core.services.ServiceException;
-import org.jmanage.core.util.ErrorCodes;
-
 import java.util.*;
 import java.io.File;
 
@@ -142,45 +139,5 @@ public class ApplicationConfigManager{
     private static void saveConfig(){
         ConfigWriter writer = ConfigWriter.getInstance();
         writer.write(applicationConfigs);
-    }
-
-    public static List getAllApplications(){
-        Iterator appItr = applicationConfigs.iterator();
-        List applications = new LinkedList();
-        while(appItr.hasNext()){
-            ApplicationConfig appConfig = (ApplicationConfig)appItr.next();
-            applications.add(appConfig);
-            if(appConfig.isCluster()){
-                applications.addAll(appConfig.getApplications());
-            }
-        }
-        return applications;
-    }
-
-    public static List getAllAlerts() {
-        Iterator appItr = applicationConfigs.iterator();
-        List alerts = new LinkedList();
-        while(appItr.hasNext()){
-            ApplicationConfig appConfig = (ApplicationConfig)appItr.next();
-            alerts.addAll(appConfig.getAlerts());
-            if(appConfig.isCluster()){
-                for(Iterator it=appConfig.getApplications().iterator();
-                    it.hasNext();){
-                    ApplicationConfig childAppConfig =
-                            (ApplicationConfig)it.next();
-                    alerts.addAll(childAppConfig.getAlerts());
-                }
-            }
-        }
-        return alerts;
-    }
-
-    public static void checkAppNameAlreadyPresent(String appName) {
-        for(Iterator it=getApplications().iterator(); it.hasNext(); ){
-            ApplicationConfig appConfig = (ApplicationConfig)it.next();
-            if((appConfig.getName().toUpperCase()).equals(appName.toUpperCase())) {
-                throw new ServiceException(ErrorCodes.APPLICATION_NAME_ALREADY_EXISTS, appName);
-            }
-        }
     }
 }
