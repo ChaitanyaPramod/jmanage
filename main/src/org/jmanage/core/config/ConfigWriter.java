@@ -199,7 +199,7 @@ public class ConfigWriter {
             source.setAttribute(ConfigConstants.ALERT_SOURCE_TYPE,
                     sourceConfig.getSourceType());
             source.setAttribute(ConfigConstants.ALERT_SOURCE_MBEAN,
-                    sourceConfig.getObjectName().getCanonicalName());
+                    sourceConfig.getObjectName());
             source.setAttribute(ConfigConstants.ALERT_SOURCE_NOTIFICATION_TYPE,
                     sourceConfig.getNotificationType());
             alertElement.addContent(source);
