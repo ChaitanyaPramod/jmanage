@@ -12,8 +12,6 @@
  */
 package org.jmanage.core.config;
 
-import org.jmanage.core.management.ObjectName;
-
 /**
  * Specifies a source of an alert. Alert source could be one of:
  * <li> MBean Notification
