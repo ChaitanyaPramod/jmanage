@@ -22,8 +22,8 @@ import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.MBeanConfig;
 import org.jmanage.core.management.*;
 import org.jmanage.core.util.Loggers;
-import org.jmanage.core.util.CoreUtils;
 import org.jmanage.core.auth.AccessController;
+import org.jmanage.core.services.ServiceUtils;
 import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.forms.MBeanConfigForm;
 import org.jmanage.webui.util.Forwards;
@@ -107,7 +107,7 @@ public class ShowMBeanAction extends BaseAction {
                 /* add null, indicating that the server is down */
                 appConfigToAttrListMap.put(childAppConfig, null);
             } finally{
-                CoreUtils.close(serverConnection);
+                ServiceUtils.close(serverConnection);
             }
         }
         /* if objInfo is null, that means that we couldn't get connection to
