@@ -58,7 +58,7 @@ public class NotificationAlertSource extends AlertSource {
         };
         ObjectNotificationFilterSupport filter = new ObjectNotificationFilterSupport();
         filter.enableType(sourceConfig.getNotificationType());
-        connection.addNotificationListener(sourceConfig.getObjectName(),
+        connection.addNotificationListener(new ObjectName(sourceConfig.getObjectName()),
                 listener, filter, null);
     }
 

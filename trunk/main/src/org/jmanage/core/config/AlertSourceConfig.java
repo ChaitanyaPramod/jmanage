@@ -31,7 +31,7 @@ public class AlertSourceConfig {
 
     private String sourceType;
     private ApplicationConfig appConfig;
-    private ObjectName objectName;
+    private String objectName;
 
     /* for notification */
     private String notificationType;
@@ -46,7 +46,7 @@ public class AlertSourceConfig {
 
     public AlertSourceConfig(String objectName, String notificationType){
         this.sourceType = SOURCE_TYPE_NOTIFICATION;
-        this.objectName = new ObjectName(objectName);
+        this.objectName = objectName;
         this.notificationType = notificationType;
     }
 
@@ -74,7 +74,7 @@ public class AlertSourceConfig {
         return sourceType;
     }
 
-    public ObjectName getObjectName() {
+    public String getObjectName() {
         return objectName;
     }
 
