@@ -24,7 +24,8 @@
                  org.jmanage.core.util.ACLConstants,
                  org.jmanage.core.auth.AccessController,
                  org.jmanage.webui.util.Utils,
-                 java.net.URLEncoder"%>
+                 java.net.URLEncoder,
+                 org.jmanage.util.StringUtils"%>
 
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 <%@ taglib uri="/WEB-INF/tags/jstl/c.tld" prefix="c"%>
@@ -162,7 +163,7 @@
             String attrValue = null;
             if(objAttribute.getStatus() == ObjectAttribute.STATUS_OK){
                 if(objAttribute.getValue() != null){
-                    attrValue = MBeanUtils.toString(objAttribute.getValue());
+                    attrValue = StringUtils.toString(objAttribute.getValue(), "<br/>");
                 }
             }else if(objAttribute.getStatus() == ObjectAttribute.STATUS_NOT_FOUND){
                 attrValue = "&lt;not found&gt;";
