@@ -15,7 +15,8 @@
 --%>
 <!-- /app/mbeanOperationResult.jsp -->
 
-<%@ page import="org.jmanage.core.data.OperationResultData"%>
+<%@ page import="org.jmanage.core.data.OperationResultData,
+                 org.jmanage.util.StringUtils"%>
 <%@ taglib uri="/WEB-INF/tags/jstl/c.tld" prefix="c"%>
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 
@@ -47,7 +48,7 @@
             <td valign="top" class="plaintext">
                 <%=(operationResult.getResult() == OperationResultData.RESULT_OK)?"OK":"Error"%>
             </td>
-            <td valign="top" class="plaintext"><%=operationResult.getOutput()%></td>
+            <td valign="top" class="plaintext"><%=StringUtils.toString(operationResult.getOutput(), "<br/>")%></td>
         </tr>
     <%
     }

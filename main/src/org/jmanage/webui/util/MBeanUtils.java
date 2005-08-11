@@ -136,27 +136,4 @@ public class MBeanUtils {
 
         }
     }
-
-    public static String toString(Object obj){
-        if(obj == null){
-            return null;
-        }
-        if(obj.getClass().isArray()){
-            return arrayToString(obj);
-        }
-        return obj.toString();
-    }
-
-    private static String arrayToString(Object array){
-        assert array.getClass().isArray();
-        int length = Array.getLength(array);
-        StringBuffer buff = new StringBuffer();
-        for(int i=0; i<length; i++){
-            if(i>0){
-                buff.append("<br/>");
-            }
-            buff.append(Array.get(array, i));
-        }
-        return buff.toString();
-    }
 }

@@ -238,7 +238,7 @@ public class MBeanServiceImpl implements MBeanService {
             final Object result = serverConnection.invoke(objectName, operationName,
                             typedParams, signature);
 
-            resultData.setOutput(result != null?result.toString():"null");
+            resultData.setOutput(result);
             UserActivityLogger.getInstance().logActivity(
                     context.getUser().getUsername(),
                     "Performed "+operationName+" on "+objectName.getCanonicalName()

@@ -24,6 +24,9 @@ import org.jmanage.core.services.ServiceFactory;
 import org.jmanage.core.services.ServiceContext;
 import org.jmanage.core.data.OperationResultData;
 import org.jmanage.core.util.Expression;
+import org.jmanage.util.StringUtils;
+
+import java.io.File;
 
 /**
  *
@@ -75,7 +78,10 @@ public class ExecuteHandler implements CommandHandler {
                 Out.println("Operation Successful. ");
                 if(resultData[i].getOutput() != null){
                     Out.println("Result: ");
-                    Out.println(resultData[i].getOutput());
+                    String strOutput =
+                            StringUtils.toString(resultData[i].getOutput(),
+                                    System.getProperty("line.separator"));
+                    Out.println(strOutput);
                 }else{
                     Out.println();
                 }
