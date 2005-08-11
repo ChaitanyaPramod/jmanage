@@ -26,7 +26,7 @@ public class OperationResultData implements java.io.Serializable {
     public static final int RESULT_ERROR =1;
 
     private String appName;
-    private String output;
+    private Object output;
     private int result = RESULT_OK;
     private String errorString;
 
@@ -38,11 +38,11 @@ public class OperationResultData implements java.io.Serializable {
         return appName;
     }
 
-    public String getOutput() {
+    public Object getOutput() {
         return output;
     }
 
-    public void setOutput(String output) {
+    public void setOutput(Object output) {
         this.output = output;
     }
 

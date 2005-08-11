@@ -23,6 +23,7 @@ import org.jmanage.core.management.ServerConnector;
 import org.jmanage.core.management.ObjectName;
 import org.jmanage.core.management.MalformedObjectNameException;
 import org.jmanage.core.services.ServiceContext;
+import org.jmanage.core.services.ServiceUtils;
 import org.jmanage.core.util.Loggers;
 import org.jmanage.core.util.CoreUtils;
 
@@ -128,6 +129,6 @@ public class WebContext {
     }
 
     public void releaseResources() {
-        CoreUtils.close(serverConnection);
+        ServiceUtils.close(serverConnection);
     }
 }

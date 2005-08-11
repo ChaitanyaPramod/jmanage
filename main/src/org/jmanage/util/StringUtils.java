@@ -16,6 +16,7 @@
 package org.jmanage.util;
 
 import java.util.*;
+import java.lang.reflect.Array;
 
 /**
  *
@@ -77,5 +78,34 @@ public class StringUtils {
             list.add(tokenizer.nextToken().trim());
         }
         return list;
+    }
+
+    /**
+     *
+     * @param obj
+     * @param listDelim delimiter to be used for lists, arrays, etc.
+     * @return
+     */
+    public static String toString(Object obj, String listDelim){
+        if(obj == null){
+            return "null";
+        }
+        if(obj.getClass().isArray()){
+            return arrayToString(obj, listDelim);
+        }
+        return obj.toString();
+    }
+
+    private static String arrayToString(Object array, String listDelim){
+        assert array.getClass().isArray();
+        int length = Array.getLength(array);
+        StringBuffer buff = new StringBuffer();
+        for(int i=0; i<length; i++){
+            if(i>0){
+                buff.append(listDelim);
+            }
+            buff.append(Array.get(array, i));
+        }
+        return buff.toString();
     }
 }

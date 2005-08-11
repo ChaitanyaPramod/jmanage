@@ -27,4 +27,8 @@ public interface RequestParams {
     public static final String REFRESH_APPS = "refreshApps";
     public static final String USER_NAME = "username";
     public static final String ALERT_ID = "alertId";
+
+    // following params are used for login of user on any URL
+    public static final String JMANAGE_USERNAME = "jmanage.username";
+    public static final String JMANAGE_PASSWORD = "jmanage.password";
 }
