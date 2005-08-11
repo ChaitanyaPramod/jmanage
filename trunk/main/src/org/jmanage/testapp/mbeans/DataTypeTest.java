@@ -116,11 +116,19 @@ public class DataTypeTest implements DataTypeTestMBean {
         this.strArray = strArray;
     }
 
+    public String[] stringArrayOperation(){
+        return strArray;
+    }
+
     public int[] getIntArray(){
         return intArray;
     }
 
     public void setIntArray(int[] intArray){
         this.intArray = intArray;
+    }
+
+    public int[] intArrayOperation(){
+        return intArray;
     }
 }
