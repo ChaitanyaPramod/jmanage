@@ -15,7 +15,7 @@
  */
 package org.jmanage.core.remote.client;
 
-import org.jmanage.core.config.JManageProperties;
+import org.jmanage.core.util.JManageProperties;
 import org.jmanage.core.remote.InvocationResult;
 import org.jmanage.core.remote.RemoteInvocation;
 import org.jmanage.core.services.ServiceException;

@@ -26,6 +26,7 @@ import org.jmanage.core.util.Loggers;
 
 import java.util.Iterator;
 import java.util.logging.Logger;
+import java.io.IOException;
 
 /**
  *
@@ -78,5 +79,15 @@ public class ServiceUtils {
             mbeanName = mbeanConfig.getObjectName();
         }
         return mbeanName;
+    }
+
+    public static void close(ServerConnection connection){
+        if(connection != null){
+            try {
+                connection.close();
+            } catch (IOException e) {
+                logger.info("Error closing connection: " + e.getMessage());
+            }
+        }
     }
 }

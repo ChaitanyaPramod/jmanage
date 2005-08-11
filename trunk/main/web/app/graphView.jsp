@@ -1,7 +1,7 @@
 <!--/app/graphView.jsp-->
 <%@ page import="org.jmanage.webui.util.Utils,
                  org.jmanage.core.config.GraphConfig,
-                 org.jmanage.core.config.JManageProperties"%>
+                 org.jmanage.core.util.JManageProperties"%>
 <%
     GraphConfig graphConfig = (GraphConfig)request.getAttribute("graphConfig");
 %>
