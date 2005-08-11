@@ -19,7 +19,7 @@ import org.jmanage.core.auth.LoginCallbackHandler;
 import org.jmanage.core.auth.AuthConstants;
 import org.jmanage.core.auth.User;
 import org.jmanage.core.auth.UserManager;
-import org.jmanage.core.config.JManageProperties;
+import org.jmanage.core.util.JManageProperties;
 import org.jmanage.core.util.ErrorCodes;
 import org.jmanage.core.util.UserActivityLogger;
 

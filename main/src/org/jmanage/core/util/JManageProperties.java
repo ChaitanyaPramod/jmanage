@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jmanage.core.config;
+package org.jmanage.core.util;
 
 import org.jmanage.core.util.Loggers;
 import org.jmanage.core.util.CoreUtils;
@@ -35,6 +35,9 @@ public class JManageProperties extends Properties{
 
     private static final Logger logger =
             Loggers.getLogger(JManageProperties.class);
+
+    private String JMANAGE_PROPERTY_FILE = CoreUtils.getConfigDir() +
+            "/jmanage.properties";
 
     /* see jmanage.properties for documentation of these properties */
     public static String LOGIN_MAX_ATTEMPTS = "login.maxAttempts";
@@ -70,11 +73,11 @@ public class JManageProperties extends Properties{
       super();
       try{
         InputStream property =
-                new FileInputStream(ConfigConstants.JMANAGE_PROPERTY_FILE);
+                new FileInputStream(JMANAGE_PROPERTY_FILE);
         load(property);
       }catch(Exception e){
           logger.log(Level.SEVERE, "Error reading " +
-                  ConfigConstants.JMANAGE_PROPERTY_FILE, e);
+                  JMANAGE_PROPERTY_FILE, e);
           CoreUtils.exitSystem();
       }
     }
@@ -135,7 +138,7 @@ public class JManageProperties extends Properties{
                 Integer.toString(maxLoginAttempt));
         try{
            FileOutputStream fileOutputStream =
-                 new FileOutputStream(ConfigConstants.JMANAGE_PROPERTY_FILE);
+                 new FileOutputStream(JMANAGE_PROPERTY_FILE);
             this.store(fileOutputStream, null);
         } catch( Exception e){
             throw new RuntimeException(e);

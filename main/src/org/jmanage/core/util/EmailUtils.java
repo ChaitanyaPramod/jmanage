@@ -12,7 +12,6 @@
  */
 package org.jmanage.core.util;
 
-import org.jmanage.core.config.JManageProperties;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Message;
