@@ -37,7 +37,9 @@ public class RemoveAlertAction extends BaseAction{
 
     public ActionForward execute(WebContext context, ActionMapping mapping,
                                  ActionForm form, HttpServletRequest request,
-                                 HttpServletResponse response){
+                                 HttpServletResponse response)
+        throws Exception {
+
         ApplicationConfig appConfig = context.getApplicationConfig();
         if(appConfig.removeAlert(
                 request.getParameter(RequestParams.ALERT_ID))!=null){

@@ -47,7 +47,6 @@ public class EditApplicationAction extends BaseAction {
         AccessController.checkAccess(context.getServiceContext(),
                 ACL_EDIT_APPLICATIONS);
         ApplicationForm appForm = (ApplicationForm)actionForm;
-        ApplicationConfigManager.checkAppNameAlreadyPresent(appForm.getName());
         ApplicationConfig config =
                 ApplicationConfigManager.getApplicationConfig(
                         appForm.getApplicationId());

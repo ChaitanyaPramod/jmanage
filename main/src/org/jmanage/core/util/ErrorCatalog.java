@@ -46,6 +46,10 @@ public class ErrorCatalog {
         return getMessage(errorCode, null);
     }
 
+    public static String getMessage(String errorCode, Object value0){
+        return getMessage(errorCode, new Object[]{value0});
+    }
+
     public static String getMessage(String errorCode, Object[] values){
         String message = errorMap.getProperty(errorCode,
                 "ErrorCode=" + errorCode);
