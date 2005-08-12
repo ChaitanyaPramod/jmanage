@@ -16,8 +16,8 @@
 package org.jmanage.core.management;
 
 import org.jmanage.core.config.ApplicationConfig;
-import org.jmanage.core.module.ModuleConfig;
-import org.jmanage.core.module.ModuleRegistry;
+import org.jmanage.core.config.ModuleConfig;
+import org.jmanage.core.config.ModuleRegistry;
 import org.jmanage.core.util.CoreUtils;
 import org.jmanage.core.util.Loggers;
 

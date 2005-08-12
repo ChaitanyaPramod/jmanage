@@ -16,9 +16,6 @@
 package org.jmanage.core.config;
 
 
-import org.jmanage.core.module.ModuleRegistry;
-import org.jmanage.core.module.ModuleConfig;
-
 import java.util.*;
 
 /**

@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jmanage.core.module;
+package org.jmanage.core.config;
 
 import org.jmanage.core.config.ApplicationType;
 import org.jmanage.core.config.MetaApplicationConfig;
-import org.jmanage.core.module.ModuleConfig;
+import org.jmanage.core.config.ModuleConfig;
 
 import java.util.Map;
 import java.util.HashMap;
