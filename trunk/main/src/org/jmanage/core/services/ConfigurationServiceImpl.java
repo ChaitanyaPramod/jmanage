@@ -21,6 +21,7 @@ import org.jmanage.core.data.MBeanData;
 import org.jmanage.core.util.UserActivityLogger;
 import org.jmanage.core.util.CoreUtils;
 import org.jmanage.core.util.ACLConstants;
+import org.jmanage.core.util.ErrorCodes;
 import org.jmanage.core.auth.AccessController;
 
 import java.util.ArrayList;
@@ -38,7 +39,6 @@ public class ConfigurationServiceImpl implements ConfigurationService {
                                                 ApplicationConfigData data){
 
         AccessController.checkAccess(context, ACLConstants.ACL_ADD_APPLICATIONS);
-        ApplicationConfigManager.checkAppNameAlreadyPresent(data.getName());
         /* do the operation */
         String appId = ApplicationConfig.getNextApplicationId();
         Integer port = data.getPort();
@@ -52,7 +52,13 @@ public class ConfigurationServiceImpl implements ConfigurationService {
                         data.getPassword(),
                         null);
 
-        ApplicationConfigManager.addApplication(config);
+        try {
+            ApplicationConfigManager.addApplication(config);
+        } catch (ApplicationConfigManager.DuplicateApplicationNameException e) {
+            throw new ServiceException(ErrorCodes.APPLICATION_NAME_ALREADY_EXISTS,
+                    e.getAppName());
+        }
+
         data.setApplicationId(appId);
 
         /* log the operation */
@@ -108,7 +114,12 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     public GraphConfig addGraph(ServiceContext context,GraphConfig graphConfig){
         ApplicationConfig appConfig = context.getApplicationConfig();
         appConfig.addGraph(graphConfig);
-        ApplicationConfigManager.updateApplication(appConfig);
+        try {
+            ApplicationConfigManager.updateApplication(appConfig);
+        } catch (ApplicationConfigManager.DuplicateApplicationNameException e) {
+            // unexpected exception
+            throw new RuntimeException(e);
+        }
         return graphConfig;
     }
 }

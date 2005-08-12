@@ -15,9 +15,6 @@
  */
 package org.jmanage.core.config;
 
-import org.jmanage.core.services.ServiceException;
-import org.jmanage.core.util.ErrorCodes;
-
 import java.util.*;
 import java.io.File;
 
@@ -28,13 +25,14 @@ import java.io.File;
  */
 public class ApplicationConfigManager{
 
-    private static List applicationConfigs = null;
+    private static List applicationConfigs =
+            Collections.synchronizedList(new LinkedList());
 
     private static final ConfigReader configReader = ConfigReader.getInstance();
 
     static{
         /* read the configuration */
-        applicationConfigs = configReader.read();
+        applicationConfigs.addAll(configReader.read());
         /* create a backup of configuration file */
         new File(ConfigConstants.DEFAULT_CONFIG_FILE_NAME).renameTo(
                 new File(ConfigConstants.BOOTED_CONFIG_FILE_NAME));
@@ -89,28 +87,44 @@ public class ApplicationConfigManager{
         return applicationConfigs;
     }
 
-    public static void addApplication(ApplicationConfig config){
-        applicationConfigs.add(config);
-        saveConfig();
+    private static final Object writeLock = new Object();
+
+    public static void addApplication(ApplicationConfig config)
+        throws DuplicateApplicationNameException {
+
+        synchronized(writeLock){
+            // validate the application name
+            validateAppName(config.getName());
+            applicationConfigs.add(config);
+            saveConfig();
+        }
     }
 
-    public static void updateApplication(ApplicationConfig config) {
+    public static void updateApplication(ApplicationConfig config)
+        throws DuplicateApplicationNameException {
+
         assert config != null: "application config is null";
-        int index = applicationConfigs.indexOf(config);
-        if(index != -1){
-            applicationConfigs.remove(index);
-            applicationConfigs.add(index, config);
-        }else{
-            /* its part of a cluster */
-            assert config.isCluster() == false;
-            ApplicationConfig clusterConfig = config.getClusterConfig();
-            assert clusterConfig != null;
-            index = clusterConfig.getApplications().indexOf(config);
-            assert index != -1: "application not found in cluster";
-            clusterConfig.getApplications().remove(index);
-            clusterConfig.getApplications().add(index, config);
+
+        synchronized(writeLock){
+            // validate the application name
+            validateAppName(config.getName());
+
+            int index = applicationConfigs.indexOf(config);
+            if(index != -1){
+                applicationConfigs.remove(index);
+                applicationConfigs.add(index, config);
+            }else{
+                /* its part of a cluster */
+                assert config.isCluster() == false;
+                ApplicationConfig clusterConfig = config.getClusterConfig();
+                assert clusterConfig != null;
+                index = clusterConfig.getApplications().indexOf(config);
+                assert index != -1: "application not found in cluster";
+                clusterConfig.getApplications().remove(index);
+                clusterConfig.getApplications().add(index, config);
+            }
+            saveConfig();
         }
-        saveConfig();
     }
 
     public static ApplicationConfig deleteApplication(String applicationId) {
@@ -175,12 +189,27 @@ public class ApplicationConfigManager{
         return alerts;
     }
 
-    public static void checkAppNameAlreadyPresent(String appName) {
+    private static void validateAppName(String appName)
+        throws DuplicateApplicationNameException {
         for(Iterator it=getApplications().iterator(); it.hasNext(); ){
             ApplicationConfig appConfig = (ApplicationConfig)it.next();
             if((appConfig.getName().toUpperCase()).equals(appName.toUpperCase())) {
-                throw new ServiceException(ErrorCodes.APPLICATION_NAME_ALREADY_EXISTS, appName);
+                throw new DuplicateApplicationNameException(appName);
             }
+        }
+    }
+
+    public static class DuplicateApplicationNameException extends Exception{
+        // app name that is duplicate
+        private final String appName;
+
+        public DuplicateApplicationNameException(String appName){
+            super("Application name: " + appName);
+            this.appName = appName;
+        }
+
+        public String getAppName(){
+            return appName;
         }
     }
 }

@@ -22,7 +22,9 @@ import org.apache.struts.Globals;
 import org.jmanage.core.services.ServiceException;
 import org.jmanage.core.util.ErrorCodes;
 import org.jmanage.core.util.Loggers;
+import org.jmanage.core.util.ErrorCatalog;
 import org.jmanage.core.management.ConnectionFailedException;
+import org.jmanage.core.config.ApplicationConfigManager;
 import org.jmanage.webui.util.Forwards;
 
 import javax.servlet.http.HttpServletRequest;
@@ -68,6 +70,15 @@ public class JManageExceptionHandler extends ExceptionHandler{
         }else if(exception instanceof ConnectionFailedException){
             //TODO: We need not handle this condition once all the code throwing this exception gets moved to service layer.
             return mapping.findForward(Forwards.CONNECTION_FAILED);
+        }else if(exception instanceof ApplicationConfigManager.DuplicateApplicationNameException){
+            //TODO: We need not handle this exception once this exception
+            // is handled in Service layer
+            ApplicationConfigManager.DuplicateApplicationNameException ex  =
+                    (ApplicationConfigManager.DuplicateApplicationNameException)exception;
+            errors.add(ActionErrors.GLOBAL_ERROR,
+                    new ActionError(ErrorCodes.WEB_UI_ERROR_KEY,
+                            ErrorCatalog.getMessage(ErrorCodes.APPLICATION_NAME_ALREADY_EXISTS,
+                                    ex.getAppName())));
         }else{
             logger.log(Level.SEVERE, "unknown exception", exception);
             errors.add(ActionErrors.GLOBAL_ERROR,
