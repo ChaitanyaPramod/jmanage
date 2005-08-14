@@ -209,6 +209,17 @@
         </fileset>
     </path>
 
+    <path id="module.snmp.classpath">
+        <fileset dir="${basedir}/lib">
+            <include name="*.jar"/>
+        </fileset>
+        <pathelement path="${build.home}/classes" />
+        <fileset dir="${basedir}/ext">
+            <include name="snmp.jar"/>
+            <include name="jmxri-1_2_1.jar"/>
+        </fileset>
+    </path>
+
     <!-- ================= All Target ====================================== -->
 
     <!--
@@ -333,6 +344,7 @@
         <antcall target="build-jsr160-module" />
         <antcall target="build-jboss-module" />
         <antcall target="build-websphere-module" />
+        <antcall target="build-snmp-module" />
     </target>
 
     <!-- target for building weblogic module -->
@@ -418,6 +430,18 @@
             <fileset file="${basedir}/ext/websphere/wsprofile.jar"/>
             <fileset file="${basedir}/ext/websphere/wssec.jar"/>
             <fileset file="${basedir}/ext/websphere/wssoap.jar"/>
+        </copy>
+    </target>
+
+    <!-- target for building snmp module -->
+    <target name="build-snmp-module" depends="compile"
+        description="Builds jboss module">
+        <antcall target="build-module">
+            <param name="module.name" value="snmp"/>
+        </antcall>
+        <copy todir="${build.home}/modules/snmp">
+            <fileset file="${basedir}/ext/snmp.jar"/>
+            <fileset file="${basedir}/ext/jmxri-1_2_1.jar"/>
         </copy>
     </target>
 

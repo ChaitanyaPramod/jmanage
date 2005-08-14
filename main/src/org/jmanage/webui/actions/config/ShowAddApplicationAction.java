@@ -23,6 +23,7 @@ import org.jmanage.webui.forms.ApplicationForm;
 import org.jmanage.core.config.ModuleRegistry;
 import org.jmanage.core.config.ModuleConfig;
 import org.jmanage.core.auth.AccessController;
+import org.jmanage.core.config.MetaApplicationConfig;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
@@ -59,8 +60,10 @@ public class ShowAddApplicationAction extends BaseAction {
                 ACL_ADD_APPLICATIONS);
         ApplicationForm appForm = (ApplicationForm)actionForm;
         ModuleConfig moduleConfig = ModuleRegistry.getModule(appForm.getType());
-        request.setAttribute(RequestAttributes.META_APP_CONFIG,
-                moduleConfig.getMetaApplicationConfig());
+        MetaApplicationConfig metaAppConfig = moduleConfig.getMetaApplicationConfig();
+        request.setAttribute(RequestAttributes.META_APP_CONFIG, metaAppConfig);
+        Integer port = metaAppConfig.getAppConfig().getPort();
+        appForm.setPort(port == null ? "" : String.valueOf(port.intValue()));
         /*set current page for navigation*/
         request.setAttribute(RequestAttributes.NAV_CURRENT_PAGE, "Add Application");
         return mapping.findForward(Forwards.SUCCESS);

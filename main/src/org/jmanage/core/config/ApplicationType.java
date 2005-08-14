@@ -26,4 +26,5 @@ public interface ApplicationType {
     String TOMCAT = "tomcat";
     String JBOSS = "jboss";
     String WEBSPHERE = "websphere";
+    String SNMP = "snmp";
 }

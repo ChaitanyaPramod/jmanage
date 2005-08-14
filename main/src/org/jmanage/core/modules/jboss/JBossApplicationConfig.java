@@ -29,6 +29,11 @@ public class JBossApplicationConfig extends ApplicationConfig {
     private static final Logger logger =
             Loggers.getLogger(JBossApplicationConfig.class);
 
+    public JBossApplicationConfig() {
+        super();
+        setPort(new Integer(1099));
+    }
+
     public void setURL(String url){
         /* ignore the url */
         logger.fine("Ignoring url=" + url);
