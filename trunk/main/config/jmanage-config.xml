@@ -30,6 +30,11 @@
             name="WebSphere 5x &amp; 6"
             configClass="org.jmanage.core.modules.websphere.WebSphereApplicationConfig"
             connectionFactory="org.jmanage.core.modules.websphere.WebSphereServerConnectionFactory"/>
+        <module
+            id="snmp"
+            name="SNMP"
+            configClass="org.jmanage.core.modules.snmp.SNMPApplicationConfig"
+            connectionFactory="org.jmanage.core.modules.snmp.SNMPAgentConnectionFactory"/>
     </application-modules>
 
 </jmanage-config>

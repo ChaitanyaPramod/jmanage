@@ -48,6 +48,23 @@ public class ModuleConfig {
         this.type = type;
         this.name = name;
         this.metaConfig = metaConfig;
+
+        final ClassLoader classLoader = getClassLoader();
+        assert classLoader != null;
+        final ClassLoader contextClassLoader =
+                Thread.currentThread().getContextClassLoader();
+        /* temporarily change the thread context classloader */
+        Thread.currentThread().setContextClassLoader(classLoader);
+        try{
+            ApplicationConfig appConfig = (ApplicationConfig)
+                    Class.forName(this.metaConfig.getApplicationConfigClassName(),
+                            true, classLoader).newInstance();
+            this.metaConfig.setAppConfig(appConfig);
+        }catch(Exception e){
+            throw new RuntimeException(e);
+        }finally{
+            Thread.currentThread().setContextClassLoader(contextClassLoader);
+        }
         this.connectionFactory = connectionFactory;
     }
 

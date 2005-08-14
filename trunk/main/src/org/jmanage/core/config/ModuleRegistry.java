@@ -83,6 +83,14 @@ public class ModuleRegistry {
                         "WebSphere",
                         metaConfig,
                         "org.jmanage.core.modules.websphere.WebSphereServerConnectionFactory"));
+        /*  SNMP module    */
+        metaConfig = new MetaApplicationConfig(true, true, false, false, false,
+                "org.jmanage.core.modules.snmp.SNMPApplicationConfig");
+        modules.put(ApplicationType.SNMP,
+                new ModuleConfig(ApplicationType.SNMP,
+                        "SNMP",
+                        metaConfig,
+                        "org.jmanage.core.modules.snmp.SNMPAgentConnectionFactory"));
     }
 
     public static ModuleConfig getModule(String type){
