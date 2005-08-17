@@ -22,7 +22,7 @@
                  org.jmanage.core.config.ApplicationConfig,
                  java.util.*,
                  org.jmanage.core.util.ACLConstants,
-                 org.jmanage.core.auth.AccessController,
+                 org.jmanage.core.services.AccessController,
                  org.jmanage.webui.util.Utils,
                  java.net.URLEncoder,
                  org.jmanage.util.StringUtils"%>

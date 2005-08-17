@@ -23,7 +23,7 @@ import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.ApplicationConfigManager;
 import org.jmanage.core.config.MBeanConfig;
 import org.jmanage.core.util.UserActivityLogger;
-import org.jmanage.core.auth.AccessController;
+import org.jmanage.core.services.AccessController;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;

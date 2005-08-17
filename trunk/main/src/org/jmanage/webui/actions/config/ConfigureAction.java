@@ -20,7 +20,7 @@ import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.forms.ConfigureForm;
 import org.jmanage.core.util.JManageProperties;
-import org.jmanage.core.auth.AccessController;
+import org.jmanage.core.services.AccessController;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;

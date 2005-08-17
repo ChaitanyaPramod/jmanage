@@ -22,7 +22,7 @@ import org.jmanage.webui.util.RequestAttributes;
 import org.jmanage.webui.forms.ApplicationForm;
 import org.jmanage.core.config.ModuleRegistry;
 import org.jmanage.core.config.ModuleConfig;
-import org.jmanage.core.auth.AccessController;
+import org.jmanage.core.services.AccessController;
 import org.jmanage.core.config.MetaApplicationConfig;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;

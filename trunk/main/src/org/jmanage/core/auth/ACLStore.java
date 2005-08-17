@@ -85,6 +85,8 @@ public class ACLStore {
         String authorizedList = line.substring(index + 1);
         /* now seperate acl name from the context */
         index = acl.indexOf('@');
+        // todo: ACLContext should be made abstract and should be constructed
+        // todo:  based on the application that is using it.
         String aclName = null;
         String aclContext = null;
         if(index != -1){
