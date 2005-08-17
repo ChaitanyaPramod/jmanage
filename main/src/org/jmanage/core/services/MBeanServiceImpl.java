@@ -16,7 +16,6 @@
 package org.jmanage.core.services;
 
 import org.apache.commons.beanutils.ConvertUtils;
-import org.jmanage.core.auth.AccessController;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.MBeanConfig;
 import org.jmanage.core.data.AttributeListData;

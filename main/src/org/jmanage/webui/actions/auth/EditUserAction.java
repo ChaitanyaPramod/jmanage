@@ -22,7 +22,7 @@ import org.jmanage.webui.forms.UserForm;
 import org.jmanage.core.auth.UserManager;
 import org.jmanage.core.auth.User;
 import org.jmanage.core.auth.Role;
-import org.jmanage.core.auth.AccessController;
+import org.jmanage.core.services.AccessController;
 import org.jmanage.core.crypto.Crypto;
 import org.jmanage.core.util.UserActivityLogger;
 import org.apache.struts.action.ActionForward;

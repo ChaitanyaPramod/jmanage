@@ -22,7 +22,6 @@ import org.jmanage.core.util.UserActivityLogger;
 import org.jmanage.core.util.CoreUtils;
 import org.jmanage.core.util.ACLConstants;
 import org.jmanage.core.util.ErrorCodes;
-import org.jmanage.core.auth.AccessController;
 
 import java.util.ArrayList;
 import java.util.List;

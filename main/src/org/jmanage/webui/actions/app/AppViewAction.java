@@ -23,7 +23,7 @@ import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.ApplicationConfigManager;
-import org.jmanage.core.auth.AccessController;
+import org.jmanage.core.services.AccessController;
 import org.jmanage.core.util.ACLConstants;
 
 import javax.servlet.http.HttpServletResponse;

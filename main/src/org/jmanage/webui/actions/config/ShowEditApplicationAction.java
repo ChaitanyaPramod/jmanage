@@ -25,7 +25,7 @@ import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.MetaApplicationConfig;
 import org.jmanage.core.config.ModuleConfig;
 import org.jmanage.core.config.ModuleRegistry;
-import org.jmanage.core.auth.AccessController;
+import org.jmanage.core.services.AccessController;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;

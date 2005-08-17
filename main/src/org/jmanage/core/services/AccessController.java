@@ -13,9 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jmanage.core.auth;
+package org.jmanage.core.services;
 
 import org.jmanage.core.services.ServiceContext;
+import org.jmanage.core.auth.ACL;
+import org.jmanage.core.auth.ACLStore;
+import org.jmanage.core.auth.ACLContext;
+import org.jmanage.core.auth.UnAuthorizedAccessException;
 
 /**
  * TODO: it may make sense to move this to services package - rk

@@ -21,7 +21,7 @@ import org.jmanage.webui.util.RequestAttributes;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.util.RequestParams;
 import org.jmanage.webui.forms.AlertForm;
-import org.jmanage.core.auth.AccessController;
+import org.jmanage.core.services.AccessController;
 import org.jmanage.core.auth.RoleManager;
 import org.jmanage.core.config.AlertConfig;
 import org.jmanage.core.config.ApplicationConfig;
