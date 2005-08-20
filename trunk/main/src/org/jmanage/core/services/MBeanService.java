@@ -20,7 +20,6 @@ import org.jmanage.core.management.ObjectAttribute;
 import org.jmanage.core.data.OperationResultData;
 import org.jmanage.core.data.AttributeListData;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -94,11 +93,11 @@ public interface MBeanService {
      * cluster level.
      *
      * @param context
-     * @param request
+     * @param attributes
      * @throws ServiceException
      */
     public AttributeListData[] setAttributes(ServiceContext context,
-                                             HttpServletRequest request)
+                                             Map attributes)
             throws ServiceException;
 
     public Map queryMBeansWithNotifications(ServiceContext context)

@@ -34,7 +34,8 @@ import javax.servlet.http.HttpServletResponse;
 /**
  *
  * date:  Jun 21, 2004
- * @author	Rakesh Kalra, Shashank Bellary
+ * @author	Rakesh Kalra
+ * @author  Shashank Bellary
  */
 public class UpdateMBeanAttributesAction extends BaseAction {
 
@@ -61,7 +62,7 @@ public class UpdateMBeanAttributesAction extends BaseAction {
         MBeanService mbeanService = ServiceFactory.getMBeanService();
         AttributeListData[] attrListData =
                 mbeanService.setAttributes(Utils.getServiceContext(context),
-                        request);
+                        request.getParameterMap());
         StringBuffer erroneousApps = new StringBuffer();
         for(int i=0; i<attrListData.length; i++){
             if(attrListData[i].isError()){
