@@ -94,7 +94,7 @@ public class ApplicationConfigManager{
 
         synchronized(writeLock){
             // validate the application name
-            validateAppName(config.getName());
+            validateAppName(config.getName(), null);
             applicationConfigs.add(config);
             saveConfig();
         }
@@ -107,7 +107,7 @@ public class ApplicationConfigManager{
 
         synchronized(writeLock){
             // validate the application name
-            validateAppName(config.getName());
+            validateAppName(config.getName(), config.getApplicationId());
 
             int index = applicationConfigs.indexOf(config);
             if(index != -1){
@@ -189,11 +189,12 @@ public class ApplicationConfigManager{
         return alerts;
     }
 
-    private static void validateAppName(String appName)
+    private static void validateAppName(String appName, String applicationId)
         throws DuplicateApplicationNameException {
         for(Iterator it=getApplications().iterator(); it.hasNext(); ){
             ApplicationConfig appConfig = (ApplicationConfig)it.next();
-            if((appConfig.getName().toUpperCase()).equals(appName.toUpperCase())) {
+            if(!appConfig.getApplicationId().equals(applicationId) &&
+                    (appConfig.getName().toUpperCase()).equals(appName.toUpperCase())) {
                 throw new DuplicateApplicationNameException(appName);
             }
         }
