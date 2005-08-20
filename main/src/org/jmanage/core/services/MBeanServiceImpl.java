@@ -25,12 +25,10 @@ import org.jmanage.core.management.*;
 import org.jmanage.core.util.*;
 import org.jmanage.util.StringUtils;
 
-import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Constructor;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.io.IOException;
 
 /**
  *
@@ -373,15 +371,19 @@ public class MBeanServiceImpl implements MBeanService {
     /**
      * Updates MBean attributes at a stand alone application level or at a
      * cluster level.
+     * <p>
+     * The attributes element contains the keys in the format:
+     * attr+<applicationId>+<attrName>+<attrType>
+     * <p>
+     * todo: improve this interface (currently written for webui)
      *
-     * TODO: remove the usage of HttpServletRequest - rk
      *
      * @param context
-     * @param request
+     * @param attributes Map containing
      * @throws ServiceException
      */
     public AttributeListData[] setAttributes(ServiceContext context,
-                                             HttpServletRequest request)
+                                             Map attributes)
             throws ServiceException{
         canAccessThisMBean(context);
         List applications = getApplications(context.getApplicationConfig());
@@ -392,7 +394,7 @@ public class MBeanServiceImpl implements MBeanService {
         for(Iterator it=applications.iterator(); it.hasNext(); index++){
             final ApplicationConfig childAppConfig =
                         (ApplicationConfig)it.next();
-            List attributeList = buildAttributeList(request,
+            List attributeList = buildAttributeList(attributes,
                         childAppConfig);
             attrListData[index] = updateAttributes(context, childAppConfig,
                     objectName, attributeList);
@@ -533,18 +535,19 @@ public class MBeanServiceImpl implements MBeanService {
     }
 
     /**
-     * request parameter is of the format:
+     * Map keys are of the format:
      * attr+<applicationId>+<attrName>+<attrType>
      *
      */
-    private List buildAttributeList(HttpServletRequest request,
+    private List buildAttributeList(Map attributes,
                                     ApplicationConfig appConfig){
 
         String applicationId = appConfig.getApplicationId();
-        Enumeration enum = request.getParameterNames();
+        Iterator it = attributes.keySet().iterator();
         List attributeList = new LinkedList();
-        while(enum.hasMoreElements()){
-            String param = (String)enum.nextElement();
+        while(it.hasNext()){
+            String param = (String)it.next();
+            // look for keys which only start with "attr+"
             if(param.startsWith("attr+")){
                 StringTokenizer tokenizer = new StringTokenizer(param, "+");
                 if(tokenizer.countTokens() < 4){
@@ -554,7 +557,10 @@ public class MBeanServiceImpl implements MBeanService {
                 if(applicationId.equals(tokenizer.nextToken())){ // applicationId
                     String attrName = tokenizer.nextToken();
                     String attrType = tokenizer.nextToken();
-                    String attrValue = request.getParameter(param);
+                    String[] attrValues = (String[])attributes.get(param);
+                    // todo: we currently don't support writtable arrays
+                    assert attrValues.length == 1;
+                    String attrValue = attrValues[0];
                     ObjectAttribute attribute = new ObjectAttribute(attrName,
                             getTypedValue(appConfig, attrValue,
                                     attrType));
