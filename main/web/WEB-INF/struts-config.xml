@@ -216,7 +216,6 @@
         <!--== Application Management =======================================-->
         <action
             path="/app/appView"
-            roles="dev,ops"
             type="org.jmanage.webui.actions.app.AppViewAction">
             <forward name="application" path="app.appView"/>
             <forward name="cluster" path="app.clusterView"/>
@@ -225,7 +224,6 @@
             path="/app/mbeanList"
             name="mbeanQueryForm"
             scope="request"
-            roles="dev,ops"
             type="org.jmanage.webui.actions.app.MBeanListAction">
             <forward name="success" path="app.mbeanList"/>
         </action>
@@ -233,7 +231,6 @@
             path="/app/mbeanView"
             name="mbeanConfigForm"
             scope="request"
-            roles="dev,ops"
             type="org.jmanage.webui.actions.app.ShowMBeanAction">
             <forward name="success" path="app.mbeanView"/>
         </action>
@@ -241,7 +238,6 @@
             path="/app/updateAttributes"
             name="emptyForm"
             scope="request"
-            roles="ops"
             type="org.jmanage.webui.actions.app.UpdateMBeanAttributesAction">
             <forward name="success" path="/app/mbeanView.do"/>
             <forward name="failure" path="/app/mbeanView.do"/>
@@ -250,7 +246,6 @@
             path="/app/executeOperation"
             name="emptyForm"
             scope="request"
-            roles="ops"
             type="org.jmanage.webui.actions.app.ExecuteMBeanOperationAction">
             <forward name="success" path="app.mbeanOperationResult"/>
         </action>
@@ -276,7 +271,6 @@
         <!--== User Management =======================================-->
         <action
             path="/config/admin"
-            roles="ops"
             type="org.apache.struts.actions.ForwardAction"
             parameter="config.admin">
         </action>
