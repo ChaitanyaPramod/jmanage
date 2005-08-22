@@ -22,6 +22,7 @@ import org.jmanage.webui.util.RequestParams;
 import org.jmanage.webui.forms.AlertForm;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.AlertConfig;
+import org.jmanage.core.config.AlertSourceConfig;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
@@ -52,6 +53,13 @@ public class ShowEditAlertAction extends BaseAction{
             form.setSubject(alertConfig.getSubject());
             form.setAlertDelivery(alertConfig.getAlertDelivery());
             form.setEmailAddress(alertConfig.getEmailAddress());
+            AlertSourceConfig alertSrcConfig = alertConfig.getAlertSourceConfig();
+            request.setAttribute("alertSourceType",alertSrcConfig.getSourceType());
+            request.setAttribute("sourceMBean", alertSrcConfig.getObjectName());
+            request.setAttribute("notificationType", alertSrcConfig.getNotificationType());
+            form.setAlertSourceType(alertSrcConfig.getSourceType());
+            form.setObjectName(alertSrcConfig.getObjectName());
+            form.setNotificationType(alertSrcConfig.getNotificationType());
         }
         return mapping.findForward(Forwards.SUCCESS);
     }
