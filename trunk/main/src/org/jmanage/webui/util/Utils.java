@@ -72,4 +72,14 @@ public class Utils {
         }
         return null;
     }
+
+    public static String encodeURL(String url){
+        String urlString;
+        try{
+            urlString = URLEncoder.encode(url,"UTF-8");
+        }catch(UnsupportedEncodingException e){
+            throw new RuntimeException(e);
+        }
+        return urlString;
+    }
 }

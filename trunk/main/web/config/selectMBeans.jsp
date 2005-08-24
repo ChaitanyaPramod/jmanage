@@ -16,11 +16,13 @@
 <!--    /config/selectMBeans.jsp  -->
 <%@ page import="java.util.Map,
                  java.util.Iterator,
-                 java.util.Set"%>
+                 java.util.Set,
+                 org.jmanage.webui.util.RequestParams"%>
 
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 <jmhtml:errors/>
-<jmhtml:form action="/config/showAttributes" onsubmit="validateGraphForm(this)">
+<jmhtml:form action="/config/showAttributes" onsubmit="validateAttributeSelectionForm(this)">
+<jmhtml:hidden property="endURL" />
 <%
     Map domainToObjectNameListMap = (Map)request.getAttribute("domainToObjectNameListMap");
     for(Iterator it = domainToObjectNameListMap.keySet().iterator(); it.hasNext(); ){
@@ -36,11 +38,19 @@
         for(Iterator objectNameIt = objectNameList.iterator(); objectNameIt.hasNext();){
             String objectName = (String)objectNameIt.next();
             String value = domain + ":" + objectName;
+            if(request.getParameter(RequestParams.MULTIPLE).equals("true")){
         %>
-    <tr>
-        <td class="plaintext"><jmhtml:checkbox property="mbeans" value="<%=value%>"/> <%=objectName%></td>
-   </tr>
-<%      } // inner for
+            <tr>
+                <td class="plaintext"><jmhtml:checkbox property="mbeans" value="<%=value%>"/> <%=objectName%></td>
+           </tr>
+        <%
+            }else{
+        %>
+            <tr>
+                <td class="plaintext"><jmhtml:radio property="mbeans" value="<%=value%>"/> <%=objectName%></td>
+           </tr>
+<%         }// end if
+            } // inner for
 %>
 </table>
 <br/>

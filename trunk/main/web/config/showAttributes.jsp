@@ -2,7 +2,8 @@
                  java.util.Iterator,
                  java.util.List,
                  org.jmanage.core.management.ObjectAttributeInfo,
-                 org.jmanage.core.util.Expression"%> <%-- Copyright 2004-2005 jManage.org
+                 org.jmanage.core.util.Expression,
+                 org.jmanage.webui.util.RequestParams"%> <%-- Copyright 2004-2005 jManage.org
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -19,7 +20,7 @@
 <!-- /config/showAttributes.jsp  -->
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 <jmhtml:errors/>
-<jmhtml:form action="/config/showAddGraph" onsubmit="validateGraphForm(this)">
+<jmhtml:form action="<%=request.getParameter(RequestParams.END_URL)%>" onsubmit="validateAttributeSelectionForm(this)">
 <%
     Map mbeanAttributesMap = (Map)request.getAttribute("mbeanAttributesMap");
     for(Iterator itr=mbeanAttributesMap.keySet().iterator(); itr.hasNext() ;){

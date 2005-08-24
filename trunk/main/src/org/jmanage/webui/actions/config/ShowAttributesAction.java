@@ -19,6 +19,7 @@ import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.forms.GraphForm;
+import org.jmanage.webui.forms.AttributeSelectionForm;
 import org.jmanage.core.management.ServerConnection;
 import org.jmanage.core.management.ObjectName;
 import org.jmanage.core.management.ObjectInfo;
@@ -44,7 +45,7 @@ public class ShowAttributesAction extends BaseAction{
                                  HttpServletResponse response)
             throws Exception {
 
-        GraphForm form = (GraphForm)actionForm;
+        AttributeSelectionForm form = (AttributeSelectionForm)actionForm;
         String[] mbeans = form.getMbeans();
         ServerConnection serverConn = context.getServerConnection();
         ObjectName objectName = null;

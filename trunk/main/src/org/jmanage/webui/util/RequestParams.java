@@ -31,4 +31,7 @@ public interface RequestParams {
     // following params are used for login of user on any URL
     public static final String JMANAGE_USERNAME = "jmanage.username";
     public static final String JMANAGE_PASSWORD = "jmanage.password";
+
+    public static final String END_URL = "endURL";
+    public static final String MULTIPLE = "multiple";
 }
