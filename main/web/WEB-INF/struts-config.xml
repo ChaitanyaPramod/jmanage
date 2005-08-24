@@ -57,6 +57,10 @@
             name="graphForm"
             type="org.jmanage.webui.forms.GraphForm">
         </form-bean>
+        <form-bean
+            name="attributeSelectionForm"
+            type="org.jmanage.webui.forms.AttributeSelectionForm">
+        </form-bean>
     </form-beans>
 
     <!-- ====================================== Global Exception Definitions -->
@@ -364,7 +368,6 @@
             type="org.jmanage.webui.actions.config.alert.SelectAlertSourceTypeAction">
 
             <forward name="notification" path="/config/showSelectNotification.do"/>
-            <forward name="gauge" path="config.selectAlertSourceType"/>
             <forward name="string" path="config.selectAlertSourceType"/>
         </action>
         <action
@@ -417,13 +420,13 @@
         <!-- Alerts Config - End -->
 
         <action path="/config/showMBeans"
-            name="graphForm"
+            name="attributeSelectionForm"
             scope="request"
             type="org.jmanage.webui.actions.config.ShowMBeanAction">
             <forward name="success" path="config.showMBeans"/>
         </action>
         <action path="/config/showAttributes"
-            name="graphForm"
+            name="attributeSelectionForm"
             scope="request"
             input="/config/showMBeans.do"
             type="org.jmanage.webui.actions.config.ShowAttributesAction">

@@ -15,7 +15,11 @@ package org.jmanage.webui.actions.config.alert;
 import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
+import org.jmanage.webui.util.RequestParams;
+import org.jmanage.webui.util.Utils;
 import org.jmanage.webui.forms.AlertForm;
+import org.jmanage.core.config.AlertSourceConfig;
+import org.jmanage.core.config.ApplicationConfig;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForward;
@@ -42,6 +46,17 @@ public class SelectAlertSourceTypeAction extends BaseAction{
         AlertForm alertForm = (AlertForm)actionForm;
         String sourceType = alertForm.getAlertSourceType();
         assert sourceType != null;
+        if(sourceType.equals(AlertSourceConfig.SOURCE_TYPE_GAUGE_MONITOR)){
+            ApplicationConfig appConfig= context.getApplicationConfig();
+            String url = "/config/showMBeans.do?"
+                    +  RequestParams.APPLICATION_ID + "="
+                    + appConfig.getApplicationId() + "&"
+                    + RequestParams.END_URL + "="
+                    + Utils.encodeURL("/config/showAddAlert.do")+ "&"
+                    + RequestParams.MULTIPLE + "=false";
+
+            return new ActionForward(url);
+        }
         return mapping.findForward(sourceType);
     }
 }

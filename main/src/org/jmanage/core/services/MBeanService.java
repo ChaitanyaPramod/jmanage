@@ -35,7 +35,17 @@ public interface MBeanService {
                           String filter)
             throws ServiceException;
 
-    public Map queryMBeansOutputMap(ServiceContext context, String filter);
+    /**
+     * if datatypes is null then Map will contain all the MBeans
+     * if datatype is not null then only Mbeans thats have attributes of matching
+     * data types will be returned
+     * @param context
+     * @param filter
+     * @param dataTypes
+     * @return
+     */
+    public Map queryMBeansOutputMap(ServiceContext context, String filter,
+                                    String[] dataTypes);
 
     /**
      * Gets the MBean information.
@@ -102,4 +112,5 @@ public interface MBeanService {
 
     public Map queryMBeansWithNotifications(ServiceContext context)
             throws ServiceException;
+
 }

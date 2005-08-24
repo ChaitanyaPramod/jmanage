@@ -68,8 +68,10 @@ public class MBeanServiceImpl implements MBeanService {
         return mbeanDataList;
     }
 
-    public Map queryMBeansOutputMap(ServiceContext context, String filter){
-        List mbeanDataList = queryMBeans(context,filter);
+    public Map queryMBeansOutputMap(ServiceContext context, String filter,
+                                    String[] dataTypes){
+        List mbeanDataList = queryMBeansWithAttributes(context,filter,dataTypes);
+
         Map domainToObjectNameListMap = new TreeMap();
         ObjectNameTuple tuple = new ObjectNameTuple();
         for(Iterator it=mbeanDataList.iterator(); it.hasNext();){
@@ -87,6 +89,47 @@ public class MBeanServiceImpl implements MBeanService {
         return domainToObjectNameListMap;
     }
 
+     private List queryMBeansWithAttributes(ServiceContext context, String filter,
+                                         String[] dataTypes)
+            throws ServiceException{
+        ServerConnection serverConnection = context.getServerConnection();
+        List mbeans = queryMBeans(context, filter);
+        List mbeanToAttributesList = new ArrayList();
+        for(Iterator itr=mbeans.iterator(); itr.hasNext();){
+            MBeanData mbeanData = (MBeanData)itr.next();
+            ObjectName objName = new ObjectName(mbeanData.getName());
+            ObjectInfo objInfo = serverConnection.getObjectInfo(objName);
+            ObjectAttributeInfo[] objAttrInfo = objInfo.getAttributes();
+            if(objAttrInfo!=null && objAttrInfo.length > 0){
+                if(dataTypes!=null && dataTypes.length > 0){
+                    if(checkAttributeDataType(objAttrInfo, dataTypes)){
+                        mbeanToAttributesList.add(mbeanData);
+                    }
+                }else{
+                    mbeanToAttributesList.add(mbeanData);
+                }
+            }
+        }
+         return mbeanToAttributesList;
+    }
+
+    private boolean checkAttributeDataType(ObjectAttributeInfo[] objAttrInfo,
+                                           String[] dataTypes){
+        ArrayList attributesList = new ArrayList();
+        for(int i=0; i<objAttrInfo.length;i++){
+            ObjectAttributeInfo attrInfo = objAttrInfo[i];
+            for(int j=0; j<dataTypes.length; j++){
+                if(attrInfo.getType().equals(dataTypes[j])){
+                    attributesList.add(attrInfo);
+                }
+            }
+        }
+        if(attributesList.isEmpty()){
+            return false;
+        }else{
+            return true;
+        }
+    }
     private static class ObjectNameTuple{
         String domain;
         String name;
@@ -419,7 +462,6 @@ public class MBeanServiceImpl implements MBeanService {
         }
         return mbeanToNoficationsMap;
     }
-
     private AttributeListData updateAttributes(ServiceContext context,
                                                ApplicationConfig appConfig,
                                                ObjectName objectName,
@@ -652,4 +694,7 @@ public class MBeanServiceImpl implements MBeanService {
         }
         return obj;
     }
+
+
+
 }

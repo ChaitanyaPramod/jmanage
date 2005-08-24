@@ -6,7 +6,8 @@
                  java.net.URLEncoder,
                  java.util.*,
                  org.jmanage.core.config.GraphConfig,
-                 org.jmanage.core.config.AlertConfig"%>
+                 org.jmanage.core.config.AlertConfig,
+                 org.jmanage.webui.util.Utils"%>
 
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 <script language="JavaScript">
@@ -90,7 +91,7 @@
 </p>
 <%}%>
 <p>
-<jmhtml:link href="/config/showMBeans.do" styleClass="a">Add Graph</jmhtml:link>
+   <a href="/config/showMBeans.do?<%=RequestParams.APPLICATION_ID%>=<%=appConfig.getApplicationId()%>&<%=RequestParams.END_URL%>=<%=Utils.encodeURL("/config/showAddGraph.do")%>&<%=RequestParams.MULTIPLE%>=true" styleClass="a">Add Graph</a>
 </p>
 <%
 if(appConfig.getAlerts().size() > 0){

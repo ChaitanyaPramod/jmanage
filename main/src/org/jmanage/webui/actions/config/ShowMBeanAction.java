@@ -21,7 +21,9 @@ import org.apache.struts.action.ActionForm;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.util.Utils;
+import org.jmanage.webui.util.RequestParams;
 import org.jmanage.webui.actions.BaseAction;
+import org.jmanage.webui.forms.AttributeSelectionForm;
 import org.jmanage.core.services.MBeanService;
 import org.jmanage.core.services.ServiceFactory;
 
@@ -41,9 +43,11 @@ public class ShowMBeanAction extends BaseAction {
                                  HttpServletResponse response)
             throws Exception {
 
+        AttributeSelectionForm form = (AttributeSelectionForm)actionForm;
+        form.setEndURL(request.getParameter(RequestParams.END_URL));
         MBeanService mbeanService = ServiceFactory.getMBeanService();
         Map domainToObjectNameListMap = mbeanService.queryMBeansOutputMap
-                (Utils.getServiceContext(context),null);
+                (Utils.getServiceContext(context),null,null);
         request.setAttribute("domainToObjectNameListMap", domainToObjectNameListMap);
         return mapping.findForward(Forwards.SUCCESS);
     }
