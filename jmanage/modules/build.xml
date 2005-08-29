@@ -1,0 +1,94 @@
+<project name="jManage" default="build-all-modules" basedir=".">
+
+    <property name="compile.debug" value="true"/>
+    <property name="compile.deprecation" value="false"/>
+    <property name="compile.optimize" value="true"/>
+
+    <!-- target for building all modules -->
+    <target name="build-all-modules" description="Builds all modules">
+        <antcall target="build-weblogic-module" />
+        <antcall target="build-jsr160-module" />
+        <antcall target="build-jboss-module" />
+        <antcall target="build-websphere-module" />
+        <antcall target="build-snmp-module" />
+    </target>
+
+    <!-- target for building weblogic module -->
+    <target name="build-weblogic-module"
+        description="Builds weblogic module. You will need to copy weblogic.jar to modules/weblogic/lib folder.">
+       <antcall target="build-module">
+            <param name="module.name" value="weblogic"/>
+        </antcall>
+    </target>
+
+    <!-- target for building jsr160 module -->
+    <target name="build-jsr160-module"
+        description="Builds JSR160 module">
+        <antcall target="build-module">
+            <param name="module.name" value="jsr160"/>
+        </antcall>
+    </target>
+
+    <!-- target for building jboss module -->
+    <target name="build-jboss-module"
+        description="Builds jboss module">
+        <antcall target="build-module">
+            <param name="module.name" value="jboss"/>
+        </antcall>
+    </target>
+
+    <!-- target for building websphere module -->
+    <target name="build-websphere-module"
+        description="Builds WebSphere module">
+        <antcall target="build-module">
+            <param name="module.name" value="websphere"/>
+        </antcall>
+    </target>
+
+    <!-- target for building snmp module -->
+    <target name="build-snmp-module"
+        description="Builds jboss module">
+        <antcall target="build-module">
+            <param name="module.name" value="snmp"/>
+        </antcall>
+    </target>
+
+    <!-- generic target for building a module -->
+    <target name="build-module">
+        <mkdir dir="${build.home}/modules/${module.name}/classes" />
+        <path id="module.classpath">
+            <fileset dir="${basedir}/${module.name}/lib">
+                <include name="*.jar"/>
+            </fileset>
+            <fileset dir="${basedir}/..">
+                <include name="management/target/jmanage-management.jar"/>
+                <include name="config/target/jmanage-config.jar"/>
+                <include name="utils/target/jmanage-utils.jar"/>
+            </fileset>
+        </path>
+        <javac srcdir="${basedir}/common/src/main/java"
+            destdir="${build.home}/modules/${module.name}/classes"
+            debug="${compile.debug}"
+            deprecation="${compile.deprecation}"
+            optimize="${compile.optimize}"
+            source="1.4">
+            <classpath refid="module.classpath"/>
+        </javac>
+        <javac srcdir="${basedir}/${module.name}/src/main/java"
+            destdir="${build.home}/modules/${module.name}/classes"
+            debug="${compile.debug}"
+            deprecation="${compile.deprecation}"
+            optimize="${compile.optimize}"
+            source="1.4">
+            <classpath refid="module.classpath"/>
+        </javac>
+        <jar basedir="${build.home}/modules/${module.name}/classes"
+            jarfile="${build.home}/modules/${module.name}/jmanage-${module.name}.jar"/>
+        <delete dir="${build.home}/modules/${module.name}/classes" />
+         <copy todir="${build.home}/modules/${module.name}">
+            <fileset file="${basedir}/${module.name}/lib/*.jar"/>
+        </copy>
+    </target>
+
+</project>
+
