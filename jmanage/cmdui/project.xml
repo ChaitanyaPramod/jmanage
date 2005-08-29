@@ -1,0 +1,26 @@
+<project>
+    <extend>${basedir}/../project.xml</extend>
+    <artifactId>jmanage-cmdui</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>jmanage</groupId>
+            <artifactId>jmanage-services</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jmanage</groupId>
+            <artifactId>jmanage-management</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jmanage</groupId>
+            <artifactId>jmanage-utils</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jmanage</groupId>
+            <artifactId>jmanage-auth</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jmanage</groupId>
+            <artifactId>jmanage-crypto</artifactId>
+        </dependency>
+    </dependencies>
+</project>

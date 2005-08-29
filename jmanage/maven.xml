@@ -1,0 +1,88 @@
+
+<project
+    xmlns:j="jelly:core"
+    xmlns:ant="jelly:ant"
+    xmlns:u="jelly:util"
+    xmlns:maven="jelly:maven">
+
+    <goal name="build">
+
+        <!-- build jars for components -->
+        <attainGoal name="multiproject:artifact"/>
+
+        <!-- build protocol specific modules -->
+        <attainGoal name="build-all-modules"/>
+
+        <!-- copy lib -->
+        <ant:copy todir="${basedir}/build/lib" flatten="true">
+            <fileset dir="${basedir}">
+                <include name="*/target/*.jar"/>
+            </fileset>
+            <fileset dir="${basedir}/thirdparty">
+                <include name="*/lib/*.jar"/>
+                <exclude name="jfreechart/**"/>
+                <exclude name="struts/**"/>
+            </fileset>
+            <fileset dir="${basedir}/thirdparty">
+                <include name="struts/lib/commons-beanutils.jar"/>
+                <include name="struts/lib/commons-logging.jar"/>
+            </fileset>
+        </ant:copy>
+
+        <!-- build web ui -->
+        <attainGoal name="build-webui"/>
+
+        <!-- copy config -->
+        <ant:copy todir="${basedir}/build/config" flatten="false">
+            <fileset dir="${basedir}/config/src/main/config"/>
+        </ant:copy>
+
+        <!-- copy scripts -->
+        <ant:copy todir="${basedir}/build/bin" flatten="true">
+            <fileset dir="${basedir}">
+                <include name="*/bin/*"/>
+            </fileset>
+        </ant:copy>
+
+        <!-- create log dir -->
+        <ant:mkdir dir="${basedir}/build/logs"/>
+
+    </goal>
+    <goal name="build-all-modules">
+        <ant:ant antfile="${basedir}/modules/build.xml" inheritAll="false">
+            <property name="build.home" value="${basedir}/build"/>
+        </ant:ant>
+    </goal>
+    <goal name="build-webui">
+        <ant:ant antfile="${basedir}/webui/build.xml" inheritAll="false">
+            <property name="build.home" value="${basedir}/build"/>
+        </ant:ant>
+    </goal>
+
+    <goal name="clean">
+        <ant:delete dir="${basedir}/build" />
+        <ant:delete>
+            <fileset dir="${basedir}" includes="*/target/**"/>
+        </ant:delete>
+    </goal>
+
+    <goal name="dist">
+
+        <!-- clean -->
+        <attainGoal name="clean"/>
+
+        <!-- build -->
+        <attainGoal name="build"/>
+
+        <!-- copy license -->
+        <ant:copy todir="${basedir}/build/license" flatten="true">
+            <fileset dir="${basedir}">
+                <include name="**/license/*.*"/>
+            </fileset>
+            <fileset dir="${basedir}" includes="*.txt"/>
+        </ant:copy>
+
+        <!-- build the distribution jars -->
+
+    </goal>
+</project>
