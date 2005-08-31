@@ -32,6 +32,7 @@ import org.jmanage.core.util.JManageProperties;
 import org.jmanage.core.alert.AlertEngine;
 
 import java.util.Arrays;
+import java.io.File;
 
 /**
  *
@@ -79,6 +80,8 @@ public class Startup {
             return;
         }
 
+        /* create logs dir */
+        new File(CoreUtils.getLogDir()).mkdirs();
         /* initialize ServiceFactory */
         ServiceFactory.init(ServiceFactory.MODE_LOCAL);
         /* initialize crypto */
