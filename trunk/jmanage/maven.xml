@@ -5,13 +5,17 @@
     xmlns:u="jelly:util"
     xmlns:maven="jelly:maven">
 
-    <goal name="build">
-
+    <!-- build everything -->
+    <goal name="build-all">
         <!-- build jars for components -->
-        <attainGoal name="multiproject:artifact"/>
-
+        <attainGoal name="build"/>
         <!-- build protocol specific modules -->
         <attainGoal name="build-all-modules"/>
+    </goal>
+
+    <goal name="build">
+        <!-- build jars for components -->
+        <attainGoal name="multiproject:artifact"/>
 
         <!-- copy lib -->
         <ant:copy todir="${basedir}/build/lib" flatten="true">
@@ -44,15 +48,14 @@
             </fileset>
         </ant:copy>
 
-        <!-- create log dir -->
-        <ant:mkdir dir="${basedir}/build/logs"/>
-
     </goal>
+
     <goal name="build-all-modules">
         <ant:ant antfile="${basedir}/modules/build.xml" inheritAll="false">
             <property name="build.home" value="${basedir}/build"/>
         </ant:ant>
     </goal>
+
     <goal name="build-webui">
         <ant:ant antfile="${basedir}/webui/build.xml" inheritAll="false">
             <property name="build.home" value="${basedir}/build"/>
@@ -66,13 +69,16 @@
         </ant:delete>
     </goal>
 
+
     <goal name="dist">
 
-        <!-- clean -->
-        <attainGoal name="clean"/>
+        <attainGoal name="dist-src"/>
 
         <!-- build -->
-        <attainGoal name="build"/>
+        <attainGoal name="build-all"/>
+
+        <!-- perform dos to unix conversions -->
+        <ant:fixcrlf srcdir="${basedir}/build/bin" includes="*.sh" eol="lf"/>
 
         <!-- copy license -->
         <ant:copy todir="${basedir}/build/license" flatten="true">
@@ -83,6 +89,63 @@
         </ant:copy>
 
         <!-- build the distribution jars -->
+        <ant:mkdir dir="${basedir}/dist"/>
 
+        <!-- .gz format -->
+        <ant:tar tarfile="${basedir}/dist/jmanage-${app.version}.tar">
+            <tarfileset dir="${basedir}/build">
+                <exclude name="bin/*.cmd"/>
+                <exclude name="modules/weblogic/weblogic.jar"/>
+                <exclude name="modules/websphere/*.jar"/>
+            </tarfileset>
+            <tarfileset dir="${basedir}/build">
+                <include name="modules/websphere/jmanage-websphere.jar"/>
+            </tarfileset>
+        </ant:tar>
+
+        <ant:gzip zipfile="${basedir}/dist/jmanage-${app.version}.tar.gz"
+            src="${basedir}/dist/jmanage-${app.version}.tar"/>
+        <!-- zip format -->
+        <ant:zip destfile="${basedir}/dist/jmanage-${app.version}.zip">
+            <fileset dir="${basedir}/build">
+                <exclude name="bin/*.sh"/>
+                <exclude name="modules/weblogic/weblogic.jar"/>
+                <exclude name="modules/websphere/*.jar"/>
+            </fileset>
+            <fileset dir="${basedir}/build">
+                <include name="modules/websphere/jmanage-websphere.jar"/>
+            </fileset>
+        </ant:zip>
     </goal>
+
+    <goal name="dist-src">
+        <!-- clean -->
+        <attainGoal name="clean"/>
+
+        <!-- source (before doing the build) -->
+        <!-- .gz format -->
+        <ant:tar tarfile="${basedir}/dist/jmanage-${app.version}-src.tar">
+            <tarfileset dir="${basedir}/">
+                <exclude name="build/**"/>
+                <exclude name="dist/**"/>
+                <exclude name="**/target"/>
+                <exclude name="**/modules/weblogic/lib/*.jar"/>
+                <exclude name="**/modules/websphere/lib/*.jar"/>
+            </tarfileset>
+        </ant:tar>
+        <ant:gzip zipfile="${basedir}/dist/jmanage-${app.version}-src.tar.gz"
+            src="${basedir}/dist/jmanage-${app.version}-src.tar"/>
+
+        <!-- zip format -->
+        <ant:zip destfile="${basedir}/dist/jmanage-${app.version}-src.zip">
+            <fileset dir="${basedir}">
+                <exclude name="build/**"/>
+                <exclude name="dist/**"/>
+                <exclude name="**/target"/>
+                <exclude name="**/modules/weblogic/lib/*.jar"/>
+                <exclude name="**/modules/websphere/lib/*.jar"/>
+            </fileset>
+        </ant:zip>
+    </goal>
+
 </project>
