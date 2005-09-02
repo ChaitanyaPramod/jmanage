@@ -16,6 +16,10 @@
 package org.jmanage.webui.forms;
 
 import org.jmanage.core.config.AlertSourceConfig;
+import org.jmanage.core.util.ErrorCodes;
+import org.apache.struts.action.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Date: May 26, 2005 4:46:35 PM
@@ -32,6 +36,25 @@ public class AlertForm extends BaseForm{
     private String notification;
     private String objectName;
     private String notificationType;
+    private String attribute;
+    private String minAttributeValue;
+    private String maxAttributeValue;
+
+    public String getMinAttributeValue() {
+        return minAttributeValue;
+    }
+
+    public void setMinAttributeValue(String minAttributeValue) {
+        this.minAttributeValue = minAttributeValue;
+    }
+
+    public String getMaxAttributeValue() {
+        return maxAttributeValue;
+    }
+
+    public void setMaxAttributeValue(String maxAttributeValue) {
+        this.maxAttributeValue = maxAttributeValue;
+    }
 
     //private String application;
 
@@ -114,4 +137,54 @@ public class AlertForm extends BaseForm{
     public String getNotificationType() {
         return notificationType;
     }
-}
+
+    public String getAttribute(){
+        return attribute;
+    }
+
+    public void setAttribute(String attribute){
+        this.attribute = attribute;
+    }
+    /**
+     * this method is needed becuase in the generic flow for attribute selection
+     * the parameter used in attributes
+     * @param attribute
+     */
+    public void setAttributes(String attribute){
+        setAttribute(attribute);
+    }
+
+    public ActionErrors validate(ActionMapping mapping, HttpServletRequest request){
+        ActionErrors errors = new ActionErrors();
+        if(super.validate(mapping, request)==null){
+            if(!validateEmailAddress()){
+                errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(
+                        ErrorCodes.EMAIL_ADDRESS_REQUIRED));
+            }
+            if(alertSourceType.equals(AlertSourceConfig.SOURCE_TYPE_GAUGE_MONITOR)){
+                if(minAttributeValue==null){
+                    errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(
+                            ErrorCodes.MIN_ATTRIBUTE_VALUE_REQUIRED));
+                }if(maxAttributeValue==null){
+                    errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(
+                            ErrorCodes.MAX_ATTRIBUTE_VALUE_REQUIRED));
+                }
+                if(Double.valueOf(maxAttributeValue).doubleValue()<
+                        Double.valueOf(minAttributeValue).doubleValue()){
+                    errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(
+                            ErrorCodes.MAX_ATTRIBUTE_VALUE_GREATER));
+                }
+            }
+        }
+        return errors;
+    }
+    private boolean validateEmailAddress(){
+        boolean result = false;
+        if(alertDelivery[0].equals("email")){
+            if(emailAddress != null){
+                result = true;
+            }
+        }
+        return result;
+    }
+} ;

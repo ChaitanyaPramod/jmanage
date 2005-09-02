@@ -46,4 +46,10 @@ public interface ErrorCodes {
     String JMANAGE_SERVER_CONNECTION_FAILED = "jmanage.connection.failed";
 
     String APPLICATION_NAME_ALREADY_EXISTS = "application.name.already.exists";
+
+    String EMAIL_ADDRESS_REQUIRED = "email.address.required";
+
+    String MIN_ATTRIBUTE_VALUE_REQUIRED = "min.attribute.value.required";
+    String MAX_ATTRIBUTE_VALUE_REQUIRED = "max.attribute.value.required";
+    String MAX_ATTRIBUTE_VALUE_GREATER = "max.attribute.value.greater";
 }

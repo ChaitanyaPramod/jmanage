@@ -93,10 +93,16 @@ public class AddAlertAction extends BaseAction{
                 form.getAlertSourceType())){
             sourceConfig = new AlertSourceConfig(form.getObjectName(),
                     form.getNotificationType());
-            sourceConfig.setApplicationConfig(context.getApplicationConfig());
-        }else{
+        }else if(AlertSourceConfig.SOURCE_TYPE_GAUGE_MONITOR.equals(
+                form.getAlertSourceType())){
+            sourceConfig = new AlertSourceConfig(form.getObjectName(),
+                    form.getAttribute(),
+                    Double.valueOf(form.getMinAttributeValue()),
+                    Double.valueOf(form.getMaxAttributeValue()));
+        }else {
             assert false: "not supported type";
         }
+        sourceConfig.setApplicationConfig(context.getApplicationConfig());
         return sourceConfig;
     }
 }

@@ -301,6 +301,26 @@
             <field property="alertName" depends="required">
                 <arg0 key="Alert Name" resource="false"/>
             </field>
+            <field property="alertDelivery" depends="required">
+                <arg0 key="Alert Delivery" resource="false"/>
+            </field>
+            <field property="subject" depends="required">
+                <arg0 key="Subject" resource="false"/>
+            </field>
+            <field property="alertSourceType" depends="required">
+                <arg0 key="Alert Source Type" resource="false"/>
+            </field>
+            <field property="objectName" depends="required">
+                <arg0 key="Source MBean" resource="false"/>
+            </field>
+        </form>
+        <form name="attributeSelectionForm">
+            <field property="mbeans" depends="required" page="1">
+                <arg0 key="MBeans" resource="false"/>
+            </field>
+            <field property="attributes" depends="required" page="2">
+                <arg0 key="Attribute" resource="false"/>
+            </field>
         </form>
     </formset>
 </form-validation>

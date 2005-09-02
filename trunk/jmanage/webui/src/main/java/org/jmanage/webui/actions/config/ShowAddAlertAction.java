@@ -19,6 +19,7 @@ import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.RequestAttributes;
 import org.jmanage.webui.util.Forwards;
+import org.jmanage.webui.util.RequestParams;
 import org.jmanage.webui.forms.AlertForm;
 import org.jmanage.core.config.AlertDeliveryConstants;
 import org.jmanage.core.config.ApplicationConfigManager;
@@ -57,19 +58,22 @@ public class ShowAddAlertAction extends BaseAction{
             throws Exception {
 
         AlertForm alertForm = (AlertForm)actionForm;
-        if(alertForm.getNotification() != null){
-
-            request.setAttribute("alertSourceType",
-                    AlertSourceConfig.SOURCE_TYPE_NOTIFICATION);
-            alertForm.setAlertSourceType(AlertSourceConfig.SOURCE_TYPE_NOTIFICATION);
-
+        String sourceType = request.getParameter(RequestParams.ALERT_SOURCE_TYPE);
+        request.setAttribute("alertSourceType",
+                            sourceType);
+        alertForm.setAlertSourceType(sourceType);
+        if(sourceType.equals(AlertSourceConfig.SOURCE_TYPE_NOTIFICATION)){
             Expression expr = new Expression(alertForm.getNotification());
-
             request.setAttribute("sourceMBean", expr.getMBeanName());
             alertForm.setObjectName(expr.getMBeanName());
-
             request.setAttribute("notificationType", expr.getTargetName());
             alertForm.setNotificationType(expr.getTargetName());
+        }else if(sourceType.equals(AlertSourceConfig.SOURCE_TYPE_GAUGE_MONITOR)){
+            Expression expr = new Expression(alertForm.getAttribute());
+            request.setAttribute("attribute", expr.getTargetName());
+            alertForm.setAttribute(expr.getTargetName());
+            request.setAttribute("sourceMBean", expr.getMBeanName());
+            alertForm.setObjectName(expr.getMBeanName());
         }
 
         request.setAttribute("applications",

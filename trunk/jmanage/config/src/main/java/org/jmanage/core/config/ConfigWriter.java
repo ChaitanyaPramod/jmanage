@@ -200,8 +200,19 @@ public class ConfigWriter {
                     sourceConfig.getSourceType());
             source.setAttribute(ConfigConstants.ALERT_SOURCE_MBEAN,
                     sourceConfig.getObjectName());
-            source.setAttribute(ConfigConstants.ALERT_SOURCE_NOTIFICATION_TYPE,
-                    sourceConfig.getNotificationType());
+            if(sourceConfig.getSourceType().equals(
+                    AlertSourceConfig.SOURCE_TYPE_NOTIFICATION)){
+                source.setAttribute(ConfigConstants.ALERT_SOURCE_NOTIFICATION_TYPE,
+                        sourceConfig.getNotificationType());
+            }else if(sourceConfig.getSourceType().equals(
+                    AlertSourceConfig.SOURCE_TYPE_GAUGE_MONITOR)){
+                source.setAttribute(ConfigConstants.ALERT_ATTRIBUTE_NAME,
+                        sourceConfig.getAttributeName());
+                source.setAttribute(ConfigConstants.ALERT_ATTRIBUTE_LOW_THRESHOLD,
+                        sourceConfig.getLowThreshold().toString());
+                source.setAttribute(ConfigConstants.ALERT_ATTRIBUTE_HIGH_THRESHOLD,
+                        sourceConfig.getHighThreshold().toString());
+            }
             alertElement.addContent(source);
 
             // add delivery

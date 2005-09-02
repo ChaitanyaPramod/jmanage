@@ -23,6 +23,9 @@
 <jmhtml:errors/>
 <jmhtml:form action="/config/showAttributes" onsubmit="validateAttributeSelectionForm(this)">
 <jmhtml:hidden property="endURL" />
+<jmhtml:hidden property="multiple"/>
+<jmhtml:hidden property="alertSourceType"/>
+<jmhtml:hidden property="page" value="1"/>
 <%
     Map domainToObjectNameListMap = (Map)request.getAttribute("domainToObjectNameListMap");
     for(Iterator it = domainToObjectNameListMap.keySet().iterator(); it.hasNext(); ){

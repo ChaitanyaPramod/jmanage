@@ -54,12 +54,24 @@ public class ShowEditAlertAction extends BaseAction{
             form.setAlertDelivery(alertConfig.getAlertDelivery());
             form.setEmailAddress(alertConfig.getEmailAddress());
             AlertSourceConfig alertSrcConfig = alertConfig.getAlertSourceConfig();
-            request.setAttribute("alertSourceType",alertSrcConfig.getSourceType());
-            request.setAttribute("sourceMBean", alertSrcConfig.getObjectName());
-            request.setAttribute("notificationType", alertSrcConfig.getNotificationType());
+            String sourceType = alertSrcConfig.getSourceType();
             form.setAlertSourceType(alertSrcConfig.getSourceType());
+            request.setAttribute("alertSourceType",sourceType);
             form.setObjectName(alertSrcConfig.getObjectName());
-            form.setNotificationType(alertSrcConfig.getNotificationType());
+            request.setAttribute("sourceMBean", alertSrcConfig.getObjectName());
+            if(sourceType.equals(AlertSourceConfig.SOURCE_TYPE_NOTIFICATION)){
+                request.setAttribute("notificationType",
+                        alertSrcConfig.getNotificationType());
+                form.setNotificationType(alertSrcConfig.getNotificationType());
+            }else if(sourceType.equals(
+                    AlertSourceConfig.SOURCE_TYPE_GAUGE_MONITOR)){
+                form.setAttribute(alertSrcConfig.getAttributeName());
+                request.setAttribute("attribute", alertSrcConfig.getAttributeName());
+                form.setMinAttributeValue(alertSrcConfig.getLowThreshold()
+                        .toString());
+                form.setMaxAttributeValue(alertSrcConfig.getHighThreshold()
+                        .toString());
+                }
         }
         return mapping.findForward(Forwards.SUCCESS);
     }

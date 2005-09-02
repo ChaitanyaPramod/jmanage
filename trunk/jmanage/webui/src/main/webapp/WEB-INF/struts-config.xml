@@ -384,7 +384,7 @@
             scope="request"
             validate="false"
             type="org.apache.struts.actions.ForwardAction"
-            parameter="/config/showAddAlert.do">
+            parameter="/config/showAddAlert.do?alertSourceType=notification">
         </action>
         <action
             path="/config/showAddAlert"
@@ -422,6 +422,7 @@
         <action path="/config/showMBeans"
             name="attributeSelectionForm"
             scope="request"
+            validate="true"
             type="org.jmanage.webui.actions.config.ShowMBeanAction">
             <forward name="success" path="config.showMBeans"/>
         </action>
@@ -432,6 +433,14 @@
             type="org.jmanage.webui.actions.config.ShowAttributesAction">
             <forward name="success" path="config.showAttributes"/>
         </action>
+        <action path="/config/selectAttributes"
+            name="attributeSelectionForm"
+            scope="request"
+            validate="true"
+            input="/config/showAttributes"
+            type="org.jmanage.webui.actions.config.SelectAttributeAction">
+        </action>
+
         <action path="/config/showAddGraph"
             name="graphForm"
             scope="request"
