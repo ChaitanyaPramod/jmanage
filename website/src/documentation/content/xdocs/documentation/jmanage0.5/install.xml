@@ -4,6 +4,10 @@
 <document>
   <header>
     <title>jManage Installation</title>
+    <authors>
+        <person name="Rakesh Kalra" email="rkalra@jmanage.org"/>
+        <person name="Shashank Bellary" email="sbellary@jmanage.org"/>
+    </authors>
   </header>
   <body>
     <section>

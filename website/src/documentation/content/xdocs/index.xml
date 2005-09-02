@@ -9,6 +9,15 @@
     <section>
       <title>News !</title>
       <p>
+          - <strong>Sep 02, 2005</strong>&nbsp;&nbsp;
+           jManage is considering moving from <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0</a> to
+          <a href="http://www.gnu.org/licenses/lgpl.txt">LGPL</a> license. Please read more and provide your
+          feedback <a href="http://sourceforge.net/forum/forum.php?thread_id=1345809&amp;forum_id=493274">here</a>.
+          <br/><br/>
+          - <strong>Sep 02, 2005</strong>&nbsp;&nbsp;
+           jManage build now uses maven instead of ant. This allows for component based source structure.
+           Please see the modified <a href="/development/index.html">build guide</a>.
+          <br/><br/>
           - <strong>Aug 10, 2005</strong>&nbsp;&nbsp;
           <a href="http://sourceforge.net/project/showfiles.php?group_id=111374&amp;package_id=120380&amp;release_id=348348">
               jManage 0.5.4</a> is now available.
@@ -21,11 +30,7 @@
           It can be downloaded
           <a href="http://sourceforge.net/project/showfiles.php?group_id=111374&amp;package_id=120380&amp;release_id=346021">here</a>.
           <br/><br/>
-          - <strong>Jun 22, 2005</strong> jManage 0.5.2 is now available. It can be downloaded
-            <a href="http://sourceforge.net/project/showfiles.php?group_id=111374&amp;package_id=120380&amp;release_id=336967">here</a>.
-          <br/><br/>
-          - <strong>Jun 03, 2005</strong> Do you use CruiseControl? Manage it with jManage 0.5.
-            <a href="http://www.coffeebreaks.org/blogs/?p=7">See how</a>.
+          <a href="/newsArchive.html">More >></a>
       </p>
     </section>
     <section>

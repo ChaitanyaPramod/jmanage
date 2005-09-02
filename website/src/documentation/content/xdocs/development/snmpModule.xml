@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+<document>
+  <header>
+    <title>SNMP Module</title>
+    <authors>
+        <person name="Shashank Bellary" email="sbellary@jmanage.org"/>
+    </authors>
+  </header>
+  <body>
+      <p>
+          jManage 1.0 provides an interface for querying the values of SNMP object
+          identifiers (OID's) on SNMP-enabled devices. It retrieves the values of
+          all variables available on a device. Future version of jManage will also
+          provide a facility for setting the value of any specified variable.
+          SNMP devices generally listen at port 161 and if your device is configured
+          to listen at a different port please specify the same while
+          adding/configuring your SNMP device with jManage.
+          <br/><br/>
+          To test the this feature download the test application (SNMPAgentTest)
+          from <a href="http://edge.mcs.drexel.edu/GICL/people/sevy/snmp/source_1.4.zip">
+              http://edge.mcs.drexel.edu/GICL/people/sevy/snmp/source_1.4.zip</a>
+          and run the same. This test application listens on the default (161) port.
+          Finally configure the test application with jManage by specifying the
+          hostname and port where the SNMP Agent test application is running.
+      </p>
+  </body>
+</document>
