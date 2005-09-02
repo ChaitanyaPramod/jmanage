@@ -242,12 +242,22 @@ public class ConfigReader implements ConfigConstants{
                 Element source = alert.getChild(ALERT_SOURCE);
                 String sourceType = source.getAttributeValue(ALERT_SOURCE_TYPE);
                 String mbean = source.getAttributeValue(ALERT_SOURCE_MBEAN);
-                String notificationType =
+                AlertSourceConfig sourceConfig = null;
+                if(sourceType.equals(AlertSourceConfig.SOURCE_TYPE_NOTIFICATION)){
+                    String notificationType =
                         source.getAttributeValue(ALERT_SOURCE_NOTIFICATION_TYPE);
-                // todo: support other types
-                assert sourceType.equals(AlertSourceConfig.SOURCE_TYPE_NOTIFICATION);
-                AlertSourceConfig sourceConfig = new AlertSourceConfig(mbean,
-                        notificationType);
+                    sourceConfig = new AlertSourceConfig(mbean,notificationType);
+                }else if(sourceType.equals(
+                        AlertSourceConfig.SOURCE_TYPE_GAUGE_MONITOR)){
+                    String attribute = source.getAttributeValue(ALERT_ATTRIBUTE_NAME);
+                    String lowThreshold = source.getAttributeValue(
+                            ALERT_ATTRIBUTE_LOW_THRESHOLD);
+                    String highThreshold = source.getAttributeValue(
+                            ALERT_ATTRIBUTE_HIGH_THRESHOLD);
+                    sourceConfig = new AlertSourceConfig(mbean, attribute,
+                            Double.valueOf(lowThreshold),
+                            Double.valueOf(highThreshold));
+                }
                 sourceConfig.setApplicationConfig(appConfig);
                 alertConfig.setAlertSourceConfig(sourceConfig);
 

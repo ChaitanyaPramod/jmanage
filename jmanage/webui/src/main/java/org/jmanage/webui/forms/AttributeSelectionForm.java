@@ -25,6 +25,15 @@ public class AttributeSelectionForm extends BaseForm{
     private String[] attributes;
     private String multiple;
     private String attribute;
+    private String alertSourceType;
+
+    public String getAlertSourceType() {
+        return alertSourceType;
+    }
+
+    public void setAlertSourceType(String alertSourceType) {
+        this.alertSourceType = alertSourceType;
+    }
 
     public String getAttribute() {
         return attribute;
@@ -41,8 +50,6 @@ public class AttributeSelectionForm extends BaseForm{
     public void setMultiple(String multiple) {
         this.multiple = multiple;
     }
-
-
 
     public String[] getMbeans() {
         return mbeans;

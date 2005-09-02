@@ -18,6 +18,7 @@ package org.jmanage.webui.actions.config;
 import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
+import org.jmanage.webui.util.RequestParams;
 import org.jmanage.webui.forms.GraphForm;
 import org.jmanage.webui.forms.AttributeSelectionForm;
 import org.jmanage.core.management.ServerConnection;
@@ -46,6 +47,7 @@ public class ShowAttributesAction extends BaseAction{
             throws Exception {
 
         AttributeSelectionForm form = (AttributeSelectionForm)actionForm;
+        form.setEndURL(request.getParameter(RequestParams.END_URL));
         String[] mbeans = form.getMbeans();
         ServerConnection serverConn = context.getServerConnection();
         ObjectName objectName = null;

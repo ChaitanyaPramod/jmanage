@@ -39,8 +39,6 @@ public class AlertSourceConfig {
     private String attributeName;
     private Number lowThreshold;
     private Number highThreshold;
-    // alert on any change to the attribute value
-    //private Boolean anyChange;
 
     public AlertSourceConfig(String objectName, String notificationType){
         this.sourceType = SOURCE_TYPE_NOTIFICATION;
@@ -48,16 +46,19 @@ public class AlertSourceConfig {
         this.notificationType = notificationType;
     }
 
-/*    public AlertSourceConfig(String objectName, String attributeName,
+    public AlertSourceConfig(String objectName, String attributeName,
                              Double minValue, Double maxValue){
-        this.sourceType = SOURCE_TYPE_ATTRIBUTE_CHANGE;
-        this.objectName = new ObjectName(objectName);
+        this.sourceType = SOURCE_TYPE_GAUGE_MONITOR;
+        this.objectName = objectName;
         this.attributeName = attributeName;
         this.lowThreshold = minValue;
         this.highThreshold = maxValue;
     }
-*/
+
     /* todo: enable if this could be useful - rk
+    // alert on any change to the attribute value
+    //private Boolean anyChange;
+
     public AlertSourceConfig(String objectName, String attributeName,
                              boolean anyChange){
         this.sourceType = SOURCE_TYPE_ATTRIBUTE_CHANGE;

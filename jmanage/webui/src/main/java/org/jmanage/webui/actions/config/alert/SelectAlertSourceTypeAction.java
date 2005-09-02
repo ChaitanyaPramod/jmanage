@@ -53,8 +53,8 @@ public class SelectAlertSourceTypeAction extends BaseAction{
                     + appConfig.getApplicationId() + "&"
                     + RequestParams.END_URL + "="
                     + Utils.encodeURL("/config/showAddAlert.do")+ "&"
-                    + RequestParams.MULTIPLE + "=false";
-
+                    + RequestParams.MULTIPLE + "=false&"
+                    + RequestParams.ALERT_SOURCE_TYPE + "=gauge";
             return new ActionForward(url);
         }
         return mapping.findForward(sourceType);

@@ -63,6 +63,9 @@ public interface ConfigConstants {
     public String ALERT_SOURCE_TYPE = "type";
     public String ALERT_SOURCE_MBEAN = "mbean";
     public String ALERT_SOURCE_NOTIFICATION_TYPE = "notificationType";
+    public String ALERT_ATTRIBUTE_NAME = "attribute";
+    public String ALERT_ATTRIBUTE_LOW_THRESHOLD = "lowThreshold";
+    public String ALERT_ATTRIBUTE_HIGH_THRESHOLD = "highThreshold";
 
     public String GRAPHS = "graphs";
     public String GRAPH = "graph";

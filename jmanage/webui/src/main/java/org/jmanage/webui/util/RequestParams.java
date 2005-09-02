@@ -34,4 +34,5 @@ public interface RequestParams {
 
     public static final String END_URL = "endURL";
     public static final String MULTIPLE = "multiple";
+    public static final String ALERT_SOURCE_TYPE = "alertSourceType";
 }

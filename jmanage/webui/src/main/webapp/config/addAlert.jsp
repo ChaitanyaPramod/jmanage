@@ -89,6 +89,24 @@
     </td>
 </tr>
 <%
+    }else if(sourceType.equals(AlertSourceConfig.SOURCE_TYPE_GAUGE_MONITOR)){
+%>
+<tr>
+    <td class="headtext1">Attribute Name:</nobr></td>
+    <td>
+        <%=request.getAttribute("attribute")%>
+        <jmhtml:hidden property="attribute"/>
+    </td>
+</tr>
+<tr>
+    <td class="headtext1">Minimum Attribute Value</nobr></td>
+    <td><jmhtml:text property="minAttributeValue"/>
+</tr>
+<tr>
+    <td class="headtext1">Maximum Attribute Value</nobr></td>
+    <td><jmhtml:text property="maxAttributeValue"/>
+</tr>
+<%
     }
 %>
 <tr>

@@ -20,7 +20,11 @@
 <!-- /config/showAttributes.jsp  -->
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 <jmhtml:errors/>
-<jmhtml:form action="<%=request.getParameter(RequestParams.END_URL)%>" onsubmit="validateAttributeSelectionForm(this)">
+<jmhtml:form action="/config/selectAttributes" onsubmit="validateAttributeSelectionForm(this)">
+<jmhtml:hidden property="endURL"/>
+<jmhtml:hidden property="alertSourceType"/>
+<jmhtml:hidden property="mbeans"/>
+<jmhtml:hidden property="page" value="2"/>
 <%
     Map mbeanAttributesMap = (Map)request.getAttribute("mbeanAttributesMap");
     for(Iterator itr=mbeanAttributesMap.keySet().iterator(); itr.hasNext() ;){
@@ -30,19 +34,30 @@
     <tr class="tableheader">
         <td colspan="4"><%=objectName%></td>
     </tr>
+    <tr>
 <%
         ObjectAttributeInfo[] attributes = (ObjectAttributeInfo[])mbeanAttributesMap.get(objectName);
         for(int i=0; i<attributes.length; i++){
             ObjectAttributeInfo objAttrInfo = attributes[i];
             Expression expression = new Expression("",objectName,objAttrInfo.getName());
+            if(request.getParameter(RequestParams.MULTIPLE).equals("true")){
 %>
-    <tr>
-        <td>
-            <jmhtml:checkbox property="attributes" value="<%=expression.getHtmlEscaped()%>"/>
-        </td>
-        <td class="plaintext"><%=objAttrInfo.getName()%></td>
-        <td class="palintext"><%=objAttrInfo.getType()%></td>
-        <td class="palintext"><%=objAttrInfo.getDescription()%></td>
+
+                <td>
+                    <jmhtml:checkbox property="attributes" value="<%=expression.getHtmlEscaped()%>"/>
+                </td>
+        <%
+            }else{
+        %>
+                <td>
+                    <jmhtml:radio property="attributes" value="<%=expression.getHtmlEscaped()%>"/>
+                </td>
+        <%
+            }
+        %>
+                <td class="plaintext"><%=objAttrInfo.getName()%></td>
+                <td class="palintext"><%=objAttrInfo.getType()%></td>
+                <td class="palintext"><%=objAttrInfo.getDescription()%></td>
     </tr>
 <%
         }//inner for loop

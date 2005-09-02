@@ -14,6 +14,7 @@ package org.jmanage.core.alert;
 
 import org.jmanage.core.config.AlertSourceConfig;
 import org.jmanage.core.alert.source.NotificationAlertSource;
+import org.jmanage.core.alert.source.GuageAlertSource;
 
 /**
  *
@@ -26,8 +27,9 @@ public class AlertSourceFactory {
         final String sourceType = sourceConfig.getSourceType();
         if(sourceType.equals(AlertSourceConfig.SOURCE_TYPE_NOTIFICATION)){
             return new NotificationAlertSource(sourceConfig);
+        }else if(sourceType.equals(AlertSourceConfig.SOURCE_TYPE_GAUGE_MONITOR)){
+            return new GuageAlertSource(sourceConfig);
         }
-
         assert false:"Unknown alert source type: " + sourceType;
         return null;
     }
