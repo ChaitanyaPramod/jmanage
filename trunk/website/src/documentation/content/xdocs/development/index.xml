@@ -4,56 +4,98 @@
 <document>
   <header>
     <title>jManage Build Guide</title>
+    <authors>
+        <person name="Rakesh Kalra" email="rkalra@jmanage.org"/>
+        <person name="Shashank Bellary" email="sbellary@jmanage.org"/>
+    </authors>
   </header>
   <body>
       <section>
         <title>Preparing</title>
         <p>
-  - JManage requires JDK 1.4+ to build and run. You can download JDK
+  - jManage requires JDK 1.4+ to build and run. You can download JDK
   <a href="http://java.sun.com/j2se/1.4.2/download.html">here</a>.
-  <br/>
-  - Ant 1.6.1 is used to build JManage. You can download ant
-  <a href="http://ant.apache.org/bindownload.cgi">here</a>.
-  <br/>
-  - Get the JManage source tree from cvs.sourceforge.net. Windows developer can
-  setup WinCVS as described in this
+  <br/><br/>
+  - Maven 1.0.2 is used to build jManage. You can download Maven
+  <a href="http://www.apache.org/dyn/closer.cgi/maven/binaries/maven-1.0.2.exe">here</a>.
+  <br/><br/>
+  - Get the jManage source code from cvs.sourceforge.net. The "jmanage" module in CVS
+    is the root of the source code.
+  <br/><br/>
+  - Windows developer can setup WinCVS as described in this
   <a href="http://sourceforge.net/docman/display_doc.php?docid=766&amp;group_id=1"
       >document</a>.
-      <br/>
+      <br/><br/>
       &lt;jmanage-home&gt; in this document refers to
-      c:\cvsroot\main, where c:\cvsroot is you CVS root.
+      c:\cvsroot\jmanage, where c:\cvsroot is you CVS root.
       <br/><br/>
         </p>
       </section>
       <section>
         <title>Building</title>
         <p>
-  - Make sure that JAVA_HOME and ANT_HOME environment variables are properly set.
-  <br/>
-  - Run "ant" from &lt;jmanage-home&gt; directory to create the build. This builds core
-  jManage classes.
-  <br/>
-  - To compile all modules (e.g. weblogic, jboss, etc.) run "ant build-all-modules".
-  The weblogic module requires weblogic.jar to be copied to the "ext" folder.
-  <br/>
-  - You can run one of the following targets to build individual modules:
-  <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;build-jboss-module
-  <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;build-jsr160-module
-      <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;build-weblogic-module
-  <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;build-websphere-module
+  - Make sure that JAVA_HOME environment variable is pointing to JDK 1.4 dir.
+  <br/><br/>
+  - Make sure that Maven 1.0.2 "bin" directory is in the PATH.
+  <br/><br/>
+  - Run "maven build" from &lt;jmanage-home&gt; directory to build the jManage platform.
+  <br/><br/>
+  - Please note that building weblogic module requires weblogic.jar to be copied to "modules/weblogic/lib" folder.
+  <br/><br/>
+  - To compile all modules (e.g. weblogic, jboss, etc.) run "maven build-all-modules".
+  <br/><br/>
+  - You can also build individual modules:<br/>
+      <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;maven build-module -Dmodule.name=jboss
+      <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;maven build-module -Dmodule.name=jsr160
+      <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;maven build-module -Dmodule.name=weblogic
+      <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;maven build-module -Dmodule.name=websphere
+      <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;maven build-module -Dmodule.name=snmp
       <br/><br/>
         </p>
       </section>
       <section>
         <title>Running</title>
         <p>
-  - Execute startup script from &lt;jmanage-home&gt;. Enter "123456" as the password.
+  - Execute startup.cmd script from &lt;jmanage-home&gt;. Enter "123456" as the password.
   jManage runs on port 9090 by default.
-  <br/>
-  - Point your browser to http://localhost:9090/index.jsp. Use "admin" as the username
+  <br/><br/>
+  - Go to the URL http://localhost:9090. Use "admin" as the username
   and "123456" as the password.
       <br/><br/>
         </p>
+      </section>
+      <section>
+          <title>Maven Goals</title>
+          <table>
+          <tr>
+            <td><strong>clean</strong></td>
+            <td>Cleans the build directory.</td>
+          </tr>
+          <tr>
+            <td><strong>build-all</strong></td>
+            <td>Builds everything.</td>
+          </tr>
+          <tr>
+            <td><strong>build-all-modules</strong></td>
+            <td>Builds all the modules.</td>
+          </tr>
+          <tr>
+            <td><strong>build-module</strong></td>
+            <td>Builds single module. You need to pass -Dmodule.name from the command line.</td>
+          </tr>
+          <tr>
+            <td><strong>build-module</strong></td>
+            <td>Builds single module. You need to pass -Dmodule.name from the command line.</td>
+          </tr>
+          <tr>
+            <td><strong>build-webui</strong></td>
+            <td>Builds the webui component.</td>
+          </tr>
+          <tr>
+            <td><strong>dist</strong></td>
+            <td>Creates distribution jars. You need to pass -Dapp.version from the command line.</td>
+          </tr>
+          </table>
       </section>
   </body>
 </document>

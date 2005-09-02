@@ -4,6 +4,9 @@
 <document>
   <header>
     <title>jManage Command Line Reference</title>
+    <authors>
+        <person name="Rakesh Kalra" email="rkalra@jmanage.org"/>
+    </authors>
   </header>
   <body>
     <section>
@@ -47,47 +50,47 @@
        <title>Commands</title>
        <table>
           <tr>
-            <td>apps</td>
+            <td><strong>apps</strong></td>
             <td>Lists all configured applications in jManage.</td>
           </tr>
           <tr>
-           <td>mbeans</td>
+           <td><strong>mbeans</strong></td>
            <td>Queries mbeans for the given application.</td>
           </tr>
           <tr>
-            <td>cmbeans</td>
+            <td><strong>cmbeans</strong></td>
             <td>Lists configured mbeans for the given application.</td>
           </tr>
           <tr>
-            <td>info</td>
+            <td><strong>info</strong></td>
             <td>Display information about the mbean.</td>
           </tr>
           <tr>
-            <td>get</td>
+            <td><strong>get</strong></td>
             <td>Gets attribute values for given mbean.</td>
           </tr>
           <tr>
-            <td>print</td>
+            <td><strong>print</strong></td>
             <td>Prints tab delimited value(s) for given mbean attribute(s).</td>
           </tr>
           <tr>
-            <td>set</td>
+            <td><strong>set</strong></td>
             <td>Sets attribute value. Used for setting complex values (e.g. with spaces).</td>
           </tr>
           <tr>
-            <td>setattrs</td>
+            <td><strong>setattrs</strong></td>
             <td>Sets one or more attribute values.</td>
           </tr>
           <tr>
-            <td>execute</td>
+            <td><strong>execute</strong></td>
             <td>Executes given operation on mbean.</td>
           </tr>
           <tr>
-            <td>help</td>
+            <td><strong>help</strong></td>
             <td>Prints jManage command line help. help &lt;command&gt; provides detailed help on given command.</td>
           </tr>
           <tr>
-            <td>exit</td>
+            <td><strong>exit</strong></td>
             <td>Exits from jManage command prompt mode.</td>
           </tr>
        </table>

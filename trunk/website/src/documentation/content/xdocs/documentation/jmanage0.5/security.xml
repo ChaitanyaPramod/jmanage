@@ -4,6 +4,9 @@
 <document>
   <header>
     <title>Security in jManage</title>
+    <authors>
+        <person name="Rakesh Kalra" email="rkalra@jmanage.org"/>
+    </authors>
   </header>
   <body>
     <section>

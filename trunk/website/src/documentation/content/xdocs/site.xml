@@ -36,14 +36,14 @@ See http://forrest.apache.org/docs/linking.html for more info
     <downloads label="Download" href="http://sourceforge.net/project/showfiles.php?group_id=111374&amp;package_id=120380" description="jManage Downloads"/>
     <screenshots label="Screenshots" href="/screenshots.html" description="Screen Shots"/>
     <roadmap label="Roadmap" href="/roadmap.html" description="jManage Roadmap"/>
-    <!--<team label="The Team" href="/team.html" description="jManage team"/>-->
+    <team label="Contributors" href="/contributors.html" description="jManage team"/>
     <contactUs label="Contact Us" href="/contactus.html" description="Contact Us"/>
   </home>
   <documentation label="Documentation" href="/documentation/jmanage0.5/install.html">
     <installation label="Installation" href="/documentation/jmanage0.5/install.html" description="jManage Installation"/>
     <cli label="Command Line" href="/documentation/jmanage0.5/cli.html" description="Command line reference"/>
     <accessControl label="Access Control" href="/documentation/jmanage0.5/accessControl.html" description="Access Control"/>
-    <accessControl label="Security" href="/documentation/jmanage0.5/security.html" description="Access Control"/>
+    <security label="Security" href="/documentation/jmanage0.5/security.html" description="Access Control"/>
   </documentation>
   <community label="Community" href="http://sourceforge.net/projects/jmanage/">
     <sfProject label="SF Project" href="http://sourceforge.net/projects/jmanage/"/>
@@ -55,6 +55,8 @@ See http://forrest.apache.org/docs/linking.html for more info
   <development label="Development">
     <buildGuide label="Build Guide" href="development/index.html"/>
     <architecture label="Architecture" href="development/architecture.html"/>
+    <jamesSetup label="James Setup" href="development/jamesSetup.html"/>
+    <snmpModule label="SNMP Module" href="development/snmpModule.html"/>
     <cvs label="CVS" href="http://sourceforge.net/cvs/?group_id=111374"/>
     <license label="License" href="http://www.apache.org/licenses/LICENSE-2.0"/>
   </development>
