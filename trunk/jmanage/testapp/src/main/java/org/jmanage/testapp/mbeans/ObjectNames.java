@@ -28,4 +28,5 @@ public interface ObjectNames {
     String BIG_DATA_TYPE_TEST = "jmanage:name=BigDataTypeTest";
     String OBJECT_NAME_DATA_TYPE_TEST = "jmanage:name=ObjectNameDataTypeTest";
     String TIME_NOTIFICATION_BROADCASTER = "jmanage:name=TimeNotificationBroadcaster";
+    String DATA_FORMAT = "jmanage:name=DataFormat";
 }

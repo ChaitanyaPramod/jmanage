@@ -99,7 +99,9 @@ public class ModuleConfig {
             final String moduleDirPath =
                     CoreUtils.getModuleDir(getType());
             final File moduleDir = new File(moduleDirPath);
-            assert moduleDir.isDirectory():"Invalid moduleDir=" + moduleDirPath;
+            if(!moduleDir.isDirectory()){
+                throw new ModuleNotFoundException(getType());
+            }
             File[] files = moduleDir.listFiles();
             URL[] urls = new URL[files.length];
             for(int i=0; i<files.length; i++){
@@ -108,6 +110,12 @@ public class ModuleConfig {
             return urls;
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public static class ModuleNotFoundException extends RuntimeException{
+        ModuleNotFoundException(String module){
+            super("Module=" + module);
         }
     }
 }

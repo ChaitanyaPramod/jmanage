@@ -80,6 +80,9 @@ public class JMXHelper {
          /* TimeNotificationBroadcaster */
         registerMBean(new TimeNotificationBroadcaster(),
                 ObjectNames.TIME_NOTIFICATION_BROADCASTER);
+        /* Data Formatter */
+        registerMBean(new DataFormat(),
+                ObjectNames.DATA_FORMAT);
         if(!jmxmpConnector){
             /* start RMI connector */
             startJMXConnectorServer(port);

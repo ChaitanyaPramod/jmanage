@@ -48,7 +48,7 @@
             <td valign="top" class="plaintext">
                 <%=(operationResult.getResult() == OperationResultData.RESULT_OK)?"OK":"Error"%>
             </td>
-            <td valign="top" class="plaintext"><%=StringUtils.toString(operationResult.getOutput(), "<br/>")%></td>
+            <td valign="top" class="plaintext"><%=StringUtils.toString(operationResult.getOutput(), "<br/>", true)%></td>
         </tr>
     <%
     }

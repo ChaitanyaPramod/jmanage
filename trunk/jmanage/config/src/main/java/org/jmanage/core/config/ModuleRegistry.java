@@ -18,9 +18,11 @@ package org.jmanage.core.config;
 import org.jmanage.core.config.ApplicationType;
 import org.jmanage.core.config.MetaApplicationConfig;
 import org.jmanage.core.config.ModuleConfig;
+import org.jmanage.core.util.Loggers;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.logging.Logger;
 
 /**
  *
@@ -28,6 +30,8 @@ import java.util.HashMap;
  * @author	Rakesh Kalra, Shashank Bellary
  */
 public class ModuleRegistry {
+
+    private static final Logger logger = Loggers.getLogger(ModuleRegistry.class);
 
     private static Map modules = new HashMap();
 
@@ -40,57 +44,69 @@ public class ModuleRegistry {
         MetaApplicationConfig metaConfig = null;
 
         /* weblogic module */
-        metaConfig = new MetaApplicationConfig(true, true, false, true, true,
-                "org.jmanage.core.modules.weblogic.WeblogicApplicationConfig");
-        modules.put(ApplicationType.WEBLOGIC,
-                new ModuleConfig(ApplicationType.WEBLOGIC,
-                        "Weblogic 6.1",
-                        metaConfig,
-                        "org.jmanage.core.modules.weblogic.WLServerConnectionFactory"));
+        try {
+            metaConfig = new MetaApplicationConfig(true, true, false, true, true,
+                    "org.jmanage.core.modules.weblogic.WeblogicApplicationConfig");
+            modules.put(ApplicationType.WEBLOGIC,
+                    new ModuleConfig(ApplicationType.WEBLOGIC,
+                            "Weblogic 6.1",
+                            metaConfig,
+                            "org.jmanage.core.modules.weblogic.WLServerConnectionFactory"));
+        } catch (ModuleConfig.ModuleNotFoundException e) {
+            logger.warning(ApplicationType.WEBLOGIC + " module not found");
+        }
 
-        /* tomcat module */
-        /** TODO: this needs to fixed - rk
-        metaConfig = new MetaApplicationConfig(true, true, false, false, false,
-                "org.jmanage.core.modules.tomcat.TomcatApplicationConfig");
-        modules.put(ApplicationType.TOMCAT,
-                new ModuleConfig(ApplicationType.TOMCAT,
-                        "Tomcat",
-                        metaConfig,
-                        "org.jmanage.core.modules.tomcat.TomcatServerConnectionFactory"));
-        */
         /* jsr160 module */
-        metaConfig = new MetaApplicationConfig(false, false, true, true, true,
-                "org.jmanage.core.modules.jsr160.JSR160ApplicationConfig");
-        modules.put(ApplicationType.JSR160,
-                new ModuleConfig(ApplicationType.JSR160,
-                        "JSR160",
-                        metaConfig,
-                        "org.jmanage.core.modules.jsr160.JSR160ServerConnectionFactory"));
+        try {
+            metaConfig = new MetaApplicationConfig(false, false, true, true, true,
+                    "org.jmanage.core.modules.jsr160.JSR160ApplicationConfig");
+            modules.put(ApplicationType.JSR160,
+                    new ModuleConfig(ApplicationType.JSR160,
+                            "JSR160",
+                            metaConfig,
+                            "org.jmanage.core.modules.jsr160.JSR160ServerConnectionFactory"));
+        } catch (ModuleConfig.ModuleNotFoundException e) {
+            logger.warning(ApplicationType.JSR160 + " module not found");
+        }
 
         /* jboss module */
-        metaConfig = new MetaApplicationConfig(true, true, false, true, true,
-                "org.jmanage.core.modules.jboss.JBossApplicationConfig");
-        modules.put(ApplicationType.JBOSS,
-                new ModuleConfig(ApplicationType.JBOSS,
-                        "JBoss 3.2.4",
-                        metaConfig,
-                        "org.jmanage.core.modules.jboss.JBossServerConnectionFactory"));
+        try {
+            metaConfig = new MetaApplicationConfig(true, true, false, true, true,
+                    "org.jmanage.core.modules.jboss.JBossApplicationConfig");
+            modules.put(ApplicationType.JBOSS,
+                    new ModuleConfig(ApplicationType.JBOSS,
+                            "JBoss 3.2.4",
+                            metaConfig,
+                            "org.jmanage.core.modules.jboss.JBossServerConnectionFactory"));
+        } catch (ModuleConfig.ModuleNotFoundException e) {
+            logger.warning(ApplicationType.JBOSS + " module not found");
+        }
+
         /*  WebSphere module    */
-        metaConfig = new MetaApplicationConfig(true, true, false, true, true,
-                "org.jmanage.core.modules.websphere.WebSphereApplicationConfig");
-        modules.put(ApplicationType.WEBSPHERE,
-                new ModuleConfig(ApplicationType.WEBSPHERE,
-                        "WebSphere",
-                        metaConfig,
-                        "org.jmanage.core.modules.websphere.WebSphereServerConnectionFactory"));
+        try {
+            metaConfig = new MetaApplicationConfig(true, true, false, true, true,
+                    "org.jmanage.core.modules.websphere.WebSphereApplicationConfig");
+            modules.put(ApplicationType.WEBSPHERE,
+                    new ModuleConfig(ApplicationType.WEBSPHERE,
+                            "WebSphere",
+                            metaConfig,
+                            "org.jmanage.core.modules.websphere.WebSphereServerConnectionFactory"));
+        } catch (ModuleConfig.ModuleNotFoundException e) {
+            logger.warning(ApplicationType.WEBSPHERE + " module not found");
+        }
+
         /*  SNMP module    */
-        metaConfig = new MetaApplicationConfig(true, true, false, false, false,
-                "org.jmanage.core.modules.snmp.SNMPApplicationConfig");
-        modules.put(ApplicationType.SNMP,
-                new ModuleConfig(ApplicationType.SNMP,
-                        "SNMP",
-                        metaConfig,
-                        "org.jmanage.core.modules.snmp.SNMPAgentConnectionFactory"));
+        try {
+            metaConfig = new MetaApplicationConfig(true, true, false, false, false,
+                    "org.jmanage.core.modules.snmp.SNMPApplicationConfig");
+            modules.put(ApplicationType.SNMP,
+                    new ModuleConfig(ApplicationType.SNMP,
+                            "SNMP",
+                            metaConfig,
+                            "org.jmanage.core.modules.snmp.SNMPAgentConnectionFactory"));
+        } catch (ModuleConfig.ModuleNotFoundException e) {
+            logger.warning(ApplicationType.SNMP + " module not found");
+        }
     }
 
     public static ModuleConfig getModule(String type){
