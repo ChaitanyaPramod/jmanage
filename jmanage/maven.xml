@@ -56,9 +56,18 @@
         </ant:ant>
     </goal>
 
+    <goal name="build-module">
+        <ant:ant antfile="${basedir}/modules/build.xml"
+            target="build-module" inheritAll="false">
+            <property name="build.home" value="${basedir}/build"/>
+            <property name="module.name" value="${module.name}"/>
+        </ant:ant>
+    </goal>
+
     <goal name="build-webui">
         <ant:ant antfile="${basedir}/webui/build.xml" inheritAll="false">
             <property name="build.home" value="${basedir}/build"/>
+            <property name="jmanage.version" value="${jmanage.version}"/>
         </ant:ant>
     </goal>
 
@@ -69,7 +78,19 @@
         </ant:delete>
     </goal>
 
+    <!-- ====================== Test Goals ==================================-->
+    <goal name="simple-config">
+        <ant:copy file="${basedir}/config/src/test/config/simple-config.xml"
+            tofile="${basedir}/build/config/config.xml"
+            overwrite="true"/>
+    </goal>
+    <goal name="cluster-config">
+        <ant:copy file="${basedir}/config/src/test/config/cluster-config.xml"
+            tofile="${basedir}/build/config/config.xml"
+            overwrite="true"/>
+    </goal>
 
+    <!-- ================= Distribution Goals ===============================-->
     <goal name="dist">
 
         <attainGoal name="dist-src"/>
@@ -92,7 +113,7 @@
         <ant:mkdir dir="${basedir}/dist"/>
 
         <!-- .gz format -->
-        <ant:tar tarfile="${basedir}/dist/jmanage-${app.version}.tar">
+        <ant:tar tarfile="${basedir}/dist/jmanage-${jmanage.version}.tar">
             <tarfileset dir="${basedir}/build">
                 <exclude name="bin/*.cmd"/>
                 <exclude name="modules/weblogic/weblogic.jar"/>
@@ -103,10 +124,10 @@
             </tarfileset>
         </ant:tar>
 
-        <ant:gzip zipfile="${basedir}/dist/jmanage-${app.version}.tar.gz"
-            src="${basedir}/dist/jmanage-${app.version}.tar"/>
+        <ant:gzip zipfile="${basedir}/dist/jmanage-${jmanage.version}.tar.gz"
+            src="${basedir}/dist/jmanage-${jmanage.version}.tar"/>
         <!-- zip format -->
-        <ant:zip destfile="${basedir}/dist/jmanage-${app.version}.zip">
+        <ant:zip destfile="${basedir}/dist/jmanage-${jmanage.version}.zip">
             <fileset dir="${basedir}/build">
                 <exclude name="bin/*.sh"/>
                 <exclude name="modules/weblogic/weblogic.jar"/>
@@ -124,7 +145,7 @@
 
         <!-- source (before doing the build) -->
         <!-- .gz format -->
-        <ant:tar tarfile="${basedir}/dist/jmanage-${app.version}-src.tar">
+        <ant:tar tarfile="${basedir}/dist/jmanage-${jmanage.version}-src.tar">
             <tarfileset dir="${basedir}/">
                 <exclude name="build/**"/>
                 <exclude name="dist/**"/>
@@ -133,11 +154,11 @@
                 <exclude name="**/modules/websphere/lib/*.jar"/>
             </tarfileset>
         </ant:tar>
-        <ant:gzip zipfile="${basedir}/dist/jmanage-${app.version}-src.tar.gz"
-            src="${basedir}/dist/jmanage-${app.version}-src.tar"/>
+        <ant:gzip zipfile="${basedir}/dist/jmanage-${jmanage.version}-src.tar.gz"
+            src="${basedir}/dist/jmanage-${jmanage.version}-src.tar"/>
 
         <!-- zip format -->
-        <ant:zip destfile="${basedir}/dist/jmanage-${app.version}-src.zip">
+        <ant:zip destfile="${basedir}/dist/jmanage-${jmanage.version}-src.zip">
             <fileset dir="${basedir}">
                 <exclude name="build/**"/>
                 <exclude name="dist/**"/>
