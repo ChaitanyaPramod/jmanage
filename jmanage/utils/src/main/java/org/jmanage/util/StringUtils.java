@@ -87,13 +87,30 @@ public class StringUtils {
      * @return
      */
     public static String toString(Object obj, String listDelim){
+        return toString(obj, listDelim, false);
+    }
+
+    /**
+     *
+     * @param obj
+     * @param listDelim
+     * @param htmlEscape    indicates if the string should be HTML escaped
+     * @return
+     */
+    public static String toString(Object obj,
+                                  String listDelim,
+                                  boolean htmlEscape){
         if(obj == null){
             return "null";
         }
         if(obj.getClass().isArray()){
             return arrayToString(obj, listDelim);
         }
-        return obj.toString();
+        String output = obj.toString();
+        if(htmlEscape){
+            return htmlEscape(output);
+        }
+        return output;
     }
 
     private static String arrayToString(Object array, String listDelim){
@@ -105,6 +122,23 @@ public class StringUtils {
                 buff.append(listDelim);
             }
             buff.append(Array.get(array, i));
+        }
+        return buff.toString();
+    }
+
+    public static String htmlEscape(String str){
+        StringBuffer buff = new StringBuffer(str.length());
+        for(int i=0; i<str.length(); i++){
+            final char ch = str.charAt(i);
+            if(ch == '"'){
+                buff.append("&quot;");
+            }else if(ch == '<'){
+                buff.append("&lt;");
+            }else if(ch == '>'){
+                buff.append("&gt;");
+            }else{
+                buff.append(ch);
+            }
         }
         return buff.toString();
     }

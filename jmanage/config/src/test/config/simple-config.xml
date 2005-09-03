@@ -1,2 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<application-config><applications><application id="1109334789661" name="testApp1" url="service:jmx:rmi:///jndi/rmi://localhost:9999/testApp" username="" password="7c82082b0cd62b60" type="jsr160"><mbeans /></application></applications></application-config>
+<application-config>
+    <applications>
+        <application id="1109334789661"
+            name="testApp1"
+            url="service:jmx:rmi:///jndi/rmi://localhost:9999/testApp"
+            username=""
+            password="7c82082b0cd62b60"
+            type="jsr160">
+            <mbeans/>
+        </application>
+    </applications>
+</application-config>

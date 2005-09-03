@@ -163,7 +163,7 @@
             String attrValue = null;
             if(objAttribute.getStatus() == ObjectAttribute.STATUS_OK){
                 if(objAttribute.getValue() != null){
-                    attrValue = StringUtils.toString(objAttribute.getValue(), "<br/>");
+                    attrValue = StringUtils.toString(objAttribute.getValue(), "<br/>", true);
                 }
             }else if(objAttribute.getStatus() == ObjectAttribute.STATUS_NOT_FOUND){
                 attrValue = "&lt;not found&gt;";
@@ -182,6 +182,8 @@
                 <%if(attributeInfo.getType().equals("boolean") || attributeInfo.getType().equals("java.lang.Boolean")){%>
                     <input type="radio" name="attr+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>+<%=attributeInfo.getType()%>" value="true" <%=attrValue.equals("true")?" CHECKED":""%> />&nbsp;True
                     &nbsp;&nbsp;&nbsp;<input type="radio" name="attr+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>+<%=attributeInfo.getType()%>" value="false" <%=attrValue.equals("false")?" CHECKED":""%>/>&nbsp;False
+                <%}else if(attrValue.indexOf('\n') != -1){%>
+                    <textarea name="attr+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>+<%=attributeInfo.getType()%>" rows="3" cols="40"><%=attrValue%></textarea>
                 <%}else{%>
                     <input type="text" name="attr+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>+<%=attributeInfo.getType()%>" size="50"
                     value="<%=attrValue%>"/>
