@@ -23,6 +23,7 @@ import org.jmanage.webui.forms.AlertForm;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.AlertConfig;
 import org.jmanage.core.config.AlertSourceConfig;
+import org.jmanage.core.util.Expression;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
@@ -57,23 +58,26 @@ public class ShowEditAlertAction extends BaseAction{
             String sourceType = alertSrcConfig.getSourceType();
             form.setAlertSourceType(alertSrcConfig.getSourceType());
             request.setAttribute("alertSourceType",sourceType);
-            form.setObjectName(alertSrcConfig.getObjectName());
             request.setAttribute("sourceMBean", alertSrcConfig.getObjectName());
+            // expression
+            Expression expression = null;
             if(sourceType.equals(AlertSourceConfig.SOURCE_TYPE_NOTIFICATION)){
+                expression = new Expression(null, alertSrcConfig.getObjectName(),
+                        alertSrcConfig.getNotificationType());
                 request.setAttribute("notificationType",
                         alertSrcConfig.getNotificationType());
-                form.setNotificationType(alertSrcConfig.getNotificationType());
             }else if(sourceType.equals(
                     AlertSourceConfig.SOURCE_TYPE_GAUGE_MONITOR)){
-                form.setAttribute(alertSrcConfig.getAttributeName());
+                expression = new Expression(null, alertSrcConfig.getObjectName(),
+                        alertSrcConfig.getAttributeName());
                 request.setAttribute("attribute", alertSrcConfig.getAttributeName());
                 form.setMinAttributeValue(alertSrcConfig.getLowThreshold()
                         .toString());
                 form.setMaxAttributeValue(alertSrcConfig.getHighThreshold()
                         .toString());
-                }
+            }
+            form.setExpression(expression.toString());
         }
         return mapping.findForward(Forwards.SUCCESS);
     }
-
 }

@@ -28,6 +28,7 @@ import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.ApplicationConfigManager;
 import org.jmanage.core.config.AlertSourceConfig;
 import org.jmanage.core.alert.AlertEngine;
+import org.jmanage.core.util.Expression;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
@@ -89,14 +90,15 @@ public class AddAlertAction extends BaseAction{
     private AlertSourceConfig getAlertSourceConfig(WebContext context,
                                                    AlertForm form){
         AlertSourceConfig sourceConfig = null;
+        Expression expression = new Expression(form.getExpression());
         if(AlertSourceConfig.SOURCE_TYPE_NOTIFICATION.equals(
                 form.getAlertSourceType())){
-            sourceConfig = new AlertSourceConfig(form.getObjectName(),
-                    form.getNotificationType());
+            sourceConfig = new AlertSourceConfig(expression.getMBeanName(),
+                    expression.getTargetName());
         }else if(AlertSourceConfig.SOURCE_TYPE_GAUGE_MONITOR.equals(
                 form.getAlertSourceType())){
-            sourceConfig = new AlertSourceConfig(form.getObjectName(),
-                    form.getAttribute(),
+            sourceConfig = new AlertSourceConfig(expression.getMBeanName(),
+                    expression.getTargetName(),
                     Double.valueOf(form.getMinAttributeValue()),
                     Double.valueOf(form.getMaxAttributeValue()));
         }else {

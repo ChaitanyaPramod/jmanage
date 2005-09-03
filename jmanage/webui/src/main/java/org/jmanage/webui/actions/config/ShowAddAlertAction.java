@@ -63,17 +63,13 @@ public class ShowAddAlertAction extends BaseAction{
                             sourceType);
         alertForm.setAlertSourceType(sourceType);
         if(sourceType.equals(AlertSourceConfig.SOURCE_TYPE_NOTIFICATION)){
-            Expression expr = new Expression(alertForm.getNotification());
+            Expression expr = new Expression(alertForm.getExpression());
             request.setAttribute("sourceMBean", expr.getMBeanName());
-            alertForm.setObjectName(expr.getMBeanName());
             request.setAttribute("notificationType", expr.getTargetName());
-            alertForm.setNotificationType(expr.getTargetName());
         }else if(sourceType.equals(AlertSourceConfig.SOURCE_TYPE_GAUGE_MONITOR)){
-            Expression expr = new Expression(alertForm.getAttribute());
-            request.setAttribute("attribute", expr.getTargetName());
-            alertForm.setAttribute(expr.getTargetName());
+            Expression expr = new Expression(alertForm.getExpression());
             request.setAttribute("sourceMBean", expr.getMBeanName());
-            alertForm.setObjectName(expr.getMBeanName());
+            request.setAttribute("attribute", expr.getTargetName());
         }
 
         request.setAttribute("applications",
