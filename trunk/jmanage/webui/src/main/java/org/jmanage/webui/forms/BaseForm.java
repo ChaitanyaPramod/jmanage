@@ -37,7 +37,7 @@ public abstract class BaseForm extends ValidatorForm {
      * @return  in case of errors, it returns ActionErrors object;
      * otherwise it returns null
      */
-    public final ActionErrors validate(ActionMapping mapping,
+    public ActionErrors validate(ActionMapping mapping,
                                        HttpServletRequest request) {
 
         return super.validate(mapping, request);

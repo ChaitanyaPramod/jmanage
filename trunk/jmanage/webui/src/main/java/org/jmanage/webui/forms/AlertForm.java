@@ -33,10 +33,7 @@ public class AlertForm extends BaseForm{
     private String subject;
     private String emailAddress;
     private String alertSourceType = AlertSourceConfig.SOURCE_TYPE_NOTIFICATION;
-    private String notification;
-    private String objectName;
-    private String notificationType;
-    private String attribute;
+    private String expression;
     private String minAttributeValue;
     private String maxAttributeValue;
 
@@ -114,49 +111,26 @@ public class AlertForm extends BaseForm{
         this.alertSourceType = alertSourceType;
     }
 
-    public String getNotification() {
-        return notification;
+    public String getExpression() {
+        return expression;
     }
 
-    public void setNotification(String notification) {
-        this.notification = notification;
+    public void setExpression(String expression) {
+        this.expression = expression;
     }
 
-    public void setObjectName(String objectName) {
-        this.objectName = objectName;
-    }
-
-    public void setNotificationType(String notificationType) {
-        this.notificationType = notificationType;
-    }
-
-    public String getObjectName() {
-        return objectName;
-    }
-
-    public String getNotificationType() {
-        return notificationType;
-    }
-
-    public String getAttribute(){
-        return attribute;
-    }
-
-    public void setAttribute(String attribute){
-        this.attribute = attribute;
-    }
     /**
      * this method is needed becuase in the generic flow for attribute selection
      * the parameter used in attributes
      * @param attribute
      */
     public void setAttributes(String attribute){
-        setAttribute(attribute);
+        setExpression(attribute);
     }
 
     public ActionErrors validate(ActionMapping mapping, HttpServletRequest request){
-        ActionErrors errors = new ActionErrors();
-        if(super.validate(mapping, request)==null){
+        ActionErrors errors = super.validate(mapping, request);
+        if(errors==null || errors.isEmpty()){
             if(!validateEmailAddress()){
                 errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(
                         ErrorCodes.EMAIL_ADDRESS_REQUIRED));
@@ -179,10 +153,10 @@ public class AlertForm extends BaseForm{
         return errors;
     }
     private boolean validateEmailAddress(){
-        boolean result = false;
-        if(alertDelivery[0].equals("email")){
-            if(emailAddress != null){
-                result = true;
+        boolean result = true;
+        if(alertDelivery[0] !=null && alertDelivery[0].equals("email")){
+            if(emailAddress == null || emailAddress.equals("") ){
+                result = false;
             }
         }
         return result;

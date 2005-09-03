@@ -34,7 +34,7 @@
                 Expression expr = new Expression(null, mbean, notifTypes[j]);
 %>
     <tr>
-    <td class="plaintext"><jmhtml:radio property="notification"
+    <td class="plaintext"><jmhtml:radio property="expression"
                       value="<%=expr.getHtmlEscaped()%>"/>
                       <%=notifTypes[j]%></td>
     </tr>

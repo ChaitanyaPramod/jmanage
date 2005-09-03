@@ -29,6 +29,7 @@
 <jmhtml:form action="/config/addAlert" method="post"
                                     onsubmit="return validateAlertForm(this)">
 <jmhtml:hidden property="alertId" />
+<jmhtml:hidden property="expression" />
 
 <table cellspacing="0" cellpadding="5" width="400" class="table">
 <tr class="tableHeader">
@@ -74,7 +75,6 @@
     <td class="headtext1"><nobr>Alert Source MBean:</nobr></td>
     <td>
         <%=request.getAttribute("sourceMBean")%>
-        <jmhtml:hidden property="objectName"/>
     </td>
 </tr>
 <%
@@ -85,7 +85,6 @@
     <td class="headtext1">Notification Type:</td>
     <td>
         <%=request.getAttribute("notificationType")%>
-        <jmhtml:hidden property="notificationType"/>
     </td>
 </tr>
 <%
@@ -95,7 +94,6 @@
     <td class="headtext1">Attribute Name:</nobr></td>
     <td>
         <%=request.getAttribute("attribute")%>
-        <jmhtml:hidden property="attribute"/>
     </td>
 </tr>
 <tr>
