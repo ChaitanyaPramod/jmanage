@@ -103,5 +103,6 @@ public class ServiceContextImpl implements ServiceContext {
 
     public void releaseResources() {
         ServiceUtils.close(serverConnection);
+        serverConnection = null;
     }
 }

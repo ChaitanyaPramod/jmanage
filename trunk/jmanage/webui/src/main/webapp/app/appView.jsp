@@ -91,7 +91,7 @@
 </p>
 <%}%>
 <p>
-   <a href="/config/showMBeans.do?<%=RequestParams.APPLICATION_ID%>=<%=appConfig.getApplicationId()%>&<%=RequestParams.END_URL%>=<%=Utils.encodeURL("/config/showAddGraph.do")%>&<%=RequestParams.MULTIPLE%>=true" styleClass="a1">Add Graph</a>
+   <a href="/config/showMBeans.do?<%=RequestParams.APPLICATION_ID%>=<%=appConfig.getApplicationId()%>&<%=RequestParams.END_URL%>=<%=Utils.encodeURL("/config/showAddGraph.do")%>&<%=RequestParams.MULTIPLE%>=true" class="a">Add Graph</a>
 </p>
 <%
 if(appConfig.getAlerts().size() > 0){
@@ -144,6 +144,6 @@ if(appConfig.getAlerts().size() > 0){
 </p>
 <%}%>
 <p>
-<a href="/config/showSelectAlertSourceType.do?<%=RequestParams.APPLICATION_ID%>=<%=appConfig.getApplicationId()%>" styleClass="a1">Add New Alert</a>
+<a href="/config/showSelectAlertSourceType.do?<%=RequestParams.APPLICATION_ID%>=<%=appConfig.getApplicationId()%>" class="a">Add New Alert</a>
 
 

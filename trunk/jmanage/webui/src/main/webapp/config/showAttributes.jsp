@@ -20,16 +20,18 @@
 <!-- /config/showAttributes.jsp  -->
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 <jmhtml:errors/>
-<jmhtml:form action="/config/selectAttributes" onsubmit="validateAttributeSelectionForm(this)">
+<jmhtml:javascript formName="attributeSelectionForm" page="2"/>
+<jmhtml:form action="/config/selectAttributes" onsubmit="return validateAttributeSelectionForm(this)">
 <jmhtml:hidden property="endURL"/>
+<jmhtml:hidden property="multiple"/>
 <jmhtml:hidden property="alertSourceType"/>
-<jmhtml:hidden property="mbeans"/>
 <jmhtml:hidden property="page" value="2"/>
 <%
     Map mbeanAttributesMap = (Map)request.getAttribute("mbeanAttributesMap");
     for(Iterator itr=mbeanAttributesMap.keySet().iterator(); itr.hasNext() ;){
         String objectName = (String)itr.next();
 %>
+<jmhtml:hidden property="mbeans" value="<%=objectName%>"/>
 <table class="table" border="0" cellspacing="0" cellpadding="3" width="600">
     <tr class="tableheader">
         <td colspan="4"><%=objectName%></td>
