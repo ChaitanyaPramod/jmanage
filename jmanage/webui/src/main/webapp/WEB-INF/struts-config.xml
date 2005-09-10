@@ -414,6 +414,7 @@
         <action path="/config/deleteAlert"
                 name="alertForm"
                 scope="request"
+                validate="false"
                 type="org.jmanage.webui.actions.config.RemoveAlertAction">
                 <forward name="success" path="/app/appView.do"/>
         </action>
@@ -422,14 +423,22 @@
         <action path="/config/showMBeans"
             name="attributeSelectionForm"
             scope="request"
-            validate="true"
+            validate="false"
             type="org.jmanage.webui.actions.config.ShowMBeanAction">
             <forward name="success" path="config.showMBeans"/>
         </action>
         <action path="/config/showAttributes"
             name="attributeSelectionForm"
             scope="request"
+            validate="true"
             input="/config/showMBeans.do"
+            type="org.jmanage.webui.actions.config.ShowAttributesAction">
+            <forward name="success" path="config.showAttributes"/>
+        </action>
+        <action path="/config/showAttributes-error"
+            name="attributeSelectionForm"
+            scope="request"
+            validate="false"
             type="org.jmanage.webui.actions.config.ShowAttributesAction">
             <forward name="success" path="config.showAttributes"/>
         </action>
@@ -437,14 +446,13 @@
             name="attributeSelectionForm"
             scope="request"
             validate="true"
-            input="/config/showAttributes"
+            input="/config/showAttributes-error.do"
             type="org.jmanage.webui.actions.config.SelectAttributeAction">
         </action>
 
         <action path="/config/showAddGraph"
             name="graphForm"
             scope="request"
-            input="/config/showAttributes"
             type="org.jmanage.webui.actions.config.ShowAddGraphAction">
             <forward name="success" path="config.showAddGraph"/>
         </action>

@@ -315,12 +315,16 @@
             </field>
         </form>
         <form name="attributeSelectionForm">
-            <field property="mbeans" depends="required" page="1">
+            <field property="mbeans" depends="required" page="1" >
                 <arg0 key="MBeans" resource="false"/>
+                <msg name="required" key="error.select.required"/>
             </field>
+
             <field property="attributes" depends="required" page="2">
                 <arg0 key="Attribute" resource="false"/>
+                <msg name="required" key="error.select.required"/>
             </field>
+
         </form>
     </formset>
 </form-validation>

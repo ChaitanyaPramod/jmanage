@@ -130,5 +130,6 @@ public class WebContext {
 
     public void releaseResources() {
         ServiceUtils.close(serverConnection);
+        serverConnection = null;
     }
 }

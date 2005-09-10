@@ -21,7 +21,8 @@
 
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 <jmhtml:errors/>
-<jmhtml:form action="/config/showAttributes" onsubmit="validateAttributeSelectionForm(this)">
+<jmhtml:javascript formName="attributeSelectionForm" page="1"/>
+<jmhtml:form action="/config/showAttributes" onsubmit="return validateAttributeSelectionForm(this)">
 <jmhtml:hidden property="endURL" />
 <jmhtml:hidden property="multiple"/>
 <jmhtml:hidden property="alertSourceType"/>
