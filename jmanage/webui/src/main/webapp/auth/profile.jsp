@@ -1,3 +1,5 @@
+<!--    /auth/profile.jsp  -->
+<%@ page errorPage="/error.jsp" %>
 <%@ page import="org.jmanage.webui.util.WebContext,
                  org.jmanage.core.auth.User,
                  org.jmanage.core.auth.AuthConstants"%>

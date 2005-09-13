@@ -1,4 +1,5 @@
 <!--/app/graphView.jsp-->
+<%@ page errorPage="/error.jsp" %>
 <%@ page import="org.jmanage.webui.util.Utils,
                  org.jmanage.core.config.GraphConfig,
                  org.jmanage.core.util.JManageProperties"%>

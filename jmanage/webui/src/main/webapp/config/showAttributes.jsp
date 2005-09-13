@@ -1,3 +1,5 @@
+<!--    /config/showAttributes.jsp  -->
+<%@ page errorPage="/error.jsp" %>
 <%@ page import="java.util.Map,
                  java.util.Iterator,
                  java.util.List,
