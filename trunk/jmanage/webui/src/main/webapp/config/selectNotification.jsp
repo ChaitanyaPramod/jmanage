@@ -1,3 +1,5 @@
+<!--    /config/selectNotification.jsp  -->
+<%@ page errorPage="/error.jsp" %>
 <%@ page import="java.util.Map,
                  java.util.Iterator,
                  org.jmanage.core.management.ObjectNotificationInfo,

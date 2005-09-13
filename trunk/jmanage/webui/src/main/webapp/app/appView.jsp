@@ -1,4 +1,5 @@
 <!--/app/appView.jsp-->
+<%@ page errorPage="/error.jsp" %>
 <%@ page import="org.jmanage.webui.util.WebContext,
                  org.jmanage.core.config.ApplicationConfig,
                  org.jmanage.core.config.MBeanConfig,

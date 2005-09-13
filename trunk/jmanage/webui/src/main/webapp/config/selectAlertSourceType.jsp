@@ -1,3 +1,5 @@
+<!--    /config/selectAlertSource.jsp  -->
+<%@ page errorPage="/error.jsp" %>
 <%@ page import="org.jmanage.webui.util.WebContext,
                  org.jmanage.core.config.ApplicationConfig,
                  org.jmanage.webui.util.RequestParams,

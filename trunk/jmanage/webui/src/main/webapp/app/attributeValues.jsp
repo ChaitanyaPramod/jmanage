@@ -1,3 +1,5 @@
+<%-- used by the graph applet--%>
+
 <%@ page import="java.util.List,
                  java.util.Iterator,
                  org.jmanage.core.management.ObjectAttribute,

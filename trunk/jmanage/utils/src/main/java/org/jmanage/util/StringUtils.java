@@ -101,7 +101,7 @@ public class StringUtils {
                                   String listDelim,
                                   boolean htmlEscape){
         if(obj == null){
-            return "null";
+            return "";
         }
         if(obj.getClass().isArray()){
             return arrayToString(obj, listDelim);

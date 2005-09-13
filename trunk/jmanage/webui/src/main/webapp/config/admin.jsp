@@ -1,3 +1,6 @@
+<!--    /config/admin.jsp  -->
+<%@ page errorPage="/error.jsp" %>
+
 <table cellspacing="0" cellpadding="5" width="400" class="table">
 <tr class="tableHeader">
     <td>Administration</td>

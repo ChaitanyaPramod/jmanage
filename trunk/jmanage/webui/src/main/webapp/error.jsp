@@ -1,4 +1,6 @@
-<%--
+<%@ page import="org.jmanage.core.util.Loggers,
+                 java.util.logging.Level"%>
+ <%--
   Copyright 2004-2005 jManage.org
 
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,12 +16,38 @@
   limitations under the License.
 --%>
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
+<%@ page isErrorPage="true" %>
 
 <table cellspacing="0" cellpadding="5" width="600" class="table">
     <tr class="tableHeader">
         <td>Error</td>
     </tr>
     <tr>
-        <td height="31"><jmhtml:errors /></td>
+        <td height="31">
+            <jmhtml:errors />
+            <%
+                if(exception != null){
+                    try {
+                        Loggers.getLogger(Loggers.class).log(Level.SEVERE,
+                                "Exception in JSP",
+                                exception);
+                    } catch (Exception e) {
+                        e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+                    }
+                    if(exception.getMessage() != null){
+                        out.println(exception.getMessage());
+                    }else{
+                        out.println(exception.getClass().getName());
+                    }
+                    out.println("<br/>");
+                    StackTraceElement[] stackTrace = exception.getStackTrace();
+                    for(int i=0; i<stackTrace.length; i++){
+                        out.println("&nbsp;&nbsp;&nbsp;&nbsp;at " +
+                                stackTrace[i].toString());
+                        out.println("<br/>");
+                    }
+                }
+            %>
+        </td>
     </tr>
 </table>
