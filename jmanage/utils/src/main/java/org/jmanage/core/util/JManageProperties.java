@@ -41,11 +41,6 @@ public class JManageProperties extends Properties{
 
     /* see jmanage.properties for documentation of these properties */
     public static String LOGIN_MAX_ATTEMPTS = "login.maxAttempts";
-    private static String JMANAGE_PORT = "jmanage.port";
-    private static String JMANAGE_SSL_PORT = "jmanage.ssl.port";
-    private static String JMANAGE_KEYSTORE_FILENAME = "jmanage.ssl.keyfilename";
-    private static String JMANAGE_SSL_PASSWORD = "jmanage.ssl.password";
-    private static String JMANAGE_SSL_KEY_PASSWORD = "jmanage.ssl.keypassword";
     private static String JMANAGE_HASH_ALGORITHM = "jmanage.hash.algorithm";
 
     /* CLI properties */
@@ -93,30 +88,6 @@ public class JManageProperties extends Properties{
 
     public static String getJManageURL(){
         return jManageProperties.getProperty(JMANAGE_URL);
-    }
-
-    public static Integer getPort(){
-        return new Integer(jManageProperties.getProperty(JMANAGE_PORT, "9090"));
-    }
-
-    public static Integer getSslPort(){
-        if(jManageProperties.getProperty(JMANAGE_SSL_PORT)!=null){
-            return new Integer(jManageProperties.getProperty(JMANAGE_SSL_PORT));
-        }else{
-            return null;
-        }
-    }
-
-    public static String getKeystrokeFile(){
-        return jManageProperties.getProperty(JMANAGE_KEYSTORE_FILENAME);
-    }
-
-    public static String getSSLPassword(){
-        return jManageProperties.getProperty(JMANAGE_SSL_PASSWORD);
-    }
-
-    public static String getSSLKeyPassword(){
-        return jManageProperties.getProperty(JMANAGE_SSL_KEY_PASSWORD);
     }
 
     public static String getHashAlgorithm(){

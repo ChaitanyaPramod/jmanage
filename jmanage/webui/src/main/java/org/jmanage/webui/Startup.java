@@ -15,11 +15,7 @@
  */
 package org.jmanage.webui;
 
-import org.mortbay.http.SocketListener;
-import org.mortbay.http.SunJsseListener;
 import org.mortbay.jetty.Server;
-import org.mortbay.jetty.servlet.WebApplicationContext;
-import org.mortbay.http.SunJsseListener;
 import org.jmanage.core.util.CoreUtils;
 import org.jmanage.core.crypto.PasswordField;
 import org.jmanage.core.crypto.Crypto;
@@ -28,13 +24,13 @@ import org.jmanage.core.auth.AuthConstants;
 import org.jmanage.core.auth.User;
 import org.jmanage.core.auth.ACLStore;
 import org.jmanage.core.services.ServiceFactory;
-import org.jmanage.core.util.JManageProperties;
 import org.jmanage.core.alert.AlertEngine;
 
 import java.util.Arrays;
 import java.io.File;
 
 /**
+ * The Web-UI startup class.
  *
  * date:  Jun 11, 2004
  * @author	Rakesh Kalra
@@ -99,26 +95,9 @@ public class Startup {
     private static void start()
             throws Exception {
 
-        int port = JManageProperties.getPort().intValue();
-        Integer sslPort = JManageProperties.getSslPort();
-        String webroot = CoreUtils.getWebDir();
-        Server server = new Server();
-        if(sslPort!=null){
-            SunJsseListener listener = new SunJsseListener();
-            String path = CoreUtils.getConfigDir() + "/" + JManageProperties.getKeystrokeFile();
-            listener.setPort(sslPort.intValue());
-            listener.setKeystore(path);
-            listener.setPassword(JManageProperties.getSSLPassword());
-            listener.setKeyPassword(JManageProperties.getSSLKeyPassword());
-            server.addListener(listener);
-        }else{
-            SocketListener listener = new SocketListener();
-            listener.setPort(port);
-            server.addListener(listener);
-        }
-
-        WebApplicationContext webAppContext = server.addWebApplication("/", webroot);
-        webAppContext.setClassLoaderJava2Compliant(true);
+        Server server =
+                new Server(CoreUtils.getConfigDir() +
+                File.separator + "jetty-config.xml");
         server.start();
     }
 }
