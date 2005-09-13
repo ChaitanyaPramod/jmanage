@@ -39,6 +39,7 @@ public class AlertSourceConfig {
     private String attributeName;
     private Number lowThreshold;
     private Number highThreshold;
+    private String stringAttributeValue;
 
     public AlertSourceConfig(String objectName, String notificationType){
         this.sourceType = SOURCE_TYPE_NOTIFICATION;
@@ -53,6 +54,14 @@ public class AlertSourceConfig {
         this.attributeName = attributeName;
         this.lowThreshold = minValue;
         this.highThreshold = maxValue;
+    }
+
+    public AlertSourceConfig(String objectName, String attributeName,
+                             String stringAttributeValue){
+        this.sourceType = SOURCE_TYPE_STRING_MONITOR;
+        this.objectName = objectName;
+        this.attributeName = attributeName;
+        this.stringAttributeValue = stringAttributeValue;
     }
 
     /* todo: enable if this could be useful - rk
@@ -91,6 +100,10 @@ public class AlertSourceConfig {
 
     public Number getHighThreshold() {
         return highThreshold;
+    }
+
+    public String getStringAttributeValue(){
+        return stringAttributeValue;
     }
 
     public void setApplicationConfig(ApplicationConfig appConfig) {

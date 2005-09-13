@@ -219,8 +219,8 @@ public class ConfigReader implements ConfigConstants{
         List alertsList = new LinkedList();
         if(application.getChild(ALERTS)!=null){
             List alerts = application.getChild(ALERTS).getChildren(ALERT);
-            AlertConfig alertConfig = new AlertConfig();
             for(Iterator it=alerts.iterator(); it.hasNext();){
+                AlertConfig alertConfig = new AlertConfig();
                 Element alert = (Element)it.next();
                 alertConfig.setAlertId(alert.getAttributeValue(ALERT_ID));
                 alertConfig.setAlertName(alert.getAttributeValue(ALERT_NAME));
@@ -257,10 +257,17 @@ public class ConfigReader implements ConfigConstants{
                     sourceConfig = new AlertSourceConfig(mbean, attribute,
                             Double.valueOf(lowThreshold),
                             Double.valueOf(highThreshold));
+                }else if(sourceType.equals(
+                        AlertSourceConfig.SOURCE_TYPE_STRING_MONITOR)){
+                    String attribute = source.getAttributeValue(
+                            ALERT_ATTRIBUTE_NAME);
+                    String stringAttributeValue = source.getAttributeValue(
+                            ALERT_STRING_ATTRIBUTE_VALUE);
+                    sourceConfig = new AlertSourceConfig(mbean, attribute,
+                            stringAttributeValue);
                 }
                 sourceConfig.setApplicationConfig(appConfig);
                 alertConfig.setAlertSourceConfig(sourceConfig);
-
                 alertsList.add(alertConfig);
             }
         }

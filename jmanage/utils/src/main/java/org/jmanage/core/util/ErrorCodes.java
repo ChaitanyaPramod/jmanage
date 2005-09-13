@@ -24,7 +24,7 @@ public interface ErrorCodes {
 
     String WEB_UI_ERROR_KEY = "error.message";
     String UNKNOWN_ERROR = "unknown.error";
-
+    String ERROR_REQUIRED = "errors.required";
     String INVALID_CREDENTIALS = "invalid.login";
     String ACCOUNT_LOCKED = "account.locked";
     String INVALID_LOGIN_ATTEMPTS = "invalid.login.attempt.count";
@@ -46,10 +46,4 @@ public interface ErrorCodes {
     String JMANAGE_SERVER_CONNECTION_FAILED = "jmanage.connection.failed";
 
     String APPLICATION_NAME_ALREADY_EXISTS = "application.name.already.exists";
-
-    String EMAIL_ADDRESS_REQUIRED = "email.address.required";
-
-    String MIN_ATTRIBUTE_VALUE_REQUIRED = "min.attribute.value.required";
-    String MAX_ATTRIBUTE_VALUE_REQUIRED = "max.attribute.value.required";
-    String MAX_ATTRIBUTE_VALUE_GREATER = "max.attribute.value.greater";
 }

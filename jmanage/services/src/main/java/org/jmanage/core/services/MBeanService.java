@@ -17,6 +17,7 @@ package org.jmanage.core.services;
 
 import org.jmanage.core.management.ObjectInfo;
 import org.jmanage.core.management.ObjectAttribute;
+import org.jmanage.core.management.ObjectAttributeInfo;
 import org.jmanage.core.data.OperationResultData;
 import org.jmanage.core.data.AttributeListData;
 
@@ -68,6 +69,10 @@ public interface MBeanService {
                                              boolean handleCluster)
             throws ServiceException;
 
+    public List filterAttributes(ServiceContext context,
+                                 ObjectAttributeInfo[] objAttrInfo,
+                                 String[] dataTypes)
+            throws ServiceException;
     public ObjectAttribute getObjectAttribute(ServiceContext context,
                                               String attribute)
             throws ServiceException;

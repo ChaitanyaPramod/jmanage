@@ -101,6 +101,11 @@ public class AddAlertAction extends BaseAction{
                     expression.getTargetName(),
                     Double.valueOf(form.getMinAttributeValue()),
                     Double.valueOf(form.getMaxAttributeValue()));
+        }else if(AlertSourceConfig.SOURCE_TYPE_STRING_MONITOR.equals(
+                form.getAlertSourceType())){
+            sourceConfig = new AlertSourceConfig(expression.getMBeanName(),
+                    expression.getTargetName(), form.getStringAttributeValue());
+
         }else {
             assert false: "not supported type";
         }

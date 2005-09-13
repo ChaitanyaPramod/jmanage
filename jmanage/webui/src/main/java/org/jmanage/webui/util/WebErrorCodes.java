@@ -13,25 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jmanage.core.alert.source;
-
-import org.jmanage.core.alert.AlertSource;
-import org.jmanage.core.alert.AlertHandler;
-import org.jmanage.core.config.AlertSourceConfig;
+package org.jmanage.webui.util;
 
 /**
- * Date: Aug 31, 2005 11:42:20 AM
+ * Date: Sep 13, 2005 4:13:31 PM
  * @author Bhavana
  */
-public class StringAlertSource extends AlertSource{
+public interface WebErrorCodes {
+    String ERROR_REQUIRED = "errors.required";
+    String MAX_ATTRIBUTE_VALUE_GREATER = "max.attribute.value.greater";
 
-    public StringAlertSource(AlertSourceConfig sourceConfig){
-        super(sourceConfig);
-    }
-    public void register(AlertHandler handler){
-
-    }
-    public void unregister() {
-
-    }
 }

@@ -69,7 +69,7 @@
 %>
 <tr>
     <td class="headtext1">Notification Type:</td>
-    <td>
+    <td class="plaintext">
         <%=request.getAttribute("notificationType")%>
     </td>
 </tr>
@@ -78,21 +78,35 @@
 %>
 <tr>
     <td class="headtext1">Attribute Name:</nobr></td>
-    <td>
+    <td class="plaintext">
         <%=request.getAttribute("attribute")%>
     </td>
 </tr>
 <tr>
     <td class="headtext1">Minimum Attribute Value</nobr></td>
-    <td><jmhtml:text property="minAttributeValue"/>
+    <td class="plaintext"><jmhtml:text property="minAttributeValue"/>
 </tr>
 <tr>
     <td class="headtext1">Maximum Attribute Value</nobr></td>
-    <td><jmhtml:text property="maxAttributeValue"/>
+    <td class="plaintext"><jmhtml:text property="maxAttributeValue"/>
+</tr>
+<%
+    } else if(sourceType.equals(AlertSourceConfig.SOURCE_TYPE_STRING_MONITOR)){
+%>
+<tr>
+    <td class="headtext1">Attribute Name:</nobr></td>
+    <td class="plaintext">
+        <%=request.getAttribute("attribute")%>
+    </td>
+</tr>
+<tr>
+    <td class="headtext1">Attribute Value</nobr></td>
+    <td class="plaintext"><jmhtml:text property="stringAttributeValue"/>
 </tr>
 <%
     }
 %>
+
 <tr>
     <td align="center" colspan="2">
         <jmhtml:submit property="" value="Save" styleClass="Inside3d" />

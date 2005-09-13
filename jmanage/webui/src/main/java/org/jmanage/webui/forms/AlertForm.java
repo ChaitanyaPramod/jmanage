@@ -17,6 +17,8 @@ package org.jmanage.webui.forms;
 
 import org.jmanage.core.config.AlertSourceConfig;
 import org.jmanage.core.util.ErrorCodes;
+import org.jmanage.webui.util.WebErrorCodes;
+import org.jmanage.webui.validator.Validator;
 import org.apache.struts.action.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,6 +38,15 @@ public class AlertForm extends BaseForm{
     private String expression;
     private String minAttributeValue;
     private String maxAttributeValue;
+    private String stringAttributeValue;
+
+    public String getStringAttributeValue() {
+        return stringAttributeValue;
+    }
+
+    public void setStringAttributeValue(String stringAttributeValue) {
+        this.stringAttributeValue = stringAttributeValue;
+    }
 
     public String getMinAttributeValue() {
         return minAttributeValue;
@@ -131,34 +142,26 @@ public class AlertForm extends BaseForm{
     public ActionErrors validate(ActionMapping mapping, HttpServletRequest request){
         ActionErrors errors = super.validate(mapping, request);
         if(errors==null || errors.isEmpty()){
-            if(!validateEmailAddress()){
-                errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(
-                        ErrorCodes.EMAIL_ADDRESS_REQUIRED));
+            if(alertDelivery[0] !=null && alertDelivery[0].equals("email")){
+                Validator.validateRequired(emailAddress, "Email Address", errors);
             }
             if(alertSourceType.equals(AlertSourceConfig.SOURCE_TYPE_GAUGE_MONITOR)){
-                if(minAttributeValue==null){
-                    errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(
-                            ErrorCodes.MIN_ATTRIBUTE_VALUE_REQUIRED));
-                }if(maxAttributeValue==null){
-                    errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(
-                            ErrorCodes.MAX_ATTRIBUTE_VALUE_REQUIRED));
+                boolean validMin = Validator.validateRequired(minAttributeValue,
+                        "minimum attribute value", errors);
+                boolean validMax = Validator.validateRequired(maxAttributeValue,
+                        "maximum attribute value", errors);
+                if(validMin && validMax){
+                    if(Double.valueOf(maxAttributeValue).doubleValue()<
+                            Double.valueOf(minAttributeValue).doubleValue()){
+                        errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(
+                                WebErrorCodes.MAX_ATTRIBUTE_VALUE_GREATER));
+                    }
                 }
-                if(Double.valueOf(maxAttributeValue).doubleValue()<
-                        Double.valueOf(minAttributeValue).doubleValue()){
-                    errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(
-                            ErrorCodes.MAX_ATTRIBUTE_VALUE_GREATER));
-                }
+            }if(alertSourceType.equals(AlertSourceConfig.SOURCE_TYPE_STRING_MONITOR)){
+                Validator.validateRequired(stringAttributeValue,
+                        "Attribute Value", errors);
             }
         }
         return errors;
     }
-    private boolean validateEmailAddress(){
-        boolean result = true;
-        if(alertDelivery[0] !=null && alertDelivery[0].equals("email")){
-            if(emailAddress == null || emailAddress.equals("") ){
-                result = false;
-            }
-        }
-        return result;
-    }
-} ;
+}
