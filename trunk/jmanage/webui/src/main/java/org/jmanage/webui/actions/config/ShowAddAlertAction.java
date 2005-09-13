@@ -66,7 +66,8 @@ public class ShowAddAlertAction extends BaseAction{
             Expression expr = new Expression(alertForm.getExpression());
             request.setAttribute("sourceMBean", expr.getMBeanName());
             request.setAttribute("notificationType", expr.getTargetName());
-        }else if(sourceType.equals(AlertSourceConfig.SOURCE_TYPE_GAUGE_MONITOR)){
+        }else if(sourceType.equals(AlertSourceConfig.SOURCE_TYPE_GAUGE_MONITOR)
+                || sourceType.equals(AlertSourceConfig.SOURCE_TYPE_STRING_MONITOR)){
             Expression expr = new Expression(alertForm.getExpression());
             request.setAttribute("sourceMBean", expr.getMBeanName());
             request.setAttribute("attribute", expr.getTargetName());

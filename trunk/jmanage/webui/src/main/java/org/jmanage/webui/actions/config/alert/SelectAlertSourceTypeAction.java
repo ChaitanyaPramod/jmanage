@@ -46,15 +46,28 @@ public class SelectAlertSourceTypeAction extends BaseAction{
         AlertForm alertForm = (AlertForm)actionForm;
         String sourceType = alertForm.getAlertSourceType();
         assert sourceType != null;
+        ApplicationConfig appConfig= context.getApplicationConfig();
         if(sourceType.equals(AlertSourceConfig.SOURCE_TYPE_GAUGE_MONITOR)){
-            ApplicationConfig appConfig= context.getApplicationConfig();
             String url = "/config/showMBeans.do?"
                     +  RequestParams.APPLICATION_ID + "="
                     + appConfig.getApplicationId() + "&"
                     + RequestParams.END_URL + "="
                     + Utils.encodeURL("/config/showAddAlert.do")+ "&"
                     + RequestParams.MULTIPLE + "=false&"
-                    + RequestParams.ALERT_SOURCE_TYPE + "=gauge";
+                    + RequestParams.ALERT_SOURCE_TYPE + "="
+                    + AlertSourceConfig.SOURCE_TYPE_GAUGE_MONITOR + "&"
+                    + RequestParams.DATA_TYPE + "=java.lang.Number";
+            return new ActionForward(url);
+        } else if(sourceType.equals(AlertSourceConfig.SOURCE_TYPE_STRING_MONITOR)){
+            String url = "/config/showMBeans.do?"
+                    +  RequestParams.APPLICATION_ID + "="
+                    + appConfig.getApplicationId() + "&"
+                    + RequestParams.END_URL + "="
+                    + Utils.encodeURL("/config/showAddAlert.do")+ "&"
+                    + RequestParams.MULTIPLE + "=false&"
+                    + RequestParams.ALERT_SOURCE_TYPE + "="
+                    + AlertSourceConfig.SOURCE_TYPE_STRING_MONITOR +"&"
+                    + RequestParams.DATA_TYPE + "=java.lang.String";;
             return new ActionForward(url);
         }
         return mapping.findForward(sourceType);

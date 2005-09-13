@@ -19,12 +19,14 @@ import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.util.RequestParams;
-import org.jmanage.webui.forms.GraphForm;
+import org.jmanage.webui.util.Utils;
 import org.jmanage.webui.forms.AttributeSelectionForm;
 import org.jmanage.core.management.ServerConnection;
 import org.jmanage.core.management.ObjectName;
 import org.jmanage.core.management.ObjectInfo;
 import org.jmanage.core.management.ObjectAttributeInfo;
+import org.jmanage.core.services.MBeanService;
+import org.jmanage.core.services.ServiceFactory;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -33,6 +35,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.List;
 
 /**
  * Date: Jun 29, 2005 4:48:09 PM
@@ -52,11 +55,16 @@ public class ShowAttributesAction extends BaseAction{
         ServerConnection serverConn = context.getServerConnection();
         ObjectName objectName = null;
         Map mbeanAttributesListMap = new TreeMap();
+        MBeanService mbeanService = ServiceFactory.getMBeanService();
         for(int i=0; i<mbeans.length;i++){
             objectName = new ObjectName(mbeans[i]);
             ObjectInfo objInfo = serverConn.getObjectInfo(objectName);
             ObjectAttributeInfo[] objAttrInfo = objInfo.getAttributes();
-            mbeanAttributesListMap.put(mbeans[i],objAttrInfo);
+            List objAttrInfoList = mbeanService.filterAttributes(
+                    Utils.getServiceContext(context),
+                    objAttrInfo,
+                    form.getDataTypes());
+            mbeanAttributesListMap.put(mbeans[i],objAttrInfoList);
         }
         request.setAttribute("mbeanAttributesMap",mbeanAttributesListMap);
         return mapping.findForward(Forwards.SUCCESS);

@@ -14,6 +14,16 @@
 <jmhtml:hidden property="alertSourceType"/>
 <jmhtml:hidden property="page" value="1"/>
 <%
+    String[] dataType = request.getParameterValues(RequestParams.DATA_TYPE);
+    if(dataType!=null){
+        for(int i=0; i<dataType.length; i++){
+%>
+    <jmhtml:hidden property="dataTypes" value="<%=dataType[i]%>"/>
+<%
+        }
+    }
+%>
+<%
     Map domainToObjectNameListMap = (Map)request.getAttribute("domainToObjectNameListMap");
     for(Iterator it = domainToObjectNameListMap.keySet().iterator(); it.hasNext(); ){
         String domain = (String)it.next();

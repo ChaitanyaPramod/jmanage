@@ -29,6 +29,16 @@
 <jmhtml:hidden property="alertSourceType"/>
 <jmhtml:hidden property="page" value="2"/>
 <%
+    String[] dataType = request.getParameterValues(RequestParams.DATA_TYPE);
+    if(dataType!=null){
+        for(int i=0; i<dataType.length; i++){
+%>
+    <jmhtml:hidden property="dataTypes" value="<%=dataType[i]%>"/>
+<%
+        }
+    }
+%>
+<%
     Map mbeanAttributesMap = (Map)request.getAttribute("mbeanAttributesMap");
     for(Iterator itr=mbeanAttributesMap.keySet().iterator(); itr.hasNext() ;){
         String objectName = (String)itr.next();
@@ -40,9 +50,9 @@
     </tr>
     <tr>
 <%
-        ObjectAttributeInfo[] attributes = (ObjectAttributeInfo[])mbeanAttributesMap.get(objectName);
-        for(int i=0; i<attributes.length; i++){
-            ObjectAttributeInfo objAttrInfo = attributes[i];
+        List attributes = (List)mbeanAttributesMap.get(objectName);
+        for(Iterator it=attributes.iterator();it.hasNext();){
+            ObjectAttributeInfo objAttrInfo = (ObjectAttributeInfo)it.next();
             Expression expression = new Expression("",objectName,objAttrInfo.getName());
             if(request.getParameter(RequestParams.MULTIPLE).equals("true")){
 %>
@@ -60,8 +70,8 @@
             }
         %>
                 <td class="plaintext"><%=objAttrInfo.getName()%></td>
-                <td class="palintext"><%=objAttrInfo.getType()%></td>
-                <td class="palintext"><%=objAttrInfo.getDescription()%></td>
+                <td class="plaintext"><%=objAttrInfo.getType()%></td>
+                <td class="plaintext"><%=objAttrInfo.getDescription()%></td>
     </tr>
 <%
         }//inner for loop

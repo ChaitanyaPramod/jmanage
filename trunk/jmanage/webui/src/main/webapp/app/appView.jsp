@@ -92,7 +92,7 @@
 </p>
 <%}%>
 <p>
-   <a href="/config/showMBeans.do?<%=RequestParams.APPLICATION_ID%>=<%=appConfig.getApplicationId()%>&<%=RequestParams.END_URL%>=<%=Utils.encodeURL("/config/showAddGraph.do")%>&<%=RequestParams.MULTIPLE%>=true" class="a">Add Graph</a>
+   <a href="/config/showMBeans.do?<%=RequestParams.APPLICATION_ID%>=<%=appConfig.getApplicationId()%>&<%=RequestParams.END_URL%>=<%=Utils.encodeURL("/config/showAddGraph.do")%>&<%=RequestParams.MULTIPLE%>=true&<%=RequestParams.DATA_TYPE%>=java.lang.Number" class="a">Add Graph</a>
 </p>
 <%
 if(appConfig.getAlerts().size() > 0){

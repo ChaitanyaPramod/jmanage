@@ -366,9 +366,7 @@
             scope="request"
             validate="false"
             type="org.jmanage.webui.actions.config.alert.SelectAlertSourceTypeAction">
-
             <forward name="notification" path="/config/showSelectNotification.do"/>
-            <forward name="string" path="config.selectAlertSourceType"/>
         </action>
         <action
             path="/config/showSelectNotification"

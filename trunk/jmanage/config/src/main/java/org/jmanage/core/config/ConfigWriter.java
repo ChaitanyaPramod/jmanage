@@ -212,6 +212,12 @@ public class ConfigWriter {
                         sourceConfig.getLowThreshold().toString());
                 source.setAttribute(ConfigConstants.ALERT_ATTRIBUTE_HIGH_THRESHOLD,
                         sourceConfig.getHighThreshold().toString());
+            }else if(sourceConfig.getSourceType().equals(
+                    AlertSourceConfig.SOURCE_TYPE_STRING_MONITOR)){
+                source.setAttribute(ConfigConstants.ALERT_ATTRIBUTE_NAME,
+                        sourceConfig.getAttributeName());
+                source.setAttribute(ConfigConstants.ALERT_STRING_ATTRIBUTE_VALUE,
+                        sourceConfig.getStringAttributeValue());
             }
             alertElement.addContent(source);
 

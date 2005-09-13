@@ -25,16 +25,23 @@ public class AttributeSelectionForm extends BaseForm{
     private String[] attributes;
     private String multiple;
     private String attribute;
+    private String[] dataTypes;
     private String alertSourceType;
 
-    public String getAlertSourceType() {
+    public String getAlertSourceType(){
         return alertSourceType;
     }
 
-    public void setAlertSourceType(String alertSourceType) {
+    public void setAlertSourceType(String alertSourceType){
         this.alertSourceType = alertSourceType;
     }
 
+    public String[] getDataTypes(){
+        return dataTypes;
+    }
+    public void setDataTypes(String[] dataTypes){
+        this.dataTypes = dataTypes;
+    }
     public String getAttribute() {
         return attribute;
     }

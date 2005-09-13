@@ -102,7 +102,8 @@ public class MBeanServiceImpl implements MBeanService {
             ObjectAttributeInfo[] objAttrInfo = objInfo.getAttributes();
             if(objAttrInfo!=null && objAttrInfo.length > 0){
                 if(dataTypes!=null && dataTypes.length > 0){
-                    if(checkAttributeDataType(objAttrInfo, dataTypes)){
+                    if(checkAttributeDataType(objAttrInfo, dataTypes,
+                            context.getApplicationConfig(), null)){
                         mbeanToAttributesList.add(mbeanData);
                     }
                 }else{
@@ -113,23 +114,72 @@ public class MBeanServiceImpl implements MBeanService {
          return mbeanToAttributesList;
     }
 
+    /**
+     *
+     * @param objAttrInfo
+     * @param dataTypes
+     * @param appConfig
+     * @param attributesList (optional) if specified, it will be populated
+     *              with ObjectAttributeInfo objects that match the dataTypes
+     *              specified
+     * @return
+     */
     private boolean checkAttributeDataType(ObjectAttributeInfo[] objAttrInfo,
-                                           String[] dataTypes){
-        ArrayList attributesList = new ArrayList();
+                                           String[] dataTypes,
+                                           ApplicationConfig appConfig,
+                                           List attributesList){
+
+        boolean result = false;
+        outerloop:
         for(int i=0; i<objAttrInfo.length;i++){
             ObjectAttributeInfo attrInfo = objAttrInfo[i];
             for(int j=0; j<dataTypes.length; j++){
-                if(attrInfo.getType().equals(dataTypes[j])){
-                    attributesList.add(attrInfo);
+                Class attrInfoType = getClass(attrInfo.getType(),
+                        appConfig.getModuleClassLoader());
+                Class dataType = getClass(dataTypes[j],
+                        this.getClass().getClassLoader());
+                if(dataType.isAssignableFrom(attrInfoType)){
+                    result = true;
+                    if(attributesList != null){
+                        attributesList.add(attrInfo);
+                    }else{
+                        break outerloop;
+                    }
                 }
             }
         }
-        if(attributesList.isEmpty()){
-            return false;
-        }else{
-            return true;
-        }
+        return result;
     }
+
+    private Class getClass(String type, ClassLoader classLoader){
+        if(type.equals("boolean"))
+             return Boolean.class;
+        if(type.equals("byte"))
+             return Byte.TYPE;
+        if(type.equals("char"))
+             return Character.class;
+        if(type.equals("double"))
+             return Double.class;
+        if(type.equals("float"))
+             return Float.class;
+        if(type.equals("int"))
+             return Integer.class;
+        if(type.equals("long"))
+             return Long.class;
+        if(type.equals("short"))
+             return Short.class;
+        if(type.equals("void"))
+             return Void.class;
+        Class clazz = null;
+        try{
+            clazz = Class.forName(type, true, classLoader);
+
+        }catch(ClassNotFoundException e){
+            throw new RuntimeException(e);
+        }
+        return clazz;
+    }
+
     private static class ObjectNameTuple{
         String domain;
         String name;
@@ -270,6 +320,12 @@ public class MBeanServiceImpl implements MBeanService {
         } finally {
             ServiceUtils.close(connection);
         }
+    }
+    public List filterAttributes(ServiceContext context, ObjectAttributeInfo[] objAttrInfo, String[] dataTypes){
+        List objAttrInfoList = new LinkedList();
+        checkAttributeDataType(objAttrInfo, dataTypes,
+                context.getApplicationConfig() ,objAttrInfoList);
+         return objAttrInfoList;
     }
 
     public OperationResultData[] invoke(ServiceContext context,
