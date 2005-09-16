@@ -53,6 +53,7 @@ public class ConsoleAlerts {
 
     public static void removeAll(){
         alerts.clear();
+        save();
     }
 
     private static void save(){

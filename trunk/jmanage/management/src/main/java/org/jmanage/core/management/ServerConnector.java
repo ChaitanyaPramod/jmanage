@@ -18,16 +18,10 @@ package org.jmanage.core.management;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.ModuleConfig;
 import org.jmanage.core.config.ModuleRegistry;
-import org.jmanage.core.util.CoreUtils;
 import org.jmanage.core.util.Loggers;
 
-import java.util.Map;
-import java.util.HashMap;
+import java.lang.reflect.Proxy;
 import java.util.logging.Logger;
-import java.net.URLClassLoader;
-import java.net.URL;
-import java.net.MalformedURLException;
-import java.io.File;
 
 /**
  *
@@ -68,7 +62,12 @@ public class ServerConnector {
             ServerConnection connection =
                     factory.getServerConnection(appConfig);
             logger.fine("Connected to " + appConfig.getURL());
-            return new ServerConnectionProxy(connection, classLoader);
+            ServerConnectionProxy proxy = new ServerConnectionProxy(connection,
+                    classLoader);
+            return (ServerConnection)Proxy.newProxyInstance(
+                    ServerConnector.class.getClassLoader(),
+                    new Class[]{ServerConnection.class},
+                    proxy);
         } catch(ConnectionFailedException e){
             logger.info("Failed to connect. error=" + e.getMessage());
             throw e;

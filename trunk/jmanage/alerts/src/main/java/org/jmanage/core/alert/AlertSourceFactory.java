@@ -14,7 +14,7 @@ package org.jmanage.core.alert;
 
 import org.jmanage.core.config.AlertSourceConfig;
 import org.jmanage.core.alert.source.NotificationAlertSource;
-import org.jmanage.core.alert.source.GuageAlertSource;
+import org.jmanage.core.alert.source.GaugeAlertSource;
 import org.jmanage.core.alert.source.StringAlertSource;
 
 /**
@@ -29,7 +29,7 @@ public class AlertSourceFactory {
         if(sourceType.equals(AlertSourceConfig.SOURCE_TYPE_NOTIFICATION)){
             return new NotificationAlertSource(sourceConfig);
         }else if(sourceType.equals(AlertSourceConfig.SOURCE_TYPE_GAUGE_MONITOR)){
-            return new GuageAlertSource(sourceConfig);
+            return new GaugeAlertSource(sourceConfig);
         }else if(sourceType.equals(AlertSourceConfig.SOURCE_TYPE_STRING_MONITOR)){
             return new StringAlertSource(sourceConfig);
         }

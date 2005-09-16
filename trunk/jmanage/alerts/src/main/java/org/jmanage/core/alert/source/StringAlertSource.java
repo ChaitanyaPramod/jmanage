@@ -28,7 +28,9 @@ public class StringAlertSource extends AlertSource{
     public StringAlertSource(AlertSourceConfig sourceConfig){
         super(sourceConfig);
     }
-    public void register(AlertHandler handler){
+    public void register(AlertHandler handler,
+                         String alertId,
+                         String alertName){
 
     }
     public void unregister() {

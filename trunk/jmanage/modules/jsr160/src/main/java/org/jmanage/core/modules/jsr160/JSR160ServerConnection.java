@@ -76,6 +76,15 @@ public class JSR160ServerConnection extends JMXServerConnection{
                          String[] signature) {
         try {
             javax.management.ObjectName jmxObjName = toJMXObjectName(objectName);
+            /* if any param is of type ObjectName, convert it to
+                javax.management.ObjectName*/
+            for(int i=0; params != null && i<params.length; i++){
+                if(params[i].getClass().getName().
+                        equals("org.jmanage.core.management.ObjectName")){
+                    params[i] = toJMXObjectName((ObjectName)params[i]);
+                }
+            }
+
             return mbeanServer.invoke(jmxObjName, operationName, params, signature);
         } catch (Exception e) {
            // TODO: do we need specific exceptions ?
@@ -141,21 +150,72 @@ public class JSR160ServerConnection extends JMXServerConnection{
         }
     }
 
+    // maps for storing jmanage notification objects to jmx notification
+    // object relationships
+    private Map notifications = new HashMap();
+    private Map notifFilters = new HashMap();
+
     public void addNotificationListener(ObjectName objectName,
                                         ObjectNotificationListener listener,
                                         ObjectNotificationFilter filter,
                                         Object handback){
 
         try {
+            NotificationListener notifListener =
+                    toJMXNotificationListener(listener);
+            notifications.put(listener, notifListener);
+            NotificationFilter notifFilter =
+                    toJMXNotificationFilter(filter);
+            notifFilters.put(filter, notifFilter);
             mbeanServer.addNotificationListener(toJMXObjectName(objectName),
-                    toJMXNotificationListener(listener),
-                    toJMXNotificationFilter(filter),
+                    notifListener,
+                    notifFilter,
                     handback);
         } catch (InstanceNotFoundException e) {
             // TODO: do we need specific exceptions ?
             throw new RuntimeException(e);
         } catch (IOException e) {
             // TODO: do we need specific exceptions ?
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void removeNotificationListener(ObjectName objectName,
+                                           ObjectNotificationListener listener,
+                                           ObjectNotificationFilter filter,
+                                           Object handback){
+        try {
+            NotificationListener notifListener =
+                    (NotificationListener)notifications.remove(listener);
+            NotificationFilter notifFilter =
+                    (NotificationFilter)notifFilters.remove(filter);
+            assert notifListener != null;
+            assert notifFilter != null;
+            mbeanServer.removeNotificationListener(toJMXObjectName(objectName),
+                    notifListener,
+                    notifFilter,
+                    handback);
+        } catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void createMBean(String className,
+                            ObjectName name,
+                            Object[] params,
+                            String[] signature){
+        try {
+            mbeanServer.createMBean(className,
+                    toJMXObjectName(name), params, signature);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void unregisterMBean(ObjectName objectName){
+        try {
+            mbeanServer.unregisterMBean(toJMXObjectName(objectName));
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
