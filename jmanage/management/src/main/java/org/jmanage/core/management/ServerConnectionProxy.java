@@ -17,12 +17,13 @@ package org.jmanage.core.management;
 
 import org.jmanage.core.util.Loggers;
 
-import java.util.Set;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.logging.Logger;
 import java.util.logging.Level;
-import java.io.IOException;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * ServerConnectionProxy updates the context classloader before calling
@@ -32,7 +33,7 @@ import java.io.IOException;
  * date:  Aug 19, 2004
  * @author	Rakesh Kalra
  */
-public class ServerConnectionProxy implements ServerConnection{
+public class ServerConnectionProxy implements InvocationHandler {
 
     private static final Logger logger =
             Loggers.getLogger(ServerConnectionProxy.class);
@@ -46,74 +47,28 @@ public class ServerConnectionProxy implements ServerConnection{
         this.classLoader = classLoader;
     }
 
-    /**
-     * Queries the management objects based on the given object name, containing
-     * the search criteria.
-     *
-     * @param objectName
-     * @return
-     */
-    public Set queryNames(ObjectName objectName) {
+    public Object invoke(Object proxy, Method method, Object[] args)
+        throws Throwable {
 
         final ClassLoader contextClassLoader =
                         Thread.currentThread().getContextClassLoader();
         try {
+
             /* temporarily change the thread context classloader */
             Thread.currentThread().setContextClassLoader(classLoader);
             /* invoke the method on the wrapped ServerConnection */
-            return connection.queryNames(objectName);
-        } finally {
-            /* change the thread context classloader back to the
-                    original classloader*/
-            Thread.currentThread().setContextClassLoader(contextClassLoader);
-        }
-    }
-
-    /**
-     * Invokes the given "operationName" on the object identified by
-     * "objectName".
-     *
-     * @param objectName
-     * @param operationName
-     * @param params
-     * @param signature
-     * @return
-     */
-    public Object invoke(ObjectName objectName,
-                         String operationName,
-                         Object[] params,
-                         String[] signature) {
-
-        final ClassLoader contextClassLoader =
-                        Thread.currentThread().getContextClassLoader();
-        try {
-            /* temporarily change the thread context classloader */
-            Thread.currentThread().setContextClassLoader(classLoader);
-            /* invoke the method on the wrapped ServerConnection */
-            return connection.invoke(objectName, operationName,
-                    params, signature);
-        } finally {
-            /* change the thread context classloader back to the
-                    original classloader*/
-            Thread.currentThread().setContextClassLoader(contextClassLoader);
-        }
-    }
-
-    /**
-     * Returns the information about the given objectName.
-     *
-     * @param objectName
-     * @return
-     */
-    public ObjectInfo getObjectInfo(ObjectName objectName) {
-
-        final ClassLoader contextClassLoader =
-                        Thread.currentThread().getContextClassLoader();
-        try {
-            /* temporarily change the thread context classloader */
-            Thread.currentThread().setContextClassLoader(classLoader);
-            /* invoke the method on the wrapped ServerConnection */
-            return connection.getObjectInfo(objectName);
+            if(method.getName().equals("getAttributes")){
+                assert args.length == 2;
+                return getAttributes((ObjectName)args[0], (String[])args[1]);
+            }else{
+                return method.invoke(connection, args);
+            }
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException(e);
+        } catch (InvocationTargetException e) {
+            throw e.getCause();
         } finally {
             /* change the thread context classloader back to the
                     original classloader*/
@@ -129,25 +84,15 @@ public class ServerConnectionProxy implements ServerConnection{
      * @param attributeNames
      * @return
      */
-    public List getAttributes(ObjectName objectName, String[] attributeNames) {
+    private List getAttributes(ObjectName objectName, String[] attributeNames) {
 
-        final ClassLoader contextClassLoader =
-                        Thread.currentThread().getContextClassLoader();
-        try {
-            /* temporarily change the thread context classloader */
-            Thread.currentThread().setContextClassLoader(classLoader);
-            /* some attribute values may not be serializable, hence may fail,
-                hence we need to get one attribute at a time */
-            List attributeList = new LinkedList();
-            for(int i=0; i<attributeNames.length; i++){
-                attributeList.add(getAttribute(objectName, attributeNames[i]));
-            }
-            return attributeList;
-        } finally {
-            /* change the thread context classloader back to the
-                    original classloader*/
-            Thread.currentThread().setContextClassLoader(contextClassLoader);
+        /* some attribute values may not be serializable, hence may fail,
+            hence we need to get one attribute at a time */
+        List attributeList = new LinkedList();
+        for(int i=0; i<attributeNames.length; i++){
+            attributeList.add(getAttribute(objectName, attributeNames[i]));
         }
+        return attributeList;
     }
 
     private ObjectAttribute getAttribute(ObjectName objectName,
@@ -170,52 +115,5 @@ public class ServerConnectionProxy implements ServerConnection{
         }
         return new ObjectAttribute(attributeName,
                 ObjectAttribute.STATUS_NOT_FOUND, null);
-    }
-
-    /**
-     * Saves the attribute values.
-     *
-     * @param objectName
-     * @param attributeList list of ObjectAttribute objects
-     */
-    public List setAttributes(ObjectName objectName, List attributeList) {
-        final ClassLoader contextClassLoader =
-                        Thread.currentThread().getContextClassLoader();
-        try {
-            /* temporarily change the thread context classloader */
-            Thread.currentThread().setContextClassLoader(classLoader);
-            /* invoke the method on the wrapped ServerConnection */
-            return connection.setAttributes(objectName, attributeList);
-        } finally {
-            /* change the thread context classloader back to the
-                    original classloader*/
-            Thread.currentThread().setContextClassLoader(contextClassLoader);
-        }
-    }
-
-    public void addNotificationListener(ObjectName objectName,
-                                        ObjectNotificationListener listener,
-                                        ObjectNotificationFilter filter,
-                                        Object handback) {
-        final ClassLoader contextClassLoader =
-                        Thread.currentThread().getContextClassLoader();
-        try {
-            /* temporarily change the thread context classloader */
-            Thread.currentThread().setContextClassLoader(classLoader);
-            /* invoke the method on the wrapped ServerConnection */
-            connection.addNotificationListener(objectName, listener,
-                    filter, handback);
-        } finally {
-            /* change the thread context classloader back to the
-                    original classloader*/
-            Thread.currentThread().setContextClassLoader(contextClassLoader);
-        }
-    }
-
-    /**
-     * Closes the connection to the server
-     */
-    public void close() throws IOException {
-        connection.close();
     }
 }

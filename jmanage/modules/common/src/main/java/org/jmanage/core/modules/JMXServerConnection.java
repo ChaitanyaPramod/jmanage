@@ -24,7 +24,8 @@ import java.util.*;
 
 /**
  * Date: Sep 3, 2004 11:19:06 PM
- * @author Shashank Bellary 
+ * @author Shashank Bellary
+ * @author Rakesh Kalra
  */
 public abstract class JMXServerConnection implements ServerConnection{
 
@@ -34,6 +35,24 @@ public abstract class JMXServerConnection implements ServerConnection{
                                         ObjectNotificationFilter filter,
                                         Object handback){
         throw new RuntimeException("Notifications not supported");
+    }
+
+    public void createMBean(String className,
+                            ObjectName name,
+                            Object[] params,
+                            String[] signature){
+        throw new RuntimeException("Notifications not supported");
+    }
+
+    public void removeNotificationListener(ObjectName objectName,
+                                           ObjectNotificationListener listener,
+                                           ObjectNotificationFilter filter,
+                                           Object handback){
+        throw new RuntimeException("Notifications not supported");
+    }
+
+    public void unregisterMBean(ObjectName objectName){
+        throw new RuntimeException("unregisterMBean not supported");
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -209,9 +228,10 @@ public abstract class JMXServerConnection implements ServerConnection{
 
     protected static NotificationListener toJMXNotificationListener(
             final ObjectNotificationListener listener){
+
         return new NotificationListener(){
             public void handleNotification(Notification notification,
-                                           Object handback) {
+                                       Object handback) {
                 listener.handleNotification(toObjectNotification(notification),
                         handback);
             }

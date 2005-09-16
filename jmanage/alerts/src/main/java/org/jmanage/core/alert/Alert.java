@@ -42,7 +42,7 @@ public class Alert implements AlertHandler {
     }
 
     public void register(){
-        source.register(this);
+        source.register(this, alertConfig.getAlertId(), alertConfig.getAlertName());
     }
 
     public void unregister(){

@@ -22,6 +22,8 @@ import org.jmanage.webui.util.RequestParams;
 import org.jmanage.webui.forms.AlertForm;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.ApplicationConfigManager;
+import org.jmanage.core.config.AlertConfig;
+import org.jmanage.core.alert.AlertEngine;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
@@ -41,9 +43,11 @@ public class RemoveAlertAction extends BaseAction{
         throws Exception {
 
         ApplicationConfig appConfig = context.getApplicationConfig();
-        if(appConfig.removeAlert(
-                request.getParameter(RequestParams.ALERT_ID))!=null){
+        AlertConfig alertConfig = appConfig.removeAlert(
+                request.getParameter(RequestParams.ALERT_ID));
+        if(alertConfig != null){
             ApplicationConfigManager.updateApplication(appConfig);
+            AlertEngine.getInstance().removeAlertConfig(alertConfig);
         }
         return mapping.findForward(Forwards.SUCCESS);
     }

@@ -33,6 +33,7 @@ public class EmailDelivery implements AlertDelivery {
                     alertInfo.getSubject(),
                     getEmailContent(alertInfo));
         } catch (MessagingException e) {
+            // todo: need to queue up the message
             throw new RuntimeException(e);
         }
     }

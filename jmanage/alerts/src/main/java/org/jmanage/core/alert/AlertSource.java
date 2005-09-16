@@ -28,7 +28,9 @@ public abstract class AlertSource {
         this.sourceConfig = sourceConfig;
     }
 
-    public abstract void register(AlertHandler handler);
+    public abstract void register(AlertHandler handler,
+                                  String alertId,
+                                  String alertName);
 
     public abstract void unregister();
 }

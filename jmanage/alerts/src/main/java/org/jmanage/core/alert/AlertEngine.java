@@ -75,4 +75,13 @@ public class AlertEngine {
         // add it to the list
         alerts.add(alert);
     }
+
+    public synchronized void removeAlertConfig(AlertConfig alertConfig){
+        Alert alert = new Alert(alertConfig);
+        int index = alerts.indexOf(alert);
+        if(index != -1){
+            Alert oldAlert = (Alert)alerts.remove(index);
+            oldAlert.unregister();
+        }
+    }
 }

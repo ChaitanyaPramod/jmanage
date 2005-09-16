@@ -21,6 +21,7 @@ import org.jmanage.core.alert.AlertInfo;
 
 import java.util.logging.Logger;
 import java.util.logging.Level;
+import java.io.IOException;
 
 /**
  *
@@ -34,18 +35,22 @@ public class NotificationAlertSource extends AlertSource {
 
     private AlertHandler handler;
     private ServerConnection connection;
+    private ObjectNotificationListener listener;
+    private ObjectNotificationFilterSupport filter;
 
     public NotificationAlertSource(AlertSourceConfig sourceConfig){
         super(sourceConfig);
     }
 
-    public void register(AlertHandler handler) {
+    public void register(AlertHandler handler,
+                         String alertId,
+                         String alertName) {
         this.handler = handler;
 
         /* start looking for this notification */
         connection = ServerConnector.getServerConnection(
                 sourceConfig.getApplicationConfig());
-        ObjectNotificationListener listener = new ObjectNotificationListener(){
+        listener = new ObjectNotificationListener(){
             public void handleNotification(ObjectNotification notification,
                                            Object handback) {
                 try {
@@ -56,14 +61,32 @@ public class NotificationAlertSource extends AlertSource {
                 }
             }
         };
-        ObjectNotificationFilterSupport filter = new ObjectNotificationFilterSupport();
+        filter = new ObjectNotificationFilterSupport();
         filter.enableType(sourceConfig.getNotificationType());
         connection.addNotificationListener(new ObjectName(sourceConfig.getObjectName()),
                 listener, filter, null);
     }
 
     public void unregister() {
+
         this.handler = null;
-        /* todo: stop looking for this notification*/
+        assert connection != null;
+
+        /* remove notification listener */
+        connection.removeNotificationListener(
+                new ObjectName(sourceConfig.getObjectName()),
+                listener, filter, null);
+
+        /* close the connection */
+        try {
+            connection.close();
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "Error while closing connection", e);
+        }
+
+        connection = null;
+        handler = null;
+        listener = null;
+        filter = null;
     }
 }
