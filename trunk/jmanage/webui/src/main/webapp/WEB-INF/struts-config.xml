@@ -451,16 +451,32 @@
         <action path="/config/showAddGraph"
             name="graphForm"
             scope="request"
+            validate="false"
             type="org.jmanage.webui.actions.config.ShowAddGraphAction">
             <forward name="success" path="config.showAddGraph"/>
         </action>
         <action path="/config/addGraph"
-                name="graphForm"
-                scope="request"
-                type="org.jmanage.webui.actions.config.AddGraphAction">
-                <forward name="success" path="/app/appView.do"/>
+            name="graphForm"
+            scope="request"
+            input="/config/showAddGraph.do"
+            validate="true"
+            type="org.jmanage.webui.actions.config.AddGraphAction">
+            <forward name="success" path="/app/appView.do"/>
         </action>
-
+        <action path="/config/showEditGraph"
+            name="graphForm"
+            scope="request"
+            validate="false"
+            type="org.jmanage.webui.actions.config.ShowEditGraphAction">
+            <forward name="success" path="config.showAddGraph"/>
+        </action>
+        <action path="/config/deleteGraph"
+            name="graphForm"
+            scope="request"
+            validate="false"
+            type="org.jmanage.webui.actions.config.RemoveGraphAction">
+            <forward name="success" path="/app/appView.do"/>
+        </action>
     </action-mappings>
 
     <!-- ========================================== Controller Configuration -->

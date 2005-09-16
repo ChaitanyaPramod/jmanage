@@ -22,7 +22,6 @@ package org.jmanage.core.util;
  */
 public interface ErrorCodes {
 
-    String WEB_UI_ERROR_KEY = "error.message";
     String UNKNOWN_ERROR = "unknown.error";
     String ERROR_REQUIRED = "errors.required";
     String INVALID_CREDENTIALS = "invalid.login";

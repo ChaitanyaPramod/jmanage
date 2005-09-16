@@ -45,9 +45,6 @@ public class ShowMBeanAction extends BaseAction {
             throws Exception {
 
         AttributeSelectionForm form = (AttributeSelectionForm)actionForm;
-        form.setEndURL(request.getParameter(RequestParams.END_URL));
-        form.setMultiple(request.getParameter(RequestParams.MULTIPLE));
-        form.setDataTypes(request.getParameterValues(RequestParams.DATA_TYPE));
         MBeanService mbeanService = ServiceFactory.getMBeanService();
         Map domainToObjectNameListMap = mbeanService.queryMBeansOutputMap
                         (Utils.getServiceContext(context),null,

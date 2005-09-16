@@ -112,7 +112,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 
     public GraphConfig addGraph(ServiceContext context,GraphConfig graphConfig){
         ApplicationConfig appConfig = context.getApplicationConfig();
-        appConfig.addGraph(graphConfig);
+        //appConfig.addGraph(graphConfig);
         try {
             ApplicationConfigManager.updateApplication(appConfig);
         } catch (ApplicationConfigManager.DuplicateApplicationNameException e) {

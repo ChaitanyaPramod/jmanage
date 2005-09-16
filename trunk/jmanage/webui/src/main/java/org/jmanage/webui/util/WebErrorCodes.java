@@ -22,5 +22,5 @@ package org.jmanage.webui.util;
 public interface WebErrorCodes {
     String ERROR_REQUIRED = "errors.required";
     String MAX_ATTRIBUTE_VALUE_GREATER = "max.attribute.value.greater";
-
+    String WEB_UI_ERROR_KEY = "error.message";
 }

@@ -3,12 +3,24 @@
 <%@ page import="org.jmanage.core.util.Expression,
                  org.jmanage.webui.util.RequestParams"%>
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
+<jmhtml:javascript formName="graphForm" />
 <jmhtml:errors />
 <jmhtml:form action="/config/addGraph" method="post"
                                     onsubmit="return validateGraphForm(this)">
+<jmhtml:hidden property="graphId"/>
 <table cellspacing="0" cellpadding="5" width="400" class="table">
 <tr class="tableheader">
+<%
+    if(request.getParameter(RequestParams.GRAPH_ID)!=null){
+%>
+    <td colspan="2">Edit Graph</td>
+<%
+    }else{
+%>
     <td colspan="2">Add Graph</td>
+<%
+    }
+%>
 </tr>
 <tr>
     <td class=headtext1>Graph Name</td>

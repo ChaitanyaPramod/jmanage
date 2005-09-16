@@ -50,7 +50,6 @@ public class ShowAttributesAction extends BaseAction{
             throws Exception {
 
         AttributeSelectionForm form = (AttributeSelectionForm)actionForm;
-        form.setEndURL(request.getParameter(RequestParams.END_URL));
         String[] mbeans = form.getMbeans();
         ServerConnection serverConn = context.getServerConnection();
         ObjectName objectName = null;
