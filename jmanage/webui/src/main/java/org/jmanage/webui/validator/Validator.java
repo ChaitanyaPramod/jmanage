@@ -34,4 +34,16 @@ public class Validator {
         }
         return true;
     }
+    public static boolean validateInteger(String fieldValue,
+                                          String fieldName,
+                                          ActionErrors errors){
+        try {
+            Integer.parseInt(fieldValue);
+        } catch (NumberFormatException e) {
+            errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(
+                    WebErrorCodes.ERROR_INVALID, fieldName));
+            return false;
+        }
+        return true;
+    }
 }

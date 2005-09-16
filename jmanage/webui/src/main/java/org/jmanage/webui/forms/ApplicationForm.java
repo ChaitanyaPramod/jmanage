@@ -15,6 +15,15 @@
  */
 package org.jmanage.webui.forms;
 
+import org.apache.struts.action.ActionErrors;
+import org.apache.struts.action.ActionMapping;
+import org.jmanage.core.config.ModuleRegistry;
+import org.jmanage.core.config.ModuleConfig;
+import org.jmanage.core.config.MetaApplicationConfig;
+import org.jmanage.webui.validator.Validator;
+
+import javax.servlet.http.HttpServletRequest;
+
 /**
  *
  * date:  Jun 25, 2004
@@ -95,5 +104,25 @@ public class ApplicationForm extends BaseForm {
 
     public void setType(String type) {
         this.type = type;
+    }
+    public ActionErrors validate(ActionMapping mapping, HttpServletRequest request){
+        ActionErrors errors = super.validate(mapping, request);
+        if(errors==null || errors.isEmpty()){
+            ModuleConfig moduleConfig = ModuleRegistry.getModule(type);
+            MetaApplicationConfig metaAppConfig =
+                    moduleConfig.getMetaApplicationConfig();
+            if(metaAppConfig.isDisplayHost()){
+                Validator.validateRequired(host, "Host Name", errors);
+            }
+            if(metaAppConfig.isDisplayPort()){
+                if(Validator.validateRequired(port, "Port Number", errors)){
+                    Validator.validateInteger(port, "Port Number", errors);
+                }
+            }
+            if(metaAppConfig.isDisplayURL()){
+                Validator.validateRequired(url, "URL", errors);
+            }
+        }
+        return errors;
     }
 }
