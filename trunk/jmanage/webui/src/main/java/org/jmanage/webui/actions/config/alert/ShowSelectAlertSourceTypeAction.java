@@ -15,6 +15,7 @@ package org.jmanage.webui.actions.config.alert;
 import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
+import org.jmanage.webui.util.RequestAttributes;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForward;
@@ -37,7 +38,8 @@ public class ShowSelectAlertSourceTypeAction extends BaseAction{
                                  HttpServletResponse response)
             throws Exception {
 
-
+        /*set current page for navigation*/
+        request.setAttribute(RequestAttributes.NAV_CURRENT_PAGE, "Add Alert");
         return mapping.findForward(Forwards.SUCCESS);
     }
 }

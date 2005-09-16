@@ -27,6 +27,15 @@ public class AttributeSelectionForm extends BaseForm{
     private String attribute;
     private String[] dataTypes;
     private String alertSourceType;
+    private String navigation;
+
+    public String getNavigation() {
+        return navigation;
+    }
+
+    public void setNavigation(String navigation) {
+        this.navigation = navigation;
+    }
 
     public String getAlertSourceType(){
         return alertSourceType;

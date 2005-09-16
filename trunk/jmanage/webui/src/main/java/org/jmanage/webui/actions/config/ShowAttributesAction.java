@@ -16,10 +16,7 @@
 package org.jmanage.webui.actions.config;
 
 import org.jmanage.webui.actions.BaseAction;
-import org.jmanage.webui.util.WebContext;
-import org.jmanage.webui.util.Forwards;
-import org.jmanage.webui.util.RequestParams;
-import org.jmanage.webui.util.Utils;
+import org.jmanage.webui.util.*;
 import org.jmanage.webui.forms.AttributeSelectionForm;
 import org.jmanage.core.management.ServerConnection;
 import org.jmanage.core.management.ObjectName;
@@ -66,6 +63,9 @@ public class ShowAttributesAction extends BaseAction{
             mbeanAttributesListMap.put(mbeans[i],objAttrInfoList);
         }
         request.setAttribute("mbeanAttributesMap",mbeanAttributesListMap);
+        /*set current page for navigation*/
+        request.setAttribute(RequestAttributes.NAV_CURRENT_PAGE,
+                request.getParameter(RequestParams.NAVIGATION));
         return mapping.findForward(Forwards.SUCCESS);
     }
 }

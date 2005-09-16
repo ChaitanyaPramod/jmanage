@@ -27,6 +27,7 @@
 <jmhtml:hidden property="endURL"/>
 <jmhtml:hidden property="multiple"/>
 <jmhtml:hidden property="alertSourceType"/>
+<jmhtml:hidden property="navigation"/>
 <jmhtml:hidden property="page" value="2"/>
 <%
     String[] dataType = request.getParameterValues(RequestParams.DATA_TYPE);

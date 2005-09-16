@@ -19,6 +19,7 @@ import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.util.RequestParams;
+import org.jmanage.webui.util.RequestAttributes;
 import org.jmanage.webui.forms.AlertForm;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.AlertConfig;
@@ -75,9 +76,17 @@ public class ShowEditAlertAction extends BaseAction{
                         .toString());
                 form.setMaxAttributeValue(alertSrcConfig.getHighThreshold()
                         .toString());
+            }else if(sourceType.equals(
+                    AlertSourceConfig.SOURCE_TYPE_STRING_MONITOR)){
+                expression = new Expression(null, alertSrcConfig.getObjectName(),
+                        alertSrcConfig.getAttributeName());
+                request.setAttribute("attribute", alertSrcConfig.getAttributeName());
+                form.setStringAttributeValue(alertSrcConfig.getStringAttributeValue());
             }
             form.setExpression(expression.toString());
         }
+        /*set current page for navigation*/
+        request.setAttribute(RequestAttributes.NAV_CURRENT_PAGE, "Edit Alert");
         return mapping.findForward(Forwards.SUCCESS);
     }
 }

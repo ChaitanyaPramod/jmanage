@@ -75,6 +75,8 @@ public class ShowAddAlertAction extends BaseAction{
 
         request.setAttribute("applications",
                 ApplicationConfigManager.getAllApplications());
+        /*set current page for navigation*/
+        request.setAttribute(RequestAttributes.NAV_CURRENT_PAGE, "Add Alert");
         return mapping.findForward(Forwards.SUCCESS);
     }
 }
