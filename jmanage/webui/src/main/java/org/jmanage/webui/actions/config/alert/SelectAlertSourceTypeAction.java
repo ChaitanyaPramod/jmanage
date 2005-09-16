@@ -56,7 +56,8 @@ public class SelectAlertSourceTypeAction extends BaseAction{
                     + RequestParams.MULTIPLE + "=false&"
                     + RequestParams.ALERT_SOURCE_TYPE + "="
                     + AlertSourceConfig.SOURCE_TYPE_GAUGE_MONITOR + "&"
-                    + RequestParams.DATA_TYPE + "=java.lang.Number";
+                    + RequestParams.DATA_TYPE + "=java.lang.Number&"
+                    + RequestParams.NAVIGATION + "=Add Alert";
             return new ActionForward(url);
         } else if(sourceType.equals(AlertSourceConfig.SOURCE_TYPE_STRING_MONITOR)){
             String url = "/config/showMBeans.do?"
@@ -67,7 +68,8 @@ public class SelectAlertSourceTypeAction extends BaseAction{
                     + RequestParams.MULTIPLE + "=false&"
                     + RequestParams.ALERT_SOURCE_TYPE + "="
                     + AlertSourceConfig.SOURCE_TYPE_STRING_MONITOR +"&"
-                    + RequestParams.DATA_TYPE + "=java.lang.String";;
+                    + RequestParams.DATA_TYPE + "=java.lang.String&"
+                    + RequestParams.NAVIGATION + "=Add Alert";;
             return new ActionForward(url);
         }
         return mapping.findForward(sourceType);

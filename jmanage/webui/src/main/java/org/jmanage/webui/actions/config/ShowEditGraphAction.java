@@ -18,6 +18,7 @@ package org.jmanage.webui.actions.config;
 import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
+import org.jmanage.webui.util.RequestAttributes;
 import org.jmanage.webui.forms.GraphForm;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.GraphConfig;
@@ -66,6 +67,8 @@ public class ShowEditGraphAction extends BaseAction{
             request.setAttribute("objectNames",objectNames);
             request.setAttribute("displayNames",displayNames);
         }
+        /*set current page for navigation*/
+        request.setAttribute(RequestAttributes.NAV_CURRENT_PAGE, "Edit Graph");
         return mapping.findForward(Forwards.SUCCESS);
     }
 }

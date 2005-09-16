@@ -18,10 +18,7 @@ package org.jmanage.webui.actions.config;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
-import org.jmanage.webui.util.WebContext;
-import org.jmanage.webui.util.Forwards;
-import org.jmanage.webui.util.Utils;
-import org.jmanage.webui.util.RequestParams;
+import org.jmanage.webui.util.*;
 import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.forms.AttributeSelectionForm;
 import org.jmanage.core.services.MBeanService;
@@ -50,6 +47,9 @@ public class ShowMBeanAction extends BaseAction {
                         (Utils.getServiceContext(context),null,
                                 request.getParameterValues(RequestParams.DATA_TYPE));
         request.setAttribute("domainToObjectNameListMap", domainToObjectNameListMap);
+        /*set current page for navigation*/
+        request.setAttribute(RequestAttributes.NAV_CURRENT_PAGE,
+                request.getParameter(RequestParams.NAVIGATION));
         return mapping.findForward(Forwards.SUCCESS);
     }
 }

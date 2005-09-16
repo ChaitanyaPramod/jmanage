@@ -103,14 +103,14 @@
 </p>
 <%}%>
 <p>
-   <a href="/config/showMBeans.do?<%=RequestParams.APPLICATION_ID%>=<%=appConfig.getApplicationId()%>&<%=RequestParams.END_URL%>=<%=Utils.encodeURL("/config/showAddGraph.do")%>&<%=RequestParams.MULTIPLE%>=true&<%=RequestParams.DATA_TYPE%>=java.lang.Number" class="a">Add Graph</a>
+   <a href="/config/showMBeans.do?<%=RequestParams.APPLICATION_ID%>=<%=appConfig.getApplicationId()%>&<%=RequestParams.END_URL%>=<%=Utils.encodeURL("/config/showAddGraph.do")%>&<%=RequestParams.MULTIPLE%>=true&<%=RequestParams.DATA_TYPE%>=java.lang.Number&<%=RequestParams.NAVIGATION%>=Add Graph" class="a">Add Graph</a>
 </p>
 <%
 if(appConfig.getAlerts().size() > 0){
 %>
 <table cellspacing="0" cellpadding="5" width="600" class="table">
     <tr class="tableHeader">
-        <td colspan="5">Alerts</td>
+        <td colspan="6">Alerts</td>
     </tr>
     <tr>
         <td class="headtext1">Alert Name</td>
@@ -136,7 +136,7 @@ if(appConfig.getAlerts().size() > 0){
             }
     %>
     <tr>
-        <td class="plaintext"><a href="/config/showEditAlert.do?<%=RequestParams.APPLICATION_ID%>=<%=appConfig.getApplicationId()%>&<%=RequestParams.ALERT_ID%>=<%=alertConfig.getAlertId()%>">
+        <td class="plaintext">
              <%=alertConfig.getAlertName()%>
         </td>
         <td class="plaintext">
@@ -144,6 +144,7 @@ if(appConfig.getAlerts().size() > 0){
         </td>
         <td class="plaintext"><%=alertDel%></td>
         <td class="plaintext"><%=alertConfig.getSubject()%></td>
+        <td align="right" width="60"><a href="/config/showEditAlert.do?<%=RequestParams.APPLICATION_ID%>=<%=appConfig.getApplicationId()%>&<%=RequestParams.ALERT_ID%>=<%=alertConfig.getAlertId()%>" class="a1">Edit</a></td>
         <td align="right" width="60"><a href="JavaScript:deleteAlert('<%=alertConfig.getAlertId()%>',<%=appConfig.getApplicationId()%>);" class="a1">Delete</a></td>
     </tr>
     <%}%>
@@ -156,6 +157,6 @@ if(appConfig.getAlerts().size() > 0){
 </p>
 <%}%>
 <p>
-<a href="/config/showSelectAlertSourceType.do?<%=RequestParams.APPLICATION_ID%>=<%=appConfig.getApplicationId()%>" class="a">Add New Alert</a>
+<a href="/config/showSelectAlertSourceType.do?<%=RequestParams.APPLICATION_ID%>=<%=appConfig.getApplicationId()%>" class="a">Add Alert</a>
 
 
