@@ -36,4 +36,6 @@ public interface RequestParams {
     public static final String MULTIPLE = "multiple";
     public static final String ALERT_SOURCE_TYPE = "alertSourceType";
     public static final String DATA_TYPE = "dataTypes";
+
+    public static final String GRAPH_ID = "graphId";
 }

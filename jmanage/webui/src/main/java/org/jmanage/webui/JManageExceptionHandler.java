@@ -26,6 +26,7 @@ import org.jmanage.core.util.ErrorCatalog;
 import org.jmanage.core.management.ConnectionFailedException;
 import org.jmanage.core.config.ApplicationConfigManager;
 import org.jmanage.webui.util.Forwards;
+import org.jmanage.webui.util.WebErrorCodes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -65,7 +66,7 @@ public class JManageExceptionHandler extends ExceptionHandler{
 
         if(exception instanceof ServiceException){
             errors.add(ActionErrors.GLOBAL_ERROR,
-                    new ActionError(ErrorCodes.WEB_UI_ERROR_KEY,
+                    new ActionError(WebErrorCodes.WEB_UI_ERROR_KEY,
                             exception.getMessage()));
         }else if(exception instanceof ConnectionFailedException){
             //TODO: We need not handle this condition once all the code throwing this exception gets moved to service layer.
@@ -76,7 +77,7 @@ public class JManageExceptionHandler extends ExceptionHandler{
             ApplicationConfigManager.DuplicateApplicationNameException ex  =
                     (ApplicationConfigManager.DuplicateApplicationNameException)exception;
             errors.add(ActionErrors.GLOBAL_ERROR,
-                    new ActionError(ErrorCodes.WEB_UI_ERROR_KEY,
+                    new ActionError(WebErrorCodes.WEB_UI_ERROR_KEY,
                             ErrorCatalog.getMessage(ErrorCodes.APPLICATION_NAME_ALREADY_EXISTS,
                                     ex.getAppName())));
         }else{

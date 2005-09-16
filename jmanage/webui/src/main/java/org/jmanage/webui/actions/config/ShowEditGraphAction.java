@@ -21,6 +21,7 @@ import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.forms.GraphForm;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.GraphConfig;
+import org.jmanage.core.config.GraphAttributeConfig;
 import org.jmanage.core.util.Expression;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -29,43 +30,42 @@ import org.apache.struts.action.ActionForm;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Iterator;
 
 /**
- * Date: Jun 23, 2005 4:49:16 PM
+ * Date: Sep 14, 2005 3:52:33 PM
  * @author Bhavana
  */
-public class ShowAddGraphAction extends BaseAction{
-    /**
-     * @param context
-     * @param mapping
-     * @param actionForm
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
+public class ShowEditGraphAction extends BaseAction{
     public ActionForward execute(WebContext context,
                                  ActionMapping mapping,
                                  ActionForm actionForm,
                                  HttpServletRequest request,
                                  HttpServletResponse response)
             throws Exception {
-
         GraphForm form = (GraphForm)actionForm;
-        String[] attributes = form.getAttributes();
-        String[] attributeNames = new String[attributes.length];
-        String[] objectNames = new String[attributes.length];
-        String[] displayNames = new String[attributes.length];
-        for(int i=0; i<attributes.length;i++){
-            Expression expression = new Expression(attributes[i]);
-            attributeNames[i] = expression.getTargetName();
-            displayNames[i] = expression.getTargetName();
-            objectNames[i] = expression.getMBeanName();
+        String graphId = form.getGraphId();
+        ApplicationConfig appConfig = context.getApplicationConfig();
+        GraphConfig graphConfig = appConfig.findGraph(graphId);
+        if(graphConfig!=null){
+            form.setGraphName(graphConfig.getName());
+            form.setPollInterval(String.valueOf(graphConfig.getPollingInterval()));
+            List attributes = graphConfig.getAttributes();
+            String[] attributeNames = new String[attributes.size()];
+            String[] objectNames = new String[attributes.size()];
+            String[] displayNames = new String[attributes.size()];
+            int i=0;
+            for(Iterator itr=attributes.iterator(); itr.hasNext();){
+                GraphAttributeConfig graphAttrConfig =
+                        (GraphAttributeConfig)itr.next();
+                attributeNames[i] = graphAttrConfig.getAttribute();
+                displayNames[i] = graphAttrConfig.getDisplayName();
+                objectNames[i++] = graphAttrConfig.getMBean();
+            }
+            request.setAttribute("attributeNames", attributeNames);
+            request.setAttribute("objectNames",objectNames);
+            request.setAttribute("displayNames",displayNames);
         }
-        request.setAttribute("attributeNames", attributeNames);
-        request.setAttribute("objectNames",objectNames);
-        request.setAttribute("displayNames",displayNames);
         return mapping.findForward(Forwards.SUCCESS);
     }
-
 }

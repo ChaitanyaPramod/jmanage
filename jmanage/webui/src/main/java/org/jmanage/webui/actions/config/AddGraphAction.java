@@ -69,9 +69,20 @@ public class AddGraphAction extends BaseAction{
                     displayNames[i]);
             graphAttrConfigs.add(graphAttrConfig);
         }
-        GraphConfig graphConfig = new GraphConfig(GraphConfig.getNextGraphId(),
-                form.getGraphName(), Long.parseLong(form.getPollInterval()),
-                appConfig, graphAttrConfigs);
+        String graphId = request.getParameter(RequestParams.GRAPH_ID);
+        GraphConfig graphConfig = null;
+        if(graphId==null || graphId.equals("")){
+            graphConfig = new GraphConfig(GraphConfig.getNextGraphId(),
+                    form.getGraphName(), Long.parseLong(form.getPollInterval()),
+                    appConfig, graphAttrConfigs);
+            appConfig.addGraph(graphConfig);
+        }else{
+            graphConfig = appConfig.findGraph(graphId);
+            graphConfig.setName(form.getGraphName());
+            graphConfig.setAttributes(graphAttrConfigs);
+            graphConfig.setPollingInterval(Long.parseLong(form.getPollInterval()));
+            graphConfig.setAppConfig(appConfig);
+        }
 
         ConfigurationService service = ServiceFactory.getConfigurationService();
         service.addGraph(Utils.getServiceContext(context), graphConfig);

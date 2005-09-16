@@ -19,6 +19,13 @@
             location = '/config/deleteAlert.do?<%=RequestParams.ALERT_ID%>=' + alertId + '&<%=RequestParams.APPLICATION_ID%>=' + appId + '&refreshApps=true';
         }
     }
+    function deleteGraph(graphId, appId){
+        var msg;
+        msg = "Are you sure you want to delete this Alert?";
+        if(confirm(msg) == true){
+            location = '/config/deleteGraph.do?<%=RequestParams.GRAPH_ID%>=' + graphId + '&<%=RequestParams.APPLICATION_ID%>=' + appId + '&refreshApps=true';
+        }
+    }
 </script>
 <%
     WebContext webContext = WebContext.get(request);
@@ -70,7 +77,7 @@
 <%if(appConfig.getGraphs().size() > 0){%>
 <table border="0" cellspacing="0" cellpadding="5" width="600" class="table">
     <tr class="tableHeader">
-       <td colspan="1">Graphs</td>
+       <td colspan="3">Graphs</td>
     </tr>
 <%
     for(Iterator it=appConfig.getGraphs().iterator(); it.hasNext();){
@@ -81,6 +88,10 @@
             <a href="/app/graphView.do?<%=RequestParams.APPLICATION_ID%>=<%=appConfig.getApplicationId()%>&graphId=<%=graphConfig.getId()%>">
                     <%=graphConfig.getName()%></a>
         </td>
+        <td align="right">
+            <a href="/config/showEditGraph.do?<%=RequestParams.APPLICATION_ID%>=<%=appConfig.getApplicationId()%>&graphId=<%=graphConfig.getId()%>" class="a1">Edit</a>
+        </td>
+        <td align="right" width="60"><a href="JavaScript:deleteGraph('<%=graphConfig.getId()%>','<%=appConfig.getApplicationId()%>');" class="a1">Delete</a></td>
     </tr>
 <%
     }

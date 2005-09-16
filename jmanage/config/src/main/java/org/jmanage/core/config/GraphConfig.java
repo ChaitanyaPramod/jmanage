@@ -113,4 +113,20 @@ public class GraphConfig {
         }
         return displayNames.toString();
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPollingInterval(long pollingInterval) {
+        this.pollingInterval = pollingInterval;
+    }
+
+    public void setAttributes(List attributes) {
+        this.attributes = attributes;
+    }
+
+    public void setAppConfig(ApplicationConfig appConfig) {
+        this.appConfig = appConfig;
+    }
 }

@@ -263,6 +263,16 @@ public abstract class ApplicationConfig {
         }
         return null;
     }
+    public GraphConfig removeGraph(String graphId){
+        GraphConfig graphConfig = findGraph(graphId);
+        if(graphConfig!=null){
+            graphList.remove(graphConfig);
+            return graphConfig;
+        }
+        return null;
+    }
+
+
 
    public void addAlert(AlertConfig alertConfig){
        assert alertConfig!=null:"alert config is null";

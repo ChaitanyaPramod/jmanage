@@ -324,7 +324,14 @@
                 <arg0 key="Attribute" resource="false"/>
                 <msg name="required" key="error.select.required"/>
             </field>
-
+        </form>
+        <form name="graphForm">
+            <field property="graphName" depends="required">
+                <arg0 key="Graph Name" resource="false"/>
+            </field>
+            <field property="pollInterval" depends="required">
+                <arg0 key="Polling Interval" resource="false"/>
+            </field>
         </form>
     </formset>
 </form-validation>
