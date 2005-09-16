@@ -20,7 +20,9 @@ import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.time.Second;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.ChartPanel;
 
+import javax.swing.*;
 import java.applet.Applet;
 import java.awt.*;
 import java.util.Date;
@@ -35,7 +37,7 @@ import java.io.*;
  * Date:  May 27, 2005
  * @author	Rakesh Kalra
  */
-public class GraphApplet extends Applet implements GraphAppletParameters {
+public class GraphApplet extends JApplet implements GraphAppletParameters {
 
     private JFreeChart chart;
     private String graphTitle;
@@ -78,9 +80,9 @@ public class GraphApplet extends Applet implements GraphAppletParameters {
         new MyThread().start();
     }
 
-    //this is called automatically when the applet is loaded and resized
-    public void paint(Graphics g) {
-        chart.draw((Graphics2D)g, getBounds()); //repaints the whole chart
+    public void start(){
+        final ChartPanel chartPanel = new ChartPanel(chart);
+        this.setContentPane(chartPanel);
     }
 
     private class MyThread extends Thread{
@@ -92,8 +94,6 @@ public class GraphApplet extends Applet implements GraphAppletParameters {
                 }
                 /* get new data */
                 poll();
-                /* repaint */
-                GraphApplet.this.repaint();
             }
         }
     }
@@ -103,6 +103,7 @@ public class GraphApplet extends Applet implements GraphAppletParameters {
 
     private void poll() {
         Properties properties = getNewValues();
+        if(properties == null) return;
         long timestamp = Long.parseLong(properties.getProperty("timestamp"));
         // todo: this is not used
         String attributes = properties.getProperty("attributes");
@@ -132,6 +133,7 @@ public class GraphApplet extends Applet implements GraphAppletParameters {
     private Properties getNewValues(){
 
         String output = doHttpPost();
+        if(output == null) return null;
         Properties properties = new Properties();
         try {
             properties.load(new ByteArrayInputStream(output.getBytes()));
