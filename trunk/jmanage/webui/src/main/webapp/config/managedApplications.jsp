@@ -88,9 +88,9 @@
 </table>
 <br>
 <%-- don't use the link tag here, as it adds applicationId request param --%>
-<a href="/config/showAvailableApplications.do" class="a">Add New Application</a>
+<a href="/config/showAvailableApplications.do" class="a">Add Application</a>
 <br>
-<a href="/config/showApplicationCluster.do" class="a">Add New Application Cluster</a>
+<a href="/config/showApplicationCluster.do" class="a">Add Application Cluster</a>
 <br><br>
 <table cellspacing="0" cellpadding="5" width="800" class="table">
     <tr class="tableHeader">
