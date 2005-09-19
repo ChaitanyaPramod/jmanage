@@ -45,7 +45,7 @@
         String objectName = (String)itr.next();
 %>
 <jmhtml:hidden property="mbeans" value="<%=objectName%>"/>
-<table class="table" border="0" cellspacing="0" cellpadding="3" width="600">
+<table class="table" border="0" cellspacing="5" cellpadding="3" width="600">
     <tr class="tableheader">
         <td colspan="4"><%=objectName%></td>
     </tr>
@@ -58,21 +58,21 @@
             if(request.getParameter(RequestParams.MULTIPLE).equals("true")){
 %>
 
-                <td>
+                <td valign="top">
                     <jmhtml:checkbox property="attributes" value="<%=expression.getHtmlEscaped()%>"/>
                 </td>
         <%
             }else{
         %>
-                <td>
+                <td valign="top">
                     <jmhtml:radio property="attributes" value="<%=expression.getHtmlEscaped()%>"/>
                 </td>
         <%
             }
         %>
-                <td class="plaintext"><%=objAttrInfo.getName()%></td>
-                <td class="plaintext"><%=objAttrInfo.getType()%></td>
-                <td class="plaintext"><%=objAttrInfo.getDescription()%></td>
+                <td class="plaintext" valign="top"><%=objAttrInfo.getName()%></td>
+                <td class="plaintext" valign="top"><%=objAttrInfo.getType()%></td>
+                <td class="plaintext" valign="top"><%=objAttrInfo.getDescription()%></td>
     </tr>
 <%
         }//inner for loop

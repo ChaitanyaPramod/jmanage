@@ -21,6 +21,8 @@ import org.jmanage.core.management.MalformedObjectNameException;
 
 import javax.management.*;
 import java.util.*;
+import java.lang.reflect.Method;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * Date: Sep 3, 2004 11:19:06 PM
@@ -29,31 +31,142 @@ import java.util.*;
  */
 public abstract class JMXServerConnection implements ServerConnection{
 
-    // todo: remove after all sub classes start supporting notifications
+    private Object mbeanServer;
+    // this is required as the mbeanServer object may be of a class
+    //   which is private inner class (e.g. in JSR160)
+    private Class mbeanServerClass;
+
+    public JMXServerConnection(){}
+
+    public JMXServerConnection(Object mbeanServer, Class mbeanServerClass){
+        this.mbeanServer = mbeanServer;
+        this.mbeanServerClass = mbeanServerClass;
+    }
+
+    /**
+     * Invokes the given "operationName" on the object identified by
+     * "objectName".
+     *
+     * @param objectName
+     * @param operationName
+     * @param params
+     * @param signature
+     * @return
+     */
+    public Object invoke(ObjectName objectName,
+                         String operationName,
+                         Object[] params,
+                         String[] signature) {
+
+        Class[] methodSignature = new Class[]{javax.management.ObjectName.class,
+                                           String.class,
+                                           new Object[0].getClass(),
+                                           new String[0].getClass()};
+        Object[] methodArgs = new Object[]{toJMXObjectName(objectName),
+                                           operationName,
+                                           params,
+                                           signature};
+        return callMBeanServer("invoke", methodSignature, methodArgs);
+    }
+
+    // maps for storing jmanage notification objects to jmx notification
+    // object relationships
+    protected Map notifications = new HashMap();
+    protected Map notifFilters = new HashMap();
+
     public void addNotificationListener(ObjectName objectName,
                                         ObjectNotificationListener listener,
                                         ObjectNotificationFilter filter,
                                         Object handback){
-        throw new RuntimeException("Notifications not supported");
-    }
 
-    public void createMBean(String className,
-                            ObjectName name,
-                            Object[] params,
-                            String[] signature){
-        throw new RuntimeException("Notifications not supported");
+        NotificationListener notifListener =
+                toJMXNotificationListener(listener);
+        notifications.put(listener, notifListener);
+        NotificationFilter notifFilter =
+                toJMXNotificationFilter(filter);
+        notifFilters.put(filter, notifFilter);
+
+        Class[] methodSignature = new Class[]{javax.management.ObjectName.class,
+                                           NotificationListener.class,
+                                           NotificationFilter.class,
+                                           Object.class};
+        Object[] methodArgs = new Object[]{toJMXObjectName(objectName),
+                                           notifListener,
+                                           notifFilter,
+                                           handback};
+        callMBeanServer("addNotificationListener", methodSignature, methodArgs);
     }
 
     public void removeNotificationListener(ObjectName objectName,
                                            ObjectNotificationListener listener,
                                            ObjectNotificationFilter filter,
                                            Object handback){
-        throw new RuntimeException("Notifications not supported");
+
+        NotificationListener notifListener =
+                (NotificationListener)notifications.remove(listener);
+        NotificationFilter notifFilter =
+                (NotificationFilter)notifFilters.remove(filter);
+        assert notifListener != null;
+        assert notifFilter != null;
+
+        Class[] methodSignature = new Class[]{javax.management.ObjectName.class,
+                                           NotificationListener.class,
+                                           NotificationFilter.class,
+                                           Object.class};
+        Object[] methodArgs = new Object[]{toJMXObjectName(objectName),
+                                           notifListener,
+                                           notifFilter,
+                                           handback};
+        callMBeanServer("removeNotificationListener", methodSignature, methodArgs);
+    }
+
+    // todo: this method will need to throw InstanceAlreadyExistsException
+    public void createMBean(String className,
+                            ObjectName name,
+                            Object[] params,
+                            String[] signature){
+        Class[] methodSignature = new Class[]{String.class,
+                                           javax.management.ObjectName.class,
+                                           new Object[0].getClass(),
+                                           new String[0].getClass()};
+        Object[] methodArgs = new Object[]{className, toJMXObjectName(name),
+                                           params, signature};
+        callMBeanServer("createMBean", methodSignature, methodArgs);
     }
 
     public void unregisterMBean(ObjectName objectName){
-        throw new RuntimeException("unregisterMBean not supported");
+
+        Class[] methodSignature = new Class[]{javax.management.ObjectName.class};
+        Object[] methodArgs = new Object[]{toJMXObjectName(objectName)};
+        callMBeanServer("unregisterMBean", methodSignature, methodArgs);
     }
+
+    public Object buildObjectName(String objectName){
+        try {
+            return new javax.management.ObjectName(objectName);
+        } catch (javax.management.MalformedObjectNameException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private Object callMBeanServer(String methodName,
+                                   Class[] params,
+                                   Object[] args){
+
+        try {
+            Method method = mbeanServerClass.getMethod(methodName, params);
+            return method.invoke(mbeanServer, args);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e.getCause());
+        } catch (Throwable e){
+            if(e instanceof RuntimeException){
+                throw (RuntimeException)e;
+            }else{
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
 
     ///////////////////////////////////////////////////////////////////////////
     // Utility methods

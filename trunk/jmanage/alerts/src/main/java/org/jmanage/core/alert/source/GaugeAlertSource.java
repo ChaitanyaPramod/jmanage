@@ -72,12 +72,16 @@ public class GaugeAlertSource extends AlertSource{
         attributes.add(new ObjectAttribute("NotifyLow", Boolean.TRUE));
         attributes.add(new ObjectAttribute("ObservedAttribute",
                 sourceConfig.getAttributeName()));
+        // note the following is deprecated, but this is what weblogic exposes
+        attributes.add(new ObjectAttribute("ObservedObject",
+                connection.buildObjectName(sourceConfig.getObjectName())));
         connection.setAttributes(monitorObjName, attributes);
         /* add observed object */
+        /*
         connection.invoke(monitorObjName, "addObservedObject",
                 new Object[]{new ObjectName(sourceConfig.getObjectName())},
                 new String[]{"javax.management.ObjectName"});
-
+        */
         /* set thresholds */
         Object[] params = new Object[]{sourceConfig.getHighThreshold(),
                                        sourceConfig.getLowThreshold()};

@@ -17,22 +17,25 @@ package org.jmanage.core.modules.jboss;
 
 import org.jmanage.core.management.ObjectName;
 import org.jmanage.core.management.ObjectInfo;
+import org.jmanage.core.management.ObjectNotificationListener;
+import org.jmanage.core.management.ObjectNotificationFilter;
 import org.jmanage.core.modules.JMXServerConnection;
 import org.jmanage.core.util.Loggers;
 import org.jboss.jmx.adaptor.rmi.RMIAdaptor;
-import org.jboss.net.protocol.URLStreamHandlerFactory;
+import org.jboss.jmx.adaptor.rmi.RMINotificationListener;
 
-import javax.management.MBeanInfo;
-import javax.management.AttributeList;
+import javax.management.*;
 import java.util.Set;
 import java.util.List;
 import java.util.logging.Logger;
-import java.net.URL;
+import java.rmi.RemoteException;
 
 /**
  *
  * date:  Oct 30, 2004
- * @author	Prem, Shashank Bellary
+ * @author	Prem
+ * @author Shashank Bellary
+ * @author Rakesh Kalra
  */
 public class JBossServerConnection extends JMXServerConnection {
 
@@ -42,8 +45,65 @@ public class JBossServerConnection extends JMXServerConnection {
     private final RMIAdaptor rmiAdaptor;
 
     public JBossServerConnection(RMIAdaptor rmiAdaptor) {
+        super(rmiAdaptor, RMIAdaptor.class);
         assert rmiAdaptor != null;
         this.rmiAdaptor = rmiAdaptor;
+    }
+
+    public void addNotificationListener(ObjectName objectName,
+                                        ObjectNotificationListener listener,
+                                        ObjectNotificationFilter filter,
+                                        Object handback){
+
+        RMINotificationListener notifListener =
+                toRMINotificationListener(listener);
+        notifications.put(listener, notifListener);
+        NotificationFilter notifFilter =
+                toJMXNotificationFilter(filter);
+        try {
+            rmiAdaptor.addNotificationListener(toJMXObjectName(objectName),
+                    notifListener, notifFilter, handback);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void removeNotificationListener(ObjectName objectName,
+                                           ObjectNotificationListener listener,
+                                           ObjectNotificationFilter filter,
+                                           Object handback){
+
+        RMINotificationListener notifListener =
+                (RMINotificationListener)notifications.remove(listener);
+        assert notifListener != null;
+        try {
+            rmiAdaptor.removeNotificationListener(toJMXObjectName(objectName),
+                    notifListener);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static RMINotificationListener toRMINotificationListener(
+            final ObjectNotificationListener listener){
+
+        return new MyRMINotificationListener(listener);
+    }
+
+    private static class MyRMINotificationListener implements RMINotificationListener, java.io.Serializable{
+
+        private final ObjectNotificationListener listener;
+
+        MyRMINotificationListener(ObjectNotificationListener listener){
+            this.listener = listener;
+
+        }
+
+        public void handleNotification(Notification notification, Object handback)
+                throws RemoteException {
+            listener.handleNotification(toObjectNotification(notification),
+                        handback);
+        }
     }
 
     public Set queryNames(ObjectName objectName) {
@@ -55,18 +115,6 @@ public class JBossServerConnection extends JMXServerConnection {
             throw new RuntimeException(e);
         }
         return toJmanageObjectNameInstance(mbeans);
-    }
-
-    public Object invoke(ObjectName objectName,
-                         String operationName,
-                         Object[] params,
-                         String[] signature) {
-        try {
-            javax.management.ObjectName jmxObjName = toJMXObjectName(objectName);
-            return rmiAdaptor.invoke(jmxObjName, operationName, params, signature);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public ObjectInfo getObjectInfo(ObjectName objectName) {

@@ -103,4 +103,11 @@ public interface ServerConnection {
                                            Object handback);
 
     public void unregisterMBean(ObjectName objectName);
+
+    /**
+     *
+     * @param objectName
+     * @return an object of type javax.management.ObjectName
+     */
+    public Object buildObjectName(String objectName);
 }

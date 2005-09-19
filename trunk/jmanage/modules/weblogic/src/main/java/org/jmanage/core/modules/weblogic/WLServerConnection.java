@@ -22,6 +22,9 @@ import org.jmanage.core.modules.JMXServerConnection;
 import javax.management.*;
 import java.util.*;
 
+import weblogic.management.RemoteNotificationListener;
+import weblogic.management.RemoteMBeanServer;
+
 /**
  *
  * date:  Aug 12, 2004
@@ -29,11 +32,12 @@ import java.util.*;
  */
 public class WLServerConnection extends JMXServerConnection{
 
-    private final MBeanServer mbeanServer;
+    private final RemoteMBeanServer mbeanServer;
 
     public WLServerConnection(MBeanServer mbeanServer){
+        super(mbeanServer, MBeanServer.class);
         assert mbeanServer != null;
-        this.mbeanServer = mbeanServer;
+        this.mbeanServer = (RemoteMBeanServer)mbeanServer;
     }
 
     /**
@@ -51,28 +55,6 @@ public class WLServerConnection extends JMXServerConnection{
         return toJmanageObjectNameInstance(mbeans);
     }
 
-    /**
-     * Invokes the given "operationName" on the object identified by
-     * "objectName".
-     *
-     * @param objectName
-     * @param operationName
-     * @param params
-     * @param signature
-     * @return
-     */
-    public Object invoke(ObjectName objectName,
-                         String operationName,
-                         Object[] params,
-                         String[] signature) {
-        try {
-            javax.management.ObjectName jmxObjName = toJMXObjectName(objectName);
-            return mbeanServer.invoke(jmxObjName, operationName, params, signature);
-        } catch (Exception e) {
-           // TODO: do we need specific exceptions ?
-            throw new RuntimeException(e);
-        }
-    }
 
     /**
      * Returns the information about the given objectName.
@@ -128,6 +110,57 @@ public class WLServerConnection extends JMXServerConnection{
             return toObjectAttributeList(output);
         } catch (Exception e) {
             // TODO: do we need specific exceptions ?
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void addNotificationListener(ObjectName objectName,
+                                        ObjectNotificationListener listener,
+                                        ObjectNotificationFilter filter,
+                                        Object handback){
+
+        NotificationListener notifListener =
+                toRemoteNotificationListener(listener);
+        notifications.put(listener, notifListener);
+        NotificationFilter notifFilter =
+                toJMXNotificationFilter(filter);
+        notifFilters.put(filter, notifFilter);
+
+        try {
+            mbeanServer.addNotificationListener(toJMXObjectName(objectName),
+                    notifListener, notifFilter, handback);
+        } catch (InstanceNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static NotificationListener toRemoteNotificationListener(
+            final ObjectNotificationListener listener){
+
+        return new RemoteNotificationListener(){
+            public void handleNotification(Notification notification,
+                                       Object handback) {
+                listener.handleNotification(toObjectNotification(notification),
+                        handback);
+            }
+        };
+    }
+
+    public void removeNotificationListener(ObjectName objectName,
+                                           ObjectNotificationListener listener,
+                                           ObjectNotificationFilter filter,
+                                           Object handback){
+
+        NotificationListener notifListener =
+                (NotificationListener)notifications.remove(listener);
+        assert notifListener != null;
+
+        try {
+            mbeanServer.removeNotificationListener(toJMXObjectName(objectName),
+                    notifListener);
+        } catch (InstanceNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (ListenerNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
