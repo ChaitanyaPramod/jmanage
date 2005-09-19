@@ -59,8 +59,21 @@
 </tr>
 <tr>
     <td class="headtext1"><nobr>Alert Source MBean:</nobr></td>
-    <td>
-        <%=request.getAttribute("sourceMBean")%>
+    <td class="plaintext">
+    <%
+        if(request.getParameter(RequestParams.ALERT_ID)!=null){
+    %>
+
+            <a href="/app/mbeanView.do?<%=RequestParams.OBJECT_NAME%>=<%=request.getAttribute("sourceMBean")%>&<%=RequestParams.APPLICATION_ID%>=<%=request.getParameter(RequestParams.APPLICATION_ID)%>" class="a1">
+                <%=request.getAttribute("sourceMBean")%>
+            </a>
+    <%
+        }else{
+    %>
+            <%=request.getAttribute("sourceMBean")%>
+    <%
+        }
+    %>
     </td>
 </tr>
 <%

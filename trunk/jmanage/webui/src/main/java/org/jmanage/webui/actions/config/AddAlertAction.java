@@ -16,12 +16,11 @@
 package org.jmanage.webui.actions.config;
 
 import org.jmanage.webui.actions.BaseAction;
-import org.jmanage.webui.util.WebContext;
-import org.jmanage.webui.util.RequestAttributes;
-import org.jmanage.webui.util.Forwards;
-import org.jmanage.webui.util.RequestParams;
+import org.jmanage.webui.util.*;
 import org.jmanage.webui.forms.AlertForm;
 import org.jmanage.core.services.AccessController;
+import org.jmanage.core.services.MBeanService;
+import org.jmanage.core.services.ServiceFactory;
 import org.jmanage.core.auth.RoleManager;
 import org.jmanage.core.config.AlertConfig;
 import org.jmanage.core.config.ApplicationConfig;
@@ -29,6 +28,7 @@ import org.jmanage.core.config.ApplicationConfigManager;
 import org.jmanage.core.config.AlertSourceConfig;
 import org.jmanage.core.alert.AlertEngine;
 import org.jmanage.core.util.Expression;
+import org.jmanage.core.util.CoreUtils;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
@@ -36,6 +36,8 @@ import org.apache.struts.action.ActionForm;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.math.BigInteger;
+import java.math.BigDecimal;
 
 /**
  * Date: May 25, 2005 3:43:21 PM
@@ -97,10 +99,15 @@ public class AddAlertAction extends BaseAction{
                     expression.getTargetName());
         }else if(AlertSourceConfig.SOURCE_TYPE_GAUGE_MONITOR.equals(
                 form.getAlertSourceType())){
+            MBeanService mbeanService = ServiceFactory.getMBeanService();
+            String attributeDataType = mbeanService.getAttributeDataType(
+                    Utils.getServiceContext(context),expression.getTargetName(),
+                    expression.getMBeanName());
             sourceConfig = new AlertSourceConfig(expression.getMBeanName(),
                     expression.getTargetName(),
-                    Double.valueOf(form.getMinAttributeValue()),
-                    Double.valueOf(form.getMaxAttributeValue()));
+                    CoreUtils.valueOf(form.getMinAttributeValue(),attributeDataType),
+                    CoreUtils.valueOf(form.getMaxAttributeValue(),attributeDataType),
+                    attributeDataType);
         }else if(AlertSourceConfig.SOURCE_TYPE_STRING_MONITOR.equals(
                 form.getAlertSourceType())){
             sourceConfig = new AlertSourceConfig(expression.getMBeanName(),
@@ -112,4 +119,6 @@ public class AddAlertAction extends BaseAction{
         sourceConfig.setApplicationConfig(context.getApplicationConfig());
         return sourceConfig;
     }
+
+
 }

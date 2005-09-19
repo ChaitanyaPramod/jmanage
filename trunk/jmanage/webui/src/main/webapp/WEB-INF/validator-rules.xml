@@ -265,7 +265,7 @@
                        javax.servlet.http.HttpServletRequest"
                   msg="errors.required">
 
-         <javascript><![CDATA[
+         <!--<javascript><![CDATA[
             function validateRequired(form) {
                 var bValid = true;
                 var focusField = null;
@@ -321,7 +321,7 @@
                 }
                 return bValid;
             }]]>
-         </javascript>
+         </javascript>-->
 
       </validator>
 
@@ -337,7 +337,7 @@
               depends=""
                   msg="errors.minlength">
 
-         <javascript><![CDATA[
+        <!-- <javascript><![CDATA[
             function validateMinLength(form) {
                 var bValid = true;
                 var focusField = null;
@@ -370,7 +370,7 @@
                 }
                 return bValid;
             }]]>
-         </javascript>
+         </javascript>-->
 
       </validator>
 
@@ -386,7 +386,7 @@
               depends=""
                   msg="errors.maxlength">
 
-         <javascript><![CDATA[
+         <!--<javascript><![CDATA[
             function validateMaxLength(form) {
                 var bValid = true;
                 var focusField = null;
@@ -419,7 +419,7 @@
                 }
                 return bValid;
             }]]>
-         </javascript>
+         </javascript>-->
 
       </validator>
 
@@ -435,7 +435,7 @@
               depends=""
                   msg="errors.invalid">
 
-         <javascript><![CDATA[
+         <!--<javascript><![CDATA[
             function validateMask(form) {
                 var bValid = true;
                 var focusField = null;
@@ -476,7 +476,7 @@
                }
                return true;
             }]]>
-         </javascript>
+         </javascript>-->
 
       </validator>
 
@@ -492,7 +492,7 @@
                   msg="errors.byte"
        jsFunctionName="ByteValidations">
 
-         <javascript><![CDATA[
+         <!--<javascript><![CDATA[
             function validateByte(form) {
                 var bValid = true;
                 var focusField = null;
@@ -538,7 +538,7 @@
                 }
                 return bValid;
             }]]>
-         </javascript>
+         </javascript>-->
 
       </validator>
 
@@ -555,7 +555,7 @@
                   msg="errors.short"
        jsFunctionName="ShortValidations">
 
-         <javascript><![CDATA[
+         <!--<javascript><![CDATA[
             function validateShort(form) {
                 var bValid = true;
                 var focusField = null;
@@ -600,7 +600,7 @@
                 }
                 return bValid;
             }]]>
-         </javascript>
+         </javascript>-->
 
       </validator>
 
@@ -617,7 +617,7 @@
                   msg="errors.integer"
        jsFunctionName="IntegerValidations">
 
-         <javascript><![CDATA[
+         <!--<javascript><![CDATA[
             function validateInteger(form) {
                 var bValid = true;
                 var focusField = null;
@@ -683,7 +683,7 @@
                 }
                 return true;
             }]]>
-         </javascript>
+         </javascript>-->
 
       </validator>
 
@@ -712,7 +712,7 @@
                   msg="errors.float"
        jsFunctionName="FloatValidations">
 
-         <javascript><![CDATA[
+         <!--<javascript><![CDATA[
             function validateFloat(form) {
                 var bValid = true;
                 var focusField = null;
@@ -757,7 +757,7 @@
                 }
                 return bValid;
             }]]>
-         </javascript>
+         </javascript>-->
 
       </validator>
 
@@ -786,7 +786,7 @@
                   msg="errors.date"
        jsFunctionName="DateValidations">
 
-         <javascript><![CDATA[
+         <!--<javascript><![CDATA[
             function validateDate(form) {
                var bValid = true;
                var focusField = null;
@@ -932,7 +932,7 @@
                 }
                 return true;
             }]]>
-         </javascript>
+         </javascript>-->
 
       </validator>
 
@@ -948,11 +948,11 @@
               depends="integer"
                   msg="errors.range">
 
-         <javascript><![CDATA[
+         <!--<javascript><![CDATA[
             function validateRange(form) {
                 return validateIntRange(form);
             }]]>
-         </javascript>
+         </javascript>-->
 
       </validator>
 
@@ -967,7 +967,7 @@
               depends="integer"
                   msg="errors.range">
 
-         <javascript><![CDATA[
+         <!--<javascript><![CDATA[
             function validateIntRange(form) {
                 var bValid = true;
                 var focusField = null;
@@ -996,7 +996,7 @@
                 }
                 return bValid;
             }]]>
-         </javascript>
+         </javascript>-->
 
       </validator>
 
@@ -1011,7 +1011,7 @@
               depends="float"
                   msg="errors.range">
 
-         <javascript><![CDATA[
+         <!--<javascript><![CDATA[
             function validateFloatRange(form) {
                 var bValid = true;
                 var focusField = null;
@@ -1040,7 +1040,7 @@
                 }
                 return bValid;
             }]]>
-         </javascript>
+         </javascript>-->
       </validator>
 
       <validator name="matchFields"
@@ -1052,7 +1052,7 @@
                        org.apache.struts.action.ActionErrors,
                        javax.servlet.http.HttpServletRequest"
            msg="errors.match">
-           <javascript><![CDATA[
+           <!--<javascript><![CDATA[
            function validateMatch(form){
                var bValid = true;
                var focusField = null;
@@ -1083,7 +1083,7 @@
                }
                return bValid;
            }]]>
-           </javascript>
+           </javascript>-->
        </validator>
        <validator name="email"
             classname="org.apache.struts.validator.FieldChecks"
@@ -1096,7 +1096,7 @@
               depends=""
                   msg="errors.email">
 
-         <javascript><![CDATA[
+         <!--<javascript><![CDATA[
             function validateEmail(form) {
                 var bValid = true;
                 var focusField = null;
@@ -1174,7 +1174,7 @@
                }
                return true;
             }]]>
-         </javascript>
+         </javascript>-->
 
       </validator>
    </global>

@@ -117,5 +117,17 @@ public interface MBeanService {
 
     public Map queryMBeansWithNotifications(ServiceContext context)
             throws ServiceException;
+    /**
+     * returns data type of an attribute
+     * @param context
+     * @param attributeName
+     * @param objectName
+     * @return
+     * @throws ServiceException
+     */
+    public String getAttributeDataType(ServiceContext context,
+                                       String attributeName,
+                                       String objectName)
+            throws ServiceException;
 
 }
