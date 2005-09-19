@@ -15,6 +15,7 @@ package org.jmanage.webui.actions.config.alert;
 import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
+import org.jmanage.webui.util.RequestAttributes;
 import org.jmanage.webui.forms.AlertForm;
 import org.jmanage.core.services.MBeanService;
 import org.jmanage.core.services.ServiceFactory;
@@ -46,6 +47,8 @@ public class ShowSelectNotificationAction extends BaseAction{
         Map mbeanToNotificationsMap =
                 mbeanService.queryMBeansWithNotifications(context.getServiceContext());
         request.setAttribute("mbeanToNotificationsMap", mbeanToNotificationsMap);
+        /*set current page for navigation*/
+        request.setAttribute(RequestAttributes.NAV_CURRENT_PAGE, "Add Alert");
         return mapping.findForward(Forwards.SUCCESS);
     }
 }

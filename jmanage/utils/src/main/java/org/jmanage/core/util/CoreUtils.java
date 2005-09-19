@@ -19,6 +19,8 @@ import org.apache.commons.beanutils.BeanUtils;
 
 import java.io.File;
 import java.util.logging.Logger;
+import java.math.BigInteger;
+import java.math.BigDecimal;
 
 /**
  *
@@ -73,5 +75,33 @@ public class CoreUtils {
     public static void exitSystem(){
         logger.severe("Shutting down application");
         System.exit(1);
+    }
+
+    public static Number valueOf(String value, String dataType){
+        if(dataType.equals("java.lang.Integer")|| dataType.equals("int")){
+            return new Integer(value);
+        }
+        if(dataType.equals("java.lang.Double") || dataType.equals("double")){
+            return new Double(value);
+        }
+        if(dataType.equals("java.lang.Long") || dataType.equals("long")){
+            return new Long(value);
+        }
+        if(dataType.equals("java.lang.Float") || dataType.equals("float")){
+            return new Double(value);
+        }
+        if(dataType.equals("java.lang.Short") || dataType.equals("short")){
+            return new Short(value);
+        }
+        if(dataType.equals("java.lang.Byte") || dataType.equals("byte")){
+            return new Byte(value);
+        }
+        if(dataType.equals("java.math.BigInteger")){
+            return new BigInteger(value);
+        }
+        if(dataType.equals("java.math.BigDecimal")){
+            return new BigDecimal(value);
+        }
+        return null;
     }
 }

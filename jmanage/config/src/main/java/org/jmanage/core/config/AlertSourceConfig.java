@@ -40,6 +40,7 @@ public class AlertSourceConfig {
     private Number lowThreshold;
     private Number highThreshold;
     private String stringAttributeValue;
+    private String attributeDataTYpe;
 
     public AlertSourceConfig(String objectName, String notificationType){
         this.sourceType = SOURCE_TYPE_NOTIFICATION;
@@ -48,12 +49,14 @@ public class AlertSourceConfig {
     }
 
     public AlertSourceConfig(String objectName, String attributeName,
-                             Double minValue, Double maxValue){
+                             Number minValue, Number maxValue,
+                             String attributeDataType){
         this.sourceType = SOURCE_TYPE_GAUGE_MONITOR;
         this.objectName = objectName;
         this.attributeName = attributeName;
         this.lowThreshold = minValue;
         this.highThreshold = maxValue;
+        this.attributeDataTYpe = attributeDataType;
     }
 
     public AlertSourceConfig(String objectName, String attributeName,
@@ -113,4 +116,8 @@ public class AlertSourceConfig {
     public ApplicationConfig getApplicationConfig(){
         return appConfig;
     }
+    public String getAttributeDataTYpe() {
+            return attributeDataTYpe;
+        }
+
 }

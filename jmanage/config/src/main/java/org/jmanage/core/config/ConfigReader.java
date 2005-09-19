@@ -21,6 +21,7 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jmanage.core.crypto.Crypto;
 import org.jmanage.core.util.Loggers;
+import org.jmanage.core.util.CoreUtils;
 
 import java.io.File;
 import java.util.*;
@@ -254,9 +255,12 @@ public class ConfigReader implements ConfigConstants{
                             ALERT_ATTRIBUTE_LOW_THRESHOLD);
                     String highThreshold = source.getAttributeValue(
                             ALERT_ATTRIBUTE_HIGH_THRESHOLD);
+                    String attributeDataType = source.getAttributeValue(
+                            ALERT_ATTRIBUTE_DATA_TYPE);
                     sourceConfig = new AlertSourceConfig(mbean, attribute,
-                            Double.valueOf(lowThreshold),
-                            Double.valueOf(highThreshold));
+                            CoreUtils.valueOf(lowThreshold,attributeDataType),
+                            CoreUtils.valueOf(highThreshold,attributeDataType),
+                            attributeDataType);
                 }else if(sourceType.equals(
                         AlertSourceConfig.SOURCE_TYPE_STRING_MONITOR)){
                     String attribute = source.getAttributeValue(

@@ -48,7 +48,19 @@
 <jmhtml:hidden property="attributes" value="<%=expression.toString()%>"/>
 <tr>
     <td class="plaintext"><%=attributeNames[i]%></td>
-    <td class="plaintext"><%=objectNames[i]%></td>
+    <td class="plaintext">
+    <%
+        if(request.getParameter(RequestParams.GRAPH_ID)!=null){
+    %>
+        <a href="/app/mbeanView.do?<%=RequestParams.OBJECT_NAME%>=<%=objectNames[i]%>&<%=RequestParams.APPLICATION_ID%>=<%=request.getParameter(RequestParams.APPLICATION_ID)%>" class="a1">
+          <%=objectNames[i]%>
+       </a>
+    <%
+        }else{
+    %>
+        <%=objectNames[i]%>
+    <%}%>
+    </td>
     <td><input type="text" name="displayNames" value="<%=displayNames[i]%>"/></td>
 <%
     }

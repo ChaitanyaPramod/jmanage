@@ -772,6 +772,13 @@ public class MBeanServiceImpl implements MBeanService {
         return obj;
     }
 
-
-
+    public String getAttributeDataType(ServiceContext context,
+                                              String attributeName,
+                                              String objectName){
+        ServerConnection connection = context.getServerConnection();
+        ObjectName objName = new ObjectName(objectName);
+        ObjectInfo objectInfo = connection.getObjectInfo(objName);
+        ObjectAttributeInfo[] objAttrInfo = objectInfo.getAttributes();
+        return getAttributeType(objAttrInfo, attributeName, objName);
+    }
 }

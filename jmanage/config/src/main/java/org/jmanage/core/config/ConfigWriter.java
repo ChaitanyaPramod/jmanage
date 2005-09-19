@@ -208,6 +208,8 @@ public class ConfigWriter {
                     AlertSourceConfig.SOURCE_TYPE_GAUGE_MONITOR)){
                 source.setAttribute(ConfigConstants.ALERT_ATTRIBUTE_NAME,
                         sourceConfig.getAttributeName());
+                source.setAttribute(ConfigConstants.ALERT_ATTRIBUTE_DATA_TYPE,
+                        sourceConfig.getAttributeDataTYpe());
                 source.setAttribute(ConfigConstants.ALERT_ATTRIBUTE_LOW_THRESHOLD,
                         sourceConfig.getLowThreshold().toString());
                 source.setAttribute(ConfigConstants.ALERT_ATTRIBUTE_HIGH_THRESHOLD,
