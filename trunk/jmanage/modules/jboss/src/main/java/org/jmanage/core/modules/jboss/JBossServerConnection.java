@@ -106,17 +106,6 @@ public class JBossServerConnection extends JMXServerConnection {
         }
     }
 
-    public Set queryNames(ObjectName objectName) {
-        Set mbeans = null;
-
-        try {
-            mbeans = rmiAdaptor.queryNames(toJMXObjectName(objectName), null);
-        } catch(Exception e) {
-            throw new RuntimeException(e);
-        }
-        return toJmanageObjectNameInstance(mbeans);
-    }
-
     public ObjectInfo getObjectInfo(ObjectName objectName) {
 
         String existingProtocolHandler =
@@ -139,35 +128,6 @@ public class JBossServerConnection extends JMXServerConnection {
                                     existingProtocolHandler);
             }
         }
-    }
-
-    public List getAttributes(ObjectName objectName, String[] attributeNames) {
-        try {
-            javax.management.ObjectName jmxObjName = toJMXObjectName(objectName);
-            AttributeList attrList =
-                    rmiAdaptor.getAttributes(jmxObjName, attributeNames);
-            return toObjectAttributeList(attrList);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public List setAttributes(ObjectName objectName, List attributeList) {
-        try {
-            javax.management.ObjectName jmxObjName = toJMXObjectName(objectName);
-            AttributeList output =
-                    rmiAdaptor.setAttributes(jmxObjName,
-                            toJMXAttributeList(attributeList));
-            return toObjectAttributeList(output);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * Closes the connection to the server
-     */
-    public void close() {
     }
 }
 

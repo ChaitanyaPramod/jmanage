@@ -40,80 +40,6 @@ public class WLServerConnection extends JMXServerConnection{
         this.mbeanServer = (RemoteMBeanServer)mbeanServer;
     }
 
-    /**
-     * Queries the management objects based on the given object name, containing
-     * the search criteria.
-     *
-     * @param objectName
-     * @return
-     */
-    public Set queryNames(ObjectName objectName) {
-        Set mbeans =
-                mbeanServer.queryNames(
-                        toJMXObjectName(objectName),
-                        null);
-        return toJmanageObjectNameInstance(mbeans);
-    }
-
-
-    /**
-     * Returns the information about the given objectName.
-     *
-     * @param objectName
-     * @return
-     */
-    public ObjectInfo getObjectInfo(ObjectName objectName) {
-        try {
-            javax.management.ObjectName jmxObjName = toJMXObjectName(objectName);
-            MBeanInfo mbeanInfo = mbeanServer.getMBeanInfo(jmxObjName);
-            return toObjectInfo(objectName, mbeanInfo);
-        } catch (Exception e){
-            // TODO: do we need specific exceptions ?
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * Returns a list of ObjectAttribute objects containing attribute names
-     * and values for the given attributeNames
-     *
-     * @param objectName
-     * @param attributeNames
-     * @return
-     */
-    public List getAttributes(ObjectName objectName, String[] attributeNames) {
-
-        try {
-            javax.management.ObjectName jmxObjName = toJMXObjectName(objectName);
-            AttributeList attrList =
-                    mbeanServer.getAttributes(jmxObjName, attributeNames);
-            return toObjectAttributeList(attrList);
-        } catch (Exception e) {
-            // TODO: do we need specific exceptions ?
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * Saves the attribute values.
-     *
-     * @param objectName
-     * @param attributeList list of ObjectAttribute objects
-     */
-    public List setAttributes(ObjectName objectName, List attributeList) {
-
-        try {
-            javax.management.ObjectName jmxObjName = toJMXObjectName(objectName);
-            AttributeList output =
-                    mbeanServer.setAttributes(jmxObjName,
-                            toJMXAttributeList(attributeList));
-            return toObjectAttributeList(output);
-        } catch (Exception e) {
-            // TODO: do we need specific exceptions ?
-            throw new RuntimeException(e);
-        }
-    }
-
     public void addNotificationListener(ObjectName objectName,
                                         ObjectNotificationListener listener,
                                         ObjectNotificationFilter filter,
@@ -124,8 +50,6 @@ public class WLServerConnection extends JMXServerConnection{
         notifications.put(listener, notifListener);
         NotificationFilter notifFilter =
                 toJMXNotificationFilter(filter);
-        notifFilters.put(filter, notifFilter);
-
         try {
             mbeanServer.addNotificationListener(toJMXObjectName(objectName),
                     notifListener, notifFilter, handback);
@@ -163,11 +87,5 @@ public class WLServerConnection extends JMXServerConnection{
         } catch (ListenerNotFoundException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    /**
-     * Closes the connection to the server
-     */
-    public void close() {
     }
 }

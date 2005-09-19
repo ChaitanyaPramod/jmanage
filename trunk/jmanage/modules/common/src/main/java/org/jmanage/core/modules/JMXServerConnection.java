@@ -18,11 +18,14 @@ package org.jmanage.core.modules;
 import org.jmanage.core.management.*;
 import org.jmanage.core.management.ObjectName;
 import org.jmanage.core.management.MalformedObjectNameException;
+import org.jmanage.core.util.Loggers;
 
 import javax.management.*;
 import java.util.*;
+import java.util.logging.Logger;
 import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
+import java.io.IOException;
 
 /**
  * Date: Sep 3, 2004 11:19:06 PM
@@ -30,6 +33,9 @@ import java.lang.reflect.InvocationTargetException;
  * @author Rakesh Kalra
  */
 public abstract class JMXServerConnection implements ServerConnection{
+
+    private static final Logger logger =
+            Loggers.getLogger(JMXServerConnection.class);
 
     private Object mbeanServer;
     // this is required as the mbeanServer object may be of a class
@@ -42,6 +48,24 @@ public abstract class JMXServerConnection implements ServerConnection{
         this.mbeanServer = mbeanServer;
         this.mbeanServerClass = mbeanServerClass;
     }
+
+    /**
+     * Queries the MBeanServer for the given object name pattern.
+     *
+     * @param objectName the ObjectName pattern
+     * @return Set of ObjectName objects
+     */
+    public Set queryNames(ObjectName objectName){
+
+        Class[] methodSignature = new Class[]{javax.management.ObjectName.class,
+                                           javax.management.QueryExp.class};
+        Object[] methodArgs = new Object[]{toJMXObjectName(objectName),
+                                           null};
+        Set mbeans = (Set)callMBeanServer("queryNames", methodSignature,
+                methodArgs);
+        return toJmanageObjectNameInstance(mbeans);
+    }
+
 
     /**
      * Invokes the given "operationName" on the object identified by
@@ -67,6 +91,57 @@ public abstract class JMXServerConnection implements ServerConnection{
                                            params,
                                            signature};
         return callMBeanServer("invoke", methodSignature, methodArgs);
+    }
+
+    /**
+     * Returns the information about the given objectName.
+     *
+     * @param objectName
+     * @return
+     */
+    public ObjectInfo getObjectInfo(ObjectName objectName) {
+
+        Class[] methodSignature = new Class[]{javax.management.ObjectName.class};
+        Object[] methodArgs = new Object[]{toJMXObjectName(objectName)};
+        MBeanInfo mbeanInfo = (MBeanInfo)callMBeanServer("getMBeanInfo",
+                methodSignature, methodArgs);
+        return toObjectInfo(objectName, mbeanInfo);
+    }
+
+    /**
+     * Returns a list of ObjectAttribute objects containing attribute names
+     * and values for the given attributeNames
+     *
+     * @param objectName
+     * @param attributeNames
+     * @return
+     */
+    public List getAttributes(ObjectName objectName, String[] attributeNames) {
+
+        Class[] methodSignature = new Class[]{javax.management.ObjectName.class,
+                                              new String[0].getClass()};
+        Object[] methodArgs = new Object[]{toJMXObjectName(objectName),
+                                           attributeNames};
+        AttributeList attrList = (AttributeList)callMBeanServer("getAttributes",
+                methodSignature, methodArgs);
+        return toObjectAttributeList(attrList);
+    }
+
+    /**
+     * Saves the attribute values.
+     *
+     * @param objectName
+     * @param attributeList list of ObjectAttribute objects
+     */
+    public List setAttributes(ObjectName objectName, List attributeList) {
+
+        Class[] methodSignature = new Class[]{javax.management.ObjectName.class,
+                                              javax.management.AttributeList.class};
+        Object[] methodArgs = new Object[]{toJMXObjectName(objectName),
+                                           toJMXAttributeList(attributeList)};
+        AttributeList output = (AttributeList)callMBeanServer("setAttributes",
+                methodSignature, methodArgs);
+        return toObjectAttributeList(output);
     }
 
     // maps for storing jmanage notification objects to jmx notification
@@ -149,6 +224,16 @@ public abstract class JMXServerConnection implements ServerConnection{
         }
     }
 
+    /**
+     * Closes the connection to the server
+     */
+    public void close() throws IOException{
+        logger.fine("Noop close operation.");
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Utility methods
+
     private Object callMBeanServer(String methodName,
                                    Class[] params,
                                    Object[] args){
@@ -166,10 +251,6 @@ public abstract class JMXServerConnection implements ServerConnection{
             }
         }
     }
-
-
-    ///////////////////////////////////////////////////////////////////////////
-    // Utility methods
 
     protected static javax.management.ObjectName
             toJMXObjectName(ObjectName objectName){
