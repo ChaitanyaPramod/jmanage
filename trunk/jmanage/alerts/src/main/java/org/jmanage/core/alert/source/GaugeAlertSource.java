@@ -26,6 +26,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.List;
 import java.util.LinkedList;
+import java.util.Set;
 import java.io.IOException;
 
 /**
@@ -62,6 +63,14 @@ public class GaugeAlertSource extends AlertSource{
 
         monitorObjName = new ObjectName("jmanage:name=" + alertName +
                 ",id=" + alertId + ",type=GaugeMonitor");
+
+        /* check if the MBean is already registered */
+        Set mbeans = connection.queryNames(monitorObjName);
+        if(mbeans != null && mbeans.size() > 0){
+            /* remove the MBean */
+            connection.unregisterMBean(monitorObjName);
+        }
+
         /* create the MBean */
         connection.createMBean("javax.management.monitor.GaugeMonitor",
                 monitorObjName, null, null);
@@ -119,12 +128,22 @@ public class GaugeAlertSource extends AlertSource{
         assert connection != null;
         assert monitorObjName != null;
 
-        /* remove notification listener */
-        connection.removeNotificationListener(monitorObjName, listener,
-               filter, null);
+        try {
+            /* remove notification listener */
+            connection.removeNotificationListener(monitorObjName, listener,
+                   filter, null);
+        } catch (Exception e) {
+            logger.log(Level.WARNING,
+                    "Error while Removing Notification Listener", e);
+        }
 
-        /* unregister GaugeMonitor MBean */
-        connection.unregisterMBean(monitorObjName);
+        try {
+            /* unregister GaugeMonitor MBean */
+            connection.unregisterMBean(monitorObjName);
+        } catch (Exception e) {
+            logger.log(Level.WARNING,
+                    "Error while unregistering MBean: " + monitorObjName, e);
+        }
 
         /* close the connection */
         try {
