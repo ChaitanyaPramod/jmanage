@@ -98,17 +98,26 @@ public class MBeanServiceImpl implements MBeanService {
         for(Iterator itr=mbeans.iterator(); itr.hasNext();){
             MBeanData mbeanData = (MBeanData)itr.next();
             ObjectName objName = new ObjectName(mbeanData.getName());
-            ObjectInfo objInfo = serverConnection.getObjectInfo(objName);
-            ObjectAttributeInfo[] objAttrInfo = objInfo.getAttributes();
-            if(objAttrInfo!=null && objAttrInfo.length > 0){
-                if(dataTypes!=null && dataTypes.length > 0){
-                    if(checkAttributeDataType(objAttrInfo, dataTypes,
-                            context.getApplicationConfig(), null)){
+            try {
+                ObjectInfo objInfo = serverConnection.getObjectInfo(objName);
+                ObjectAttributeInfo[] objAttrInfo = objInfo.getAttributes();
+                if(objAttrInfo!=null && objAttrInfo.length > 0){
+                    if(dataTypes!=null && dataTypes.length > 0){
+                        if(checkAttributeDataType(objAttrInfo, dataTypes,
+                                context.getApplicationConfig(), null)){
+                            mbeanToAttributesList.add(mbeanData);
+                        }
+                    }else{
                         mbeanToAttributesList.add(mbeanData);
                     }
-                }else{
-                    mbeanToAttributesList.add(mbeanData);
                 }
+            } catch (Exception e) {
+                /* if there is an error while getting MBean Info, continue
+                    looking further */
+                String errorMessage = "Error getting ObjectInfo for: " +
+                        objName + ", error=" + e.getMessage();
+                logger.log(Level.WARNING, errorMessage);
+                logger.log(Level.FINE, errorMessage, e);
             }
         }
          return mbeanToAttributesList;
@@ -138,7 +147,8 @@ public class MBeanServiceImpl implements MBeanService {
                         appConfig.getModuleClassLoader());
                 Class dataType = getClass(dataTypes[j],
                         this.getClass().getClassLoader());
-                if(dataType.isAssignableFrom(attrInfoType)){
+                if(attrInfoType != null &&
+                        dataType.isAssignableFrom(attrInfoType)){
                     result = true;
                     if(attributesList != null){
                         attributesList.add(attrInfo);
@@ -175,7 +185,8 @@ public class MBeanServiceImpl implements MBeanService {
             clazz = Class.forName(type, true, classLoader);
 
         }catch(ClassNotFoundException e){
-            throw new RuntimeException(e);
+            logger.fine("Error finding class of type=" + type +
+                    ", error=" + e.getMessage());
         }
         return clazz;
     }
@@ -510,10 +521,20 @@ public class MBeanServiceImpl implements MBeanService {
         Map mbeanToNoficationsMap = new TreeMap();
         for(Iterator it=mbeans.iterator(); it.hasNext(); ){
             ObjectName objName = (ObjectName)it.next();
-            ObjectInfo objInfo = serverConnection.getObjectInfo(objName);
-            ObjectNotificationInfo[] notifications = objInfo.getNotifications();
-            if(notifications != null && notifications.length > 0){
-                mbeanToNoficationsMap.put(objName.getCanonicalName(), notifications);
+
+            try {
+                ObjectInfo objInfo = serverConnection.getObjectInfo(objName);
+                ObjectNotificationInfo[] notifications = objInfo.getNotifications();
+                if(notifications != null && notifications.length > 0){
+                    mbeanToNoficationsMap.put(objName.getCanonicalName(), notifications);
+                }
+            } catch (Exception e) {
+                /* if there is an error while getting MBean Info, continue
+                    looking further */
+                String errorMessage = "Error getting ObjectInfo for: " +
+                        objName + ", error=" + e.getMessage();
+                logger.log(Level.WARNING, errorMessage);
+                logger.log(Level.FINE, errorMessage, e);
             }
         }
         return mbeanToNoficationsMap;

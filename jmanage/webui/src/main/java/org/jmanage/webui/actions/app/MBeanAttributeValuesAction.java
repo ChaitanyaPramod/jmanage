@@ -88,7 +88,7 @@ public class MBeanAttributeValuesAction extends BaseAction {
             assert expression.startsWith("[");
             while(!expression.endsWith("]")){
                 assert tokenizer.hasMoreTokens();
-                expression += tokenizer.nextToken();
+                expression += "," + tokenizer.nextToken();
             }
             expression = expression.substring(1, expression.length()-1);
             exprList.add(new Expression(expression));

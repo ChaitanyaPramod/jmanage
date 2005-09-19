@@ -30,7 +30,7 @@ public class AlertInfo {
     private String message = null;
     private long timeStamp;
     private Object userData = null;
-    private Object source = null;
+    private String source = null;
 
     private String alertConfigId;
     private String alertName;
@@ -50,7 +50,8 @@ public class AlertInfo {
         setMessage(notification.getMessage());
         setTimeStamp(notification.getTimeStamp());
         setUserData(notification.getUserData());
-        setSource(notification.getMySource());
+        if(notification.getMySource() != null)
+            setSource(notification.getMySource().toString());
     }
 
     public void setAlertConfig(AlertConfig alertConfig) {
@@ -112,11 +113,11 @@ public class AlertInfo {
         this.userData = userData;
     }
 
-    public Object getSource() {
+    public String getSource() {
         return source;
     }
 
-    public void setSource(Object source) {
+    public void setSource(String source) {
         this.source = source;
     }
 

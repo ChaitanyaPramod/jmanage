@@ -34,11 +34,13 @@ public class JSR160ServerConnection extends JMXServerConnection{
     private final JMXConnector jmxc;
     private final MBeanServerConnection mbeanServer;
 
-    public JSR160ServerConnection(JMXConnector jmxc )
+    public JSR160ServerConnection(JMXConnector jmxc,
+                                  MBeanServerConnection mbeanServer)
         throws IOException {
+        super(mbeanServer, MBeanServerConnection.class);
         assert jmxc != null;
         this.jmxc = jmxc;
-        this.mbeanServer = jmxc.getMBeanServerConnection();
+        this.mbeanServer = mbeanServer;
     }
 
     /**
@@ -58,38 +60,6 @@ public class JSR160ServerConnection extends JMXServerConnection{
             throw new RuntimeException(e);
         }
         return toJmanageObjectNameInstance(mbeans);
-    }
-
-    /**
-     * Invokes the given "operationName" on the object identified by
-     * "objectName".
-     *
-     * @param objectName
-     * @param operationName
-     * @param params
-     * @param signature
-     * @return
-     */
-    public Object invoke(ObjectName objectName,
-                         String operationName,
-                         Object[] params,
-                         String[] signature) {
-        try {
-            javax.management.ObjectName jmxObjName = toJMXObjectName(objectName);
-            /* if any param is of type ObjectName, convert it to
-                javax.management.ObjectName*/
-            for(int i=0; params != null && i<params.length; i++){
-                if(params[i].getClass().getName().
-                        equals("org.jmanage.core.management.ObjectName")){
-                    params[i] = toJMXObjectName((ObjectName)params[i]);
-                }
-            }
-
-            return mbeanServer.invoke(jmxObjName, operationName, params, signature);
-        } catch (Exception e) {
-           // TODO: do we need specific exceptions ?
-            throw new RuntimeException(e);
-        }
     }
 
     /**
@@ -149,6 +119,8 @@ public class JSR160ServerConnection extends JMXServerConnection{
             throw new RuntimeException(e);
         }
     }
+
+    /*
 
     // maps for storing jmanage notification objects to jmx notification
     // object relationships
@@ -219,7 +191,7 @@ public class JSR160ServerConnection extends JMXServerConnection{
             throw new RuntimeException(e);
         }
     }
-
+      */
     /**
      * Closes the connection to the server
      */

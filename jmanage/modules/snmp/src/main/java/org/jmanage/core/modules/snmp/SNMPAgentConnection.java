@@ -12,7 +12,6 @@
  */
 package org.jmanage.core.modules.snmp;
 
-import org.jmanage.core.modules.JMXServerConnection;
 import org.jmanage.core.management.*;
 
 import java.util.*;
@@ -22,9 +21,11 @@ import snmp.*;
 
 /**
  * @author shashank
+ * @author Rakesh Kalra
  * Date: Jul 31, 2005
  */
-public class SNMPAgentConnection extends JMXServerConnection{
+public class SNMPAgentConnection implements ServerConnection{
+
     private final SNMPv1CommunicationInterface comInterface;
     private final String mBeanObjectName = "snmp:name=SNMPAgent";
 
@@ -34,11 +35,11 @@ public class SNMPAgentConnection extends JMXServerConnection{
     }
 
     public Set queryNames(ObjectName objectName) {
-            // This call is to make sure that SNMP agent is accessible
-            getMIBDetails(objectName);
-            Set mBeanSet = new HashSet();
-            mBeanSet.add(new ObjectName(mBeanObjectName));
-            return mBeanSet;
+        // This call is to make sure that SNMP agent is accessible
+        getMIBDetails(objectName);
+        Set mBeanSet = new HashSet();
+        mBeanSet.add(new ObjectName(mBeanObjectName));
+        return mBeanSet;
     }
 
     public Object invoke(ObjectName objectName,
@@ -49,21 +50,54 @@ public class SNMPAgentConnection extends JMXServerConnection{
     }
 
     public ObjectInfo getObjectInfo(ObjectName objectName) {
-            SNMPVarBindList mibList = getMIBDetails(objectName);
-            ObjectInfo objectInfo = mibListToJMXMBean(mibList);
-            return objectInfo;
+        SNMPVarBindList mibList = getMIBDetails(objectName);
+        ObjectInfo objectInfo = mibListToJMXMBean(mibList);
+        return objectInfo;
     }
 
     public List getAttributes(ObjectName objectName, String[] attributeNames) {
-            SNMPVarBindList mibList = getMIBDetails(objectName);
-            return getAttributeList(mibList);
+        SNMPVarBindList mibList = getMIBDetails(objectName);
+        return getAttributeList(mibList);
     }
 
     public List setAttributes(ObjectName objectName, List attributeList) {
         return null;
     }
 
+    public void addNotificationListener(ObjectName objectName,
+                                        ObjectNotificationListener listener,
+                                        ObjectNotificationFilter filter,
+                                        Object handback){
+        throw new RuntimeException("Notifications not supported");
+    }
+
+    public void removeNotificationListener(ObjectName objectName,
+                                           ObjectNotificationListener listener,
+                                           ObjectNotificationFilter filter,
+                                           Object handback){
+        throw new RuntimeException("Notifications not supported");
+    }
+
+    public void createMBean(String className,
+                            ObjectName name,
+                            Object[] params,
+                            String[] signature){
+        throw new RuntimeException("Notifications not supported");
+    }
+
+    public void unregisterMBean(ObjectName objectName){
+        throw new RuntimeException("unregisterMBean not supported");
+    }
+
     public void close() throws IOException {
+    }
+
+    public Object buildObjectName(String objectName){
+        try {
+            return new javax.management.ObjectName(objectName);
+        } catch (javax.management.MalformedObjectNameException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
