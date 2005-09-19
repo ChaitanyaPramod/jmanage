@@ -87,20 +87,15 @@ public interface ServerConnection {
                                         ObjectNotificationFilter filter,
                                         Object handback);
 
-    public void createMBean(String className,
-                            ObjectName name,
-                            Object[] params,
-                            String[] signature);
-
-    /**
-     * Closes the connection to the server
-     */
-    public void close() throws IOException;
-
     public void removeNotificationListener(ObjectName objectName,
                                            ObjectNotificationListener listener,
                                            ObjectNotificationFilter filter,
                                            Object handback);
+
+    public void createMBean(String className,
+                            ObjectName name,
+                            Object[] params,
+                            String[] signature);
 
     public void unregisterMBean(ObjectName objectName);
 
@@ -110,4 +105,9 @@ public interface ServerConnection {
      * @return an object of type javax.management.ObjectName
      */
     public Object buildObjectName(String objectName);
+
+    /**
+     * Closes the connection to the server
+     */
+    public void close() throws IOException;
 }
