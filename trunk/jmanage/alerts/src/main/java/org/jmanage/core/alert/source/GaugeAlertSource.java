@@ -61,7 +61,7 @@ public class GaugeAlertSource extends AlertSource{
         connection = ServerConnector.getServerConnection(
                 sourceConfig.getApplicationConfig());
 
-        monitorObjName = new ObjectName("jmanage:name=" + alertName +
+        monitorObjName = new ObjectName("jmanage.alerts:name=" + alertName +
                 ",id=" + alertId + ",type=GaugeMonitor");
 
         /* check if the MBean is already registered */
@@ -73,7 +73,7 @@ public class GaugeAlertSource extends AlertSource{
 
         /* create the MBean */
         connection.createMBean("javax.management.monitor.GaugeMonitor",
-                monitorObjName, null, null);
+                monitorObjName, new Object[0], new String[0]);
         /* set attributes */
         List attributes = new LinkedList();
         attributes.add(new ObjectAttribute("GranularityPeriod", new  Long(5000)));
@@ -149,7 +149,7 @@ public class GaugeAlertSource extends AlertSource{
         try {
            connection.close();
         } catch (IOException e) {
-           logger.log(Level.SEVERE, "Error while closing connection", e);
+           logger.log(Level.WARNING, "Error while closing connection", e);
         }
 
         connection = null;

@@ -82,6 +82,12 @@
             source="1.4">
             <classpath refid="module.classpath"/>
         </javac>
+        <!-- JBoss specific -->
+        <rmic base="${build.home}/modules/${module.name}/classes"
+            includes="**/JBossServerConnection$MyRMINotificationListener.class">
+            <classpath refid="module.classpath"/>
+        </rmic>
+
         <jar basedir="${build.home}/modules/${module.name}/classes"
             jarfile="${build.home}/modules/${module.name}/jmanage-${module.name}.jar"/>
         <delete dir="${build.home}/modules/${module.name}/classes" />

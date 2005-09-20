@@ -29,6 +29,7 @@ import java.util.Set;
 import java.util.List;
 import java.util.logging.Logger;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 
 /**
  *
@@ -50,62 +51,6 @@ public class JBossServerConnection extends JMXServerConnection {
         this.rmiAdaptor = rmiAdaptor;
     }
 
-    public void addNotificationListener(ObjectName objectName,
-                                        ObjectNotificationListener listener,
-                                        ObjectNotificationFilter filter,
-                                        Object handback){
-
-        RMINotificationListener notifListener =
-                toRMINotificationListener(listener);
-        notifications.put(listener, notifListener);
-        NotificationFilter notifFilter =
-                toJMXNotificationFilter(filter);
-        try {
-            rmiAdaptor.addNotificationListener(toJMXObjectName(objectName),
-                    notifListener, notifFilter, handback);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void removeNotificationListener(ObjectName objectName,
-                                           ObjectNotificationListener listener,
-                                           ObjectNotificationFilter filter,
-                                           Object handback){
-
-        RMINotificationListener notifListener =
-                (RMINotificationListener)notifications.remove(listener);
-        assert notifListener != null;
-        try {
-            rmiAdaptor.removeNotificationListener(toJMXObjectName(objectName),
-                    notifListener);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private static RMINotificationListener toRMINotificationListener(
-            final ObjectNotificationListener listener){
-
-        return new MyRMINotificationListener(listener);
-    }
-
-    private static class MyRMINotificationListener implements RMINotificationListener, java.io.Serializable{
-
-        private final ObjectNotificationListener listener;
-
-        MyRMINotificationListener(ObjectNotificationListener listener){
-            this.listener = listener;
-
-        }
-
-        public void handleNotification(Notification notification, Object handback)
-                throws RemoteException {
-            listener.handleNotification(toObjectNotification(notification),
-                        handback);
-        }
-    }
-
     public ObjectInfo getObjectInfo(ObjectName objectName) {
 
         String existingProtocolHandler =
@@ -116,17 +61,83 @@ public class JBossServerConnection extends JMXServerConnection {
             javax.management.ObjectName jmxObjName = toJMXObjectName(objectName);
             // fix for Bug# 1211202
             System.setProperty("java.protocol.handler.pkgs",
-                            "org.jmanage.net.protocol");
+                    "org.jmanage.net.protocol");
             MBeanInfo mbeanInfo = rmiAdaptor.getMBeanInfo(jmxObjName);
             return toObjectInfo(objectName, mbeanInfo);
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException(e);
-        }finally{
+        } finally {
             // todo: there is a minor bug here. if the existing value was null, it won't be reset
-            if(existingProtocolHandler != null){
+            if (existingProtocolHandler != null) {
                 System.setProperty("java.protocol.handler.pkgs",
-                                    existingProtocolHandler);
+                        existingProtocolHandler);
             }
+        }
+    }
+
+    public void addNotificationListener(ObjectName objectName,
+                                        ObjectNotificationListener listener,
+                                        ObjectNotificationFilter filter,
+                                        Object handback) {
+
+        try {
+            MyRMINotificationListener notifListener =
+                    toRMINotificationListener(listener);
+            notifListener.export();
+            notifications.put(listener, notifListener);
+            NotificationFilter notifFilter =
+                    toJMXNotificationFilter(filter);
+            rmiAdaptor.addNotificationListener(toJMXObjectName(objectName),
+                    notifListener, notifFilter, new String());// todo: handback is not used
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void removeNotificationListener(ObjectName objectName,
+                                           ObjectNotificationListener listener,
+                                           ObjectNotificationFilter filter,
+                                           Object handback) {
+
+        MyRMINotificationListener notifListener =
+                (MyRMINotificationListener) notifications.remove(listener);
+        assert notifListener != null;
+        try {
+            rmiAdaptor.removeNotificationListener(toJMXObjectName(objectName),
+                    notifListener);
+            notifListener.unexport();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static MyRMINotificationListener toRMINotificationListener(
+            final ObjectNotificationListener listener) {
+
+        return new MyRMINotificationListener(listener);
+    }
+
+    private static class MyRMINotificationListener
+            implements RMINotificationListener{
+
+        private final ObjectNotificationListener listener;
+
+        MyRMINotificationListener(ObjectNotificationListener listener) {
+            this.listener = listener;
+        }
+
+        public void export() throws RemoteException {
+            UnicastRemoteObject.exportObject(this);
+        }
+
+        public void unexport() throws RemoteException {
+            UnicastRemoteObject.unexportObject(this, true);
+        }
+
+        public void handleNotification(Notification notification, Object handback)
+                throws RemoteException {
+            listener.handleNotification(toObjectNotification(notification),
+                    handback);
         }
     }
 }
