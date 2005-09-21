@@ -32,7 +32,7 @@ See http://forrest.apache.org/docs/linking.html for more info
 <site label="jManage" href="" xmlns="http://apache.org/forrest/linkmap/1.0" tab="">
 
   <home label="jManage" href="/">
-    <index label="About" href="index.html" description="Welcome to jManage"/>
+    <index label="About" href="/index.html" description="Welcome to jManage"/>
     <downloads label="Download" href="http://sourceforge.net/project/showfiles.php?group_id=111374&amp;package_id=120380" description="jManage Downloads"/>
     <screenshots label="Screenshots" href="/screenshots.html" description="Screen Shots"/>
     <roadmap label="Roadmap" href="/roadmap.html" description="jManage Roadmap"/>
@@ -53,10 +53,11 @@ See http://forrest.apache.org/docs/linking.html for more info
     <mailingLists label="Mailing Lists" href="http://sourceforge.net/mail/?group_id=111374"/>
   </community>
   <development label="Development">
-    <buildGuide label="Build Guide" href="development/index.html"/>
-    <architecture label="Architecture" href="development/architecture.html"/>
-    <jamesSetup label="James Setup" href="development/jamesSetup.html"/>
-    <snmpModule label="SNMP Module" href="development/snmpModule.html"/>
+    <gettingInvolved label="Getting Involved" href="/development/gettingInvolved.html"/>
+    <buildGuide label="Build Guide" href="/development/index.html"/>
+    <architecture label="Architecture" href="/development/architecture.html"/>
+    <jamesSetup label="James Setup" href="/development/jamesSetup.html"/>
+    <snmpModule label="SNMP Module" href="/development/snmpModule.html"/>
     <cvs label="CVS" href="http://sourceforge.net/cvs/?group_id=111374"/>
     <license label="License" href="http://www.apache.org/licenses/LICENSE-2.0"/>
   </development>
