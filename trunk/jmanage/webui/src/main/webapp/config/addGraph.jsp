@@ -27,7 +27,7 @@
     <td><jmhtml:text property="graphName"/></td>
 </tr>
 <tr>
-    <td class=headtext1>Polling Interval</td>
+    <td class=headtext1>Polling Interval (in seconds)</td>
     <td><jmhtml:text property="pollInterval"/></td>
 </tr>
 </table>

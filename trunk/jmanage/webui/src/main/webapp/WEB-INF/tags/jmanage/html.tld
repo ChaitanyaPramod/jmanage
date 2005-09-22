@@ -1569,6 +1569,11 @@
             <required>false</required>
             <rtexprvalue>true</rtexprvalue>
         </attribute>
+       <attribute>
+           <name>acl</name>
+           <required>false</required>
+           <rtexprvalue>true</rtexprvalue>
+       </attribute>
     </tag>
     <tag>
         <name>messages</name>

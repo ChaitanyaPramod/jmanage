@@ -8,7 +8,8 @@
                  java.util.*,
                  org.jmanage.core.config.GraphConfig,
                  org.jmanage.core.config.AlertConfig,
-                 org.jmanage.webui.util.Utils"%>
+                 org.jmanage.webui.util.Utils,
+                 org.jmanage.core.util.ACLConstants"%>
 
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 <script language="JavaScript">
@@ -18,6 +19,7 @@
         if(confirm(msg) == true){
             location = '/config/deleteAlert.do?<%=RequestParams.ALERT_ID%>=' + alertId + '&<%=RequestParams.APPLICATION_ID%>=' + appId + '&refreshApps=true';
         }
+        return;
     }
     function deleteGraph(graphId, appId){
         var msg;
@@ -25,6 +27,7 @@
         if(confirm(msg) == true){
             location = '/config/deleteGraph.do?<%=RequestParams.GRAPH_ID%>=' + graphId + '&<%=RequestParams.APPLICATION_ID%>=' + appId + '&refreshApps=true';
         }
+        return;
     }
 </script>
 <%
@@ -89,9 +92,20 @@
                     <%=graphConfig.getName()%></a>
         </td>
         <td align="right">
-            <a href="/config/showEditGraph.do?<%=RequestParams.APPLICATION_ID%>=<%=appConfig.getApplicationId()%>&graphId=<%=graphConfig.getId()%>" class="a1">Edit</a>
+        <%
+                String editGraphLink ="/config/showEditGraph.do?"
+                        + RequestParams.GRAPH_ID + "=" + graphConfig.getId();
+            %>
+            <jmhtml:link href="<%=editGraphLink%>" acl="<%=ACLConstants.ACL_EDIT_GRAPH%>" styleClass="a1">Edit</jmhtml:link>
         </td>
-        <td align="right" width="60"><a href="JavaScript:deleteGraph('<%=graphConfig.getId()%>','<%=appConfig.getApplicationId()%>');" class="a1">Delete</a></td>
+        <td align="right" width="60">
+        <%
+            String deleteGraphLink = "JavaScript:deleteGraph('"
+                    + graphConfig.getId() + "','" + appConfig.getApplicationId() + "');";
+        %>
+            <jmhtml:link href="<%=deleteGraphLink%>" acl="<%=ACLConstants.ACL_EDIT_GRAPH%>" styleClass="a1">
+                Delete</jmhtml:link>
+       </td>
     </tr>
 <%
     }
@@ -102,8 +116,16 @@
     There are no configured graphs.
 </p>
 <%}%>
+<%
+    String link = "/config/showMBeans.do?"
+            + RequestParams.END_URL + "=" + Utils.urlEncode("/config/showAddGraph.do")
+            + "&" + RequestParams.MULTIPLE + "=true&"
+            + RequestParams.DATA_TYPE + "=java.lang.Number&"
+            + RequestParams.NAVIGATION + "=" + Utils.urlEncode("Add Graph");
+%>
 <p>
-   <a href="/config/showMBeans.do?<%=RequestParams.APPLICATION_ID%>=<%=appConfig.getApplicationId()%>&<%=RequestParams.END_URL%>=<%=Utils.encodeURL("/config/showAddGraph.do")%>&<%=RequestParams.MULTIPLE%>=true&<%=RequestParams.DATA_TYPE%>=java.lang.Number&<%=RequestParams.NAVIGATION%>=Add Graph" class="a">Add Graph</a>
+    <jmhtml:link href='<%=link%>' acl="<%=ACLConstants.ACL_ADD_GRAPH%>" styleClass="a">
+        Add Graph</jmhtml:link>
 </p>
 <%
 if(appConfig.getAlerts().size() > 0){
@@ -144,8 +166,21 @@ if(appConfig.getAlerts().size() > 0){
         </td>
         <td class="plaintext"><%=alertDel%></td>
         <td class="plaintext"><%=alertConfig.getSubject()%></td>
-        <td align="right" width="60"><a href="/config/showEditAlert.do?<%=RequestParams.APPLICATION_ID%>=<%=appConfig.getApplicationId()%>&<%=RequestParams.ALERT_ID%>=<%=alertConfig.getAlertId()%>" class="a1">Edit</a></td>
-        <td align="right" width="60"><a href="JavaScript:deleteAlert('<%=alertConfig.getAlertId()%>',<%=appConfig.getApplicationId()%>);" class="a1">Delete</a></td>
+        <td align="right" width="60">
+            <%
+                String editAlertLink ="/config/showEditAlert.do?"
+                        + RequestParams.ALERT_ID + "=" + alertConfig.getAlertId();
+            %>
+            <jmhtml:link href="<%=editAlertLink%>" acl="<%=ACLConstants.ACL_EDIT_ALERT%>" styleClass="a1">Edit</jmhtml:link>
+        </td>
+        <td align="right" width="60">
+        <%
+            String deleteAlertLink = "JavaScript:deleteAlert('"
+                    + alertConfig.getAlertId() + "','" + appConfig.getApplicationId() + "');";
+        %>
+           <jmhtml:link href="<%=deleteAlertLink%>" acl="<%=ACLConstants.ACL_EDIT_ALERT%>"  styleClass="a1">
+            Delete</jmhtml:link>
+       </td>
     </tr>
     <%}%>
 </table>
@@ -157,6 +192,7 @@ if(appConfig.getAlerts().size() > 0){
 </p>
 <%}%>
 <p>
-<a href="/config/showSelectAlertSourceType.do?<%=RequestParams.APPLICATION_ID%>=<%=appConfig.getApplicationId()%>" class="a">Add Alert</a>
+<jmhtml:link href="/config/showSelectAlertSourceType.do" acl="<%=ACLConstants.ACL_ADD_ALERT%>" styleClass="a">
+    Add Alert</jmhtml:link>
 
 

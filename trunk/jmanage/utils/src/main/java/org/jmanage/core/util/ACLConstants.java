@@ -40,4 +40,8 @@ public interface ACLConstants {
             "acl.execute.jmanage.mbean.operations";
     public static final String ACL_VIEW_MBEAN_NOTIFICATIONS =
             "acl.view.jmanage.mbean.notifications";
+    public static final String ACL_ADD_ALERT = "acl.add.alert";
+    public static final String ACL_EDIT_ALERT = "acl.edit.alert";
+    public static final String ACL_ADD_GRAPH = "acl.add.graph";
+    public static final String ACL_EDIT_GRAPH = "acl.edit.graph";
 }

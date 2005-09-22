@@ -19,11 +19,13 @@ import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.util.RequestAttributes;
+import org.jmanage.webui.util.Utils;
 import org.jmanage.webui.forms.GraphForm;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.GraphConfig;
 import org.jmanage.core.config.GraphAttributeConfig;
 import org.jmanage.core.util.Expression;
+import org.jmanage.core.services.AccessController;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
@@ -44,6 +46,7 @@ public class ShowEditGraphAction extends BaseAction{
                                  HttpServletRequest request,
                                  HttpServletResponse response)
             throws Exception {
+        AccessController.checkAccess(Utils.getServiceContext(context),ACL_EDIT_GRAPH);
         GraphForm form = (GraphForm)actionForm;
         String graphId = form.getGraphId();
         ApplicationConfig appConfig = context.getApplicationConfig();
