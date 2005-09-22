@@ -73,7 +73,7 @@ public class Utils {
         return null;
     }
 
-    public static String encodeURL(String url){
+    public static String urlEncode(String url){
         String urlString;
         try{
             urlString = URLEncoder.encode(url,"UTF-8");
