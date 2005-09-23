@@ -23,6 +23,10 @@ import org.jmanage.core.config.ApplicationConfigManager;
 import org.jmanage.core.config.AlertSourceConfig;
 import org.jmanage.core.util.Expression;
 import org.jmanage.core.services.AccessController;
+import org.jmanage.core.services.MBeanService;
+import org.jmanage.core.services.ServiceFactory;
+import org.jmanage.core.services.ServiceContext;
+import org.jmanage.core.management.ObjectAttribute;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
@@ -60,7 +64,6 @@ public class ShowAddAlertAction extends BaseAction{
         String sourceType = request.getParameter(RequestParams.ALERT_SOURCE_TYPE);
         request.setAttribute("alertSourceType",
                             sourceType);
-        alertForm.setAlertSourceType(sourceType);
         if(sourceType.equals(AlertSourceConfig.SOURCE_TYPE_NOTIFICATION)){
             Expression expr = new Expression(alertForm.getExpression());
             request.setAttribute("sourceMBean", expr.getMBeanName());
@@ -70,6 +73,13 @@ public class ShowAddAlertAction extends BaseAction{
             Expression expr = new Expression(alertForm.getExpression());
             request.setAttribute("sourceMBean", expr.getMBeanName());
             request.setAttribute("attribute", expr.getTargetName());
+            MBeanService mbeanService = ServiceFactory.getMBeanService();
+            ObjectAttribute objAttr = mbeanService.getObjectAttribute(
+                    Utils.getServiceContext(context, expr),
+                    expr.getTargetName());
+            request.setAttribute("currentAttrValue",
+                    objAttr.getDisplayValue("<br/>", true));
+
         }
 
         request.setAttribute("applications",

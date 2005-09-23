@@ -17,17 +17,17 @@
 <tr>
     <td class="plaintext"><jmhtml:radio property="alertSourceType"
                       value="<%=AlertSourceConfig.SOURCE_TYPE_NOTIFICATION%>"/>
-                      MBean Notification</td>
+                      <%=AlertSourceConfig.getSourceTypeDescription(AlertSourceConfig.SOURCE_TYPE_NOTIFICATION)%></td>
 </tr>
 <tr>
     <td class="plaintext"><jmhtml:radio property="alertSourceType"
                       value="<%=AlertSourceConfig.SOURCE_TYPE_GAUGE_MONITOR%>"/>
-                      MBean Attribute Value Thresholds</td>
+                      <%=AlertSourceConfig.getSourceTypeDescription(AlertSourceConfig.SOURCE_TYPE_GAUGE_MONITOR)%></td>
 </tr>
 <tr>
     <td class="plaintext"><jmhtml:radio property="alertSourceType"
                       value="<%=AlertSourceConfig.SOURCE_TYPE_STRING_MONITOR%>"/>
-                      MBean Attribute String Value Monitoring</td>
+                      <%=AlertSourceConfig.getSourceTypeDescription(AlertSourceConfig.SOURCE_TYPE_STRING_MONITOR)%></td>
 </tr>
 <tr>
     <td align="center" colspan="2">

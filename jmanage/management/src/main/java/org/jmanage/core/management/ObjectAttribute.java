@@ -15,6 +15,8 @@
  */
 package org.jmanage.core.management;
 
+import org.jmanage.util.StringUtils;
+
 /**
  *
  * date:  Aug 13, 2004
@@ -66,5 +68,17 @@ public class ObjectAttribute implements java.io.Serializable {
 
     public String getErrorString() {
         return errorString;
+    }
+
+    public String getDisplayValue(String delim, boolean htmlEscape){
+        String attrValue = null;
+        if(getStatus() == STATUS_OK){
+            attrValue = StringUtils.toString(getValue(), delim, true);
+        }else if(getStatus() == ObjectAttribute.STATUS_NOT_FOUND){
+            attrValue = "&lt;not found&gt;";
+        }else{
+            attrValue = "&lt;error&gt;";
+        }
+        return attrValue;
     }
 }

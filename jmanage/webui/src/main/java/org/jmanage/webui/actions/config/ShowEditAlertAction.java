@@ -23,6 +23,9 @@ import org.jmanage.core.config.AlertConfig;
 import org.jmanage.core.config.AlertSourceConfig;
 import org.jmanage.core.util.Expression;
 import org.jmanage.core.services.AccessController;
+import org.jmanage.core.services.MBeanService;
+import org.jmanage.core.services.ServiceFactory;
+import org.jmanage.core.management.ObjectAttribute;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
@@ -66,20 +69,25 @@ public class ShowEditAlertAction extends BaseAction{
                 request.setAttribute("notificationType",
                         alertSrcConfig.getNotificationType());
             }else if(sourceType.equals(
+                    AlertSourceConfig.SOURCE_TYPE_GAUGE_MONITOR) ||sourceType.equals(
+                    AlertSourceConfig.SOURCE_TYPE_STRING_MONITOR) ){
+                expression = new Expression(null, alertSrcConfig.getObjectName(),
+                        alertSrcConfig.getAttributeName());
+                request.setAttribute("attribute", alertSrcConfig.getAttributeName());
+                MBeanService mbeanService = ServiceFactory.getMBeanService();
+                ObjectAttribute objAttr = mbeanService.getObjectAttribute(
+                    Utils.getServiceContext(context, expression),
+                    expression.getTargetName());
+                request.setAttribute("currentAttrValue",
+                        objAttr.getDisplayValue("<br/>", true));
+                if(sourceType.equals(
                     AlertSourceConfig.SOURCE_TYPE_GAUGE_MONITOR)){
-                expression = new Expression(null, alertSrcConfig.getObjectName(),
-                        alertSrcConfig.getAttributeName());
-                request.setAttribute("attribute", alertSrcConfig.getAttributeName());
-                form.setMinAttributeValue(alertSrcConfig.getLowThreshold()
-                        .toString());
-                form.setMaxAttributeValue(alertSrcConfig.getHighThreshold()
-                        .toString());
-            }else if(sourceType.equals(
+                    form.setMinAttributeValue(alertSrcConfig.getLowThreshold().toString());
+                    form.setMaxAttributeValue(alertSrcConfig.getHighThreshold().toString());
+                }else if(sourceType.equals(
                     AlertSourceConfig.SOURCE_TYPE_STRING_MONITOR)){
-                expression = new Expression(null, alertSrcConfig.getObjectName(),
-                        alertSrcConfig.getAttributeName());
-                request.setAttribute("attribute", alertSrcConfig.getAttributeName());
-                form.setStringAttributeValue(alertSrcConfig.getStringAttributeValue());
+                    form.setStringAttributeValue(alertSrcConfig.getStringAttributeValue());
+                }
             }
             form.setExpression(expression.toString());
         }
