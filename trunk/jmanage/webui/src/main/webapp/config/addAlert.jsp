@@ -52,8 +52,8 @@
 </tr>
 <tr>
     <td class="headtext1"><nobr>Alert Source Type:</nobr></td>
-    <td>
-        <%=request.getAttribute("alertSourceType")%>
+    <td class="plaintext">
+        <%=AlertSourceConfig.getSourceTypeDescription((String)request.getAttribute("alertSourceType"))%>
         <jmhtml:hidden property="alertSourceType"/>
     </td>
 </tr>
@@ -87,7 +87,8 @@
     </td>
 </tr>
 <%
-    }else if(sourceType.equals(AlertSourceConfig.SOURCE_TYPE_GAUGE_MONITOR)){
+    }else if(sourceType.equals(AlertSourceConfig.SOURCE_TYPE_GAUGE_MONITOR)
+            || sourceType.equals(AlertSourceConfig.SOURCE_TYPE_STRING_MONITOR)){
 %>
 <tr>
     <td class="headtext1">Attribute Name:</nobr></td>
@@ -95,6 +96,15 @@
         <%=request.getAttribute("attribute")%>
     </td>
 </tr>
+<tr>
+    <td class="headtext1">Current Value:</nobr></td>
+    <td class="plaintext">
+        <%=request.getAttribute("currentAttrValue")%>
+    </td>
+</tr>
+<%
+    if(sourceType.equals(AlertSourceConfig.SOURCE_TYPE_GAUGE_MONITOR)){
+%>
 <tr>
     <td class="headtext1">Minimum Attribute Value</nobr></td>
     <td class="plaintext"><jmhtml:text property="minAttributeValue"/>
@@ -106,17 +116,13 @@
 <%
     } else if(sourceType.equals(AlertSourceConfig.SOURCE_TYPE_STRING_MONITOR)){
 %>
-<tr>
-    <td class="headtext1">Attribute Name:</nobr></td>
-    <td class="plaintext">
-        <%=request.getAttribute("attribute")%>
-    </td>
-</tr>
+
 <tr>
     <td class="headtext1">Attribute Value</nobr></td>
     <td class="plaintext"><jmhtml:text property="stringAttributeValue"/>
 </tr>
 <%
+    }
     }
 %>
 

@@ -16,6 +16,8 @@
 package org.jmanage.webui.util;
 
 import org.jmanage.core.services.ServiceContext;
+import org.jmanage.core.services.ServiceContextImpl;
+import org.jmanage.core.util.Expression;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Cookie;
@@ -58,6 +60,20 @@ public class Utils {
 
     public static ServiceContext getServiceContext(WebContext webContext){
         return webContext.getServiceContext();
+    }
+
+    public static ServiceContext getServiceContext(WebContext context,
+                                             Expression expression){
+        ServiceContextImpl srvcContext = new ServiceContextImpl();
+        srvcContext.setUser(context.getUser());
+        if(expression.getAppName().equals(Expression.WILDCARD)){
+            srvcContext.setApplicationName((
+                    context.getApplicationConfig().getName()));
+        }else{
+            srvcContext.setApplicationName(expression.getAppName());
+        }
+        srvcContext.setMBeanName(expression.getMBeanName());
+        return srvcContext;
     }
 
     public static String getCookieValue(HttpServletRequest request,

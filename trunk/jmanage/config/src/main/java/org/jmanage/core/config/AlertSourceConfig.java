@@ -27,6 +27,10 @@ public class AlertSourceConfig {
     public static final String SOURCE_TYPE_COUNTER_MONITOR = "counter";
     public static final String SOURCE_TYPE_STRING_MONITOR = "string";
 
+    private static final String SOURCE_TYPE_NOTIFICATION_DESC = "MBean Notification";
+    private static final String SOURCE_TYPE_GAUGE_MONITOR_DESC = "MBean Attribute Value Thresholds";
+    private static final String SOURCE_TYPE_STRING_MONITOR_DESC = "MBean Attribute String Value";
+
     private String sourceType;
     private ApplicationConfig appConfig;
     private String objectName;
@@ -117,7 +121,20 @@ public class AlertSourceConfig {
         return appConfig;
     }
     public String getAttributeDataTYpe() {
-            return attributeDataTYpe;
+        return attributeDataTYpe;
+    }
+
+    public static String getSourceTypeDescription(String sourceType){
+        if (sourceType.equals(SOURCE_TYPE_NOTIFICATION)){
+            return SOURCE_TYPE_NOTIFICATION_DESC;
         }
+        if(sourceType.equals(SOURCE_TYPE_GAUGE_MONITOR)){
+            return SOURCE_TYPE_GAUGE_MONITOR_DESC;
+        }
+        if(sourceType.equals(SOURCE_TYPE_STRING_MONITOR)){
+            return SOURCE_TYPE_STRING_MONITOR_DESC;
+        }
+        return null;
+    }
 
 }

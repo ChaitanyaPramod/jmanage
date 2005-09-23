@@ -20,6 +20,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForward;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
+import org.jmanage.webui.util.Utils;
 import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.core.util.Expression;
 import org.jmanage.core.services.ServiceContextImpl;
@@ -63,7 +64,7 @@ public class MBeanAttributeValuesAction extends BaseAction {
         for(Iterator it=exprList.iterator(); it.hasNext();){
             Expression expression = (Expression)it.next();
             ServiceContext srvcContext =
-                    getServiceContext(context, expression);
+                    Utils.getServiceContext(context, expression);
             ObjectAttribute objAttribute =
                     mbeanService.getObjectAttribute(srvcContext,
                             expression.getTargetName());
@@ -96,12 +97,4 @@ public class MBeanAttributeValuesAction extends BaseAction {
         return exprList;
     }
 
-    private ServiceContext getServiceContext(WebContext context,
-                                             Expression expression){
-        ServiceContextImpl srvcContext = new ServiceContextImpl();
-        srvcContext.setUser(context.getUser());
-        srvcContext.setApplicationName(expression.getAppName());
-        srvcContext.setMBeanName(expression.getMBeanName());
-        return srvcContext;
-    }
 }

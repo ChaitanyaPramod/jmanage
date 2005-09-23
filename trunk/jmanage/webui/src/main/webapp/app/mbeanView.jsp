@@ -146,15 +146,7 @@
         <%if(attributeList != null){
             ObjectAttribute objAttribute =
                         MBeanUtils.getObjectAttribute(attributeList, attributeInfo);
-            String attrValue = null;
-            if(objAttribute.getStatus() == ObjectAttribute.STATUS_OK){
-                attrValue = StringUtils.toString(objAttribute.getValue(), "<br/>", true);
-            }else if(objAttribute.getStatus() == ObjectAttribute.STATUS_NOT_FOUND){
-                attrValue = "&lt;not found&gt;";
-            }else{
-                attrValue = "&lt;error&gt;";
-            }
-
+            String attrValue = objAttribute.getDisplayValue("<br/>", true);
             if(AccessController.canAccess(webContext.getServiceContext(),
                         ACLConstants.ACL_UPDATE_MBEAN_ATTRIBUTES,
                         attributeInfo.getName()) &&
