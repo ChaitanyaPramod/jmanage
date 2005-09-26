@@ -35,12 +35,14 @@ public class ApplicationConfigFactory {
                                            Map paramValues){
 
         try {
-            final ModuleConfig moduleConfig = ModuleRegistry.getModule(type);
+            final ApplicationType appType =
+                    ApplicationTypes.getApplicationType(type);
+            final ModuleConfig moduleConfig = appType.getModule();
             final MetaApplicationConfig metaAppConfig =
                     moduleConfig.getMetaApplicationConfig();
             final Class metaConfigClass =
                     Class.forName(metaAppConfig.getApplicationConfigClassName(),
-                            true, moduleConfig.getClassLoader());
+                            true, appType.getClassLoader());
             final ApplicationConfig appConfig =
                     (ApplicationConfig)metaConfigClass.newInstance();
             appConfig.setApplicationId(applicationId);

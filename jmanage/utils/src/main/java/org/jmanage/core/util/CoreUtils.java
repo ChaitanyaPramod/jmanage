@@ -47,6 +47,10 @@ public class CoreUtils {
         return getRootDir() + "/modules/" + moduleId;
     }
 
+    public static String getApplicationDir(String appId){
+        return getRootDir() + "/applications/" + appId;
+    }
+
     public static String getLogDir(){
         return getRootDir() + "/logs";
     }

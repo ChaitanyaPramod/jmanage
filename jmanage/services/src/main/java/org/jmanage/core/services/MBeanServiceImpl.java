@@ -144,7 +144,7 @@ public class MBeanServiceImpl implements MBeanService {
             ObjectAttributeInfo attrInfo = objAttrInfo[i];
             for(int j=0; j<dataTypes.length; j++){
                 Class attrInfoType = getClass(attrInfo.getType(),
-                        appConfig.getModuleClassLoader());
+                        appConfig.getApplicationClassLoader());
                 Class dataType = getClass(dataTypes[j],
                         this.getClass().getClassLoader());
                 if(attrInfoType != null &&
@@ -746,7 +746,7 @@ public class MBeanServiceImpl implements MBeanService {
             /* handle ObjectName as a special type */
             if(type.equals("javax.management.ObjectName")){
                 Class clazz = Class.forName(type, true,
-                        appConfig.getModuleClassLoader());
+                        appConfig.getApplicationClassLoader());
                 try {
                     Constructor ctor = clazz.getConstructor(new Class[]{String.class});
                     return ctor.newInstance(new Object[]{value});

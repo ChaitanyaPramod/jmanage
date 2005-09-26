@@ -20,8 +20,6 @@ import org.jmanage.core.util.CoreUtils;
 import org.jmanage.core.util.Loggers;
 
 import java.net.URL;
-import java.net.URLClassLoader;
-import java.net.MalformedURLException;
 import java.io.File;
 import java.util.logging.Logger;
 
@@ -34,46 +32,18 @@ public class ModuleConfig {
 
     private static final Logger logger = Loggers.getLogger(ModuleConfig.class);
 
-    private String type;
-    private String name;
+    private String id;
     private MetaApplicationConfig metaConfig;
     private String connectionFactory;
-    /* classloader for this module */
-    private ClassLoader classLoader;
 
-    public ModuleConfig(String type,
-                        String name,
+    public ModuleConfig(String id,
                         MetaApplicationConfig metaConfig,
-                        String connectionFactory){
-        this.type = type;
-        this.name = name;
+                        String connectionFactory)
+        throws ModuleNotFoundException {
+
+        this.id = id;
         this.metaConfig = metaConfig;
-
-        final ClassLoader classLoader = getClassLoader();
-        assert classLoader != null;
-        final ClassLoader contextClassLoader =
-                Thread.currentThread().getContextClassLoader();
-        /* temporarily change the thread context classloader */
-        Thread.currentThread().setContextClassLoader(classLoader);
-        try{
-            ApplicationConfig appConfig = (ApplicationConfig)
-                    Class.forName(this.metaConfig.getApplicationConfigClassName(),
-                            true, classLoader).newInstance();
-            this.metaConfig.setAppConfig(appConfig);
-        }catch(Exception e){
-            throw new RuntimeException(e);
-        }finally{
-            Thread.currentThread().setContextClassLoader(contextClassLoader);
-        }
         this.connectionFactory = connectionFactory;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public MetaApplicationConfig getMetaApplicationConfig() {
@@ -84,33 +54,23 @@ public class ModuleConfig {
         return connectionFactory;
     }
 
-    public ClassLoader getClassLoader(){
-        if(classLoader == null){
-            logger.info("Creating new ClassLoader for module: " +
-                    getType());
-            URL[] classpath = getModuleClassPath();
-            classLoader = new URLClassLoader(classpath);
-        }
-        return classLoader;
+    public boolean isAvailable(){
+        final String moduleDirPath =
+                CoreUtils.getModuleDir(id);
+        final File moduleDir = new File(moduleDirPath);
+        return moduleDir.isDirectory();
     }
 
-    private URL[] getModuleClassPath(){
-        try {
-            final String moduleDirPath =
-                    CoreUtils.getModuleDir(getType());
-            final File moduleDir = new File(moduleDirPath);
-            if(!moduleDir.isDirectory()){
-                throw new ModuleNotFoundException(getType());
-            }
-            File[] files = moduleDir.listFiles();
-            URL[] urls = new URL[files.length];
-            for(int i=0; i<files.length; i++){
-                urls[i] = files[i].toURL();
-            }
-            return urls;
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
+    public URL[] getModuleClassPath()
+        throws ModuleNotFoundException {
+
+        final String moduleDirPath =
+                CoreUtils.getModuleDir(id);
+        final File moduleDir = new File(moduleDirPath);
+        if(!moduleDir.isDirectory()){
+            throw new ModuleNotFoundException(id);
         }
+        return ConfigUtils.getClassPath(moduleDir);
     }
 
     public static class ModuleNotFoundException extends RuntimeException{

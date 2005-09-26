@@ -19,7 +19,7 @@ import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.util.RequestAttributes;
-import org.jmanage.core.config.ModuleRegistry;
+import org.jmanage.core.config.ApplicationTypes;
 import org.jmanage.core.services.AccessController;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -55,7 +55,7 @@ public class ShowAvailableApplicationAction extends BaseAction{
             throws Exception {
         AccessController.checkAccess(context.getServiceContext(),
                 ACL_ADD_APPLICATIONS);
-        Map availableApplications = ModuleRegistry.getModules();
+        Map availableApplications = ApplicationTypes.getAll();
         request.setAttribute(RequestAttributes.AVAILABLE_APPLICATIONS,
                 availableApplications);
         /*set current page for navigation*/

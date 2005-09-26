@@ -21,10 +21,7 @@ import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.util.RequestAttributes;
 import org.jmanage.webui.forms.ApplicationForm;
 import org.jmanage.webui.forms.ApplicationForm;
-import org.jmanage.core.config.ApplicationConfig;
-import org.jmanage.core.config.MetaApplicationConfig;
-import org.jmanage.core.config.ModuleConfig;
-import org.jmanage.core.config.ModuleRegistry;
+import org.jmanage.core.config.*;
 import org.jmanage.core.services.AccessController;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -59,9 +56,9 @@ public class ShowEditApplicationAction extends BaseAction {
                 ACL_EDIT_APPLICATIONS);
         ApplicationConfig config = context.getApplicationConfig();
         ApplicationForm appForm = (ApplicationForm)actionForm;
-        ModuleConfig moduleConfig = ModuleRegistry.getModule(config.getType());
+        ApplicationType appType = config.getApplicationType();
         MetaApplicationConfig metaAppConfig =
-                moduleConfig.getMetaApplicationConfig();
+                appType.getModule().getMetaApplicationConfig();
 
         /* populate the form */
         appForm.setApplicationId(config.getApplicationId());

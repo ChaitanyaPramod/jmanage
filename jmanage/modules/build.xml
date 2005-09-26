@@ -64,6 +64,7 @@
                 <include name="management/target/jmanage-management.jar"/>
                 <include name="config/target/jmanage-config.jar"/>
                 <include name="utils/target/jmanage-utils.jar"/>
+                <include name="thirdparty/jmxri/lib/jmxri-1_2_1.jar"/>
             </fileset>
         </path>
         <javac srcdir="${basedir}/common/src/main/java"

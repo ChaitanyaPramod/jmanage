@@ -20,10 +20,8 @@ import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.util.RequestAttributes;
 import org.jmanage.webui.forms.ApplicationForm;
-import org.jmanage.core.config.ModuleRegistry;
-import org.jmanage.core.config.ModuleConfig;
 import org.jmanage.core.services.AccessController;
-import org.jmanage.core.config.MetaApplicationConfig;
+import org.jmanage.core.config.*;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
@@ -59,11 +57,17 @@ public class ShowAddApplicationAction extends BaseAction {
         AccessController.checkAccess(context.getServiceContext(),
                 ACL_ADD_APPLICATIONS);
         ApplicationForm appForm = (ApplicationForm)actionForm;
-        ModuleConfig moduleConfig = ModuleRegistry.getModule(appForm.getType());
+        ApplicationType appType =
+                ApplicationTypes.getApplicationType(appForm.getType());
+        assert appType != null: "Invalid app type: " + appForm.getType();
+        ModuleConfig moduleConfig = appType.getModule();
         MetaApplicationConfig metaAppConfig = moduleConfig.getMetaApplicationConfig();
         request.setAttribute(RequestAttributes.META_APP_CONFIG, metaAppConfig);
-        Integer port = metaAppConfig.getAppConfig().getPort();
-        appForm.setPort(port == null ? "" : String.valueOf(port.intValue()));
+
+        appForm.setHost(appType.getDefaultHost());
+        appForm.setPort(appType.getDefaultPort());
+        appForm.setURL(appType.getDefaultURL());
+
         /*set current page for navigation*/
         request.setAttribute(RequestAttributes.NAV_CURRENT_PAGE, "Add Application");
         return mapping.findForward(Forwards.SUCCESS);
