@@ -25,6 +25,7 @@ import org.jmanage.core.auth.User;
 import org.jmanage.core.auth.ACLStore;
 import org.jmanage.core.services.ServiceFactory;
 import org.jmanage.core.alert.AlertEngine;
+import org.jmanage.core.config.ApplicationTypes;
 
 import java.util.Arrays;
 import java.io.File;
@@ -86,6 +87,8 @@ public class Startup {
         Arrays.fill(password, ' ');
         /* load ACLs */
         ACLStore.getInstance();
+        /* load application types */
+        ApplicationTypes.init();
         /* start the AlertEngine */
         AlertEngine.getInstance().start();
         /* start the application */

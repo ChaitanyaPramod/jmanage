@@ -315,9 +315,14 @@ public abstract class ApplicationConfig {
         return null;
     }
 
-    public ClassLoader getModuleClassLoader(){
-        ModuleConfig moduleConfig = ModuleRegistry.getModule(getType());
-        assert moduleConfig != null;
-        return moduleConfig.getClassLoader();
+    public ClassLoader getApplicationClassLoader(){
+        ApplicationType appType =
+                ApplicationTypes.getApplicationType(getType());
+        assert appType != null;
+        return appType.getClassLoader();
+    }
+
+    public ApplicationType getApplicationType(){
+        return ApplicationTypes.getApplicationType(getType());
     }
 }

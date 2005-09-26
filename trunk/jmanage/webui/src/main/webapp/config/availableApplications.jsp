@@ -2,7 +2,8 @@
 <%@ page errorPage="/error.jsp" %>
 <%@ page import="java.util.Map,
                  org.jmanage.webui.util.RequestAttributes,
-                 java.util.Iterator"%>
+                 java.util.Iterator,
+                 org.jmanage.core.config.ApplicationType"%>
 
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 
@@ -23,13 +24,13 @@
 
 <%
     Map applications = (Map)request.getAttribute(RequestAttributes.AVAILABLE_APPLICATIONS);
-    Iterator iterator = applications.keySet().iterator();
+    Iterator iterator = applications.values().iterator();
     while(iterator.hasNext()){
-        String applicationType = (String)iterator.next();
+        ApplicationType applicationType = (ApplicationType)iterator.next();
 %>
   <tr>
     <td class="plaintext">
-        <a href="javascript:setType('<%=applicationType%>');"><b><%=applicationType%> application</b></a>
+        <a href="javascript:setType('<%=applicationType.getId()%>');"><b><%=applicationType.getName()%></b></a>
     </td>
   </tr>
   <%}//while ends %>

@@ -15,9 +15,7 @@
  */
 package org.jmanage.core.management;
 
-import org.jmanage.core.config.ApplicationConfig;
-import org.jmanage.core.config.ModuleConfig;
-import org.jmanage.core.config.ModuleRegistry;
+import org.jmanage.core.config.*;
 import org.jmanage.core.util.Loggers;
 
 import java.lang.reflect.Proxy;
@@ -44,10 +42,11 @@ public class ServerConnector {
             getServerConnection(ApplicationConfig appConfig)
         throws ConnectionFailedException{
 
-        ModuleConfig moduleConfig =
-                    ModuleRegistry.getModule(appConfig.getType());
-        assert moduleConfig != null: "Invalid type=" + appConfig.getType();
-        final ClassLoader classLoader = moduleConfig.getClassLoader();
+        ApplicationType appType =
+                ApplicationTypes.getApplicationType(appConfig.getType());
+        assert appType != null: "Invalid type=" + appConfig.getType();
+        ModuleConfig moduleConfig = appType.getModule();
+        final ClassLoader classLoader = appType.getClassLoader();
         assert classLoader != null;
 
         final ClassLoader contextClassLoader =

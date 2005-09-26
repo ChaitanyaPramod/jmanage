@@ -27,9 +27,9 @@ public class MetaApplicationConfig {
     private boolean displayURL;
     private boolean displayUsername;
     private boolean displayPassword;
+
     /* the ApplicationConfig class for this module */
     private String configClass;
-    private ApplicationConfig appConfig = null;
 
     public MetaApplicationConfig(boolean host, boolean port, boolean url,
                                  boolean username, boolean password,
@@ -64,13 +64,5 @@ public class MetaApplicationConfig {
 
     public String getApplicationConfigClassName(){
         return configClass;
-    }
-
-    public ApplicationConfig getAppConfig() {
-        return appConfig;
-    }
-
-    public void setAppConfig(ApplicationConfig appConfig) {
-        this.appConfig = appConfig;
     }
 }

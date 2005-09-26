@@ -17,9 +17,7 @@ package org.jmanage.webui.forms;
 
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
-import org.jmanage.core.config.ModuleRegistry;
-import org.jmanage.core.config.ModuleConfig;
-import org.jmanage.core.config.MetaApplicationConfig;
+import org.jmanage.core.config.*;
 import org.jmanage.webui.validator.Validator;
 
 import javax.servlet.http.HttpServletRequest;
@@ -108,9 +106,9 @@ public class ApplicationForm extends BaseForm {
     public ActionErrors validate(ActionMapping mapping, HttpServletRequest request){
         ActionErrors errors = super.validate(mapping, request);
         if(errors==null || errors.isEmpty()){
-            ModuleConfig moduleConfig = ModuleRegistry.getModule(type);
+            ApplicationType appType = ApplicationTypes.getApplicationType(type);
             MetaApplicationConfig metaAppConfig =
-                    moduleConfig.getMetaApplicationConfig();
+                    appType.getModule().getMetaApplicationConfig();
             if(metaAppConfig.isDisplayHost()){
                 Validator.validateRequired(host, "Host Name", errors);
             }

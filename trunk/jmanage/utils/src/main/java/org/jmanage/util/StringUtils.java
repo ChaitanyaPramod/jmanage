@@ -17,6 +17,7 @@ package org.jmanage.util;
 
 import java.util.*;
 import java.lang.reflect.Array;
+import java.net.URL;
 
 /**
  *
@@ -78,6 +79,15 @@ public class StringUtils {
             list.add(tokenizer.nextToken().trim());
         }
         return list;
+    }
+
+    public static String toString(URL[] urls){
+        StringBuffer buff = new StringBuffer();
+        for(int i=0; i<urls.length; i++){
+            buff.append(urls[i].toString());
+            buff.append(";");
+        }
+        return buff.toString();
     }
 
     /**
