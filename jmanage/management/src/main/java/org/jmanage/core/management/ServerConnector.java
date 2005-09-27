@@ -20,6 +20,9 @@ import org.jmanage.core.util.Loggers;
 
 import java.lang.reflect.Proxy;
 import java.util.logging.Logger;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Collections;
 
 /**
  *
@@ -77,19 +80,28 @@ public class ServerConnector {
         }
     }
 
-    // TODO: we should cache the factory instance
     private static ServerConnectionFactory
             getServerConnectionFactory(ModuleConfig moduleConfig,
                                        ClassLoader classLoader) {
 
-        try {
-            assert classLoader != null;
-            final Class factoryClass =
-                    Class.forName(moduleConfig.getConnectionFactory(),
-                            true, classLoader);
-            return (ServerConnectionFactory)factoryClass.newInstance();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        assert classLoader != null;
+        ServerConnectionFactory factory = (ServerConnectionFactory)
+                factories.get(moduleConfig.getConnectionFactory());
+        if(factory == null){
+            try {
+                final Class factoryClass =
+                        Class.forName(moduleConfig.getConnectionFactory(),
+                                true, classLoader);
+                factory = (ServerConnectionFactory)factoryClass.newInstance();
+                factories.put(moduleConfig.getConnectionFactory(), factory);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
+        return factory;
     }
+
+    /* factory class name to factory instance mapping */
+    private static final Map factories =
+            Collections.synchronizedMap(new HashMap());
 }
