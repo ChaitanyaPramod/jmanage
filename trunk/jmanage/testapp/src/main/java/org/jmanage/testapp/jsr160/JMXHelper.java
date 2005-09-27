@@ -21,6 +21,7 @@ import org.jmanage.testapp.mbeans.*;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
 import javax.management.MBeanServerFactory;
+import javax.management.openmbean.OpenDataException;
 import javax.management.remote.JMXServiceURL;
 import javax.management.remote.JMXConnectorServer;
 import javax.management.remote.JMXConnectorServerFactory;
@@ -83,6 +84,14 @@ public class JMXHelper {
         /* Data Formatter */
         registerMBean(new DataFormat(),
                 ObjectNames.DATA_FORMAT);
+        /* OpenMBeanDataTypeTest */
+        try {
+            registerMBean(new OpenMBeanDataTypeTest(),
+                    ObjectNames.OPEN_MBEAN_DATA_TYPE_TEST);
+        } catch (OpenDataException e) {
+            throw new RuntimeException(e);
+        }
+
         if(!jmxmpConnector){
             /* start RMI connector */
             startJMXConnectorServer(port);
@@ -149,7 +158,7 @@ public class JMXHelper {
     }
 
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
     // Helper Methods
 
     /**
