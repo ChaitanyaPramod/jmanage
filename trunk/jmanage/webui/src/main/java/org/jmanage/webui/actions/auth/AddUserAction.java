@@ -61,8 +61,7 @@ public class AddUserAction extends BaseAction{
         User user = buildUser(actionForm);
         UserManager.getInstance().addUser(user);
         UserActivityLogger.getInstance().logActivity(
-                context.getUser().getUsername(),
-                "Added user "+user.getName());
+                context.getUser().getUsername(), "Added user "+user.getName());
         return mapping.findForward(Forwards.SUCCESS);
     }
 

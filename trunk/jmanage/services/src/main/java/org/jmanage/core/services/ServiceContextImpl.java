@@ -22,10 +22,6 @@ import org.jmanage.core.management.ObjectName;
 import org.jmanage.core.management.ServerConnection;
 import org.jmanage.core.management.ServerConnector;
 import org.jmanage.core.util.Loggers;
-import org.jmanage.core.util.CoreUtils;
-
-import javax.security.auth.Subject;
-import java.io.IOException;
 import java.util.logging.Logger;
 
 /**
@@ -54,13 +50,10 @@ public class ServiceContextImpl implements ServiceContext {
     }
 
     /**
-     * TODO webcontext should hold User instead of Subject.
-     * TODO Add a _setUser(User user) method on webcontext and on ServiceContext.
-     * TODO Then refactor to code to remove _setSubject(Subject subject) method.
      *
-     * @param subject
+     * @param user
      */
-    public void _setSubject(Subject subject) {
+    public void _setUser(User user) {
     }
 
     public ApplicationConfig getApplicationConfig() {

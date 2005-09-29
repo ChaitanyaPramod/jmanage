@@ -122,7 +122,7 @@ public class JManageRequestProcessor extends TilesRequestProcessor{
                                          HttpServletResponse response,
                                          ActionMapping mapping) {
 
-        if(context.getSubject() == null){
+        if(context.getUser() == null){
             String path = mapping.getPath();
             if(!path.equals("/auth/showLogin") && !path.equals("/auth/login")){
                 /* check if username and pwd are specifed as URL params */

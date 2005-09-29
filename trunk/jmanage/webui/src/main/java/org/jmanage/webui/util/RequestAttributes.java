@@ -28,10 +28,10 @@ public interface RequestAttributes {
     public static final String ROLES = "roles";
 
     public static final String WEB_CONTEXT = "webContext";
-    public static final String SUBJECT = "loginContext";
     public static final String META_APP_CONFIG = "metaAppConfig";
     public static final String AVAILABLE_APPLICATIONS = "availableApplications";
     public static final String USER_ACTIVITIES = "userActivities";
 
     public static final String NAV_CURRENT_PAGE = "navCurrentPage";
+    public static final String AUTHENTICATED_USER = "authenticatedUser";
 }

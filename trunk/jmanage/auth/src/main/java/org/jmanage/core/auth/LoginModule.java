@@ -23,13 +23,15 @@ import java.util.Map;
 /**
  *
  * date:  Jun 27, 2004
- * @author	Rakesh Kalra
+ * @author	Rakesh Kalra, Shashank Bellary
  */
 public class LoginModule implements javax.security.auth.spi.LoginModule {
 
     private Subject subject;
     private CallbackHandler callbackHandler;
     private boolean loginStatus;
+    private Map options;
+    private Map sharedState;
     private User loggedInUser = null;
 
     /**
@@ -61,6 +63,8 @@ public class LoginModule implements javax.security.auth.spi.LoginModule {
                            Map sharedState, Map options) {
         this.subject = subject;
         this.callbackHandler = callbackHandler;
+        this.sharedState = sharedState;
+        this.options = options;
         loginStatus = false;
     }
 
@@ -86,16 +90,16 @@ public class LoginModule implements javax.security.auth.spi.LoginModule {
         if (callbackHandler == null) {
             throw new LoginException("No callback handler is available");
         }
-        Callback callbacks[] = new Callback[2];
-        callbacks[0] = new NameCallback("username");
-        callbacks[1] = new PasswordCallback("password", false);
+        NameCallback nameCallback = new NameCallback("username");
+        PasswordCallback pwdCallback = new PasswordCallback("password", false);
+        Callback[] callbacks = new Callback[] {nameCallback, pwdCallback};
 
         String username = null;
         char[] password = null;
         try {
             callbackHandler.handle(callbacks);
-            username = ((NameCallback)callbacks[0]).getName();
-            password = ((PasswordCallback)callbacks[1]).getPassword();
+            username = nameCallback.getName();
+            password = pwdCallback.getPassword();
         } catch (java.io.IOException ioe) {
             throw new LoginException(ioe.toString());
         } catch (UnsupportedCallbackException ce) {
@@ -177,7 +181,6 @@ public class LoginModule implements javax.security.auth.spi.LoginModule {
      *			<code>LoginModule</code> should be ignored.
      */
     public boolean logout() throws LoginException {
-        subject.getPrincipals().remove(loggedInUser);
         subject = null;
         loginStatus = false;
         return true;

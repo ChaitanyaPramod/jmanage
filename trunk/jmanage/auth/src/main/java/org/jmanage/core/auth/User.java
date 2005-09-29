@@ -19,7 +19,6 @@ import org.jmanage.core.crypto.Crypto;
 
 import java.util.List;
 import java.util.Iterator;
-import java.util.StringTokenizer;
 import java.security.Principal;
 
 /**
@@ -38,6 +37,8 @@ public class User implements Principal, java.io.Serializable{
     private List roles;
     private String status;
     private int lockCount;
+
+    private boolean externalUser = false;
 
 
     /**
@@ -135,6 +136,14 @@ public class User implements Principal, java.io.Serializable{
         return getUsername();
     }
 
+    public boolean isExternalUser() {
+        return externalUser;
+    }
+
+    public void setExternalUser(boolean externalUser) {
+        this.externalUser = externalUser;
+    }
+
     public boolean hasRole(String role) {
         for(Iterator it=getRoles().iterator(); it.hasNext(); ){
             Role roleObj = (Role)it.next();
@@ -143,5 +152,25 @@ public class User implements Principal, java.io.Serializable{
             }
         }
         return false;
+    }
+
+    public boolean equals(Object o){
+        if(o == null)
+            return false;
+
+        if(this == o)
+            return true;
+
+        if(!(o instanceof Principal))
+            return false;
+        Principal that = (Principal)o;
+
+        if(this.getName().equals(that.getName()))
+            return true;
+        return false;
+    }
+
+    public String toString(){
+        return username;
     }
 }
