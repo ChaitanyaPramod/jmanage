@@ -15,10 +15,12 @@
  */
 package org.jmanage.core.services;
 
+import org.jmanage.core.auth.User;
+
 /**
  *
  * date:  Feb 4, 2005
- * @author	Rakesh Kalra
+ * @author	Rakesh Kalra, Shashank Bellary
  */
 public interface AuthService {
 
@@ -32,4 +34,7 @@ public interface AuthService {
                         String username,
                         String password)
             throws ServiceException;
+
+    public void logout(ServiceContext context,
+                       User user)throws ServiceException;
 }

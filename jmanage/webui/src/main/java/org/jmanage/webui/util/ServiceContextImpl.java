@@ -21,8 +21,6 @@ import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.management.ObjectName;
 import org.jmanage.core.management.ServerConnection;
 
-import javax.security.auth.Subject;
-
 /**
  *
  * date:  Jan 17, 2005
@@ -41,8 +39,8 @@ public class ServiceContextImpl implements ServiceContext {
         return webContext.getUser();
     }
 
-    public void _setSubject(Subject subject){
-        this.webContext.setSubject(subject);
+    public void _setUser(User user){
+        this.webContext.setUser(user);
     }
 
     public ApplicationConfig getApplicationConfig() {

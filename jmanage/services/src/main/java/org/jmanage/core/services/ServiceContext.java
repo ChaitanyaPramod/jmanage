@@ -32,7 +32,7 @@ import java.io.Serializable;
 public interface ServiceContext extends Serializable {
 
     public User getUser();
-    void _setSubject(Subject subject);
+    void _setUser(User user);
 
     public ApplicationConfig getApplicationConfig();
     public ObjectName getObjectName();

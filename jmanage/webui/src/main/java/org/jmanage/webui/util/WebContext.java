@@ -18,6 +18,7 @@ package org.jmanage.webui.util;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.ApplicationConfigManager;
 import org.jmanage.core.auth.User;
+import org.jmanage.core.auth.UserManager;
 import org.jmanage.core.management.ServerConnection;
 import org.jmanage.core.management.ServerConnector;
 import org.jmanage.core.management.ObjectName;
@@ -25,18 +26,15 @@ import org.jmanage.core.management.MalformedObjectNameException;
 import org.jmanage.core.services.ServiceContext;
 import org.jmanage.core.services.ServiceUtils;
 import org.jmanage.core.util.Loggers;
-import org.jmanage.core.util.CoreUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.security.auth.Subject;
-import java.io.IOException;
 import java.util.logging.Logger;
 
 /**
  *
  * date:  Jun 21, 2004
- * @author	Rakesh Kalra
+ * @author	Rakesh Kalra, Shashank Bellary
  */
 public class WebContext {
 
@@ -100,25 +98,16 @@ public class WebContext {
         return context;
     }
 
-    public Subject getSubject() {
-        return (Subject) session.getAttribute(RequestAttributes.SUBJECT);
+    public void setUser(User user) {
+        session.setAttribute(RequestAttributes.AUTHENTICATED_USER, user);
     }
 
-    public void setSubject(Subject subject) {
-        session.setAttribute(RequestAttributes.SUBJECT, subject);
-    }
-
-    public void removeSubject() {
-        session.removeAttribute(RequestAttributes.SUBJECT);
+    public void removeUser() {
+        session.removeAttribute(RequestAttributes.AUTHENTICATED_USER);
     }
 
     public User getUser(){
-        User user = null;
-        final Subject subject = getSubject();
-        if(subject != null){
-            user = (User)subject.getPrincipals().iterator().next();
-        }
-        return user;
+        return (User)session.getAttribute(RequestAttributes.AUTHENTICATED_USER);
     }
 
     public ServiceContext getServiceContext(){

@@ -15,16 +15,15 @@
  */
 package org.jmanage.core.services;
 
-import org.jmanage.core.auth.LoginCallbackHandler;
-import org.jmanage.core.auth.AuthConstants;
-import org.jmanage.core.auth.User;
-import org.jmanage.core.auth.UserManager;
+import org.jmanage.core.auth.*;
 import org.jmanage.core.util.JManageProperties;
 import org.jmanage.core.util.ErrorCodes;
 import org.jmanage.core.util.UserActivityLogger;
+import org.jmanage.core.util.ExternalUserRolesConfig;
 
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
+import java.util.*;
 
 /**
  *
@@ -33,7 +32,7 @@ import javax.security.auth.login.LoginException;
  */
 public class AuthServiceImpl implements AuthService {
 
-
+    private LoginContext loginContext = null;
     final JManageProperties jManageProperties = JManageProperties.getInstance();
     private int MAX_LOGIN_ATTEMPTS_ALLOWED =
             Integer.parseInt(jManageProperties.getProperty(JManageProperties.LOGIN_MAX_ATTEMPTS));
@@ -45,27 +44,47 @@ public class AuthServiceImpl implements AuthService {
                       String username,
                       String password) throws ServiceException{
 
-        LoginCallbackHandler callbackHandler = new LoginCallbackHandler();
-        callbackHandler.setUsername(username);
-        callbackHandler.setPassword(password);
+        LoginCallbackHandler callbackHandler =
+                new LoginCallbackHandler(username, password);
         User user = null;
         UserManager userManager = UserManager.getInstance();
         UserActivityLogger logger = UserActivityLogger.getInstance();
         try{
-            LoginContext loginContext =
-                    new LoginContext(AuthConstants.AUTH_CONFIG_INDEX,
-                            callbackHandler);
+            loginContext = new LoginContext(AuthConstants.AUTH_CONFIG_INDEX,
+                    callbackHandler);
             loginContext.login();
+            /*  Need this for external login modules, user is really
+            authenticated after this step   */
+
+            Set principals = loginContext.getSubject().getPrincipals();
+            Object obj = null;
+            for(Iterator principalIt = principals.iterator(); principalIt.hasNext();){
+                if((obj = principalIt.next()) instanceof User){
+                    user = (User)obj;
+                    break;
+                }
+            }
+
+            /*  Successful login:
+                - Add new users authenticated through external LoginModules.
+                - Update the lock count and status of existing users  */
+            if(user == null){
+                user = new User();
+                user.setUsername(username); user.setExternalUser(true);
+                List roles = new ArrayList();
+                roles.add(new Role(ExternalUserRolesConfig.getInstance().getUserRole(username)));
+                user.setRoles(roles);
+            }else{
+                user = userManager.getUser(user.getName());
+                user.setLockCount(0);
+                user.setStatus(null);
+                userManager.updateUser(user);
+            }
             /*  set Subject in session */
-            context._setSubject(loginContext.getSubject());
-            /* Successful login: update the lock count and status */
-            user = userManager.getUser(username);
-            user.setLockCount(0);
-            user.setStatus(null);
-            userManager.updateUser(user);
-            logger.logActivity(username, "logged in successfully");
+            context._setUser(user);
+            logger.logActivity(user.getName(), "logged in successfully");
         }catch(LoginException lex){
-            user = userManager.getUser(username);
+            user = userManager.getUser(user.getName());
             String errorCode = ErrorCodes.UNKNOWN_ERROR;
             Object[] values = null;
             /* Conditionalize the error message */
@@ -90,6 +109,21 @@ public class AuthServiceImpl implements AuthService {
             if(user != null)
                 logger.logActivity(username, user.getName()+" failed to login");
             throw new ServiceException(errorCode, values);
+        }
+    }
+
+    /**
+     *
+     * @param context
+     * @throws ServiceException
+     */
+    public void logout(ServiceContext context, User user)throws ServiceException{
+        try{
+            loginContext.logout();
+            UserActivityLogger.getInstance().logActivity(user.getName(),
+                    "logged out successfully");
+        }catch(LoginException lex){
+            throw new ServiceException(ErrorCodes.UNKNOWN_ERROR);
         }
     }
 }
