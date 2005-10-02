@@ -79,7 +79,7 @@ public class ShowEditAlertAction extends BaseAction{
                     Utils.getServiceContext(context, expression),
                     expression.getTargetName());
                 request.setAttribute("currentAttrValue",
-                        objAttr.getDisplayValue("<br/>", true));
+                        objAttr.getDisplayValue());
                 if(sourceType.equals(
                     AlertSourceConfig.SOURCE_TYPE_GAUGE_MONITOR)){
                     form.setMinAttributeValue(alertSrcConfig.getLowThreshold().toString());

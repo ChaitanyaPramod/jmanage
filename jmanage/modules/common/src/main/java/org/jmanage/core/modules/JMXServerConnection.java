@@ -21,6 +21,8 @@ import org.jmanage.core.management.MalformedObjectNameException;
 import org.jmanage.core.util.Loggers;
 
 import javax.management.*;
+import javax.management.openmbean.CompositeData;
+import javax.management.openmbean.TabularData;
 import java.util.*;
 import java.util.logging.Logger;
 import java.lang.reflect.Method;
@@ -106,6 +108,22 @@ public abstract class JMXServerConnection implements ServerConnection{
         MBeanInfo mbeanInfo = (MBeanInfo)callMBeanServer("getMBeanInfo",
                 methodSignature, methodArgs);
         return toObjectInfo(objectName, mbeanInfo);
+    }
+
+    /**
+     * Gets the value for a single attribute.
+     *
+     * @param objectName
+     * @param attributeName
+     * @return attribute value
+     */
+    public Object getAttribute(ObjectName objectName, String attributeName){
+
+        Class[] methodSignature = new Class[]{javax.management.ObjectName.class,
+                                              String.class};
+        Object[] methodArgs = new Object[]{toJMXObjectName(objectName),
+                                           attributeName};
+        return callMBeanServer("getAttribute", methodSignature, methodArgs);
     }
 
     /**
@@ -397,7 +415,19 @@ public abstract class JMXServerConnection implements ServerConnection{
     }
 
     protected static ObjectAttribute toObjectAttribute(Attribute attr){
-        return new ObjectAttribute(attr.getName(), attr.getValue());
+        Object value = attr.getValue();
+        if(value != null){
+            // todo: ideally this needs to be done only if the JMX classes
+                //  are not compatible
+            if(value instanceof CompositeData){
+                value = JMXInterfaceProxy.newProxyInstance(
+                        CompositeData.class, value);
+            }else if(value instanceof TabularData){
+                value = JMXInterfaceProxy.newProxyInstance(
+                        TabularData.class, value);
+            }
+        }
+        return new ObjectAttribute(attr.getName(), value);
     }
 
     protected static AttributeList toJMXAttributeList(List objAttrs){

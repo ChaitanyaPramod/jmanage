@@ -28,8 +28,6 @@ import java.util.*;
  */
 public class CommandUtils {
 
-    private static final char UNDERLINE_CHAR = '-';
-
     public static void printMBeans(List mbeanList){
         /* first sort the list */
         Collections.sort(mbeanList, new Comparator(){
@@ -78,28 +76,14 @@ public class CommandUtils {
                 if(!attributeValues[j].isError()){
                     ObjectAttribute objAttribute =
                             (ObjectAttribute)attributeValues[j].getAttributeList().get(i);
-                    cols[j+1] = objAttribute.getValue();
+                    cols[j+1] = objAttribute.getDisplayValue();
                 }else{
+                    // todo: this should come out of display value - rk
                     cols[j+1] = "<unavailable>";
                 }
             }
             table.add(cols);
         }
         table.print();
-    }
-
-    public static String padRight(String str, int totalLength) {
-        int strLen = str.length();
-        StringBuffer buff = new StringBuffer(str);
-        for(int i=0;i<totalLength - strLen; i++){
-            buff.append(' ');
-        }
-        return buff.toString();
-    }
-
-    public static String getUnderline(int length) {
-        char[] underline = new char[length];
-        Arrays.fill(underline, UNDERLINE_CHAR);
-        return new String(underline);
     }
 }
