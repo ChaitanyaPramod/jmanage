@@ -78,7 +78,7 @@ public class ShowAddAlertAction extends BaseAction{
                     Utils.getServiceContext(context, expr),
                     expr.getTargetName());
             request.setAttribute("currentAttrValue",
-                    objAttr.getDisplayValue("<br/>", true));
+                    objAttr.getDisplayValue());
 
         }
 

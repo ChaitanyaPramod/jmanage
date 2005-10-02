@@ -39,6 +39,7 @@
         <!-- copy config -->
         <ant:copy todir="${basedir}/build/config" flatten="false">
             <fileset dir="${basedir}/config/src/main/config"/>
+            <fileset dir="${basedir}/management/src/main/config"/>
         </ant:copy>
 
         <!-- copy scripts -->

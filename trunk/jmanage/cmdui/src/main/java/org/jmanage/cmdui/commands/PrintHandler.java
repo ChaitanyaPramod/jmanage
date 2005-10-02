@@ -109,7 +109,7 @@ public class PrintHandler implements CommandHandler {
         assert attrValues.length == 1;
         for(Iterator it=attrValues[0].getAttributeList().iterator(); it.hasNext(); ){
             ObjectAttribute attribute= (ObjectAttribute)it.next();
-            Out.print(attribute.getValue().toString() + "\t");
+            Out.print(attribute.getDisplayValue() + "\t");
         }
     }
 

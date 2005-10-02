@@ -86,7 +86,7 @@ public class OpenMBeanDataTypeTest implements OpenMBeanDataTypeTestMBean {
                 new TabularType(TabularData.class.getName(),
                         "Table containing building info",
                         buildingType,
-                        itemNames);
+                        new String[]{"Name"});
         tabularData = new TabularDataSupport(tabularType);
         tabularData.put(compositeData);
         tabularData.put(new CompositeDataSupport(buildingType, itemNames,

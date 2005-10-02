@@ -35,6 +35,10 @@ public class Loggers {
      * @return  Logger instance for the package containing the class
      */
     public static Logger getLogger(Class clazz){
+        if(clazz == null){
+            // this condition will happen if the class has not been initialized
+            return Logger.global;
+        }
         return Logger.getLogger(clazz.getPackage().getName());
     }
 }

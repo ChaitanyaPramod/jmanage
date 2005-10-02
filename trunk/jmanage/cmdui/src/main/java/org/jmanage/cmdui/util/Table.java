@@ -15,6 +15,8 @@
  */
 package org.jmanage.cmdui.util;
 
+import org.jmanage.util.StringUtils;
+
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Iterator;
@@ -89,7 +91,7 @@ public class Table {
 
     private void printRow(Object[] cols){
         for(int i=0; i < columns; i++){
-            String columnValue = CommandUtils.padRight(cols[i].toString(),
+            String columnValue = StringUtils.padRight(cols[i].toString(),
                     columnSize[i] + COLUMN_SPACING);
             Out.print(columnValue);
         }
@@ -99,8 +101,8 @@ public class Table {
     private void printUnderline(Object[] cols){
         for(int i=0; i < columns; i++){
             String underline =
-                    CommandUtils.getUnderline(cols[i].toString().length());
-            underline = CommandUtils.padRight(underline,
+                    StringUtils.getCharSeries('-', cols[i].toString().length());
+            underline = StringUtils.padRight(underline,
                     columnSize[i] + COLUMN_SPACING);
             Out.print(underline);
         }

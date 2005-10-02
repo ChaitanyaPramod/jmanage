@@ -55,6 +55,24 @@ public class SNMPAgentConnection implements ServerConnection{
         return objectInfo;
     }
 
+    /**
+     * Gets the value for a single attribute.
+     *
+     * todo: optimize
+     *
+     * @param objectName
+     * @param attributeName
+     * @return attribute value
+     */
+    public Object getAttribute(ObjectName objectName, String attributeName) {
+        List attrList = getAttributes(objectName, new String[]{attributeName});
+        if(attrList.size() > 0){
+            ObjectAttribute objAttr = (ObjectAttribute)attrList.get(0);
+            return objAttr.getValue();
+        }
+        return null; // todo: null is probably not the right value here
+    }
+
     public List getAttributes(ObjectName objectName, String[] attributeNames) {
         SNMPVarBindList mibList = getMIBDetails(objectName);
         return getAttributeList(mibList);

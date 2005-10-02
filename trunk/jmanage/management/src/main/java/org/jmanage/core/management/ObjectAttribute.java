@@ -16,6 +16,7 @@
 package org.jmanage.core.management;
 
 import org.jmanage.util.StringUtils;
+import org.jmanage.core.management.data.DataFormatUtil;
 
 /**
  *
@@ -70,13 +71,15 @@ public class ObjectAttribute implements java.io.Serializable {
         return errorString;
     }
 
-    public String getDisplayValue(String delim, boolean htmlEscape){
+    public String getDisplayValue(){
         String attrValue = null;
         if(getStatus() == STATUS_OK){
-            attrValue = StringUtils.toString(getValue(), delim, true);
+            attrValue = DataFormatUtil.format(getValue());
         }else if(getStatus() == ObjectAttribute.STATUS_NOT_FOUND){
+            // todo: this will not work for CLI
             attrValue = "&lt;not found&gt;";
         }else{
+            // todo: this will not work for CLI
             attrValue = "&lt;error&gt;";
         }
         return attrValue;

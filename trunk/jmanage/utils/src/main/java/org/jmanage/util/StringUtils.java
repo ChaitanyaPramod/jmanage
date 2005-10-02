@@ -152,4 +152,19 @@ public class StringUtils {
         }
         return buff.toString();
     }
+
+    public static String padRight(String str, int totalLength) {
+        int strLen = str.length();
+        StringBuffer buff = new StringBuffer(str);
+        for(int i=0;i<totalLength - strLen; i++){
+            buff.append(' ');
+        }
+        return buff.toString();
+    }
+
+    public static String getCharSeries(char ch, int length) {
+        char[] series = new char[length];
+        Arrays.fill(series, ch);
+        return new String(series);
+    }
 }

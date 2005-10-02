@@ -146,7 +146,7 @@
         <%if(attributeList != null){
             ObjectAttribute objAttribute =
                         MBeanUtils.getObjectAttribute(attributeList, attributeInfo);
-            String attrValue = objAttribute.getDisplayValue("<br/>", true);
+            String attrValue = objAttribute.getDisplayValue();
             if(AccessController.canAccess(webContext.getServiceContext(),
                         ACLConstants.ACL_UPDATE_MBEAN_ATTRIBUTES,
                         attributeInfo.getName()) &&

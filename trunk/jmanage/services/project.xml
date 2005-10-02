@@ -2,9 +2,15 @@
     <extend>${basedir}/../project.xml</extend>
     <artifactId>jmanage-services</artifactId>
     <dependencies>
+
         <dependency>
             <groupId>struts</groupId>
             <artifactId>struts-commons-beanutils</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>jmxri</groupId>
+            <artifactId>jmxri</artifactId>
         </dependency>
 
         <dependency>

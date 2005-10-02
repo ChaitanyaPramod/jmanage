@@ -65,6 +65,15 @@ public interface ServerConnection {
     public ObjectInfo getObjectInfo(ObjectName objectName);
 
     /**
+     * Gets the value for a single attribute.
+     *
+     * @param objectName
+     * @param attributeName
+     * @return attribute value
+     */
+    public Object getAttribute(ObjectName objectName, String attributeName);
+
+    /**
      * Returns a list of ObjectAttribute objects containing attribute names
      * and values for the given attributeNames
      *
