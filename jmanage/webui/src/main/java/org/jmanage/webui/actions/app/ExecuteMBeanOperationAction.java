@@ -22,6 +22,7 @@ import org.jmanage.core.data.OperationResultData;
 import org.jmanage.core.services.MBeanService;
 import org.jmanage.core.services.ServiceFactory;
 import org.jmanage.core.util.Loggers;
+import org.jmanage.core.management.ObjectOperationInfo;
 import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.util.Utils;
@@ -64,11 +65,14 @@ public class ExecuteMBeanOperationAction extends BaseAction {
         }
 
         MBeanService service = ServiceFactory.getMBeanService();
+        ObjectOperationInfo operationInfo = service.getOperationInfo(Utils.getServiceContext(context),
+                operationName, signature);
         OperationResultData[] resultData =
                 service.invoke(Utils.getServiceContext(context),
                         operationName,
                         params, signature);
         request.setAttribute("operationResultData", resultData);
+        request.setAttribute("operationInfo", operationInfo);
 
         /*set current page for navigation*/
         request.setAttribute(RequestAttributes.NAV_CURRENT_PAGE, "Execute Operation");
