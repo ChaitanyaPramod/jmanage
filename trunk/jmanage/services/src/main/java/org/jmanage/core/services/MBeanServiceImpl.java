@@ -772,6 +772,38 @@ public class MBeanServiceImpl implements MBeanService {
         return obj;
     }
 
+    public ObjectOperationInfo getOperationInfo(ServiceContext context,
+                                       String operationName,
+                                       String[] signature)
+            throws ServiceException {
+
+        ObjectOperationInfo operationInfo = null;
+        ObjectInfo objectInfo = getMBeanInfo(context);
+        ObjectOperationInfo[] operations = objectInfo.getOperations();
+
+        for(int index = 0; index < operations.length; index++) {
+            operationInfo = operations[index];
+
+            if(operationName.equals(operationInfo.getName())) {
+                int matchCounter = 0;
+                ObjectParameterInfo[] objectSignature = operationInfo.getSignature();
+
+                if(signature.length ==  objectSignature.length) {
+                    for(int paramIndex = 0; paramIndex < objectSignature.length; paramIndex++) {
+                        if(signature[paramIndex].equals(objectSignature[paramIndex].getType())) {
+                            matchCounter++;
+                        }
+                    }
+
+                    if(matchCounter == signature.length) {
+                        break;
+                    }
+                }
+            }
+        }
+        return operationInfo;
+    }
+
     public String getAttributeDataType(ServiceContext context,
                                               String attributeName,
                                               String objectName){

@@ -18,6 +18,7 @@ package org.jmanage.core.services;
 import org.jmanage.core.management.ObjectInfo;
 import org.jmanage.core.management.ObjectAttribute;
 import org.jmanage.core.management.ObjectAttributeInfo;
+import org.jmanage.core.management.ObjectOperationInfo;
 import org.jmanage.core.data.OperationResultData;
 import org.jmanage.core.data.AttributeListData;
 
@@ -130,4 +131,8 @@ public interface MBeanService {
                                        String objectName)
             throws ServiceException;
 
+    public ObjectOperationInfo getOperationInfo(ServiceContext context,
+                                       String operationName,
+                                       String[] signature)
+            throws ServiceException;
 }
