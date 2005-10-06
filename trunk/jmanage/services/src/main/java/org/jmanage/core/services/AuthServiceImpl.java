@@ -19,7 +19,6 @@ import org.jmanage.core.auth.*;
 import org.jmanage.core.util.JManageProperties;
 import org.jmanage.core.util.ErrorCodes;
 import org.jmanage.core.util.UserActivityLogger;
-import org.jmanage.core.util.ExternalUserRolesConfig;
 
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
@@ -72,7 +71,7 @@ public class AuthServiceImpl implements AuthService {
                 user = new User();
                 user.setUsername(username); user.setExternalUser(true);
                 List roles = new ArrayList();
-                roles.add(new Role(ExternalUserRolesConfig.getInstance().getUserRole(username)));
+                roles.add(new Role(org.jmanage.core.auth.ExternalUserRolesConfig.getInstance().getUserRole(username)));
                 user.setRoles(roles);
             }else{
                 user = userManager.getUser(user.getName());
