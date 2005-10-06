@@ -8,7 +8,10 @@
  * such Confidential Information and shall use it only in accordance with
  * the terms of an agreement between you and Upromise.
  */
-package org.jmanage.core.util;
+package org.jmanage.core.auth;
+
+import org.jmanage.core.util.Loggers;
+import org.jmanage.core.util.CoreUtils;
 
 import java.util.Properties;
 import java.util.logging.Logger;

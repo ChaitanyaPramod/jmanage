@@ -18,7 +18,6 @@ package org.jmanage.webui.util;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.ApplicationConfigManager;
 import org.jmanage.core.auth.User;
-import org.jmanage.core.auth.UserManager;
 import org.jmanage.core.management.ServerConnection;
 import org.jmanage.core.management.ServerConnector;
 import org.jmanage.core.management.ObjectName;

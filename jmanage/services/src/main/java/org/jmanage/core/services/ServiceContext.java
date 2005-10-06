@@ -19,8 +19,6 @@ import org.jmanage.core.auth.User;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.management.ObjectName;
 import org.jmanage.core.management.ServerConnection;
-
-import javax.security.auth.Subject;
 import java.io.Serializable;
 
 /**
