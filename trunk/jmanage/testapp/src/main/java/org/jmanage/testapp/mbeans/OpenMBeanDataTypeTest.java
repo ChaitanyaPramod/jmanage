@@ -64,7 +64,7 @@ public class OpenMBeanDataTypeTest implements OpenMBeanDataTypeTestMBean {
         Object[] itemValuesA = {
             "Building A",
             new Short((short)3),
-            new Integer(45),
+            new Integer(100),
             Boolean.FALSE,
             new Short((short)1),
             new Long(10000)
@@ -73,7 +73,16 @@ public class OpenMBeanDataTypeTest implements OpenMBeanDataTypeTestMBean {
         Object[] itemValuesB = {
             "Building B",
             new Short((short)5),
-            new Integer(66),
+            new Integer(90),
+            Boolean.FALSE,
+            new Short((short)2),
+            new Long(20000)
+        };
+
+        Object[] itemValuesC = {
+            "Building C",
+            new Short((short)5),
+            new Integer(80),
             Boolean.FALSE,
             new Short((short)2),
             new Long(20000)
@@ -88,9 +97,11 @@ public class OpenMBeanDataTypeTest implements OpenMBeanDataTypeTestMBean {
                         buildingType,
                         new String[]{"Name"});
         tabularData = new TabularDataSupport(tabularType);
-        tabularData.put(compositeData);
         tabularData.put(new CompositeDataSupport(buildingType, itemNames,
                 itemValuesB));
+        tabularData.put(compositeData);
+        tabularData.put(new CompositeDataSupport(buildingType, itemNames,
+                        itemValuesC));
     }
 
     public TabularData getTabularData() {
