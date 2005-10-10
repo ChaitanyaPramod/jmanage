@@ -1,13 +1,16 @@
-/*
- * Copyright 2000-2003 by Upromise Inc.
- * 117 Kendrick Street, Suite 200, Needham, MA, 02494, U.S.A.
- * All rights reserved.
- *
- * This software is the confidential and proprietary information of
- * Upromise, Inc. ("Confidential Information").  You shall not disclose
- * such Confidential Information and shall use it only in accordance with
- * the terms of an agreement between you and Upromise.
- */
+/**
+* Copyright (c) 2004-2005 jManage.org
+*
+* This is a free software; you can redistribute it and/or
+* modify it under the terms of the license at
+* http://www.jmanage.org.
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 package org.jmanage.core.auth;
 
 import org.jmanage.core.util.Loggers;
