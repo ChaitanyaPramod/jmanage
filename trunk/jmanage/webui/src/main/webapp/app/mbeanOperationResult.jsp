@@ -32,7 +32,7 @@
     %>
     <jmhtml:form action="/app/executeOperation">
     <tr>
-        <td class="headtext" width="150"><b>Attributes</b>
+        <td class="headtext" width="150"><b>Arguments</b>
             <input type="hidden" name="paramCount" value="<%=params.length%>"/>
         </td>
         <td class="plaintext">
@@ -81,11 +81,11 @@
                         ACLConstants.ACL_EXECUTE_MBEAN_OPERATIONS,
                         operationInfo.getName())) {
             %>
-            <input tabindex="<%=(tabIndex++) + params.length%>" type="submit" value="Execute" class="Inside3d"/>&nbsp;
+            <input tabindex="<%=(tabIndex++) + params.length%>" type="submit" value="Re-Execute" class="Inside3d"/>&nbsp;
             <%
                 } else {
             %>
-            <input tabindex="<%=(tabIndex++) + params.length%>" type="submit" value="Execute" class="Inside3d" disabled/>&nbsp;
+            <input tabindex="<%=(tabIndex++) + params.length%>" type="submit" value="Re-Execute" class="Inside3d" disabled/>&nbsp;
             <%
                 }
             %>
