@@ -127,6 +127,8 @@
 
         <ant:gzip zipfile="${basedir}/dist/jmanage-${jmanage.version}.tar.gz"
             src="${basedir}/dist/jmanage-${jmanage.version}.tar"/>
+        <ant:delete file="${basedir}/dist/jmanage-${jmanage.version}.tar"/>
+
         <!-- zip format -->
         <ant:zip destfile="${basedir}/dist/jmanage-${jmanage.version}.zip">
             <fileset dir="${basedir}/build">
@@ -138,6 +140,7 @@
                 <include name="modules/websphere/jmanage-websphere.jar"/>
             </fileset>
         </ant:zip>
+
     </goal>
 
     <goal name="dist-src">
@@ -157,6 +160,7 @@
         </ant:tar>
         <ant:gzip zipfile="${basedir}/dist/jmanage-${jmanage.version}-src.tar.gz"
             src="${basedir}/dist/jmanage-${jmanage.version}-src.tar"/>
+        <ant:delete file="${basedir}/dist/jmanage-${jmanage.version}-src.tar"/>
 
         <!-- zip format -->
         <ant:zip destfile="${basedir}/dist/jmanage-${jmanage.version}-src.zip">
