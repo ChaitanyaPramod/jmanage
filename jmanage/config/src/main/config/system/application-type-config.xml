@@ -56,7 +56,7 @@
     <application-types>
         <application-type
             id="weblogic61"
-            name="Weblogic 6.1"
+            name="Weblogic"
             module="weblogic"
             compatibleJMX="false"
             defaultHost="localhost"
