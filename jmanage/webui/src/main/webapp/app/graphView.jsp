@@ -15,7 +15,7 @@
     height="500">
     <param name="graphTitle" value="<%=graphConfig.getName()%>"/>
     <param name="pollingInterval" value="<%=graphConfig.getPollingInterval()%>"/>
-    <param name="remoteURL" value="<%=JManageProperties.getJManageURL()%>/app/fetchAttributeValues.do;jsessionid=<%=Utils.getCookieValue(request, "JSESSIONID")%>"/>
+    <param name="remoteURL" value="<%=request.getRequestURL()%>/app/fetchAttributeValues.do;jsessionid=<%=Utils.getCookieValue(request, "JSESSIONID")%>"/>
     <param name="displayNames" value="<%=graphConfig.getAttributeDisplayNames()%>"/>
     <param name="attributes" value='<%=graphConfig.getAttributesAsString()%>'/>
 </applet>
