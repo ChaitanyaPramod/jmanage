@@ -25,8 +25,12 @@ import javax.management.openmbean.OpenDataException;
 import javax.management.remote.JMXServiceURL;
 import javax.management.remote.JMXConnectorServer;
 import javax.management.remote.JMXConnectorServerFactory;
+import javax.management.remote.JMXAuthenticator;
+import javax.security.auth.Subject;
 import java.util.logging.Logger;
 import java.util.logging.Level;
+import java.util.HashMap;
+import java.util.Map;
 import java.io.IOException;
 import java.rmi.registry.LocateRegistry;
 
@@ -121,13 +125,23 @@ public class JMXHelper {
             /* start the connector server */
             JMXServiceURL url = new JMXServiceURL(
               "service:jmx:rmi:///jndi/rmi://localhost:" + port + "/testApp");
+            Map env = new HashMap();
+            JMXAuthenticator authenticator = new MyJMXAuthenticator();
+            env.put(JMXConnectorServer.AUTHENTICATOR, authenticator);
             JMXConnectorServer cs =
                  JMXConnectorServerFactory.newJMXConnectorServer(url,
-                 null, getMBeanServer());
+                 env, getMBeanServer());
             cs.start();
             logger.info("JMXConnectorServer started. URL: " + url.toString());
         } catch (IOException e) {
             logger.log(Level.SEVERE, "Failure while starting RMI connector", e);
+        }
+    }
+
+    private static class MyJMXAuthenticator implements JMXAuthenticator{
+        public Subject authenticate(Object credentials) {
+            System.out.println(credentials);
+            return null;
         }
     }
 
@@ -137,9 +151,12 @@ public class JMXHelper {
             /* start the connector server */
             JMXServiceURL url = new JMXServiceURL(
               "service:jmx:jmxmp://localhost:" + port);
+            Map env = new HashMap();
+            JMXAuthenticator authenticator = new MyJMXAuthenticator();
+            env.put(JMXConnectorServer.AUTHENTICATOR, authenticator);
             JMXConnectorServer cs =
                  JMXConnectorServerFactory.newJMXConnectorServer(url,
-                 null, getMBeanServer());
+                 env, getMBeanServer());
             cs.start();
             logger.info("JMXConnectorServer started. URL: " + url.toString());
         } catch (IOException e) {
