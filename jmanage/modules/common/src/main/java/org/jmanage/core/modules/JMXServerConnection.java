@@ -281,7 +281,8 @@ public abstract class JMXServerConnection implements ServerConnection{
 
     protected static ObjectName toJmanageObjectName(
             javax.management.ObjectName objectName){
-        return new ObjectName(objectName.getCanonicalName());
+        return new ObjectName(objectName.toString(),
+                objectName.getCanonicalName());
     }
 
     /**

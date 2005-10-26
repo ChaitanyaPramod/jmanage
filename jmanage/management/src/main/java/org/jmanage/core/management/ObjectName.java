@@ -15,6 +15,10 @@
  */
 package org.jmanage.core.management;
 
+import org.jmanage.core.util.JManageProperties;
+
+import javax.management.MalformedObjectNameException;
+
 /**
  *
  * date:  Aug 12, 2004
@@ -23,17 +27,36 @@ package org.jmanage.core.management;
 public class ObjectName implements java.io.Serializable {
 
     private final String objectName;
+    private final String canonicalName;
 
     public ObjectName(String objectName){
         this.objectName = objectName;
+        try {
+            this.canonicalName =
+                    new javax.management.ObjectName(objectName).getCanonicalName();
+        } catch (MalformedObjectNameException e) {
+            throw new RuntimeException(e);
+        } catch (NullPointerException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public ObjectName(String objectName, String canonicalName){
+        this.objectName = objectName;
+        this.canonicalName = canonicalName;
     }
 
     public String getCanonicalName(){
-        return objectName;
+        return canonicalName;
     }
 
     public String toString(){
         return objectName;
+    }
+
+    public String getDisplayName(){
+        return JManageProperties.isDisplayCanonicalName()?
+                canonicalName : objectName;
     }
 
     public boolean equals(Object obj){

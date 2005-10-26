@@ -63,7 +63,7 @@ public class MBeanServiceImpl implements MBeanService {
         ArrayList mbeanDataList = new ArrayList(mbeans.size());
         for(Iterator it=mbeans.iterator();it.hasNext(); ){
             ObjectName objName = (ObjectName)it.next();
-            mbeanDataList.add(new MBeanData(objName.getCanonicalName()));
+            mbeanDataList.add(new MBeanData(objName.getDisplayName()));
         }
         return mbeanDataList;
     }
@@ -526,7 +526,7 @@ public class MBeanServiceImpl implements MBeanService {
                 ObjectInfo objInfo = serverConnection.getObjectInfo(objName);
                 ObjectNotificationInfo[] notifications = objInfo.getNotifications();
                 if(notifications != null && notifications.length > 0){
-                    mbeanToNoficationsMap.put(objName.getCanonicalName(), notifications);
+                    mbeanToNoficationsMap.put(objName.getDisplayName(), notifications);
                 }
             } catch (Exception e) {
                 /* if there is an error while getting MBean Info, continue

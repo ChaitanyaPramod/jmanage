@@ -55,6 +55,10 @@ public class JManageProperties extends Properties{
     private static String  EMAIL_HOST = "email.host";
     private static String  ALERT_EMAIL_FROM_EMAIL = "alert.email.from.email";
 
+    /* display properties */
+    private static String DISPLAY_MBEAN_CANONICAL_NAME =
+            "jmanage.objectName.displayCanonicalName";
+
     /*  The only instance   */
     private static JManageProperties jManageProperties = new JManageProperties();
 
@@ -124,5 +128,14 @@ public class JManageProperties extends Properties{
     }
     public static String getAlertEmailFrom(){
         return jManageProperties.getProperty(ALERT_EMAIL_FROM_EMAIL);
+    }
+
+    /**
+     * Indicates if the canonical name of the mbean should be displayed
+     * @return
+     */
+    public static boolean isDisplayCanonicalName(){
+        return "true".equals(
+                jManageProperties.getProperty(DISPLAY_MBEAN_CANONICAL_NAME));
     }
 }

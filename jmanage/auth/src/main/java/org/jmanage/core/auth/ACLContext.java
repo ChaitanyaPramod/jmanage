@@ -38,6 +38,9 @@ public class ACLContext {
             appName = expr.getAppName();
         }
         if(expr.getMBeanName() != null){
+            // todo: we need to convert the MBean name to canonical name
+            //   for comparision. It will be good to further improve
+            //    the comparision by allowing wild card comparisions.
             mbeanName = expr.getMBeanName();
         }
         if(expr.getTargetName() != null){
