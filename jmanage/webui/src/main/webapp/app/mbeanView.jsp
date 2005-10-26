@@ -127,7 +127,11 @@
 %>
 <tr>
 <td class="plaintext">
-    <a href="JavaScript:showDescription('<%=MBeanUtils.jsEscape(attributeInfo.getDescription())%>');"><%=attributeInfo.getName()%></a>
+    <%if(attributeInfo.getDescription() != null){%>
+        <a href="JavaScript:showDescription('<%=MBeanUtils.jsEscape(attributeInfo.getDescription())%>');"><%=attributeInfo.getName()%></a>
+    <%}else{%>
+        <%=attributeInfo.getName()%>
+    <%}%>
 </td>
 <%
         List childApplications = null;
@@ -222,7 +226,11 @@
 <jmhtml:form action="/app/executeOperation">
 <tr>
     <td class="plaintext"><%=operationInfo.getReturnType()%>
-    <a href="JavaScript:showDescription('<%=MBeanUtils.jsEscape(operationInfo.getDescription())%>');"><%=operationInfo.getName()%></a>
+    <%if(operationInfo.getDescription() != null){%>
+        <a href="JavaScript:showDescription('<%=MBeanUtils.jsEscape(operationInfo.getDescription())%>');"><%=operationInfo.getName()%></a>
+    <%}else{%>
+        <%=operationInfo.getName()%>
+    <%}%>
     <input type="hidden" name="paramCount" value="<%=params.length%>"/>
     </td>
     <td class="plaintext">
