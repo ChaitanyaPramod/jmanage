@@ -57,7 +57,7 @@ public class StringAlertSource extends AlertSource{
         connection = ServerConnector.getServerConnection(
                 sourceConfig.getApplicationConfig());
 
-        monitorObjName = new ObjectName("jmanage:name=" + alertName +
+        monitorObjName = new ObjectName("jmanage.alerts:name=" + alertName +
                 ",id=" + alertId + ",type=StringMonitor");
 
         /* check if the MBean is already registered */

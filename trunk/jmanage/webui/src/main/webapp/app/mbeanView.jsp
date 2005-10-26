@@ -47,7 +47,7 @@
                 part of a cluster, provide a link to view this mbean as
                 part of the cluster --%>
             <%if(applicationConfig.getClusterConfig() != null){%>
-                <a href="/app/mbeanView.do?<%=RequestParams.APPLICATION_ID%>=<%=applicationConfig.getClusterConfig().getApplicationId()%>&<%=RequestParams.OBJECT_NAME%>=<%=URLEncoder.encode(objectInfo.getObjectName().getCanonicalName(), "UTF-8")%>">
+                <a href="/app/mbeanView.do?<%=RequestParams.APPLICATION_ID%>=<%=applicationConfig.getClusterConfig().getApplicationId()%>&<%=RequestParams.OBJECT_NAME%>=<%=URLEncoder.encode(objectInfo.getObjectName().getDisplayName(), "UTF-8")%>">
                     Cluster View</a>
             <%}%>
         </td>
