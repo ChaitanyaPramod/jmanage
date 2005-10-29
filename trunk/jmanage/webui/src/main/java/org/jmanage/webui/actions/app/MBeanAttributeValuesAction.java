@@ -41,8 +41,10 @@ import java.util.Iterator;
  * each attribute. The "attributes" parameter is of the following format:
  * <p>
  * [app1/mbean1/attribute1],[app2/mbean2/attribute2]
+ * <p>
+ * This is used by the GraphApplet to retrieve the attribute values.
  *
- *
+ * @see org.jmanage.webui.applets.GraphApplet
  * Date:  Jun 11, 2005
  * @author	Rakesh Kalra
  */
