@@ -17,6 +17,7 @@ package org.jmanage.core.data;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -35,6 +36,7 @@ public class ApplicationConfigData implements Serializable {
     private String type;
     private boolean isCluster;
     private List childApplications;
+    protected Map paramValues;
 
     public String getApplicationId() {
         return appId;
@@ -98,6 +100,14 @@ public class ApplicationConfigData implements Serializable {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public Map getParamValues(){
+        return paramValues;
+    }
+
+    public void setParamValues(Map paramValues){
+        this.paramValues = paramValues;
     }
 
     public void setCluster(boolean isCluster){

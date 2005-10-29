@@ -29,6 +29,8 @@ import org.apache.struts.action.ActionForm;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
+import java.util.HashMap;
 
 /**
  *
@@ -62,6 +64,19 @@ public class EditApplicationAction extends BaseAction {
         final String password = appForm.getPassword();
         if(!password.equals(ApplicationForm.FORM_PASSWORD)){
             config.setPassword(password);
+        }
+
+        Map paramValues = config.getParamValues();
+        if(appForm.getJndiFactory() != null){
+            paramValues.put(ApplicationConfig.JNDI_FACTORY, appForm.getJndiFactory());
+        }else{
+            paramValues.remove(ApplicationConfig.JNDI_FACTORY);
+        }
+
+        if(appForm.getJndiURL() != null){
+            paramValues.put(ApplicationConfig.JNDI_URL, appForm.getJndiURL());
+        }else{
+            paramValues.remove(ApplicationConfig.JNDI_URL);
         }
 
         ApplicationConfigManager.updateApplication(config);
