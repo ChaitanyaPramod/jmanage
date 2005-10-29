@@ -121,6 +121,7 @@
             + RequestParams.END_URL + "=" + Utils.urlEncode("/config/showAddGraph.do")
             + "&" + RequestParams.MULTIPLE + "=true&"
             + RequestParams.DATA_TYPE + "=java.lang.Number&"
+            + RequestParams.DATA_TYPE + "=javax.management.openmbean.CompositeData&"
             + RequestParams.NAVIGATION + "=" + Utils.urlEncode("Add Graph");
 %>
 <p>

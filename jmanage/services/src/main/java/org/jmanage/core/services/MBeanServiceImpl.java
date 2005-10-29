@@ -25,6 +25,9 @@ import org.jmanage.core.management.*;
 import org.jmanage.core.util.*;
 import org.jmanage.util.StringUtils;
 
+import javax.management.openmbean.CompositeData;
+import javax.management.openmbean.CompositeType;
+import javax.management.openmbean.OpenType;
 import java.lang.reflect.Constructor;
 import java.util.*;
 import java.util.logging.Level;
@@ -103,7 +106,8 @@ public class MBeanServiceImpl implements MBeanService {
                 ObjectAttributeInfo[] objAttrInfo = objInfo.getAttributes();
                 if(objAttrInfo!=null && objAttrInfo.length > 0){
                     if(dataTypes!=null && dataTypes.length > 0){
-                        if(checkAttributeDataType(objAttrInfo, dataTypes,
+                        if(checkAttributeDataType(serverConnection,
+                                objName, objAttrInfo, dataTypes,
                                 context.getApplicationConfig(), null)){
                             mbeanToAttributesList.add(mbeanData);
                         }
@@ -133,7 +137,9 @@ public class MBeanServiceImpl implements MBeanService {
      *              specified
      * @return
      */
-    private boolean checkAttributeDataType(ObjectAttributeInfo[] objAttrInfo,
+    private boolean checkAttributeDataType(ServerConnection connection,
+                                           ObjectName objectName,
+                                           ObjectAttributeInfo[] objAttrInfo,
                                            String[] dataTypes,
                                            ApplicationConfig appConfig,
                                            List attributesList){
@@ -151,14 +157,51 @@ public class MBeanServiceImpl implements MBeanService {
                         dataType.isAssignableFrom(attrInfoType)){
                     result = true;
                     if(attributesList != null){
-                        attributesList.add(attrInfo);
+                        /* special handling for CompositeData */
+                        if(attrInfoType.getName().
+                                equals("javax.management.openmbean.CompositeData")){
+                            handleCompositeData(connection, objectName, attrInfo,
+                                    dataTypes, attributesList);
+                        }else{
+                            attributesList.add(attrInfo);
+                        }
                     }else{
+                        // we found one. return true
                         break outerloop;
                     }
                 }
             }
         }
         return result;
+    }
+
+    private void handleCompositeData(ServerConnection connection,
+                                     ObjectName objectName,
+                                     ObjectAttributeInfo attrInfo,
+                                     String[] dataTypes,
+                                     List attributesList){
+
+        CompositeData compositeData =
+                (CompositeData)connection.getAttribute(objectName, attrInfo.getName());
+        CompositeType type = compositeData.getCompositeType();
+
+        for(Iterator it=type.keySet().iterator(); it.hasNext(); ){
+            String itemName = (String)it.next();
+            OpenType itemType = type.getType(itemName);
+            Class itemTypeClass = getClass(itemType.getClassName(),
+                        this.getClass().getClassLoader());
+            for(int j=0; j<dataTypes.length; j++){
+
+                Class dataType = getClass(dataTypes[j],
+                        this.getClass().getClassLoader());
+                if(dataType.isAssignableFrom(itemTypeClass)){
+                    attributesList.add(
+                            new ObjectAttributeInfo(attrInfo.getName() + "." + itemName,
+                                    type.getDescription(itemName),
+                                    itemType.getClassName(), false, true, false));
+                }
+            }
+        }
     }
 
     private Class getClass(String type, ClassLoader classLoader){
@@ -286,6 +329,21 @@ public class MBeanServiceImpl implements MBeanService {
         return resultData;
     }
 
+    /**
+     * Returns ObjectAttribute instance containing the value of the given
+     * attribute. This method also handles CompositeData item with the
+     * attribute naming convention:
+     * <p>
+     * Building.NumberOfFloors
+     * <p>
+     * where "Building" is the composite attribute name and "NumberOfFloors"
+     * is the item name in the "Building" composite type.
+     *
+     * @param context
+     * @param attribute
+     * @return
+     * @throws ServiceException
+     */
     public ObjectAttribute getObjectAttribute(ServiceContext context,
                                               String attribute)
             throws ServiceException{
@@ -300,10 +358,26 @@ public class MBeanServiceImpl implements MBeanService {
 
         ServerConnection connection =
                         context.getServerConnection();
+
+        String itemName = null;
+        int index = attribute.indexOf(".");
+        String attributeName = attribute;
+        if(index != -1){
+            // composite data attribute
+            attributeName = attribute.substring(0, index);
+            itemName = attribute.substring(index + 1);
+        }
+
         List attrList =
                 connection.getAttributes(context.getObjectName(),
-                        new String[]{attribute});
-        return (ObjectAttribute)attrList.get(0);
+                        new String[]{attributeName});
+        ObjectAttribute attrValue = (ObjectAttribute)attrList.get(0);
+        if(itemName != null){
+            CompositeData compositeData = (CompositeData)attrValue.getValue();
+            attrValue = new ObjectAttribute(attribute,
+                    compositeData.get(itemName));
+        }
+        return attrValue;
     }
 
     /**
@@ -332,9 +406,12 @@ public class MBeanServiceImpl implements MBeanService {
             ServiceUtils.close(connection);
         }
     }
-    public List filterAttributes(ServiceContext context, ObjectAttributeInfo[] objAttrInfo, String[] dataTypes){
+
+    public List filterAttributes(ServiceContext context, ObjectName objectName,
+                                 ObjectAttributeInfo[] objAttrInfo, String[] dataTypes){
         List objAttrInfoList = new LinkedList();
-        checkAttributeDataType(objAttrInfo, dataTypes,
+        checkAttributeDataType(context.getServerConnection(),
+                objectName, objAttrInfo, dataTypes,
                 context.getApplicationConfig() ,objAttrInfoList);
          return objAttrInfoList;
     }

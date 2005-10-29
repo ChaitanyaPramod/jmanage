@@ -45,16 +45,18 @@
         String objectName = (String)itr.next();
 %>
 <jmhtml:hidden property="mbeans" value="<%=objectName%>"/>
-<table class="table" border="0" cellspacing="5" cellpadding="3" width="600">
-    <tr class="tableheader">
+<table class="table" border="0" cellspacing="0" cellpadding="5" width="600">
+    <tr class="tableHeader">
         <td colspan="4"><%=objectName%></td>
     </tr>
-    <tr>
 <%
         List attributes = (List)mbeanAttributesMap.get(objectName);
         for(Iterator it=attributes.iterator();it.hasNext();){
             ObjectAttributeInfo objAttrInfo = (ObjectAttributeInfo)it.next();
             Expression expression = new Expression("",objectName,objAttrInfo.getName());
+%>
+    <tr>
+<%
             if(request.getParameter(RequestParams.MULTIPLE).equals("true")){
 %>
 
