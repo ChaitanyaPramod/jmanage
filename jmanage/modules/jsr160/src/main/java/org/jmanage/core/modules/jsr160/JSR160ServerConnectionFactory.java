@@ -25,6 +25,7 @@ import javax.management.remote.JMXConnector;
 import javax.management.remote.JMXConnectorFactory;
 import javax.management.MBeanServerConnection;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -46,6 +47,18 @@ public class JSR160ServerConnectionFactory implements ServerConnectionFactory{
             String[] credentials = new String[] {config.getUsername(),
                                                  config.getPassword()};
             env.put("jmx.remote.credentials", credentials);
+
+            Map params = config.getParamValues();
+            final String jndiFactory =
+                    (String)params.get(JSR160ApplicationConfig.JNDI_FACTORY);
+            final String jndiURL =
+                    (String)params.get(JSR160ApplicationConfig.JNDI_URL);
+
+            if(jndiFactory != null)
+                env.put(JSR160ApplicationConfig.JNDI_FACTORY, jndiFactory);
+            if(jndiURL != null)
+                env.put(JSR160ApplicationConfig.JNDI_URL, jndiURL);
+
             JMXServiceURL url = new JMXServiceURL(config.getURL());
             JMXConnector jmxc = JMXConnectorFactory.connect(url, env);
             return new JSR160ServerConnection(jmxc,

@@ -25,6 +25,10 @@ import java.util.*;
  */
 public abstract class ApplicationConfig {
 
+    // jsr160 constants
+    public static final String JNDI_FACTORY = "java.naming.factory.initial";
+    public static final String JNDI_URL = "java.naming.provider.url";
+
     private static final List EMPTY_LIST = new ArrayList();
 
     public static String getNextApplicationId(){
@@ -129,6 +133,8 @@ public abstract class ApplicationConfig {
     }
 
     public Map getParamValues(){
+        if(paramValues == null)
+            paramValues = new HashMap();
         return paramValues;
     }
 

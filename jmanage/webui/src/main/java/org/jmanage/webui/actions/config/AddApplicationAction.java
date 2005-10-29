@@ -24,12 +24,15 @@ import org.jmanage.core.util.CoreUtils;
 import org.jmanage.core.data.ApplicationConfigData;
 import org.jmanage.core.services.ConfigurationService;
 import org.jmanage.core.services.ServiceFactory;
+import org.jmanage.core.config.ApplicationConfig;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForward;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
+import java.util.HashMap;
 
 /**
  *
@@ -54,9 +57,16 @@ public class AddApplicationAction extends BaseAction {
                                  HttpServletResponse response)
             throws Exception{
         ApplicationForm appForm = (ApplicationForm)actionForm;
+
         /* create ApplicationConfigData from this form */
         ApplicationConfigData appConfigData = new ApplicationConfigData();
         CoreUtils.copyProperties(appConfigData, appForm);
+        Map paramValues = new HashMap();
+        if(appForm.getJndiFactory() != null)
+            paramValues.put(ApplicationConfig.JNDI_FACTORY, appForm.getJndiFactory());
+        if(appForm.getJndiURL() != null)
+            paramValues.put(ApplicationConfig.JNDI_URL, appForm.getJndiURL());
+        appConfigData.setParamValues(paramValues);
 
         ConfigurationService service = ServiceFactory.getConfigurationService();
 

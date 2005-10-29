@@ -40,6 +40,10 @@ public class ApplicationForm extends BaseForm {
     private String password;
     private String type;
 
+    // jsr160 only
+    private String jndiFactory;
+    private String jndiURL;
+
     public String getApplicationId() {
         return appId;
     }
@@ -103,6 +107,25 @@ public class ApplicationForm extends BaseForm {
     public void setType(String type) {
         this.type = type;
     }
+
+    public void setJndiFactory(String jndiFactory){
+        if(jndiFactory != null && jndiFactory.length() > 0)
+            this.jndiFactory = jndiFactory;
+    }
+
+    public String getJndiFactory(){
+        return jndiFactory;
+    }
+
+    public void setJndiURL(String jndiURL){
+        if(jndiURL != null && jndiURL.length() > 0)
+            this.jndiURL = jndiURL;
+    }
+
+    public String getJndiURL(){
+        return jndiURL;
+    }
+
     public ActionErrors validate(ActionMapping mapping, HttpServletRequest request){
         ActionErrors errors = super.validate(mapping, request);
         if(errors==null || errors.isEmpty()){

@@ -60,6 +60,16 @@
       <td><jmhtml:password property="password" size="50" /></td>
     </tr>
     </c:if>
+    <c:if test="${requestScope.applicationForm.type == 'jsr160'}">
+    <tr>
+        <td class="headtext1">java.naming.factory.initial:</td>
+        <td><jmhtml:text property="jndiFactory" size="50" /></td>
+    </tr>
+    <tr>
+        <td class="headtext1">java.naming.provider.url:</td>
+        <td><jmhtml:text property="jndiURL" size="50" /></td>
+    </tr>
+    </c:if>
     <tr>
         <td>&nbsp;</td>
         <td>
