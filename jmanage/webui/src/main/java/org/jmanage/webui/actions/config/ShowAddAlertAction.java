@@ -18,14 +18,12 @@ package org.jmanage.webui.actions.config;
 import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.*;
 import org.jmanage.webui.forms.AlertForm;
-import org.jmanage.core.config.AlertDeliveryConstants;
 import org.jmanage.core.config.ApplicationConfigManager;
 import org.jmanage.core.config.AlertSourceConfig;
 import org.jmanage.core.util.Expression;
 import org.jmanage.core.services.AccessController;
 import org.jmanage.core.services.MBeanService;
 import org.jmanage.core.services.ServiceFactory;
-import org.jmanage.core.services.ServiceContext;
 import org.jmanage.core.management.ObjectAttribute;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -33,8 +31,6 @@ import org.apache.struts.action.ActionForm;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
-import java.util.ArrayList;
 
 /**
  * Date: May 26, 2005 4:16:42 PM
