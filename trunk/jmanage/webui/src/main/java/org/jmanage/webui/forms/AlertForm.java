@@ -16,7 +16,6 @@
 package org.jmanage.webui.forms;
 
 import org.jmanage.core.config.AlertSourceConfig;
-import org.jmanage.core.util.ErrorCodes;
 import org.jmanage.webui.util.WebErrorCodes;
 import org.jmanage.webui.validator.Validator;
 import org.apache.struts.action.*;

@@ -11,7 +11,8 @@
                  org.jmanage.core.services.AccessController,
                  org.jmanage.webui.util.Utils,
                  java.net.URLEncoder,
-                 org.jmanage.util.StringUtils"%>
+                 org.jmanage.util.StringUtils,
+                 org.jmanage.core.util.Expression"%>
 
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 <%@ taglib uri="/WEB-INF/tags/jstl/c.tld" prefix="c"%>
@@ -96,7 +97,7 @@
 <%
     if(attributes.length > 0){
         boolean showUpdateButton = false;
-        int columns = 4;
+        int columns = 5;
 %>
 <br/>
 <jmhtml:form action="/app/updateAttributes" method="post">
@@ -119,7 +120,7 @@
     }
 %>
     <td><b>RW</b></td>
-    <td><b>Type</b></td>
+    <td colspan="2"><b>Type</b></td>
 </tr>
 <%
     for(int index=0; index < attributes.length; index++){
@@ -193,6 +194,19 @@
 </td>
 <td class="plaintext">
     <%=attributeInfo.getType()%>
+</td>
+<td class="plaintext">
+    <%if(!applicationConfig.isCluster()){
+        Expression expression = new Expression("",request.getParameter("objName"), attributeInfo.getName());%>
+    <c:set var="expressionValue" scope="page">
+        <%=expression%>
+    </c:set>
+    <%if("java.lang.String".equals(attributeInfo.getType())){%>
+        <jmhtml:link href="/config/showAddAlert.do?alertSourceType=string" paramId="attributes" paramName="expressionValue">Monitor</jmhtml:link>
+    <%}else{%>
+        <jmhtml:link href="/config/showAddAlert.do?alertSourceType=gauge" paramId="attributes" paramName="expressionValue">Monitor</jmhtml:link>
+    <%}
+    }%>
 </td>
 </tr>
 <%  }// for ends%>
@@ -311,15 +325,21 @@
 <br/>
 <table class="table" border="0" cellspacing="0" cellpadding="5" width="900">
     <tr class="tableHeader">
-        <td colspan="2">Notifications</td>
+        <td colspan="3">Notifications</td>
     </tr>
 <%
     for(int index=0; index < notifications.length; index++){
         ObjectNotificationInfo notificationInfo = notifications[index];
 %>
+<c:set var="objNameValue" value="${param.objName}" />
 <tr>
     <td class="plaintext"><%=notificationInfo.getName()%></td>
     <td class="plaintext"><%=notificationInfo.getDescription()%></td>
+    <td class="plaintext">
+    <%if(!applicationConfig.isCluster()){%>
+        <jmhtml:link href="/config/selectAlertSourceType.do?alertSourceType=notification" paramId="objName" paramName="objNameValue" >Monitor</jmhtml:link>
+    <%}%>
+    </td>
 </tr>
 <%  }%>
 </table>
