@@ -18,6 +18,7 @@
 <%@ taglib uri="/WEB-INF/tags/jstl/c.tld" prefix="c"%>
 
 <%
+    boolean showGraphOption = false;
     final WebContext webContext = WebContext.get(request);
 
     ObjectInfo objectInfo = (ObjectInfo)request.getAttribute("objInfo");
@@ -35,6 +36,25 @@
         document.mbeanConfigForm.applicationCluster.value='true';
         document.mbeanConfigForm.submit();
         return;
+    }
+
+    function submitGraph(form){
+        var boxChecked=false;
+        form.action="/config/showAddGraph.do";
+        attribs=form.attributes;
+        for(i=0;i<attribs.length;i++){
+            if(attribs[i].checked){
+                boxChecked=true;
+                break;
+            }
+        }
+        if(boxChecked){
+            form.submit();
+            return true;
+        }else{
+            alert("Please select an attribute for the graph");
+            return false;
+        }
     }
 -->
 </script>
@@ -196,27 +216,35 @@
     <%=attributeInfo.getType()%>
 </td>
 <td class="plaintext">
-    <%if(!applicationConfig.isCluster()){
+    <%  if(!applicationConfig.isCluster()){
         Expression expression = new Expression("",request.getParameter("objName"), attributeInfo.getName());%>
     <c:set var="expressionValue" scope="page">
         <%=expression%>
     </c:set>
     <%if("java.lang.String".equals(attributeInfo.getType())){%>
         <jmhtml:link href="/config/showAddAlert.do?alertSourceType=string" paramId="attributes" paramName="expressionValue">Monitor</jmhtml:link>
-    <%}else{%>
+    <%}else{
+        showGraphOption = true;%>
         <jmhtml:link href="/config/showAddAlert.do?alertSourceType=gauge" paramId="attributes" paramName="expressionValue">Monitor</jmhtml:link>
+        &nbsp;
+        <input type="checkbox" name="attributes" value="<%=expression.getHtmlEscaped()%>" />
     <%}
     }%>
 </td>
 </tr>
 <%  }// for ends%>
 <tr>
-    <td class="plaintext" colspan="<%=columns%>">
+    <td class="plaintext" colspan="<%=columns-2 %>">
         To save the changes to the attribute values click on
         <%if(showUpdateButton){%>
             <jmhtml:submit value="Save" styleClass="Inside3d" />
         <%}else{%>
             <jmhtml:submit value="Save" styleClass="Inside3d" disabled="true" />
+        <%}%>
+    </td>
+    <td class="plaintext" colspan="2">
+        <%if(showGraphOption){%>
+        <jmhtml:submit value="Plot Graph" styleClass="Inside3d" onclick="return submitGraph(form);" />
         <%}%>
     </td>
 </tr>
