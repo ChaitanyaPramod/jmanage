@@ -173,12 +173,14 @@
             path="/config/addMBeanConfig"
             name="mbeanConfigForm"
             scope="request"
+            input="/app/mbeanView.do"
             type="org.jmanage.webui.actions.config.AddMBeanConfigAction">
             <forward name="success" path="/app/mbeanView.do"/>
         </action>
         <action
             path="/config/removeMBeanConfig"
             name="mbeanConfigForm"
+            validate="false"
             scope="request"
             type="org.jmanage.webui.actions.config.RemoveMBeanConfigAction">
             <forward name="success" path="/app/mbeanView.do"/>
@@ -234,6 +236,7 @@
         <action
             path="/app/mbeanView"
             name="mbeanConfigForm"
+            validate="false"
             scope="request"
             type="org.jmanage.webui.actions.app.ShowMBeanAction">
             <forward name="success" path="app.mbeanView"/>
