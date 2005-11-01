@@ -15,7 +15,6 @@ package org.jmanage.webui.actions.config.alert;
 
 import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.WebContext;
-import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.util.RequestParams;
 import org.jmanage.webui.util.Utils;
 import org.jmanage.webui.forms.AlertForm;
@@ -58,6 +57,7 @@ public class SelectAlertSourceTypeAction extends BaseAction{
                     + RequestParams.ALERT_SOURCE_TYPE + "="
                     + AlertSourceConfig.SOURCE_TYPE_GAUGE_MONITOR + "&"
                     + RequestParams.DATA_TYPE + "=java.lang.Number&"
+                    //+ RequestParams.DATA_TYPE + "=javax.management.openmbean.CompositeData&"
                     + RequestParams.NAVIGATION + "=Add Alert";
             return new ActionForward(url);
         } else if(sourceType.equals(AlertSourceConfig.SOURCE_TYPE_STRING_MONITOR)){
@@ -70,6 +70,7 @@ public class SelectAlertSourceTypeAction extends BaseAction{
                     + RequestParams.ALERT_SOURCE_TYPE + "="
                     + AlertSourceConfig.SOURCE_TYPE_STRING_MONITOR +"&"
                     + RequestParams.DATA_TYPE + "=java.lang.String&"
+                    //+ RequestParams.DATA_TYPE + "=javax.management.openmbean.CompositeData&"
                     + RequestParams.NAVIGATION + "=Add Alert";;
             return new ActionForward(url);
         }

@@ -175,16 +175,24 @@ public class MBeanServiceImpl implements MBeanService {
         return result;
     }
 
+    /**
+     * Expands a CompositeData object into individual attributes with the
+     * naming convention:
+     * <p>
+     * attributeName.itemName
+     * <p>
+     * The items should conform to given "dataType" array. These individual
+     * attributes are added to the <code>attributeList</code>
+     * @param attributesList    ObjectAttributeInfo instances are added to this
+     *                          list
+     */
     private void handleCompositeData(ServerConnection connection,
                                      ObjectName objectName,
                                      ObjectAttributeInfo attrInfo,
                                      String[] dataTypes,
                                      List attributesList){
 
-        CompositeData compositeData =
-                (CompositeData)connection.getAttribute(objectName, attrInfo.getName());
-        CompositeType type = compositeData.getCompositeType();
-
+        CompositeType type = getCompositeType(connection, objectName, attrInfo);
         for(Iterator it=type.keySet().iterator(); it.hasNext(); ){
             String itemName = (String)it.next();
             OpenType itemType = type.getType(itemName);
@@ -202,6 +210,15 @@ public class MBeanServiceImpl implements MBeanService {
                 }
             }
         }
+    }
+
+    // todo: is there a simpler way to get CompositeType (without getting the value)
+    private CompositeType getCompositeType(ServerConnection connection,
+                                           ObjectName objectName,
+                                           ObjectAttributeInfo attrInfo){
+        CompositeData compositeData =
+                (CompositeData)connection.getAttribute(objectName, attrInfo.getName());
+        return compositeData.getCompositeType();
     }
 
     private Class getClass(String type, ClassLoader classLoader){
@@ -676,7 +693,8 @@ public class MBeanServiceImpl implements MBeanService {
         List attributeList = new LinkedList();
         for(int i=0; i<attributes.length; i++){
             String attribute = attributes[i][0];
-            String type = getAttributeType(objAttributes, attribute, objectName);
+            String type = getAttributeType(connection,
+                    objAttributes, attribute, objectName);
             /* ensure that this attribute is writable */
             ensureAttributeIsWritable(objAttributes, attribute, objectName);
 
@@ -689,11 +707,27 @@ public class MBeanServiceImpl implements MBeanService {
         return attributeList;
     }
 
-    private String getAttributeType(ObjectAttributeInfo[] objAttributes,
+    // handles composite attribute type
+    private String getAttributeType(ServerConnection connection,
+                                    ObjectAttributeInfo[] objAttributes,
                                     String attribute,
                                     ObjectName objectName){
+
+        String itemName = null;
+        int index = attribute.indexOf('.');
+        if(index != -1){
+            itemName = attribute.substring(index + 1);
+            attribute = attribute.substring(0, index);
+        }
+
         for(int i=0; i<objAttributes.length; i++){
             if(objAttributes[i].getName().equals(attribute)){
+                if(itemName != null){
+                    // it is a CompositeData type
+                    CompositeType type = getCompositeType(connection,
+                            objectName, objAttributes[i]);
+                    return type.getType(itemName).getClassName();
+                }
                 return objAttributes[i].getType();
             }
         }
@@ -888,6 +922,6 @@ public class MBeanServiceImpl implements MBeanService {
         ObjectName objName = new ObjectName(objectName);
         ObjectInfo objectInfo = connection.getObjectInfo(objName);
         ObjectAttributeInfo[] objAttrInfo = objectInfo.getAttributes();
-        return getAttributeType(objAttrInfo, attributeName, objName);
+        return getAttributeType(connection, objAttrInfo, attributeName, objName);
     }
 }
