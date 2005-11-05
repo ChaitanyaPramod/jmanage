@@ -244,7 +244,7 @@
                 <arg0 key="Application Name" resource="false"/>
                 <var>
                     <var-name>mask</var-name>
-                    <var-value>^[a-zA-Z0-9\s-]*$</var-value>
+                    <var-value>^[a-zA-Z0-9\s-\$\.]*$</var-value>
                 </var>
             </field>
         </form>
@@ -325,7 +325,7 @@
                 <arg0 key="Application Name" resource="false"/>
                 <var>
                     <var-name>mask</var-name>
-                    <var-value>^[a-zA-Z0-9\s-]*$</var-value>
+                    <var-value>^[a-zA-Z0-9\s-\$\.]*$</var-value>
                 </var>
             </field>
         </form>
