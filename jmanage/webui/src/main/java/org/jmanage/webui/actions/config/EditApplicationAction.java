@@ -62,7 +62,7 @@ public class EditApplicationAction extends BaseAction {
             config.setUsername(appForm.getUsername());
 
         final String password = appForm.getPassword();
-        if(!password.equals(ApplicationForm.FORM_PASSWORD)){
+        if(!ApplicationForm.FORM_PASSWORD.equals(password)){
             config.setPassword(password);
         }
 
