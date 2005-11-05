@@ -83,7 +83,7 @@ public class AuthServiceImpl implements AuthService {
             context._setUser(user);
             logger.logActivity(user.getName(), "logged in successfully");
         }catch(LoginException lex){
-            user = userManager.getUser(user.getName());
+            user = userManager.getUser(username);
             String errorCode = ErrorCodes.UNKNOWN_ERROR;
             Object[] values = null;
             /* Conditionalize the error message */
