@@ -39,4 +39,5 @@ public interface RequestParams {
     public static final String NAVIGATION = "navigation";
 
     public static final String GRAPH_ID = "graphId";
+    public static final String MBEANS = "mbeans";
 }
