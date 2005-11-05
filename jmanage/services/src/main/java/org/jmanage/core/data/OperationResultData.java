@@ -15,6 +15,8 @@
  */
 package org.jmanage.core.data;
 
+import org.jmanage.core.management.data.DataFormatUtil;
+
 /**
  *
  * date:  Jan 23, 2005
@@ -40,6 +42,10 @@ public class OperationResultData implements java.io.Serializable {
 
     public Object getOutput() {
         return output;
+    }
+
+    public String getDisplayOutput(){
+        return DataFormatUtil.format(getOutput());
     }
 
     public void setOutput(Object output) {

@@ -46,6 +46,13 @@ table.table {
     border-color:#C0C0C0
 }
 
+table.HtmlTable {
+    border:1;
+    border-style:solid;
+    border-width:1px;
+    border-color:#C0C0C0
+}
+
 tr.tableHeader {
     text-align: left;
     background-color: blue;

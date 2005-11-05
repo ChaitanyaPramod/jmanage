@@ -16,43 +16,38 @@ package org.jmanage.util.display;
 import java.util.Iterator;
 
 /**
+ * Draws the table as following:
+ * <p>
+ * name1|value11|value12<br/>
+ * name2|value21|value22<br/>
+ * name3|value31|value32<br/>
  *
  * <p>
- * Date:  Sep 29, 2005
+ * Date:  Nov 5, 2005
  * @author	Rakesh Kalra
  */
-public class HtmlTable extends AbstractTable {
+public class VerticalHeaderHtmlTable extends AbstractTable {
 
     public String draw(){
         StringBuffer buff = new StringBuffer();
         buff.append("<table class=\"HtmlTable\">");
-        drawHeader(buff);
-        for(Iterator it=getRows().iterator(); it.hasNext(); ){
-            drawRow(buff, (String[])it.next());
-        }
-        buff.append("</table>");
-        return buff.toString();
-    }
-
-    private void drawHeader(StringBuffer buff){
-        buff.append("<tr>");
         String[] header = getHeader();
         for(int i=0; i<header.length; i++){
+            buff.append("<tr>");
             buff.append("<td valign=\"top\" style=\"border: none;font-family: Verdana, Arial, Helvetica, sans-serif;font-size: 11px\">");
             buff.append("<b>");
             buff.append(header[i]);
             buff.append("</b></td>");
+            for(Iterator it=getRows().iterator(); it.hasNext(); ){
+                String[] row = (String[])it.next();
+                buff.append("<td valign=\"top\" style=\"border: none;font-family: Verdana, Arial, Helvetica, sans-serif;font-size: 11px\">");
+                buff.append(row[i]);
+                buff.append("</td>");
+            }
+            buff.append("</tr>");
         }
-        buff.append("</tr>");
-    }
 
-    private void drawRow(StringBuffer buff, String[] row){
-        buff.append("<tr>");
-        for(int i=0; i<row.length; i++){
-            buff.append("<td valign=\"top\" style=\"border: none;font-family: Verdana, Arial, Helvetica, sans-serif;font-size: 11px\">");
-            buff.append(row[i]);
-            buff.append("</td>");
-        }
-        buff.append("</tr>");
+        buff.append("</table>");
+        return buff.toString();
     }
 }
