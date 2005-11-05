@@ -17,6 +17,36 @@
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 <%@ taglib uri="/WEB-INF/tags/jstl/c.tld" prefix="c"%>
 
+<%!
+    private Class getClass(String type){
+        if(type.equals("boolean"))
+             return Boolean.class;
+        if(type.equals("byte"))
+             return Byte.TYPE;
+        if(type.equals("char"))
+             return Character.class;
+        if(type.equals("double"))
+             return Double.class;
+        if(type.equals("float"))
+             return Float.class;
+        if(type.equals("int"))
+             return Integer.class;
+        if(type.equals("long"))
+             return Long.class;
+        if(type.equals("short"))
+             return Short.class;
+        if(type.equals("void"))
+             return Void.class;
+        Class clazz = null;
+        try{
+            clazz = Class.forName(type);
+        }catch(ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        return clazz;
+    }
+
+%>
 <%
     boolean showGraphOption = false;
     final WebContext webContext = WebContext.get(request);
@@ -36,25 +66,6 @@
         document.mbeanConfigForm.applicationCluster.value='true';
         document.mbeanConfigForm.submit();
         return;
-    }
-
-    function submitGraph(form){
-        var boxChecked=false;
-        form.action="/config/showAddGraph.do";
-        attribs=form.attributes;
-        for(i=0;i<attribs.length;i++){
-            if(attribs[i].checked){
-                boxChecked=true;
-                break;
-            }
-        }
-        if(boxChecked){
-            form.submit();
-            return true;
-        }else{
-            alert("Please select an attribute for the graph");
-            return false;
-        }
     }
 -->
 </script>
@@ -222,12 +233,14 @@
         <%=expression%>
     </c:set>
     <%if("java.lang.String".equals(attributeInfo.getType())){%>
-        <jmhtml:link href="/config/showAddAlert.do?alertSourceType=string" paramId="attributes" paramName="expressionValue">Monitor</jmhtml:link>
-    <%}else{
+        <jmhtml:link href="/config/showAddAlert.do?alertSourceType=string"
+            paramId="attributes" paramName="expressionValue"
+            acl="<%=ACLConstants.ACL_ADD_ALERT%>">Monitor</jmhtml:link>
+    <%}else if(Number.class.isAssignableFrom(getClass(attributeInfo.getType()))){
         showGraphOption = true;%>
-        <jmhtml:link href="/config/showAddAlert.do?alertSourceType=gauge" paramId="attributes" paramName="expressionValue">Monitor</jmhtml:link>
-        &nbsp;
-        <input type="checkbox" name="attributes" value="<%=expression.getHtmlEscaped()%>" />
+        <jmhtml:link href="/config/showAddAlert.do?alertSourceType=gauge"
+            paramId="attributes" paramName="expressionValue"
+            acl="<%=ACLConstants.ACL_ADD_ALERT%>">Monitor</jmhtml:link>
     <%}
     }%>
 </td>
@@ -243,9 +256,18 @@
         <%}%>
     </td>
     <td class="plaintext" colspan="2">
-        <%if(showGraphOption){%>
-        <jmhtml:submit value="Plot Graph" styleClass="Inside3d" onclick="return submitGraph(form);" />
-        <%}%>
+    <%if(showGraphOption){
+        String link = "/config/showAttributes.do?"
+                + RequestParams.END_URL + "=" + Utils.urlEncode("/config/showAddGraph.do")
+                + "&" + RequestParams.MULTIPLE + "=true&"
+                + RequestParams.DATA_TYPE + "=java.lang.Number&"
+                + RequestParams.DATA_TYPE + "=javax.management.openmbean.CompositeData&"
+                + RequestParams.NAVIGATION + "=" + Utils.urlEncode("Add Graph")+"&"
+                + RequestParams.MBEANS + "=" + request.getParameter("objName");
+    %>
+        <jmhtml:link href="<%=link%>" acl="<%=ACLConstants.ACL_ADD_GRAPH%>"
+            styleClass="a">Plot Graph</jmhtml:link>
+    <%}%>
     </td>
 </tr>
 </table>
