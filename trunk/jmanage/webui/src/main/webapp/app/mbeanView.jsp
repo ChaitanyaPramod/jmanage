@@ -158,7 +158,7 @@
         ObjectAttributeInfo attributeInfo = attributes[index];
 %>
 <tr>
-<td class="plaintext">
+<td class="plaintext" valign="top">
     <%if(attributeInfo.getDescription() != null){%>
         <a href="JavaScript:showDescription('<%=MBeanUtils.jsEscape(attributeInfo.getDescription())%>');"><%=attributeInfo.getName()%></a>
     <%}else{%>
@@ -178,7 +178,7 @@
             ApplicationConfig childAppConfig = (ApplicationConfig)it.next();
             List attributeList = (List)appConfigToAttrListMap.get(childAppConfig);
     %>
-<td class="plaintext">
+<td class="plaintext" valign="top">
         <%if(attributeList != null){
             ObjectAttribute objAttribute =
                         MBeanUtils.getObjectAttribute(attributeList, attributeInfo);
@@ -220,13 +220,13 @@
 <%
 }
 %>
-<td class="plaintext">
+<td class="plaintext" valign="top">
     <%=attributeInfo.getReadWrite()%>
 </td>
-<td class="plaintext">
+<td class="plaintext" valign="top">
     <%=attributeInfo.getType()%>
 </td>
-<td class="plaintext">
+<td class="plaintext" valign="top">
     <%  if(!applicationConfig.isCluster()){
         Expression expression = new Expression("",request.getParameter("objName"), attributeInfo.getName());%>
     <c:set var="expressionValue" scope="page">

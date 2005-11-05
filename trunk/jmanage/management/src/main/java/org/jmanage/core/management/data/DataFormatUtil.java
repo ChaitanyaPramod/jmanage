@@ -19,10 +19,10 @@ import org.jmanage.util.StringUtils;
 import java.util.*;
 import java.util.logging.Logger;
 import java.util.logging.Level;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.IOException;
+import java.lang.reflect.Array;
 
 /**
  * Utility class to provide data formatting.
@@ -64,7 +64,7 @@ public class DataFormatUtil {
                         String className = property.substring(FORMAT_PREFIX.length());
                         // todo: it will be better to load the data class using the application classloader
                         // the data format class can be loaded in the base classloader - rk
-                        Class clazz = Class.forName(className);
+                        Class clazz = getDataClass(className);
                         classToFormatMapping[formatCount][0] = clazz;
                         classToFormatMapping[formatCount][1] =
                                 Class.forName(props.getProperty(property)).newInstance();
@@ -88,7 +88,29 @@ public class DataFormatUtil {
                         ". DataFormatUtil is not initialized.", e);
             }
         }
+    }
 
+    private static Class getDataClass(String className) throws Exception{
+        if(className.startsWith("[")){
+            /* it is an array, so requires special handling */
+            // todo: we only handle single dimention arrays
+            className = className.substring(1, className.length() - 1);
+            Object obj = Array.newInstance(Class.forName(className), 0);
+            return obj.getClass();
+        }
+        return Class.forName(className);
+    }
+
+    public static String getListDelimiter(){
+        return listDelimiter;
+    }
+
+    public static boolean isEscapeHtml(){
+        return escapeHtml;
+    }
+
+    public static String getNullDisplayValue(){
+        return nullValue;
     }
 
     public static String format(Object data){
