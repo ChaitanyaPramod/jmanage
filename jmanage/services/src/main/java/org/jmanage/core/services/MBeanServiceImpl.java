@@ -43,6 +43,7 @@ public class MBeanServiceImpl implements MBeanService {
     private static final Logger logger = Loggers.getLogger(MBeanService.class);
 
     private static final String DEFAULT_FILTER = "*:*";
+    private static final char COMPOSITE_ATTR_SEPARATOR = '.';
 
     private static final ObjectName DEFAULT_FILTER_OBJECT_NAME =
             new ObjectName(DEFAULT_FILTER);
@@ -204,7 +205,8 @@ public class MBeanServiceImpl implements MBeanService {
                         this.getClass().getClassLoader());
                 if(dataType.isAssignableFrom(itemTypeClass)){
                     attributesList.add(
-                            new ObjectAttributeInfo(attrInfo.getName() + "." + itemName,
+                            new ObjectAttributeInfo(
+                                    attrInfo.getName() + COMPOSITE_ATTR_SEPARATOR + itemName,
                                     type.getDescription(itemName),
                                     itemType.getClassName(), false, true, false));
                 }
@@ -375,21 +377,30 @@ public class MBeanServiceImpl implements MBeanService {
 
         ServerConnection connection =
                         context.getServerConnection();
-
-        String itemName = null;
-        int index = attribute.indexOf(".");
-        String attributeName = attribute;
-        if(index != -1){
-            // composite data attribute
-            attributeName = attribute.substring(0, index);
-            itemName = attribute.substring(index + 1);
-        }
-
         List attrList =
                 connection.getAttributes(context.getObjectName(),
-                        new String[]{attributeName});
+                        new String[]{attribute});
         ObjectAttribute attrValue = (ObjectAttribute)attrList.get(0);
-        if(itemName != null){
+        if(attrValue.getStatus() != ObjectAttribute.STATUS_NOT_FOUND){
+            return attrValue;
+        }
+
+        /* see if this is a composite attribute */
+        String attributeName = null;
+        String itemName = null;
+        int index = attribute.indexOf(COMPOSITE_ATTR_SEPARATOR);
+        if(index == -1)
+            return attrValue;
+
+        // composite data attribute
+        itemName = attribute.substring(index + 1);
+        attributeName = attribute.substring(0, index);
+
+        attrList =
+                connection.getAttributes(context.getObjectName(),
+                        new String[]{attributeName});
+        attrValue = (ObjectAttribute)attrList.get(0);
+        if(attrValue.getStatus() == ObjectAttribute.STATUS_OK){
             CompositeData compositeData = (CompositeData)attrValue.getValue();
             attrValue = new ObjectAttribute(attribute,
                     compositeData.get(itemName));
@@ -713,22 +724,26 @@ public class MBeanServiceImpl implements MBeanService {
                                     String attribute,
                                     ObjectName objectName){
 
+        /* first look for normal attribute */
+        for(int i=0; i<objAttributes.length; i++){
+            if(objAttributes[i].getName().equals(attribute)){
+                return objAttributes[i].getType();
+            }
+        }
+
+        /* now look for CompositeData */
         String itemName = null;
-        int index = attribute.indexOf('.');
+        final int index = attribute.indexOf(COMPOSITE_ATTR_SEPARATOR);
         if(index != -1){
             itemName = attribute.substring(index + 1);
             attribute = attribute.substring(0, index);
-        }
-
-        for(int i=0; i<objAttributes.length; i++){
-            if(objAttributes[i].getName().equals(attribute)){
-                if(itemName != null){
+            for(int i=0; i<objAttributes.length; i++){
+                if(objAttributes[i].getName().equals(attribute)){
                     // it is a CompositeData type
                     CompositeType type = getCompositeType(connection,
                             objectName, objAttributes[i]);
                     return type.getType(itemName).getClassName();
                 }
-                return objAttributes[i].getType();
             }
         }
         throw new ServiceException(ErrorCodes.INVALID_MBEAN_ATTRIBUTE,
