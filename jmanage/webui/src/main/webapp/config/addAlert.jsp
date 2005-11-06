@@ -43,10 +43,6 @@
     </td>
 </tr>
 <tr>
-    <td class="headtext1">Subject:</td>
-    <td><jmhtml:text property="subject" /></td>
-</tr>
-<tr>
     <td class="headtext1">Email Address:</td>
     <td><jmhtml:text property="emailAddress" /></td>
 </tr>

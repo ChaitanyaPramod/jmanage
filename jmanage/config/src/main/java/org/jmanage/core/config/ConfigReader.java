@@ -225,7 +225,6 @@ public class ConfigReader implements ConfigConstants{
                 Element alert = (Element)it.next();
                 alertConfig.setAlertId(alert.getAttributeValue(ALERT_ID));
                 alertConfig.setAlertName(alert.getAttributeValue(ALERT_NAME));
-                alertConfig.setSubject(alert.getAttributeValue(ALERT_SUBJECT));
                 List alertDeliveryList = alert.getChildren(ALERT_DELIVERY);
                 String[] alertDelivery = new String[alertDeliveryList.size()];
                 for(int i=0;i<alertDeliveryList.size();i++){

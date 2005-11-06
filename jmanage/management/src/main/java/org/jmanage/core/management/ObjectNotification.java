@@ -64,7 +64,12 @@ public class ObjectNotification {
         this.source = source;
         this.sequenceNumber = sequenceNumber;
         this.timeStamp = timeStamp;
-        this.message = message;
+        if(message == null || message.length() == 0){
+            this.message = type;
+        }else{
+            this.message = message;
+        }
+
         this.userData = userData;
     }
 

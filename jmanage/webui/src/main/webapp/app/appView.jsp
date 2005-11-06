@@ -36,7 +36,7 @@
 %>
 <%-- Configured MBeans --%>
 <%if(appConfig.getMBeans().size() > 0){%>
-<table border="0" cellspacing="0" cellpadding="5" width="600" class="table">
+<table border="0" cellspacing="0" cellpadding="5" width="700" class="table">
     <tr class="tableHeader">
        <td colspan="2">Managed Objects</td>
     </tr>
@@ -78,7 +78,7 @@
 </p>
 <%-- Configured Graphs --%>
 <%if(appConfig.getGraphs().size() > 0){%>
-<table border="0" cellspacing="0" cellpadding="5" width="600" class="table">
+<table border="0" cellspacing="0" cellpadding="5" width="700" class="table">
     <tr class="tableHeader">
        <td colspan="3">Graphs</td>
     </tr>
@@ -131,15 +131,15 @@
 <%
 if(appConfig.getAlerts().size() > 0){
 %>
-<table cellspacing="0" cellpadding="5" width="600" class="table">
+<table cellspacing="0" cellpadding="5" width="700" class="table">
     <tr class="tableHeader">
-        <td colspan="6">Alerts</td>
+        <td colspan="6">Configured Alerts</td>
     </tr>
     <tr>
         <td class="headtext1">Alert Name</td>
         <td class="headtext1">Application Name</td>
+        <td class="headtext1">Source</td>
         <td class="headtext1">Alert Delivery</td>
-        <td class="headtext1">Subject</td>
     </tr>
     <%
         List alerts = appConfig.getAlerts();
@@ -165,8 +165,11 @@ if(appConfig.getAlerts().size() > 0){
         <td class="plaintext">
              <%=appName%>
         </td>
+        <td class="plaintext">
+            <a href="/app/mbeanView.do?<%=RequestParams.APPLICATION_ID%>=<%=alertConfig.getAlertSourceConfig().getApplicationConfig().getApplicationId()%>&<%=RequestParams.OBJECT_NAME%>=<%=URLEncoder.encode(alertConfig.getAlertSourceConfig().getObjectName(), "UTF-8")%>">
+             <%=alertConfig.getAlertSourceConfig().getObjectName()%>
+        </td>
         <td class="plaintext"><%=alertDel%></td>
-        <td class="plaintext"><%=alertConfig.getSubject()%></td>
         <td align="right" width="60">
             <%
                 String editAlertLink ="/config/showEditAlert.do?"

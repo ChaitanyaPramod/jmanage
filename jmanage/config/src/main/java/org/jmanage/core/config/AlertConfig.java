@@ -25,7 +25,6 @@ public class AlertConfig {
     private String alertId;
     private String alertName;
     private String[] alertDelivery;
-    private String subject;
     private String emailAddress;
     private AlertSourceConfig alertSourceConfig;
 
@@ -36,21 +35,11 @@ public class AlertConfig {
 
     }
     public AlertConfig(String alertId, String alertName,
-                       String[] alertDelivery, String emailAddress,
-                       String subject){
+                       String[] alertDelivery, String emailAddress){
         this.alertId = alertId;
         this.alertName = alertName;
         this.alertDelivery = alertDelivery;
         this.emailAddress = emailAddress;
-        this.subject = subject;
-    }
-
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
     }
 
     public String getEmailAddress() {

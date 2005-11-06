@@ -62,14 +62,12 @@ public class AddAlertAction extends BaseAction{
             alertConfig = new AlertConfig(AlertConfig.getNextAlertId(),
                     form.getAlertName(),
                     form.getAlertDelivery(),
-                    form.getEmailAddress(),
-                    form.getSubject());
+                    form.getEmailAddress());
             alertConfig.setAlertSourceConfig(getAlertSourceConfig(context,form));
             appConfig.addAlert(alertConfig);
         }else{
             alertConfig = appConfig.findAlertById(form.getAlertId());
             alertConfig.setAlertName(form.getAlertName());
-            alertConfig.setSubject(form.getSubject());
             alertConfig.setAlertDelivery(form.getAlertDelivery());
             if(form.getEmailAddress()!=null){
                 alertConfig.setEmailAddress(form.getEmailAddress());

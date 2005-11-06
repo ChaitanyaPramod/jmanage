@@ -31,7 +31,6 @@ public class AlertForm extends BaseForm{
     private String alertId;
     private String alertName;
     private String[] alertDelivery;
-    private String subject;
     private String emailAddress;
     private String alertSourceType = AlertSourceConfig.SOURCE_TYPE_NOTIFICATION;
     private String expression;
@@ -63,16 +62,6 @@ public class AlertForm extends BaseForm{
         this.maxAttributeValue = maxAttributeValue;
     }
 
-    //private String application;
-
-    /**public String getApplication() {
-        return application;
-    }
-
-    public void setApplication(String application) {
-        this.application = application;
-    }  */
-
     public String getAlertId() {
         return alertId;
     }
@@ -95,14 +84,6 @@ public class AlertForm extends BaseForm{
 
     public void setAlertDelivery(String[] alertDelivery) {
         this.alertDelivery = alertDelivery;
-    }
-
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
     }
 
     public String getEmailAddress() {
