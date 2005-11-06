@@ -290,9 +290,6 @@
             <field property="alertDelivery" depends="required">
                 <arg0 key="Alert Delivery" resource="false"/>
             </field>
-            <field property="subject" depends="required">
-                <arg0 key="Subject" resource="false"/>
-            </field>
             <field property="alertSourceType" depends="required">
                 <arg0 key="Alert Source Type" resource="false"/>
             </field>

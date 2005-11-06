@@ -9,7 +9,7 @@
                  org.jmanage.core.config.MBeanConfig,
                  java.net.URLEncoder,
                  java.util.List,
-                 org.jmanage.core.data.AlertData"%>
+                 org.jmanage.core.alert.AlertInfo"%>
 
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 
@@ -92,32 +92,47 @@
 <br>
 <a href="/config/showApplicationCluster.do" class="a">Add Application Cluster</a>
 <br><br>
+
+<%
+    List alerts = (List)request.getAttribute("alerts");
+    if(alerts.size() == 0){
+%>
+<p class="plaintext">
+    There are no alerts.
+</p>
+<%
+    }else{
+%>
+
 <table cellspacing="0" cellpadding="5" width="800" class="table">
     <tr class="tableHeader">
-        <td colspan="6">Triggered Alerts</td>
+        <td colspan="7">Triggered Alerts</td>
     </tr>
     <tr>
-        <td class="headtext">Alert Name</td>
-        <td class="headtext">Message</td>
-        <td class="headtext">Sequence#</td>
         <td class="headtext">Timestamp</td>
         <td class="headtext">Application</td>
+        <td class="headtext">Alert Name</td>
+        <td class="headtext">Message</td>
+        <td class="headtext">Source</td>
         <td class="headtext">&nbsp;</td>
     </tr>
 <%
-    List alerts = (List)request.getAttribute("alerts");
-    for(Iterator it=alerts.iterator(); it.hasNext(); ){
-        AlertData alert = (AlertData)it.next();
+        for(Iterator it=alerts.iterator(); it.hasNext(); ){
+            AlertInfo alert = (AlertInfo)it.next();
 %>
     <tr>
-        <td class="plaintext"><%=alert.getAlertName()%></td>
-        <td class="plaintext"><%=alert.getMessage()%></td>
-        <td class="plaintext"><%=alert.getSequenceNumber()%></td>
         <td class="plaintext"><%=alert.getFormattedTimeStamp()%></td>
         <td class="plaintext"><%=alert.getApplicationName()%></td>
+        <td class="plaintext"><%=alert.getAlertName()%></td>
+        <td class="plaintext"><%=alert.getMessage()%></td>
+        <td class="plaintext">
+        <a href="/app/mbeanView.do?<%=RequestParams.APPLICATION_ID%>=<%=alert.getApplicationId()%>&<%=RequestParams.OBJECT_NAME%>=<%=URLEncoder.encode(alert.getObjectName(), "UTF-8")%>">
+            <%=alert.getObjectName()%></a>
+        </td>
         <td class="plaintext"><a href="/app/removeConsoleAlert.do?alertId=<%=alert.getAlertId()%>">Remove</a></td>
     </tr>
 <%
+        }
     }
 %>
 </table>

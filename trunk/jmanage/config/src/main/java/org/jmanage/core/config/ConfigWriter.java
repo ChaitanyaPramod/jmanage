@@ -191,8 +191,6 @@ public class ConfigWriter {
                     alertConfig.getAlertId());
             alertElement.setAttribute(ConfigConstants.ALERT_NAME,
                     alertConfig.getAlertName());
-            alertElement.setAttribute(ConfigConstants.ALERT_SUBJECT,
-                    alertConfig.getSubject());
             // add source
             AlertSourceConfig sourceConfig = alertConfig.getAlertSourceConfig();
             Element source = new Element(ConfigConstants.ALERT_SOURCE);

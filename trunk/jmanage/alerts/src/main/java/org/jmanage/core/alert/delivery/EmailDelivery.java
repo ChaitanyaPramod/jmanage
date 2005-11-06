@@ -14,11 +14,13 @@
 package org.jmanage.core.alert.delivery;
 
 import org.jmanage.core.util.EmailUtils;
+import org.jmanage.core.util.Loggers;
 import org.jmanage.core.config.AlertConfig;
 import org.jmanage.core.alert.AlertDelivery;
 import org.jmanage.core.alert.AlertInfo;
 
 import javax.mail.MessagingException;
+import java.util.logging.Logger;
 
 /**
  *
@@ -27,20 +29,36 @@ import javax.mail.MessagingException;
  */
 public class EmailDelivery implements AlertDelivery {
 
+    private static final Logger logger = Loggers.getLogger(EmailDelivery.class);
+
     public void deliver(AlertInfo alertInfo) {
         try {
             EmailUtils.sendEmail(
                     alertInfo.getEmailAddress(),
-                    alertInfo.getSubject(),
+                    "Alert: " + alertInfo.getAlertName(),
                     getEmailContent(alertInfo));
         } catch (MessagingException e) {
-            // todo: need to queue up the message
-            throw new RuntimeException(e);
+            logger.severe("Error sending alert email. Error: " + e.getMessage());
+            EmailAlerts.getInstance().add(alertInfo);
         }
     }
 
     private String getEmailContent(AlertInfo alertInfo){
-        // todo: implement
-        return "Alert Content for " + alertInfo.getAlertName();
+        StringBuffer buff = new StringBuffer();
+        buff.append("Timestamp: ");
+        buff.append(alertInfo.getFormattedTimeStamp());
+        buff.append("\n");
+        buff.append("Application Name: ");
+        buff.append(alertInfo.getApplicationName());
+        buff.append("\n");
+        buff.append("Alert Name: ");
+        buff.append(alertInfo.getAlertName());
+        buff.append("\n");
+        buff.append("Message: ");
+        buff.append(alertInfo.getMessage());
+        buff.append("\n");
+        buff.append("Source: ");
+        buff.append(alertInfo.getObjectName());
+        return buff.toString();
     }
 }

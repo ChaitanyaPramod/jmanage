@@ -16,6 +16,7 @@ package org.jmanage.core.alert;
 import org.jmanage.core.config.ApplicationConfigManager;
 import org.jmanage.core.config.AlertConfig;
 import org.jmanage.core.util.Loggers;
+import org.jmanage.core.alert.delivery.EmailAlerts;
 
 import java.util.List;
 import java.util.Iterator;
@@ -49,6 +50,9 @@ public class AlertEngine {
             Alert alert = new Alert(alertConfig);
             alert.register();
         }
+        /* get EmailAlerts to start the email delivery thread */
+        EmailAlerts.getInstance();
+
         logger.info("AlertEngine started.");
     }
 

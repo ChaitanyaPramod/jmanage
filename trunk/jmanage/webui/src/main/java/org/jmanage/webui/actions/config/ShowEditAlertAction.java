@@ -53,7 +53,6 @@ public class ShowEditAlertAction extends BaseAction{
         AlertConfig alertConfig = appConfig.findAlertById(alertId);
         if(alertConfig!=null){
             form.setAlertName(alertConfig.getAlertName());
-            form.setSubject(alertConfig.getSubject());
             form.setAlertDelivery(alertConfig.getAlertDelivery());
             form.setEmailAddress(alertConfig.getEmailAddress());
             AlertSourceConfig alertSrcConfig = alertConfig.getAlertSourceConfig();
