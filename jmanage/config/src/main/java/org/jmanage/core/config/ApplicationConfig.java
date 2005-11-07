@@ -285,6 +285,9 @@ public abstract class ApplicationConfig {
        alertsList.add(alertConfig);
    }
 
+    /**
+     * @return list of AlertConfig objects
+     */
    public List getAlerts(){
        return alertsList;
    }

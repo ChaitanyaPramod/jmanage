@@ -23,6 +23,7 @@ import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.ApplicationConfigManager;
 import org.jmanage.core.util.UserActivityLogger;
 import org.jmanage.core.services.AccessController;
+import org.jmanage.core.alert.AlertEngine;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
@@ -80,6 +81,10 @@ public class EditApplicationAction extends BaseAction {
         }
 
         ApplicationConfigManager.updateApplication(config);
+
+        /* update the AlertEngine */
+        AlertEngine.getInstance().updateApplication(config);
+
         UserActivityLogger.getInstance().logActivity(
                 context.getUser().getUsername(),
                 "Updated application "+"\""+config.getName()+"\"");
