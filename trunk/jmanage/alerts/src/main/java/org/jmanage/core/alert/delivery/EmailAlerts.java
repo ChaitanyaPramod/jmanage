@@ -52,9 +52,10 @@ public class EmailAlerts extends PersistedAlerts{
         public void run(){
             while(true){
                 AlertInfo alertInfo = EmailAlerts.this.remove();
-                while(alertInfo != null){
+                if(alertInfo != null){
+                    // todo: if deliver method can return boolean on success
+                    //    we can change this to process all queued alerts
                     delivery.deliver(alertInfo);
-                    alertInfo = EmailAlerts.this.remove();
                 }
                 try {
                     /* sleep for a minute */

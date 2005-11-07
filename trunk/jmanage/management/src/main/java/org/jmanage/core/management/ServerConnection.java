@@ -116,6 +116,12 @@ public interface ServerConnection {
     public Object buildObjectName(String objectName);
 
     /**
+     * checks if this connection is open
+     * @return true if this connection is open
+     */
+    public boolean isOpen();
+
+    /**
      * Closes the connection to the server
      */
     public void close() throws IOException;

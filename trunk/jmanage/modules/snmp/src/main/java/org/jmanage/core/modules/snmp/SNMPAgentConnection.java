@@ -101,7 +101,7 @@ public class SNMPAgentConnection implements ServerConnection{
                             ObjectName name,
                             Object[] params,
                             String[] signature){
-        throw new RuntimeException("Notifications not supported");
+        throw new RuntimeException("createMBean not supported");
     }
 
     public void unregisterMBean(ObjectName objectName){
@@ -109,6 +109,7 @@ public class SNMPAgentConnection implements ServerConnection{
     }
 
     public void close() throws IOException {
+        comInterface.closeConnection();
     }
 
     public Object buildObjectName(String objectName){
@@ -117,6 +118,16 @@ public class SNMPAgentConnection implements ServerConnection{
         } catch (javax.management.MalformedObjectNameException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * checks if this connection is open
+     * @return true if this connection is open
+     */
+    public boolean isOpen() {
+        // todo: requires proper implementation before notifications
+        //   are enabled
+        return true;
     }
 
     /**
