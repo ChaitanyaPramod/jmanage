@@ -94,6 +94,8 @@
     <!-- ================= Distribution Goals ===============================-->
     <goal name="dist">
 
+        <ant:mkdir dir="${basedir}/dist"/>
+
         <attainGoal name="dist-src"/>
 
         <!-- build -->
