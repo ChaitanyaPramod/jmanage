@@ -1,12 +1,21 @@
 <!--    /app/connectionFailed.jsp  -->
 <%@ page errorPage="/error.jsp" %>
 <%@ page import="org.jmanage.webui.util.RequestParams,
-                 org.jmanage.webui.util.RequestAttributes,
-                 org.jmanage.core.config.ApplicationConfig"%>
+                 org.jmanage.core.config.ApplicationConfig,
+                 org.jmanage.webui.util.WebContext"%>
 <%
-    ApplicationConfig applicationConfig =
-            (ApplicationConfig)
-            request.getAttribute(RequestAttributes.APPLICATION_CONFIG);
+    ApplicationConfig applicationConfig = null;
+    WebContext webContext = null;
+    try {
+        webContext = WebContext.get(request);
+        applicationConfig = webContext.getApplicationConfig();
+        if(applicationConfig == null)
+            throw new RuntimeException("Missing request param: " +
+                    RequestParams.APPLICATION_ID);
+    } finally {
+        webContext.releaseResources();
+    }
+
 %>
 <table cellspacing="0" cellpadding="5" width="600" class="table">
 <%if(!applicationConfig.isCluster()){%>
