@@ -65,7 +65,8 @@ public class ExecuteMBeanOperationAction extends BaseAction {
         }
 
         MBeanService service = ServiceFactory.getMBeanService();
-        ObjectOperationInfo operationInfo = service.getOperationInfo(Utils.getServiceContext(context),
+        ObjectOperationInfo operationInfo = service.getOperationInfo(
+                Utils.getServiceContext(context),
                 operationName, signature);
         OperationResultData[] resultData =
                 service.invoke(Utils.getServiceContext(context),

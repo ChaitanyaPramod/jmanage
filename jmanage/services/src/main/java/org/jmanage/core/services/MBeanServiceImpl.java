@@ -274,7 +274,9 @@ public class MBeanServiceImpl implements MBeanService {
     public ObjectInfo getMBeanInfo(ServiceContext context)
             throws ServiceException {
         canAccessThisMBean(context);
-        ServerConnection serverConnection = context.getServerConnection();
+        ServerConnection serverConnection =
+                ServiceUtils.getServerConnectionEvenIfCluster(
+                        context.getApplicationConfig());
         ObjectInfo objectInfo =
                 serverConnection.getObjectInfo(context.getObjectName());
         return objectInfo;
