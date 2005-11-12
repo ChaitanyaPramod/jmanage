@@ -1,7 +1,7 @@
+#!/bin/sh
 ################################################################################
 #  Copyright 2004-2005 jManage.org. All rights reserved.
 ################################################################################
-#!/bin/sh
 
 if [ ! -n "$JAVA_HOME" ]; then
 	echo "Please set JAVA_HOME environment variable. JAVA_HOME must point to a JDK 1.4 installation directory."
