@@ -9,47 +9,30 @@
     <section>
       <title>News !</title>
       <p>
-          - <strong>Sep 02, 2005</strong>&nbsp;&nbsp;
-           jManage is considering moving from <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0</a> to
-          <a href="http://www.gnu.org/licenses/lgpl.txt">LGPL</a> license. Please read more and provide your
-          feedback <a href="http://sourceforge.net/forum/forum.php?thread_id=1345809&amp;forum_id=493274">here</a>.
+          For the latest on jManage, please see the <a href="http://jmanage.blogspot.com">jManage Blog</a>.
           <br/><br/>
-          - <strong>Sep 02, 2005</strong>&nbsp;&nbsp;
-           jManage build now uses maven instead of ant. This allows for component based source structure.
-           Please see the modified <a href="/development/index.html">build guide</a>.
+          jManage 1.0 builds are now available for download
+          <a href="http://sourceforge.net/project/showfiles.php?group_id=111374&amp;package_id=166109">here</a>.
           <br/><br/>
-          - <strong>Aug 10, 2005</strong>&nbsp;&nbsp;
-          <a href="http://sourceforge.net/project/showfiles.php?group_id=111374&amp;package_id=120380&amp;release_id=348348">
-              jManage 0.5.4</a> is now available.
-          This release contains some of the <a href="http://sourceforge.net/tracker/?func=browse&amp;group_id=111374&amp;atid=659060">feature requests</a>.
-          <br/>
-          See <a href="http://sourceforge.net/project/shownotes.php?release_id=348348">Release Notes</a> for more information.
-          <br/><br/>
-          - <strong>Jul 31, 2005</strong>&nbsp;&nbsp;jManage 0.5.3 is now available.
-          Along with some bug fixes, this release adds JMXMP support.
-          It can be downloaded
-          <a href="http://sourceforge.net/project/showfiles.php?group_id=111374&amp;package_id=120380&amp;release_id=346021">here</a>.
-          <br/><br/>
-          <a href="/newsArchive.html">More >></a>
+          <a href="/newsArchive.html">News Archive >></a>
       </p>
+
     </section>
     <section>
       <title>jManage Overview</title>
       <p>
 jManage is a open source, web and command-line based JMX client, which provides a
 centralized console for managing application clusters and distributed-application
-production environments.
+environments.
 <br/><br/>
-Following is a screenshot of jManage 0.5 version:
+Following is a screenshot of jManage:
 <br/><br/>
     <a href="/images/screenshots/clusterMBeanView.gif">
         <img src="/images/screenshots/clusterMBeanView.gif" alt="Screenshot" width="300" height="150"/></a>
 <br/><br/>
     <a href="/screenshots.html">See More Screenshots</a>
 <br/><br/>
-          jManage 0.5 is available for download on the
-          <a href="http://sourceforge.net/project/showfiles.php?group_id=111374&amp;package_id=120380">
-              downloads</a> page. This release has the following features:
+          jManage 1.0 has the following features:
 <br/><br/>
     - Web based interface, which allows jManage to be used from behind firewall.
 <br/>
@@ -60,13 +43,27 @@ Following is a screenshot of jManage 0.5 version:
     - Application Cluster Support - Change attribute values
       and perform operations across the cluster.
 <br/>
-    - Authentication and fine-grained Authorization - Control what operations
-      and attributes are accessible.
+    - Authentication and fine-grained Authorization to control which MBean
+      operations and attributes are accessible.
 <br/>
-    - Support for different J2EE app servers.
+    - Support for different J2EE app servers and JDK1.5.
+<br/>
+    - Runtime Graphs.
+<br/>
+    - MBean attribute value monitoring.
+<br/>
+    - Alerts based on MBean notifications and MBean attribute monitors.
+<br/>
+    - Support for Open MBean types: CompositeData and TabularData
+<br/>
+    - Basic SNMP support
+<br/>
+    - Framework to define DataFormat objects for custom classes.
+<br/>
+     - Support for external login modules (JAAS based with name and password callback)
 <br/><br/>
-          jManage is being built keeping security in mind, as the main target
-          usage of jManage is in the production environment. Production
+          jManage is being built keeping security in mind, as one of the
+          usages of jManage is in the production environment. Production
           environments usually have limited access and are managed by an
           operations team. jManage lets the operations team monitor the
           production environment (via browser or command line) and also
@@ -83,16 +80,20 @@ Following is a screenshot of jManage 0.5 version:
             jManage is a <a href="http://struts.apache.org/">Struts</a> and
             <a href="http://jetty.mortbay.org/">Jetty</a> based web application,
             which provides both web and command line interface to manage JMX enabled
-            applications. jManage 0.5 version supports
-            the following servers:
+            applications. jManage 1.0 version supports
+            the following:
         <br/><br/>
             - JBoss
-        <br/>
-            - JMX Remoting (JSR 160)
         <br/>
             - Bea Weblogic
         <br/>
             - IBM WebSphere
+        <br/>
+            - JDK1.5
+        <br/>
+            - MX4J
+        <br/>
+            - JMX Remoting (JSR 160)
         <br/><br/>
             jManage command line interface uses java serialization over HTTP
             to connect to the jManage web application. This allows the command

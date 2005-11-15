@@ -11,43 +11,31 @@
           This roadmap will change based on the needs of the jManage users.
       </p>
       <p>
-          <br/>
-          <strong>1.0 release</strong>
-          <br/><br/>
-          - JMX Notifications.
-          <br/>
-          - Alerts - based on MBean notifications, attribute changes, etc.
-          <br/>
-          - Runtime Graphing - Graphs for attribute values as they change during
-            runtime.
-          <br/>
-          - SNMP Support - To manage and monitor SNMP enabled devices/servers.
-          <br/>
-          <br/>
-      </p>
-      <p>
         <strong>1.5 release</strong>
-        <br/><br/>
-          - Operating system monitoring (unix family).
-        <br/>
-          - Network interface monitoring.
-        <br/>
-          - Historical Graphing - View graphs over a period of time in the past.
-        <br/>
-          - Audit logs in the database - Will provide better auditing capabilities.
-        <br/>
-          - Customizable UI (skins).
-        <br/>
-        <br/>
-      </p>
-      <p>
-        <strong>2.0 release</strong>
         <br/><br/>
           - Dashboards.
         <br/>
           - Application specific knowledge modules.
+        <br/>
+          - Non-JMX Application connector framework.
+        <br/>
+          - Database monitoring (MySQL and/or Oracle).
+        <br/><br/>
       </p>
-
+      <p>
+        <strong>2.0 release</strong>
+          <br/><br/>
+            - Operating system monitoring (unix family).
+          <br/>
+            - Network interface monitoring.
+          <br/>
+            - Historical Graphing - View graphs over a period of time in the past.
+          <br/>
+            - Audit logs in the database - Will provide better auditing capabilities.
+          <br/>
+            - Customizable UI (skins).
+          <br/>
+      </p>
       <p>
            <br/>
            If there are other features that you would like to see in jManage, please
