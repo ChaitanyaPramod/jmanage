@@ -33,7 +33,8 @@ See http://forrest.apache.org/docs/linking.html for more info
 
   <home label="jManage" href="/">
     <index label="About" href="/index.html" description="Welcome to jManage"/>
-    <downloads label="Download" href="http://sourceforge.net/project/showfiles.php?group_id=111374&amp;package_id=120380" description="jManage Downloads"/>
+    <downloads label="Download" href="http://sourceforge.net/project/showfiles.php?group_id=111374" description="jManage Downloads"/>
+    <blog label="jManage Blog" href="http://jmanage.blogspot.com/" description="jManage Blog"/>
     <screenshots label="Screenshots" href="/screenshots.html" description="Screen Shots"/>
     <roadmap label="Roadmap" href="/roadmap.html" description="jManage Roadmap"/>
     <team label="Contributors" href="/contributors.html" description="jManage team"/>
