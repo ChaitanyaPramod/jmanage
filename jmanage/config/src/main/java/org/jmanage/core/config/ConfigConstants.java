@@ -73,6 +73,9 @@ public interface ConfigConstants {
     public String GRAPH_ID = "id";
     public String GRAPH_NAME = "name";
     public String GRAPH_POLLING_INTERVAL = "pollingInterval";
+    public String GRAPH_Y_AXIS_LABEL = "yAxisLabel";
+    public String GRAPH_SCALE_FACTOR = "scaleFactor";
+    public String GRAPH_SCALE_UP = "scaleUp";
     public String GRAPH_ATTRIBUTE = "attribute";
     public String GRAPH_ATTRIBUTE_MBEAN = "mbean";
     public String GRAPH_ATTRIBUTE_NAME = "attribute";

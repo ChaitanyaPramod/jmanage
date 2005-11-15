@@ -210,6 +210,15 @@ public class ConfigReader implements ConfigConstants{
                 GraphConfig graphConfig =
                         new GraphConfig(graphId, graphName, pollingInterval,
                                 appConfig, attributeConfigList);
+                graphConfig.setYAxisLabel(
+                        graph.getAttributeValue(GRAPH_Y_AXIS_LABEL));
+                String scaleFactor = graph.getAttributeValue(GRAPH_SCALE_FACTOR);
+                if(scaleFactor != null)
+                    graphConfig.setScaleFactor(new Double(scaleFactor));
+                String scaleUp = graph.getAttributeValue(GRAPH_SCALE_UP);
+                if(scaleUp != null)
+                    graphConfig.setScaleUp(Boolean.valueOf(scaleUp));
+
                 graphConfigList.add(graphConfig);
             }
         }

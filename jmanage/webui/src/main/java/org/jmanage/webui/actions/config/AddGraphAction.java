@@ -75,12 +75,25 @@ public class AddGraphAction extends BaseAction{
             graphConfig = new GraphConfig(GraphConfig.getNextGraphId(),
                     form.getGraphName(), Long.parseLong(form.getPollInterval()),
                     appConfig, graphAttrConfigs);
+            graphConfig.setYAxisLabel(form.getYAxisLabel());
+            if(form.getScaleFactor() != null){
+                graphConfig.setScaleFactor(new Double(form.getScaleFactor()));
+                graphConfig.setScaleUp(Boolean.valueOf(form.getScaleUp()));
+            }
             appConfig.addGraph(graphConfig);
         }else{
             graphConfig = appConfig.findGraph(graphId);
             graphConfig.setName(form.getGraphName());
             graphConfig.setAttributes(graphAttrConfigs);
             graphConfig.setPollingInterval(Long.parseLong(form.getPollInterval()));
+            graphConfig.setYAxisLabel(form.getYAxisLabel());
+            if(form.getScaleFactor() != null){
+                graphConfig.setScaleFactor(new Double(form.getScaleFactor()));
+                graphConfig.setScaleUp(Boolean.valueOf(form.getScaleUp()));
+            }else{
+                graphConfig.setScaleFactor(null);
+                graphConfig.setScaleUp(null);
+            }
             graphConfig.setAppConfig(appConfig);
         }
 

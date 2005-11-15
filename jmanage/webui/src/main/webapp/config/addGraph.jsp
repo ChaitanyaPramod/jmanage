@@ -30,6 +30,21 @@
     <td class=headtext1>Polling Interval (in seconds)</td>
     <td><jmhtml:text property="pollInterval"/></td>
 </tr>
+<tr>
+    <td class=headtext1>Y Axis Label (optional)</td>
+    <td><jmhtml:text property="YAxisLabel"/></td>
+</tr>
+<tr>
+    <td class=headtext1>Scale Factor (optional)</td>
+    <td><jmhtml:text property="scaleFactor"/></td>
+</tr>
+<tr>
+    <td class=headtext1>Scale (optional)</td>
+    <td class="plaintext">
+        <jmhtml:radio property="scaleUp" value="true"/>Up&nbsp;&nbsp;&nbsp;
+        <jmhtml:radio property="scaleUp" value="false"/>Down
+    </td>
+</tr>
 </table>
 <br/>
 <table cellspacing="0" cellpadding="5" width="600" class="table">
