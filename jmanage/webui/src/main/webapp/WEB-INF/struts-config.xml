@@ -170,12 +170,35 @@
             <forward name="success" path="/config/managedApplications.do"/>
         </action>
         <action
+            path="/config/showAddMBeanConfig"
+            name="mbeanConfigForm"
+            validate="false"
+            scope="request"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="config.showConfigMBeans" >
+        </action>
+        <action
             path="/config/addMBeanConfig"
             name="mbeanConfigForm"
             scope="request"
             input="/app/mbeanView.do"
             type="org.jmanage.webui.actions.config.AddMBeanConfigAction">
             <forward name="success" path="/app/mbeanView.do"/>
+        </action>
+        <action
+            path="/config/startAddMultiMBeanConfig"
+            name="mbeanConfigForm"
+            validate="false"
+            scope="request"
+            type="org.jmanage.webui.actions.config.ShowAddMultiMBeanConfigAction">
+        </action>
+        <action
+            path="/config/addMultiMBeanConfig"
+            name="mbeanConfigForm"
+            scope="request"
+            input="/config/startAddMultiMBeanConfig.do"
+            type="org.jmanage.webui.actions.config.AddMBeanConfigAction">
+            <forward name="success" path="/app/appView.do"/>
         </action>
         <action
             path="/config/removeMBeanConfig"

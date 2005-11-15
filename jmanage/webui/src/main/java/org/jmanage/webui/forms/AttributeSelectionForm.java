@@ -18,6 +18,7 @@ package org.jmanage.webui.forms;
 /**
  * Date: Aug 24, 2005 2:10:30 PM
  * @author Bhavana
+ * @author Shashank Bellary
  */
 public class AttributeSelectionForm extends BaseForm{
     private String[] mbeans;
@@ -28,6 +29,7 @@ public class AttributeSelectionForm extends BaseForm{
     private String[] dataTypes;
     private String alertSourceType;
     private String navigation;
+    private String objectName;
 
     public String getNavigation() {
         return navigation;
@@ -90,4 +92,11 @@ public class AttributeSelectionForm extends BaseForm{
         this.attributes = attributes;
     }
 
+    public String getObjectName() {
+        return objectName;
+    }
+
+    public void setObjectName(String objectName) {
+        this.objectName = objectName;
+    }
 }

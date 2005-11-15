@@ -18,6 +18,7 @@ package org.jmanage.webui.actions.config;
 import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
+import org.jmanage.webui.util.RequestParams;
 import org.jmanage.webui.forms.MBeanConfigForm;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.ApplicationConfigManager;
@@ -27,6 +28,7 @@ import org.jmanage.core.services.AccessController;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
+import org.apache.commons.validator.GenericValidator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -53,17 +55,41 @@ public class AddMBeanConfigAction extends BaseAction {
             applicationConfig = applicationConfig.getClusterConfig();
             assert applicationConfig != null: "application not part of cluster";
         }
-        applicationConfig.addMBean(new MBeanConfig(mbeanConfigForm.getName(),
-                mbeanConfigForm.getObjectName()));
-        ApplicationConfigManager.updateApplication(applicationConfig);
-
         String logMsg = null;
-        if(mbeanConfigForm.isApplicationCluster()){
-            logMsg = "Added "+mbeanConfigForm.getObjectName()+" to " +
-                    "application cluster " + applicationConfig.getName();
+        //TODO: Usage of DynaForm should clean up this.
+        if(request.getParameter(RequestParams.MULTI_MBEAN_CONFIG) != null){
+            final String[] objectNames = mbeanConfigForm.getName();
+            for(int mbeanCtr=0; mbeanCtr < objectNames.length; mbeanCtr++ ){
+                final String configName = request.getParameter(objectNames[mbeanCtr]);
+                if(GenericValidator.isBlankOrNull(configName) ||
+                        applicationConfig.containsMBean(objectNames[mbeanCtr]))
+                    continue;
+                applicationConfig.addMBean(new MBeanConfig(configName,
+                        objectNames[mbeanCtr]));
+                ApplicationConfigManager.updateApplication(applicationConfig);
+
+                if(mbeanConfigForm.isApplicationCluster()){
+                    logMsg = "Added "+objectNames[mbeanCtr]+" to " +
+                            "application cluster " + applicationConfig.getName();
+                }else{
+                    logMsg = "Added "+objectNames[mbeanCtr]+" to " +
+                            "application " + applicationConfig.getName();
+                }
+                logMsg += "\n";
+            }
         }else{
-            logMsg = "Added "+mbeanConfigForm.getObjectName()+" to " +
-                    "application " + applicationConfig.getName();
+            final String configName = mbeanConfigForm.getName()[0];
+            applicationConfig.addMBean(new MBeanConfig(configName,
+                    mbeanConfigForm.getObjectName()));
+            ApplicationConfigManager.updateApplication(applicationConfig);
+
+            if(mbeanConfigForm.isApplicationCluster()){
+                logMsg = "Added "+mbeanConfigForm.getObjectName()+" to " +
+                        "application cluster " + applicationConfig.getName();
+            }else{
+                logMsg = "Added "+mbeanConfigForm.getObjectName()+" to " +
+                        "application " + applicationConfig.getName();
+            }
         }
         UserActivityLogger.getInstance().logActivity(
                 context.getUser().getUsername(),

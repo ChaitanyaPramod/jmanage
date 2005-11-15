@@ -39,7 +39,7 @@
         for(Iterator objectNameIt = objectNameList.iterator(); objectNameIt.hasNext();){
             String objectName = (String)objectNameIt.next();
             String value = domain + ":" + objectName;
-            if(request.getParameter(RequestParams.MULTIPLE).equals("true")){
+            if("true".equals(request.getParameter(RequestParams.MULTIPLE))){
         %>
             <tr>
                 <td class="plaintext"><jmhtml:checkbox property="mbeans" value="<%=value%>"/> <%=objectName%></td>

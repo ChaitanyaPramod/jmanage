@@ -108,7 +108,7 @@
                 <c:otherwise>
                     <%if(!applicationConfig.isCluster()){%>
                     <jmhtml:form action="/config/addMBeanConfig">
-                        <jmhtml:text property="name"/>
+                        <input type="text" name="name"/>
                         <jmhtml:hidden property="objectName"/>
                         <jmhtml:hidden property="refreshApps" value="true"/>
                         <jmhtml:hidden property="applicationCluster"/>
@@ -235,12 +235,12 @@
     <%if("java.lang.String".equals(attributeInfo.getType())){%>
         <jmhtml:link href="/config/showAddAlert.do?alertSourceType=string"
             paramId="attributes" paramName="expressionValue"
-            acl="<%=ACLConstants.ACL_ADD_ALERT%>">Monitor</jmhtml:link>
+            acl="<%=ACLConstants.ACL_ADD_ALERT%>" styleClass="a1">Monitor</jmhtml:link>
     <%}else if(Number.class.isAssignableFrom(getClass(attributeInfo.getType()))){
         showGraphOption = true;%>
         <jmhtml:link href="/config/showAddAlert.do?alertSourceType=gauge"
             paramId="attributes" paramName="expressionValue"
-            acl="<%=ACLConstants.ACL_ADD_ALERT%>">Monitor</jmhtml:link>
+            acl="<%=ACLConstants.ACL_ADD_ALERT%>" styleClass="a1">Monitor</jmhtml:link>
     <%}
     }%>
 </td>

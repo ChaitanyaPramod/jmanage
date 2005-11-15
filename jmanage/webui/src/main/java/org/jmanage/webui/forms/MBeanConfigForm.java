@@ -15,22 +15,77 @@
  */
 package org.jmanage.webui.forms;
 
+import org.apache.struts.action.ActionErrors;
+import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionError;
+import org.apache.commons.validator.GenericValidator;
+import org.jmanage.core.util.ErrorCodes;
+import org.jmanage.webui.util.RequestParams;
+
+import javax.servlet.http.HttpServletRequest;
+
 /**
  *
  * date:  Jul 21, 2004
- * @author	Rakesh Kalra
+ * @author	Rakesh Kalra, Shashank Bellary
  */
 public class MBeanConfigForm extends BaseForm {
-
-    private String name;
+    //TODO: Usage of DynaForm should clean up this.
+    private final String nameMask = "^[a-zA-Z0-9\\s-\\$\\.]*$";
+    private String[] name;
     private String objectName;
     private boolean applicationCluster;
 
-    public String getName() {
+    public final ActionErrors validate(ActionMapping mapping,
+                                       HttpServletRequest request) {
+        if(request.getParameter(RequestParams.MULTI_MBEAN_CONFIG) != null){
+            boolean validValue = false, invalidValue = false, nullValue = false;
+            final String[] objectNames = request.getParameterValues("name");
+            for(int mbeanCtr=0; mbeanCtr < objectNames.length; mbeanCtr++ ){
+                final String configName = request.getParameter(objectNames[mbeanCtr]);
+                if(GenericValidator.isBlankOrNull(configName)){
+                    nullValue = true;
+                }else{
+                    if(!GenericValidator.matchRegexp(configName, nameMask)){
+                        invalidValue = true;
+                    }else{
+                        validValue = true;
+                    }
+                }
+            }
+            ActionErrors errors = new ActionErrors();
+            if(invalidValue){
+                errors.add(ActionErrors.GLOBAL_ERROR,
+                        new ActionError(ErrorCodes.INVALID_CHAR_APP_NAME));
+                return errors;
+            }else if(nullValue && !validValue){
+                errors.add(ActionErrors.GLOBAL_ERROR,
+                        new ActionError("errors.required", "application name"));
+                return errors;
+            }
+            return null;
+        }else{
+            final String configName = request.getParameter("name");
+            ActionErrors errors = new ActionErrors();
+            if(GenericValidator.isBlankOrNull(configName)){
+                errors.add(ActionErrors.GLOBAL_ERROR,
+                        new ActionError("errors.required", "application name"));
+                return errors;
+            }else if(!GenericValidator.matchRegexp(configName, nameMask)){
+                errors.add(ActionErrors.GLOBAL_ERROR,
+                        new ActionError(ErrorCodes.INVALID_CHAR_APP_NAME));
+                return errors;
+            }else{
+                return null;
+            }
+        }
+    }
+
+    public String[] getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(String[] name) {
         this.name = name;
     }
 

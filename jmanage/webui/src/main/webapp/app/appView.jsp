@@ -66,11 +66,21 @@
     }
 %>
 </table>
+<p>
+    <jmhtml:link href="/config/startAddMultiMBeanConfig.do" acl="<%=ACLConstants.ACL_ADD_MBEAN_CONFIG%>"
+        styleClass="a">Add more Managed Objects</jmhtml:link>
+</p>
+
 <%}else{%>
 <p class="plaintext">
     There are no configured objects.
 </p>
+<p>
+    <jmhtml:link href="/config/startAddMultiMBeanConfig.do" acl="<%=ACLConstants.ACL_ADD_MBEAN_CONFIG%>"
+        styleClass="a">Add Managed Objects</jmhtml:link>
+</p>
 <%}%>
+
 <p>
 <jmhtml:form action="/app/mbeanList" method="post">
     <jmhtml:text property="objectName" />&nbsp;&nbsp;<jmhtml:submit styleClass="Inside3d" value="Find More Objects" />
