@@ -73,8 +73,13 @@ public class MBeanServiceImpl implements MBeanService {
     }
 
     public Map queryMBeansOutputMap(ServiceContext context, String filter,
-                                    String[] dataTypes){
-        List mbeanDataList = queryMBeansWithAttributes(context,filter,dataTypes);
+                                    String[] dataTypes, String applyAttribFilter){
+        List mbeanDataList = null;
+        if("false".equals(applyAttribFilter)){
+            mbeanDataList = queryMBeans(context, filter);
+        }else{
+            mbeanDataList = queryMBeansWithAttributes(context,filter,dataTypes);
+        }
 
         Map domainToObjectNameListMap = new TreeMap();
         ObjectNameTuple tuple = new ObjectNameTuple();

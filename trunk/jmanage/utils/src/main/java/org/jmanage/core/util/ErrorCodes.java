@@ -18,7 +18,7 @@ package org.jmanage.core.util;
 /**
  *
  * date:  Feb 13, 2005
- * @author	Rakesh Kalra
+ * @author	Rakesh Kalra, Shashank Bellary
  */
 public interface ErrorCodes {
 
@@ -45,4 +45,5 @@ public interface ErrorCodes {
     String JMANAGE_SERVER_CONNECTION_FAILED = "jmanage.connection.failed";
 
     String APPLICATION_NAME_ALREADY_EXISTS = "application.name.already.exists";
+    String INVALID_CHAR_APP_NAME = "error.appNameMask";
 }

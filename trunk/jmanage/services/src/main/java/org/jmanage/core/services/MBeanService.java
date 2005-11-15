@@ -44,7 +44,7 @@ public interface MBeanService {
      * @return
      */
     public Map queryMBeansOutputMap(ServiceContext context, String filter,
-                                    String[] dataTypes);
+                                    String[] dataTypes, String applyAttribFilter);
 
     /**
      * Gets the MBean information.
