@@ -30,6 +30,11 @@ public class GraphConfig {
     private String id;
     private String name;
     private long pollingInterval;
+    // optional attributes
+    private String yAxisLabel;
+    private Double scaleFactor;
+    private Boolean scaleUp;
+
     // list of GraphAttrbuteConfig objects
     private List attributes;
     private ApplicationConfig appConfig;
@@ -128,5 +133,29 @@ public class GraphConfig {
 
     public void setAppConfig(ApplicationConfig appConfig) {
         this.appConfig = appConfig;
+    }
+
+    public String getYAxisLabel() {
+        return this.yAxisLabel;
+    }
+
+    public Double getScaleFactor() {
+        return this.scaleFactor;
+    }
+
+    public Boolean isScaleUp() {
+        return this.scaleUp;
+    }
+
+    public void setYAxisLabel(String yAxisLabel) {
+        this.yAxisLabel = yAxisLabel;
+    }
+
+    public void setScaleFactor(Double scaleFactor) {
+        this.scaleFactor = scaleFactor;
+    }
+
+    public void setScaleUp(Boolean scaleUp) {
+        this.scaleUp = scaleUp;
     }
 }

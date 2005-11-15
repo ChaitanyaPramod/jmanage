@@ -312,8 +312,11 @@
             <field property="graphName" depends="required">
                 <arg0 key="Graph Name" resource="false"/>
             </field>
-            <field property="pollInterval" depends="required">
+            <field property="pollInterval" depends="required, long">
                 <arg0 key="Polling Interval" resource="false"/>
+            </field>
+            <field property="scaleFactor" depends="double">
+                <arg0 key="Scale Factor" resource="false"/>
             </field>
         </form>
     </formset>
