@@ -31,7 +31,6 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class MBeanConfigForm extends BaseForm {
     //TODO: Usage of DynaForm should clean up this.
-    private final String nameMask = "^[a-zA-Z0-9\\s-\\$\\.]*$";
     private String[] name;
     private String objectName;
     private boolean applicationCluster;
@@ -46,7 +45,7 @@ public class MBeanConfigForm extends BaseForm {
                 if(GenericValidator.isBlankOrNull(configName)){
                     nullValue = true;
                 }else{
-                    if(!GenericValidator.matchRegexp(configName, nameMask)){
+                    if(configName.indexOf("/") != -1){
                         invalidValue = true;
                     }else{
                         validValue = true;
@@ -71,7 +70,7 @@ public class MBeanConfigForm extends BaseForm {
                 errors.add(ActionErrors.GLOBAL_ERROR,
                         new ActionError("errors.required", "application name"));
                 return errors;
-            }else if(!GenericValidator.matchRegexp(configName, nameMask)){
+            }else if(configName.indexOf("/") != -1){
                 errors.add(ActionErrors.GLOBAL_ERROR,
                         new ActionError(ErrorCodes.INVALID_CHAR_APP_NAME));
                 return errors;

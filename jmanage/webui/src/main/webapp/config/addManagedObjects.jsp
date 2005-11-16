@@ -27,6 +27,7 @@
 <jmhtml:errors />
 <jmhtml:form action="/config/addMultiMBeanConfig" method="post">
 <input type="hidden" name="multiMBeanConfig" value="true" />
+<input type="hidden" name="objectName" value="<%=request.getParameter("objectName") == null ? "" : request.getParameter("objectName")%>"/>
 <br/>
     <%if(applicationConfig.isCluster()){%>
         <jmhtml:hidden property="applicationCluster" value="true" />
@@ -38,7 +39,7 @@
     for(Iterator it = domainToObjectNameListMap.keySet().iterator(); it.hasNext(); ){
         String domain = (String)it.next();
 %>
-<table border="0" cellspacing="0" cellpadding="5" width="900" class="table">
+<table border="0" cellspacing="0" cellpadding="5" width="650" class="table">
     <tr class="tableHeader">
         <td colspan="2"><%=domain%></td>
     </tr>
@@ -61,7 +62,7 @@
         </td>
         <td align="right">
             <input type="hidden" name="name" value="<%=pageContext.getAttribute("objectName", PageContext.PAGE_SCOPE)%>" />
-            <input type="text" name="<%=pageContext.getAttribute("objectName", PageContext.PAGE_SCOPE)%>" value="<%=configuredName%>"/>
+            <input type="text" size="50" name="<%=pageContext.getAttribute("objectName", PageContext.PAGE_SCOPE)%>" value="<%=configuredName%>"/>
         </td>
     </tr>
 <%      } // inner for%>
@@ -69,8 +70,11 @@
 <br/>
 <%  } // outer for%>
 <%if(hasMbeans){%>
-<div bgcolor="#E6EEF9" align="center">
+<div bgcolor="#E6EEF9" align="left">
     <jmhtml:submit styleClass="Inside3d" value="Add" />
+    &nbsp;&nbsp;&nbsp;
+    <jmhtml:button property="" value="Cancel"
+            onclick="JavaScript:history.back();" styleClass="Inside3d" />
 </div>
 <%}%>
 </jmhtml:form>
