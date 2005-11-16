@@ -239,13 +239,8 @@
 
     <formset>
         <form name="applicationForm">
-            <field property="name" depends="required, mask">
-                <msg name="mask" key="error.appNameMask"/>
+            <field property="name" depends="required">
                 <arg0 key="Application Name" resource="false"/>
-                <var>
-                    <var-name>mask</var-name>
-                    <var-value>^[a-zA-Z0-9\s-\$\.]*$</var-value>
-                </var>
             </field>
         </form>
         <form name="userForm">
