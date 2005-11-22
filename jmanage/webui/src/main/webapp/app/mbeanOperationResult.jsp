@@ -150,7 +150,7 @@
             <td valign="top" class="plaintext">
                 <%=(operationResult.getResult() == OperationResultData.RESULT_OK)?"OK":"Error"%>
             </td>
-            <td valign="top" class="plaintext"><%=operationResult.getDisplayOutput()%></td>
+            <td valign="top" class="plaintext"><pre><%=operationResult.getDisplayOutput()%></pre></td>
         </tr>
     <%
     }
