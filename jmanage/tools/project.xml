@@ -4,6 +4,10 @@
     <dependencies>
         <dependency>
             <groupId>jmanage</groupId>
+            <artifactId>jmanage-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jmanage</groupId>
             <artifactId>jmanage-crypto</artifactId>
         </dependency>
         <dependency>
