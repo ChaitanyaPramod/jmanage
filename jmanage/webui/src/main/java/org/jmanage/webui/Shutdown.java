@@ -15,31 +15,25 @@
  */
 package org.jmanage.webui;
 
-import org.mortbay.jetty.Server;
-import org.jmanage.core.util.CoreUtils;
-import org.jmanage.core.crypto.PasswordField;
-import org.jmanage.core.crypto.Crypto;
 import org.jmanage.core.auth.UserManager;
-import org.jmanage.core.auth.AuthConstants;
 import org.jmanage.core.auth.User;
-import org.jmanage.core.auth.ACLStore;
-import org.jmanage.core.services.ServiceFactory;
-import org.jmanage.core.alert.AlertEngine;
-import org.jmanage.core.config.ApplicationTypes;
+import org.jmanage.core.auth.AuthConstants;
+import org.jmanage.core.crypto.PasswordField;
 
-import java.util.Arrays;
-import java.io.File;
+import java.net.Socket;
+import java.net.InetAddress;
+import java.io.OutputStream;
 
 /**
- * The Web-UI startup class.
- *
- * date:  Jun 11, 2004
- * @author	Rakesh Kalra
+ * @author Shashank Bellary
+ * Date: Nov 29, 2005
  */
-public class Startup {
+public class Shutdown {
+
+    private int _port = Integer.getInteger("STOP.PORT", 9999).intValue();
+    private String _key = System.getProperty("STOP.KEY", "jManageKey");
 
     public static void main(String[] args) throws Exception{
-
         UserManager userManager = UserManager.getInstance();
         User user = null;
         char[] password = null;
@@ -76,29 +70,29 @@ public class Startup {
             return;
         }
 
-        /* create logs dir */
-        new File(CoreUtils.getLogDir()).mkdirs();
-        /* initialize ServiceFactory */
-        ServiceFactory.init(ServiceFactory.MODE_LOCAL);
-        /* initialize crypto */
-        Crypto.init(password);
-        /* clear the password */
-        Arrays.fill(password, ' ');
-        /* load ACLs */
-        ACLStore.getInstance();
-        /* load application types */
-        ApplicationTypes.init();
-        /* start the AlertEngine */
-        AlertEngine.getInstance().start();
-        /* start the application */
-        start();
+        new Shutdown().stop();
     }
 
-    private static void start() throws Exception {
-        Server server =
-                new Server(CoreUtils.getConfigDir() +
-                File.separator + "jetty-config.xml");
-        ServerMonitor.monitor();
-        server.start();
+    /**
+     * Main shutdown method
+     */
+    void stop(){
+        try{
+            if(_port <= 0)
+                System.err.println("START.PORT system property must be specified");
+            if(_key == null){
+                _key = "";
+                System.err.println("Using empty key");
+            }
+
+            Socket s = new Socket(InetAddress.getLocalHost(), _port);
+            OutputStream out = s.getOutputStream();
+            out.write((_key+"\r\nstop\r\n").getBytes());
+            out.flush();
+            s.shutdownOutput();
+            s.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }
