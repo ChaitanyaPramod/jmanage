@@ -18,7 +18,7 @@ package org.jmanage.core.tools;
 import org.jmanage.core.auth.UserManager;
 import org.jmanage.core.auth.User;
 import org.jmanage.core.auth.AuthConstants;
-import org.jmanage.core.crypto.PasswordField;
+import org.jmanage.core.util.PasswordField;
 import org.jmanage.core.crypto.EncryptedKey;
 import org.jmanage.core.crypto.KeyManager;
 import org.jmanage.core.crypto.Crypto;

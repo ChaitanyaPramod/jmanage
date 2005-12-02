@@ -74,10 +74,9 @@ public class JManageProperties extends Properties{
         InputStream property =
                 new FileInputStream(JMANAGE_PROPERTY_FILE);
         load(property);
-      }catch(Exception e){
-          logger.log(Level.SEVERE, "Error reading " +
-                  JMANAGE_PROPERTY_FILE, e);
-          CoreUtils.exitSystem();
+      }catch(Throwable e){
+          logger.log(Level.WARNING, "Error reading " +
+                  JMANAGE_PROPERTY_FILE + ". error: " + e.getMessage());
       }
     }
 

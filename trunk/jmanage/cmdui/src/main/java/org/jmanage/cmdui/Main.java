@@ -19,13 +19,9 @@ import org.jmanage.core.services.ServiceFactory;
 import org.jmanage.core.util.JManageProperties;
 import org.jmanage.core.util.Loggers;
 
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLSession;
 import java.util.logging.Logger;
 import java.util.logging.LogManager;
 import java.util.logging.ConsoleHandler;
-import java.security.Security;
 
 /**
  *

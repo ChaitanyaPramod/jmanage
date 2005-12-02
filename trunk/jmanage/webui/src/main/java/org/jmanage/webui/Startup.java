@@ -17,7 +17,7 @@ package org.jmanage.webui;
 
 import org.mortbay.jetty.Server;
 import org.jmanage.core.util.CoreUtils;
-import org.jmanage.core.crypto.PasswordField;
+import org.jmanage.core.util.PasswordField;
 import org.jmanage.core.crypto.Crypto;
 import org.jmanage.core.auth.UserManager;
 import org.jmanage.core.auth.AuthConstants;

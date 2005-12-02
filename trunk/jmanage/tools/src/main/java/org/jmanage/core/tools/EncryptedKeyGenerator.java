@@ -22,7 +22,7 @@ import org.jmanage.core.config.*;
 import org.jmanage.core.crypto.Crypto;
 import org.jmanage.core.crypto.EncryptedKey;
 import org.jmanage.core.crypto.KeyManager;
-import org.jmanage.core.crypto.PasswordField;
+import org.jmanage.core.util.PasswordField;
 
 import java.util.ArrayList;
 import java.util.Arrays;
