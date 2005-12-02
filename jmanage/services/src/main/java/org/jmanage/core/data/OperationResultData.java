@@ -67,4 +67,8 @@ public class OperationResultData implements java.io.Serializable {
     public void setErrorString(String errorString) {
         this.errorString = errorString;
     }
+
+    public boolean isError(){
+        return result == RESULT_ERROR;
+    }
 }

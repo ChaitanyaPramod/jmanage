@@ -22,8 +22,9 @@ import org.jmanage.core.services.AuthService;
 import org.jmanage.core.services.ServiceFactory;
 import org.jmanage.core.services.ServiceContextImpl;
 import org.jmanage.core.services.ServiceException;
-import org.jmanage.core.crypto.PasswordField;
+
 import org.jmanage.core.auth.UnAuthorizedAccessException;
+import org.jmanage.core.util.PasswordField;
 import org.jmanage.util.StringUtils;
 
 import java.util.StringTokenizer;

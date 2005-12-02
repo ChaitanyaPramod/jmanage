@@ -53,13 +53,36 @@ public class HttpServiceProxy implements InvocationHandler {
     private static String REQUEST_CONTENT_TYPE =
             "application/x-java-serialized-object; class=org.jmanage.core.remote.RemoteInvocation";
 
-    private static final String url =
-            JManageProperties.getJManageURL() + "/invokeService";
-    private static final URL remoteURL;
+    private static URL remoteURL;
 
-    static {
+    static{
+        /* set the default remote URL from jmanage.properties */
+        if(JManageProperties.getJManageURL() != null)
+            setRemoteURL(JManageProperties.getJManageURL());
+
+        /* do we need to ignore bad cert (in case we are using SSL for remove
+            invocation */
+        if(JManageProperties.isIgnoreBadSSLCertificate()){
+            System.setProperty("javax.net.ssl.trustStore",
+                    CoreUtils.getConfigDir() + "/cacerts");
+            System.setProperty("javax.net.ssl.trustStorePassword",
+                    JManageProperties.getSSLTrustStorePassword());
+
+            HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier(){
+                public boolean verify(String s, String s1) {
+                    return true;
+                }
+
+                public boolean verify(String s, SSLSession sslSession) {
+                    return true;
+                }
+            });
+        }
+    }
+
+    public static void setRemoteURL(String remoteURL) {
         try {
-            remoteURL = new URL(url);
+            HttpServiceProxy.remoteURL = new URL(remoteURL + "/invokeService");
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
@@ -77,25 +100,6 @@ public class HttpServiceProxy implements InvocationHandler {
         } catch (ConnectException e) {
             throw new ServiceException(ErrorCodes.JMANAGE_SERVER_CONNECTION_FAILED,
                     JManageProperties.getJManageURL());
-        }
-    }
-
-    static{
-        if(JManageProperties.isIgnoreBadSSLCertificate()){
-            System.setProperty("javax.net.ssl.trustStore",
-                    CoreUtils.getConfigDir() + "/cacerts");
-            System.setProperty("javax.net.ssl.trustStorePassword",
-                    JManageProperties.getSSLTrustStorePassword());
-
-            HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier(){
-                public boolean verify(String s, String s1) {
-                    return true;
-                }
-
-                public boolean verify(String s, SSLSession sslSession) {
-                    return true;
-                }
-            });
         }
     }
 

@@ -33,6 +33,17 @@
             </fileset>
         </ant:copy>
 
+        <!-- build jmanage-client.jar -->
+        <ant:mkdir dir="${basedir}/build/lib/client"/>
+        <ant:jar destfile="${basedir}/build/lib/client/jmanage-client.jar">
+            <fileset dir="${basedir}/services/target/classes"/>
+            <fileset dir="${basedir}/management/target/classes"/>
+            <fileset dir="${basedir}/config/target/classes"/>
+            <fileset dir="${basedir}/auth/target/classes"/>
+            <fileset dir="${basedir}/alerts/target/classes"/>
+            <fileset dir="${basedir}/utils/target/classes"/>
+        </ant:jar>
+
         <!-- build web ui -->
         <attainGoal name="build-webui"/>
 

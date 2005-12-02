@@ -18,9 +18,5 @@
             <groupId>jmanage</groupId>
             <artifactId>jmanage-auth</artifactId>
         </dependency>
-        <dependency>
-            <groupId>jmanage</groupId>
-            <artifactId>jmanage-crypto</artifactId>
-        </dependency>
     </dependencies>
 </project>
