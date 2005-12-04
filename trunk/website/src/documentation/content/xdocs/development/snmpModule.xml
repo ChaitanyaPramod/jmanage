@@ -19,8 +19,8 @@
           adding/configuring your SNMP device with jManage.
           <br/><br/>
           To test the this feature download the test application (SNMPAgentTest)
-          from <a href="http://edge.mcs.drexel.edu/GICL/people/sevy/snmp/source_1.4.zip">
-              http://edge.mcs.drexel.edu/GICL/people/sevy/snmp/source_1.4.zip</a>
+          from <a href="http://gicl.cs.drexel.edu/people/sevy/snmp/snmp.html">
+              http://gicl.cs.drexel.edu/people/sevy/snmp/snmp.html</a>
           and run the same. This test application listens on the default (161) port.
           Finally configure the test application with jManage by specifying the
           hostname and port where the SNMP Agent test application is running.
