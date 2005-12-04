@@ -16,6 +16,7 @@
 package org.jmanage.webui;
 
 import org.mortbay.jetty.Server;
+import org.jmanage.core.alert.AlertEngine;
 
 import java.net.ServerSocket;
 import java.net.InetAddress;
@@ -74,6 +75,7 @@ public class ServerMonitor extends Thread{
 
                 String cmd = lin.readLine();
                 if(STOP_CMD.equals(cmd)){
+		    AlertEngine.getInstance().stop();
                     try{
                         socket.close();
                     }catch(Exception e){
