@@ -43,6 +43,8 @@ public class JManageProperties extends Properties{
     public static String LOGIN_MAX_ATTEMPTS = "login.maxAttempts";
     private static String JMANAGE_HASH_ALGORITHM = "jmanage.hash.algorithm";
 
+    private static String JETTY_STOP_PORT = "STOP.PORT";
+
     /* CLI properties */
     private static String JMANAGE_URL = "jmanage.url";
     private static String CLI_SSL_IGNORE_BAD_SSL_CERT =
@@ -95,6 +97,10 @@ public class JManageProperties extends Properties{
 
     public static String getHashAlgorithm(){
         return jManageProperties.getProperty(JMANAGE_HASH_ALGORITHM, "SHA-1");
+    }
+
+    public static String getStopPort(){
+        return jManageProperties.getProperty(JETTY_STOP_PORT, "9099");
     }
 
     public static boolean isIgnoreBadSSLCertificate(){

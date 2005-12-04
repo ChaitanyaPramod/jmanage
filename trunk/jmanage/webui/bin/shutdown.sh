@@ -12,6 +12,4 @@ fi
 
 $JAVA_HOME/bin/java -ea -classpath $JMANAGE_CLASSPATH $DEBUG_OPTIONS \
     -Djmanage.root=$JMANAGE_HOME \
-    -DSTOP.PORT=9099 \
-    -DSTOP.KEY=jManage \
     org.jmanage.webui.Startup $*
