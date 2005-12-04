@@ -18,7 +18,9 @@ package org.jmanage.webui;
 import org.jmanage.core.auth.UserManager;
 import org.jmanage.core.auth.User;
 import org.jmanage.core.auth.AuthConstants;
-import org.jmanage.core.crypto.PasswordField;
+import org.jmanage.core.util.PasswordField;
+import org.jmanage.core.util.JManageProperties;
+import org.jmanage.core.crypto.Crypto;
 
 import java.net.Socket;
 import java.net.InetAddress;
@@ -30,8 +32,8 @@ import java.io.OutputStream;
  */
 public class Shutdown {
 
-    private int _port = Integer.getInteger("STOP.PORT", 9999).intValue();
-    private String _key = System.getProperty("STOP.KEY", "jManageKey");
+    private static int _port = Integer.parseInt(JManageProperties.getStopPort());
+    private static String _key;
 
     public static void main(String[] args) throws Exception{
         UserManager userManager = UserManager.getInstance();
@@ -70,21 +72,19 @@ public class Shutdown {
             return;
         }
 
-        new Shutdown().stop();
+        final JettyStopKey stopKey = new JettyStopKey(new String(password));
+        _key = stopKey.toString();
+
+        System.out.println("Shutting down...");
+
+        stop();
     }
 
     /**
      * Main shutdown method
      */
-    void stop(){
+    static void stop(){
         try{
-            if(_port <= 0)
-                System.err.println("START.PORT system property must be specified");
-            if(_key == null){
-                _key = "";
-                System.err.println("Using empty key");
-            }
-
             Socket s = new Socket(InetAddress.getLocalHost(), _port);
             OutputStream out = s.getOutputStream();
             out.write((_key+"\r\nstop\r\n").getBytes());

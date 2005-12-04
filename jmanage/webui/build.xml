@@ -39,6 +39,7 @@
                 <include name="org/jmanage/webui/Startup.class"/>
 				<include name="org/jmanage/webui/ServerMonitor.class"/>
                 <include name="org/jmanage/webui/Shutdown.class"/>
+                <include name="org/jmanage/webui/JettyStopKey.class"/>
 			</fileset>
         </jar>
 

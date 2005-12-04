@@ -18,6 +18,7 @@ package org.jmanage.webui;
 import org.mortbay.jetty.Server;
 import org.jmanage.core.util.CoreUtils;
 import org.jmanage.core.util.PasswordField;
+import org.jmanage.core.util.JManageProperties;
 import org.jmanage.core.crypto.Crypto;
 import org.jmanage.core.auth.UserManager;
 import org.jmanage.core.auth.AuthConstants;
@@ -75,6 +76,12 @@ public class Startup {
             System.out.println("Number of invalid attempts exceeded. Exiting !");
             return;
         }
+
+        /* set admin password as the stop key */
+        final JettyStopKey stopKey = new JettyStopKey(new String(password));
+        System.setProperty("STOP.KEY", stopKey.toString());
+        /* set stop.port */
+        System.setProperty("STOP.PORT", JManageProperties.getStopPort());
 
         /* create logs dir */
         new File(CoreUtils.getLogDir()).mkdirs();
