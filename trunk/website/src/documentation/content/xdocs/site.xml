@@ -33,15 +33,15 @@ See http://forrest.apache.org/docs/linking.html for more info
 
   <home label="jManage" href="/">
     <index label="About" href="/index.html" description="Welcome to jManage"/>
-    <downloads label="Download" href="http://sourceforge.net/project/showfiles.php?group_id=111374" description="jManage Downloads"/>
+    <downloads label="Download" href="http://sourceforge.net/project/showfiles.php?group_id=111374&amp;package_id=166109" description="jManage Downloads"/>
     <blog label="jManage Blog" href="http://jmanage.blogspot.com/" description="jManage Blog"/>
     <screenshots label="Screenshots" href="/screenshots.html" description="Screen Shots"/>
     <roadmap label="Roadmap" href="/roadmap.html" description="jManage Roadmap"/>
     <team label="Contributors" href="/contributors.html" description="jManage team"/>
     <contactUs label="Contact Us" href="/contactus.html" description="Contact Us"/>
   </home>
-  <documentation label="Documentation" href="/documentation/jmanage0.5/install.html">
-    <installation label="Installation" href="/documentation/jmanage0.5/install.html" description="jManage Installation"/>
+  <documentation label="Documentation" href="/documentation/jmanage1.0/install.html">
+    <installation label="Installation" href="/documentation/jmanage1.0/install.html" description="jManage Installation"/>
     <cli label="Command Line" href="/documentation/jmanage0.5/cli.html" description="Command line reference"/>
     <accessControl label="Access Control" href="/documentation/jmanage0.5/accessControl.html" description="Access Control"/>
     <security label="Security" href="/documentation/jmanage0.5/security.html" description="Access Control"/>
