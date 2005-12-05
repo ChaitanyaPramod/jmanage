@@ -18,7 +18,8 @@ package org.jmanage.webui;
 import org.jmanage.core.crypto.Crypto;
 
 /**
- *
+ * JettyStopKey provides a secure key based on the admin password,
+ * so that only admin user can shutdown the jManage process.
  * <p>
  * Date:  Dec 3, 2005
  * @author	Rakesh Kalra
