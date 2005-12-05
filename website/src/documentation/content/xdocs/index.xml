@@ -23,15 +23,29 @@
       <p>
 jManage is a open source, web and command-line based JMX client, which provides a
 centralized console for managing application clusters and distributed-application
-environments.
+environments. jManage goes beyond an ordinary JMX client by providing features
+like Alerts, Graphs, Security, SNMP support, etc. The jManage mission is to
+provide an open source management platform, which can be used to manage
+and monitor complete production environment.
 <br/><br/>
-Following is a screenshot of jManage:
+jManage is successfully being used by
+various companies, in Development, QA, Staging and Production environments.
+It is very easy to setup jManage. Download
+<a href="http://sourceforge.net/project/showfiles.php?group_id=111374&amp;package_id=166109">now</a>
+and get started.
+<br/><br/>
+Following is a screenshot of jManage web interface:
 <br/><br/>
     <a href="/images/screenshots/clusterMBeanView.gif">
         <img src="/images/screenshots/clusterMBeanView.gif" alt="Screenshot" width="300" height="150"/></a>
 <br/><br/>
-    <a href="/screenshots.html">See More Screenshots</a>
-<br/><br/>
+    You can see more screenshots <a href="/screenshots.html">here</a>.
+      </p>
+
+    </section>
+    <section>
+      <title>jManage Features</title>
+      <p>
           jManage 1.0 has the following features:
 <br/><br/>
     - Web based interface, which allows jManage to be used from behind firewall.
@@ -58,7 +72,7 @@ Following is a screenshot of jManage:
 <br/>
     - Basic SNMP support
 <br/>
-    - Framework to define DataFormat objects for custom classes.
+    - Framework to define custom DataFormat classes for custom objects.
 <br/>
      - Support for external login modules (JAAS based with name and password callback)
 <br/><br/>
@@ -97,7 +111,7 @@ Following is a screenshot of jManage:
         <br/><br/>
             jManage command line interface uses java serialization over HTTP
             to connect to the jManage web application. This allows the command
-            line client to talk to the jmanage server across the firewall.
+            line client to connect to the jmanage server across the firewall.
         </p>
     </section>
     <section>
