@@ -17,12 +17,15 @@ package org.jmanage.webui;
 
 import org.mortbay.jetty.Server;
 import org.jmanage.core.alert.AlertEngine;
+import org.jmanage.core.util.Loggers;
 
 import java.net.ServerSocket;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.io.LineNumberReader;
 import java.io.InputStreamReader;
+
+import java.util.logging.Logger;
 
 /**
  * @author Shashank Bellary
@@ -33,6 +36,7 @@ public class ServerMonitor extends Thread{
     private String _key = System.getProperty("STOP.KEY", "jManageKey");
     private ServerSocket _socket;
     private final String STOP_CMD = "stop";
+    private final Logger logger = Loggers.getLogger(ServerMonitor.class);
 
     /**
      * Default Constructor, initializing basic shutdown parameters.
@@ -76,6 +80,8 @@ public class ServerMonitor extends Thread{
                 String cmd = lin.readLine();
                 if(STOP_CMD.equals(cmd)){
 		    AlertEngine.getInstance().stop();
+		    logger.info("Shutting down the server.");
+
                     try{
                         socket.close();
                     }catch(Exception e){
