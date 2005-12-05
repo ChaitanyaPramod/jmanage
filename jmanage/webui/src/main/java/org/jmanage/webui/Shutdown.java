@@ -27,6 +27,10 @@ import java.net.InetAddress;
 import java.io.OutputStream;
 
 /**
+ * Shutdown is used to remotely shut down the jManage Server. It uses
+ * admin password to generate a key which is recognized by the remote
+ * process to authorize a shutdown.
+ *
  * @author Shashank Bellary
  * Date: Nov 29, 2005
  */
