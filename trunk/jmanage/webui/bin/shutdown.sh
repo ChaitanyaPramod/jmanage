@@ -12,4 +12,4 @@ fi
 
 $JAVA_HOME/bin/java -ea -classpath $JMANAGE_CLASSPATH $DEBUG_OPTIONS \
     -Djmanage.root=$JMANAGE_HOME \
-    org.jmanage.webui.Startup $*
+    org.jmanage.webui.Shutdown $*
