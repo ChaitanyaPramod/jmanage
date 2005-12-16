@@ -31,10 +31,9 @@ import java.util.*;
  */
 public class AuthServiceImpl implements AuthService {
 
-    private LoginContext loginContext = null;
-    final JManageProperties jManageProperties = JManageProperties.getInstance();
-    private int MAX_LOGIN_ATTEMPTS_ALLOWED =
-            Integer.parseInt(jManageProperties.getProperty(JManageProperties.LOGIN_MAX_ATTEMPTS));
+    private static int MAX_LOGIN_ATTEMPTS_ALLOWED =
+            Integer.parseInt(JManageProperties.getInstance().
+            getProperty(JManageProperties.LOGIN_MAX_ATTEMPTS));
 
     /**
      * @see AuthService login()
@@ -49,8 +48,9 @@ public class AuthServiceImpl implements AuthService {
         UserManager userManager = UserManager.getInstance();
         UserActivityLogger logger = UserActivityLogger.getInstance();
         try{
-            loginContext = new LoginContext(AuthConstants.AUTH_CONFIG_INDEX,
-                    callbackHandler);
+            final LoginContext loginContext =
+                    new LoginContext(AuthConstants.AUTH_CONFIG_INDEX,
+                            callbackHandler);
             loginContext.login();
             /*  Need this for external login modules, user is really
             authenticated after this step   */
@@ -117,12 +117,11 @@ public class AuthServiceImpl implements AuthService {
      * @throws ServiceException
      */
     public void logout(ServiceContext context, User user)throws ServiceException{
-        try{
-            loginContext.logout();
-            UserActivityLogger.getInstance().logActivity(user.getName(),
-                    "logged out successfully");
-        }catch(LoginException lex){
-            throw new ServiceException(ErrorCodes.UNKNOWN_ERROR);
-        }
+
+        // TODO: loginContext needs to be held in the session, so that we
+        //  can use the right object to do logout
+        //loginContext.logout();
+        UserActivityLogger.getInstance().logActivity(user.getName(),
+                "logged out successfully");
     }
 }
