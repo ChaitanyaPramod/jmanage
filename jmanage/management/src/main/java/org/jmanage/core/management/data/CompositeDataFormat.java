@@ -14,7 +14,6 @@
 package org.jmanage.core.management.data;
 
 import org.jmanage.util.display.Table;
-import org.jmanage.core.management.data.jdk.ThreadInfoFormat;
 
 import javax.management.openmbean.CompositeData;
 import javax.management.openmbean.CompositeType;
