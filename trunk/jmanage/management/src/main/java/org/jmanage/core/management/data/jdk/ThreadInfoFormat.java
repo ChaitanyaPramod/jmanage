@@ -19,7 +19,7 @@ import javax.management.openmbean.CompositeData;
 
 /**
  *
- * Name: main
+ * Name: main (id=1)
  * State: TIMED_WAITING
  * Total blocked: 0  Total waited: 0
  *
@@ -48,7 +48,9 @@ public class ThreadInfoFormat implements DataFormat {
         StringBuffer threadInfo = new StringBuffer();
         threadInfo.append("Name: ");
         threadInfo.append(compositeData.get("threadName"));
-        threadInfo.append("\n");
+        threadInfo.append(" (id=");
+        threadInfo.append(compositeData.get("threadId"));
+        threadInfo.append(")\n");
         threadInfo.append("State: ");
         String threadState = (String)compositeData.get("threadState");
         threadInfo.append(threadState);
