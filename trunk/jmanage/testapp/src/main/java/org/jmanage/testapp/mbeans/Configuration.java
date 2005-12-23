@@ -50,4 +50,8 @@ public class Configuration implements ConfigurationMBean {
         whenStarted = System.currentTimeMillis();
         return prevUptime;
     }
+
+    public void throwError(){
+        throw new RuntimeException("This is a test error.");
+    }
 }
