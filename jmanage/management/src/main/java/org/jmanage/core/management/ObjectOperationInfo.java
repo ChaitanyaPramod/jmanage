@@ -50,6 +50,10 @@ public class ObjectOperationInfo extends ObjectFeatureInfo {
         return type;
     }
 
+    public String getDisplayReturnType(){
+        return getDisplayType(type);
+    }
+
     public ObjectParameterInfo[] getSignature() {
         return signature;
     }

@@ -99,7 +99,7 @@ public class InfoHandler implements CommandHandler {
         Table table = new Table(4);
         for(int i=0; i<attributes.length; i++){
             table.add(attributes[i].getName(),
-                    attributes[i].getType(),
+                    attributes[i].getDisplayType(),
                     attributes[i].getReadWrite(),
                     attributes[i].getDescription());
         }
@@ -116,7 +116,7 @@ public class InfoHandler implements CommandHandler {
         for(int i=0; i<operations.length; i++){
             table.add(operations[i].getName()+ "(" +
                     signature(operations[i].getSignature()) + ")",
-                    operations[i].getReturnType(),
+                    operations[i].getDisplayReturnType(),
                     operations[i].getDescription());
         }
         table.print();
@@ -128,7 +128,7 @@ public class InfoHandler implements CommandHandler {
             if(i > 0){
                 buff.append(", ");
             }
-            buff.append(signature[i].getType() + " " + signature[i].getName());
+            buff.append(signature[i].getDisplayType() + " " + signature[i].getName());
         }
         return buff.toString();
     }

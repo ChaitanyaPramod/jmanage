@@ -13,7 +13,8 @@
 
 <%
     final WebContext webContext = WebContext.get(request);
-    ObjectOperationInfo operationInfo = (ObjectOperationInfo)request.getAttribute("operationInfo");
+    ObjectOperationInfo operationInfo =
+            (ObjectOperationInfo)request.getAttribute("operationInfo");
 %>
 <table class="table" border="0" cellspacing="0" cellpadding="5" width="900">
     <tr>
@@ -24,6 +25,11 @@
     <tr>
         <td class="headtext" width="150"><b>Operation Name</b></td>
         <td class="plaintext"><c:out value="${param.operationName}" /></td>
+        <td class="plaintext">&nbsp;</td>
+    </tr>
+    <tr>
+        <td class="headtext" width="150"><b>Return Type</b></td>
+        <td class="plaintext"><%=operationInfo.getDisplayReturnType()%></td>
         <td class="plaintext">&nbsp;</td>
     </tr>
     <%
@@ -62,7 +68,7 @@
             <%
                     if(!params[paramIndex].getType().equals(argName)) {
             %>
-            (<%=params[paramIndex].getType()%>)
+            (<%=params[paramIndex].getDisplayType()%>)
             <%
                     }
             %>
@@ -120,7 +126,7 @@
             <%
                 if(!params[paramIndex].getType().equals(argName)) {
             %>
-            (<%=params[paramIndex].getType()%>)
+            (<%=params[paramIndex].getDisplayType()%>)
             <%
                 }
             %>
