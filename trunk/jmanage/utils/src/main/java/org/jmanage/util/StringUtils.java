@@ -90,69 +90,6 @@ public class StringUtils {
         return buff.toString();
     }
 
-    /**
-     *
-     * @param obj
-     * @param listDelim delimiter to be used for lists, arrays, etc.
-     * @return
-     */
-    public static String toString(Object obj, String listDelim){
-        return toString(obj, listDelim, false);
-    }
-
-    /**
-     *
-     * @param obj
-     * @param listDelim
-     * @param htmlEscape    indicates if the string should be HTML escaped
-     * @return
-     */
-    public static String toString(Object obj,
-                                  String listDelim,
-                                  boolean htmlEscape){
-        if(obj == null){
-            return "";
-        }
-        if(obj.getClass().isArray()){
-            return arrayToString(obj, listDelim);
-        }
-        String output = obj.toString();
-        if(htmlEscape){
-            return htmlEscape(output);
-        }
-        return output;
-    }
-
-    private static String arrayToString(Object array, String listDelim){
-        assert array.getClass().isArray();
-        int length = Array.getLength(array);
-        StringBuffer buff = new StringBuffer();
-        for(int i=0; i<length; i++){
-            if(i>0){
-                buff.append(listDelim);
-            }
-            buff.append(Array.get(array, i));
-        }
-        return buff.toString();
-    }
-
-    public static String htmlEscape(String str){
-        StringBuffer buff = new StringBuffer(str.length());
-        for(int i=0; i<str.length(); i++){
-            final char ch = str.charAt(i);
-            if(ch == '"'){
-                buff.append("&quot;");
-            }else if(ch == '<'){
-                buff.append("&lt;");
-            }else if(ch == '>'){
-                buff.append("&gt;");
-            }else{
-                buff.append(ch);
-            }
-        }
-        return buff.toString();
-    }
-
     public static String padRight(String str, int totalLength) {
         int strLen = str.length();
         StringBuffer buff = new StringBuffer(str);

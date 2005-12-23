@@ -44,6 +44,10 @@ public class ObjectAttributeInfo extends ObjectFeatureInfo {
         return attributeType;
     }
 
+    public String getDisplayType(){
+        return getDisplayType(attributeType);
+    }
+
     public boolean isIs() {
         return isIs;
     }

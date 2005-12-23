@@ -12,7 +12,8 @@
                  org.jmanage.webui.util.Utils,
                  java.net.URLEncoder,
                  org.jmanage.util.StringUtils,
-                 org.jmanage.core.util.Expression"%>
+                 org.jmanage.core.util.Expression,
+                 java.lang.reflect.Array"%>
 
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 <%@ taglib uri="/WEB-INF/tags/jstl/c.tld" prefix="c"%>
@@ -194,6 +195,45 @@
                 <%if(attributeInfo.getType().equals("boolean") || attributeInfo.getType().equals("java.lang.Boolean")){%>
                     <input type="radio" name="attr+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>+<%=attributeInfo.getType()%>" value="true" <%=attrValue.equals("true")?" CHECKED":""%> />&nbsp;True
                     &nbsp;&nbsp;&nbsp;<input type="radio" name="attr+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>+<%=attributeInfo.getType()%>" value="false" <%=attrValue.equals("false")?" CHECKED":""%>/>&nbsp;False
+                <%}else if(attributeInfo.getType().equals("[Ljava.lang.String;")){
+                    String[] array = (String[])objAttribute.getValue();
+                %>
+                  <script type="text/javascript">
+                    var inputArray = new Array(<%=array.length%>);
+                  <%
+                    for(int i=0; i<array.length; i++){
+                  %>
+                        inputArray[<%=i%>]="<input type='text' name='attr+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>+<%=attributeInfo.getType()%>' size='50' value='<%=array[i]%>'/>";
+                  <%
+                    }
+                  %>
+
+                    function writeInputElements(){
+                        var html = "";
+                        for (x in inputArray) {
+                            html += inputArray[x] + "<a href='JavaScript:onRemove(" + x + ")'>x</a>" + "<br />";
+                        }
+                        pvar divElement = document.getElementById('inputBoxes+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>');
+                        divElement.innerHTML = html;
+                     }
+
+                    function onRemove(element){
+                        inputArray.splice(element, 1);
+                        writeInputElements();
+                    }
+
+                    function onAdd(){
+                        inputArray.push("<input type='text' name='attr+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>+<%=attributeInfo.getType()%>' size='50'/>");
+                        writeInputElements();
+                    }
+                  </script>
+                  <div id="inputBoxes+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>">
+                  </div>
+                  <script type="text/javascript">
+                    writeInputElements();
+                  </script>
+                  <a href="JavaScript:onAdd()">+</a>
+
                 <%}else if(attrValue.indexOf('\n') != -1){%>
                     <textarea name="attr+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>+<%=attributeInfo.getType()%>" rows="3" cols="40"><%=attrValue%></textarea>
                 <%}else{%>
@@ -224,7 +264,7 @@
     <%=attributeInfo.getReadWrite()%>
 </td>
 <td class="plaintext" valign="top">
-    <%=attributeInfo.getType()%>
+    <%=attributeInfo.getDisplayType()%>
 </td>
 <td class="plaintext" valign="top">
     <%  if(!applicationConfig.isCluster()){
@@ -289,7 +329,7 @@
 %>
 <jmhtml:form action="/app/executeOperation">
 <tr>
-    <td class="plaintext"><%=operationInfo.getReturnType()%>
+    <td class="plaintext"><%=operationInfo.getDisplayReturnType()%>
     <%if(operationInfo.getDescription() != null){%>
         <a href="JavaScript:showDescription('<%=MBeanUtils.jsEscape(operationInfo.getDescription())%>');"><%=operationInfo.getName()%></a>
     <%}else{%>
@@ -317,7 +357,7 @@
             <%=argName%>
         <%}%>
         <%if(!params[paramIndex].getType().equals(argName)){%>
-            (<%=params[paramIndex].getType()%>)
+            (<%=params[paramIndex].getDisplayType()%>)
         <%}%>
     <%}else{%>
         &nbsp;
@@ -357,7 +397,7 @@
             <%=argName%>
         <%}%>
         <%if(!params[paramIndex].getType().equals(argName)){%>
-            (<%=params[paramIndex].getType()%>)
+            (<%=params[paramIndex].getDisplayType()%>)
         <%}%>
     </td>
     <td class="plaintext">&nbsp;</td>

@@ -73,7 +73,7 @@
             }
         %>
                 <td class="plaintext" valign="top"><%=objAttrInfo.getName()%></td>
-                <td class="plaintext" valign="top"><%=objAttrInfo.getType()%></td>
+                <td class="plaintext" valign="top"><%=objAttrInfo.getDisplayType()%></td>
                 <td class="plaintext" valign="top"><%=objAttrInfo.getDescription()%></td>
     </tr>
 <%

@@ -14,6 +14,7 @@
 package org.jmanage.core.management.data;
 
 import org.jmanage.util.display.Table;
+import org.jmanage.core.management.data.jdk.ThreadInfoFormat;
 
 import javax.management.openmbean.CompositeData;
 import javax.management.openmbean.CompositeType;
@@ -30,33 +31,18 @@ import java.util.Set;
  */
 public abstract class CompositeDataFormat implements DataFormat {
 
-    public String format(Object data) {
-
-        String output = null;
-        if(data.getClass().isArray()){
-            CompositeData[] array = (CompositeData[])data;
-            StringBuffer buff = new StringBuffer();
-            for(int i=0; i<array.length; i++){
-                if(i > 0){
-                    buff.append(DataFormatUtil.getListDelimiter());
-                    buff.append(DataFormatUtil.getListDelimiter());
-                }
-                buff.append(format(array[i]));
-            }
-            output = buff.toString();
-        }else{
-            output = format((CompositeData)data);
-        }
-        return output;
-    }
-
-    private String format(CompositeData compositeData){
-        if(compositeData == null) return DataFormatUtil.getNullDisplayValue();
+    public String format(Object data){
+        CompositeData compositeData = (CompositeData)data;
         CompositeType type = compositeData.getCompositeType();
+
         Set itemNamesSet = type.keySet();
-        String[] itemNames = new String[itemNamesSet.size()];
-        String[] itemValues = new String[itemNamesSet.size()];
-        int index = 0;
+        String[] itemNames = new String[itemNamesSet.size() + 1];
+        String[] itemValues = new String[itemNamesSet.size() + 1];
+
+        itemNames[0] = "CompositeType";
+        itemValues[0] = type.getTypeName();
+
+        int index = 1;
         for(Iterator it=itemNamesSet.iterator();it.hasNext();){
             itemNames[index] = (String)it.next();
             Object value = compositeData.get(itemNames[index]);
@@ -70,7 +56,6 @@ public abstract class CompositeDataFormat implements DataFormat {
         table.addRow(itemValues);
         return table.draw();
     }
-
 
     protected abstract Table getTable();
 }
