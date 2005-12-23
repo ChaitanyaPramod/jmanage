@@ -142,7 +142,6 @@
 <table class="table" border="0" cellspacing="0" cellpadding="5" width="900">
 <tr class="tableHeader">
     <td width="150" nowrap>Application</td>
-    <td width="50" nowrap>Status</td>
     <td>Output</td>
 </tr>
 <%
@@ -154,9 +153,15 @@
         <tr>
             <td valign="top" class="plaintext"><%=operationResult.getApplicationName()%></td>
             <td valign="top" class="plaintext">
-                <%=(operationResult.getResult() == OperationResultData.RESULT_OK)?"OK":"Error"%>
+                <%if(operationResult.isError()){%>
+                    There was an error. Stack Trace:
+                    <p>
+                    <pre class="plaintext"><%=operationResult.getStackTrace()%></pre>
+                    </p>
+                <%}else{%>
+                    <pre class="plaintext"><%=operationResult.getDisplayOutput()%></pre>
+                <%}%>
             </td>
-            <td valign="top" class="plaintext"><pre><%=operationResult.getDisplayOutput()%></pre></td>
         </tr>
     <%
     }

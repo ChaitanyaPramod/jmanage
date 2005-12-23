@@ -533,11 +533,26 @@ public class MBeanServiceImpl implements MBeanService {
                     operationName + " on " + objectName, e);
             resultData.setResult(OperationResultData.RESULT_ERROR);
             resultData.setErrorString(ErrorCatalog.getMessage(ErrorCodes.CONNECTION_FAILED));
+        } catch (RuntimeException e){
+            logger.log(Level.SEVERE, "Error executing operation " +
+                    operationName + " on " + objectName, e);
+            resultData.setResult(OperationResultData.RESULT_ERROR);
+            if(e.getCause() != null){
+                if(e.getCause().getClass().getName().
+                        equals("javax.management.RuntimeMBeanException") &&
+                        e.getCause().getCause() != null){
+                    resultData.setException(e.getCause().getCause());
+                }else{
+                    resultData.setException(e.getCause());
+                }
+            }else{
+                resultData.setException(e);
+            }
         } catch (Exception e){
             logger.log(Level.SEVERE, "Error executing operation " +
                     operationName + " on " + objectName, e);
             resultData.setResult(OperationResultData.RESULT_ERROR);
-            resultData.setErrorString(e.getMessage());
+            resultData.setException(e);
         } finally {
             ServiceUtils.close(serverConnection);
         }
@@ -613,9 +628,16 @@ public class MBeanServiceImpl implements MBeanService {
         AttributeListData[] attrListData =
                 new AttributeListData[applications.size()];
         int index = 0;
+        /*  TODO:
+        ServerConnection connection =
+                ServiceUtils.getServerConnectionEvenIfCluster(
+                        context.getApplicationConfig());
+        ObjectInfo objInfo = connection.getObjectInfo(objectName);
+        */
         for(Iterator it=applications.iterator(); it.hasNext(); index++){
             final ApplicationConfig childAppConfig =
                         (ApplicationConfig)it.next();
+
             List attributeList = buildAttributeList(attributes,
                         childAppConfig);
             attrListData[index] = updateAttributes(context, childAppConfig,
@@ -809,6 +831,10 @@ public class MBeanServiceImpl implements MBeanService {
                 if(applicationId.equals(tokenizer.nextToken())){ // applicationId
                     String attrName = tokenizer.nextToken();
                     String attrType = tokenizer.nextToken();
+
+                    // TODO: fixme
+                    //String type = getAttributeType(connection, objAttributes, attribute, objectName);
+
                     String[] attrValues = (String[])attributes.get(param);
                     // todo: we currently don't support writtable arrays
                     assert attrValues.length == 1;
