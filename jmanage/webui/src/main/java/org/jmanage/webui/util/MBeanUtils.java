@@ -89,33 +89,31 @@ public class MBeanUtils {
                 || type.equals("java.lang.String")
                 || type.equals("java.math.BigInteger")
                 || type.equals("java.math.BigDecimal")
-                || type.equals("java.util.Date")
-                || type.equals("javax.management.ObjectName")){
+               // || type.equals("java.util.Date") -- currently not supported
+                || type.equals("javax.management.ObjectName")
+                || isEditableArrayType(type)){
+
             return true;
         }
         return false;
     }
 
-    public static boolean isKnownDataType(Object obj){
-        if(obj == null)
-            return false;
-
-        Class clazz = obj.getClass();
-        if(clazz.isPrimitive()
-            || clazz.isAssignableFrom(Boolean.class)
-            || clazz.isAssignableFrom(Character.class)
-            || clazz.isAssignableFrom(Byte.class)
-            || clazz.isAssignableFrom(Short.class)
-            || clazz.isAssignableFrom(Integer.class)
-            || clazz.isAssignableFrom(Long.class)
-            || clazz.isAssignableFrom(Float.class)
-            || clazz.isAssignableFrom(Double.class)
-            || clazz.isAssignableFrom(Void.class)
-            || clazz.isAssignableFrom(String.class)
-            || clazz.isAssignableFrom(BigInteger.class)
-            || clazz.isAssignableFrom(BigDecimal.class)
-            || clazz.isAssignableFrom(Date.class)
-            || clazz.getName().equals("javax.management.ObjectName")){
+    public static boolean isEditableArrayType(String type){
+        if(type.equals("[B") // byte array
+                || type.equals("[C") // char array
+                || type.equals("[D") // double array
+                || type.equals("[F") // float array
+                || type.equals("[I") // int array
+                || type.equals("[J") // long array
+                || type.equals("[S") // short array
+                || type.equals("[Ljava.lang.Character;")
+                || type.equals("[Ljava.lang.Byte;")
+                || type.equals("[Ljava.lang.Short;")
+                || type.equals("[Ljava.lang.Integer;")
+                || type.equals("[Ljava.lang.Long;")
+                || type.equals("[Ljava.lang.Float;")
+                || type.equals("[Ljava.lang.Double;")
+                || type.equals("[Ljava.lang.String;")){
             return true;
         }
         return false;

@@ -131,6 +131,32 @@
         boolean showUpdateButton = false;
         int columns = 5;
 %>
+
+    <script type="text/javascript">
+        function writeInputElements(inputArray, divSuffix, inputArrayName){
+            var html = "";
+            for (x in inputArray) {
+                html += inputArray[x] + "<a href=\"JavaScript:onRemove(" + inputArrayName + ",'" + divSuffix + "','" + inputArrayName + "',"  + x + ")\" class='a3'>x</a>" + "<br />";
+                //alert(inputArray[x] + "<a href=\"JavaScript:onRemove(" + inputArrayName + ",'" + divSuffix + "','" + inputArrayName + "'," + x + ")\" class='a3'>x</a>" + "<br />");
+            }
+            //alert(html);
+            var divElement = document.getElementById('inputBoxes+' + divSuffix);
+            divElement.innerHTML = html;
+         }
+
+        function onRemove(inputArray, divSuffix, inputArrayName, index){
+           //alert("inputArray=" + inputArray);
+           //alert("divSuffix=" + divSuffix);
+           //alert("index=" + index);
+            inputArray.splice(index, 1);
+            writeInputElements(inputArray, divSuffix, inputArrayName);
+        }
+
+        function onAdd(inputArray, divSuffix, inputArrayName){
+            inputArray.push("<input type='text' name='attr+" + divSuffix + "' size='50'/>");
+            writeInputElements(inputArray, divSuffix, inputArrayName);
+        }
+    </script>
 <br/>
 <jmhtml:form action="/app/updateAttributes" method="post">
 <table class="table" border="0" cellspacing="0" cellpadding="5">
@@ -193,51 +219,35 @@
                 showUpdateButton = true;
             %>
                 <%if(attributeInfo.getType().equals("boolean") || attributeInfo.getType().equals("java.lang.Boolean")){%>
-                    <input type="radio" name="attr+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>+<%=attributeInfo.getType()%>" value="true" <%=attrValue.equals("true")?" CHECKED":""%> />&nbsp;True
-                    &nbsp;&nbsp;&nbsp;<input type="radio" name="attr+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>+<%=attributeInfo.getType()%>" value="false" <%=attrValue.equals("false")?" CHECKED":""%>/>&nbsp;False
-                <%}else if(attributeInfo.getType().equals("[Ljava.lang.String;")){
-                    String[] array = (String[])objAttribute.getValue();
+                    <input type="radio" name="attr+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>" value="true" <%=attrValue.equals("true")?" CHECKED":""%> />&nbsp;True
+                    &nbsp;&nbsp;&nbsp;<input type="radio" name="attr+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>" value="false" <%=attrValue.equals("false")?" CHECKED":""%>/>&nbsp;False
+                <%}else if(MBeanUtils.isEditableArrayType(attributeInfo.getType())){
+                    final int arrayLength = Array.getLength(objAttribute.getValue());
+                    final String inputArrayName = "ia_" + childAppConfig.getApplicationId() + "_" + attributeInfo.getName();
                 %>
+                  <%-- The first field is a hidden field, to allow an empty array to be saved. There is special handling for this in MBeanServiceImpl. --%>
+                  <input type='hidden' name='attr+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>' size='50' value='NONE'/>
                   <script type="text/javascript">
-                    var inputArray = new Array(<%=array.length%>);
+
+                    var <%=inputArrayName%> = new Array(<%=arrayLength%>);
                   <%
-                    for(int i=0; i<array.length; i++){
+                    for(int i=0; i<arrayLength; i++){
                   %>
-                        inputArray[<%=i%>]="<input type='text' name='attr+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>+<%=attributeInfo.getType()%>' size='50' value='<%=array[i]%>'/>";
+                        <%=inputArrayName%>[<%=i%>]="<input type='text' name='attr+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>' size='50' value='<%=Array.get(objAttribute.getValue(), i)%>'/>";
                   <%
                     }
                   %>
-
-                    function writeInputElements(){
-                        var html = "";
-                        for (x in inputArray) {
-                            html += inputArray[x] + "<a href='JavaScript:onRemove(" + x + ")'>x</a>" + "<br />";
-                        }
-                        pvar divElement = document.getElementById('inputBoxes+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>');
-                        divElement.innerHTML = html;
-                     }
-
-                    function onRemove(element){
-                        inputArray.splice(element, 1);
-                        writeInputElements();
-                    }
-
-                    function onAdd(){
-                        inputArray.push("<input type='text' name='attr+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>+<%=attributeInfo.getType()%>' size='50'/>");
-                        writeInputElements();
-                    }
                   </script>
-                  <div id="inputBoxes+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>">
+                  <div class="plaintext" id="inputBoxes+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>">
                   </div>
                   <script type="text/javascript">
-                    writeInputElements();
+                    writeInputElements(<%=inputArrayName%>, '<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>', '<%=inputArrayName%>');
                   </script>
-                  <a href="JavaScript:onAdd()">+</a>
-
+                  <a href="JavaScript:onAdd(<%=inputArrayName%>, '<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>', '<%=inputArrayName%>')" class="a3">+</a>
                 <%}else if(attrValue.indexOf('\n') != -1){%>
-                    <textarea name="attr+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>+<%=attributeInfo.getType()%>" rows="3" cols="40"><%=attrValue%></textarea>
+                    <textarea name="attr+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>" rows="3" cols="40"><%=attrValue%></textarea>
                 <%}else{%>
-                    <input type="text" name="attr+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>+<%=attributeInfo.getType()%>" size="50"
+                    <input type="text" name="attr+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>" size="50"
                     value="<%=attrValue%>"/>
                 <%}%>
             <%}else{%>
