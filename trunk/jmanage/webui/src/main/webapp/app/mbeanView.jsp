@@ -19,6 +19,7 @@
 <%@ taglib uri="/WEB-INF/tags/jstl/c.tld" prefix="c"%>
 
 <%!
+    // TODO: This should be moved to some utility class
     private Class getClass(String type){
         if(type.equals("boolean"))
              return Boolean.class;
@@ -42,11 +43,18 @@
         try{
             clazz = Class.forName(type);
         }catch(ClassNotFoundException e){
-            e.printStackTrace();
+            // ignore exception
         }
         return clazz;
     }
 
+    private boolean isNumber(String type){
+        Class clazz = getClass(type);
+        if(clazz != null && Number.class.isAssignableFrom(clazz)){
+            return true;
+        }
+        return false;
+    }
 %>
 <%
     boolean showGraphOption = false;
@@ -286,7 +294,7 @@
         <jmhtml:link href="/config/showAddAlert.do?alertSourceType=string"
             paramId="attributes" paramName="expressionValue"
             acl="<%=ACLConstants.ACL_ADD_ALERT%>" styleClass="a1">Monitor</jmhtml:link>
-    <%}else if(Number.class.isAssignableFrom(getClass(attributeInfo.getType()))){
+    <%}else if(isNumber(attributeInfo.getType())){
         showGraphOption = true;%>
         <jmhtml:link href="/config/showAddAlert.do?alertSourceType=gauge"
             paramId="attributes" paramName="expressionValue"
