@@ -148,3 +148,7 @@ a.nav0 {
     color:blue;
 }
 
+input, textarea {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px
+}
