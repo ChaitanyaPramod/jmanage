@@ -23,7 +23,7 @@
     }
     function deleteGraph(graphId, appId){
         var msg;
-        msg = "Are you sure you want to delete this Alert?";
+        msg = "Are you sure you want to delete this Graph?";
         if(confirm(msg) == true){
             location = '/config/deleteGraph.do?<%=RequestParams.GRAPH_ID%>=' + graphId + '&<%=RequestParams.APPLICATION_ID%>=' + appId + '&refreshApps=true';
         }
