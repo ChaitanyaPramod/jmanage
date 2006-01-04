@@ -123,7 +123,7 @@ Following is a screenshot of jManage web interface:
           supported by that application. Users access jManage over HTTP via
           a web browser or command line.
           <br/><br/>
-          <img src="/images/jManage-deploy.jpg" alt="Typical jManage Deployment"/>
+          <img src="/images/jManage-deploy.gif" alt="Typical jManage Deployment"/>
           <br/><br/>
           Access to jManage is controlled via username/password provided
           by the System Administrators or the Operations team. Admins can
