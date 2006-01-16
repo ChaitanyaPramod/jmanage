@@ -77,7 +77,7 @@
             id="websphere"
             name="Websphere"
             module="websphere"
-            compatibleJMX="true"/>
+            compatibleJMX="false"/>
         <application-type
             id="snmp"
             name="SNMP Device"
