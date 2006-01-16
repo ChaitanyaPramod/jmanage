@@ -18,7 +18,7 @@ package org.jmanage.core.util;
 /**
  *
  * date:  Feb 13, 2005
- * @author	Rakesh Kalra, Shashank Bellary
+ * @author  Rakesh Kalra, Shashank Bellary
  */
 public interface ErrorCodes {
 
@@ -46,5 +46,4 @@ public interface ErrorCodes {
 
     String APPLICATION_NAME_ALREADY_EXISTS = "application.name.already.exists";
     String INVALID_CHAR_APP_NAME = "error.appNameMask";
-    String INVALID_BOOLEAN_INPUT_TYPE = "jmanage.invalid.booleanInputType";
 }
