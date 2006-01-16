@@ -33,13 +33,16 @@ import java.util.logging.Logger;
  * @author Shashank
  */
 public class UserManager implements AuthConstants{
-    private static UserManager userManager =
-            new UserManager(new File(USER_CONFIG_FILE_NAME));
+
+    private static final Logger logger = Loggers.getLogger(UserManager.class);
 
     /*  Last modified time for user configurations file */
     private static long lastModified = -1;
     private static Map users = null;
-    private static final Logger logger = Loggers.getLogger(UserManager.class);
+
+    /* create instance of UserManager */
+    private static UserManager userManager =
+            new UserManager(new File(USER_CONFIG_FILE_NAME));
 
     /**
      * Cache user information.

@@ -41,6 +41,9 @@ public class Startup {
 
     public static void main(String[] args) throws Exception{
 
+        /* create logs dir */
+        new File(CoreUtils.getLogDir()).mkdirs();
+
         UserManager userManager = UserManager.getInstance();
         User user = null;
         char[] password = null;
@@ -83,8 +86,6 @@ public class Startup {
         /* set stop.port */
         System.setProperty("STOP.PORT", JManageProperties.getStopPort());
 
-        /* create logs dir */
-        new File(CoreUtils.getLogDir()).mkdirs();
         /* initialize ServiceFactory */
         ServiceFactory.init(ServiceFactory.MODE_LOCAL);
         /* initialize crypto */
