@@ -22,8 +22,6 @@ import java.util.Set;
 
 /**
  * Formats javax.management.openmbbean.CompositeData
- * and array of javax.management.openmbbean.CompositeData.
- * [javax.management.openmbean.CompositeData;
  * <p>
  * Date:  Sep 27, 2005
  * @author	Rakesh Kalra
