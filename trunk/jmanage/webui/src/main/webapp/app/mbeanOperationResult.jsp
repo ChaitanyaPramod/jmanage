@@ -7,19 +7,23 @@
                  org.jmanage.webui.util.MBeanUtils,
                  org.jmanage.core.services.AccessController,
                  org.jmanage.core.util.ACLConstants,
-                 org.jmanage.webui.util.WebContext"%>
+                 org.jmanage.webui.util.WebContext,
+                 org.jmanage.core.management.ObjectName"%>
 <%@ taglib uri="/WEB-INF/tags/jstl/c.tld" prefix="c"%>
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 
 <%
     final WebContext webContext = WebContext.get(request);
+    ObjectName objectName = WebContext.getObjectName(request);
     ObjectOperationInfo operationInfo =
             (ObjectOperationInfo)request.getAttribute("operationInfo");
 %>
 <table class="table" border="0" cellspacing="0" cellpadding="5" width="900">
     <tr>
-        <td class="headtext" width="150" nowrap><b>Object Name</b></td>
-        <td class="plaintext"><c:out value="${param.objName}" /></td>
+        <td class="headtext" width="100" nowrap="true" valign="top"><b>Object Name</b></td>
+        <td class="plaintext" valign="top">
+            <pre class="plaintext"><%=objectName.getWrappedName()%></pre>
+        </td>
         <td class="plaintext">&nbsp;</td>
     </tr>
     <tr>
@@ -75,7 +79,7 @@
             <%
                 } else {
             %>
-            &nbsp;
+            None
             <%
                 }
             %>

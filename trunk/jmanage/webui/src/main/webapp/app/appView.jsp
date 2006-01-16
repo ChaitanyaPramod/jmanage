@@ -9,7 +9,8 @@
                  org.jmanage.core.config.GraphConfig,
                  org.jmanage.core.config.AlertConfig,
                  org.jmanage.webui.util.Utils,
-                 org.jmanage.core.util.ACLConstants"%>
+                 org.jmanage.core.util.ACLConstants,
+                 org.jmanage.core.management.ObjectName"%>
 
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 <script language="JavaScript">
@@ -141,23 +142,23 @@
 <%
 if(appConfig.getAlerts().size() > 0){
 %>
-<table cellspacing="0" cellpadding="5" width="700" class="table">
+<table cellspacing="0" cellpadding="5" width="800" class="table">
     <tr class="tableHeader">
         <td colspan="6">Configured Alerts</td>
     </tr>
     <tr>
         <td class="headtext1">Alert Name</td>
-        <td class="headtext1">Application Name</td>
         <td class="headtext1">Source</td>
+        <td class="headtext1">Source Type</td>
         <td class="headtext1">Alert Delivery</td>
+        <td class="headtext1">&nbsp;</td>
+        <td class="headtext1">&nbsp;</td>
     </tr>
     <%
         List alerts = appConfig.getAlerts();
         Iterator itr = alerts.iterator();
         while(itr.hasNext()){
             AlertConfig alertConfig = (AlertConfig)itr.next();
-            String appName = alertConfig.getAlertSourceConfig().
-                    getApplicationConfig().getName();
             String[] alertDelivery = alertConfig.getAlertDelivery();
             String alertDel = "";
             for(int i=0; i<alertDelivery.length;i++){
@@ -173,12 +174,10 @@ if(appConfig.getAlerts().size() > 0){
              <%=alertConfig.getAlertName()%>
         </td>
         <td class="plaintext">
-             <%=appName%>
-        </td>
-        <td class="plaintext">
             <a href="/app/mbeanView.do?<%=RequestParams.APPLICATION_ID%>=<%=alertConfig.getAlertSourceConfig().getApplicationConfig().getApplicationId()%>&<%=RequestParams.OBJECT_NAME%>=<%=URLEncoder.encode(alertConfig.getAlertSourceConfig().getObjectName(), "UTF-8")%>">
-             <%=alertConfig.getAlertSourceConfig().getObjectName()%>
+             <%=ObjectName.getShortName(alertConfig.getAlertSourceConfig().getObjectName())%>
         </td>
+        <td class="plaintext"><%=alertConfig.getAlertSourceConfig().getSourceTypeDesc()%></td>
         <td class="plaintext"><%=alertDel%></td>
         <td align="right" width="60">
             <%

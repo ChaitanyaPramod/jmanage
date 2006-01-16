@@ -89,9 +89,9 @@
 <jmhtml:errors />
 <table class="table" border="0" cellspacing="0" cellpadding="5" width="900">
     <tr>
-        <td class="headtext" width="100">Object Name</td>
-        <td class="plaintext">
-            <c:out value="${param.objName}" />
+        <td class="headtext" width="100" valign="top">Object Name</td>
+        <td class="plaintext" valign="top" nowrap="true">
+            <pre class="plaintext"><%=objectInfo.getObjectName().getWrappedName()%></pre>
             <%-- If this mbean is being viewed from an application which is
                 part of a cluster, provide a link to view this mbean as
                 part of the cluster --%>

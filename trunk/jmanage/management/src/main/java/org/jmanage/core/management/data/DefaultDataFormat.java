@@ -26,6 +26,7 @@ public class DefaultDataFormat implements DataFormat {
     public String format(Object data) {
         String output = data.toString();
         if(DataFormatUtil.isEscapeHtml()){
+            // todo: do we need this? We are now using <pre> tag.
             output = htmlEscape(output);
         }
         return output;
