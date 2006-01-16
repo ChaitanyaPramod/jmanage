@@ -25,9 +25,4 @@ public class SNMPApplicationConfig extends ApplicationConfig{
         super();
         setPort(new Integer(161));
     }
-
-    public String getURL() {
-        return "";
-    }
-
 }
