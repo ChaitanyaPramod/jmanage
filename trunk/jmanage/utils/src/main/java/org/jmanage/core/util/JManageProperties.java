@@ -138,10 +138,10 @@ public class JManageProperties extends Properties{
         return jManageProperties.getProperty(ALERT_EMAIL_FROM_EMAIL);
     }
     public static boolean isBooleanInputTypeRadio(){
-        return jManageProperties.getProperty(BOOLEAN_INPUT_TYPE).equals("radio");
+        return "radio".equals(jManageProperties.getProperty(BOOLEAN_INPUT_TYPE));
     }
     public static boolean isBooleanInputTypeCheckbox(){
-        return jManageProperties.getProperty(BOOLEAN_INPUT_TYPE).equals("checkbox");
+        return "checkbox".equals(jManageProperties.getProperty(BOOLEAN_INPUT_TYPE));
     }
 
     /**
