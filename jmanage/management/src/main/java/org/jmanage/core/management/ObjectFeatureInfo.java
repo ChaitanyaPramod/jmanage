@@ -31,6 +31,8 @@ public class ObjectFeatureInfo implements java.io.Serializable {
     }
 
     public String getDescription() {
+        if(description == null)
+            return "";
         return description;
     }
 
@@ -39,7 +41,7 @@ public class ObjectFeatureInfo implements java.io.Serializable {
     }
 
     protected String getDisplayType(String type){
-        if(type.startsWith("[")){
+        if(type != null && type.startsWith("[")){
             /* convert to readable name. e.g. [Ljava.lang.String to
                 java.lang.String[]*/
             String arrayBraces = "";

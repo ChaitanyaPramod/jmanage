@@ -74,6 +74,10 @@ public class WebContext {
     }
 
     public ObjectName getObjectName() {
+         return getObjectName(request);
+    }
+
+    public static ObjectName getObjectName(HttpServletRequest request){
         try {
             final String objectNameString =
                     request.getParameter(RequestParams.OBJECT_NAME);

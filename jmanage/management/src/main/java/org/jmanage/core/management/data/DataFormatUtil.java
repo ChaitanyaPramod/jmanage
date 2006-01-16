@@ -124,9 +124,7 @@ public class DataFormatUtil {
         }else if(data.getClass().isArray()){
             /* see if there is a formatter configured for the elements of the
                 array. This assumes that the array has the same elements. */
-            if(Array.getLength(data) > 0){
-                return formatArray(data);
-            }
+            return formatArray(data);
         }
         /* format with the default formatter */
         return defaultFormatter.format(data);
