@@ -61,6 +61,9 @@ public class JManageProperties extends Properties{
     private static String DISPLAY_MBEAN_CANONICAL_NAME =
             "jmanage.objectName.displayCanonicalName";
 
+    /* HTML input type for boolean attributes */
+    private static String BOOLEAN_INPUT_TYPE = "jmanage.html.booleanInputType";
+
     /*  The only instance   */
     private static JManageProperties jManageProperties = new JManageProperties();
 
@@ -133,6 +136,12 @@ public class JManageProperties extends Properties{
     }
     public static String getAlertEmailFrom(){
         return jManageProperties.getProperty(ALERT_EMAIL_FROM_EMAIL);
+    }
+    public static boolean isBooleanInputTypeRadio(){
+        return jManageProperties.getProperty(BOOLEAN_INPUT_TYPE).equals("radio");
+    }
+    public static boolean isBooleanInputTypeCheckbox(){
+        return jManageProperties.getProperty(BOOLEAN_INPUT_TYPE).equals("checkbox");
     }
 
     /**
