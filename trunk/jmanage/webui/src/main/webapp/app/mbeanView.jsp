@@ -14,12 +14,10 @@
                  org.jmanage.util.StringUtils,
                  org.jmanage.core.util.Expression,
                  java.lang.reflect.Array,
-                 org.jmanage.core.util.JManageProperties,
-                 org.jmanage.core.util.ErrorCodes"%>
+                 org.jmanage.core.util.JManageProperties"%>
 
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 <%@ taglib uri="/WEB-INF/tags/jstl/c.tld" prefix="c"%>
-<%@ taglib uri="/WEB-INF/tags/jstl/fmt-rt.tld" prefix="fmt"%>
 <%!
     // TODO: This should be moved to some utility class
     private Class getClass(String type){
@@ -240,12 +238,9 @@
                     <%if (JManageProperties.isBooleanInputTypeRadio()) { %>
                         <input type="radio" name="<%=attrName%>" value="true" <%=attrValue.equals("true")?" CHECKED":""%> />&nbsp;True
                         &nbsp;&nbsp;&nbsp;<input type="radio" name="<%=attrName%>" value="false" <%=attrValue.equals("false")?" CHECKED":""%>/>&nbsp;False
-                    <%} else if (JManageProperties.isBooleanInputTypeCheckbox()) { %>
+                    <%} else { %>
                         <input type="checkbox" name="dummy" value="<%=attrName%>" onClick="onclick_booleanCheckbox('emptyForm', this)" <%=attrValue.equals("true")?" CHECKED":""%>/>
                         <input type="hidden"   name="<%=attrName%>" value="<%=attrValue%>"/>
-                    <%} else { %>
-                        <c:set var="errorKey"><%=ErrorCodes.INVALID_BOOLEAN_INPUT_TYPE%></c:set>
-                        <fmt:message key="${errorKey}"/>
                     <%}%>
 
                 <%}else if(MBeanUtils.isEditableArrayType(attributeInfo.getType())){
