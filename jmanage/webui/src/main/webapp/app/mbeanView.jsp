@@ -13,11 +13,13 @@
                  java.net.URLEncoder,
                  org.jmanage.util.StringUtils,
                  org.jmanage.core.util.Expression,
-                 java.lang.reflect.Array"%>
+                 java.lang.reflect.Array,
+                 org.jmanage.core.util.JManageProperties,
+                 org.jmanage.core.util.ErrorCodes"%>
 
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 <%@ taglib uri="/WEB-INF/tags/jstl/c.tld" prefix="c"%>
-
+<%@ taglib uri="/WEB-INF/tags/jstl/fmt-rt.tld" prefix="fmt"%>
 <%!
     // TODO: This should be moved to some utility class
     private Class getClass(String type){
@@ -75,6 +77,12 @@
         document.mbeanConfigForm.applicationCluster.value='true';
         document.mbeanConfigForm.submit();
         return;
+    }
+
+    // onclick event handler for checkboxes representing boolean attributes
+    function onclick_booleanCheckbox(formName, checkbox) {
+        var formObj = document.forms[formName];
+        formObj.elements[checkbox.value].value = checkbox.checked;
     }
 -->
 </script>
@@ -226,9 +234,20 @@
                     objAttribute.getStatus() == ObjectAttribute.STATUS_OK){
                 showUpdateButton = true;
             %>
-                <%if(attributeInfo.getType().equals("boolean") || attributeInfo.getType().equals("java.lang.Boolean")){%>
-                    <input type="radio" name="attr+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>" value="true" <%=attrValue.equals("true")?" CHECKED":""%> />&nbsp;True
-                    &nbsp;&nbsp;&nbsp;<input type="radio" name="attr+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>" value="false" <%=attrValue.equals("false")?" CHECKED":""%>/>&nbsp;False
+                <%if(attributeInfo.getType().equals("boolean") || attributeInfo.getType().equals("java.lang.Boolean")){
+                    String attrName = "attr+" + childAppConfig.getApplicationId() + "+" + attributeInfo.getName();%>
+
+                    <%if (JManageProperties.isBooleanInputTypeRadio()) { %>
+                        <input type="radio" name="<%=attrName%>" value="true" <%=attrValue.equals("true")?" CHECKED":""%> />&nbsp;True
+                        &nbsp;&nbsp;&nbsp;<input type="radio" name="<%=attrName%>" value="false" <%=attrValue.equals("false")?" CHECKED":""%>/>&nbsp;False
+                    <%} else if (JManageProperties.isBooleanInputTypeCheckbox()) { %>
+                        <input type="checkbox" name="dummy" value="<%=attrName%>" onClick="onclick_booleanCheckbox('emptyForm', this)" <%=attrValue.equals("true")?" CHECKED":""%>/>
+                        <input type="hidden"   name="<%=attrName%>" value="<%=attrValue%>"/>
+                    <%} else { %>
+                        <c:set var="errorKey"><%=ErrorCodes.INVALID_BOOLEAN_INPUT_TYPE%></c:set>
+                        <fmt:message key="${errorKey}"/>
+                    <%}%>
+
                 <%}else if(MBeanUtils.isEditableArrayType(attributeInfo.getType())){
                     final int arrayLength = Array.getLength(objAttribute.getValue());
                     final String inputArrayName = "ia_" + childAppConfig.getApplicationId() + "_" + attributeInfo.getName();
