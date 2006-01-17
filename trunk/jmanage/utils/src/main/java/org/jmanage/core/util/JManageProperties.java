@@ -143,6 +143,9 @@ public class JManageProperties extends Properties{
     public static boolean isBooleanInputTypeCheckbox(){
         return "checkbox".equals(jManageProperties.getProperty(BOOLEAN_INPUT_TYPE));
     }
+    public static boolean isBooleanInputTypeSelect() {
+        return "select".equals(jManageProperties.getProperty(BOOLEAN_INPUT_TYPE));
+    }
 
     /**
      * Indicates if the canonical name of the mbean should be displayed
