@@ -238,6 +238,11 @@
                     <%if (JManageProperties.isBooleanInputTypeRadio()) { %>
                         <input type="radio" name="<%=attrName%>" value="true" <%=attrValue.equals("true")?" CHECKED":""%> />&nbsp;True
                         &nbsp;&nbsp;&nbsp;<input type="radio" name="<%=attrName%>" value="false" <%=attrValue.equals("false")?" CHECKED":""%>/>&nbsp;False
+                    <%} else if (JManageProperties.isBooleanInputTypeSelect()) { %>
+                        <select name="<%=attrName%>">
+                            <option value="false" <%=attrValue.equals("false")?" SELECTED":""%>>False</option>
+                            <option value="true" <%=attrValue.equals("true")?" SELECTED":""%>>True</option>
+                        </select>
                     <%} else { %>
                         <input type="checkbox" name="dummy" value="<%=attrName%>" onClick="onclick_booleanCheckbox('emptyForm', this)" <%=attrValue.equals("true")?" CHECKED":""%>/>
                         <input type="hidden"   name="<%=attrName%>" value="<%=attrValue%>"/>
