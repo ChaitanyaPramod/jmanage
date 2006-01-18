@@ -143,6 +143,7 @@ public class GraphApplet extends JApplet implements GraphAppletParameters {
             series = new TimeSeries[tokenizer.countTokens()];
             for(int i=0; tokenizer.hasMoreTokens(); i++){
                 series[i] = new TimeSeries(tokenizer.nextToken(), Second.class);
+                series[i].setMaximumItemCount(100);// todo: this should somehow be configurable
                 dataset.addSeries(series[i]);
             }
         }
