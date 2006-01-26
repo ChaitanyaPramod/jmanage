@@ -70,6 +70,7 @@ public class JManageExceptionHandler extends ExceptionHandler{
                             exception.getMessage()));
         }else if(exception instanceof ConnectionFailedException){
             //TODO: We need not handle this condition once all the code throwing this exception gets moved to service layer.
+            logger.log(Level.FINE, "Failed to connect", exception);
             return mapping.findForward(Forwards.CONNECTION_FAILED);
         }else if(exception instanceof ApplicationConfigManager.DuplicateApplicationNameException){
             //TODO: We need not handle this exception once this exception
