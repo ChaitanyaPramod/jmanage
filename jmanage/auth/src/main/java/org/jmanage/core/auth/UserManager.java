@@ -36,13 +36,12 @@ public class UserManager implements AuthConstants{
 
     private static final Logger logger = Loggers.getLogger(UserManager.class);
 
-    /*  Last modified time for user configurations file */
-    private static long lastModified = -1;
-    private static Map users = null;
-
     /* create instance of UserManager */
     private static UserManager userManager =
             new UserManager(new File(USER_CONFIG_FILE_NAME));
+
+    /* user map */
+    private Map users = null;
 
     /**
      * Cache user information.
@@ -51,29 +50,21 @@ public class UserManager implements AuthConstants{
      */
     private UserManager(File userConfigFile){
         try{
-            lastModified = userConfigFile.lastModified();
             Document userConfig = new SAXBuilder().build(userConfigFile);
             users = loadUsers(userConfig);
         }catch(JDOMException jdEx){
             logger.info("Error reading user info "+USER_CONFIG_FILE_NAME);
             jdEx.printStackTrace();
         }
-
     }
 
 
     /**
-     * Invalidate cached information about configured applciations if the
-     * configuration file got updated after last read.
+     * Get the only instance of UserManager
      *
      * @return
      */
     public static UserManager getInstance(){
-        File userConfiguration = new File(USER_CONFIG_FILE_NAME);
-        if(lastModified < userConfiguration.lastModified()){
-            /*  Refresh the cache   */
-            userManager = new UserManager(userConfiguration);
-        }
         return userManager;
     }
 
@@ -202,6 +193,8 @@ public class UserManager implements AuthConstants{
                 Element userElement = new Element(AuthConstants.USER);
                 userElement.setAttribute(AuthConstants.NAME, user.getUsername());
                 userElement.setAttribute(AuthConstants.PASSWORD, user.getPassword());
+                assert user.getStatus() != null &&
+                        (user.getStatus().equals(User.STATUS_ACTIVE) || user.getStatus().equals(User.STATUS_LOCKED));
                 userElement.setAttribute(AuthConstants.STATUS,
                         user.getStatus() != null ? user.getStatus() : User.STATUS_ACTIVE);
                 userElement.setAttribute(AuthConstants.LOCK_COUNT,
