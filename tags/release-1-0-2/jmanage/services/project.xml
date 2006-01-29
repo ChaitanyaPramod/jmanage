@@ -1,0 +1,37 @@
+<project>
+    <extend>${basedir}/../project.xml</extend>
+    <artifactId>jmanage-services</artifactId>
+    <dependencies>
+
+        <dependency>
+            <groupId>struts</groupId>
+            <artifactId>struts-commons-beanutils</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>jmxri</groupId>
+            <artifactId>jmxri</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>jmanage</groupId>
+            <artifactId>jmanage-management</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jmanage</groupId>
+            <artifactId>jmanage-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jmanage</groupId>
+            <artifactId>jmanage-auth</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jmanage</groupId>
+            <artifactId>jmanage-alerts</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jmanage</groupId>
+            <artifactId>jmanage-utils</artifactId>
+        </dependency>
+    </dependencies>
+</project>
