@@ -15,9 +15,7 @@ package org.jmanage.core.alert;
 
 import org.jmanage.core.config.ApplicationConfigManager;
 import org.jmanage.core.config.AlertConfig;
-import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.util.Loggers;
-import org.jmanage.core.alert.delivery.EmailAlerts;
 
 import java.util.List;
 import java.util.Iterator;
@@ -51,9 +49,6 @@ public class AlertEngine {
             Alert alert = new Alert(alertConfig);
             alert.register();
         }
-        /* get EmailAlerts to start the email delivery thread */
-        EmailAlerts.getInstance();
-
         logger.info("AlertEngine started.");
     }
 
@@ -87,20 +82,6 @@ public class AlertEngine {
         if(index != -1){
             Alert oldAlert = (Alert)alerts.remove(index);
             oldAlert.unregister();
-        }
-    }
-
-    public synchronized void updateApplication(ApplicationConfig config){
-        for(Iterator it=config.getAlerts().iterator(); it.hasNext(); ){
-            AlertConfig alertConfig = (AlertConfig)it.next();
-            updateAlertConfig(alertConfig);
-        }
-    }
-
-    public synchronized void removeApplication(ApplicationConfig config){
-        for(Iterator it=config.getAlerts().iterator(); it.hasNext(); ){
-            AlertConfig alertConfig = (AlertConfig)it.next();
-            removeAlertConfig(alertConfig);
         }
     }
 }

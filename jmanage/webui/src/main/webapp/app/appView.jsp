@@ -9,8 +9,7 @@
                  org.jmanage.core.config.GraphConfig,
                  org.jmanage.core.config.AlertConfig,
                  org.jmanage.webui.util.Utils,
-                 org.jmanage.core.util.ACLConstants,
-                 org.jmanage.core.management.ObjectName"%>
+                 org.jmanage.core.util.ACLConstants"%>
 
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 <script language="JavaScript">
@@ -24,7 +23,7 @@
     }
     function deleteGraph(graphId, appId){
         var msg;
-        msg = "Are you sure you want to delete this Graph?";
+        msg = "Are you sure you want to delete this Alert?";
         if(confirm(msg) == true){
             location = '/config/deleteGraph.do?<%=RequestParams.GRAPH_ID%>=' + graphId + '&<%=RequestParams.APPLICATION_ID%>=' + appId + '&refreshApps=true';
         }
@@ -37,7 +36,7 @@
 %>
 <%-- Configured MBeans --%>
 <%if(appConfig.getMBeans().size() > 0){%>
-<table border="0" cellspacing="0" cellpadding="5" width="700" class="table">
+<table border="0" cellspacing="0" cellpadding="5" width="600" class="table">
     <tr class="tableHeader">
        <td colspan="2">Managed Objects</td>
     </tr>
@@ -67,21 +66,11 @@
     }
 %>
 </table>
-<p>
-    <jmhtml:link href="/config/startAddMultiMBeanConfig.do" acl="<%=ACLConstants.ACL_ADD_MBEAN_CONFIG%>"
-        styleClass="a">Add more Managed Objects</jmhtml:link>
-</p>
-
 <%}else{%>
 <p class="plaintext">
     There are no configured objects.
 </p>
-<p>
-    <jmhtml:link href="/config/startAddMultiMBeanConfig.do" acl="<%=ACLConstants.ACL_ADD_MBEAN_CONFIG%>"
-        styleClass="a">Add Managed Objects</jmhtml:link>
-</p>
 <%}%>
-
 <p>
 <jmhtml:form action="/app/mbeanList" method="post">
     <jmhtml:text property="objectName" />&nbsp;&nbsp;<jmhtml:submit styleClass="Inside3d" value="Find More Objects" />
@@ -89,7 +78,7 @@
 </p>
 <%-- Configured Graphs --%>
 <%if(appConfig.getGraphs().size() > 0){%>
-<table border="0" cellspacing="0" cellpadding="5" width="700" class="table">
+<table border="0" cellspacing="0" cellpadding="5" width="600" class="table">
     <tr class="tableHeader">
        <td colspan="3">Graphs</td>
     </tr>
@@ -132,7 +121,6 @@
             + RequestParams.END_URL + "=" + Utils.urlEncode("/config/showAddGraph.do")
             + "&" + RequestParams.MULTIPLE + "=true&"
             + RequestParams.DATA_TYPE + "=java.lang.Number&"
-            + RequestParams.DATA_TYPE + "=javax.management.openmbean.CompositeData&"
             + RequestParams.NAVIGATION + "=" + Utils.urlEncode("Add Graph");
 %>
 <p>
@@ -142,23 +130,23 @@
 <%
 if(appConfig.getAlerts().size() > 0){
 %>
-<table cellspacing="0" cellpadding="5" width="800" class="table">
+<table cellspacing="0" cellpadding="5" width="600" class="table">
     <tr class="tableHeader">
-        <td colspan="6">Configured Alerts</td>
+        <td colspan="6">Alerts</td>
     </tr>
     <tr>
         <td class="headtext1">Alert Name</td>
-        <td class="headtext1">Source</td>
-        <td class="headtext1">Source Type</td>
+        <td class="headtext1">Application Name</td>
         <td class="headtext1">Alert Delivery</td>
-        <td class="headtext1">&nbsp;</td>
-        <td class="headtext1">&nbsp;</td>
+        <td class="headtext1">Subject</td>
     </tr>
     <%
         List alerts = appConfig.getAlerts();
         Iterator itr = alerts.iterator();
         while(itr.hasNext()){
             AlertConfig alertConfig = (AlertConfig)itr.next();
+            String appName = alertConfig.getAlertSourceConfig().
+                    getApplicationConfig().getName();
             String[] alertDelivery = alertConfig.getAlertDelivery();
             String alertDel = "";
             for(int i=0; i<alertDelivery.length;i++){
@@ -174,11 +162,10 @@ if(appConfig.getAlerts().size() > 0){
              <%=alertConfig.getAlertName()%>
         </td>
         <td class="plaintext">
-            <a href="/app/mbeanView.do?<%=RequestParams.APPLICATION_ID%>=<%=alertConfig.getAlertSourceConfig().getApplicationConfig().getApplicationId()%>&<%=RequestParams.OBJECT_NAME%>=<%=URLEncoder.encode(alertConfig.getAlertSourceConfig().getObjectName(), "UTF-8")%>">
-             <%=ObjectName.getShortName(alertConfig.getAlertSourceConfig().getObjectName())%>
+             <%=appName%>
         </td>
-        <td class="plaintext"><%=alertConfig.getAlertSourceConfig().getSourceTypeDesc()%></td>
         <td class="plaintext"><%=alertDel%></td>
+        <td class="plaintext"><%=alertConfig.getSubject()%></td>
         <td align="right" width="60">
             <%
                 String editAlertLink ="/config/showEditAlert.do?"

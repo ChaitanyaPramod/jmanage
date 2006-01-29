@@ -21,17 +21,14 @@ import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.forms.ApplicationForm;
 import org.jmanage.core.config.ApplicationConfigManager;
 import org.jmanage.core.config.ApplicationConfig;
-import org.jmanage.core.config.AlertConfig;
 import org.jmanage.core.util.UserActivityLogger;
 import org.jmanage.core.services.AccessController;
-import org.jmanage.core.alert.AlertEngine;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Iterator;
 
 /**
  *
@@ -51,10 +48,6 @@ public class DeleteApplicationAction extends BaseAction{
         ApplicationForm appForm = (ApplicationForm)actionForm;
         ApplicationConfig config=ApplicationConfigManager.deleteApplication
                 (appForm.getApplicationId());
-
-        /* unregister alerts for this application */
-        AlertEngine.getInstance().removeApplication(config);
-
         UserActivityLogger.getInstance().logActivity(
                 context.getUser().getUsername(),
                 "Deleted application "+"\""+config.getName()+"\"");

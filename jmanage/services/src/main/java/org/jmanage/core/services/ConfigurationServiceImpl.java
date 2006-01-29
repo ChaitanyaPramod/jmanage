@@ -41,7 +41,6 @@ public class ConfigurationServiceImpl implements ConfigurationService {
         /* do the operation */
         String appId = ApplicationConfig.getNextApplicationId();
         Integer port = data.getPort();
-
         ApplicationConfig config =
                 ApplicationConfigFactory.create(appId, data.getName(),
                         data.getType(),
@@ -50,7 +49,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
                         data.getURL(),
                         data.getUsername(),
                         data.getPassword(),
-                        data.getParamValues());
+                        null);
 
         try {
             ApplicationConfigManager.addApplication(config);

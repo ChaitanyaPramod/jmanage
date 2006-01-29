@@ -25,9 +25,6 @@ import org.jmanage.core.management.*;
 import org.jmanage.core.util.*;
 import org.jmanage.util.StringUtils;
 
-import javax.management.openmbean.CompositeData;
-import javax.management.openmbean.CompositeType;
-import javax.management.openmbean.OpenType;
 import java.lang.reflect.Constructor;
 import java.util.*;
 import java.util.logging.Level;
@@ -43,7 +40,6 @@ public class MBeanServiceImpl implements MBeanService {
     private static final Logger logger = Loggers.getLogger(MBeanService.class);
 
     private static final String DEFAULT_FILTER = "*:*";
-    private static final char COMPOSITE_ATTR_SEPARATOR = '.';
 
     private static final ObjectName DEFAULT_FILTER_OBJECT_NAME =
             new ObjectName(DEFAULT_FILTER);
@@ -67,19 +63,14 @@ public class MBeanServiceImpl implements MBeanService {
         ArrayList mbeanDataList = new ArrayList(mbeans.size());
         for(Iterator it=mbeans.iterator();it.hasNext(); ){
             ObjectName objName = (ObjectName)it.next();
-            mbeanDataList.add(new MBeanData(objName.getDisplayName()));
+            mbeanDataList.add(new MBeanData(objName.getCanonicalName()));
         }
         return mbeanDataList;
     }
 
     public Map queryMBeansOutputMap(ServiceContext context, String filter,
-                                    String[] dataTypes, String applyAttribFilter){
-        List mbeanDataList = null;
-        if("false".equals(applyAttribFilter)){
-            mbeanDataList = queryMBeans(context, filter);
-        }else{
-            mbeanDataList = queryMBeansWithAttributes(context,filter,dataTypes);
-        }
+                                    String[] dataTypes){
+        List mbeanDataList = queryMBeansWithAttributes(context,filter,dataTypes);
 
         Map domainToObjectNameListMap = new TreeMap();
         ObjectNameTuple tuple = new ObjectNameTuple();
@@ -112,8 +103,7 @@ public class MBeanServiceImpl implements MBeanService {
                 ObjectAttributeInfo[] objAttrInfo = objInfo.getAttributes();
                 if(objAttrInfo!=null && objAttrInfo.length > 0){
                     if(dataTypes!=null && dataTypes.length > 0){
-                        if(checkAttributeDataType(serverConnection,
-                                objName, objAttrInfo, dataTypes,
+                        if(checkAttributeDataType(objAttrInfo, dataTypes,
                                 context.getApplicationConfig(), null)){
                             mbeanToAttributesList.add(mbeanData);
                         }
@@ -143,9 +133,7 @@ public class MBeanServiceImpl implements MBeanService {
      *              specified
      * @return
      */
-    private boolean checkAttributeDataType(ServerConnection connection,
-                                           ObjectName objectName,
-                                           ObjectAttributeInfo[] objAttrInfo,
+    private boolean checkAttributeDataType(ObjectAttributeInfo[] objAttrInfo,
                                            String[] dataTypes,
                                            ApplicationConfig appConfig,
                                            List attributesList){
@@ -163,69 +151,14 @@ public class MBeanServiceImpl implements MBeanService {
                         dataType.isAssignableFrom(attrInfoType)){
                     result = true;
                     if(attributesList != null){
-                        /* special handling for CompositeData */
-                        if(attrInfoType.getName().
-                                equals("javax.management.openmbean.CompositeData")){
-                            handleCompositeData(connection, objectName, attrInfo,
-                                    dataTypes, attributesList);
-                        }else{
-                            attributesList.add(attrInfo);
-                        }
+                        attributesList.add(attrInfo);
                     }else{
-                        // we found one. return true
                         break outerloop;
                     }
                 }
             }
         }
         return result;
-    }
-
-    /**
-     * Expands a CompositeData object into individual attributes with the
-     * naming convention:
-     * <p>
-     * attributeName.itemName
-     * <p>
-     * The items should conform to given "dataType" array. These individual
-     * attributes are added to the <code>attributeList</code>
-     * @param attributesList    ObjectAttributeInfo instances are added to this
-     *                          list
-     */
-    private void handleCompositeData(ServerConnection connection,
-                                     ObjectName objectName,
-                                     ObjectAttributeInfo attrInfo,
-                                     String[] dataTypes,
-                                     List attributesList){
-
-        CompositeType type = getCompositeType(connection, objectName, attrInfo);
-        for(Iterator it=type.keySet().iterator(); it.hasNext(); ){
-            String itemName = (String)it.next();
-            OpenType itemType = type.getType(itemName);
-            Class itemTypeClass = getClass(itemType.getClassName(),
-                        this.getClass().getClassLoader());
-            for(int j=0; j<dataTypes.length; j++){
-
-                Class dataType = getClass(dataTypes[j],
-                        this.getClass().getClassLoader());
-                if(dataType.isAssignableFrom(itemTypeClass)){
-                    attributesList.add(
-                            new ObjectAttributeInfo(
-                                    attrInfo.getName() + COMPOSITE_ATTR_SEPARATOR + itemName,
-                                    type.getDescription(itemName),
-                                    itemType.getClassName(), false, true, false));
-                }
-            }
-        }
-    }
-
-    // todo: is there a simpler way to get CompositeType (without getting the value)
-    private CompositeType getCompositeType(ServerConnection connection,
-                                           ObjectName objectName,
-                                           ObjectAttributeInfo attrInfo){
-        CompositeData compositeData =
-                (CompositeData)connection.getAttribute(objectName, attrInfo.getName());
-        return compositeData.getCompositeType();
     }
 
     private Class getClass(String type, ClassLoader classLoader){
@@ -279,9 +212,7 @@ public class MBeanServiceImpl implements MBeanService {
     public ObjectInfo getMBeanInfo(ServiceContext context)
             throws ServiceException {
         canAccessThisMBean(context);
-        ServerConnection serverConnection =
-                ServiceUtils.getServerConnectionEvenIfCluster(
-                        context.getApplicationConfig());
+        ServerConnection serverConnection = context.getServerConnection();
         ObjectInfo objectInfo =
                 serverConnection.getObjectInfo(context.getObjectName());
         return objectInfo;
@@ -355,21 +286,6 @@ public class MBeanServiceImpl implements MBeanService {
         return resultData;
     }
 
-    /**
-     * Returns ObjectAttribute instance containing the value of the given
-     * attribute. This method also handles CompositeData item with the
-     * attribute naming convention:
-     * <p>
-     * Building.NumberOfFloors
-     * <p>
-     * where "Building" is the composite attribute name and "NumberOfFloors"
-     * is the item name in the "Building" composite type.
-     *
-     * @param context
-     * @param attribute
-     * @return
-     * @throws ServiceException
-     */
     public ObjectAttribute getObjectAttribute(ServiceContext context,
                                               String attribute)
             throws ServiceException{
@@ -387,32 +303,7 @@ public class MBeanServiceImpl implements MBeanService {
         List attrList =
                 connection.getAttributes(context.getObjectName(),
                         new String[]{attribute});
-        ObjectAttribute attrValue = (ObjectAttribute)attrList.get(0);
-        if(attrValue.getStatus() != ObjectAttribute.STATUS_NOT_FOUND){
-            return attrValue;
-        }
-
-        /* see if this is a composite attribute */
-        String attributeName = null;
-        String itemName = null;
-        int index = attribute.indexOf(COMPOSITE_ATTR_SEPARATOR);
-        if(index == -1)
-            return attrValue;
-
-        // composite data attribute
-        itemName = attribute.substring(index + 1);
-        attributeName = attribute.substring(0, index);
-
-        attrList =
-                connection.getAttributes(context.getObjectName(),
-                        new String[]{attributeName});
-        attrValue = (ObjectAttribute)attrList.get(0);
-        if(attrValue.getStatus() == ObjectAttribute.STATUS_OK){
-            CompositeData compositeData = (CompositeData)attrValue.getValue();
-            attrValue = new ObjectAttribute(attribute,
-                    compositeData.get(itemName));
-        }
-        return attrValue;
+        return (ObjectAttribute)attrList.get(0);
     }
 
     /**
@@ -441,12 +332,9 @@ public class MBeanServiceImpl implements MBeanService {
             ServiceUtils.close(connection);
         }
     }
-
-    public List filterAttributes(ServiceContext context, ObjectName objectName,
-                                 ObjectAttributeInfo[] objAttrInfo, String[] dataTypes){
+    public List filterAttributes(ServiceContext context, ObjectAttributeInfo[] objAttrInfo, String[] dataTypes){
         List objAttrInfoList = new LinkedList();
-        checkAttributeDataType(context.getServerConnection(),
-                objectName, objAttrInfo, dataTypes,
+        checkAttributeDataType(objAttrInfo, dataTypes,
                 context.getApplicationConfig() ,objAttrInfoList);
          return objAttrInfoList;
     }
@@ -533,26 +421,11 @@ public class MBeanServiceImpl implements MBeanService {
                     operationName + " on " + objectName, e);
             resultData.setResult(OperationResultData.RESULT_ERROR);
             resultData.setErrorString(ErrorCatalog.getMessage(ErrorCodes.CONNECTION_FAILED));
-        } catch (RuntimeException e){
-            logger.log(Level.SEVERE, "Error executing operation " +
-                    operationName + " on " + objectName, e);
-            resultData.setResult(OperationResultData.RESULT_ERROR);
-            if(e.getCause() != null){
-                if(e.getCause().getClass().getName().
-                        equals("javax.management.RuntimeMBeanException") &&
-                        e.getCause().getCause() != null){
-                    resultData.setException(e.getCause().getCause());
-                }else{
-                    resultData.setException(e.getCause());
-                }
-            }else{
-                resultData.setException(e);
-            }
         } catch (Exception e){
             logger.log(Level.SEVERE, "Error executing operation " +
                     operationName + " on " + objectName, e);
             resultData.setResult(OperationResultData.RESULT_ERROR);
-            resultData.setException(e);
+            resultData.setErrorString(e.getMessage());
         } finally {
             ServiceUtils.close(serverConnection);
         }
@@ -628,23 +501,13 @@ public class MBeanServiceImpl implements MBeanService {
         AttributeListData[] attrListData =
                 new AttributeListData[applications.size()];
         int index = 0;
-
-        ServerConnection connection =
-                ServiceUtils.getServerConnectionEvenIfCluster(
-                        context.getApplicationConfig());
-        try {
-            ObjectInfo objInfo = connection.getObjectInfo(objectName);
-            for(Iterator it=applications.iterator(); it.hasNext(); index++){
-                final ApplicationConfig childAppConfig =
-                            (ApplicationConfig)it.next();
-                List attributeList = buildAttributeList(attributes,
-                        childAppConfig, objInfo.getAttributes(), connection,
-                        objectName);
-                attrListData[index] = updateAttributes(context, childAppConfig,
-                        objectName, attributeList);
-            }
-        } finally {
-            ServiceUtils.close(connection);
+        for(Iterator it=applications.iterator(); it.hasNext(); index++){
+            final ApplicationConfig childAppConfig =
+                        (ApplicationConfig)it.next();
+            List attributeList = buildAttributeList(attributes,
+                        childAppConfig);
+            attrListData[index] = updateAttributes(context, childAppConfig,
+                    objectName, attributeList);
         }
         return attrListData;
     }
@@ -663,7 +526,7 @@ public class MBeanServiceImpl implements MBeanService {
                 ObjectInfo objInfo = serverConnection.getObjectInfo(objName);
                 ObjectNotificationInfo[] notifications = objInfo.getNotifications();
                 if(notifications != null && notifications.length > 0){
-                    mbeanToNoficationsMap.put(objName.getDisplayName(), notifications);
+                    mbeanToNoficationsMap.put(objName.getCanonicalName(), notifications);
                 }
             } catch (Exception e) {
                 /* if there is an error while getting MBean Info, continue
@@ -736,8 +599,7 @@ public class MBeanServiceImpl implements MBeanService {
         List attributeList = new LinkedList();
         for(int i=0; i<attributes.length; i++){
             String attribute = attributes[i][0];
-            String type = getAttributeType(connection,
-                    objAttributes, attribute, objectName);
+            String type = getAttributeType(objAttributes, attribute, objectName);
             /* ensure that this attribute is writable */
             ensureAttributeIsWritable(objAttributes, attribute, objectName);
 
@@ -750,32 +612,12 @@ public class MBeanServiceImpl implements MBeanService {
         return attributeList;
     }
 
-    // handles composite attribute type
-    private String getAttributeType(ServerConnection connection,
-                                    ObjectAttributeInfo[] objAttributes,
+    private String getAttributeType(ObjectAttributeInfo[] objAttributes,
                                     String attribute,
                                     ObjectName objectName){
-
-        /* first look for normal attribute */
         for(int i=0; i<objAttributes.length; i++){
             if(objAttributes[i].getName().equals(attribute)){
                 return objAttributes[i].getType();
-            }
-        }
-
-        /* now look for CompositeData */
-        String itemName = null;
-        final int index = attribute.indexOf(COMPOSITE_ATTR_SEPARATOR);
-        if(index != -1){
-            itemName = attribute.substring(index + 1);
-            attribute = attribute.substring(0, index);
-            for(int i=0; i<objAttributes.length; i++){
-                if(objAttributes[i].getName().equals(attribute)){
-                    // it is a CompositeData type
-                    CompositeType type = getCompositeType(connection,
-                            objectName, objAttributes[i]);
-                    return type.getType(itemName).getClassName();
-                }
             }
         }
         throw new ServiceException(ErrorCodes.INVALID_MBEAN_ATTRIBUTE,
@@ -813,14 +655,11 @@ public class MBeanServiceImpl implements MBeanService {
 
     /**
      * Map keys are of the format:
-     * attr+<applicationId>+<attrName>
+     * attr+<applicationId>+<attrName>+<attrType>
      *
      */
     private List buildAttributeList(Map attributes,
-                                    ApplicationConfig appConfig,
-                                    ObjectAttributeInfo[] objAttributes,
-                                    ServerConnection connection,
-                                    ObjectName objectName){
+                                    ApplicationConfig appConfig){
 
         String applicationId = appConfig.getApplicationId();
         Iterator it = attributes.keySet().iterator();
@@ -830,36 +669,21 @@ public class MBeanServiceImpl implements MBeanService {
             // look for keys which only start with "attr+"
             if(param.startsWith("attr+")){
                 StringTokenizer tokenizer = new StringTokenizer(param, "+");
-                if(tokenizer.countTokens() != 3){
+                if(tokenizer.countTokens() < 4){
                     throw new RuntimeException("Invalid param name: " + param);
                 }
                 tokenizer.nextToken(); // equals to "attr"
                 if(applicationId.equals(tokenizer.nextToken())){ // applicationId
                     String attrName = tokenizer.nextToken();
-                    String attrType = getAttributeType(connection,
-                            objAttributes, attrName, objectName);
-
+                    String attrType = tokenizer.nextToken();
                     String[] attrValues = (String[])attributes.get(param);
-                    Object typedValue = null;
-                    if(attrType.startsWith("[")){
-                        // it is an array
-                        // the first elements in the array is dummy to allow
-                        //  empty string to be saved
-                        String[] actualValue = new String[attrValues.length - 1];
-                        for(int i=0;i<actualValue.length;i++){
-                            actualValue[i] = attrValues[i+1];
-                        }
-                        try {
-                            typedValue = ConvertUtils.convert(actualValue,
-                                    Class.forName(attrType));
-                        } catch (ClassNotFoundException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }else{
-                        typedValue =
-                                getTypedValue(appConfig, attrValues[0], attrType);
-                    }
-                    attributeList.add(new ObjectAttribute(attrName, typedValue));
+                    // todo: we currently don't support writtable arrays
+                    assert attrValues.length == 1;
+                    String attrValue = attrValues[0];
+                    ObjectAttribute attribute = new ObjectAttribute(attrName,
+                            getTypedValue(appConfig, attrValue,
+                                    attrType));
+                    attributeList.add(attribute);
                 }
             }
         }
@@ -987,6 +811,6 @@ public class MBeanServiceImpl implements MBeanService {
         ObjectName objName = new ObjectName(objectName);
         ObjectInfo objectInfo = connection.getObjectInfo(objName);
         ObjectAttributeInfo[] objAttrInfo = objectInfo.getAttributes();
-        return getAttributeType(connection, objAttrInfo, attributeName, objName);
+        return getAttributeType(objAttrInfo, attributeName, objName);
     }
 }

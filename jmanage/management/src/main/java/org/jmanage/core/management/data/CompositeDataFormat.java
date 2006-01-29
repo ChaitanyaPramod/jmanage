@@ -21,25 +21,21 @@ import java.util.Iterator;
 import java.util.Set;
 
 /**
- * Formats javax.management.openmbbean.CompositeData
+ *
  * <p>
  * Date:  Sep 27, 2005
  * @author	Rakesh Kalra
  */
 public abstract class CompositeDataFormat implements DataFormat {
 
-    public String format(Object data){
+    public String format(Object data) {
+
         CompositeData compositeData = (CompositeData)data;
         CompositeType type = compositeData.getCompositeType();
-
         Set itemNamesSet = type.keySet();
-        String[] itemNames = new String[itemNamesSet.size() + 1];
-        String[] itemValues = new String[itemNamesSet.size() + 1];
-
-        itemNames[0] = "CompositeType";
-        itemValues[0] = type.getTypeName();
-
-        int index = 1;
+        String[] itemNames = new String[itemNamesSet.size()];
+        String[] itemValues = new String[itemNamesSet.size()];
+        int index = 0;
         for(Iterator it=itemNamesSet.iterator();it.hasNext();){
             itemNames[index] = (String)it.next();
             Object value = compositeData.get(itemNames[index]);

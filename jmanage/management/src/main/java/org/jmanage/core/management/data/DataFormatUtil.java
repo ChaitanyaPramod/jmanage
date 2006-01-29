@@ -14,16 +14,15 @@
 package org.jmanage.core.management.data;
 
 import org.jmanage.core.util.Loggers;
+import org.jmanage.util.StringUtils;
 
-import javax.management.openmbean.CompositeData;
-import javax.management.openmbean.CompositeType;
 import java.util.*;
 import java.util.logging.Logger;
 import java.util.logging.Level;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.IOException;
-import java.lang.reflect.Array;
 
 /**
  * Utility class to provide data formatting.
@@ -37,15 +36,11 @@ public class DataFormatUtil {
     private static final Logger logger = Loggers.getLogger(DataFormatUtil.class);
 
     private static final String FORMAT_PREFIX = "format.";
-    private static final String COMPOSITE_TYPE_FORMAT_PREFIX = "CompositeTypeFormat.";
-
     private static final String LIST_DELIMITER = "list.delimiter";
     private static final String ESCAPE_HTML = "escape.html";
     private static final String NULL_VALUE = "null.value";
 
     private static Object[][] classToFormatMapping = new Object[0][2];
-    private static Map compositeTypeToFormatMapping = new HashMap();
-
     // properties
     private static String listDelimiter = System.getProperty("line.separator");
     private static boolean escapeHtml = true;
@@ -61,7 +56,7 @@ public class DataFormatUtil {
                 Properties props = new Properties();
                 props.load(is);
                 is.close();
-                // note that array is bigger than number of formatters
+                // note that we are array is bigger than number of formatters
                 classToFormatMapping = new Object[props.keySet().size()][2];
                 for(Iterator it=props.keySet().iterator(); it.hasNext();){
                     String property = (String)it.next();
@@ -74,12 +69,6 @@ public class DataFormatUtil {
                         classToFormatMapping[formatCount][1] =
                                 Class.forName(props.getProperty(property)).newInstance();
                         formatCount ++;
-                    }else if(property.startsWith(COMPOSITE_TYPE_FORMAT_PREFIX)){
-                        String compositeType = property.substring(COMPOSITE_TYPE_FORMAT_PREFIX.length());
-                        DataFormat formatter =
-                                (DataFormat)Class.forName(props.getProperty(property)).newInstance();
-                        compositeTypeToFormatMapping.put(compositeType,
-                                formatter);
                     }else if(property.equals(LIST_DELIMITER)){
                         listDelimiter = props.getProperty(property);
                     }else if(property.equals(ESCAPE_HTML)){
@@ -99,77 +88,29 @@ public class DataFormatUtil {
                         ". DataFormatUtil is not initialized.", e);
             }
         }
-    }
 
-    public static String getListDelimiter(){
-        return listDelimiter;
-    }
-
-    public static boolean isEscapeHtml(){
-        return escapeHtml;
-    }
-
-    public static String getNullDisplayValue(){
-        return nullValue;
     }
 
     public static String format(Object data){
-        /* if data is null, return the configured null value */
+        return format(data, listDelimiter, escapeHtml);
+    }
+
+    private static String format(Object data, String listDelim, boolean htmlEscape){
         if(data == null) return nullValue;
-
-        /* check for a DataFormat for given type (normal object or array)*/
         DataFormat formatter = findDataFormat(data);
-        if(formatter != defaultFormatter){
+        if(formatter != null){
             return formatter.format(data);
-        }else if(data.getClass().isArray()){
-            /* see if there is a formatter configured for the elements of the
-                array. This assumes that the array has the same elements. */
-            return formatArray(data);
         }
-        /* format with the default formatter */
-        return defaultFormatter.format(data);
+        return StringUtils.toString(data, listDelim, htmlEscape);
     }
-
-    private static String formatArray(Object data){
-        assert data.getClass().isArray();
-        final int arrayLength = Array.getLength(data);
-        if(arrayLength == 0){
-            return "There are no elements in the array.";
-        }
-        DataFormat formatter = findDataFormat(Array.get(data, 0));
-        StringBuffer buff = new StringBuffer();
-        for(int i=0; i<arrayLength; i++){
-            if(i > 0){
-                buff.append(listDelimiter);
-            }
-            Object element = Array.get(data, i);
-            if(element != null)
-                buff.append(formatter.format(element));
-            else
-                buff.append(nullValue);
-        }
-        return buff.toString();
-    }
-
-    private static final DefaultDataFormat defaultFormatter =
-            new DefaultDataFormat();
 
     private static DataFormat findDataFormat(Object data){
-        /* first check if this data is CompositeData type */
-        if(CompositeData.class.isInstance(data)){
-            CompositeType type = ((CompositeData)data).getCompositeType();
-            DataFormat dataFormat =
-                    (DataFormat)compositeTypeToFormatMapping.get(type.getTypeName());
-            if(dataFormat != null)
-                return dataFormat;
-        }
-        /* now look for other formatters */
         for(int i=0; i<formatCount; i++){
             Class clazz = (Class)classToFormatMapping[i][0];
             if(clazz.isInstance(data)){
                 return (DataFormat)classToFormatMapping[i][1];
             }
         }
-        return defaultFormatter;
+        return null;
     }
 }

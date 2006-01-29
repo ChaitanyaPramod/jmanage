@@ -87,7 +87,7 @@ public class SaveApplicationClusterAction extends BaseAction {
             clusterConfig.setApplications(newChildApplications);
             ApplicationConfigManager.updateApplication(clusterConfig);
 
-            UserActivityLogger.getInstance().logActivity(
+             UserActivityLogger.getInstance().logActivity(
                 context.getUser().getUsername(),
                 "Updated application cluster "+ "\""+clusterConfig.getName()+"\"");
 

@@ -17,9 +17,7 @@ package org.jmanage.webui.forms;
 
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionError;
 import org.jmanage.core.config.*;
-import org.jmanage.core.util.ErrorCodes;
 import org.jmanage.webui.validator.Validator;
 
 import javax.servlet.http.HttpServletRequest;
@@ -41,10 +39,6 @@ public class ApplicationForm extends BaseForm {
     private String username;
     private String password;
     private String type;
-
-    // jsr160 only
-    private String jndiFactory;
-    private String jndiURL;
 
     public String getApplicationId() {
         return appId;
@@ -109,32 +103,9 @@ public class ApplicationForm extends BaseForm {
     public void setType(String type) {
         this.type = type;
     }
-
-    public void setJndiFactory(String jndiFactory){
-        if(jndiFactory != null && jndiFactory.length() > 0)
-            this.jndiFactory = jndiFactory;
-    }
-
-    public String getJndiFactory(){
-        return jndiFactory;
-    }
-
-    public void setJndiURL(String jndiURL){
-        if(jndiURL != null && jndiURL.length() > 0)
-            this.jndiURL = jndiURL;
-    }
-
-    public String getJndiURL(){
-        return jndiURL;
-    }
-
     public ActionErrors validate(ActionMapping mapping, HttpServletRequest request){
         ActionErrors errors = super.validate(mapping, request);
         if(errors==null || errors.isEmpty()){
-            if(name.indexOf("/") != -1){
-                errors.add(ActionErrors.GLOBAL_ERROR,
-                        new ActionError(ErrorCodes.INVALID_CHAR_APP_NAME));
-            }
             ApplicationType appType = ApplicationTypes.getApplicationType(type);
             MetaApplicationConfig metaAppConfig =
                     appType.getModule().getMetaApplicationConfig();

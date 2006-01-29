@@ -16,6 +16,7 @@
 package org.jmanage.core.alert.source;
 
 import org.jmanage.core.alert.AlertSource;
+import org.jmanage.core.alert.AlertHandler;
 import org.jmanage.core.alert.AlertInfo;
 import org.jmanage.core.config.AlertSourceConfig;
 import org.jmanage.core.management.*;
@@ -37,6 +38,8 @@ public class GaugeAlertSource extends AlertSource{
     private static final Logger logger =
             Loggers.getLogger(GaugeAlertSource.class);
 
+    private AlertHandler handler;
+    private ServerConnection connection;
     private ObjectName monitorObjName = null;
     private ObjectNotificationListener listener = null;
     private ObjectNotificationFilterSupport filter = null;
@@ -45,9 +48,19 @@ public class GaugeAlertSource extends AlertSource{
         super(sourceConfig);
     }
 
-    protected void registerInternal(){
+    public void register(AlertHandler handler,
+                         String alertId,
+                         String alertName){
+
+        assert this.handler == null;
+        assert connection == null;
+
+        this.handler = handler;
 
         /* start looking for this notification */
+        connection = ServerConnector.getServerConnection(
+                sourceConfig.getApplicationConfig());
+
         monitorObjName = new ObjectName("jmanage.alerts:name=" + alertName +
                 ",id=" + alertId + ",type=GaugeMonitor");
 
@@ -111,7 +124,7 @@ public class GaugeAlertSource extends AlertSource{
                 listener, filter, null);
     }
 
-    protected void unregisterInternal() {
+    public void unregister() {
         assert connection != null;
         assert monitorObjName != null;
 
@@ -121,8 +134,7 @@ public class GaugeAlertSource extends AlertSource{
                    filter, null);
         } catch (Exception e) {
             logger.log(Level.WARNING,
-                    "Error while Removing Notification Listener. error: " +
-                    e.getMessage());
+                    "Error while Removing Notification Listener", e);
         }
 
         try {
@@ -130,11 +142,20 @@ public class GaugeAlertSource extends AlertSource{
             connection.unregisterMBean(monitorObjName);
         } catch (Exception e) {
             logger.log(Level.WARNING,
-                    "Error while unregistering MBean: " + monitorObjName +
-                    ". error: " + e.getMessage());
+                    "Error while unregistering MBean: " + monitorObjName, e);
         }
 
+        /* close the connection */
+        try {
+           connection.close();
+        } catch (IOException e) {
+           logger.log(Level.WARNING, "Error while closing connection", e);
+        }
+
+        connection = null;
+        handler = null;
         listener = null;
+
         filter = null;
     }
 }

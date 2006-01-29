@@ -50,8 +50,8 @@
     if(objName != null){
         String link = "/app/mbeanView.do?" + RequestParams.APPLICATION_ID +
                 "=" + appConfig.getApplicationId() + "&" +
-                RequestParams.OBJECT_NAME + "=" + URLEncoder.encode(objName.getDisplayName(), "UTF-8");
-        navList.add(0, new Navigation(objName.getShortName(), link));
+                RequestParams.OBJECT_NAME + "=" + URLEncoder.encode(objName.getCanonicalName(), "UTF-8");
+        navList.add(0, new Navigation(objName.toString(), link));
     }
 
     if(appConfig != null){

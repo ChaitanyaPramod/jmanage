@@ -43,8 +43,6 @@ public class JManageProperties extends Properties{
     public static String LOGIN_MAX_ATTEMPTS = "login.maxAttempts";
     private static String JMANAGE_HASH_ALGORITHM = "jmanage.hash.algorithm";
 
-    private static String JETTY_STOP_PORT = "STOP.PORT";
-
     /* CLI properties */
     private static String JMANAGE_URL = "jmanage.url";
     private static String CLI_SSL_IGNORE_BAD_SSL_CERT =
@@ -56,13 +54,6 @@ public class JManageProperties extends Properties{
     private static String ALERT_EMAIL_FROM_NAME = "alert.email.from.name";
     private static String  EMAIL_HOST = "email.host";
     private static String  ALERT_EMAIL_FROM_EMAIL = "alert.email.from.email";
-
-    /* display properties */
-    private static String DISPLAY_MBEAN_CANONICAL_NAME =
-            "jmanage.objectName.displayCanonicalName";
-
-    /* HTML input type for boolean attributes */
-    private static String BOOLEAN_INPUT_TYPE = "jmanage.html.booleanInputType";
 
     /*  The only instance   */
     private static JManageProperties jManageProperties = new JManageProperties();
@@ -79,9 +70,10 @@ public class JManageProperties extends Properties{
         InputStream property =
                 new FileInputStream(JMANAGE_PROPERTY_FILE);
         load(property);
-      }catch(Throwable e){
-          logger.log(Level.WARNING, "Error reading " +
-                  JMANAGE_PROPERTY_FILE + ". error: " + e.getMessage());
+      }catch(Exception e){
+          logger.log(Level.SEVERE, "Error reading " +
+                  JMANAGE_PROPERTY_FILE, e);
+          CoreUtils.exitSystem();
       }
     }
 
@@ -100,10 +92,6 @@ public class JManageProperties extends Properties{
 
     public static String getHashAlgorithm(){
         return jManageProperties.getProperty(JMANAGE_HASH_ALGORITHM, "SHA-1");
-    }
-
-    public static String getStopPort(){
-        return jManageProperties.getProperty(JETTY_STOP_PORT, "9099");
     }
 
     public static boolean isIgnoreBadSSLCertificate(){
@@ -136,23 +124,5 @@ public class JManageProperties extends Properties{
     }
     public static String getAlertEmailFrom(){
         return jManageProperties.getProperty(ALERT_EMAIL_FROM_EMAIL);
-    }
-    public static boolean isBooleanInputTypeRadio(){
-        return "radio".equals(jManageProperties.getProperty(BOOLEAN_INPUT_TYPE));
-    }
-    public static boolean isBooleanInputTypeCheckbox(){
-        return "checkbox".equals(jManageProperties.getProperty(BOOLEAN_INPUT_TYPE));
-    }
-    public static boolean isBooleanInputTypeSelect() {
-        return "select".equals(jManageProperties.getProperty(BOOLEAN_INPUT_TYPE));
-    }
-
-    /**
-     * Indicates if the canonical name of the mbean should be displayed
-     * @return
-     */
-    public static boolean isDisplayCanonicalName(){
-        return "true".equals(
-                jManageProperties.getProperty(DISPLAY_MBEAN_CANONICAL_NAME));
     }
 }

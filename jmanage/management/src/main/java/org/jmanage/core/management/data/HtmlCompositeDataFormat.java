@@ -14,7 +14,7 @@
 package org.jmanage.core.management.data;
 
 import org.jmanage.util.display.Table;
-import org.jmanage.util.display.VerticalHeaderHtmlTable;
+import org.jmanage.util.display.HtmlTable;
 
 /**
  *
@@ -25,6 +25,6 @@ import org.jmanage.util.display.VerticalHeaderHtmlTable;
 public class HtmlCompositeDataFormat extends CompositeDataFormat {
 
     protected Table getTable() {
-        return new VerticalHeaderHtmlTable();
+        return new HtmlTable();
     }
 }

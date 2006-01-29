@@ -17,7 +17,7 @@ import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.util.RequestAttributes;
-import org.jmanage.webui.util.RequestParams;
+import org.jmanage.webui.forms.AlertForm;
 import org.jmanage.core.services.MBeanService;
 import org.jmanage.core.services.ServiceFactory;
 import org.apache.struts.action.ActionForm;
@@ -27,7 +27,6 @@ import org.apache.struts.action.ActionForward;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
-import java.util.HashMap;
 
 /**
  *
@@ -43,18 +42,12 @@ public class ShowSelectNotificationAction extends BaseAction{
                                  HttpServletRequest request,
                                  HttpServletResponse response)
             throws Exception {
-        String objName = request.getParameter(RequestParams.OBJECT_NAME);
+
         /* find mbeans that have notifications */
         MBeanService mbeanService = ServiceFactory.getMBeanService();
-        Map mbeanToNotificationsMap = new HashMap();
-        Map mbeansToNotificationsMap =
+        Map mbeanToNotificationsMap =
                 mbeanService.queryMBeansWithNotifications(context.getServiceContext());
-        if(objName != null){
-            mbeanToNotificationsMap.put(objName, mbeansToNotificationsMap.get(objName));
-            request.setAttribute("mbeanToNotificationsMap", mbeanToNotificationsMap);
-        }else{
-            request.setAttribute("mbeanToNotificationsMap", mbeansToNotificationsMap);
-        }
+        request.setAttribute("mbeanToNotificationsMap", mbeanToNotificationsMap);
         /*set current page for navigation*/
         request.setAttribute(RequestAttributes.NAV_CURRENT_PAGE, "Add Alert");
         return mapping.findForward(Forwards.SUCCESS);

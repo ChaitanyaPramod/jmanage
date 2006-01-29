@@ -5,8 +5,7 @@
                  java.util.List,
                  org.jmanage.core.management.ObjectAttributeInfo,
                  org.jmanage.core.util.Expression,
-                 org.jmanage.webui.util.RequestParams,
-                 org.jmanage.core.management.ObjectName"%> <%-- Copyright 2004-2005 jManage.org
+                 org.jmanage.webui.util.RequestParams"%> <%-- Copyright 2004-2005 jManage.org
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -46,18 +45,16 @@
         String objectName = (String)itr.next();
 %>
 <jmhtml:hidden property="mbeans" value="<%=objectName%>"/>
-<table class="table" border="0" cellspacing="0" cellpadding="5" width="600">
-    <tr class="tableHeader">
-        <td colspan="4" nowrap="true"><%=ObjectName.getShortName(objectName)%></td>
+<table class="table" border="0" cellspacing="5" cellpadding="3" width="600">
+    <tr class="tableheader">
+        <td colspan="4"><%=objectName%></td>
     </tr>
+    <tr>
 <%
         List attributes = (List)mbeanAttributesMap.get(objectName);
         for(Iterator it=attributes.iterator();it.hasNext();){
             ObjectAttributeInfo objAttrInfo = (ObjectAttributeInfo)it.next();
             Expression expression = new Expression("",objectName,objAttrInfo.getName());
-%>
-    <tr>
-<%
             if(request.getParameter(RequestParams.MULTIPLE).equals("true")){
 %>
 
@@ -74,7 +71,7 @@
             }
         %>
                 <td class="plaintext" valign="top"><%=objAttrInfo.getName()%></td>
-                <td class="plaintext" valign="top"><%=objAttrInfo.getDisplayType()%></td>
+                <td class="plaintext" valign="top"><%=objAttrInfo.getType()%></td>
                 <td class="plaintext" valign="top"><%=objAttrInfo.getDescription()%></td>
     </tr>
 <%

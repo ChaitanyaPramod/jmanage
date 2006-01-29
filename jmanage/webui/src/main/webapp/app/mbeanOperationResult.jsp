@@ -7,33 +7,23 @@
                  org.jmanage.webui.util.MBeanUtils,
                  org.jmanage.core.services.AccessController,
                  org.jmanage.core.util.ACLConstants,
-                 org.jmanage.webui.util.WebContext,
-                 org.jmanage.core.management.ObjectName"%>
+                 org.jmanage.webui.util.WebContext"%>
 <%@ taglib uri="/WEB-INF/tags/jstl/c.tld" prefix="c"%>
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 
 <%
     final WebContext webContext = WebContext.get(request);
-    ObjectName objectName = WebContext.getObjectName(request);
-    ObjectOperationInfo operationInfo =
-            (ObjectOperationInfo)request.getAttribute("operationInfo");
+    ObjectOperationInfo operationInfo = (ObjectOperationInfo)request.getAttribute("operationInfo");
 %>
 <table class="table" border="0" cellspacing="0" cellpadding="5" width="900">
     <tr>
-        <td class="headtext" width="100" nowrap="true" valign="top"><b>Object Name</b></td>
-        <td class="plaintext" valign="top">
-            <pre class="plaintext"><%=objectName.getWrappedName()%></pre>
-        </td>
+        <td class="headtext" width="150" nowrap><b>Object Name</b></td>
+        <td class="plaintext"><c:out value="${param.objName}" /></td>
         <td class="plaintext">&nbsp;</td>
     </tr>
     <tr>
         <td class="headtext" width="150"><b>Operation Name</b></td>
         <td class="plaintext"><c:out value="${param.operationName}" /></td>
-        <td class="plaintext">&nbsp;</td>
-    </tr>
-    <tr>
-        <td class="headtext" width="150"><b>Return Type</b></td>
-        <td class="plaintext"><%=operationInfo.getDisplayReturnType()%></td>
         <td class="plaintext">&nbsp;</td>
     </tr>
     <%
@@ -72,14 +62,14 @@
             <%
                     if(!params[paramIndex].getType().equals(argName)) {
             %>
-            (<%=params[paramIndex].getDisplayType()%>)
+            (<%=params[paramIndex].getType()%>)
             <%
                     }
             %>
             <%
                 } else {
             %>
-            None
+            &nbsp;
             <%
                 }
             %>
@@ -130,7 +120,7 @@
             <%
                 if(!params[paramIndex].getType().equals(argName)) {
             %>
-            (<%=params[paramIndex].getDisplayType()%>)
+            (<%=params[paramIndex].getType()%>)
             <%
                 }
             %>
@@ -146,6 +136,7 @@
 <table class="table" border="0" cellspacing="0" cellpadding="5" width="900">
 <tr class="tableHeader">
     <td width="150" nowrap>Application</td>
+    <td width="50" nowrap>Status</td>
     <td>Output</td>
 </tr>
 <%
@@ -157,15 +148,9 @@
         <tr>
             <td valign="top" class="plaintext"><%=operationResult.getApplicationName()%></td>
             <td valign="top" class="plaintext">
-                <%if(operationResult.isError()){%>
-                    There was an error. Stack Trace:
-                    <p>
-                    <pre class="plaintext"><%=operationResult.getStackTrace()%></pre>
-                    </p>
-                <%}else{%>
-                    <pre class="plaintext"><%=operationResult.getDisplayOutput()%></pre>
-                <%}%>
+                <%=(operationResult.getResult() == OperationResultData.RESULT_OK)?"OK":"Error"%>
             </td>
+            <td valign="top" class="plaintext"><%=StringUtils.toString(operationResult.getOutput(), "<br/>", true)%></td>
         </tr>
     <%
     }

@@ -30,10 +30,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * Action class for the graph view page. This page contains the applet
- * which pulls attriute values via MBeanAttributeValuesAction.
- *
- * @see MBeanAttributeValuesAction
  *
  * Date:  Jun 12, 2005
  * @author	Rakesh Kalra

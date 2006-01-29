@@ -29,7 +29,6 @@ import org.apache.struts.action.ActionForm;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
 
 /**
  *
@@ -76,11 +75,6 @@ public class ShowEditApplicationAction extends BaseAction {
         if(metaAppConfig.isDisplayPassword() && config.getPassword() != null
                 && config.getPassword().length()>0)
             appForm.setPassword(ApplicationForm.FORM_PASSWORD);
-
-        // for jsr160
-        Map paramValues = config.getParamValues();
-        appForm.setJndiFactory((String)paramValues.get(ApplicationConfig.JNDI_FACTORY));
-        appForm.setJndiURL((String)paramValues.get(ApplicationConfig.JNDI_URL));
 
         request.setAttribute(RequestAttributes.META_APP_CONFIG, metaAppConfig);
 

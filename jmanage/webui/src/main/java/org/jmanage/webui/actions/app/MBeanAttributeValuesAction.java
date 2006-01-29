@@ -23,7 +23,10 @@ import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.util.Utils;
 import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.core.util.Expression;
-import org.jmanage.core.services.*;
+import org.jmanage.core.services.ServiceContextImpl;
+import org.jmanage.core.services.ServiceContext;
+import org.jmanage.core.services.MBeanService;
+import org.jmanage.core.services.ServiceFactory;
 import org.jmanage.core.management.ObjectAttribute;
 
 import javax.servlet.http.HttpServletResponse;
@@ -38,10 +41,8 @@ import java.util.Iterator;
  * each attribute. The "attributes" parameter is of the following format:
  * <p>
  * [app1/mbean1/attribute1],[app2/mbean2/attribute2]
- * <p>
- * This is used by the GraphApplet to retrieve the attribute values.
  *
- * @see org.jmanage.webui.applets.GraphApplet
+ *
  * Date:  Jun 11, 2005
  * @author	Rakesh Kalra
  */
@@ -62,16 +63,11 @@ public class MBeanAttributeValuesAction extends BaseAction {
         MBeanService mbeanService = ServiceFactory.getMBeanService();
         for(Iterator it=exprList.iterator(); it.hasNext();){
             Expression expression = (Expression)it.next();
-            ServiceContext srvcContext = null;
-            ObjectAttribute objAttribute = null;
-            try {
-                srvcContext = Utils.getServiceContext(context, expression);
-                objAttribute = mbeanService.getObjectAttribute(srvcContext,
-                                            expression.getTargetName());
-            } finally {
-                if(srvcContext != null)
-                    srvcContext.getServerConnection().close();
-            }
+            ServiceContext srvcContext =
+                    Utils.getServiceContext(context, expression);
+            ObjectAttribute objAttribute =
+                    mbeanService.getObjectAttribute(srvcContext,
+                            expression.getTargetName());
             assert objAttribute != null;
             assert objAttribute.getStatus() == ObjectAttribute.STATUS_OK;
             objectAttrList.add(objAttribute);

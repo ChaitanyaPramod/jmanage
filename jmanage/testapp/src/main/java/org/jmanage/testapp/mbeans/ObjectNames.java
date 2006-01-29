@@ -21,13 +21,13 @@ package org.jmanage.testapp.mbeans;
  * @author	Rakesh Kalra
  */
 public interface ObjectNames {
-    String CONFIGURATION = "jmanage:name=Configuration,type=test";
-    String CALCULATOR = "jmanage:name=Calculator/test,type=test";
-    String PRIMITIVE_DATA_TYPE_TEST = "jmanage:name=PrimitiveDataTypeTest,type=test";
-    String DATA_TYPE_TEST = "jmanage:type=test,name=DataTypeTest";
-    String BIG_DATA_TYPE_TEST = "jmanage:type=test,name=BigDataTypeTest";
-    String OBJECT_NAME_DATA_TYPE_TEST = "jmanage:name=ObjectNameDataTypeTest,type=test";
-    String TIME_NOTIFICATION_BROADCASTER = "jmanage:type=test,name=TimeNotificationBroadcaster";
-    String DATA_FORMAT = "jmanage:type=test,name=DataFormat";
-    String OPEN_MBEAN_DATA_TYPE_TEST = "jmanage:type=test,name=OpenMBeanDataTypeTest";
+    String CONFIGURATION = "jmanage:name=Configuration";
+    String CALCULATOR = "jmanage:name=Calculator/test";
+    String PRIMITIVE_DATA_TYPE_TEST = "jmanage:name=PrimitiveDataTypeTest";
+    String DATA_TYPE_TEST = "jmanage:name=DataTypeTest";
+    String BIG_DATA_TYPE_TEST = "jmanage:name=BigDataTypeTest";
+    String OBJECT_NAME_DATA_TYPE_TEST = "jmanage:name=ObjectNameDataTypeTest";
+    String TIME_NOTIFICATION_BROADCASTER = "jmanage:name=TimeNotificationBroadcaster";
+    String DATA_FORMAT = "jmanage:name=DataFormat";
+    String OPEN_MBEAN_DATA_TYPE_TEST = "jmanage:name=OpenMBeanDataTypeTest";
 }

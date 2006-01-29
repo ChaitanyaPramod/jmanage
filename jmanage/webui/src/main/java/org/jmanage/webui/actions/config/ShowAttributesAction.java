@@ -58,7 +58,6 @@ public class ShowAttributesAction extends BaseAction{
             ObjectAttributeInfo[] objAttrInfo = objInfo.getAttributes();
             List objAttrInfoList = mbeanService.filterAttributes(
                     Utils.getServiceContext(context),
-                    objectName,
                     objAttrInfo,
                     form.getDataTypes());
             mbeanAttributesListMap.put(mbeans[i],objAttrInfoList);

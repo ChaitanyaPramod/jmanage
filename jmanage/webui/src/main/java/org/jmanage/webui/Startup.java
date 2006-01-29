@@ -17,8 +17,7 @@ package org.jmanage.webui;
 
 import org.mortbay.jetty.Server;
 import org.jmanage.core.util.CoreUtils;
-import org.jmanage.core.util.PasswordField;
-import org.jmanage.core.util.JManageProperties;
+import org.jmanage.core.crypto.PasswordField;
 import org.jmanage.core.crypto.Crypto;
 import org.jmanage.core.auth.UserManager;
 import org.jmanage.core.auth.AuthConstants;
@@ -39,10 +38,8 @@ import java.io.File;
  */
 public class Startup {
 
-    public static void main(String[] args) throws Exception{
-
-        /* create logs dir */
-        new File(CoreUtils.getLogDir()).mkdirs();
+    public static void main(String[] args)
+            throws Exception {
 
         UserManager userManager = UserManager.getInstance();
         User user = null;
@@ -80,12 +77,8 @@ public class Startup {
             return;
         }
 
-        /* set admin password as the stop key */
-        final JettyStopKey stopKey = new JettyStopKey(new String(password));
-        System.setProperty("STOP.KEY", stopKey.toString());
-        /* set stop.port */
-        System.setProperty("STOP.PORT", JManageProperties.getStopPort());
-
+        /* create logs dir */
+        new File(CoreUtils.getLogDir()).mkdirs();
         /* initialize ServiceFactory */
         ServiceFactory.init(ServiceFactory.MODE_LOCAL);
         /* initialize crypto */
@@ -102,11 +95,12 @@ public class Startup {
         start();
     }
 
-    private static void start() throws Exception {
+    private static void start()
+            throws Exception {
+
         Server server =
                 new Server(CoreUtils.getConfigDir() +
                 File.separator + "jetty-config.xml");
-        ServerMonitor.monitor();
         server.start();
     }
 }

@@ -25,7 +25,7 @@ public class HtmlTable extends AbstractTable {
 
     public String draw(){
         StringBuffer buff = new StringBuffer();
-        buff.append("<table class=\"HtmlTable\">");
+        buff.append("<table>");
         drawHeader(buff);
         for(Iterator it=getRows().iterator(); it.hasNext(); ){
             drawRow(buff, (String[])it.next());
@@ -38,7 +38,7 @@ public class HtmlTable extends AbstractTable {
         buff.append("<tr>");
         String[] header = getHeader();
         for(int i=0; i<header.length; i++){
-            buff.append("<td valign=\"top\" style=\"border: none;font-family: Verdana, Arial, Helvetica, sans-serif;font-size: 11px\">");
+            buff.append("<td style=\"border: none;font-family: Verdana, Arial, Helvetica, sans-serif;font-size: 11px\">");
             buff.append("<b>");
             buff.append(header[i]);
             buff.append("</b></td>");
@@ -49,7 +49,7 @@ public class HtmlTable extends AbstractTable {
     private void drawRow(StringBuffer buff, String[] row){
         buff.append("<tr>");
         for(int i=0; i<row.length; i++){
-            buff.append("<td valign=\"top\" style=\"border: none;font-family: Verdana, Arial, Helvetica, sans-serif;font-size: 11px\">");
+            buff.append("<td style=\"border: none;font-family: Verdana, Arial, Helvetica, sans-serif;font-size: 11px\">");
             buff.append(row[i]);
             buff.append("</td>");
         }

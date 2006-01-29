@@ -25,6 +25,6 @@ import org.jmanage.core.alert.AlertInfo;
 public class ConsoleDelivery implements AlertDelivery {
 
     public void deliver(AlertInfo alertInfo) {
-        ConsoleAlerts.getInstance().add(alertInfo);
+        ConsoleAlerts.add(alertInfo);
     }
 }

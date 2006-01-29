@@ -17,6 +17,7 @@ import org.jmanage.core.config.AlertSourceConfig;
 import org.jmanage.core.management.*;
 import org.jmanage.core.util.Loggers;
 import org.jmanage.core.alert.AlertSource;
+import org.jmanage.core.alert.AlertHandler;
 import org.jmanage.core.alert.AlertInfo;
 
 import java.util.logging.Logger;
@@ -33,6 +34,8 @@ public class NotificationAlertSource extends AlertSource {
     private static final Logger logger =
             Loggers.getLogger(NotificationAlertSource.class);
 
+    private AlertHandler handler;
+    private ServerConnection connection;
     private ObjectNotificationListener listener;
     private ObjectNotificationFilterSupport filter;
 
@@ -40,9 +43,14 @@ public class NotificationAlertSource extends AlertSource {
         super(sourceConfig);
     }
 
-    protected void registerInternal() {
+    public void register(AlertHandler handler,
+                         String alertId,
+                         String alertName) {
+        this.handler = handler;
 
         /* start looking for this notification */
+        connection = ServerConnector.getServerConnection(
+                sourceConfig.getApplicationConfig());
         listener = new ObjectNotificationListener(){
             public void handleNotification(ObjectNotification notification,
                                            Object handback) {
@@ -60,21 +68,25 @@ public class NotificationAlertSource extends AlertSource {
                 listener, filter, null);
     }
 
-    protected void unregisterInternal() {
+    public void unregister() {
 
+        this.handler = null;
         assert connection != null;
 
+        /* remove notification listener */
+        connection.removeNotificationListener(
+                new ObjectName(sourceConfig.getObjectName()),
+                listener, filter, null);
+
+        /* close the connection */
         try {
-            /* remove notification listener */
-            connection.removeNotificationListener(
-                    new ObjectName(sourceConfig.getObjectName()),
-                    listener, filter, null);
-        } catch (Exception e) {
-            logger.log(Level.WARNING,
-                    "Error while Removing Notification Listener. error: " +
-                    e.getMessage());
+            connection.close();
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "Error while closing connection", e);
         }
 
+        connection = null;
+        handler = null;
         listener = null;
         filter = null;
     }

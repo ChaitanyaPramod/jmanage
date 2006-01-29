@@ -17,7 +17,6 @@ package org.jmanage.core.util;
 
 import java.util.Properties;
 import java.util.logging.Logger;
-import java.util.logging.Level;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -34,14 +33,12 @@ public class ErrorCatalog {
     private static final Properties errorMap;
 
     static{
-        final String errorProperties = CoreUtils.getConfigDir() +
-                "/errors.properties";
-        errorMap = new Properties();
         try {
-            errorMap.load(new FileInputStream(errorProperties));
+            errorMap = new Properties();
+            errorMap.load(new FileInputStream(CoreUtils.getConfigDir() +
+                    "/errors.properties"));
         } catch (IOException e) {
-            logger.log(Level.WARNING, "Error reading " +
-                  errorProperties + ". error: " + e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 

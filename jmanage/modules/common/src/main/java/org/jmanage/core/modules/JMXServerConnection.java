@@ -25,7 +25,6 @@ import javax.management.openmbean.CompositeData;
 import javax.management.openmbean.TabularData;
 import java.util.*;
 import java.util.logging.Logger;
-import java.util.logging.Level;
 import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
 import java.io.IOException;
@@ -244,27 +243,6 @@ public abstract class JMXServerConnection implements ServerConnection{
     }
 
     /**
-     * checks if this connection is open.
-     * It simply calls getMBeanCount() method on MBeanServer Connection.
-     * If there is no errors, then the connection is assumed to be open.
-     *
-     * @return true if this connection is open
-     */
-    public boolean isOpen(){
-        try {
-            Class[] methodSignature = new Class[0];
-            Object[] methodArgs = new Object[0];
-            Integer count = (Integer)callMBeanServer("getMBeanCount",
-                    methodSignature, methodArgs);
-            return true;
-        } catch (Exception e) {
-            logger.log(Level.INFO, "Connection to the server is lost. " +
-                    "Error message: " + e.getMessage());
-            return false;
-        }
-    }
-
-    /**
      * Closes the connection to the server
      */
     public void close() throws IOException{
@@ -282,10 +260,6 @@ public abstract class JMXServerConnection implements ServerConnection{
             Method method = mbeanServerClass.getMethod(methodName, params);
             return method.invoke(mbeanServer, args);
         } catch (InvocationTargetException e) {
-            if(e.getCause() != null &&
-                    e.getCause() instanceof RuntimeException){
-                throw (RuntimeException)e.getCause();
-            }
             throw new RuntimeException(e.getCause());
         } catch (Throwable e){
             if(e instanceof RuntimeException){
@@ -307,8 +281,7 @@ public abstract class JMXServerConnection implements ServerConnection{
 
     protected static ObjectName toJmanageObjectName(
             javax.management.ObjectName objectName){
-        return new ObjectName(objectName.toString(),
-                objectName.getCanonicalName());
+        return new ObjectName(objectName.getCanonicalName());
     }
 
     /**

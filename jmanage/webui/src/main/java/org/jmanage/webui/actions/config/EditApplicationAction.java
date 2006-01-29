@@ -23,15 +23,12 @@ import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.ApplicationConfigManager;
 import org.jmanage.core.util.UserActivityLogger;
 import org.jmanage.core.services.AccessController;
-import org.jmanage.core.alert.AlertEngine;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
-import java.util.HashMap;
 
 /**
  *
@@ -63,28 +60,11 @@ public class EditApplicationAction extends BaseAction {
             config.setUsername(appForm.getUsername());
 
         final String password = appForm.getPassword();
-        if(!ApplicationForm.FORM_PASSWORD.equals(password)){
+        if(!password.equals(ApplicationForm.FORM_PASSWORD)){
             config.setPassword(password);
         }
 
-        Map paramValues = config.getParamValues();
-        if(appForm.getJndiFactory() != null){
-            paramValues.put(ApplicationConfig.JNDI_FACTORY, appForm.getJndiFactory());
-        }else{
-            paramValues.remove(ApplicationConfig.JNDI_FACTORY);
-        }
-
-        if(appForm.getJndiURL() != null){
-            paramValues.put(ApplicationConfig.JNDI_URL, appForm.getJndiURL());
-        }else{
-            paramValues.remove(ApplicationConfig.JNDI_URL);
-        }
-
         ApplicationConfigManager.updateApplication(config);
-
-        /* update the AlertEngine */
-        AlertEngine.getInstance().updateApplication(config);
-
         UserActivityLogger.getInstance().logActivity(
                 context.getUser().getUsername(),
                 "Updated application "+"\""+config.getName()+"\"");

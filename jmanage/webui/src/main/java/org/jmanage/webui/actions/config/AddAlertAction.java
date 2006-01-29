@@ -18,8 +18,10 @@ package org.jmanage.webui.actions.config;
 import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.*;
 import org.jmanage.webui.forms.AlertForm;
+import org.jmanage.core.services.AccessController;
 import org.jmanage.core.services.MBeanService;
 import org.jmanage.core.services.ServiceFactory;
+import org.jmanage.core.auth.RoleManager;
 import org.jmanage.core.config.AlertConfig;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.ApplicationConfigManager;
@@ -33,6 +35,9 @@ import org.apache.struts.action.ActionForm;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.math.BigInteger;
+import java.math.BigDecimal;
 
 /**
  * Date: May 25, 2005 3:43:21 PM
@@ -62,12 +67,14 @@ public class AddAlertAction extends BaseAction{
             alertConfig = new AlertConfig(AlertConfig.getNextAlertId(),
                     form.getAlertName(),
                     form.getAlertDelivery(),
-                    form.getEmailAddress());
+                    form.getEmailAddress(),
+                    form.getSubject());
             alertConfig.setAlertSourceConfig(getAlertSourceConfig(context,form));
             appConfig.addAlert(alertConfig);
         }else{
             alertConfig = appConfig.findAlertById(form.getAlertId());
             alertConfig.setAlertName(form.getAlertName());
+            alertConfig.setSubject(form.getSubject());
             alertConfig.setAlertDelivery(form.getAlertDelivery());
             if(form.getEmailAddress()!=null){
                 alertConfig.setEmailAddress(form.getEmailAddress());

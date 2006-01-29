@@ -16,6 +16,7 @@
 package org.jmanage.core.alert.source;
 
 import org.jmanage.core.alert.AlertSource;
+import org.jmanage.core.alert.AlertHandler;
 import org.jmanage.core.alert.AlertInfo;
 import org.jmanage.core.config.AlertSourceConfig;
 import org.jmanage.core.management.*;
@@ -33,10 +34,10 @@ import java.io.IOException;
  * @author Bhavana
  */
 public class StringAlertSource extends AlertSource{
-
     private static final Logger logger =
             Loggers.getLogger(StringAlertSource.class);
-
+    private AlertHandler handler;
+    private ServerConnection connection;
     private ObjectName monitorObjName = null;
     private ObjectNotificationListener listener = null;
     private ObjectNotificationFilterSupport filter = null;
@@ -44,11 +45,19 @@ public class StringAlertSource extends AlertSource{
     public StringAlertSource(AlertSourceConfig sourceConfig){
         super(sourceConfig);
     }
+    public void register(AlertHandler handler,
+                         String alertId,
+                         String alertName){
+        assert this.handler == null;
+        assert connection == null;
 
-    protected void registerInternal(){
+        this.handler = handler;
 
         /* start looking for this notification */
-        monitorObjName = new ObjectName("jmanage.alerts:name=" + alertName +
+        connection = ServerConnector.getServerConnection(
+                sourceConfig.getApplicationConfig());
+
+        monitorObjName = new ObjectName("jmanage:name=" + alertName +
                 ",id=" + alertId + ",type=StringMonitor");
 
         /* check if the MBean is already registered */
@@ -98,9 +107,8 @@ public class StringAlertSource extends AlertSource{
         connection.addNotificationListener(monitorObjName,
                 listener, filter, null);
     }
-
-    protected void unregisterInternal() {
-        assert connection != null;
+    public void unregister() {
+       assert connection != null;
         assert monitorObjName != null;
 
         try {
@@ -109,8 +117,7 @@ public class StringAlertSource extends AlertSource{
                    filter, null);
         } catch (Exception e) {
             logger.log(Level.WARNING,
-                    "Error while Removing Notification Listener. error: " +
-                    e.getMessage());
+                    "Error while Removing Notification Listener", e);
         }
 
         try {
@@ -118,11 +125,20 @@ public class StringAlertSource extends AlertSource{
             connection.unregisterMBean(monitorObjName);
         } catch (Exception e) {
             logger.log(Level.WARNING,
-                    "Error while unregistering MBean: " + monitorObjName +
-                    ". error=" + e.getMessage());
+                    "Error while unregistering MBean: " + monitorObjName, e);
         }
 
+        /* close the connection */
+        try {
+           connection.close();
+        } catch (IOException e) {
+           logger.log(Level.SEVERE, "Error while closing connection", e);
+        }
+
+        connection = null;
+        handler = null;
         listener = null;
+
         filter = null;
     }
 }

@@ -14,9 +14,12 @@
 package org.jmanage.core.services;
 
 import org.jmanage.core.alert.delivery.ConsoleAlerts;
-import org.jmanage.core.alert.AlertInfo;
+import org.jmanage.core.util.CoreUtils;
+import org.jmanage.core.data.AlertData;
 
-import java.util.*;
+import java.util.List;
+import java.util.LinkedList;
+import java.util.Iterator;
 
 /**
  *
@@ -29,29 +32,18 @@ public class AlertServiceImpl implements AlertService {
             throws ServiceException {
 
         List alerts = new LinkedList();
-        // create a copy
-        for(Iterator it=ConsoleAlerts.getInstance().getAll().iterator(); it.hasNext();){
-            alerts.add(it.next());
-        }
-        Collections.sort(alerts, new Comparator(){
-            public int compare(Object o1, Object o2) {
-                AlertInfo info1 = (AlertInfo)o1;
-                AlertInfo info2 = (AlertInfo)o2;
-                if(info1.getTimeStamp() == info2.getTimeStamp()){
-                    return 0;
-                }else if(info1.getTimeStamp() < info2.getTimeStamp()){
-                    return -1;
-                }else{
-                    return 1;
-                }
-            }
-        });
+        // convert to a list of AlertInfo objects into a list of AlertData objects
+        for(Iterator it=ConsoleAlerts.getAll().iterator(); it.hasNext();){
+            AlertData alertData = new AlertData();
+            CoreUtils.copyProperties(alertData, it.next());
 
+            alerts.add(alertData);
+        }
         return alerts;
     }
 
     public void removeConsoleAlert(ServiceContext context,
                                    String alertId) {
-        ConsoleAlerts.getInstance().remove(alertId);
+        ConsoleAlerts.remove(alertId);
     }
 }

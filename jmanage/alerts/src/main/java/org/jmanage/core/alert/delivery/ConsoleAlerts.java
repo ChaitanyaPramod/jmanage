@@ -26,20 +26,69 @@ import java.io.*;
  * Date:  Aug 2, 2005
  * @author	Rakesh Kalra
  */
-public class ConsoleAlerts extends PersistedAlerts{
+public class ConsoleAlerts {
 
     private static final String CONSOLE_ALERTS_FILE =
             CoreUtils.getDataDir() + File.separator + "console-alerts.xml";
 
-    private static final ConsoleAlerts instance = new ConsoleAlerts();
+    private static Map alerts = Collections.synchronizedMap(new HashMap());
 
-    public static ConsoleAlerts getInstance(){
-        return instance;
+    public static void add(AlertInfo alertInfo){
+        Object prevValue = alerts.put(alertInfo.getAlertId(), alertInfo);
+        assert prevValue == null;
+        save();
     }
 
-    private ConsoleAlerts(){}
+    public static void remove(String alertId){
+        alerts.remove(alertId);
+        save();
+    }
 
-    protected String getPersistedFileName() {
-        return CONSOLE_ALERTS_FILE;
+    public static AlertInfo get(String alertId){
+        return (AlertInfo)alerts.get(alertId);
+    }
+
+    public static Collection getAll(){
+        return alerts.values();
+    }
+
+    public static void removeAll(){
+        alerts.clear();
+        save();
+    }
+
+    private static void save(){
+        try {
+            XMLEncoder encoder = new XMLEncoder(
+                    new BufferedOutputStream(
+                            new FileOutputStream(CONSOLE_ALERTS_FILE)));
+            Map persistedAlerts = new HashMap();
+            persistedAlerts.putAll(alerts);
+            encoder.writeObject(persistedAlerts);
+            encoder.close();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    static {
+        // read from file when class is initialized
+        read();
+    }
+
+    private static void read(){
+        try {
+            File file = new File(CONSOLE_ALERTS_FILE);
+            if(file.exists()){
+                XMLDecoder decoder = new XMLDecoder(
+                                    new BufferedInputStream(
+                                        new FileInputStream(CONSOLE_ALERTS_FILE)));
+                Map persistedAlerts = (Map)decoder.readObject();
+                alerts.putAll(persistedAlerts);
+                decoder.close();
+            }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

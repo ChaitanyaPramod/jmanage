@@ -30,7 +30,7 @@ public class AlertSourceConfig {
 
     private static final String SOURCE_TYPE_NOTIFICATION_DESC = "MBean Notification";
     private static final String SOURCE_TYPE_GAUGE_MONITOR_DESC = "MBean Attribute Value Thresholds";
-    private static final String SOURCE_TYPE_STRING_MONITOR_DESC = "MBean Attribute String Value Match";
+    private static final String SOURCE_TYPE_STRING_MONITOR_DESC = "MBean Attribute String Value";
 
     private String sourceType;
     private ApplicationConfig appConfig;
@@ -88,10 +88,6 @@ public class AlertSourceConfig {
 
     public String getSourceType() {
         return sourceType;
-    }
-
-    public String getSourceTypeDesc(){
-        return getSourceTypeDescription(sourceType);
     }
 
     public String getObjectName() {

@@ -75,11 +75,9 @@
             defaultPort="1099"/>
         <application-type
             id="websphere"
-            name="WebSphere"
+            name="Websphere"
             module="websphere"
-            compatibleJMX="false"
-            defaultHost="localhost"
-            defaultPort="8880"/>
+            compatibleJMX="true"/>
         <application-type
             id="snmp"
             name="SNMP Device"

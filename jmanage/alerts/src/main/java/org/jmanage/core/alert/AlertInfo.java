@@ -17,17 +17,12 @@ import org.jmanage.core.management.ObjectNotification;
 import org.jmanage.core.config.AlertConfig;
 import org.jmanage.core.config.ApplicationConfig;
 
-import java.text.SimpleDateFormat;
-
 /**
  *
  * Date:  Jul 31, 2005
  * @author	Rakesh Kalra
  */
 public class AlertInfo {
-
-    private static final SimpleDateFormat formatter =
-            new SimpleDateFormat("yyyy, MMM dd HH:mm:ss");
 
     // unique id for the alert
     private String alertId = null;
@@ -36,10 +31,11 @@ public class AlertInfo {
     private String message = null;
     private long timeStamp;
     private Object userData = null;
-    private String objectName = null;
+    private String source = null;
 
     private String alertConfigId;
     private String alertName;
+    private String subject;
     private String emailAddress;
 
     private String appId;
@@ -55,13 +51,15 @@ public class AlertInfo {
         setMessage(notification.getMessage());
         setTimeStamp(notification.getTimeStamp());
         setUserData(notification.getUserData());
+        if(notification.getMySource() != null)
+            setSource(notification.getMySource().toString());
     }
 
     public void setAlertConfig(AlertConfig alertConfig) {
         this.alertConfigId = alertConfig.getAlertId();
         this.alertName = alertConfig.getAlertName();
+        this.subject = alertConfig.getSubject();
         this.emailAddress = alertConfig.getEmailAddress();
-        setObjectName(alertConfig.getAlertSourceConfig().getObjectName());
         ApplicationConfig appConfig =
                 alertConfig.getAlertSourceConfig().getApplicationConfig();
         this.setApplicationId(appConfig.getApplicationId());
@@ -104,10 +102,6 @@ public class AlertInfo {
         return timeStamp;
     }
 
-    public String getFormattedTimeStamp(){
-        return formatter.format(new java.util.Date(timeStamp));
-    }
-
     public void setTimeStamp(long timeStamp) {
         this.timeStamp = timeStamp;
     }
@@ -120,12 +114,12 @@ public class AlertInfo {
         this.userData = userData;
     }
 
-    public String getObjectName() {
-        return objectName;
+    public String getSource() {
+        return source;
     }
 
-    public void setObjectName(String objectName) {
-        this.objectName = objectName;
+    public void setSource(String source) {
+        this.source = source;
     }
 
     public String getAlertConfigId() {
@@ -142,6 +136,14 @@ public class AlertInfo {
 
     public void setAlertName(String alertName) {
         this.alertName = alertName;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 
     public String getEmailAddress() {

@@ -15,11 +15,6 @@
  */
 package org.jmanage.core.data;
 
-import org.jmanage.core.management.data.DataFormatUtil;
-
-import java.io.StringWriter;
-import java.io.PrintWriter;
-
 /**
  *
  * date:  Jan 23, 2005
@@ -34,7 +29,6 @@ public class OperationResultData implements java.io.Serializable {
     private Object output;
     private int result = RESULT_OK;
     private String errorString;
-    private String stackTrace;
 
     public OperationResultData(String appName){
         this.appName = appName;
@@ -46,10 +40,6 @@ public class OperationResultData implements java.io.Serializable {
 
     public Object getOutput() {
         return output;
-    }
-
-    public String getDisplayOutput(){
-        return DataFormatUtil.format(getOutput());
     }
 
     public void setOutput(Object output) {
@@ -70,20 +60,5 @@ public class OperationResultData implements java.io.Serializable {
 
     public void setErrorString(String errorString) {
         this.errorString = errorString;
-    }
-
-    public void setException(Throwable e){
-        setErrorString(e.getMessage());
-        StringWriter writer = new StringWriter();
-        e.printStackTrace(new PrintWriter(writer));
-        this.stackTrace = writer.toString();
-    }
-
-    public String getStackTrace(){
-        return stackTrace;
-    }
-
-    public boolean isError(){
-        return result == RESULT_ERROR;
     }
 }

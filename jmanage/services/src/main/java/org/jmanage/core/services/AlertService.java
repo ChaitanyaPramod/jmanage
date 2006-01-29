@@ -25,7 +25,7 @@ public interface AlertService {
     /**
      *
      * @param context
-     * @return list of AlertInfo objects
+     * @return list of AlertData objects
      * @throws ServiceException
      */
     public List getConsoleAlerts(ServiceContext context)
