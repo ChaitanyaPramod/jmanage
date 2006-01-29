@@ -15,6 +15,8 @@
  */
 package org.jmanage.webui.forms;
 
+import org.jmanage.core.auth.User;
+
 /**
  * Date : Jul 27, 2004 11:40:54 PM
  * @author Shashank
@@ -29,6 +31,9 @@ public class UserForm extends BaseForm{
     private String role;
 
     public String getStatus() {
+        if(status == null){
+            status = User.STATUS_ACTIVE;
+        }
         return status;
     }
 

@@ -76,7 +76,7 @@ public class AuthServiceImpl implements AuthService {
             }else{
                 user = userManager.getUser(user.getName());
                 user.setLockCount(0);
-                user.setStatus(null);
+                user.setStatus(User.STATUS_ACTIVE);
                 userManager.updateUser(user);
             }
             /*  set Subject in session */
