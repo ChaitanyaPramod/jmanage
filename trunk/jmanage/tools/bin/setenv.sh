@@ -24,4 +24,4 @@ do
     JMANAGE_CLASSPATH="$i:$JMANAGE_CLASSPATH"
 done
 
-echo classpath=$JMANAGE_CLASSPATH
+#echo classpath=$JMANAGE_CLASSPATH
