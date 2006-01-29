@@ -100,9 +100,6 @@ public abstract class ApplicationConfig {
     }
 
     public String getURL() {
-        if(url == null){
-            return host + ":" + port;
-        }
         return url;
     }
 

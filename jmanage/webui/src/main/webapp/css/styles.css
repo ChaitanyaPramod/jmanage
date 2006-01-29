@@ -4,7 +4,7 @@
 	color: #666666;
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 10px;
-    font-weight:bold
+
 }
 
 .copyright {
@@ -116,13 +116,6 @@ BODY
 	text-decoration: none;
 }
 
-.a3 {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 11px;
-	color: #5666D8;
-	text-decoration: none;
-}
-
 a.nav0 {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 11px;
@@ -148,7 +141,3 @@ a.nav0 {
     color:blue;
 }
 
-input, textarea {
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 11px
-}

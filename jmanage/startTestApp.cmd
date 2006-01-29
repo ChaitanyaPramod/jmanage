@@ -9,7 +9,7 @@
 if "%JAVA_HOME%" == "" set JAVA_HOME=:\j2sdk1.4.2_04
 
 @rem debug
-@rem set DEBUG_OPTIONS=-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_shmem,server=y,suspend=n,address=jmanagetestappdebug
+set DEBUG_OPTIONS=-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_shmem,server=y,suspend=n,address=jmanagetestappdebug
 
 cd build\bin
 

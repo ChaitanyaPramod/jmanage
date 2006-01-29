@@ -54,19 +54,15 @@ public abstract class AlertSource {
                     e.getMessage());
         }
         /* close the connection */
-        closeConnection();
-
-        /* need to re-establish the connection when the server comes up */
-        new EstablishConnection().start();
-    }
-
-    private void closeConnection(){
         try {
            connection.close();
         } catch (IOException e) {
            logger.log(Level.WARNING, "Error while closing connection. error: " +
                    e.getMessage());
         }
+
+        /* need to re-establish the connection when the server comes up */
+        new EstablishConnection().start();
     }
 
     private void connectionOpen(){
@@ -77,11 +73,10 @@ public abstract class AlertSource {
                     ", application: " +
                     sourceConfig.getApplicationConfig().getName());
         } catch (Exception e) {
-            /* something happen while registering for alert. There is no point
-                retrying. Just log the error and continue */
-            logger.log(Level.SEVERE, "Error registering alert: " + alertName, e);
-            /* close the connection that was openend*/
-            closeConnection();
+            logger.severe("Error registering for monitoring. error=" +
+                    e.getMessage());
+            /* need to re-establish the connection when the server comes up */
+            new EstablishConnection().start();
             return;
         }
         /* start the connection monitoring thread */

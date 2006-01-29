@@ -32,8 +32,4 @@ public class ObjectParameterInfo extends ObjectFeatureInfo {
     public String getType(){
         return type;
     }
-
-    public String getDisplayType(){
-        return getDisplayType(type);
-    }
 }

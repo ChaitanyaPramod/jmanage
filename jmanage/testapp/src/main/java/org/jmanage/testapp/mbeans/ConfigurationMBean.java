@@ -34,6 +34,4 @@ public interface ConfigurationMBean {
     /* sinple operation */
     /**@return previous uptime */
     public long resetAppUptime();
-
-    public void throwError();
 }

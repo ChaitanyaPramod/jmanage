@@ -34,7 +34,7 @@
 </tr>
 <tr>
     <td class="headtext1">Lock Account:</td>
-    <td><jmhtml:checkbox property="status" value="L" styleId="checked"/></td>
+    <td><jmhtml:checkbox property="status" value="I" styleId="checked"/></td>
 </tr>
 <tr>
     <td align="center" colspan="2">

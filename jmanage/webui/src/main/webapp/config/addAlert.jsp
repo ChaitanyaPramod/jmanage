@@ -6,9 +6,7 @@
                  org.jmanage.webui.util.WebContext,
                  org.jmanage.core.config.ApplicationConfig,
                  org.jmanage.webui.util.RequestParams,
-                 org.jmanage.core.config.AlertSourceConfig,
-                 org.jmanage.core.management.ObjectName,
-                 org.jmanage.webui.util.Utils"%>
+                 org.jmanage.core.config.AlertSourceConfig"%>
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 <%@ taglib uri="/WEB-INF/tags/jstl/c.tld" prefix="c"%>
 
@@ -62,13 +60,13 @@
         if(request.getParameter(RequestParams.ALERT_ID)!=null){
     %>
 
-            <a href="/app/mbeanView.do?<%=RequestParams.OBJECT_NAME%>=<%=Utils.urlEncode((String)request.getAttribute("sourceMBean"))%>&<%=RequestParams.APPLICATION_ID%>=<%=request.getParameter(RequestParams.APPLICATION_ID)%>" class="a1">
-                <%=ObjectName.getShortName((String)request.getAttribute("sourceMBean"))%>
+            <a href="/app/mbeanView.do?<%=RequestParams.OBJECT_NAME%>=<%=request.getAttribute("sourceMBean")%>&<%=RequestParams.APPLICATION_ID%>=<%=request.getParameter(RequestParams.APPLICATION_ID)%>" class="a1">
+                <%=request.getAttribute("sourceMBean")%>
             </a>
     <%
         }else{
     %>
-            <%=ObjectName.getShortName((String)request.getAttribute("sourceMBean"))%>
+            <%=request.getAttribute("sourceMBean")%>
     <%
         }
     %>
