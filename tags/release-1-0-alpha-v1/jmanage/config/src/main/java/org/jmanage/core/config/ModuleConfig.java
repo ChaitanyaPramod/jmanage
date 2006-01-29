@@ -1,0 +1,81 @@
+/**
+ * Copyright 2004-2005 jManage.org
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.jmanage.core.config;
+
+import org.jmanage.core.config.MetaApplicationConfig;
+import org.jmanage.core.util.CoreUtils;
+import org.jmanage.core.util.Loggers;
+
+import java.net.URL;
+import java.io.File;
+import java.util.logging.Logger;
+
+/**
+ *
+ * date:  Aug 13, 2004
+ * @author	Rakesh Kalra
+ */
+public class ModuleConfig {
+
+    private static final Logger logger = Loggers.getLogger(ModuleConfig.class);
+
+    private String id;
+    private MetaApplicationConfig metaConfig;
+    private String connectionFactory;
+
+    public ModuleConfig(String id,
+                        MetaApplicationConfig metaConfig,
+                        String connectionFactory)
+        throws ModuleNotFoundException {
+
+        this.id = id;
+        this.metaConfig = metaConfig;
+        this.connectionFactory = connectionFactory;
+    }
+
+    public MetaApplicationConfig getMetaApplicationConfig() {
+        return metaConfig;
+    }
+
+    public String getConnectionFactory() {
+        return connectionFactory;
+    }
+
+    public boolean isAvailable(){
+        final String moduleDirPath =
+                CoreUtils.getModuleDir(id);
+        final File moduleDir = new File(moduleDirPath);
+        return moduleDir.isDirectory();
+    }
+
+    public URL[] getModuleClassPath()
+        throws ModuleNotFoundException {
+
+        final String moduleDirPath =
+                CoreUtils.getModuleDir(id);
+        final File moduleDir = new File(moduleDirPath);
+        if(!moduleDir.isDirectory()){
+            throw new ModuleNotFoundException(id);
+        }
+        return ConfigUtils.getClassPath(moduleDir);
+    }
+
+    public static class ModuleNotFoundException extends RuntimeException{
+        ModuleNotFoundException(String module){
+            super("Module=" + module);
+        }
+    }
+}
