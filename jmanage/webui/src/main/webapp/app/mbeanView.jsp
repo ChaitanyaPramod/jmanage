@@ -12,14 +12,12 @@
                  org.jmanage.webui.util.Utils,
                  java.net.URLEncoder,
                  org.jmanage.util.StringUtils,
-                 org.jmanage.core.util.Expression,
-                 java.lang.reflect.Array,
-                 org.jmanage.core.util.JManageProperties"%>
+                 org.jmanage.core.util.Expression"%>
 
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 <%@ taglib uri="/WEB-INF/tags/jstl/c.tld" prefix="c"%>
+
 <%!
-    // TODO: This should be moved to some utility class
     private Class getClass(String type){
         if(type.equals("boolean"))
              return Boolean.class;
@@ -43,18 +41,11 @@
         try{
             clazz = Class.forName(type);
         }catch(ClassNotFoundException e){
-            // ignore exception
+            e.printStackTrace();
         }
         return clazz;
     }
 
-    private boolean isNumber(String type){
-        Class clazz = getClass(type);
-        if(clazz != null && Number.class.isAssignableFrom(clazz)){
-            return true;
-        }
-        return false;
-    }
 %>
 <%
     boolean showGraphOption = false;
@@ -76,20 +67,14 @@
         document.mbeanConfigForm.submit();
         return;
     }
-
-    // onclick event handler for checkboxes representing boolean attributes
-    function onclick_booleanCheckbox(formName, checkbox) {
-        var formObj = document.forms[formName];
-        formObj.elements[checkbox.value].value = checkbox.checked;
-    }
 -->
 </script>
 <jmhtml:errors />
 <table class="table" border="0" cellspacing="0" cellpadding="5" width="900">
     <tr>
-        <td class="headtext" width="100" valign="top">Object Name</td>
-        <td class="plaintext" valign="top" nowrap="true">
-            <pre class="plaintext"><%=objectInfo.getObjectName().getWrappedName()%></pre>
+        <td class="headtext" width="100">Object Name</td>
+        <td class="plaintext">
+            <c:out value="${param.objName}" />
             <%-- If this mbean is being viewed from an application which is
                 part of a cluster, provide a link to view this mbean as
                 part of the cluster --%>
@@ -145,32 +130,6 @@
         boolean showUpdateButton = false;
         int columns = 5;
 %>
-
-    <script type="text/javascript">
-        function writeInputElements(inputArray, divSuffix, inputArrayName){
-            var html = "";
-            for (x in inputArray) {
-                html += inputArray[x] + "<a href=\"JavaScript:onRemove(" + inputArrayName + ",'" + divSuffix + "','" + inputArrayName + "',"  + x + ")\" class='a3'>x</a>" + "<br />";
-                //alert(inputArray[x] + "<a href=\"JavaScript:onRemove(" + inputArrayName + ",'" + divSuffix + "','" + inputArrayName + "'," + x + ")\" class='a3'>x</a>" + "<br />");
-            }
-            //alert(html);
-            var divElement = document.getElementById('inputBoxes+' + divSuffix);
-            divElement.innerHTML = html;
-         }
-
-        function onRemove(inputArray, divSuffix, inputArrayName, index){
-           //alert("inputArray=" + inputArray);
-           //alert("divSuffix=" + divSuffix);
-           //alert("index=" + index);
-            inputArray.splice(index, 1);
-            writeInputElements(inputArray, divSuffix, inputArrayName);
-        }
-
-        function onAdd(inputArray, divSuffix, inputArrayName){
-            inputArray.push("<input type='text' name='attr+" + divSuffix + "' size='50'/>");
-            writeInputElements(inputArray, divSuffix, inputArrayName);
-        }
-    </script>
 <br/>
 <jmhtml:form action="/app/updateAttributes" method="post">
 <table class="table" border="0" cellspacing="0" cellpadding="5">
@@ -232,53 +191,17 @@
                     objAttribute.getStatus() == ObjectAttribute.STATUS_OK){
                 showUpdateButton = true;
             %>
-                <%if(attributeInfo.getType().equals("boolean") || attributeInfo.getType().equals("java.lang.Boolean")){
-                    String attrName = "attr+" + childAppConfig.getApplicationId() + "+" + attributeInfo.getName();%>
-
-                    <%if (JManageProperties.isBooleanInputTypeRadio()) { %>
-                        <input type="radio" name="<%=attrName%>" value="true" <%=attrValue.equals("true")?" CHECKED":""%> />&nbsp;True
-                        &nbsp;&nbsp;&nbsp;<input type="radio" name="<%=attrName%>" value="false" <%=attrValue.equals("false")?" CHECKED":""%>/>&nbsp;False
-                    <%} else if (JManageProperties.isBooleanInputTypeSelect()) { %>
-                        <select name="<%=attrName%>">
-                            <option value="false" <%=attrValue.equals("false")?" SELECTED":""%>>False</option>
-                            <option value="true" <%=attrValue.equals("true")?" SELECTED":""%>>True</option>
-                        </select>
-                    <%} else { %>
-                        <input type="checkbox" name="dummy" value="<%=attrName%>" onClick="onclick_booleanCheckbox('emptyForm', this)" <%=attrValue.equals("true")?" CHECKED":""%>/>
-                        <input type="hidden"   name="<%=attrName%>" value="<%=attrValue%>"/>
-                    <%}%>
-
-                <%}else if(MBeanUtils.isEditableArrayType(attributeInfo.getType())){
-                    final int arrayLength = Array.getLength(objAttribute.getValue());
-                    final String inputArrayName = "ia_" + childAppConfig.getApplicationId() + "_" + attributeInfo.getName();
-                %>
-                  <%-- The first field is a hidden field, to allow an empty array to be saved. There is special handling for this in MBeanServiceImpl. --%>
-                  <input type='hidden' name='attr+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>' size='50' value='NONE'/>
-                  <script type="text/javascript">
-
-                    var <%=inputArrayName%> = new Array(<%=arrayLength%>);
-                  <%
-                    for(int i=0; i<arrayLength; i++){
-                  %>
-                        <%=inputArrayName%>[<%=i%>]="<input type='text' name='attr+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>' size='50' value='<%=Array.get(objAttribute.getValue(), i)%>'/>";
-                  <%
-                    }
-                  %>
-                  </script>
-                  <div class="plaintext" id="inputBoxes+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>">
-                  </div>
-                  <script type="text/javascript">
-                    writeInputElements(<%=inputArrayName%>, '<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>', '<%=inputArrayName%>');
-                  </script>
-                  <a href="JavaScript:onAdd(<%=inputArrayName%>, '<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>', '<%=inputArrayName%>')" class="a3">+</a>
+                <%if(attributeInfo.getType().equals("boolean") || attributeInfo.getType().equals("java.lang.Boolean")){%>
+                    <input type="radio" name="attr+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>+<%=attributeInfo.getType()%>" value="true" <%=attrValue.equals("true")?" CHECKED":""%> />&nbsp;True
+                    &nbsp;&nbsp;&nbsp;<input type="radio" name="attr+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>+<%=attributeInfo.getType()%>" value="false" <%=attrValue.equals("false")?" CHECKED":""%>/>&nbsp;False
                 <%}else if(attrValue.indexOf('\n') != -1){%>
-                    <textarea name="attr+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>" rows="3" cols="40"><%=attrValue%></textarea>
+                    <textarea name="attr+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>+<%=attributeInfo.getType()%>" rows="3" cols="40"><%=attrValue%></textarea>
                 <%}else{%>
-                    <input type="text" name="attr+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>" size="50"
+                    <input type="text" name="attr+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>+<%=attributeInfo.getType()%>" size="50"
                     value="<%=attrValue%>"/>
                 <%}%>
             <%}else{%>
-                <pre class="plaintext"><%=attrValue%></pre>
+                <%=attrValue%>
             <%}%>
             <%if(attrValue.length() > 0 && attributeInfo.getType().equals("javax.management.ObjectName")){
                 pageContext.setAttribute("objectName",
@@ -301,7 +224,7 @@
     <%=attributeInfo.getReadWrite()%>
 </td>
 <td class="plaintext" valign="top">
-    <%=attributeInfo.getDisplayType()%>
+    <%=attributeInfo.getType()%>
 </td>
 <td class="plaintext" valign="top">
     <%  if(!applicationConfig.isCluster()){
@@ -313,7 +236,7 @@
         <jmhtml:link href="/config/showAddAlert.do?alertSourceType=string"
             paramId="attributes" paramName="expressionValue"
             acl="<%=ACLConstants.ACL_ADD_ALERT%>" styleClass="a1">Monitor</jmhtml:link>
-    <%}else if(isNumber(attributeInfo.getType())){
+    <%}else if(Number.class.isAssignableFrom(getClass(attributeInfo.getType()))){
         showGraphOption = true;%>
         <jmhtml:link href="/config/showAddAlert.do?alertSourceType=gauge"
             paramId="attributes" paramName="expressionValue"
@@ -366,7 +289,7 @@
 %>
 <jmhtml:form action="/app/executeOperation">
 <tr>
-    <td class="plaintext"><%=operationInfo.getDisplayReturnType()%>
+    <td class="plaintext"><%=operationInfo.getReturnType()%>
     <%if(operationInfo.getDescription() != null){%>
         <a href="JavaScript:showDescription('<%=MBeanUtils.jsEscape(operationInfo.getDescription())%>');"><%=operationInfo.getName()%></a>
     <%}else{%>
@@ -394,7 +317,7 @@
             <%=argName%>
         <%}%>
         <%if(!params[paramIndex].getType().equals(argName)){%>
-            (<%=params[paramIndex].getDisplayType()%>)
+            (<%=params[paramIndex].getType()%>)
         <%}%>
     <%}else{%>
         &nbsp;
@@ -434,7 +357,7 @@
             <%=argName%>
         <%}%>
         <%if(!params[paramIndex].getType().equals(argName)){%>
-            (<%=params[paramIndex].getDisplayType()%>)
+            (<%=params[paramIndex].getType()%>)
         <%}%>
     </td>
     <td class="plaintext">&nbsp;</td>

@@ -18,7 +18,7 @@ package org.jmanage.core.util;
 /**
  *
  * date:  Feb 13, 2005
- * @author  Rakesh Kalra, Shashank Bellary
+ * @author	Rakesh Kalra, Shashank Bellary
  */
 public interface ErrorCodes {
 

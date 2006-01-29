@@ -31,9 +31,10 @@ import java.util.*;
  */
 public class AuthServiceImpl implements AuthService {
 
-    private static int MAX_LOGIN_ATTEMPTS_ALLOWED =
-            Integer.parseInt(JManageProperties.getInstance().
-            getProperty(JManageProperties.LOGIN_MAX_ATTEMPTS));
+    private LoginContext loginContext = null;
+    final JManageProperties jManageProperties = JManageProperties.getInstance();
+    private int MAX_LOGIN_ATTEMPTS_ALLOWED =
+            Integer.parseInt(jManageProperties.getProperty(JManageProperties.LOGIN_MAX_ATTEMPTS));
 
     /**
      * @see AuthService login()
@@ -48,9 +49,8 @@ public class AuthServiceImpl implements AuthService {
         UserManager userManager = UserManager.getInstance();
         UserActivityLogger logger = UserActivityLogger.getInstance();
         try{
-            final LoginContext loginContext =
-                    new LoginContext(AuthConstants.AUTH_CONFIG_INDEX,
-                            callbackHandler);
+            loginContext = new LoginContext(AuthConstants.AUTH_CONFIG_INDEX,
+                    callbackHandler);
             loginContext.login();
             /*  Need this for external login modules, user is really
             authenticated after this step   */
@@ -76,7 +76,7 @@ public class AuthServiceImpl implements AuthService {
             }else{
                 user = userManager.getUser(user.getName());
                 user.setLockCount(0);
-                user.setStatus(User.STATUS_ACTIVE);
+                user.setStatus(null);
                 userManager.updateUser(user);
             }
             /*  set Subject in session */
@@ -117,11 +117,12 @@ public class AuthServiceImpl implements AuthService {
      * @throws ServiceException
      */
     public void logout(ServiceContext context, User user)throws ServiceException{
-
-        // TODO: loginContext needs to be held in the session, so that we
-        //  can use the right object to do logout
-        //loginContext.logout();
-        UserActivityLogger.getInstance().logActivity(user.getName(),
-                "logged out successfully");
+        try{
+            loginContext.logout();
+            UserActivityLogger.getInstance().logActivity(user.getName(),
+                    "logged out successfully");
+        }catch(LoginException lex){
+            throw new ServiceException(ErrorCodes.UNKNOWN_ERROR);
+        }
     }
 }

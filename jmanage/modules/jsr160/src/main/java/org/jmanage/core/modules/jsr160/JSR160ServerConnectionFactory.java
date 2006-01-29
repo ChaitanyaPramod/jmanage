@@ -35,7 +35,7 @@ import java.util.Map;
 public class JSR160ServerConnectionFactory implements ServerConnectionFactory{
 
     /**
-     * @return  instance of ServerConnection corresponding to this jsr160
+     * @return  instance of ServerConnection corresponding to this weblogic
      *              module.
      */
     public ServerConnection getServerConnection(ApplicationConfig config)
