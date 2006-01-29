@@ -282,10 +282,6 @@ public abstract class JMXServerConnection implements ServerConnection{
             Method method = mbeanServerClass.getMethod(methodName, params);
             return method.invoke(mbeanServer, args);
         } catch (InvocationTargetException e) {
-            if(e.getCause() != null &&
-                    e.getCause() instanceof RuntimeException){
-                throw (RuntimeException)e.getCause();
-            }
             throw new RuntimeException(e.getCause());
         } catch (Throwable e){
             if(e instanceof RuntimeException){

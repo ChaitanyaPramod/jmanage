@@ -124,9 +124,6 @@
     <definition name="config.showMBeans" extends="layouts.application">
         <put name="body.main" value="/config/selectMBeans.jsp"/>
     </definition>
-    <definition name="config.showConfigMBeans" extends="layouts.application">
-        <put name="body.main" value="/config/addManagedObjects.jsp"/>
-    </definition>
     <definition name="config.showAttributes" extends="layouts.application">
         <put name="body.main" value="/config/showAttributes.jsp"/>
     </definition>

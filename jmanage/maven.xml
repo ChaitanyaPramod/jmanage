@@ -33,17 +33,6 @@
             </fileset>
         </ant:copy>
 
-        <!-- build jmanage-client.jar -->
-        <ant:mkdir dir="${basedir}/build/lib/client"/>
-        <ant:jar destfile="${basedir}/build/lib/client/jmanage-client.jar">
-            <fileset dir="${basedir}/services/target/classes"/>
-            <fileset dir="${basedir}/management/target/classes"/>
-            <fileset dir="${basedir}/config/target/classes"/>
-            <fileset dir="${basedir}/auth/target/classes"/>
-            <fileset dir="${basedir}/alerts/target/classes"/>
-            <fileset dir="${basedir}/utils/target/classes"/>
-        </ant:jar>
-
         <!-- build web ui -->
         <attainGoal name="build-webui"/>
 
@@ -129,6 +118,7 @@
         <!-- .gz format -->
         <ant:tar tarfile="${basedir}/dist/jmanage-${jmanage.version}.tar">
             <tarfileset dir="${basedir}/build">
+                <exclude name="bin/*.cmd"/>
                 <exclude name="modules/weblogic/weblogic.jar"/>
                 <exclude name="modules/websphere/*.jar"/>
             </tarfileset>
@@ -144,6 +134,7 @@
         <!-- zip format -->
         <ant:zip destfile="${basedir}/dist/jmanage-${jmanage.version}.zip">
             <fileset dir="${basedir}/build">
+                <exclude name="bin/*.sh"/>
                 <exclude name="modules/weblogic/weblogic.jar"/>
                 <exclude name="modules/websphere/*.jar"/>
             </fileset>

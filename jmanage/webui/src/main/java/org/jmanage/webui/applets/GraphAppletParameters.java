@@ -30,12 +30,6 @@ public interface GraphAppletParameters {
     String ATTRIBUTES = "attributes";
     // display names of the attributes
     String ATTRIBUTE_DISPLAY_NAMES = "displayNames";
-    // y axis label
-    String Y_AXIS_LABEL = "yAxisLabel";
     // the jmanage server url
     String REMOTE_URL = "remoteURL";
-    // scale factor
-    String SCALE_FACTOR = "scaleFactor";
-    // scale up or down
-    String SCALE_UP = "scaleUp";
 }

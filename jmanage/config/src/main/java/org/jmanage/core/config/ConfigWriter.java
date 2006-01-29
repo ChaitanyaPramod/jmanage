@@ -255,19 +255,6 @@ public class ConfigWriter {
                     graphConfig.getName());
             graphElement.setAttribute(ConfigConstants.GRAPH_POLLING_INTERVAL,
                     Long.toString(graphConfig.getPollingInterval()));
-            if(graphConfig.getYAxisLabel() != null){
-                graphElement.setAttribute(ConfigConstants.GRAPH_Y_AXIS_LABEL,
-                        graphConfig.getYAxisLabel());
-            }
-            if(graphConfig.getScaleFactor() != null){
-                graphElement.setAttribute(ConfigConstants.GRAPH_SCALE_FACTOR,
-                        graphConfig.getScaleFactor().toString());
-            }
-            if(graphConfig.isScaleUp() != null){
-                graphElement.setAttribute(ConfigConstants.GRAPH_SCALE_UP,
-                        graphConfig.isScaleUp().toString());
-            }
-
             for(Iterator attributes = graphConfig.getAttributes().iterator();
                     attributes.hasNext();){
                 GraphAttributeConfig attrConfig =

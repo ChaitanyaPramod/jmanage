@@ -239,8 +239,13 @@
 
     <formset>
         <form name="applicationForm">
-            <field property="name" depends="required">
+            <field property="name" depends="required, mask">
+                <msg name="mask" key="error.appNameMask"/>
                 <arg0 key="Application Name" resource="false"/>
+                <var>
+                    <var-name>mask</var-name>
+                    <var-value>^[a-zA-Z0-9\s-\$\.]*$</var-value>
+                </var>
             </field>
         </form>
         <form name="userForm">
@@ -307,11 +312,18 @@
             <field property="graphName" depends="required">
                 <arg0 key="Graph Name" resource="false"/>
             </field>
-            <field property="pollInterval" depends="required, long">
+            <field property="pollInterval" depends="required">
                 <arg0 key="Polling Interval" resource="false"/>
             </field>
-            <field property="scaleFactor" depends="double">
-                <arg0 key="Scale Factor" resource="false"/>
+        </form>
+        <form name="mbeanConfigForm">
+            <field property="name" depends="required, mask">
+                <msg name="mask" key="error.appNameMask"/>
+                <arg0 key="Application Name" resource="false"/>
+                <var>
+                    <var-name>mask</var-name>
+                    <var-value>^[a-zA-Z0-9\s-\$\.]*$</var-value>
+                </var>
             </field>
         </form>
     </formset>

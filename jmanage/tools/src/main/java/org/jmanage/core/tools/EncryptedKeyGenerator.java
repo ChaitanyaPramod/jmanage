@@ -15,18 +15,24 @@
  */
 package org.jmanage.core.tools;
 
-import org.jmanage.core.auth.AuthConstants;
-import org.jmanage.core.auth.User;
+import org.jmanage.core.util.CoreUtils;
 import org.jmanage.core.auth.UserManager;
-import org.jmanage.core.config.*;
-import org.jmanage.core.crypto.Crypto;
+import org.jmanage.core.auth.User;
+import org.jmanage.core.auth.AuthConstants;
+import org.jmanage.core.auth.Role;
 import org.jmanage.core.crypto.EncryptedKey;
 import org.jmanage.core.crypto.KeyManager;
-import org.jmanage.core.util.PasswordField;
+import org.jmanage.core.crypto.Crypto;
+import org.jmanage.core.crypto.PasswordField;
 
-import java.util.ArrayList;
+import javax.crypto.SecretKey;
+import javax.crypto.KeyGenerator;
+import java.io.IOException;
+import java.io.FileOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Arrays;
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,70 +48,51 @@ public class EncryptedKeyGenerator {
 
         /* display info */
         message();
-        reencryptWithNewKey() ;
+
+        /* get password from user */
+        char[] password = getPassword();
+        if(password == null){
+            return;
+        }
+
+        EncryptedKey encryptedKey = new EncryptedKey(password);
+        /* write the encryptedKey to the key file */
+        KeyManager.writeKey(encryptedKey);
+
+        List roles = new ArrayList(1);
+        UserManager.getInstance().addUser(new User(AuthConstants.USER_ADMIN,
+                Crypto.hash(password), roles, User.STATUS_ACTIVE, 0));
+
+        /* clear the password, for security reasons */
+        Arrays.fill(password, ' ');
+
+        System.out.println();
+        System.out.println("Encrypted key written to "
+                + KeyManager.KEY_FILE_NAME
+                + " file.");
     }
 
     private static void message(){
         System.out.println();
         System.out.println("This tool generates a 128 bit TripleDES key and then");
         System.out.println("encrypts it with Password Based Encryption (PBE),");
-        System.out.println("before writing it to jmanage-key file.");     
+        System.out.println("before writing it to jmanage-key file.");
+        System.out.println();
+        System.out.println("Please select a password below. This password will");
+        System.out.println("be required to start jmanage.");
         System.out.println();
     }
 
-    private static char[] getOldPassword()
-    throws Exception {
-          final char[] password = PasswordField.getPassword("Enter old password: ");
-          return password ;
-    }
     private static char[] getPassword()
         throws Exception {
 
-        final char[] password = PasswordField.getPassword("Enter new password:");
-        final char[] password2 = PasswordField.getPassword("Re-enter new password:");
+        final char[] password = PasswordField.getPassword("Enter password:");
+        final char[] password2 = PasswordField.getPassword("Re-enter password:");
         if(!Arrays.equals(password, password2)){
             System.out.println("Passwords do not match. " +
                     "Key has not been generated.");
             return null;
         }
         return password;
-    }
-
-    private static void reencryptWithNewKey(  )
-        throws Exception {
-        ApplicationTypes.init();
-           /* get old password from user */
-       char [] oldPassword = getOldPassword() ;
-       UserManager userMgr = UserManager.getInstance() ;
-       User user = userMgr.verifyUsernamePassword(AuthConstants.USER_ADMIN,oldPassword);
-        if(user == null) {
-            System.out.println("\nInvalid password") ;
-            return ;
-        }
-         /* get new password from user */
-        char[] newPassword = getPassword();
-        if(newPassword == null){
-            return;
-        }
-
-          /* Get list of configured applications */
-        Crypto.init(oldPassword) ;
-        List configList = ConfigReader.getInstance().read() ;
-        if(configList == null) {
-            System.out.println("\nError in reading application passwords") ;
-            return ;
-        }
-
-        /* Write new key to file */
-      EncryptedKey encryptedKey = new EncryptedKey(newPassword);
-      KeyManager.writeKey(encryptedKey);
-      /* Change admin password */
-      UserManager.getInstance().deleteUser(AuthConstants.USER_ADMIN);
-      List roles = new ArrayList(1);
-      UserManager.getInstance().addUser(new User(AuthConstants.USER_ADMIN,
-      Crypto.hash(newPassword), roles, User.STATUS_ACTIVE, 0));
-      Crypto.init(newPassword);
-      ConfigWriter.getInstance().write(configList);
-      System.out.println("New key has been written to key file successfully..");
     }
 }

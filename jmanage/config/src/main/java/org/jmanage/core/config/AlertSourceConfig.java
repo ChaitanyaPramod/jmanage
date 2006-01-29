@@ -90,10 +90,6 @@ public class AlertSourceConfig {
         return sourceType;
     }
 
-    public String getSourceTypeDesc(){
-        return getSourceTypeDescription(sourceType);
-    }
-
     public String getObjectName() {
         return objectName;
     }

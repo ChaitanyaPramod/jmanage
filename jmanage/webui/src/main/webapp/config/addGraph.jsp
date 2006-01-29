@@ -1,9 +1,7 @@
 <!--    /config/addGraph.jsp  -->
 <%@ page errorPage="/error.jsp" %>
 <%@ page import="org.jmanage.core.util.Expression,
-                 org.jmanage.webui.util.RequestParams,
-                 org.jmanage.webui.util.Utils,
-                 org.jmanage.core.management.ObjectName"%>
+                 org.jmanage.webui.util.RequestParams"%>
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 <jmhtml:javascript formName="graphForm" />
 <jmhtml:errors />
@@ -32,21 +30,6 @@
     <td class=headtext1>Polling Interval (in seconds)</td>
     <td><jmhtml:text property="pollInterval"/></td>
 </tr>
-<tr>
-    <td class=headtext1>Y Axis Label (optional)</td>
-    <td><jmhtml:text property="YAxisLabel"/></td>
-</tr>
-<tr>
-    <td class=headtext1>Scale Factor (optional)</td>
-    <td><jmhtml:text property="scaleFactor"/></td>
-</tr>
-<tr>
-    <td class=headtext1>Scale (optional)</td>
-    <td class="plaintext">
-        <jmhtml:radio property="scaleUp" value="true"/>Up&nbsp;&nbsp;&nbsp;
-        <jmhtml:radio property="scaleUp" value="false"/>Down
-    </td>
-</tr>
 </table>
 <br/>
 <table cellspacing="0" cellpadding="5" width="600" class="table">
@@ -65,17 +48,17 @@
 <jmhtml:hidden property="attributes" value="<%=expression.toString()%>"/>
 <tr>
     <td class="plaintext"><%=attributeNames[i]%></td>
-    <td class="plaintext" nowrap="true">
+    <td class="plaintext">
     <%
         if(request.getParameter(RequestParams.GRAPH_ID)!=null){
     %>
-        <a href="/app/mbeanView.do?<%=RequestParams.OBJECT_NAME%>=<%=Utils.urlEncode(objectNames[i])%>&<%=RequestParams.APPLICATION_ID%>=<%=request.getParameter(RequestParams.APPLICATION_ID)%>" class="a1">
-          <%=ObjectName.getShortName(objectNames[i])%>
+        <a href="/app/mbeanView.do?<%=RequestParams.OBJECT_NAME%>=<%=objectNames[i]%>&<%=RequestParams.APPLICATION_ID%>=<%=request.getParameter(RequestParams.APPLICATION_ID)%>" class="a1">
+          <%=objectNames[i]%>
        </a>
     <%
         }else{
     %>
-        <%=ObjectName.getShortName(objectNames[i])%>
+        <%=objectNames[i]%>
     <%}%>
     </td>
     <td><input type="text" name="displayNames" value="<%=displayNames[i]%>"/></td>

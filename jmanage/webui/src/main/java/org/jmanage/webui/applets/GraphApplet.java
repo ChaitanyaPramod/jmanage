@@ -21,7 +21,6 @@ import org.jfree.data.time.Second;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.ChartPanel;
-import org.jfree.chart.title.Title;
 
 import javax.swing.*;
 import java.applet.Applet;
@@ -50,12 +49,6 @@ public class GraphApplet extends JApplet implements GraphAppletParameters {
     private String displayNames;
     // remoteURL to get the data from
     private URL remoteURL;
-    // yAxisLabel
-    private String yAxisLabel;
-    // scale factor
-    private double scaleFactor = 1;
-    // scale up or down
-    private boolean scaleUp = true;
 
     public void init() {
         // read parameters
@@ -63,21 +56,11 @@ public class GraphApplet extends JApplet implements GraphAppletParameters {
         pollingInterval = Long.parseLong(getParameter(POLLING_INTERVAL));
         attributes = getParameter(ATTRIBUTES);
         displayNames = getParameter(ATTRIBUTE_DISPLAY_NAMES);
-        yAxisLabel = getParameter(Y_AXIS_LABEL);
-        if(yAxisLabel == null) yAxisLabel = "";
 
         try {
             remoteURL = new URL(getParameter(REMOTE_URL));
         } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
-        String temp = getParameter(SCALE_FACTOR);
-        if(temp != null){
-            scaleFactor = Double.parseDouble(temp);
-        }
-        temp = getParameter(SCALE_UP);
-        if(temp != null){
-            scaleUp = temp.equals("true");
+            new RuntimeException(e);
         }
 
         /* get initial set of values for the graph */
@@ -87,17 +70,13 @@ public class GraphApplet extends JApplet implements GraphAppletParameters {
         chart = ChartFactory.createTimeSeriesChart(
                         graphTitle, // chart title
                         "Time", // domain axis label
-                        yAxisLabel, // range axis label
+                        "Attributes", // range axis label
                         dataset, // data
                         true, // include legend
                         true, // tooltips
                         false // urls. would be a pretty good extension so that you could click on a task line to open the document in notes
                     );
-        chart.setBackgroundPaint(Color.WHITE);
-        chart.setBorderVisible(false);
-        chart.setBorderPaint(Color.WHITE);
 
-        stopThread = false;
         new MyThread().start();
     }
 
@@ -106,15 +85,9 @@ public class GraphApplet extends JApplet implements GraphAppletParameters {
         this.setContentPane(chartPanel);
     }
 
-    private boolean stopThread = false;
-
-    public void stop(){
-        stopThread = true;
-    }
-
     private class MyThread extends Thread{
         public void run(){
-            while(!stopThread){
+            while(true){
                 try {
                     Thread.sleep(pollingInterval * 1000);
                 } catch (InterruptedException e) {
@@ -143,7 +116,6 @@ public class GraphApplet extends JApplet implements GraphAppletParameters {
             series = new TimeSeries[tokenizer.countTokens()];
             for(int i=0; tokenizer.hasMoreTokens(); i++){
                 series[i] = new TimeSeries(tokenizer.nextToken(), Second.class);
-                series[i].setMaximumItemCount(100);// todo: this should somehow be configurable
                 dataset.addSeries(series[i]);
             }
         }
@@ -154,7 +126,6 @@ public class GraphApplet extends JApplet implements GraphAppletParameters {
         Second second = new Second(new Date(timestamp));
         for(int i=0; i<series.length; i++){
             double attrValue = Double.parseDouble(tokenizer.nextToken());
-            attrValue = scaleUp?attrValue * scaleFactor: attrValue/scaleFactor;
             series[i].add(second, attrValue);
         }
     }

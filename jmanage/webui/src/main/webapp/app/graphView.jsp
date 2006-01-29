@@ -2,8 +2,7 @@
 <%@ page errorPage="/error.jsp" %>
 <%@ page import="org.jmanage.webui.util.Utils,
                  org.jmanage.core.config.GraphConfig,
-                 org.jmanage.core.util.JManageProperties,
-                 org.jmanage.webui.applets.GraphAppletParameters"%>
+                 org.jmanage.core.util.JManageProperties"%>
 <%
     GraphConfig graphConfig = (GraphConfig)request.getAttribute("graphConfig");
     StringBuffer remoteURL = request.getRequestURL();
@@ -17,31 +16,10 @@
     archive="/applets/applets.jar,/applets/jfreechart-0.9.20.jar,/applets/jcommon-0.9.5.jar"
     width="600"
     height="500">
-    <param name="<%=GraphAppletParameters.GRAPH_TITLE%>"
-           value="<%=graphConfig.getName()%>"/>
-    <param name="<%=GraphAppletParameters.POLLING_INTERVAL%>"
-           value="<%=graphConfig.getPollingInterval()%>"/>
-    <param name="<%=GraphAppletParameters.REMOTE_URL%>"
-           value="<%=remoteURL%>/app/fetchAttributeValues.do;jsessionid=<%=Utils.getCookieValue(request, "JSESSIONID")%>"/>
-    <param name="<%=GraphAppletParameters.ATTRIBUTE_DISPLAY_NAMES%>"
-           value="<%=graphConfig.getAttributeDisplayNames()%>"/>
-    <param name="<%=GraphAppletParameters.ATTRIBUTES%>"
-           value='<%=graphConfig.getAttributesAsString()%>'/>
-    <param name="<%=GraphAppletParameters.Y_AXIS_LABEL%>"
-           value='<%=graphConfig.getYAxisLabel()%>'/>
-<%
-    if(graphConfig.getScaleFactor() != null){
-%>
-    <param name="<%=GraphAppletParameters.SCALE_FACTOR%>"
-           value='<%=graphConfig.getScaleFactor()%>'/>
-<%
-    }
-    if(graphConfig.isScaleUp() != null){
-%>
-    <param name="<%=GraphAppletParameters.SCALE_UP%>"
-           value='<%=graphConfig.isScaleUp()%>'/>
-<%
-    }
-%>
+    <param name="graphTitle" value="<%=graphConfig.getName()%>"/>
+    <param name="pollingInterval" value="<%=graphConfig.getPollingInterval()%>"/>
+    <param name="remoteURL" value="<%=remoteURL%>/app/fetchAttributeValues.do;jsessionid=<%=Utils.getCookieValue(request, "JSESSIONID")%>"/>
+    <param name="displayNames" value="<%=graphConfig.getAttributeDisplayNames()%>"/>
+    <param name="attributes" value='<%=graphConfig.getAttributesAsString()%>'/>
 </applet>
 </p>

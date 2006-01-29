@@ -54,12 +54,6 @@ public class ShowEditGraphAction extends BaseAction{
         if(graphConfig!=null){
             form.setGraphName(graphConfig.getName());
             form.setPollInterval(String.valueOf(graphConfig.getPollingInterval()));
-            form.setYAxisLabel(graphConfig.getYAxisLabel());
-            if(graphConfig.getScaleFactor() != null){
-                form.setScaleFactor(graphConfig.getScaleFactor().toString());
-                form.setScaleUp(graphConfig.isScaleUp().booleanValue());
-            }
-
             List attributes = graphConfig.getAttributes();
             String[] attributeNames = new String[attributes.size()];
             String[] objectNames = new String[attributes.size()];

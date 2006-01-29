@@ -35,12 +35,8 @@
 
         <!-- create jmanage-startup.jar for starting webui -->
         <jar jarfile="${build.home}/lib/jmanage-startup.jar">
-            <fileset dir="${build.home}/web/WEB-INF/classes">
-                <include name="org/jmanage/webui/Startup.class"/>
-				<include name="org/jmanage/webui/ServerMonitor.class"/>
-                <include name="org/jmanage/webui/Shutdown.class"/>
-                <include name="org/jmanage/webui/JettyStopKey.class"/>
-			</fileset>
+            <fileset dir="${build.home}/web/WEB-INF/classes"
+                includes="org/jmanage/webui/Startup.class"/>
         </jar>
 
         <!-- add applet specific jars to /applets dir -->

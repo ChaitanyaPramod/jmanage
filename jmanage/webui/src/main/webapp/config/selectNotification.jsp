@@ -3,8 +3,7 @@
 <%@ page import="java.util.Map,
                  java.util.Iterator,
                  org.jmanage.core.management.ObjectNotificationInfo,
-                 org.jmanage.core.util.Expression,
-                 org.jmanage.core.management.ObjectName"%>
+                 org.jmanage.core.util.Expression"%>
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 
 <%
@@ -22,9 +21,9 @@
         ObjectNotificationInfo[] notifications =
                 (ObjectNotificationInfo[])mbeanToNotificationsMap.get(mbean);
 %>
-<table class="table" border="0" cellspacing="0" cellpadding="3" width="700">
+<table class="table" border="0" cellspacing="0" cellpadding="3" width="600">
     <tr class="tableheader">
-        <td><%=ObjectName.getShortName(mbean)%></td>
+        <td><%=mbean%></td>
     </tr>
 <%
         for(int i=0; i<notifications.length; i++){

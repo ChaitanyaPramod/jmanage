@@ -26,12 +26,6 @@ public class GraphForm extends BaseForm{
     private String graphId;
     private String graphName;
     private String pollInterval;
-
-    // optional attributes
-    private String yAxisLabel;
-    private String scaleFactor;
-    private boolean scaleUp = true;
-
     private String[] mbeans;
     private String[] attributes;
     private String[] displayNames;
@@ -83,30 +77,5 @@ public class GraphForm extends BaseForm{
 
     public void setPollInterval(String pollInterval) {
         this.pollInterval = pollInterval;
-    }
-
-    public String getYAxisLabel() {
-        return yAxisLabel;
-    }
-
-    public void setYAxisLabel(String yAxisLabel) {
-        this.yAxisLabel = yAxisLabel;
-    }
-
-    public String getScaleFactor() {
-        return scaleFactor;
-    }
-
-    public void setScaleFactor(String scaleFactor) {
-        if(scaleFactor != null && scaleFactor.length() > 0)
-            this.scaleFactor = scaleFactor;
-    }
-
-    public boolean getScaleUp() {
-        return scaleUp;
-    }
-
-    public void setScaleUp(boolean scaleUp) {
-        this.scaleUp = scaleUp;
     }
 }
