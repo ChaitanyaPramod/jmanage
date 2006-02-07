@@ -9,9 +9,11 @@
     <section>
       <title>News !</title>
       <p>
+          New to jManage? Read the introductory article at <a href="http://www.javaworld.com/javaworld/jw-01-2006/jw-0116-jmanage.html">JavaWorld</a>.
+          <br/><br/>
           For the latest on jManage, please see the <a href="http://jmanage.blogspot.com">jManage Blog</a>.
           <br/><br/>
-          jManage 1.0 builds are now available for download
+          jManage 1.0 builds are available for download
           <a href="http://sourceforge.net/project/showfiles.php?group_id=111374&amp;package_id=166109">here</a>.
           <br/><br/>
           <a href="/newsArchive.html">News Archive >></a>
@@ -29,7 +31,7 @@ provide an open source management platform, which can be used to manage
 and monitor complete production environment.
 <br/><br/>
 jManage is successfully being used by
-various companies, in Development, QA, Staging and Production environments.
+various users, in Development, QA, Staging and Production environments.
 It is very easy to setup jManage. Download
 <a href="http://sourceforge.net/project/showfiles.php?group_id=111374&amp;package_id=166109">now</a>
 and get started.
