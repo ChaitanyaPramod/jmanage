@@ -80,13 +80,33 @@ public class ConfigReader implements ConfigConstants{
     /**
      * To retrieve the details of all configured applications.
      */
-    public List read(){
+    public Config read(){
 
         List applications =
                 config.getRootElement().getChild(APPLICATIONS).getChildren();
-        return getApplicationConfigList(applications, null);
+        List appConfigList = getApplicationConfigList(applications, null);
+
+        List dashboardConfigList = null;
+        Element dashboards = config.getRootElement().getChild(DASHBOARDS);
+        if(dashboards != null){
+            dashboardConfigList = getDashboardConfigList(dashboards.getChildren());
+        }else{
+            dashboardConfigList = new LinkedList();
+        }
+        return new Config(appConfigList, dashboardConfigList);
     }
 
+    private List getDashboardConfigList(List dashboards){
+        final List dashboardConfigList = new LinkedList();
+        for(Iterator it = dashboards.iterator(); it.hasNext();){
+            Element dashboard = (Element)it.next();
+            DashboardConfig dashboardConfig =
+                    new DashboardConfig(dashboard.getAttributeValue(DASHBOARD_ID),
+                            dashboard.getAttributeValue(DASHBOARD_NAME));
+            dashboardConfigList.add(dashboardConfig);
+        }
+        return dashboardConfigList;
+    }
 
     private List getApplicationConfigList(List applications,
                                           ApplicationConfig clusterConfig){
