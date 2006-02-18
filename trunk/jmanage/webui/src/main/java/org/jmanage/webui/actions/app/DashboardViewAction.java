@@ -1,5 +1,5 @@
 /**
- * Copyright 2004-2005 jManage.org
+ * Copyright 2004-2005 jManage.org. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,30 +15,31 @@
  */
 package org.jmanage.webui.actions.app;
 
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionForward;
+import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.RequestAttributes;
-import org.jmanage.webui.actions.BaseAction;
+import org.jmanage.webui.util.Forwards;
+import org.jmanage.webui.forms.DashboardForm;
 import org.jmanage.core.config.ApplicationConfig;
-import org.jmanage.core.config.GraphConfig;
+import org.jmanage.core.config.DashboardConfig;
 import org.jmanage.core.services.AccessController;
+import org.jmanage.core.services.ConfigurationService;
+import org.jmanage.core.services.ServiceFactory;
 import org.jmanage.core.util.ACLConstants;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionForm;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
- * Action class for the graph view page. This page contains the applet
- * which pulls attriute values via MBeanAttributeValuesAction.
  *
- * @see MBeanAttributeValuesAction
- *
- * Date:  Jun 12, 2005
+ * <p>
+ * Date:  Feb 18, 2006
  * @author	Rakesh Kalra
  */
-public class GraphViewAction extends BaseAction {
+public class DashboardViewAction  extends BaseAction {
 
     public ActionForward execute(WebContext context,
                                  ActionMapping mapping,
@@ -47,21 +48,15 @@ public class GraphViewAction extends BaseAction {
                                  HttpServletResponse response)
         throws Exception{
 
-        ApplicationConfig appConfig = context.getApplicationConfig();
-        // graphs at cluster level are not yet supported
-        assert !appConfig.isCluster();
-
-        // todo: do we need access control for graphs? probably not.
-        //AccessController.checkAccess(context.getServiceContext(),
-        //        ACLConstants.ACL_VIEW_APPLICATIONS);
+        DashboardForm dashboardForm = (DashboardForm)actionForm;
+        ConfigurationService service = ServiceFactory.getConfigurationService();
+        DashboardConfig config =
+                service.getDashboard(context.getServiceContext(), dashboardForm.getId());
+        assert config != null: "dashboard not found for id: " + dashboardForm.getId();
 
         /*set current page for navigation*/
-        GraphConfig graphConfig =
-                appConfig.findGraph(request.getParameter("graphId"));
-        assert graphConfig != null;
-        request.setAttribute(RequestAttributes.NAV_CURRENT_PAGE,
-                graphConfig.getName());
+        request.setAttribute(RequestAttributes.NAV_CURRENT_PAGE, config.getName());
 
-        return mapping.findForward("success");
+        return mapping.findForward(Forwards.SUCCESS);
     }
 }

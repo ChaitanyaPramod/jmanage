@@ -17,6 +17,7 @@ package org.jmanage.core.services;
 
 import org.jmanage.core.data.ApplicationConfigData;
 import org.jmanage.core.config.GraphConfig;
+import org.jmanage.core.config.DashboardConfig;
 
 import java.util.List;
 
@@ -35,4 +36,18 @@ public interface ConfigurationService {
     public List getConfiguredMBeans(ServiceContext context)
             throws ServiceException;
     public GraphConfig addGraph(ServiceContext context, GraphConfig graphConfig);
+
+    /**
+     *
+     * @param context
+     * @param config
+     */
+    public void addDashboard(ServiceContext context,
+                               DashboardConfig config);
+
+    public void updateDashboard(ServiceContext context,
+                                    DashboardConfig config);
+
+    public DashboardConfig getDashboard(ServiceContext context,
+                                        String dashboardId);
 }
