@@ -104,4 +104,21 @@ public class StringUtils {
         Arrays.fill(series, ch);
         return new String(series);
     }
+
+    public static String htmlEscape(String str){
+        StringBuffer buff = new StringBuffer(str.length());
+        for(int i=0; i<str.length(); i++){
+            final char ch = str.charAt(i);
+            if(ch == '"'){
+                buff.append("&quot;");
+            }else if(ch == '<'){
+                buff.append("&lt;");
+            }else if(ch == '>'){
+                buff.append("&gt;");
+            }else{
+                buff.append(ch);
+            }
+        }
+        return buff.toString();
+    }
 }
