@@ -16,6 +16,7 @@
 package org.jmanage.webui.taglib.html;
 
 import org.jmanage.webui.util.RequestParams;
+import org.jmanage.util.StringUtils;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
@@ -64,7 +65,7 @@ public class FormTag extends org.apache.struts.taglib.html.FormTag {
                     request.getParameter(RequestParams.OBJECT_NAME);
             if(objectName != null){
                 writer.print(HIDDEN_FIELD_OBJECT_NAME_BEGIN);
-                writer.print(objectName);
+                writer.print(StringUtils.htmlEscape(objectName));
                 writer.println(HIDDEN_FIELD_END);
             }
 
