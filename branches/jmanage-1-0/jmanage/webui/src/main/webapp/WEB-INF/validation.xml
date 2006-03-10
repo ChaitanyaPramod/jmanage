@@ -255,8 +255,20 @@
                   <var-value>confirmPassword</var-value>
                 </var>
             </field>
-            <field property="role" depends="required">
+            <field property="role" depends="requiredif">
                 <arg0 key="Role" resource="false"/>
+                <var>
+                    <var-name>field0</var-name>
+                    <var-value>username</var-value>
+                </var>
+                <var>
+                    <var-name>fieldTest0</var-name>
+                    <var-value>NOTEQUAL</var-value>
+                </var>
+                <var>
+                    <var-name>fieldValue0</var-name>
+                    <var-value>admin</var-value>
+                </var>
             </field>
         </form>
         <form name="loginForm">
