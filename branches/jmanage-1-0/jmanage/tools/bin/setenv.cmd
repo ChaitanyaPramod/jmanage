@@ -12,6 +12,8 @@ set JMANAGE_CLASSPATH=""
 
 for %%i in ("%JMANAGE_HOME%\lib\*.jar") do call jmcp.cmd %%i
 
+if "%CLASSPATH%" == "" goto finish
+set JMANAGE_CLASSPATH=%JMANAGE_CLASSPATH%;%CLASSPATH%
 @rem echo classpath=%JMANAGE_CLASSPATH%
 
 goto finish
