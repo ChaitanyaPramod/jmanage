@@ -8,7 +8,7 @@ if "%JMANAGE_HOME%" == "" set JMANAGE_HOME=..
 
 if not exist "%JMANAGE_HOME%\lib\jmanage-startup.jar" goto jmanageHomeNotSet
 
-set JMANAGE_CLASSPATH=""
+set JMANAGE_CLASSPATH=
 
 for %%i in ("%JMANAGE_HOME%\lib\*.jar") do call jmcp.cmd %%i
 
