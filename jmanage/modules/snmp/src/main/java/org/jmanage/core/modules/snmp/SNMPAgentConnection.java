@@ -14,9 +14,13 @@
 package org.jmanage.core.modules.snmp;
 
 import org.jmanage.core.management.*;
+import org.jmanage.core.util.CoreUtils;
+import org.jmanage.core.util.Loggers;
 
 import java.util.*;
+import java.util.logging.Logger;
 import java.io.IOException;
+import java.io.FileInputStream;
 
 import snmp.*;
 
@@ -27,8 +31,31 @@ import snmp.*;
  */
 public class SNMPAgentConnection implements ServerConnection{
 
+    private static final Logger logger =
+            Loggers.getLogger(SNMPAgentConnection.class);
+
     private final SNMPv1CommunicationInterface comInterface;
     private final String mBeanObjectName = "snmp:name=SNMPAgent";
+
+    private static final Properties OIDToAttributeMap;
+    private static final Map attributeToOIDMap = new HashMap();
+
+    static{
+        try {
+            OIDToAttributeMap = new Properties();
+            OIDToAttributeMap .load(new FileInputStream(CoreUtils.getConfigDir() +
+                    "/" + "snmp-oids.properties"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        for(Enumeration enum=OIDToAttributeMap.keys();enum.hasMoreElements();){
+            String OID = (String)enum.nextElement();
+            String attribute = (String)OIDToAttributeMap.get(OID);
+            attributeToOIDMap.put(attribute, OID);
+        }
+        assert OIDToAttributeMap.size() == attributeToOIDMap.size():
+                "duplicate attribute name found";
+    }
 
     public SNMPAgentConnection(SNMPv1CommunicationInterface comInterface) {
         assert comInterface != null;
@@ -37,7 +64,8 @@ public class SNMPAgentConnection implements ServerConnection{
 
     public Set queryNames(ObjectName objectName) {
         // This call is to make sure that SNMP agent is accessible
-        getMIBDetails(objectName);
+        //  todo: optimize -- no need to do complete tree walk here
+        // getMIBDetails(objectName);
         Set mBeanSet = new HashSet();
         mBeanSet.add(new ObjectName(mBeanObjectName));
         return mBeanSet;
@@ -51,7 +79,7 @@ public class SNMPAgentConnection implements ServerConnection{
     }
 
     public ObjectInfo getObjectInfo(ObjectName objectName) {
-        SNMPVarBindList mibList = getMIBDetails(objectName);
+        SNMPVarBindList mibList = getMIBDetails(objectName, OIDToAttributeMap.keySet());
         ObjectInfo objectInfo = mibListToJMXMBean(mibList);
         return objectInfo;
     }
@@ -75,8 +103,22 @@ public class SNMPAgentConnection implements ServerConnection{
     }
 
     public List getAttributes(ObjectName objectName, String[] attributeNames) {
-        SNMPVarBindList mibList = getMIBDetails(objectName);
-        return getAttributeList(mibList);
+
+        Set OIDs = new HashSet();
+        for(int i=0;i<attributeNames.length; i++){
+            OIDs.add(attributeToOIDMap.get(attributeNames[i]));
+        }
+        SNMPVarBindList mibList = getMIBDetails(objectName, OIDs);
+        final int mibVarCount = mibList.size();
+        List attributeList = new ArrayList();
+        for(int index=0; index<mibVarCount; index++){
+            SNMPSequence pair = (SNMPSequence)mibList.getSNMPObjectAt(index);
+            SNMPObjectIdentifier snmpOID = (SNMPObjectIdentifier)pair.getSNMPObjectAt(0);
+            SNMPObject snmpValue = pair.getSNMPObjectAt(1);
+            attributeList.add(new ObjectAttribute((String)OIDToAttributeMap.get(snmpOID.toString()),
+                    snmpValue.toString()));
+        }
+        return attributeList;
     }
 
     public List setAttributes(ObjectName objectName, List attributeList) {
@@ -149,9 +191,9 @@ public class SNMPAgentConnection implements ServerConnection{
             SNMPObjectIdentifier snmpOID = (SNMPObjectIdentifier)pair.getSNMPObjectAt(0);
             SNMPObject snmpValue = pair.getSNMPObjectAt(1);
             ObjectAttributeInfo objectAttributeInfo =
-                    new ObjectAttributeInfo(snmpOID.toString(),
-                            "SNMP Object ID",
-                            getAttributeType(snmpValue), false, true, false);
+                    new ObjectAttributeInfo((String)OIDToAttributeMap.get(snmpOID.toString()),
+                            "OID:" + snmpOID,  // TODO: if snmp-oids.properties is an xml file, description can be added there
+                            getAttributeType(snmpValue, snmpOID.toString() ), false, true, false);
             objectAttributes[index] = objectAttributeInfo;
         }
 
@@ -166,7 +208,7 @@ public class SNMPAgentConnection implements ServerConnection{
      * @param snmpValue
      * @return
      */
-    private String getAttributeType(SNMPObject snmpValue){
+    private String getAttributeType(SNMPObject snmpValue, String OID){
         final String attributeType = snmpValue.getClass().getName();
         if(snmp.SNMPOctetString.class.getName().equals(attributeType)){
             return "String";
@@ -175,26 +217,10 @@ public class SNMPAgentConnection implements ServerConnection{
         }else if(snmp.SNMPNull.class.getName().equals(attributeType)){
             return "null";
         }else{
-            throw new RuntimeException("Unsupported data type");
+            System.out.println("Unknown type:" + attributeType + " for OID:" + OID);
+            return "String";
+            //throw new RuntimeException("Unsupported data type");
         }
-    }
-
-    /**
-     *
-     * @param mibList
-     * @return
-     */
-    private List getAttributeList(SNMPVarBindList mibList){
-        final int mibVarCount = mibList.size();
-        List attributeList = new ArrayList();
-        for(int index=0; index<mibVarCount; index++){
-            SNMPSequence pair = (SNMPSequence)mibList.getSNMPObjectAt(index);
-            SNMPObjectIdentifier snmpOID = (SNMPObjectIdentifier)pair.getSNMPObjectAt(0);
-            SNMPObject snmpValue = pair.getSNMPObjectAt(1);
-            attributeList.add(new ObjectAttribute(snmpOID.toString(),
-                    snmpValue.toString()));
-        }
-        return attributeList;
     }
 
     /**
@@ -202,11 +228,30 @@ public class SNMPAgentConnection implements ServerConnection{
      * @param objectName
      * @return
      */
-    private SNMPVarBindList getMIBDetails(ObjectName objectName){
-        try{
-            return comInterface.retrieveAllMIBInfo("");
-        }catch(Exception e){
-            throw new RuntimeException(e);
+    private SNMPVarBindList getMIBDetails(ObjectName objectName, Set OIDs){
+        SNMPVarBindList varBindList = new SNMPVarBindList();
+        for(Iterator it=OIDs.iterator(); it.hasNext();){
+            String OID = (String)it.next();
+            try {
+                SNMPSequence sequence = getValue(OID);
+                varBindList.addSNMPObject(sequence);
+            } catch (SNMPGetException e) {
+                logger.fine("Error getting OID:" + OID +
+                        ". msg=" + e.getMessage());
+            } catch (SNMPBadValueException e) {
+                logger.fine("SNMPBadValueException: OID:" + OID +
+                        ". msg=" + e.getMessage());
+            } catch (IOException e){
+                throw new RuntimeException(e);
+            }
         }
+        return varBindList;
+    }
+
+    private SNMPSequence getValue(String OID)
+            throws IOException, SNMPGetException, SNMPBadValueException {
+
+        SNMPVarBindList varBindList = comInterface.getMIBEntry(OID);
+        return (SNMPSequence)varBindList.getSNMPObjectAt(0);
     }
 }
