@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.Logger;
 
 /**
+ *
  * Date : Jun 27, 2004 10:43:03 PM
  * @author Shashank
  */
@@ -75,7 +76,7 @@ public class UserManager implements AuthConstants{
      * @return
      */
     private Map loadUsers(Document userConfig){
-        Map userData = new HashMap(1);
+        Map userData = Collections.synchronizedMap(new HashMap(1));
         List users =
                 userConfig.getRootElement().getChildren();
         Iterator userIterator = users.iterator();
