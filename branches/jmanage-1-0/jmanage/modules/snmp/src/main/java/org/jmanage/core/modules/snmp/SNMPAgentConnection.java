@@ -217,7 +217,7 @@ public class SNMPAgentConnection implements ServerConnection{
         }else if(snmp.SNMPNull.class.getName().equals(attributeType)){
             return "null";
         }else{
-            System.out.println("Unknown type:" + attributeType + " for OID:" + OID);
+            //System.out.println("Unknown type:" + attributeType + " for OID:" + OID);
             return "String";
             //throw new RuntimeException("Unsupported data type");
         }
@@ -234,7 +234,11 @@ public class SNMPAgentConnection implements ServerConnection{
             String OID = (String)it.next();
             try {
                 SNMPSequence sequence = getValue(OID);
-                varBindList.addSNMPObject(sequence);
+                if(!snmp.SNMPUnknownObject.class.equals(sequence.getSNMPObjectAt(1).getClass())){
+                    varBindList.addSNMPObject(sequence);
+                }else{
+                    logger.fine("OID not found:" + OID);
+                }
             } catch (SNMPGetException e) {
                 logger.fine("Error getting OID:" + OID +
                         ". msg=" + e.getMessage());
@@ -242,7 +246,8 @@ public class SNMPAgentConnection implements ServerConnection{
                 logger.fine("SNMPBadValueException: OID:" + OID +
                         ". msg=" + e.getMessage());
             } catch (IOException e){
-                throw new RuntimeException(e);
+                logger.severe("Error getting value for OID:" + OID +
+                        ". msg=" + e.getMessage());
             }
         }
         return varBindList;
