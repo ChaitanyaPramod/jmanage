@@ -37,7 +37,7 @@ See http://forrest.apache.org/docs/linking.html for more info
     <blog label="jManage Blog" href="http://jmanage.blogspot.com/" description="jManage Blog"/>
     <screenshots label="Screenshots" href="/screenshots.html" description="Screen Shots"/>
     <roadmap label="Roadmap" href="/roadmap.html" description="jManage Roadmap"/>
-    <team label="Contributors" href="/contributors.html" description="jManage team"/>
+    <!--<team label="Contributors" href="/contributors.html" description="jManage team"/>-->
     <contactUs label="Contact Us" href="/contactus.html" description="Contact Us"/>
   </home>
   <documentation label="Documentation" href="/documentation/jmanage1.0/install.html">
