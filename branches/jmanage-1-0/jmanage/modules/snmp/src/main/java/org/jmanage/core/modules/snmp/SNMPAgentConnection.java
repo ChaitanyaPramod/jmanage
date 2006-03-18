@@ -78,6 +78,14 @@ public class SNMPAgentConnection implements ServerConnection{
         return null;
     }
 
+    /**
+     * TODO: It will be better to cache the ObjectInfo for this connection,
+     * as we make two calls to the SNMP agent -- once in this method,
+     * and then again in getAttributes() method.
+     *
+     * @param objectName
+     * @return
+     */
     public ObjectInfo getObjectInfo(ObjectName objectName) {
         SNMPVarBindList mibList = getMIBDetails(objectName, OIDToAttributeMap.keySet());
         ObjectInfo objectInfo = mibListToJMXMBean(mibList);
