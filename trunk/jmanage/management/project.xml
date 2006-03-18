@@ -3,11 +3,6 @@
     <artifactId>jmanage-management</artifactId>
     <dependencies>
         <dependency>
-            <groupId>jmxri</groupId>
-            <artifactId>jmxri</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>jmanage</groupId>
             <artifactId>jmanage-config</artifactId>
         </dependency>

@@ -48,8 +48,8 @@ public class SNMPAgentConnection implements ServerConnection{
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        for(Enumeration enum=OIDToAttributeMap.keys();enum.hasMoreElements();){
-            String OID = (String)enum.nextElement();
+        for(Enumeration en=OIDToAttributeMap.keys();en.hasMoreElements();){
+            String OID = (String)en.nextElement();
             String attribute = (String)OIDToAttributeMap.get(OID);
             attributeToOIDMap.put(attribute, OID);
         }

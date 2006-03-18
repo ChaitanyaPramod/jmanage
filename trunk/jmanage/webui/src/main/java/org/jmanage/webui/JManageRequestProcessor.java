@@ -163,9 +163,9 @@ public class JManageRequestProcessor extends TilesRequestProcessor{
         if("true".equals(request.getParameter("debug.xml"))){
             response.setContentType("text/xml");
             XMLEncoder encoder = new XMLEncoder(response.getOutputStream());
-            for(Enumeration enum=request.getAttributeNames();
-                enum.hasMoreElements();){
-                String attribute = (String)enum.nextElement();
+            for(Enumeration en=request.getAttributeNames();
+                en.hasMoreElements();){
+                String attribute = (String)en.nextElement();
                 Object attrValue = request.getAttribute(attribute);
                 encoder.writeObject(attribute);
                 encoder.writeObject(attrValue);
