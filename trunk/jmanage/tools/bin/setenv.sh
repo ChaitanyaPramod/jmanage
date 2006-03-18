@@ -17,11 +17,22 @@ if [ ! -f "$JMANAGE_HOME/config/jmanage.properties" ]; then
     exit 0
 fi
 
+##############################
+# Determine is this cygwin env
+##############################
+case "`uname`" in
+    CYGWIN*)	JM_PATH_SEP=";"  ;;
+    *)		JM_PATH_SEP=":" ;;
+esac
+
 JMANAGE_CLASSPATH=
 
 for i in $JMANAGE_HOME/lib/*.jar
 do
-    JMANAGE_CLASSPATH="$i:$JMANAGE_CLASSPATH"
+    JMANAGE_CLASSPATH="$i$JM_PATH_SEP$JMANAGE_CLASSPATH"
 done
+if [ ! -n "$CLASSPATH" ]; then
+    JMANAGE_CLASSPATH="$JMANAGE_CLASSPATH$CLASSPATH"
+fi
 
 #echo classpath=$JMANAGE_CLASSPATH

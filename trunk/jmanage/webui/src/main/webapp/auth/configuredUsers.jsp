@@ -6,7 +6,9 @@
                  java.util.Iterator,
                  org.jmanage.core.auth.User,
                  org.jmanage.webui.util.RequestParams,
-                 org.jmanage.core.auth.AuthConstants"%>
+                 org.jmanage.core.auth.AuthConstants,
+                 org.jmanage.webui.util.WebContext,
+                 org.jmanage.core.auth.RoleConstants"%>
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 
 <script language="JavaScript">
@@ -22,6 +24,8 @@
         <td colspan="3">Users</td>
     </tr>
 <%
+    User loggedInUser = WebContext.get(request).getUser();
+
     Map users = (Map)request.getAttribute(RequestAttributes.USERS);
     Iterator iterator = users.values().iterator();
     while(iterator.hasNext()){
@@ -30,7 +34,8 @@
   <tr>
     <td class="plaintext"><%=user.getName()%></td>
     <td class="plaintext" align="right">
-    <%if(!AuthConstants.USER_ADMIN.equals(user.getUsername())){%>
+    <%if(loggedInUser.hasRole(RoleConstants.ADMINISTRATOR) ||
+            AuthConstants.USER_ADMIN.equals(loggedInUser.getUsername())){%>
     <a href="/auth/showEditUser.do?<%=RequestParams.USER_NAME+"="+user.getUsername()%>" class="a1">Edit</a>
     <%}else{%>
     &nbsp;

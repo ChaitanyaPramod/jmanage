@@ -31,6 +31,7 @@ public class PrimitiveDataTypeTest implements PrimitiveDataTypeTestMBean{
         private double d=9999.999;
         private char c='a';
         private boolean bo=true;
+        private boolean bo2=true;
         private byte b=1;
 
 
@@ -88,6 +89,14 @@ public class PrimitiveDataTypeTest implements PrimitiveDataTypeTestMBean{
 
         public void setBoolean(boolean bo){
             this.bo = bo;
+        }
+
+        public boolean getBoolean2(){
+            return bo2;
+        }
+
+        public void setBoolean2(boolean bo){
+            this.bo2 = bo;
         }
 
         public byte getByte(){
