@@ -50,7 +50,8 @@ public class PrintHandler implements CommandHandler {
 
         /* parse the expression and get the hashmap of appname+mbeanname to
             attribute list */
-        final Map appMBeanToAttributesMap = new HashMap();
+        final Map<AppMBeanKey, List<String>> appMBeanToAttributesMap = 
+        	new HashMap<AppMBeanKey, List<String>>();
 
         Expression expression = null;
         for(int i=0; i<args.length; i++){
@@ -63,9 +64,9 @@ public class PrintHandler implements CommandHandler {
             }
             AppMBeanKey key = new AppMBeanKey(expression.getAppName(),
                     expression.getMBeanName());
-            List attributes = (List)appMBeanToAttributesMap.get(key);
+            List<String> attributes = appMBeanToAttributesMap.get(key);
             if(attributes == null){
-                attributes = new LinkedList();
+                attributes = new LinkedList<String>();
                 appMBeanToAttributesMap.put(key, attributes);
             }
             attributes.add(expression.getTargetName());
@@ -75,7 +76,7 @@ public class PrintHandler implements CommandHandler {
         MBeanService service = ServiceFactory.getMBeanService();
         for(Iterator it=appMBeanToAttributesMap.keySet().iterator(); it.hasNext();){
             AppMBeanKey key = (AppMBeanKey)it.next();
-            List attributes = (List)appMBeanToAttributesMap.get(key);
+            List<String> attributes = appMBeanToAttributesMap.get(key);
             AttributeListData[] attributeValues =
                     service.getAttributes(
                             context.getServiceContext(key.appName, key.mbeanName),

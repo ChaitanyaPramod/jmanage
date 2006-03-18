@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.LinkedList;
 import java.util.logging.Logger;
 import java.util.logging.Level;
-import java.io.IOException;
 
 /**
  * Date: Aug 31, 2005 11:42:20 AM
@@ -62,7 +61,7 @@ public class StringAlertSource extends AlertSource{
         connection.createMBean("javax.management.monitor.StringMonitor",
                 monitorObjName, null, null);
         /* set attributes */
-        List attributes = new LinkedList();
+        List<ObjectAttribute> attributes = new LinkedList<ObjectAttribute>();
         attributes.add(new ObjectAttribute("ObservedAttribute",
                 sourceConfig.getAttributeName()));
         // note the following is deprecated, but this is what weblogic exposes

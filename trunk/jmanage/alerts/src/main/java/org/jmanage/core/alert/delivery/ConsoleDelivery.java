@@ -13,7 +13,6 @@
 */
 package org.jmanage.core.alert.delivery;
 
-import org.jmanage.core.config.AlertConfig;
 import org.jmanage.core.alert.AlertDelivery;
 import org.jmanage.core.alert.AlertInfo;
 

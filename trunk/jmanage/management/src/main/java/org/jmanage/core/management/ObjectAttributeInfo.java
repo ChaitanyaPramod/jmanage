@@ -22,7 +22,9 @@ package org.jmanage.core.management;
  */
 public class ObjectAttributeInfo extends ObjectFeatureInfo {
 
-    private String attributeType;
+	private static final long serialVersionUID = 5807944864795458052L;
+
+	private String attributeType;
     private boolean isWrite;
     private boolean isRead;
     private boolean isIs;

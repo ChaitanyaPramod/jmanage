@@ -16,6 +16,7 @@
 package org.jmanage.core.services;
 
 import org.jmanage.core.data.ApplicationConfigData;
+import org.jmanage.core.data.MBeanData;
 import org.jmanage.core.config.GraphConfig;
 import org.jmanage.core.config.DashboardConfig;
 
@@ -33,7 +34,7 @@ public interface ConfigurationService {
 
     public List getAllApplications(ServiceContext context);
 
-    public List getConfiguredMBeans(ServiceContext context)
+    public List<MBeanData> getConfiguredMBeans(ServiceContext context)
             throws ServiceException;
     public GraphConfig addGraph(ServiceContext context, GraphConfig graphConfig);
 

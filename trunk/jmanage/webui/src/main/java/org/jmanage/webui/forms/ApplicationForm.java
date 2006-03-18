@@ -31,7 +31,9 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class ApplicationForm extends BaseForm {
 
-    public static final String FORM_PASSWORD = "$$$$$$$$";
+	private static final long serialVersionUID = 1L;
+
+	public static final String FORM_PASSWORD = "$$$$$$$$";
 
     private String appId;
     private String name;

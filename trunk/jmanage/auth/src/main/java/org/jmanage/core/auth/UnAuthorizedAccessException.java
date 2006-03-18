@@ -21,7 +21,10 @@ package org.jmanage.core.auth;
  * @author Shashank Bellary 
  */
 public class UnAuthorizedAccessException extends RuntimeException{
-    private String message;
+    
+	private static final long serialVersionUID = 6452798002989567729L;
+	
+	private String message;
 
     public UnAuthorizedAccessException(String message) {
         super(message);

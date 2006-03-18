@@ -73,7 +73,7 @@ public class AddUserAction extends BaseAction{
      */
     private User buildUser(ActionForm form){
         UserForm userForm = (UserForm)form;
-        List roles = new ArrayList(1);
+        List<Role> roles = new ArrayList<Role>(1);
         roles.add(new Role(userForm.getRole()));
         User user = new User(userForm.getUsername(), Crypto.hash(userForm.getPassword()),
                 roles, userForm.getStatus(), 0);

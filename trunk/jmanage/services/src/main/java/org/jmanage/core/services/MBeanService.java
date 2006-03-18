@@ -16,6 +16,7 @@
 package org.jmanage.core.services;
 
 import org.jmanage.core.management.*;
+import org.jmanage.core.data.MBeanData;
 import org.jmanage.core.data.OperationResultData;
 import org.jmanage.core.data.AttributeListData;
 
@@ -30,7 +31,7 @@ import java.util.Map;
  */
 public interface MBeanService {
 
-    public List queryMBeans(ServiceContext context,
+    public List<MBeanData> queryMBeans(ServiceContext context,
                           String filter)
             throws ServiceException;
 
@@ -115,7 +116,7 @@ public interface MBeanService {
                                              Map attributes)
             throws ServiceException;
 
-    public Map queryMBeansWithNotifications(ServiceContext context)
+    public Map<String, ObjectNotificationInfo[]> queryMBeansWithNotifications(ServiceContext context)
             throws ServiceException;
     /**
      * returns data type of an attribute

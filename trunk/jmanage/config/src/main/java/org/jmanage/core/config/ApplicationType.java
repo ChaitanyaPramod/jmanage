@@ -13,11 +13,9 @@
 */
 package org.jmanage.core.config;
 
-import org.jmanage.core.util.Loggers;
 import org.jmanage.core.util.CoreUtils;
 
 import java.net.URL;
-import java.util.logging.Logger;
 import java.io.File;
 
 /**
@@ -27,9 +25,6 @@ import java.io.File;
  * @author	Rakesh Kalra
  */
 public class ApplicationType {
-
-    private static final Logger logger =
-            Loggers.getLogger(ApplicationType.class);
 
     private String id;
     private String name;

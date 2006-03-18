@@ -62,7 +62,7 @@ public class ShowApplicationClusterAction extends BaseAction {
             selectedApplications = new LinkedList();
         }
 
-        List applications = new LinkedList();
+        List<ApplicationConfig> applications = new LinkedList<ApplicationConfig>();
         for(Iterator it=ApplicationConfigManager.getApplications().iterator();
             it.hasNext();){
             ApplicationConfig config = (ApplicationConfig)it.next();

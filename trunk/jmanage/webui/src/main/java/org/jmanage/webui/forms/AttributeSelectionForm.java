@@ -21,7 +21,10 @@ package org.jmanage.webui.forms;
  * @author Shashank Bellary
  */
 public class AttributeSelectionForm extends BaseForm{
-    private String[] mbeans;
+    
+	private static final long serialVersionUID = 1L;
+	
+	private String[] mbeans;
     private String endURL;
     private String[] attributes;
     private String multiple;

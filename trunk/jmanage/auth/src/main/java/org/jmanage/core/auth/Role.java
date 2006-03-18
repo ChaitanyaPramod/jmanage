@@ -16,7 +16,6 @@
 
 package org.jmanage.core.auth;
 
-import java.util.StringTokenizer;
 
 /**
  * Date: Mar 13, 2005 10:43:07 PM

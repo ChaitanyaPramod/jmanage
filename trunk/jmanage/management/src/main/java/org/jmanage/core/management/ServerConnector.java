@@ -102,6 +102,6 @@ public class ServerConnector {
     }
 
     /* factory class name to factory instance mapping */
-    private static final Map factories =
-            Collections.synchronizedMap(new HashMap());
+    private static final Map<String, ServerConnectionFactory> factories =
+            Collections.synchronizedMap(new HashMap<String, ServerConnectionFactory>());
 }

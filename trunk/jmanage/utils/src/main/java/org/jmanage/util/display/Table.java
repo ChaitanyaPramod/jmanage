@@ -27,7 +27,7 @@ public interface Table {
 
     public void addRow(String[] row);
 
-    public void addRows(List rows);
+    public void addRows(List<String[]> rows);
 
     public String draw();
 }

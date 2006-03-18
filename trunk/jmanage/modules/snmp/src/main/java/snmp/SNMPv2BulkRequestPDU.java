@@ -139,7 +139,8 @@ public class SNMPv2BulkRequestPDU extends SNMPSequence
     *    and containing the supplied SNMP sequence as data.
     */
     
-    public SNMPv2BulkRequestPDU(int requestID, int nonRepeaters, int maxRepetitions, SNMPSequence varList)
+    @SuppressWarnings("unchecked")
+	public SNMPv2BulkRequestPDU(int requestID, int nonRepeaters, int maxRepetitions, SNMPSequence varList)
         throws SNMPBadValueException
     {
         super();

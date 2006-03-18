@@ -77,7 +77,7 @@ public class EditUserAction extends BaseAction{
         User user = UserManager.getInstance().getUser(userForm.getUsername());
         assert user != null;
 
-        List roles = new ArrayList(1);
+        List<Role> roles = new ArrayList<Role>(1);
         roles.add(new Role(userForm.getRole()));
         user.setRoles(roles);
         if(!userForm.getPassword().equals(UserForm.FORM_PASSWORD)){

@@ -38,7 +38,7 @@ public class SNMPAgentConnection implements ServerConnection{
     private final String mBeanObjectName = "snmp:name=SNMPAgent";
 
     private static final Properties OIDToAttributeMap;
-    private static final Map attributeToOIDMap = new HashMap();
+    private static final Map<String, String> attributeToOIDMap = new HashMap<String, String>();
 
     static{
         try {
@@ -66,7 +66,7 @@ public class SNMPAgentConnection implements ServerConnection{
         // This call is to make sure that SNMP agent is accessible
         //  todo: optimize -- no need to do complete tree walk here
         // getMIBDetails(objectName);
-        Set mBeanSet = new HashSet();
+        Set<ObjectName> mBeanSet = new HashSet<ObjectName>();
         mBeanSet.add(new ObjectName(mBeanObjectName));
         return mBeanSet;
     }
@@ -112,13 +112,13 @@ public class SNMPAgentConnection implements ServerConnection{
 
     public List getAttributes(ObjectName objectName, String[] attributeNames) {
 
-        Set OIDs = new HashSet();
+        Set<String> OIDs = new HashSet<String>();
         for(int i=0;i<attributeNames.length; i++){
             OIDs.add(attributeToOIDMap.get(attributeNames[i]));
         }
         SNMPVarBindList mibList = getMIBDetails(objectName, OIDs);
         final int mibVarCount = mibList.size();
-        List attributeList = new ArrayList();
+        List<ObjectAttribute> attributeList = new ArrayList<ObjectAttribute>();
         for(int index=0; index<mibVarCount; index++){
             SNMPSequence pair = (SNMPSequence)mibList.getSNMPObjectAt(index);
             SNMPObjectIdentifier snmpOID = (SNMPObjectIdentifier)pair.getSNMPObjectAt(0);

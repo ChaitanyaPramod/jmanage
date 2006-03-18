@@ -20,6 +20,7 @@ package org.jmanage.webui.forms;
  * date:  Jun 17, 2004
  * @author	Rakesh Kalra
  */
+@SuppressWarnings("serial")
 public class MBeanQueryForm extends BaseForm {
 
     private String objectName = "*:*";

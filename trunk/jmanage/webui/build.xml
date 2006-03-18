@@ -23,13 +23,13 @@
     <target name="compile" depends="prepare"
         description="Compile Java sources">
 
-        <!-- Compile web Java classes as necessary -->
+		<!-- Compile web Java classes as necessary -->
         <javac srcdir="${basedir}/src/main/java"
             destdir="${build.home}/web/WEB-INF/classes"
             debug="${compile.debug}"
             deprecation="${compile.deprecation}"
             optimize="${compile.optimize}"
-            source="1.4">
+            source="1.5">
             <classpath refid="web.compile.classpath"/>
         </javac>
 

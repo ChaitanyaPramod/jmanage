@@ -28,13 +28,11 @@ import java.util.*;
  */
 public class CommandUtils {
 
-    public static void printMBeans(List mbeanList){
+    public static void printMBeans(List<MBeanData> mbeanList){
         /* first sort the list */
-        Collections.sort(mbeanList, new Comparator(){
-            public int compare(Object o1, Object o2) {
-                MBeanData mbeanData1 = (MBeanData)o1;
-                MBeanData mbeanData2 = (MBeanData)o2;
-                return mbeanData1.getName().compareTo(mbeanData2.getName());
+        Collections.sort(mbeanList, new Comparator<MBeanData>(){
+            public int compare(MBeanData o1, MBeanData o2) {
+                return o1.getName().compareTo(o2.getName());
             }
         });
 

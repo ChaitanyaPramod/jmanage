@@ -15,7 +15,6 @@
  */
 package org.jmanage.webui;
 
-import org.mortbay.jetty.Server;
 import org.jmanage.core.alert.AlertEngine;
 import org.jmanage.core.util.Loggers;
 

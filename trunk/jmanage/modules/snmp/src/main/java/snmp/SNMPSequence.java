@@ -159,7 +159,8 @@ public class SNMPSequence extends SNMPObject
     *    @throws SNMPBadValueException Relevant only in subclasses
     */
     
-    public void addSNMPObject(SNMPObject newObject)
+    @SuppressWarnings("unchecked")
+	public void addSNMPObject(SNMPObject newObject)
         throws SNMPBadValueException
     {
         sequence.insertElementAt(newObject, sequence.size());
@@ -173,7 +174,8 @@ public class SNMPSequence extends SNMPObject
     *    @throws SNMPBadValueException Relevant only in subclasses
     */
     
-    public void insertSNMPObjectAt(SNMPObject newObject, int index)
+    @SuppressWarnings("unchecked")
+	public void insertSNMPObjectAt(SNMPObject newObject, int index)
         throws SNMPBadValueException
     {
         sequence.insertElementAt(newObject, index);
@@ -236,7 +238,8 @@ public class SNMPSequence extends SNMPObject
     
     
     
-    protected void extractFromBEREncoding(byte[] enc)
+    @SuppressWarnings("unchecked")
+	protected void extractFromBEREncoding(byte[] enc)
         throws SNMPBadValueException
     {
         Vector newVector = new Vector();

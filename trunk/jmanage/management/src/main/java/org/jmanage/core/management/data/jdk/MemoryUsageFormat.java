@@ -32,9 +32,6 @@ import javax.management.openmbean.CompositeData;
  */
 public class MemoryUsageFormat implements DataFormat {
 
-    private static final DataFormat stackTraceFormatter =
-            new StackTraceElementFormat();
-
     public String format(Object data) {
 
         CompositeData compositeData = (CompositeData)data;

@@ -38,7 +38,8 @@ public class ClassLoaderRepository {
             Loggers.getLogger(ClassLoaderRepository.class);
 
     /* key to ClassLoader mapping */
-    private static Map classLoaders = Collections.synchronizedMap(new HashMap());
+    private static Map<Key, ClassLoader> classLoaders = 
+    	Collections.synchronizedMap(new HashMap<Key, ClassLoader>());
 
     public static ClassLoader getClassLoader(URL[] classpath,
                                              boolean isCompatibleJMX){
@@ -98,7 +99,7 @@ public class ClassLoaderRepository {
             super(classpath, parent);
         }
 
-        protected synchronized Class loadClass(String name, boolean resolve)
+        protected synchronized Class<?> loadClass(String name, boolean resolve)
             throws ClassNotFoundException{
 
             if(name.startsWith("javax.management.")){

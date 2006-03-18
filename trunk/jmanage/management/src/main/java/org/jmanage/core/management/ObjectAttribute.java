@@ -15,7 +15,6 @@
  */
 package org.jmanage.core.management;
 
-import org.jmanage.util.StringUtils;
 import org.jmanage.core.management.data.DataFormatUtil;
 
 /**
@@ -25,7 +24,9 @@ import org.jmanage.core.management.data.DataFormatUtil;
  */
 public class ObjectAttribute implements java.io.Serializable {
 
-    public static final int STATUS_OK = 0;
+	private static final long serialVersionUID = -8917759113886604463L;
+
+	public static final int STATUS_OK = 0;
     public static final int STATUS_ERROR = 1;
     public static final int STATUS_NOT_FOUND = 2;
 

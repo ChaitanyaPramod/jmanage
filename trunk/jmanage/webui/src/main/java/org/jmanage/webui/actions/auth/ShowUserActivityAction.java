@@ -62,7 +62,7 @@ public class ShowUserActivityAction extends BaseAction{
         AccessController.checkAccess(context.getServiceContext(), ACL_VIEW_USER_ACTIVITY);
         BufferedReader reader =
                 new BufferedReader(new FileReader(USER_ACTIVITY_LOG_FILE_PATH));
-        List activities = new ArrayList(1);
+        List<String> activities = new ArrayList<String>(1);
         String activity = null;
         while((activity = reader.readLine()) != null){
             activities.add(activity);

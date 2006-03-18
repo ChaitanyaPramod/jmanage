@@ -28,7 +28,7 @@
             <param name="module.name" value="jsr160"/>
         </antcall>
     </target>
-
+	
     <!-- target for building jboss module -->
     <target name="build-jboss-module"
         description="Builds jboss module">
@@ -71,7 +71,7 @@
             debug="${compile.debug}"
             deprecation="${compile.deprecation}"
             optimize="${compile.optimize}"
-            source="1.4">
+            source="1.5">
             <classpath refid="module.classpath"/>
         </javac>
         <javac srcdir="${basedir}/${module.name}/src/main/java"
@@ -79,7 +79,7 @@
             debug="${compile.debug}"
             deprecation="${compile.deprecation}"
             optimize="${compile.optimize}"
-            source="1.4">
+            source="1.5">
             <classpath refid="module.classpath"/>
         </javac>
         <!-- JBoss specific -->

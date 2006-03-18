@@ -48,7 +48,9 @@ public abstract class JMXServerConnection implements ServerConnection{
     public JMXServerConnection(){}
 
     public JMXServerConnection(Object mbeanServer, Class mbeanServerClass){
-        this.mbeanServer = mbeanServer;
+        assert mbeanServer != null;
+        assert mbeanServerClass != null;
+    	this.mbeanServer = mbeanServer;
         this.mbeanServerClass = mbeanServerClass;
     }
 
@@ -165,8 +167,10 @@ public abstract class JMXServerConnection implements ServerConnection{
 
     // maps for storing jmanage notification objects to jmx notification
     // object relationships
-    protected Map notifications = new HashMap();
-    protected Map notifFilters = new HashMap();
+    protected Map<ObjectNotificationListener, Object> notifications = 
+    	new HashMap<ObjectNotificationListener, Object>();
+    protected Map<ObjectNotificationFilter, NotificationFilter> notifFilters = 
+    	new HashMap<ObjectNotificationFilter, NotificationFilter>();
 
     public void addNotificationListener(ObjectName objectName,
                                         ObjectNotificationListener listener,
@@ -254,8 +258,7 @@ public abstract class JMXServerConnection implements ServerConnection{
         try {
             Class[] methodSignature = new Class[0];
             Object[] methodArgs = new Object[0];
-            Integer count = (Integer)callMBeanServer("getMBeanCount",
-                    methodSignature, methodArgs);
+            callMBeanServer("getMBeanCount", methodSignature, methodArgs);
             return true;
         } catch (Exception e) {
             logger.log(Level.INFO, "Connection to the server is lost. " +
@@ -315,8 +318,8 @@ public abstract class JMXServerConnection implements ServerConnection{
      * Converts a Set of javax.management.ObjectName to
      * org.jmanage.core.management.ObjectName
      */
-    protected static Set toJmanageObjectNameInstance(Set mbeans){
-        final Set output = new HashSet(mbeans.size());
+	protected static Set<ObjectName> toJmanageObjectNameInstance(Set mbeans){
+        final Set<ObjectName> output = new HashSet<ObjectName>(mbeans.size());
         for(Iterator it=mbeans.iterator(); it.hasNext();){
             javax.management.ObjectName objName =
                     (javax.management.ObjectName)it.next();
@@ -433,7 +436,7 @@ public abstract class JMXServerConnection implements ServerConnection{
     }
 
     protected static List toObjectAttributeList(AttributeList attrList){
-        final List objAttrList = new ArrayList(attrList.size());
+        final List<ObjectAttribute> objAttrList = new ArrayList<ObjectAttribute>(attrList.size());
         for(Iterator it=attrList.iterator(); it.hasNext(); ){
             Attribute attr = (Attribute)it.next();
             objAttrList.add(toObjectAttribute(attr));

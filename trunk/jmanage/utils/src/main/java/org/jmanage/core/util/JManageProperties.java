@@ -33,7 +33,9 @@ import java.io.*;
  */
 public class JManageProperties extends Properties{
 
-    private static final Logger logger =
+	private static final long serialVersionUID = 1L;
+
+	private static final Logger logger =
             Loggers.getLogger(JManageProperties.class);
 
     private String JMANAGE_PROPERTY_FILE = CoreUtils.getConfigDir() +

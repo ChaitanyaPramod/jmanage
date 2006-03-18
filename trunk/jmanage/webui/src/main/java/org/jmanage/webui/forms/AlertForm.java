@@ -28,7 +28,8 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class AlertForm extends BaseForm{
 
-    private String alertId;
+	private static final long serialVersionUID = 1L;
+	private String alertId;
     private String alertName;
     private String[] alertDelivery;
     private String emailAddress;

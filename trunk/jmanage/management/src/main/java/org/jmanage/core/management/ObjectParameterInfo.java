@@ -22,7 +22,8 @@ package org.jmanage.core.management;
  */
 public class ObjectParameterInfo extends ObjectFeatureInfo {
 
-    private String type;
+	private static final long serialVersionUID = -4150497689414589913L;
+	private String type;
 
     public ObjectParameterInfo(String name, String description, String type) {
         super(name, description);

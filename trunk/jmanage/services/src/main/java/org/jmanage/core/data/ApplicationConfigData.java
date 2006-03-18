@@ -26,7 +26,9 @@ import java.util.Map;
  */
 public class ApplicationConfigData implements Serializable {
 
-    private String appId;
+	private static final long serialVersionUID = -7094389293327083709L;
+
+	private String appId;
     private String name;
     private String host;
     private Integer port;
@@ -36,7 +38,7 @@ public class ApplicationConfigData implements Serializable {
     private String type;
     private boolean isCluster;
     private List childApplications;
-    protected Map paramValues;
+    protected Map<String, String> paramValues;
 
     public String getApplicationId() {
         return appId;
@@ -102,11 +104,11 @@ public class ApplicationConfigData implements Serializable {
         this.type = type;
     }
 
-    public Map getParamValues(){
+    public Map<String, String> getParamValues(){
         return paramValues;
     }
 
-    public void setParamValues(Map paramValues){
+    public void setParamValues(Map<String, String> paramValues){
         this.paramValues = paramValues;
     }
 

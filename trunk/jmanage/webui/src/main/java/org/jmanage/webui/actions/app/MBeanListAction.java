@@ -49,16 +49,16 @@ public class MBeanListAction extends BaseAction {
         List mbeanDataList = mbeanService.queryMBeans(Utils.getServiceContext(context),
                 queryObjectName);
 
-        Map domainToObjectNameListMap = new TreeMap();
+        Map<String, Set<String>> domainToObjectNameListMap = new TreeMap<String, Set<String>>();
         ObjectNameTuple tuple = new ObjectNameTuple();
         for(Iterator it=mbeanDataList.iterator(); it.hasNext();){
             MBeanData mbeanData = (MBeanData)it.next();
             tuple.setObjectName(mbeanData.getName());
             String domain = tuple.getDomain();
             String name = tuple.getName();
-            Set objectNameList = (Set)domainToObjectNameListMap.get(domain);
+            Set<String> objectNameList = domainToObjectNameListMap.get(domain);
             if(objectNameList == null){
-                objectNameList = new TreeSet();
+                objectNameList = new TreeSet<String>();
                 domainToObjectNameListMap.put(domain, objectNameList);
             }
             objectNameList.add(name);

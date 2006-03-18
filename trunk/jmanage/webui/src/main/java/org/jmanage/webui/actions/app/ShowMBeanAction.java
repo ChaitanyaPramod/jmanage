@@ -61,11 +61,11 @@ public class ShowMBeanAction extends BaseAction {
         if(configuredMBean != null)
             AccessController.checkAccess(context.getServiceContext(),
                     ACL_VIEW_MBEANS);
-        List applications = null;
+        List<ApplicationConfig> applications = null;
         if(config.isCluster()){
             applications = config.getApplications();
         }else{
-            applications = new ArrayList(1);
+            applications = new ArrayList<ApplicationConfig>(1);
             applications.add(config);
         }
 
@@ -77,7 +77,8 @@ public class ShowMBeanAction extends BaseAction {
         /* a Map which constains list of attribute values for each application
             in the cluster.
             ApplicationConfig is the key and attribute List is the value*/
-        final Map appConfigToAttrListMap = new HashMap(applications.size());
+        final Map<ApplicationConfig, List> appConfigToAttrListMap = 
+        	new HashMap<ApplicationConfig, List>(applications.size());
         for(Iterator it=applications.iterator(); it.hasNext(); ){
             ApplicationConfig childAppConfig = (ApplicationConfig)it.next();
             ServerConnection serverConnection = null;

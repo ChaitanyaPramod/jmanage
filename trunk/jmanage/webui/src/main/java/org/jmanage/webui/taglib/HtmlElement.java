@@ -26,8 +26,8 @@ import java.util.*;
 public class HtmlElement {
 
     private final String name;
-    private final Map attributes = new HashMap();
-    private final List childElements = new LinkedList();
+    private final Map<String, String> attributes = new HashMap<String, String>();
+    private final List<HtmlElement> childElements = new LinkedList<HtmlElement>();
 
     public HtmlElement(String name){
         this.name = name;

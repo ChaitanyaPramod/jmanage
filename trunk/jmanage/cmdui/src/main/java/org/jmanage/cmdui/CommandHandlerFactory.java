@@ -26,8 +26,9 @@ import java.util.*;
  */
 public class CommandHandlerFactory implements CommandConstants {
 
-    private static Map commandNameToInstanceMap = new HashMap();
-    private static Set commandNames = new TreeSet();
+    private static Map<String, CommandHandler> commandNameToInstanceMap = 
+    	new HashMap<String, CommandHandler>();
+    private static Set<String> commandNames = new TreeSet<String>();
 
     static{
         commandNameToInstanceMap.put(APPS, new ListApplicationsHandler());

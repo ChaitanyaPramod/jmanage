@@ -22,7 +22,9 @@ package org.jmanage.core.data;
  */
 public class MBeanData implements java.io.Serializable {
 
-    private String name;
+    private static final long serialVersionUID = 1L;
+	
+	private String name;
     /* jmanage configured name (if configured) */
     private String configuredName;
 

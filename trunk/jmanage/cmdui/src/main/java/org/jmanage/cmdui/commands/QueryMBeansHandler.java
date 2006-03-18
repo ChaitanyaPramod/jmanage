@@ -20,6 +20,7 @@ import org.jmanage.cmdui.HandlerContext;
 import org.jmanage.cmdui.CommandConstants;
 import org.jmanage.cmdui.util.CommandUtils;
 import org.jmanage.cmdui.util.Out;
+import org.jmanage.core.data.MBeanData;
 import org.jmanage.core.services.MBeanService;
 import org.jmanage.core.services.ServiceFactory;
 
@@ -52,7 +53,7 @@ public class QueryMBeansHandler implements CommandHandler {
         }
 
         MBeanService mbeanService = ServiceFactory.getMBeanService();
-        List mbeanDataList =
+        List<MBeanData> mbeanDataList =
                 mbeanService.queryMBeans(context.getServiceContext(appName),
                         filter);
         assert mbeanDataList != null;

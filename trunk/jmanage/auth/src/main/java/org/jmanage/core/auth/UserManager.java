@@ -42,7 +42,7 @@ public class UserManager implements AuthConstants{
             new UserManager(new File(USER_CONFIG_FILE_NAME));
 
     /* user map */
-    private Map users = null;
+    private Map<String, User> users = null;
 
     /**
      * Cache user information.
@@ -75,8 +75,8 @@ public class UserManager implements AuthConstants{
      * @param userConfig
      * @return
      */
-    private Map loadUsers(Document userConfig){
-        Map userData = Collections.synchronizedMap(new HashMap(1));
+    private Map<String, User> loadUsers(Document userConfig){
+        Map<String, User> userData = Collections.synchronizedMap(new HashMap<String, User>(1));
         List users =
                 userConfig.getRootElement().getChildren();
         Iterator userIterator = users.iterator();
@@ -85,7 +85,7 @@ public class UserManager implements AuthConstants{
             Element user = (Element)userIterator.next();
             List roles = user.getChildren(ROLE);
             Iterator roleIterator = roles.iterator();
-            List userRoles = new ArrayList();
+            List<Role> userRoles = new ArrayList<Role>();
             while(roleIterator.hasNext()){
                 Element role = (Element)roleIterator.next();
                 userRoles.add(new Role(role.getTextTrim()));
@@ -133,7 +133,7 @@ public class UserManager implements AuthConstants{
      *
      * @return
      */
-    public Map getAllUsers(){
+    public Map<String, User> getAllUsers(){
         return users;
     }
 

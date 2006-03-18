@@ -27,7 +27,9 @@ import java.security.Principal;
  */
 public class User implements Principal, java.io.Serializable{
 
-    public final static String STATUS_ACTIVE = "A";
+    private static final long serialVersionUID = -6053516649530396543L;
+	
+	public final static String STATUS_ACTIVE = "A";
     public final static String STATUS_LOCKED = "L";
     //public final static String STATUS_INACTIVE = "I";
 

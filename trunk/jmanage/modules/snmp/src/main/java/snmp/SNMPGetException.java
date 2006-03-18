@@ -57,6 +57,12 @@ public class SNMPGetException extends SNMPRequestException
     */
     
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+	/**
     *    Create exception with errorIndex and errorStatus
     */
     

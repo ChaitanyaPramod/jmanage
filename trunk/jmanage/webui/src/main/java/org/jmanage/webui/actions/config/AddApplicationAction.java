@@ -61,7 +61,7 @@ public class AddApplicationAction extends BaseAction {
         /* create ApplicationConfigData from this form */
         ApplicationConfigData appConfigData = new ApplicationConfigData();
         CoreUtils.copyProperties(appConfigData, appForm);
-        Map paramValues = new HashMap();
+        Map<String, String> paramValues = new HashMap<String, String>();
         if(appForm.getJndiFactory() != null)
             paramValues.put(ApplicationConfig.JNDI_FACTORY, appForm.getJndiFactory());
         if(appForm.getJndiURL() != null)

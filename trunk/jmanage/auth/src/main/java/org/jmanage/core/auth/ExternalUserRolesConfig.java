@@ -27,7 +27,10 @@ import java.io.FileInputStream;
  * Date: Sep 27, 2005
  */
 public class ExternalUserRolesConfig extends Properties{
-    private static final Logger logger =
+
+	private static final long serialVersionUID = 1L;
+
+	private static final Logger logger =
             Loggers.getLogger(ExternalUserRolesConfig.class);
 
     private String EXTERNAL_USER_ROLES_CONFIG_FILE = CoreUtils.getConfigDir() +

@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
  * date:  Jul 21, 2004
  * @author	Rakesh Kalra, Shashank Bellary
  */
+@SuppressWarnings("serial")
 public class MBeanConfigForm extends BaseForm {
     //TODO: Usage of DynaForm should clean up this.
     private String[] name;

@@ -87,7 +87,7 @@ public class PasswordField {
             while (!stop) {
                 try {
                     // attempt masking at this rate
-                    this.sleep(1);
+                    Thread.sleep(1);
                 } catch (InterruptedException iex) {
                     iex.printStackTrace();
                 }

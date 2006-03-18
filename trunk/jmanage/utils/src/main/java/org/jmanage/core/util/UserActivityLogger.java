@@ -112,7 +112,8 @@ public class UserActivityLogger extends Thread{
      * @param activity this is the activity that needs to be written to the
      *        log file.
      */
-    public synchronized void logActivity(String user, String activity){
+    @SuppressWarnings("unchecked")
+	public synchronized void logActivity(String user, String activity){
         date = Calendar.getInstance(Locale.getDefault()).getTime();
         activity = user.toUpperCase()+" "+activity+" on "+date.toString();
         activities.add(activity);

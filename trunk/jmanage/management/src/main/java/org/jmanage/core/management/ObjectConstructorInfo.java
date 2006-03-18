@@ -22,7 +22,9 @@ package org.jmanage.core.management;
  */
 public class ObjectConstructorInfo extends ObjectFeatureInfo {
 
-    private ObjectParameterInfo[] signature;
+	private static final long serialVersionUID = 2570461882432124832L;
+
+	private ObjectParameterInfo[] signature;
 
     public ObjectConstructorInfo(String name,
                                  String description,

@@ -61,7 +61,8 @@ public class AddGraphAction extends BaseAction{
         GraphForm form = (GraphForm)actionForm;
         String[] attributes = form.getAttributes();
         String[] displayNames = request.getParameterValues("displayNames");
-        List graphAttrConfigs = new ArrayList(attributes.length);
+        List<GraphAttributeConfig> graphAttrConfigs = 
+        	new ArrayList<GraphAttributeConfig>(attributes.length);
         for(int i=0; i<attributes.length; i++){
             Expression expression = new Expression(attributes[i]);
             GraphAttributeConfig graphAttrConfig = new GraphAttributeConfig(

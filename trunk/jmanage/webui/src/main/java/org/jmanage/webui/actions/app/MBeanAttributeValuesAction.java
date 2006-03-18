@@ -58,7 +58,7 @@ public class MBeanAttributeValuesAction extends BaseAction {
         String attributes = request.getParameter("attributes");
         assert attributes != null;
         List exprList = parse(attributes);
-        List objectAttrList = new LinkedList();
+        List<ObjectAttribute> objectAttrList = new LinkedList<ObjectAttribute>();
         MBeanService mbeanService = ServiceFactory.getMBeanService();
         for(Iterator it=exprList.iterator(); it.hasNext();){
             Expression expression = (Expression)it.next();
@@ -86,7 +86,7 @@ public class MBeanAttributeValuesAction extends BaseAction {
      * @return list of Expression objects
      */
     private List parse(String attributes){
-        List exprList = new LinkedList();
+        List<Expression> exprList = new LinkedList<Expression>();
         StringTokenizer tokenizer = new StringTokenizer(attributes, ",");
         while(tokenizer.hasMoreTokens()){
             String expression = tokenizer.nextToken();

@@ -61,7 +61,7 @@ public class JBossServerConnectionFactory implements ServerConnectionFactory{
     private static RMIAdaptor findExternal(String url, String username, String password)
             throws NamingException {
 
-        Hashtable props = new Hashtable();
+        Hashtable<String, String> props = new Hashtable<String, String>();
         props.put(Context.INITIAL_CONTEXT_FACTORY, "org.jnp.interfaces.NamingContextFactory");
         props.put(Context.PROVIDER_URL, url);
         props.put(Context.URL_PKG_PREFIXES, "org.jboss.naming:org.jnp.interfaces");

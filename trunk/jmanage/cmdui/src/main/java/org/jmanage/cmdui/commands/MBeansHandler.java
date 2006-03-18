@@ -20,6 +20,7 @@ import org.jmanage.cmdui.HandlerContext;
 import org.jmanage.cmdui.CommandConstants;
 import org.jmanage.cmdui.util.Out;
 import org.jmanage.cmdui.util.CommandUtils;
+import org.jmanage.core.data.MBeanData;
 import org.jmanage.core.services.ServiceFactory;
 import org.jmanage.core.services.ConfigurationService;
 
@@ -49,7 +50,7 @@ public class MBeansHandler implements CommandHandler {
 
         ConfigurationService configService =
                 ServiceFactory.getConfigurationService();
-        List mbeanDataList =
+        List<MBeanData> mbeanDataList =
                 configService.getConfiguredMBeans(
                         context.getServiceContext(appName));
         assert mbeanDataList != null;

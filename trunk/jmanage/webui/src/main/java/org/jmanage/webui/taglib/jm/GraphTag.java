@@ -19,15 +19,11 @@ import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Utils;
 import org.jmanage.webui.taglib.HtmlElement;
 import org.jmanage.webui.applets.GraphAppletParameters;
-import org.jmanage.core.services.AccessController;
 import org.jmanage.core.config.GraphConfig;
 import org.jmanage.core.config.ApplicationConfig;
 
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.JspWriter;
-import javax.servlet.jsp.tagext.BodyTag;
-import javax.servlet.jsp.tagext.Tag;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 

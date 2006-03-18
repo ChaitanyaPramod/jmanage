@@ -46,7 +46,7 @@ public class AlertSystemConfig {
     }
 
     // list of DeliveryType objects
-    private List deliveryTypes = new LinkedList();
+    private List<DeliveryType> deliveryTypes = new LinkedList<DeliveryType>();
 
 
     private AlertSystemConfig(){

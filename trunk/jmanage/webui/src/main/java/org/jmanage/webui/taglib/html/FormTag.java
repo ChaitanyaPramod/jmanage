@@ -28,6 +28,7 @@ import java.io.IOException;
  * date:  Jun 20, 2004
  * @author	Rakesh Kalra
  */
+@SuppressWarnings("serial")
 public class FormTag extends org.apache.struts.taglib.html.FormTag {
 
     private static final String HIDDEN_FIELD_APP_ID_BEGIN =

@@ -27,7 +27,8 @@ import java.util.StringTokenizer;
  */
 public class ObjectName implements java.io.Serializable {
 
-    private final String objectName;
+	private static final long serialVersionUID = 3221022327464786502L;
+	private final String objectName;
     private final String canonicalName;
 
     public ObjectName(String objectName){

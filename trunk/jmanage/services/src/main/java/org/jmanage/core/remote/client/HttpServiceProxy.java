@@ -69,7 +69,8 @@ public class HttpServiceProxy implements InvocationHandler {
                     JManageProperties.getSSLTrustStorePassword());
 
             HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier(){
-                public boolean verify(String s, String s1) {
+            	@SuppressWarnings("unused")
+				public boolean verify(String s, String s1) {
                     return true;
                 }
 

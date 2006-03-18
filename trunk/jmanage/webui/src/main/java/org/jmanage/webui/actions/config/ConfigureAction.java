@@ -27,10 +27,6 @@ import org.apache.struts.action.ActionForm;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Properties;
-import java.io.OutputStream;
-import java.io.FileOutputStream;
-import java.io.FileNotFoundException;
 
 /**
  *

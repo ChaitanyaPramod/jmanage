@@ -24,7 +24,9 @@ import java.util.List;
  */
 public class AttributeListData implements java.io.Serializable {
 
-    private final String appName;
+    private static final long serialVersionUID = 1L;
+	
+	private final String appName;
     private final List attributeList;
     private boolean error = false;
 

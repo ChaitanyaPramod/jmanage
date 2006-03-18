@@ -22,6 +22,8 @@ package org.jmanage.cmdui;
  */
 public class InvalidCommandException extends Exception {
 
+    private static final long serialVersionUID = 8301066927671099293L;
+	
     private String commandName;
 
     public InvalidCommandException(String commandName){

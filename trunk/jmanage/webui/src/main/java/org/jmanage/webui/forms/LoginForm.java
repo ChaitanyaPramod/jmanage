@@ -20,6 +20,7 @@ package org.jmanage.webui.forms;
  * date:  Jun 27, 2004
  * @author	Rakesh Kalra
  */
+@SuppressWarnings("serial")
 public class LoginForm extends BaseForm {
 
     private String username;

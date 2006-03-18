@@ -97,7 +97,8 @@ public class SNMPMessage extends SNMPSequence
     *    provided through RFC 1157.
     */
     
-    public SNMPMessage(int version, String community, SNMPPDU pdu)
+    @SuppressWarnings("unchecked")
+	public SNMPMessage(int version, String community, SNMPPDU pdu)
     {
         super();
         Vector contents = new Vector();
@@ -123,7 +124,8 @@ public class SNMPMessage extends SNMPSequence
     *    provided through RFC 1157.
     */
     
-    public SNMPMessage(int version, String community, SNMPv1TrapPDU pdu)
+    @SuppressWarnings("unchecked")
+	public SNMPMessage(int version, String community, SNMPv1TrapPDU pdu)
     {
         super();
         Vector contents = new Vector();
@@ -149,7 +151,8 @@ public class SNMPMessage extends SNMPSequence
     *    Use version = 1.
     */
     
-    public SNMPMessage(int version, String community, SNMPv2TrapPDU pdu)
+    @SuppressWarnings("unchecked")
+	public SNMPMessage(int version, String community, SNMPv2TrapPDU pdu)
     {
         super();
         Vector contents = new Vector();

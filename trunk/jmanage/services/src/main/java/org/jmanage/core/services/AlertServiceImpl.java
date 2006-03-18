@@ -28,15 +28,13 @@ public class AlertServiceImpl implements AlertService {
     public List getConsoleAlerts(ServiceContext context)
             throws ServiceException {
 
-        List alerts = new LinkedList();
+        List<AlertInfo> alerts = new LinkedList<AlertInfo>();
         // create a copy
         for(Iterator it=ConsoleAlerts.getInstance().getAll().iterator(); it.hasNext();){
-            alerts.add(it.next());
+            alerts.add((AlertInfo) it.next());
         }
-        Collections.sort(alerts, new Comparator(){
-            public int compare(Object o1, Object o2) {
-                AlertInfo info1 = (AlertInfo)o1;
-                AlertInfo info2 = (AlertInfo)o2;
+        Collections.sort(alerts, new Comparator<AlertInfo>(){
+            public int compare(AlertInfo info1, AlertInfo info2) {
                 if(info1.getTimeStamp() == info2.getTimeStamp()){
                     return 0;
                 }else if(info1.getTimeStamp() < info2.getTimeStamp()){

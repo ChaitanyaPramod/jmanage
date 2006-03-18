@@ -17,11 +17,9 @@ package org.jmanage.core.config;
 
 import org.jmanage.core.config.MetaApplicationConfig;
 import org.jmanage.core.util.CoreUtils;
-import org.jmanage.core.util.Loggers;
 
 import java.net.URL;
 import java.io.File;
-import java.util.logging.Logger;
 
 /**
  *
@@ -29,8 +27,6 @@ import java.util.logging.Logger;
  * @author	Rakesh Kalra
  */
 public class ModuleConfig {
-
-    private static final Logger logger = Loggers.getLogger(ModuleConfig.class);
 
     private String id;
     private MetaApplicationConfig metaConfig;
@@ -74,7 +70,10 @@ public class ModuleConfig {
     }
 
     public static class ModuleNotFoundException extends RuntimeException{
-        ModuleNotFoundException(String module){
+
+		private static final long serialVersionUID = -8450974092075042186L;
+
+		ModuleNotFoundException(String module){
             super("Module=" + module);
         }
     }

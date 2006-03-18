@@ -30,7 +30,9 @@ import java.io.Serializable;
  */
 public class JMXInterfaceProxy implements InvocationHandler, Serializable {
 
-    public static Object newProxyInstance(Class clazz, Object object){
+	private static final long serialVersionUID = 1L;
+
+	public static Object newProxyInstance(Class clazz, Object object){
         assert clazz.isInstance(object);
         JMXInterfaceProxy proxy = new JMXInterfaceProxy(clazz, object);
         return Proxy.newProxyInstance(
@@ -53,7 +55,7 @@ public class JMXInterfaceProxy implements InvocationHandler, Serializable {
         try {
             Method wrappedMethod =
                     clazz.getMethod(method.getName(),
-                            method.getParameterTypes());
+                            (Class[])method.getParameterTypes());
             return wrappedMethod.invoke(wrappedObject, args);
         } catch (InvocationTargetException e) {
             throw e.getCause();

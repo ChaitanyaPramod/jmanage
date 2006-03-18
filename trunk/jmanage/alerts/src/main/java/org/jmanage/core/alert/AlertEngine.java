@@ -40,7 +40,7 @@ public class AlertEngine {
         return alertEngine;
     }
 
-    private List alerts = Collections.synchronizedList(new LinkedList());
+    private List<Alert> alerts = Collections.synchronizedList(new LinkedList<Alert>());
 
     private AlertEngine(){}
 

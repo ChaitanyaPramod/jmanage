@@ -20,7 +20,6 @@ import org.jmanage.core.management.ObjectName;
 import org.jmanage.core.modules.JMXServerConnection;
 
 import javax.management.*;
-import java.util.*;
 
 import weblogic.management.RemoteNotificationListener;
 import weblogic.management.RemoteMBeanServer;

@@ -34,7 +34,7 @@ public class ACLStore {
     private static final Logger logger = Loggers.getLogger(ACLStore.class);
     private static final ACLStore instance = new ACLStore();
 
-    private Map aclNameToACLMap = new HashMap();
+    private Map<String, ACL> aclNameToACLMap = new HashMap<String, ACL>();
 
     /**
      *

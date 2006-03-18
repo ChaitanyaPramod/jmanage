@@ -137,7 +137,8 @@ public class SNMPv1AgentInterface
     
     
     
-    public void addRequestListener(SNMPRequestListener listener)
+    @SuppressWarnings("unchecked")
+	public void addRequestListener(SNMPRequestListener listener)
     {
         // see if listener already added; if so, ignore
         for (int i = 0; i < listenerVector.size(); i++)
@@ -209,7 +210,8 @@ public class SNMPv1AgentInterface
     *   processRequest() methods.
     */
     
-    public void run()
+    @SuppressWarnings("unchecked")
+	public void run()
     {
         
         
@@ -440,7 +442,8 @@ public class SNMPv1AgentInterface
     
     
     
-    private String hexByte(byte b)
+    @SuppressWarnings("unused")
+	private String hexByte(byte b)
     {
         int pos = b;
         if (pos < 0)
