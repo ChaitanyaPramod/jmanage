@@ -15,13 +15,10 @@
  */
 package org.jmanage.core.modules.jsr160;
 
-import org.jmanage.core.management.*;
-import org.jmanage.core.management.ObjectName;
 import org.jmanage.core.modules.JMXServerConnection;
 
 import javax.management.*;
 import javax.management.remote.JMXConnector;
-import java.util.*;
 import java.io.IOException;
 
 /**
@@ -32,7 +29,6 @@ import java.io.IOException;
 public class JSR160ServerConnection extends JMXServerConnection{
 
     private final JMXConnector jmxc;
-    private final MBeanServerConnection mbeanServer;
 
     public JSR160ServerConnection(JMXConnector jmxc,
                                   MBeanServerConnection mbeanServer)
@@ -40,7 +36,6 @@ public class JSR160ServerConnection extends JMXServerConnection{
         super(mbeanServer, MBeanServerConnection.class);
         assert jmxc != null;
         this.jmxc = jmxc;
-        this.mbeanServer = mbeanServer;
     }
 
     /**

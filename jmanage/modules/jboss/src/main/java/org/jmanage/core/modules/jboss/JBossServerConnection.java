@@ -25,8 +25,6 @@ import org.jboss.jmx.adaptor.rmi.RMIAdaptor;
 import org.jboss.jmx.adaptor.rmi.RMINotificationListener;
 
 import javax.management.*;
-import java.util.Set;
-import java.util.List;
 import java.util.logging.Logger;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;

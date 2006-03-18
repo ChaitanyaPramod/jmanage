@@ -21,7 +21,6 @@ import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.forms.ApplicationForm;
 import org.jmanage.core.config.ApplicationConfigManager;
 import org.jmanage.core.config.ApplicationConfig;
-import org.jmanage.core.config.AlertConfig;
 import org.jmanage.core.util.UserActivityLogger;
 import org.jmanage.core.services.AccessController;
 import org.jmanage.core.alert.AlertEngine;
@@ -31,7 +30,6 @@ import org.apache.struts.action.ActionForm;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Iterator;
 
 /**
  *

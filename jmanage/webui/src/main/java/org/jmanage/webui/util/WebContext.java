@@ -24,11 +24,9 @@ import org.jmanage.core.management.ObjectName;
 import org.jmanage.core.management.MalformedObjectNameException;
 import org.jmanage.core.services.ServiceContext;
 import org.jmanage.core.services.ServiceUtils;
-import org.jmanage.core.util.Loggers;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.logging.Logger;
 
 /**
  *
@@ -36,8 +34,6 @@ import java.util.logging.Logger;
  * @author	Rakesh Kalra, Shashank Bellary
  */
 public class WebContext {
-
-    private static final Logger logger = Loggers.getLogger(WebContext.class);
 
     private ApplicationConfig appConfig;
     private HttpServletRequest request;

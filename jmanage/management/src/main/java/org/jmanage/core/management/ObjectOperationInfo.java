@@ -22,7 +22,8 @@ package org.jmanage.core.management;
  */
 public class ObjectOperationInfo extends ObjectFeatureInfo {
 
-    public static final int INFO = 0;
+	private static final long serialVersionUID = 6832369779365734305L;
+	public static final int INFO = 0;
     public static final int ACTION = 1;
     public static final int ACTION_INFO = 2;
     public static final int UNKNOWN = 3;

@@ -22,7 +22,9 @@ package org.jmanage.core.management;
  */
 public class MalformedObjectNameException extends RuntimeException {
 
-    public MalformedObjectNameException(Throwable cause){
+	private static final long serialVersionUID = 2137814546157384475L;
+
+	public MalformedObjectNameException(Throwable cause){
         super(cause);
     }
 }

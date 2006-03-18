@@ -59,7 +59,8 @@ public class Table {
         add(new Object[]{obj1, obj2, obj3, obj4, obj5});
     }
 
-    public void add(Object[] objects){
+    @SuppressWarnings("unchecked")
+	public void add(Object[] objects){
         assert columns == objects.length;
         rows.add(objects);
         setColumnSize(objects);

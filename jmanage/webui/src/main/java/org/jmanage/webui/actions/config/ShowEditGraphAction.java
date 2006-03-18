@@ -24,7 +24,6 @@ import org.jmanage.webui.forms.GraphForm;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.GraphConfig;
 import org.jmanage.core.config.GraphAttributeConfig;
-import org.jmanage.core.util.Expression;
 import org.jmanage.core.services.AccessController;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;

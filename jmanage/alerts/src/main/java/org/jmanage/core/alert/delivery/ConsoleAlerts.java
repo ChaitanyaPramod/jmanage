@@ -13,12 +13,8 @@
 */
 package org.jmanage.core.alert.delivery;
 
-import org.jmanage.core.alert.AlertInfo;
 import org.jmanage.core.util.CoreUtils;
 
-import java.util.*;
-import java.beans.XMLEncoder;
-import java.beans.XMLDecoder;
 import java.io.*;
 
 /**

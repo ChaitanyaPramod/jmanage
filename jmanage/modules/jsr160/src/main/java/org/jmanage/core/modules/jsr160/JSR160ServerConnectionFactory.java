@@ -23,7 +23,6 @@ import org.jmanage.core.config.ApplicationConfig;
 import javax.management.remote.JMXServiceURL;
 import javax.management.remote.JMXConnector;
 import javax.management.remote.JMXConnectorFactory;
-import javax.management.MBeanServerConnection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,7 +42,7 @@ public class JSR160ServerConnectionFactory implements ServerConnectionFactory{
 
         try {
             /* Create an RMI connector client */
-            HashMap env = new HashMap();
+            HashMap<String, Object> env = new HashMap<String, Object>();
             String[] credentials = new String[] {config.getUsername(),
                                                  config.getPassword()};
             env.put("jmx.remote.credentials", credentials);

@@ -48,7 +48,7 @@ public class MBeanServiceImpl implements MBeanService {
     private static final ObjectName DEFAULT_FILTER_OBJECT_NAME =
             new ObjectName(DEFAULT_FILTER);
 
-    public List queryMBeans(ServiceContext context,
+    public List<MBeanData> queryMBeans(ServiceContext context,
                           String filter)
             throws ServiceException {
 
@@ -64,7 +64,7 @@ public class MBeanServiceImpl implements MBeanService {
 
         Set mbeans =
                 serverConnection.queryNames(filterObjectName);
-        ArrayList mbeanDataList = new ArrayList(mbeans.size());
+        ArrayList<MBeanData> mbeanDataList = new ArrayList<MBeanData>(mbeans.size());
         for(Iterator it=mbeans.iterator();it.hasNext(); ){
             ObjectName objName = (ObjectName)it.next();
             mbeanDataList.add(new MBeanData(objName.getDisplayName()));
@@ -72,7 +72,8 @@ public class MBeanServiceImpl implements MBeanService {
         return mbeanDataList;
     }
 
-    public Map queryMBeansOutputMap(ServiceContext context, String filter,
+    @SuppressWarnings("unchecked")
+	public Map queryMBeansOutputMap(ServiceContext context, String filter,
                                     String[] dataTypes, String applyAttribFilter){
         List mbeanDataList = null;
         if("false".equals(applyAttribFilter)){
@@ -98,7 +99,8 @@ public class MBeanServiceImpl implements MBeanService {
         return domainToObjectNameListMap;
     }
 
-     private List queryMBeansWithAttributes(ServiceContext context, String filter,
+     @SuppressWarnings("unchecked")
+	private List queryMBeansWithAttributes(ServiceContext context, String filter,
                                          String[] dataTypes)
             throws ServiceException{
         ServerConnection serverConnection = context.getServerConnection();
@@ -143,7 +145,8 @@ public class MBeanServiceImpl implements MBeanService {
      *              specified
      * @return
      */
-    private boolean checkAttributeDataType(ServerConnection connection,
+    @SuppressWarnings("unchecked")
+	private boolean checkAttributeDataType(ServerConnection connection,
                                            ObjectName objectName,
                                            ObjectAttributeInfo[] objAttrInfo,
                                            String[] dataTypes,
@@ -192,7 +195,8 @@ public class MBeanServiceImpl implements MBeanService {
      * @param attributesList    ObjectAttributeInfo instances are added to this
      *                          list
      */
-    private void handleCompositeData(ServerConnection connection,
+    @SuppressWarnings("unchecked")
+	private void handleCompositeData(ServerConnection connection,
                                      ObjectName objectName,
                                      ObjectAttributeInfo attrInfo,
                                      String[] dataTypes,
@@ -302,7 +306,7 @@ public class MBeanServiceImpl implements MBeanService {
                     serverConnection.getObjectInfo(context.getObjectName());
             assert objInfo != null;
             ObjectAttributeInfo[] attributes = objInfo.getAttributes();
-            List attributeNames = new LinkedList();
+            List<String> attributeNames = new LinkedList<String>();
             for (int i = 0; i < attributes.length; i++) {
                 if(attributes[i].isReadable()){
                     attributeNames.add(attributes[i].getName());
@@ -649,13 +653,14 @@ public class MBeanServiceImpl implements MBeanService {
         return attrListData;
     }
 
-    public Map queryMBeansWithNotifications(ServiceContext context)
+    public Map<String, ObjectNotificationInfo[]> queryMBeansWithNotifications(ServiceContext context)
             throws ServiceException {
 
         ServerConnection serverConnection =
                 context.getServerConnection();
         Set mbeans = serverConnection.queryNames(DEFAULT_FILTER_OBJECT_NAME);
-        Map mbeanToNoficationsMap = new TreeMap();
+        Map<String, ObjectNotificationInfo[]> mbeanToNoficationsMap = 
+        	new TreeMap<String, ObjectNotificationInfo[]>();
         for(Iterator it=mbeans.iterator(); it.hasNext(); ){
             ObjectName objName = (ObjectName)it.next();
 
@@ -733,7 +738,7 @@ public class MBeanServiceImpl implements MBeanService {
         }
 
         ObjectAttributeInfo[] objAttributes = objInfo.getAttributes();
-        List attributeList = new LinkedList();
+        List<ObjectAttribute> attributeList = new LinkedList<ObjectAttribute>();
         for(int i=0; i<attributes.length; i++){
             String attribute = attributes[i][0];
             String type = getAttributeType(connection,
@@ -801,11 +806,11 @@ public class MBeanServiceImpl implements MBeanService {
 
 
     private List getApplications(ApplicationConfig appConfig){
-        List applications = null;
+        List<ApplicationConfig> applications = null;
         if(appConfig.isCluster()){
             applications = appConfig.getApplications();
         }else{
-            applications = new ArrayList(1);
+            applications = new ArrayList<ApplicationConfig>(1);
             applications.add(appConfig);
         }
         return applications;
@@ -824,7 +829,7 @@ public class MBeanServiceImpl implements MBeanService {
 
         String applicationId = appConfig.getApplicationId();
         Iterator it = attributes.keySet().iterator();
-        List attributeList = new LinkedList();
+        List<ObjectAttribute> attributeList = new LinkedList<ObjectAttribute>();
         while(it.hasNext()){
             String param = (String)it.next();
             // look for keys which only start with "attr+"

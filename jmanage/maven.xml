@@ -26,6 +26,7 @@
                 <include name="*/lib/*.jar"/>
                 <exclude name="jfreechart/**"/>
                 <exclude name="struts/**"/>
+                <exclude name="junit/**"/>
             </fileset>
             <fileset dir="${basedir}/thirdparty">
                 <include name="struts/lib/commons-beanutils.jar"/>

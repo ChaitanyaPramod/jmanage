@@ -25,7 +25,7 @@ import java.util.LinkedList;
 public abstract class AbstractTable implements Table {
 
     private String[] header;
-    private List rows = new LinkedList();
+    private List<String[]> rows = new LinkedList<String[]>();
 
     public void setHeader(String[] header) {
         this.header = header;
@@ -35,7 +35,7 @@ public abstract class AbstractTable implements Table {
         rows.add(row);
     }
 
-    public void addRows(List rows) {
+    public void addRows(List<String[]> rows) {
         this.rows.addAll(rows);
     }
 

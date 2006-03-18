@@ -21,8 +21,6 @@ import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.management.ObjectName;
 import org.jmanage.core.management.ServerConnection;
 import org.jmanage.core.management.ServerConnector;
-import org.jmanage.core.util.Loggers;
-import java.util.logging.Logger;
 
 /**
  *
@@ -32,8 +30,7 @@ import java.util.logging.Logger;
  */
 public class ServiceContextImpl implements ServiceContext {
 
-    private static final Logger logger =
-            Loggers.getLogger(ServiceContextImpl.class);
+	private static final long serialVersionUID = 5117302022597868291L;
 
     private User user;
     private String appName;

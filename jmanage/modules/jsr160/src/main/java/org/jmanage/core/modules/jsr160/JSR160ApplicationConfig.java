@@ -17,8 +17,6 @@ package org.jmanage.core.modules.jsr160;
 
 import org.jmanage.core.config.ApplicationConfig;
 
-import java.util.Map;
-
 /**
  *
  * date:  Sep 13, 2004

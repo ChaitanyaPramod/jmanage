@@ -21,7 +21,6 @@ import org.apache.struts.action.ActionMapping;
 import org.jmanage.core.data.OperationResultData;
 import org.jmanage.core.services.MBeanService;
 import org.jmanage.core.services.ServiceFactory;
-import org.jmanage.core.util.Loggers;
 import org.jmanage.core.management.ObjectOperationInfo;
 import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.Forwards;
@@ -31,7 +30,6 @@ import org.jmanage.webui.util.RequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.logging.Logger;
 
 /**
  * Executes mbean operation for Application as well as Application Cluster.
@@ -40,9 +38,6 @@ import java.util.logging.Logger;
  * @author	Rakesh Kalra
  */
 public class ExecuteMBeanOperationAction extends BaseAction {
-
-    private static final Logger logger =
-            Loggers.getLogger(ExecuteMBeanOperationAction.class);
 
     public ActionForward execute(WebContext context,
                                  ActionMapping mapping,

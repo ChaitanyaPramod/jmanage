@@ -21,11 +21,6 @@ import org.jmanage.core.management.ObjectAttributeInfo;
 
 import java.util.List;
 import java.util.Iterator;
-import java.util.Date;
-import java.util.Arrays;
-import java.math.BigInteger;
-import java.math.BigDecimal;
-import java.lang.reflect.Array;
 
 /**
  * Contains some mbean utility methods, which are used in the web layer

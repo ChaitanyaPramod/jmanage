@@ -20,7 +20,6 @@ import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.forms.ChangePasswordForm;
 import org.jmanage.core.auth.UserManager;
-import org.jmanage.core.services.AccessController;
 import org.jmanage.core.auth.AuthConstants;
 import org.jmanage.core.crypto.Crypto;
 import org.jmanage.core.crypto.EncryptedKey;

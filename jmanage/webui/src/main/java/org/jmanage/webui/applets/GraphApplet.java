@@ -21,14 +21,11 @@ import org.jfree.data.time.Second;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.ChartPanel;
-import org.jfree.chart.title.Title;
 
 import javax.swing.*;
-import java.applet.Applet;
 import java.awt.*;
 import java.util.Date;
 import java.util.Properties;
-import java.util.LinkedList;
 import java.util.StringTokenizer;
 import java.net.*;
 import java.io.*;
@@ -40,7 +37,8 @@ import java.io.*;
  */
 public class GraphApplet extends JApplet implements GraphAppletParameters {
 
-    private JFreeChart chart;
+	private static final long serialVersionUID = 1L;
+	private JFreeChart chart;
     private String graphTitle;
     // polling interval in seconds
     private long pollingInterval;
@@ -133,7 +131,7 @@ public class GraphApplet extends JApplet implements GraphAppletParameters {
         if(properties == null) return;
         long timestamp = Long.parseLong(properties.getProperty("timestamp"));
         // todo: this is not used
-        String attributes = properties.getProperty("attributes");
+        //String attributes = properties.getProperty("attributes");
         String values = properties.getProperty("values");
 
         if(dataset == null){

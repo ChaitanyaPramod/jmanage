@@ -70,7 +70,7 @@ public class AuthServiceImpl implements AuthService {
             if(user == null){
                 user = new User();
                 user.setUsername(username); user.setExternalUser(true);
-                List roles = new ArrayList();
+                List<Role> roles = new ArrayList<Role>();
                 roles.add(new Role(org.jmanage.core.auth.ExternalUserRolesConfig.getInstance().getUserRole(username)));
                 user.setRoles(roles);
             }else{

@@ -24,8 +24,9 @@ import org.jmanage.core.util.ErrorCatalog;
  */
 public class ServiceException extends RuntimeException {
 
-    private String errorCode;
-    private transient Object[] values;
+	private static final long serialVersionUID = 1L;
+
+	private String errorCode;
     private String message;
 
     public ServiceException(String errorCode){
@@ -48,7 +49,6 @@ public class ServiceException extends RuntimeException {
     public ServiceException(String errorCode, Object[] values){
         assert errorCode != null;
         this.errorCode = errorCode;
-        this.values = values;
         this.message = ErrorCatalog.getMessage(errorCode, values);
     }
 

@@ -34,6 +34,7 @@ import java.io.ObjectOutputStream;
  * date:  Feb 24, 2005
  * @author	Rakesh Kalra
  */
+@SuppressWarnings("serial")
 public class ServiceInvokerServlet extends HttpServlet {
 
     private static String RESPONSE_CONTENT_TYPE =

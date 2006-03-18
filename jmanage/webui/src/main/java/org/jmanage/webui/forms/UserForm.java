@@ -21,6 +21,7 @@ import org.jmanage.core.auth.User;
  * Date : Jul 27, 2004 11:40:54 PM
  * @author Shashank
  */
+@SuppressWarnings("serial")
 public class UserForm extends BaseForm{
 
     public static final String FORM_PASSWORD = "$$$$$$$$";

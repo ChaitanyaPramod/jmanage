@@ -20,6 +20,7 @@ package org.jmanage.webui.forms;
  * date:  Dec 27, 2004
  * @author	Vandana Taneja
  */
+@SuppressWarnings("serial")
 public class ConfigureForm extends BaseForm {
 
     int maxLoginAttempts;

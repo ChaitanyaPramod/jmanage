@@ -39,7 +39,7 @@ import java.lang.reflect.Proxy;
  */
 public class ServiceFactory {
 
-    private static Map serviceClassToObjectMap = new Hashtable();
+    private static Map<Class, Object> serviceClassToObjectMap = new Hashtable<Class, Object>();
 
     public static final Integer MODE_LOCAL = new Integer(0);
     public static final Integer MODE_REMOTE = new Integer(1);

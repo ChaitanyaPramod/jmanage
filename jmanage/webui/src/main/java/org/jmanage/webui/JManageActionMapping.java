@@ -26,5 +26,7 @@ import org.apache.struts.action.RequestActionMapping;
  * @author Shashank
  */
 public class JManageActionMapping extends RequestActionMapping{
+
+	private static final long serialVersionUID = -4171249590864726045L;
     /*  Doesn't have the implementation yet */
 }

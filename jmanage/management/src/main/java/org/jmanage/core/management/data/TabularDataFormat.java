@@ -29,18 +29,19 @@ import java.util.*;
  */
 public abstract class TabularDataFormat implements DataFormat {
 
-    public String format(Object data) {
+    @SuppressWarnings("unchecked")
+	public String format(Object data) {
         TabularData tabularData = (TabularData) data;
 
         TabularType type = tabularData.getTabularType();
         CompositeType rowType = type.getRowType();
 
         /* get the header and index names */
-        Set itemNamesSet = rowType.keySet();
+        Set<String> itemNamesSet = rowType.keySet();
         String[] itemNames =
                 (String[])itemNamesSet.toArray(new String[itemNamesSet.size()]);
 
-        final List indexNamesList= tabularData.getTabularType().getIndexNames();
+        final List<String> indexNamesList = tabularData.getTabularType().getIndexNames();
         final String[] indexNames =
               (String[])indexNamesList.toArray(new String[indexNamesList.size()]);
 
@@ -70,7 +71,7 @@ public abstract class TabularDataFormat implements DataFormat {
         Arrays.sort(tabularDataData);
 
         /* get the rows */
-        List rows = new LinkedList();
+        List<String[]> rows = new LinkedList<String[]>();
         for (int i=0; i < dataRowsCount; i++) {
             CompositeData compositeData = tabularDataData[i].compositeData;
             String[] itemValues = new String[itemNames.length];
@@ -106,7 +107,8 @@ public abstract class TabularDataFormat implements DataFormat {
             this.compositeData = compositeData;
         }
 
-        public int compareTo(Object data2) {
+        @SuppressWarnings("unchecked")
+		public int compareTo(Object data2) {
             for (int ii = 0; ii < indices.length; ++ii) {
                 final Object indexData = indices[ii];
                 final Object indexData2 = ((TabularDataData)data2).indices[ii];

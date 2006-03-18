@@ -125,7 +125,7 @@ public class JMXHelper {
             /* start the connector server */
             JMXServiceURL url = new JMXServiceURL(
               "service:jmx:rmi:///jndi/rmi://localhost:" + port + "/testApp");
-            Map env = new HashMap();
+            Map<String, Object> env = new HashMap<String, Object>();
             JMXAuthenticator authenticator = new MyJMXAuthenticator();
             env.put(JMXConnectorServer.AUTHENTICATOR, authenticator);
             JMXConnectorServer cs =
@@ -151,7 +151,7 @@ public class JMXHelper {
             /* start the connector server */
             JMXServiceURL url = new JMXServiceURL(
               "service:jmx:jmxmp://localhost:" + port);
-            Map env = new HashMap();
+            Map<String, Object> env = new HashMap<String, Object>();
             JMXAuthenticator authenticator = new MyJMXAuthenticator();
             env.put(JMXConnectorServer.AUTHENTICATOR, authenticator);
             JMXConnectorServer cs =

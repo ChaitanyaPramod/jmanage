@@ -44,7 +44,8 @@ public class DataFormatUtil {
     private static final String NULL_VALUE = "null.value";
 
     private static Object[][] classToFormatMapping = new Object[0][2];
-    private static Map compositeTypeToFormatMapping = new HashMap();
+    private static Map<String, DataFormat> compositeTypeToFormatMapping = 
+    	new HashMap<String, DataFormat>();
 
     // properties
     private static String listDelimiter = System.getProperty("line.separator");

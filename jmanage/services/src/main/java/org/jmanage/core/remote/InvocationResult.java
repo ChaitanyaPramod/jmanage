@@ -24,7 +24,9 @@ import java.io.Serializable;
  */
 public class InvocationResult implements Serializable {
 
-    private Object result;
+    private static final long serialVersionUID = 1L;
+	
+	private Object result;
     private Throwable t;
 
     public InvocationResult(Object result){

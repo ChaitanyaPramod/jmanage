@@ -29,7 +29,7 @@ public class ACL {
     private final String name;
     /* the no context authorized list (if specified) */
     private List authorizedList;
-    private List contextList = new LinkedList();
+    private List<ACLContextWrapper> contextList = new LinkedList<ACLContextWrapper>();
 
     public ACL(String name){
         this.name = name;

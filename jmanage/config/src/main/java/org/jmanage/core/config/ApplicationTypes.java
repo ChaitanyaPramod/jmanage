@@ -41,9 +41,9 @@ public class ApplicationTypes {
             File.separatorChar + "application-type-config.xml";
 
     /* app type/id to ApplicationType mapping */
-    private static Map applications = new TreeMap();
+    private static Map<String, ApplicationType> applications = new TreeMap<String, ApplicationType>();
     /* module id to ModuleConfig mapping */
-    private static Map modules = new HashMap();
+    private static Map<String, ModuleConfig> modules = new HashMap<String, ModuleConfig>();
 
     public static void init(){
         try {

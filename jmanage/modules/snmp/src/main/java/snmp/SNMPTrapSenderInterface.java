@@ -179,7 +179,8 @@ public class SNMPTrapSenderInterface
     
     
     
-    private String hexByte(byte b)
+    @SuppressWarnings("unused")
+	private String hexByte(byte b)
     {
         int pos = b;
         if (pos < 0)
@@ -195,7 +196,8 @@ public class SNMPTrapSenderInterface
     
     
     
-    private String getHex(byte theByte)
+    @SuppressWarnings("unused")
+	private String getHex(byte theByte)
     {
         int b = theByte;
         

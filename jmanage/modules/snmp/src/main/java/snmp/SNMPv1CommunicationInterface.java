@@ -161,7 +161,7 @@ public class SNMPv1CommunicationInterface
             SNMPSequence newPair = (SNMPSequence)(varList.getSNMPObjectAt(0));
             
             SNMPObjectIdentifier newObjectIdentifier = (SNMPObjectIdentifier)(newPair.getSNMPObjectAt(0));
-            SNMPObject newValue = newPair.getSNMPObjectAt(1);
+            @SuppressWarnings("unused") SNMPObject newValue = newPair.getSNMPObjectAt(1);
             
             retrievedVars.addSNMPObject(newPair);
             
@@ -191,7 +191,8 @@ public class SNMPv1CommunicationInterface
     
     
     
-    private String hexByte(byte b)
+    @SuppressWarnings("unused")
+	private String hexByte(byte b)
     {
         int pos = b;
         if (pos < 0)
@@ -286,7 +287,7 @@ public class SNMPv1CommunicationInterface
                 SNMPSequence newPair = (SNMPSequence)(varList.getSNMPObjectAt(0));
                 
                 SNMPObjectIdentifier newObjectIdentifier = (SNMPObjectIdentifier)(newPair.getSNMPObjectAt(0));
-                SNMPObject newValue = newPair.getSNMPObjectAt(1);
+                @SuppressWarnings("unused") SNMPObject newValue = newPair.getSNMPObjectAt(1);
                 
                 // check the object identifier to make sure the correct variable has been received;
                 // if not, just continue waiting for receive
@@ -403,7 +404,7 @@ public class SNMPv1CommunicationInterface
                     SNMPSequence newPair = (SNMPSequence)(varList.getSNMPObjectAt(i));
                     
                     SNMPObjectIdentifier newObjectIdentifier = (SNMPObjectIdentifier)(newPair.getSNMPObjectAt(0));
-                    SNMPObject newValue = newPair.getSNMPObjectAt(1);
+                    @SuppressWarnings("unused") SNMPObject newValue = newPair.getSNMPObjectAt(1);
                     
                     if (newObjectIdentifier.toString().equals(itemID[i]))
                     {
@@ -514,8 +515,8 @@ public class SNMPv1CommunicationInterface
                 varList = receivedPDU.getVarBindList();
                 SNMPSequence newPair = (SNMPSequence)(varList.getSNMPObjectAt(0));
                 
-                SNMPObjectIdentifier newObjectIdentifier = (SNMPObjectIdentifier)(newPair.getSNMPObjectAt(0));
-                SNMPObject newValue = newPair.getSNMPObjectAt(1);
+                @SuppressWarnings("unused") SNMPObjectIdentifier newObjectIdentifier = (SNMPObjectIdentifier)(newPair.getSNMPObjectAt(0));
+                @SuppressWarnings("unused") SNMPObject newValue = newPair.getSNMPObjectAt(1);
                 
                 retrievedVars.addSNMPObject(newPair);
                 
@@ -625,8 +626,8 @@ public class SNMPv1CommunicationInterface
                 {
                     SNMPSequence newPair = (SNMPSequence)(varList.getSNMPObjectAt(i));
                     
-                    SNMPObjectIdentifier newObjectIdentifier = (SNMPObjectIdentifier)(newPair.getSNMPObjectAt(0));
-                    SNMPObject newValue = newPair.getSNMPObjectAt(1);
+                    @SuppressWarnings("unused") SNMPObjectIdentifier newObjectIdentifier = (SNMPObjectIdentifier)(newPair.getSNMPObjectAt(0));
+                    @SuppressWarnings("unused") SNMPObject newValue = newPair.getSNMPObjectAt(1);
                     
                     retrievedVars.addSNMPObject(newPair);
                     
@@ -1001,7 +1002,7 @@ public class SNMPv1CommunicationInterface
                 SNMPSequence newPair = (SNMPSequence)(varList.getSNMPObjectAt(0));
                 
                 SNMPObjectIdentifier newObjectIdentifier = (SNMPObjectIdentifier)(newPair.getSNMPObjectAt(0));
-                SNMPObject newValue = newPair.getSNMPObjectAt(1);
+                @SuppressWarnings("unused") SNMPObject newValue = newPair.getSNMPObjectAt(1);
                 
                 // now see if retrieved ID starts with table base; if not, done with table - break
                 String newOIDString = (String)newObjectIdentifier.toString();
@@ -1136,7 +1137,7 @@ retrievalLoop:
                     SNMPSequence newPair = (SNMPSequence)(varList.getSNMPObjectAt(i));
                     
                     SNMPObjectIdentifier newObjectIdentifier = (SNMPObjectIdentifier)(newPair.getSNMPObjectAt(0));
-                    SNMPObject newValue = newPair.getSNMPObjectAt(1);
+                    @SuppressWarnings("unused") SNMPObject newValue = newPair.getSNMPObjectAt(1);
                     
                     // now see if retrieved ID starts with table base; if not, done with table - break
                     String newOIDString = (String)newObjectIdentifier.toString();

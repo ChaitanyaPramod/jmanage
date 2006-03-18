@@ -38,8 +38,10 @@ package snmp;
 
 public class SNMPBadValueException extends Exception
 {
-    
-    public SNMPBadValueException()
+	private static final long serialVersionUID = 1L;
+
+
+	public SNMPBadValueException()
     {
         super();
     }

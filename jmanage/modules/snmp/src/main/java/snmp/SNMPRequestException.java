@@ -40,8 +40,9 @@ package snmp;
 
 public class SNMPRequestException extends SNMPException
 {
-    
-    public static final int NO_ERROR = 0;
+
+	private static final long serialVersionUID = 1L;
+	public static final int NO_ERROR = 0;
     public static final int VALUE_TOO_BIG = 1;
     public static final int VALUE_NOT_AVAILABLE = 2;
     public static final int BAD_VALUE = 3;

@@ -17,7 +17,6 @@ package org.jmanage.cmdui.commands;
 
 import org.jmanage.cmdui.CommandHandler;
 import org.jmanage.cmdui.HandlerContext;
-import org.jmanage.cmdui.CommandConstants;
 import org.jmanage.cmdui.util.Out;
 
 /**

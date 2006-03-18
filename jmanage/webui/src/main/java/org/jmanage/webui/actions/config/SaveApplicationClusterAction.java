@@ -55,7 +55,7 @@ public class SaveApplicationClusterAction extends BaseAction {
         String[] childAppIds =
                 StringUtils.csvToStringArray(clusterForm.getSelectedChildApplications());
         /* build list of new child applications */
-        List newChildApplications = getNewChildApplications(childAppIds);
+        List<ApplicationConfig> newChildApplications = getNewChildApplications(childAppIds);
 
         String applicationId = clusterForm.getApplicationId();
         if(applicationId != null){
@@ -115,9 +115,9 @@ public class SaveApplicationClusterAction extends BaseAction {
         return mapping.findForward(Forwards.SUCCESS);
     }
 
-    private List getNewChildApplications(String[] childAppIds){
+    private List<ApplicationConfig> getNewChildApplications(String[] childAppIds){
         /* build list of new child applications */
-        List newChildApplications = new LinkedList();
+        List<ApplicationConfig> newChildApplications = new LinkedList<ApplicationConfig>();
         if(childAppIds != null){
             for(int i=0; i < childAppIds.length; i++){
                 ApplicationConfig newChildApplication =

@@ -15,7 +15,6 @@ package org.jmanage.util.display;
 
 import org.jmanage.util.StringUtils;
 
-import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 

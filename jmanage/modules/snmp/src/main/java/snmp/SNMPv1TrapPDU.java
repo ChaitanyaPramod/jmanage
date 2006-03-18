@@ -164,7 +164,8 @@ public class SNMPv1TrapPDU extends SNMPSequence
     *    and containing the supplied SNMP sequence as data.
     */
     
-    public SNMPv1TrapPDU(SNMPObjectIdentifier enterpriseOID, SNMPIPAddress agentAddress, int genericTrap, int specificTrap, SNMPTimeTicks timestamp, SNMPSequence varList)
+    @SuppressWarnings("unchecked")
+	public SNMPv1TrapPDU(SNMPObjectIdentifier enterpriseOID, SNMPIPAddress agentAddress, int genericTrap, int specificTrap, SNMPTimeTicks timestamp, SNMPSequence varList)
         throws SNMPBadValueException
     {
         super();
@@ -190,7 +191,8 @@ public class SNMPv1TrapPDU extends SNMPSequence
     *    and containing an empty SNMP sequence (VarBindList) as additional data.
     */
     
-    public SNMPv1TrapPDU(SNMPObjectIdentifier enterpriseOID, SNMPIPAddress agentAddress, int genericTrap, int specificTrap, SNMPTimeTicks timestamp)
+    @SuppressWarnings("unchecked")
+	public SNMPv1TrapPDU(SNMPObjectIdentifier enterpriseOID, SNMPIPAddress agentAddress, int genericTrap, int specificTrap, SNMPTimeTicks timestamp)
         throws SNMPBadValueException
     {
         super();

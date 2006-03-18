@@ -22,7 +22,8 @@ package org.jmanage.core.management;
  */
 public class ObjectFeatureInfo implements java.io.Serializable {
 
-    protected String name;
+	private static final long serialVersionUID = -2969100630194827734L;
+	protected String name;
     protected String description;
 
     public ObjectFeatureInfo(String name, String description) {

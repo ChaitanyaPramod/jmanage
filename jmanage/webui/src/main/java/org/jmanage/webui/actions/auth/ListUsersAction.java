@@ -19,6 +19,7 @@ import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.RequestAttributes;
 import org.jmanage.webui.util.Forwards;
+import org.jmanage.core.auth.User;
 import org.jmanage.core.auth.UserManager;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -52,8 +53,8 @@ public class ListUsersAction extends BaseAction{
                                  HttpServletRequest request,
                                  HttpServletResponse response)
             throws Exception {
-        Map users = UserManager.getInstance().getAllUsers();
-        Map orderedUsers = new TreeMap(users);
+        Map<String, User> users = UserManager.getInstance().getAllUsers();
+        Map<String, User> orderedUsers = new TreeMap<String, User>(users);
         request.setAttribute(RequestAttributes.USERS, orderedUsers);
         return mapping.findForward(Forwards.SUCCESS);
     }

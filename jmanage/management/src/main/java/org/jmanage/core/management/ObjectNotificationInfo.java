@@ -22,7 +22,8 @@ package org.jmanage.core.management;
  */
 public class ObjectNotificationInfo extends ObjectFeatureInfo {
 
-    private String[] types;
+	private static final long serialVersionUID = 5428048133184676215L;
+	private String[] types;
 
     public ObjectNotificationInfo(String[] types, String name, String description) {
         super(name, description);

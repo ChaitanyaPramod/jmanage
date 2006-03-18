@@ -21,7 +21,6 @@ import org.jmanage.core.alert.AlertInfo;
 
 import java.util.logging.Logger;
 import java.util.logging.Level;
-import java.io.IOException;
 
 /**
  *

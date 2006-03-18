@@ -79,7 +79,8 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     }
 
     private List appConfigListToAppConfigDataList(List appConfigs){
-        ArrayList appDataObjs = new ArrayList(appConfigs.size());
+        ArrayList<ApplicationConfigData> appDataObjs = 
+        	new ArrayList<ApplicationConfigData>(appConfigs.size());
         for(Iterator it=appConfigs.iterator(); it.hasNext(); ){
             ApplicationConfigData configData = new ApplicationConfigData();
             ApplicationConfig appConfig = (ApplicationConfig)it.next();
@@ -95,7 +96,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     }
 
 
-    public List getConfiguredMBeans(ServiceContext context)
+    public List<MBeanData> getConfiguredMBeans(ServiceContext context)
             throws ServiceException {
 
         AccessController.checkAccess(context,
@@ -105,7 +106,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
         ApplicationConfig appConfig =
                 ServiceUtils.getApplicationConfigByName(applicationName);
         List mbeanList = appConfig.getMBeans();
-        ArrayList mbeanDataList = new ArrayList(mbeanList.size());
+        ArrayList<MBeanData> mbeanDataList = new ArrayList<MBeanData>(mbeanList.size());
         for(Iterator it=mbeanList.iterator(); it.hasNext();){
             MBeanConfig mbeanConfig = (MBeanConfig)it.next();
             mbeanDataList.add(new MBeanData(mbeanConfig.getObjectName(),

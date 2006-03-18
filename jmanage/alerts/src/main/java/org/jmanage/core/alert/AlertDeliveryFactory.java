@@ -14,7 +14,6 @@
 package org.jmanage.core.alert;
 
 import org.jmanage.core.config.AlertConfig;
-import org.jmanage.core.config.AlertDeliveryConstants;
 
 import java.util.*;
 
@@ -26,7 +25,7 @@ import java.util.*;
  */
 public class AlertDeliveryFactory {
 
-    private static Map typeToAlertDeliveryMap = new HashMap();
+    private static Map<String, Object> typeToAlertDeliveryMap = new HashMap<String, Object>();
 
     static{
         List deliveryTypes = AlertSystemConfig.getInstance().getDeliveryTypes();
@@ -57,9 +56,9 @@ public class AlertDeliveryFactory {
         return delivery;
     }
 
-    public static List getAlertDeliveries(AlertConfig alertConfig) {
+    public static List<AlertDelivery> getAlertDeliveries(AlertConfig alertConfig) {
         String[] deliveryTypes = alertConfig.getAlertDelivery();
-        List deliveries = new ArrayList(deliveryTypes.length);
+        List<AlertDelivery> deliveries = new ArrayList<AlertDelivery>(deliveryTypes.length);
         for(int i=0; i < deliveryTypes.length; i++){
             deliveries.add(getAlertDelivery(deliveryTypes[i]));
         }

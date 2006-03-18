@@ -25,10 +25,10 @@ import java.io.File;
  */
 public class ApplicationConfigManager {
 
-    private static List applicationConfigs =
-            Collections.synchronizedList(new LinkedList());
-    private static List dashboardConfigs =
-            Collections.synchronizedList(new LinkedList());
+    private static List<ApplicationConfig> applicationConfigs =
+            Collections.synchronizedList(new LinkedList<ApplicationConfig>());
+    private static List<DashboardConfig> dashboardConfigs =
+            Collections.synchronizedList(new LinkedList<DashboardConfig>());
 
     private static final ConfigReader configReader = ConfigReader.getInstance();
 
@@ -201,7 +201,7 @@ public class ApplicationConfigManager {
 
     public static List getAllApplications(){
         Iterator appItr = applicationConfigs.iterator();
-        List applications = new LinkedList();
+        List<ApplicationConfig> applications = new LinkedList<ApplicationConfig>();
         while(appItr.hasNext()){
             ApplicationConfig appConfig = (ApplicationConfig)appItr.next();
             applications.add(appConfig);
@@ -212,9 +212,9 @@ public class ApplicationConfigManager {
         return applications;
     }
 
-    public static List getAllAlerts() {
+    public static List<AlertConfig> getAllAlerts() {
         Iterator appItr = applicationConfigs.iterator();
-        List alerts = new LinkedList();
+        List<AlertConfig> alerts = new LinkedList<AlertConfig>();
         while(appItr.hasNext()){
             ApplicationConfig appConfig = (ApplicationConfig)appItr.next();
             alerts.addAll(appConfig.getAlerts());
@@ -242,7 +242,10 @@ public class ApplicationConfigManager {
     }
 
     public static class DuplicateApplicationNameException extends Exception{
-        // app name that is duplicate
+
+    	private static final long serialVersionUID = -718362762247140502L;
+		
+    	// app name that is duplicate
         private final String appName;
 
         public DuplicateApplicationNameException(String appName){

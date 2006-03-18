@@ -31,7 +31,9 @@ import java.io.*;
  */
 public abstract class PersistedAlerts {
 
-    private Map alerts = Collections.synchronizedMap(new HashMap());
+	// Alert Id to AlertInfo map
+    private Map<String, AlertInfo> alerts = 
+    	Collections.synchronizedMap(new HashMap<String, AlertInfo>());
 
     protected PersistedAlerts(){
         // read from file
@@ -86,7 +88,7 @@ public abstract class PersistedAlerts {
             XMLEncoder encoder = new XMLEncoder(
                     new BufferedOutputStream(
                             new FileOutputStream(getPersistedFileName())));
-            Map persistedAlerts = new HashMap();
+            Map<String, AlertInfo> persistedAlerts = new HashMap<String, AlertInfo>();
             persistedAlerts.putAll(alerts);
             encoder.writeObject(persistedAlerts);
             encoder.close();
@@ -95,7 +97,8 @@ public abstract class PersistedAlerts {
         }
     }
 
-    private void read(){
+    @SuppressWarnings("unchecked")
+	private void read(){
         try {
             File file = new File(getPersistedFileName());
             if(file.exists()){

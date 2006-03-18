@@ -16,7 +16,6 @@ package org.jmanage.core.alert;
 import org.jmanage.core.config.AlertSourceConfig;
 import org.jmanage.core.management.ServerConnection;
 import org.jmanage.core.management.ServerConnector;
-import org.jmanage.core.management.ConnectionFailedException;
 import org.jmanage.core.util.Loggers;
 
 import java.util.logging.Logger;

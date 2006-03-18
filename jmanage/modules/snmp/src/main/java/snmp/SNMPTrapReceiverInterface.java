@@ -116,7 +116,8 @@ public class SNMPTrapReceiverInterface
     
     
     
-    public void addv1TrapListener(SNMPv1TrapListener listener)
+    @SuppressWarnings("unchecked")
+	public void addv1TrapListener(SNMPv1TrapListener listener)
     {
         // see if listener already added; if so, ignore
         for (int i = 0; i < v1TrapListenerVector.size(); i++)
@@ -149,7 +150,8 @@ public class SNMPTrapReceiverInterface
     
     
     
-    public void addv2TrapListener(SNMPv2TrapListener listener)
+    @SuppressWarnings("unchecked")
+	public void addv2TrapListener(SNMPv2TrapListener listener)
     {
         // see if listener already added; if so, ignore
         for (int i = 0; i < v2TrapListenerVector.size(); i++)
@@ -182,7 +184,8 @@ public class SNMPTrapReceiverInterface
     
     
     
-    public void addv2InformRequestListener(SNMPv2InformRequestListener listener)
+    @SuppressWarnings("unchecked")
+	public void addv2InformRequestListener(SNMPv2InformRequestListener listener)
     {
         // see if listener already added; if so, ignore
         for (int i = 0; i < v2InformRequestListenerVector.size(); i++)
@@ -256,8 +259,8 @@ public class SNMPTrapReceiverInterface
     public void run()
     {
         
-        int errorStatus = 0;
-        int errorIndex = 0;
+        @SuppressWarnings("unused") int errorStatus = 0;
+        @SuppressWarnings("unused") int errorIndex = 0;
         
         
         
@@ -351,7 +354,8 @@ public class SNMPTrapReceiverInterface
     
     
     
-    private String hexByte(byte b)
+    @SuppressWarnings("unused")
+	private String hexByte(byte b)
     {
         int pos = b;
         if (pos < 0)
@@ -367,7 +371,8 @@ public class SNMPTrapReceiverInterface
     
     
     
-    private String getHex(byte theByte)
+    @SuppressWarnings("unused")
+	private String getHex(byte theByte)
     {
         int b = theByte;
         

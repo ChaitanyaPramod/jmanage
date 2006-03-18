@@ -21,6 +21,7 @@ package org.jmanage.webui.forms;
  * Date:  Feb 8, 2006
  * @author	Rakesh Kalra
  */
+@SuppressWarnings("serial")
 public class DashboardForm extends BaseForm {
 
     private String id;

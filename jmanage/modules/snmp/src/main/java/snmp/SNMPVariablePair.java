@@ -64,7 +64,8 @@ public class SNMPVariablePair extends SNMPSequence
     *    Create a new variable pair having the supplied object identifier and vale.
     */
     
-    public SNMPVariablePair(SNMPObjectIdentifier objectID, SNMPObject value)
+    @SuppressWarnings("unchecked")
+	public SNMPVariablePair(SNMPObjectIdentifier objectID, SNMPObject value)
         throws SNMPBadValueException
     {
         super();

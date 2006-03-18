@@ -131,7 +131,8 @@ public class SNMPPDU extends SNMPSequence
     *    and containing the supplied SNMP sequence as data.
     */
     
-    public SNMPPDU(byte pduType, int requestID, int errorStatus, int errorIndex, SNMPSequence varList)
+    @SuppressWarnings("unchecked")
+	public SNMPPDU(byte pduType, int requestID, int errorStatus, int errorIndex, SNMPSequence varList)
         throws SNMPBadValueException
     {
         super();

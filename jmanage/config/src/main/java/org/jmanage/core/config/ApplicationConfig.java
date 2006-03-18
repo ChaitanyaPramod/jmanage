@@ -44,12 +44,12 @@ public abstract class ApplicationConfig {
     private String url;
     private String username;
     private String password;
-    protected Map paramValues;
-    private List mbeanList = new LinkedList();
-    private List graphList = new LinkedList();
+    protected Map<String, String> paramValues;
+    private List<MBeanConfig> mbeanList = new LinkedList<MBeanConfig>();
+    private List<GraphConfig> graphList = new LinkedList<GraphConfig>();
     // clusterConfig: if this is part of a cluster
     private ApplicationConfig clusterConfig;
-    private List alertsList = new LinkedList();
+    private List<AlertConfig> alertsList = new LinkedList<AlertConfig>();
 
     public String getApplicationId(){
         return appId;
@@ -135,13 +135,13 @@ public abstract class ApplicationConfig {
         return EMPTY_LIST;
     }
 
-    public Map getParamValues(){
+    public Map<String, String> getParamValues(){
         if(paramValues == null)
-            paramValues = new HashMap();
+            paramValues = new HashMap<String, String>();
         return paramValues;
     }
 
-    public void setParamValues(Map paramValues){
+    public void setParamValues(Map<String, String> paramValues){
         this.paramValues = paramValues;
     }
 
@@ -158,7 +158,7 @@ public abstract class ApplicationConfig {
      *
      * @return  list of applications in this cluster
      */
-    public List getApplications(){
+    public List<ApplicationConfig> getApplications(){
         return null;
     }
 
@@ -173,11 +173,11 @@ public abstract class ApplicationConfig {
      *
      * @param mbeanList list of MBeanConfig objects
      */
-    public void setMBeans(List mbeanList){
+    public void setMBeans(List<MBeanConfig> mbeanList){
         if(mbeanList != null){
             this.mbeanList = mbeanList;
         }else{
-            this.mbeanList = new LinkedList();
+            this.mbeanList = new LinkedList<MBeanConfig>();
         }
     }
 
@@ -251,11 +251,11 @@ public abstract class ApplicationConfig {
         assert graphConfig!=null:"graphConfig is null";
         graphList.add(graphConfig);
     }
-    public void setGraphs(List graphList) {
+    public void setGraphs(List<GraphConfig> graphList) {
         if(graphList != null){
             this.graphList = graphList;
         }else{
-            this.graphList = new LinkedList();
+            this.graphList = new LinkedList<GraphConfig>();
         }
     }
 
@@ -291,18 +291,18 @@ public abstract class ApplicationConfig {
     /**
      * @return list of AlertConfig objects
      */
-   public List getAlerts(){
+   public List<AlertConfig> getAlerts(){
        return alertsList;
    }
    /**
     *
     * @param alertsList list of MBeanConfig objects
     */
-   public void setAlerts(List alertsList){
+   public void setAlerts(List<AlertConfig> alertsList){
        if(alertsList != null){
            this.alertsList = alertsList;
        }else{
-           this.alertsList = new LinkedList();
+           this.alertsList = new LinkedList<AlertConfig>();
        }
    }
 

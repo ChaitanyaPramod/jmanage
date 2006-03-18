@@ -25,9 +25,9 @@ import java.util.Comparator;
  */
 public class ObjectInfo implements java.io.Serializable {
 
-    private ObjectName objectName;
+	private static final long serialVersionUID = 5740245125717325823L;
+	private ObjectName objectName;
     private String description;
-    private boolean isOpen;
     private String className;
     private ObjectAttributeInfo[] attributes;
     private ObjectOperationInfo[] operations;
@@ -49,10 +49,8 @@ public class ObjectInfo implements java.io.Serializable {
         this.operations = operations;
         this.notifications = notifications;
         /* alphabetically sort the attribute list */
-        Arrays.sort(this.attributes, new Comparator(){
-            public int compare(Object o1, Object o2) {
-                ObjectAttributeInfo attrInfo1 = (ObjectAttributeInfo)o1;
-                ObjectAttributeInfo attrInfo2 = (ObjectAttributeInfo)o2;
+        Arrays.sort(this.attributes, new Comparator<ObjectAttributeInfo>(){
+            public int compare(ObjectAttributeInfo attrInfo1, ObjectAttributeInfo attrInfo2) {
                 return attrInfo1.getName().compareToIgnoreCase(attrInfo2.getName());
             }
         });

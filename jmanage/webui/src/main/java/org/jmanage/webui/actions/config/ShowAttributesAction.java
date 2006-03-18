@@ -50,7 +50,7 @@ public class ShowAttributesAction extends BaseAction{
         String[] mbeans = form.getMbeans();
         ServerConnection serverConn = context.getServerConnection();
         ObjectName objectName = null;
-        Map mbeanAttributesListMap = new TreeMap();
+        Map<String, List> mbeanAttributesListMap = new TreeMap<String, List>();
         MBeanService mbeanService = ServiceFactory.getMBeanService();
         for(int i=0; i<mbeans.length;i++){
             objectName = new ObjectName(mbeans[i]);

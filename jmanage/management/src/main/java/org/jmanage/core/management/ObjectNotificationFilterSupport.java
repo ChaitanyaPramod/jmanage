@@ -24,7 +24,7 @@ import java.util.Collection;
  */
 public class ObjectNotificationFilterSupport implements ObjectNotificationFilter{
 
-    private Set notificationTypes = new HashSet();
+    private Set<String> notificationTypes = new HashSet<String>();
 
     public void enableType(String type){
         assert type != null;

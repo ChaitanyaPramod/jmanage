@@ -84,20 +84,20 @@ public class ConfigReader implements ConfigConstants{
 
         List applications =
                 config.getRootElement().getChild(APPLICATIONS).getChildren();
-        List appConfigList = getApplicationConfigList(applications, null);
+        List<ApplicationConfig> appConfigList = getApplicationConfigList(applications, null);
 
-        List dashboardConfigList = null;
+        List<DashboardConfig> dashboardConfigList = null;
         Element dashboards = config.getRootElement().getChild(DASHBOARDS);
         if(dashboards != null){
             dashboardConfigList = getDashboardConfigList(dashboards.getChildren());
         }else{
-            dashboardConfigList = new LinkedList();
+            dashboardConfigList = new LinkedList<DashboardConfig>();
         }
         return new Config(appConfigList, dashboardConfigList);
     }
 
-    private List getDashboardConfigList(List dashboards){
-        final List dashboardConfigList = new LinkedList();
+    private List<DashboardConfig> getDashboardConfigList(List dashboards){
+        final List<DashboardConfig> dashboardConfigList = new LinkedList<DashboardConfig>();
         for(Iterator it = dashboards.iterator(); it.hasNext();){
             Element dashboard = (Element)it.next();
             DashboardConfig dashboardConfig =
@@ -108,10 +108,10 @@ public class ConfigReader implements ConfigConstants{
         return dashboardConfigList;
     }
 
-    private List getApplicationConfigList(List applications,
-                                          ApplicationConfig clusterConfig){
+    private List<ApplicationConfig> getApplicationConfigList(List applications,
+    														 ApplicationConfig clusterConfig){
 
-        final List applicationConfigList = new LinkedList();
+        final List<ApplicationConfig> applicationConfigList = new LinkedList<ApplicationConfig>();
         for(Iterator appIterator = applications.iterator(); appIterator.hasNext();){
             Element application = (Element)appIterator.next();
             ApplicationConfig appConfig = null;
@@ -133,7 +133,7 @@ public class ConfigReader implements ConfigConstants{
 
         List params = application.getChildren(PARAMETER);
         Iterator paramIterator = params.iterator();
-        Map paramValues = new HashMap(1);
+        Map<String, String> paramValues = new HashMap<String, String>(1);
         while(paramIterator.hasNext()){
             Element param = (Element)paramIterator.next();
             paramValues.put(param.getChildTextTrim(PARAMETER_NAME),
@@ -177,7 +177,7 @@ public class ConfigReader implements ConfigConstants{
         if(application.getChild(APPLICATIONS) != null){
             List applications =
                     application.getChild(APPLICATIONS).getChildren();
-            List appConfigList = getApplicationConfigList(applications, config);
+            List<ApplicationConfig> appConfigList = getApplicationConfigList(applications, config);
             config.addAllApplications(appConfigList);
         }
 
@@ -188,9 +188,9 @@ public class ConfigReader implements ConfigConstants{
         return config;
     }
 
-    private List getMBeanConfigList(Element application){
+    private List<MBeanConfig> getMBeanConfigList(Element application){
         /* read mbeans */
-        List mbeanConfigList = new LinkedList();
+        List<MBeanConfig> mbeanConfigList = new LinkedList<MBeanConfig>();
         if(application.getChild(MBEANS) != null){
             List mbeans = application.getChild(MBEANS).getChildren(MBEAN);
             for(Iterator it=mbeans.iterator(); it.hasNext(); ){
@@ -204,15 +204,16 @@ public class ConfigReader implements ConfigConstants{
         return mbeanConfigList;
     }
 
-    private List getGraphConfigList(Element application, ApplicationConfig appConfig){
+    private List<GraphConfig> getGraphConfigList(Element application, ApplicationConfig appConfig){
         /* read graphs */
-        List graphConfigList = new LinkedList();
+        List<GraphConfig> graphConfigList = new LinkedList<GraphConfig>();
         if(application.getChild(GRAPHS) != null){
             List graphs = application.getChild(GRAPHS).getChildren(GRAPH);
             for(Iterator it=graphs.iterator(); it.hasNext(); ){
                 Element graph = (Element)it.next();
                 List attributes = graph.getChildren(GRAPH_ATTRIBUTE);
-                List attributeConfigList = new LinkedList();
+                List<GraphAttributeConfig> attributeConfigList = 
+                	new LinkedList<GraphAttributeConfig>();
                 for(Iterator attrIt=attributes.iterator(); attrIt.hasNext(); ){
                     Element attribute = (Element)attrIt.next();
                     GraphAttributeConfig graphAttrConfig =
@@ -245,8 +246,8 @@ public class ConfigReader implements ConfigConstants{
         return graphConfigList;
     }
 
-    private List getAlertsList(Element application, ApplicationConfig appConfig){
-        List alertsList = new LinkedList();
+    private List<AlertConfig> getAlertsList(Element application, ApplicationConfig appConfig){
+        List<AlertConfig> alertsList = new LinkedList<AlertConfig>();
         if(application.getChild(ALERTS)!=null){
             List alerts = application.getChild(ALERTS).getChildren(ALERT);
             for(Iterator it=alerts.iterator(); it.hasNext();){

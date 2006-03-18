@@ -22,7 +22,9 @@ package org.jmanage.core.management;
  */
 public class ConnectionFailedException extends RuntimeException {
 
-    public ConnectionFailedException(Throwable cause){
+	private static final long serialVersionUID = -6422737408849735275L;
+
+	public ConnectionFailedException(Throwable cause){
         super(cause);
     }
 

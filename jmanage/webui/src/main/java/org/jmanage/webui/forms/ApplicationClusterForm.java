@@ -22,7 +22,9 @@ package org.jmanage.webui.forms;
  */
 public class ApplicationClusterForm extends BaseForm {
 
-    private String appId;
+    private static final long serialVersionUID = 1L;
+	
+	private String appId;
     private String name;
     private String[] childApplicationIds;
     private String[] standAloneApplicationIds;

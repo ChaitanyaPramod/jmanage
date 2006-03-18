@@ -54,7 +54,7 @@ public class WLServerConnectionFactory implements ServerConnectionFactory{
                                           String password)
             throws NamingException {
 
-        Hashtable props = new Hashtable();
+        Hashtable<String, Object> props = new Hashtable<String, Object>();
         props.put(Context.INITIAL_CONTEXT_FACTORY,
                 "weblogic.jndi.WLInitialContextFactory");
         props.put(Context.PROVIDER_URL,         url);

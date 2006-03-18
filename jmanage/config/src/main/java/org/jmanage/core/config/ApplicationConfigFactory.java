@@ -32,7 +32,7 @@ public class ApplicationConfigFactory {
                                            String url,
                                            String username,
                                            String password,
-                                           Map paramValues){
+                                           Map<String, String> paramValues){
 
         try {
             final ApplicationType appType =

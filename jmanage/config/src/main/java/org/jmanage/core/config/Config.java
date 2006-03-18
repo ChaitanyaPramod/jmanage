@@ -25,19 +25,19 @@ import java.util.List;
  */
 public class Config {
 
-    private final List applications;
-    private final List dashboards;
+    private final List<ApplicationConfig> applications;
+    private final List<DashboardConfig> dashboards;
 
-    public Config(List applications, List dashboards){
+    public Config(List<ApplicationConfig> applications, List<DashboardConfig> dashboards){
         this.applications = applications;
         this.dashboards = dashboards;
     }
 
-    public List getApplications() {
+    public List<ApplicationConfig> getApplications() {
         return applications;
     }
 
-    public List getDashboards() {
+    public List<DashboardConfig> getDashboards() {
         return dashboards;
     }
 }

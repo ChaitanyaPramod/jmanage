@@ -25,7 +25,8 @@ import java.lang.reflect.Method;
  */
 public class RemoteInvocation implements Serializable {
 
-    private String className;
+	private static final long serialVersionUID = 1L;
+	private String className;
     private String methodName;
     private Class[] signature;
     private Object[] args;

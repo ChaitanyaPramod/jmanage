@@ -17,16 +17,8 @@
 package org.jmanage.core.modules.websphere;
 
 import org.jmanage.core.modules.JMXServerConnection;
-import org.jmanage.core.management.ObjectName;
-import org.jmanage.core.management.ObjectInfo;
-
-import java.util.Set;
-import java.util.List;
 
 import com.ibm.websphere.management.AdminClient;
-
-import javax.management.MBeanInfo;
-import javax.management.AttributeList;
 
 /**
  * Date: Jan 23, 2005 5:54:49 PM
@@ -34,11 +26,7 @@ import javax.management.AttributeList;
  */
 public class WebSphereServerConnection extends JMXServerConnection{
 
-    private final AdminClient adminClient;
-
     public WebSphereServerConnection(AdminClient adminClient){
         super(adminClient, AdminClient.class);
-        assert adminClient != null;
-        this.adminClient = adminClient;
     }
 }

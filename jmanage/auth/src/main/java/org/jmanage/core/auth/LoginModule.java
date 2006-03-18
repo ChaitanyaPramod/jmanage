@@ -30,8 +30,6 @@ public class LoginModule implements javax.security.auth.spi.LoginModule {
     private Subject subject;
     private CallbackHandler callbackHandler;
     private boolean loginStatus;
-    private Map options;
-    private Map sharedState;
     private User loggedInUser = null;
 
     /**
@@ -63,8 +61,6 @@ public class LoginModule implements javax.security.auth.spi.LoginModule {
                            Map sharedState, Map options) {
         this.subject = subject;
         this.callbackHandler = callbackHandler;
-        this.sharedState = sharedState;
-        this.options = options;
         loginStatus = false;
     }
 

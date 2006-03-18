@@ -17,7 +17,6 @@ package org.jmanage.core.crypto;
 
 import org.jmanage.core.util.CoreUtils;
 
-import javax.crypto.SecretKey;
 import java.io.*;
 
 /**

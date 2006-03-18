@@ -20,7 +20,6 @@ import org.jmanage.core.auth.User;
 import org.jmanage.core.auth.AuthConstants;
 import org.jmanage.core.util.PasswordField;
 import org.jmanage.core.util.JManageProperties;
-import org.jmanage.core.crypto.Crypto;
 
 import java.net.Socket;
 import java.net.InetAddress;

@@ -23,13 +23,12 @@ import org.apache.struts.action.ActionErrors;
 import org.apache.struts.validator.Resources;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.Serializable;
 
 /**
  * Date: Nov 4, 2004 12:33:58 PM
  * @author Shashank Bellary 
  */
-public class JManageFieldChecks implements Serializable{
+public class JManageFieldChecks {
 
     private static final String FIELD_TEST_NULL = "NULL";
     private static final String FIELD_TEST_NOTNULL = "NOTNULL";

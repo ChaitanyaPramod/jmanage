@@ -15,12 +15,12 @@
  */
 package org.jmanage.webui.forms;
 
-import org.jmanage.core.util.Expression;
 
 /**
  * Date: Jun 23, 2005 7:36:48 PM
  * @author Bhavana
  */
+@SuppressWarnings("serial")
 public class GraphForm extends BaseForm{
 
     private String graphId;

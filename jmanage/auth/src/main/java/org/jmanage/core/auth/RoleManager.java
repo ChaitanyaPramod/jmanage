@@ -82,7 +82,7 @@ public class RoleManager implements AuthConstants{
      * @return
      */
     private static List loadUserRoles(Document roleConfig){
-        List userRoles = new ArrayList();
+        List<Role> userRoles = new ArrayList<Role>();
         List configuredRoles = roleConfig.getRootElement().getChildren();
         Iterator roleIterator = configuredRoles.iterator();
         while(roleIterator.hasNext()){

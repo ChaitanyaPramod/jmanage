@@ -29,7 +29,9 @@ import org.jmanage.core.management.ServerConnection;
  */
 public class ServiceContextImpl implements ServiceContext {
 
-    private WebContext webContext;
+    private static final long serialVersionUID = -7345158591344999639L;
+	
+	private WebContext webContext;
 
     public ServiceContextImpl(WebContext webContext){
         this.webContext = webContext;

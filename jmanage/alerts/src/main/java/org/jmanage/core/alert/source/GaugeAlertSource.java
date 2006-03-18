@@ -26,7 +26,6 @@ import java.util.logging.Logger;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Set;
-import java.io.IOException;
 
 /**
  * Date: Aug 31, 2005 11:41:59 AM
@@ -62,7 +61,7 @@ public class GaugeAlertSource extends AlertSource{
         connection.createMBean("javax.management.monitor.GaugeMonitor",
                 monitorObjName, new Object[0], new String[0]);
         /* set attributes */
-        List attributes = new LinkedList();
+        List<ObjectAttribute> attributes = new LinkedList<ObjectAttribute>();
         attributes.add(new ObjectAttribute("GranularityPeriod", new  Long(5000)));
         attributes.add(new ObjectAttribute("NotifyHigh", Boolean.TRUE));
         attributes.add(new ObjectAttribute("NotifyLow", Boolean.TRUE));

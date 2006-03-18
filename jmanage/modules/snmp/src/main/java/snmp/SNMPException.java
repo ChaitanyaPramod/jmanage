@@ -39,8 +39,10 @@ package snmp;
 
 public class SNMPException extends Exception
 {
-    
-    public SNMPException()
+    private static final long serialVersionUID = 1L;
+
+
+	public SNMPException()
     {
         super();
     }

@@ -84,11 +84,11 @@ public class ServerConnectionProxy implements InvocationHandler {
      * @param attributeNames
      * @return
      */
-    private List getAttributes(ObjectName objectName, String[] attributeNames) {
+    private List<ObjectAttribute> getAttributes(ObjectName objectName, String[] attributeNames) {
 
         /* some attribute values may not be serializable, hence may fail,
             hence we need to get one attribute at a time */
-        List attributeList = new LinkedList();
+        List<ObjectAttribute> attributeList = new LinkedList<ObjectAttribute>();
         for(int i=0; i<attributeNames.length; i++){
             attributeList.add(getAttribute(objectName, attributeNames[i]));
         }

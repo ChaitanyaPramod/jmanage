@@ -16,7 +16,6 @@
 package org.jmanage.util;
 
 import java.util.*;
-import java.lang.reflect.Array;
 import java.net.URL;
 
 /**
@@ -74,7 +73,7 @@ public class StringUtils {
             return null;
         }
         StringTokenizer tokenizer = new StringTokenizer(csv, ",");
-        List list = new ArrayList(tokenizer.countTokens());
+        List<String> list = new ArrayList<String>(tokenizer.countTokens());
         while(tokenizer.hasMoreTokens()){
             list.add(tokenizer.nextToken().trim());
         }

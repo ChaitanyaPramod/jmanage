@@ -18,6 +18,7 @@ import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.util.RequestAttributes;
 import org.jmanage.webui.util.RequestParams;
+import org.jmanage.core.management.ObjectNotificationInfo;
 import org.jmanage.core.services.MBeanService;
 import org.jmanage.core.services.ServiceFactory;
 import org.apache.struts.action.ActionForm;
@@ -46,8 +47,9 @@ public class ShowSelectNotificationAction extends BaseAction{
         String objName = request.getParameter(RequestParams.OBJECT_NAME);
         /* find mbeans that have notifications */
         MBeanService mbeanService = ServiceFactory.getMBeanService();
-        Map mbeanToNotificationsMap = new HashMap();
-        Map mbeansToNotificationsMap =
+        Map<String, ObjectNotificationInfo[]> mbeanToNotificationsMap = 
+        	new HashMap<String, ObjectNotificationInfo[]>();
+        Map<String, ObjectNotificationInfo[]> mbeansToNotificationsMap =
                 mbeanService.queryMBeansWithNotifications(context.getServiceContext());
         if(objName != null){
             mbeanToNotificationsMap.put(objName, mbeansToNotificationsMap.get(objName));

@@ -21,16 +21,15 @@ import org.jmanage.webui.util.WebContext;
 import org.jmanage.core.services.AccessController;
 
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.JspWriter;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 
 /**
  *
  * date:  Jun 20, 2004
  * @author	Rakesh Kalra
  */
+@SuppressWarnings("serial")
 public class LinkTag extends org.apache.struts.taglib.html.LinkTag {
 
     private String acl;
