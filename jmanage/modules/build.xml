@@ -64,7 +64,6 @@
                 <include name="management/target/jmanage-management.jar"/>
                 <include name="config/target/jmanage-config.jar"/>
                 <include name="utils/target/jmanage-utils.jar"/>
-                <include name="thirdparty/jmxri/lib/jmxri-1_2_1.jar"/>
             </fileset>
         </path>
         <javac srcdir="${basedir}/common/src/main/java"
@@ -91,7 +90,11 @@
 
         <jar basedir="${build.home}/modules/${module.name}/classes"
             jarfile="${build.home}/modules/${module.name}/jmanage-${module.name}.jar"/>
-        <delete dir="${build.home}/modules/${module.name}/classes" />
+
+        <!-- delete sometimes fails to remove the SNMP classes dir. Following is a work-around-->
+        <delete dir="${build.home}/modules/${module.name}/classes" failonerror="false"/>
+        <delete dir="${build.home}/modules/${module.name}/classes"/>
+
          <copy todir="${build.home}/modules/${module.name}">
             <fileset file="${basedir}/${module.name}/lib/*.jar"/>
         </copy>

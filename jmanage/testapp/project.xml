@@ -3,18 +3,6 @@
     <artifactId>jmanage-testapp</artifactId>
     <dependencies>
         <dependency>
-            <groupId>jmxri</groupId>
-            <artifactId>jmxri</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>jmxri</groupId>
-            <artifactId>jmxremote</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>jmxri</groupId>
-            <artifactId>jmxremote_optional</artifactId>
-        </dependency>
-        <dependency>
             <groupId>jmanage</groupId>
             <artifactId>jmanage-utils</artifactId>
         </dependency>
