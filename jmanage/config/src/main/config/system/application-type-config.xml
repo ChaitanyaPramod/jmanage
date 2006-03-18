@@ -55,7 +55,7 @@
 
     <application-types>
         <application-type
-            id="weblogic61"
+            id="weblogic"
             name="Weblogic"
             module="weblogic"
             compatibleJMX="false"

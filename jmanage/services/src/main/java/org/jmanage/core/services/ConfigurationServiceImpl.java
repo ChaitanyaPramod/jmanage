@@ -18,14 +18,14 @@ package org.jmanage.core.services;
 import org.jmanage.core.config.*;
 import org.jmanage.core.data.ApplicationConfigData;
 import org.jmanage.core.data.MBeanData;
-import org.jmanage.core.util.*;
+import org.jmanage.core.util.UserActivityLogger;
+import org.jmanage.core.util.CoreUtils;
+import org.jmanage.core.util.ACLConstants;
+import org.jmanage.core.util.ErrorCodes;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Iterator;
-import java.util.logging.Logger;
-import java.io.*;
-import java.io.FileReader;
 
 /**
  *
@@ -33,9 +33,6 @@ import java.io.FileReader;
  * @author	Rakesh Kalra
  */
 public class ConfigurationServiceImpl implements ConfigurationService {
-
-    private static Logger logger = Loggers.getLogger(ConfigurationService.class);
-
 
     public ApplicationConfigData addApplication(ServiceContext context,
                                                 ApplicationConfigData data){
@@ -116,8 +113,6 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 
     public GraphConfig addGraph(ServiceContext context,GraphConfig graphConfig){
         ApplicationConfig appConfig = context.getApplicationConfig();
-        // todo: this method needs attention. GraphConfig is added before
-        //   calling this method
         //appConfig.addGraph(graphConfig);
         try {
             ApplicationConfigManager.updateApplication(appConfig);
@@ -126,90 +121,5 @@ public class ConfigurationServiceImpl implements ConfigurationService {
             throw new RuntimeException(e);
         }
         return graphConfig;
-    }
-
-
-    public void addDashboard(ServiceContext context,
-                             DashboardConfig config){
-
-        AccessController.checkAccess(context, ACLConstants.ACL_ADD_DASHBOARD);
-
-        /* first write the template to the disk */
-        try {
-            FileWriter writer =
-                    new FileWriter(CoreUtils.getDashboardsDir() +
-                    config.getDashboardId() + ".jsp");
-            writer.write(config.getTemplate());
-            writer.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        /* now add the dashboard to the config.xml */
-        ApplicationConfigManager.addDashboard(config);
-
-        /* there is no need to keep the template in the memory */
-        config.setTemplate(null);
-
-        /* log the operation */
-        UserActivityLogger.getInstance().logActivity(
-                context.getUser().getUsername(),
-                "Added Dashboard "+ "\""+config.getName()+"\"");
-    }
-
-    public void updateDashboard(ServiceContext context,
-                                DashboardConfig config){
-
-        AccessController.checkAccess(context, ACLConstants.ACL_EDIT_DASHBOARD);
-
-        /* first write the template to the disk */
-        try {
-            FileWriter writer =
-                    new FileWriter(CoreUtils.getDashboardsDir() +
-                    config.getDashboardId() + ".jsp");
-            writer.write(config.getTemplate());
-            writer.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        /* now add the dashboard to the config.xml */
-        ApplicationConfigManager.updateDashboard(config);
-
-        /* there is no need to keep the template in the memory */
-        config.setTemplate(null);
-
-        /* log the operation */
-        UserActivityLogger.getInstance().logActivity(
-                context.getUser().getUsername(),
-                "Updated Dashboard "+ "\""+config.getName()+"\"");
-    }
-
-    public DashboardConfig getDashboard(ServiceContext context,
-                                        String dashboardId){
-        DashboardConfig config =
-                ApplicationConfigManager.getDashboard(dashboardId);
-        try {
-            config.setTemplate(getTemplate(dashboardId));
-        } catch (IOException e) {
-            logger.severe("Dashboard template not found for id: " + dashboardId);
-        }
-        return config;
-    }
-
-
-    private String getTemplate(String dashboardId) throws IOException {
-
-        StringBuffer template = new StringBuffer();
-        FileReader freader = new FileReader(CoreUtils.getDashboardsDir() +
-                dashboardId + ".jsp");
-        BufferedReader reader = new BufferedReader(freader);
-        String line = reader.readLine();
-        while(line != null){
-            template.append(line);
-            template.append("\n");
-            line = reader.readLine();
-        }
-        return template.toString();
     }
 }

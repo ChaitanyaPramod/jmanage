@@ -10,9 +10,4 @@
             <mbeans/>
         </application>
     </applications>
-
-    <dashboards>
-        <dashboard id="1234" name="test dashboard"/>
-    </dashboards>
-
 </application-config>

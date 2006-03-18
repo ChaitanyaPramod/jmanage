@@ -38,7 +38,8 @@ public class SNMPAgentConnectionFactory implements ServerConnectionFactory{
         try{
             InetAddress hostAddress = InetAddress.getByName(config.getHost());
             SNMPv1CommunicationInterface commIntf =
-                    new SNMPv1CommunicationInterface(1, hostAddress, "public");
+                    new SNMPv1CommunicationInterface(1, hostAddress, "public",
+                            config.getPort().intValue());
             SNMPAgentConnection connection = new SNMPAgentConnection(commIntf);
             return connection;
         }catch(Throwable e){

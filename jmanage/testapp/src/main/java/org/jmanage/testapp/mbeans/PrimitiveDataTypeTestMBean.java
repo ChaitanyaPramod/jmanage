@@ -38,6 +38,8 @@ public interface PrimitiveDataTypeTestMBean {
     public void setChar(char c);
     public boolean getBoolean();
     public void setBoolean(boolean bo);
+    public boolean getBoolean2();
+    public void setBoolean2(boolean bo);
     public byte getByte();
     public void setByte(byte b);
 }

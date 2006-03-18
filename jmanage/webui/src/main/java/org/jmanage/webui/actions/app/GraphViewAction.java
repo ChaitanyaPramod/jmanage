@@ -55,10 +55,12 @@ public class GraphViewAction extends BaseAction {
         //AccessController.checkAccess(context.getServiceContext(),
         //        ACLConstants.ACL_VIEW_APPLICATIONS);
 
-        /*set current page for navigation*/
         GraphConfig graphConfig =
                 appConfig.findGraph(request.getParameter("graphId"));
         assert graphConfig != null;
+        request.setAttribute("graphConfig", graphConfig);
+
+        /*set current page for navigation*/
         request.setAttribute(RequestAttributes.NAV_CURRENT_PAGE,
                 graphConfig.getName());
 

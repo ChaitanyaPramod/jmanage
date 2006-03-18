@@ -1,13 +1,16 @@
 <!--/app/appView.jsp-->
 <%@ page errorPage="/error.jsp" %>
 <%@ page import="org.jmanage.webui.util.WebContext,
+                 org.jmanage.core.config.ApplicationConfig,
+                 org.jmanage.core.config.MBeanConfig,
                  org.jmanage.webui.util.RequestParams,
                  java.net.URLEncoder,
                  java.util.*,
+                 org.jmanage.core.config.GraphConfig,
+                 org.jmanage.core.config.AlertConfig,
                  org.jmanage.webui.util.Utils,
                  org.jmanage.core.util.ACLConstants,
-                 org.jmanage.core.management.ObjectName,
-                 org.jmanage.core.config.*"%>
+                 org.jmanage.core.management.ObjectName"%>
 
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 <script language="JavaScript">
@@ -204,53 +207,5 @@ if(appConfig.getAlerts().size() > 0){
 <p>
 <jmhtml:link href="/config/showSelectAlertSourceType.do" acl="<%=ACLConstants.ACL_ADD_ALERT%>" styleClass="a">
     Add Alert</jmhtml:link>
-</p>
-<br/>
-<%--Dashboards--%>
-<%
-if(ApplicationConfigManager.getDashboards().size() > 0){
-%>
-<table cellspacing="0" cellpadding="5" width="700" class="table">
-    <tr class="tableHeader">
-        <td colspan="6">Configured Dashboards</td>
-    </tr>
-    <%
-        List dashboards = ApplicationConfigManager.getDashboards();
-        Iterator itr = dashboards.iterator();
-        while(itr.hasNext()){
-            DashboardConfig dashboardConfig = (DashboardConfig)itr.next();
-    %>
-    <tr>
-        <td class="plaintext">
-            <a href="/app/dashboard.do?id=<%=dashboardConfig.getDashboardId()%>&<%=RequestParams.APPLICATION_ID%>=<%=appConfig.getApplicationId()%>">
-                <%=dashboardConfig.getName()%></a></td>
-        <td align="right" width="60">
-            <%
-                String editDashboardLink ="/config/showAddDashboard.do?"
-                        + "id=" + dashboardConfig.getDashboardId();
-            %>
-            <jmhtml:link href="<%=editDashboardLink%>" acl="<%=ACLConstants.ACL_EDIT_DASHBOARD%>" styleClass="a1">Edit</jmhtml:link>
-        </td>
-        <td align="right" width="60">
-        <%
-            String deleteAlertLink = "JavaScript:deleteAlert('"
-                    + dashboardConfig.getDashboardId() + "','" + appConfig.getApplicationId() + "');";
-        %>
-           <jmhtml:link href="<%=deleteAlertLink%>" acl="<%=ACLConstants.ACL_EDIT_DASHBOARD%>"  styleClass="a1">
-            Delete -- TBD</jmhtml:link>
-       </td>
-    </tr>
-    <%}%>
-</table>
-<%
-}else{
-%>
-<p class="plaintext">
-    There are no configured dashboards.
-</p>
-<%}%>
-<jmhtml:link href="/config/showAddDashboard.do" acl="<%=ACLConstants.ACL_ADD_DASHBOARD%>" styleClass="a">
-    Add Dashboard</jmhtml:link>
-
 
 

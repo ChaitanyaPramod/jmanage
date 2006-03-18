@@ -81,8 +81,4 @@ public interface ConfigConstants {
     public String GRAPH_ATTRIBUTE_NAME = "attribute";
     public String GRAPH_ATTRIBUTE_DISPLAY_NAME = "displayName";
 
-    public String DASHBOARDS = "dashboards";
-    public String DASHBOARD = "dashboard";
-    public String DASHBOARD_ID = "id";
-    public String DASHBOARD_NAME = "name";
 }

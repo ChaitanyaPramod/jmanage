@@ -31,8 +31,6 @@ public class CoreUtils {
 
     private static final Logger logger = Loggers.getLogger(CoreUtils.class);
 
-    public static final String RELATIVE_DASHBOARDS_PATH = "/WEB-INF/dashboards/";
-
     public static String getRootDir(){
         return System.getProperty(SystemProperties.JMANAGE_ROOT);
     }
@@ -43,10 +41,6 @@ public class CoreUtils {
 
     public static String getWebDir(){
         return getRootDir() + "/web";
-    }
-
-    public static String getDashboardsDir(){
-        return getWebDir() + RELATIVE_DASHBOARDS_PATH;
     }
 
     public static String getModuleDir(String moduleId){

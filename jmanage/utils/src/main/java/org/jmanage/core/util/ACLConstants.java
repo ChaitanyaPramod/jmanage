@@ -44,6 +44,4 @@ public interface ACLConstants {
     public static final String ACL_EDIT_ALERT = "acl.edit.alert";
     public static final String ACL_ADD_GRAPH = "acl.add.graph";
     public static final String ACL_EDIT_GRAPH = "acl.edit.graph";
-    public static final String ACL_ADD_DASHBOARD = "acl.add.dashboard";
-    public static final String ACL_EDIT_DASHBOARD = "acl.edit.dashboard";
 }

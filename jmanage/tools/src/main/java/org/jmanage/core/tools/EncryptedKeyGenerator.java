@@ -90,8 +90,8 @@ public class EncryptedKeyGenerator {
 
           /* Get list of configured applications */
         Crypto.init(oldPassword) ;
-        Config config = ConfigReader.getInstance().read() ;
-        if(config == null) {
+        List configList = ConfigReader.getInstance().read() ;
+        if(configList == null) {
             System.out.println("\nError in reading application passwords") ;
             return ;
         }
@@ -105,7 +105,7 @@ public class EncryptedKeyGenerator {
       UserManager.getInstance().addUser(new User(AuthConstants.USER_ADMIN,
       Crypto.hash(newPassword), roles, User.STATUS_ACTIVE, 0));
       Crypto.init(newPassword);
-      ConfigWriter.getInstance().write(config);
+      ConfigWriter.getInstance().write(configList);
       System.out.println("New key has been written to key file successfully..");
     }
 }
