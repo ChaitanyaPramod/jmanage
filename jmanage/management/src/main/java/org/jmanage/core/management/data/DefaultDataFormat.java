@@ -13,6 +13,8 @@
 */
 package org.jmanage.core.management.data;
 
+import org.jmanage.util.StringUtils;
+
 /**
  * This is the default DataFormat for types that do not have a specific
  * DataFormat defined.
@@ -27,25 +29,8 @@ public class DefaultDataFormat implements DataFormat {
         String output = data.toString();
         if(DataFormatUtil.isEscapeHtml()){
             // todo: do we need this? We are now using <pre> tag.
-            output = htmlEscape(output);
+            output = StringUtils.htmlEscape(output);
         }
         return output;
-    }
-
-    private static String htmlEscape(String str){
-        StringBuffer buff = new StringBuffer(str.length());
-        for(int i=0; i<str.length(); i++){
-            final char ch = str.charAt(i);
-            if(ch == '"'){
-                buff.append("&quot;");
-            }else if(ch == '<'){
-                buff.append("&lt;");
-            }else if(ch == '>'){
-                buff.append("&gt;");
-            }else{
-                buff.append(ch);
-            }
-        }
-        return buff.toString();
     }
 }

@@ -1176,6 +1176,140 @@
             }]]>
          </javascript>-->
 
-      </validator>
+        </validator>
+        <validator name="requiredif"
+            classname="org.jmanage.webui.validator.JManageFieldChecks"
+            method="validateRequiredIf"
+            methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionErrors,
+                       org.apache.commons.validator.Validator,
+                       javax.servlet.http.HttpServletRequest"
+            msg="errors.required">
+            <javascript><![CDATA[
+            function validateRequiredIf(form) {
+               var bValid = true;
+               var focusField = null;
+               var i = 0;
+               var fields = new Array();
+               oRequiredIf = new requiredif();
+               for (x in oRequiredIf) {
+                   var field = form[oRequiredIf[x][0]];
+                   if(typeof field == "undefined"){
+                       continue;
+                   }
+                   if (field.type == 'text' ||
+                       field.type == 'textarea' ||
+                       field.type == 'file' ||
+                       field.type == 'select-one' ||
+                       field.type == 'radio' ||
+                       field.type == 'password' ||
+                       field.type == 'checkbox') {
+
+                       var value = '';
+                       // get field's value
+                       if (field.type == "select-one") {
+                           var si = field.selectedIndex;
+                           if (si >= 0) {
+                               value = field.options[si].value;
+                           }
+                       } else {
+                           value = field.value;
+                       }
+                       /*
+                        Added trim functionality to take out leading and/or
+                        trailing spaces before validating the field
+                       */
+                       while(value.charAt(value.length-1)==' '){
+                           value=value.substring(0,value.length-1);
+                       }
+                       while(value.charAt(0)==' '){
+                           value=value.substring(1,value.length);
+                       }
+                       field.value = value;
+
+                       var counter = 0;
+                       var required = false;
+                       var fieldJoin = "AND";
+
+                       if(oRequiredIf[x][2]("fieldJoin") != null){
+                           fieldJoin = oRequiredIf[x][2]("fieldJoin");
+                       }
+                       if(fieldJoin == "AND"){
+                           required = true;
+                       }
+
+                       while(oRequiredIf[x][2]("field"+counter) != null){
+                           var condition = oRequiredIf[x][2]("fieldTest"+counter);
+                           var fldValue = form[oRequiredIf[x][2]("field"+counter)].value;
+                           if(typeof fldValue == "undefined" && form[oRequiredIf[x][2]("field"+counter)].length > 0){
+                               //Handle radio buttons as there is no support exists
+                               var fieldArray = form[oRequiredIf[x][2]("field"+counter)];
+                               for (var loop = 0;loop < fieldArray.length; loop++){
+                                   if (fieldArray[loop].checked){
+                                       fldValue = fieldArray[loop].value;
+                                       break;
+                                   }
+                               }
+                           }
+
+                           var thisRequired = false;
+                           if(condition == "NULL"){
+                               if(fldValue != null && fldValue.length > 0){
+                                   thisRequired = false;
+                               }else{
+                                   thisRequired = true;
+                               }
+                           }else if(condition == "NOTNULL"){
+                               if(fldValue != null && fldValue.length > 0){
+                                   thisRequired = true;
+                               }else{
+                                   thisRequired = false;
+                               }
+                           }else if(condition == "EQUAL"){
+                               var matchValue = oRequiredIf[x][2]("fieldValue"+counter);
+                               if(fldValue != null && fldValue == matchValue){
+                                   thisRequired = true;
+                               }else{
+                                   thisRequired = false;
+                               }
+                           }else if(condition == "NOTEQUAL"){
+                               var matchValue = oRequiredIf[x][2]("fieldValue"+counter);
+                               if(fldValue != null && fldValue != matchValue){
+                                   thisRequired = true;
+                               }else{
+                                   thisRequired = false;
+                               }
+                           }
+
+                           if(fieldJoin == "AND"){
+                               required = required && thisRequired;
+                           }else{
+                               required = required || thisRequired;
+                           }
+                           counter++;
+                       }
+
+                       if(required){
+                           if(value == ''){
+                               if (i == 0) {
+                                   focusField = field;
+                               }
+                               fields[i++] = oRequiredIf[x][1];
+                               bValid = false;
+                               break;
+                           }
+                       }
+                   }
+                }
+               if (fields.length > 0) {
+                   focusField.focus();
+                   alert(fields.join('\n'));
+               }
+               return bValid;
+            }]]>
+            </javascript>
+        </validator>
    </global>
 </form-validation>
