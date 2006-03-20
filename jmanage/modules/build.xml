@@ -11,6 +11,7 @@
         <antcall target="build-jboss-module" />
         <antcall target="build-websphere-module" />
         <antcall target="build-snmp-module" />
+        <antcall target="build-local-module" />
     </target>
 
     <!-- target for building weblogic module -->
@@ -47,12 +48,20 @@
 
     <!-- target for building snmp module -->
     <target name="build-snmp-module"
-        description="Builds jboss module">
+        description="Builds snmp module">
         <antcall target="build-module">
             <param name="module.name" value="snmp"/>
         </antcall>
     </target>
 
+	<!-- target for building local module -->
+    <target name="build-local-module"
+        description="Builds local module">
+        <antcall target="build-module">
+            <param name="module.name" value="local"/>
+        </antcall>
+    </target>
+	
     <!-- generic target for building a module -->
     <target name="build-module">
         <mkdir dir="${build.home}/modules/${module.name}/classes" />
