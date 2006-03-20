@@ -2,6 +2,7 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry output="alerts/target/classes" kind="src" path="alerts/src/main/java"/>
+	<classpathentry kind="src" path="modules/local/src/main/java"/>
 	<classpathentry output="auth/target/classes" kind="src" path="auth/src/main/java"/>
 	<classpathentry output="cmdui/target/classes" kind="src" path="cmdui/src/main/java"/>
 	<classpathentry output="cmdui/target/test-classes" kind="src" path="cmdui/src/test/java"/>
