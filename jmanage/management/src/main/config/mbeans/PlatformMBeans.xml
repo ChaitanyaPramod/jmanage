@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+
+<mbeans>
+	<mbean name="java.util.logging:type=Logging"
+           description="The management interface for the logging facility.">
+
+		<attribute name="LoggerNames"
+		           description="Returns the list of currently registered loggers."/>
+		<!--
+				legalValues
+			maxValue
+			minValue
+			units/> -->
+		
+	    <operation name="getParentLoggerName"
+		           description="Returns the name of the parent for the specified logger. If the specified logger does not exist, null is returned. If the specified logger is the root Logger in the namespace, the result will be an empty string.">
+			<parameter name="loggerName" 
+					   type="java.lang.String"
+					   legalValues="${LoggerNames}"
+					   description="The name of a Logger."/>
+		</operation>
+	    <operation name="getLoggerLevel"
+		           description="Gets the name of the log level associated with the specified logger. If the specified logger does not exist, null is returned. If the Level of the specified logger is null, which means that this logger's effective level is inherited from its parent, an empty string will be returned.">
+			<parameter name="loggerName" 
+					   type="java.lang.String"
+					   legalValues="${LoggerNames}"
+					   description="The name of the Logger to be retrieved."/>
+		</operation>
+	    <operation name="setLoggerLevel"
+		           description="Sets the specified logger to the specified new level. If the levelName is not null, the level of the specified logger is set to the parsed Level  matching the levelName. If the levelName is null, the level of the specified logger is set to null and the effective level of the logger is inherited from its nearest ancestor with a specific (non-null) level value.">
+			<parameter name="loggerName" 
+					   type="java.lang.String"
+					   legalValues="${LoggerNames}"
+					   description="The name of the Logger to be set."/>
+			<parameter name="levelName" 
+					   type="java.lang.String"
+					   legalValues="SEVERE,WARNING,INFO,CONFIG,FINE,FINER,FINEST"
+					   description="The name of the level to set the specified logger to, or null if to set the level to inherit from its nearest ancestor."/>
+		</operation>
+	</mbean>
+</mbeans>

@@ -17,6 +17,10 @@ package org.jmanage.core.management;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.logging.Logger;
+
+import org.jmanage.core.management.metadata.ExpressionProcessor;
+import org.jmanage.core.util.Loggers;
 
 /**
  *
@@ -26,6 +30,8 @@ import java.util.Comparator;
 public class ObjectInfo implements java.io.Serializable {
 
 	private static final long serialVersionUID = 5740245125717325823L;
+    private static final Logger logger = Loggers.getLogger(ObjectInfo.class);
+    
 	private ObjectName objectName;
     private String description;
     private String className;
@@ -54,6 +60,47 @@ public class ObjectInfo implements java.io.Serializable {
                 return attrInfo1.getName().compareToIgnoreCase(attrInfo2.getName());
             }
         });
+    }
+    
+    public void applyMetaData(ObjectInfo metaObjectInfo, ExpressionProcessor exprProcessor){
+        // object info
+        if(metaObjectInfo.getDescription() != null){
+            description = metaObjectInfo.getDescription();
+        }
+        // attributes
+        for(ObjectAttributeInfo metaAttributeInfo:metaObjectInfo.attributes){
+            ObjectAttributeInfo attributeInfo = findAttribute(metaAttributeInfo);
+            if(attributeInfo != null){
+                attributeInfo.applyMetaData(metaAttributeInfo, exprProcessor);
+            }
+        }
+        // operations
+        for(ObjectOperationInfo metaOperationInfo:metaObjectInfo.operations){
+            ObjectOperationInfo operationInfo = findOperation(metaOperationInfo);
+            if(operationInfo != null){
+                operationInfo.applyMetaData(metaOperationInfo, exprProcessor);
+            }
+        }
+    }
+
+    private ObjectAttributeInfo findAttribute(ObjectAttributeInfo attributeInfo){
+        for(ObjectAttributeInfo attribute:attributes){
+            if(attribute.equals(attributeInfo)){
+                return attribute;
+            }
+        }
+        logger.warning("Attribute: " + attributeInfo.getName() + " not found in " + objectName);
+        return null;
+    }
+    
+    private ObjectOperationInfo findOperation(ObjectOperationInfo operationInfo){
+        for(ObjectOperationInfo operation:operations){
+            if(operation.equals(operationInfo)){
+                return operation;
+            }
+        }
+        logger.warning("Operation: " + operationInfo.getName() + " not found in " + objectName);
+        return null;
     }
 
     public ObjectAttributeInfo[] getAttributes() {

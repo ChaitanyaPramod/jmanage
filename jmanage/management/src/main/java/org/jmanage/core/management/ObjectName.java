@@ -108,8 +108,12 @@ public class ObjectName implements java.io.Serializable {
     public boolean equals(Object obj){
         if(obj instanceof ObjectName){
             ObjectName on = (ObjectName)obj;
-            return on.objectName.equals(this.objectName);
+            return on.canonicalName.equals(this.canonicalName);
         }
         return false;
+    }
+    
+    public int hashCode(){
+        return canonicalName.hashCode();
     }
 }

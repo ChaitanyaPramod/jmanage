@@ -2,6 +2,10 @@
     <extend>${basedir}/../project.xml</extend>
     <artifactId>jmanage-management</artifactId>
     <dependencies>
+		<dependency>
+            <groupId>jdom</groupId>
+            <artifactId>jdom</artifactId>
+        </dependency>
         <dependency>
             <groupId>jmanage</groupId>
             <artifactId>jmanage-config</artifactId>

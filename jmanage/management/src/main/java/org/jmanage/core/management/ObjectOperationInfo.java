@@ -15,6 +15,8 @@
  */
 package org.jmanage.core.management;
 
+import org.jmanage.core.management.metadata.ExpressionProcessor;
+
 /**
  *
  * date:  Aug 13, 2004
@@ -65,5 +67,36 @@ public class ObjectOperationInfo extends ObjectFeatureInfo {
             parameters[i] = signature[i].getType();
         }
         return parameters;
+    }
+    
+    public boolean equals(Object obj){
+        if(obj instanceof ObjectOperationInfo){
+            ObjectOperationInfo operation = (ObjectOperationInfo)obj;
+            return this.name.equals(operation.name) && equalParameters(operation.signature);
+        }
+        return false;
+    }
+    
+    private boolean equalParameters(ObjectParameterInfo[] signature){
+        if(this.signature.length != signature.length){
+            return false;
+        }
+        int index =0;
+        for(ObjectParameterInfo parameterInfo:signature){
+            if(!parameterInfo.equals(this.signature[index++])){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void applyMetaData(ObjectOperationInfo metaOperationInfo, ExpressionProcessor exprProcessor) {
+        if(metaOperationInfo.getDescription() != null){
+            description = metaOperationInfo.getDescription();
+        } 
+        int index = 0;
+        for(ObjectParameterInfo parameterInfo:signature){
+            parameterInfo.applyMetaData(metaOperationInfo.signature[index++], exprProcessor);
+        }
     }
 }

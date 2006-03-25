@@ -15,6 +15,8 @@
  */
 package org.jmanage.core.management;
 
+import org.jmanage.core.management.metadata.ExpressionProcessor;
+
 /**
  *
  * date:  Aug 13, 2004
@@ -71,5 +73,22 @@ public class ObjectAttributeInfo extends ObjectFeatureInfo {
             readWrite += "W";
         }
         return readWrite;
+    }
+    
+    public boolean equals(Object obj){
+        if(obj instanceof ObjectAttributeInfo){
+            return name.equals(((ObjectAttributeInfo)obj).name);
+        }
+        return false;
+    }
+    
+    public int hashCode(){
+        return name.hashCode();
+    }
+
+    public void applyMetaData(ObjectAttributeInfo metaAttributeInfo, ExpressionProcessor exprProcessor) {
+        if(metaAttributeInfo.getDescription() != null){
+            description = metaAttributeInfo.getDescription();
+        }
     }
 }
