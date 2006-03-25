@@ -278,7 +278,7 @@
                     value="<%=attrValue%>"/>
                 <%}%>
             <%}else{%>
-                <pre class="plaintext"><%=attrValue%></pre>
+                <pre class="plaintext"><%=attrValue%><%if(attributeInfo.getUnits() != null){%> <%=attributeInfo.getUnits()%><%}%></pre>
             <%}%>
             <%if(attrValue.length() > 0 && attributeInfo.getType().equals("javax.management.ObjectName")){
                 pageContext.setAttribute("objectName",

@@ -39,7 +39,7 @@ public interface ServerConnection {
      * @param objectName
      * @return
      */
-    public Set queryNames(ObjectName objectName);
+    public Set<ObjectName> queryNames(ObjectName objectName);
 
     /**
      * Invokes the given "operationName" on the object identified by

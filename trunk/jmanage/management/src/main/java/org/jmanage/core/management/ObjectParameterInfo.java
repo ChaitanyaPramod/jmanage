@@ -32,6 +32,7 @@ public class ObjectParameterInfo extends ObjectFeatureInfo {
 	private String type;
 	private String legalValuesAsString;
     private Object[] legalValues;
+    private String units;
     
     public ObjectParameterInfo(String name, String description, String type) {
         super(name, description);
@@ -59,6 +60,14 @@ public class ObjectParameterInfo extends ObjectFeatureInfo {
         return legalValues;
     }
     
+    public void setUnits(String units) {
+        this.units = units;
+    }
+
+    public String getUnits() {
+        return units;
+    }
+    
     public boolean equals(Object obj){
         if(obj instanceof ObjectParameterInfo){
             ObjectParameterInfo parameterInfo = (ObjectParameterInfo)obj;
@@ -74,6 +83,9 @@ public class ObjectParameterInfo extends ObjectFeatureInfo {
         if(metaParameterInfo.getDescription() != null){
             description = metaParameterInfo.getDescription();
         } 
+        if(metaParameterInfo.getUnits() != null){
+            units = metaParameterInfo.getUnits();
+        }
         if(metaParameterInfo.legalValuesAsString != null){
             Object output = exprProcessor.evaluate(metaParameterInfo.legalValuesAsString);
             if(output != null){
