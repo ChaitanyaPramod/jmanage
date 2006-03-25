@@ -7,6 +7,7 @@
     <!-- target for building all modules -->
     <target name="build-all-modules" description="Builds all modules">
         <antcall target="build-weblogic-module" />
+        <antcall target="build-weblogic9-module" />
         <antcall target="build-jsr160-module" />
         <antcall target="build-jboss-module" />
         <antcall target="build-websphere-module" />
@@ -18,6 +19,14 @@
         description="Builds weblogic module. You will need to copy weblogic.jar to modules/weblogic/lib folder.">
        <antcall target="build-module">
             <param name="module.name" value="weblogic"/>
+        </antcall>
+    </target>
+
+    <!-- target for building weblogic9 module -->
+    <target name="build-weblogic9-module"
+        description="Builds weblogic9 module.">
+       <antcall target="build-module">
+            <param name="module.name" value="weblogic9"/>
         </antcall>
     </target>
 
