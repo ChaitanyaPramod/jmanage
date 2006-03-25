@@ -60,7 +60,7 @@ public abstract class JMXServerConnection implements ServerConnection{
      * @param objectName the ObjectName pattern
      * @return Set of ObjectName objects
      */
-    public Set queryNames(ObjectName objectName){
+    public Set<ObjectName> queryNames(ObjectName objectName){
 
         Class[] methodSignature = new Class[]{javax.management.ObjectName.class,
                                            javax.management.QueryExp.class};

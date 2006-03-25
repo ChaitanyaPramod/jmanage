@@ -163,7 +163,7 @@
                     <pre class="plaintext"><%=operationResult.getStackTrace()%></pre>
                     </p>
                 <%}else{%>
-                    <pre class="plaintext"><%=operationResult.getDisplayOutput()%></pre>
+                    <pre class="plaintext"><%=operationResult.getDisplayOutput()%><%if(operationInfo.getUnits() != null){%> <%=operationInfo.getUnits()%><%}%></pre>
                 <%}%>
             </td>
         </tr>

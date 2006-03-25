@@ -33,6 +33,7 @@ public class ObjectOperationInfo extends ObjectFeatureInfo {
     private String type;
     private ObjectParameterInfo[] signature;
     private int impact;
+    private String units;
 
     public ObjectOperationInfo(String name,
                                String description,
@@ -69,6 +70,14 @@ public class ObjectOperationInfo extends ObjectFeatureInfo {
         return parameters;
     }
     
+    public void setUnits(String units) {
+        this.units = units;
+    }
+
+    public String getUnits() {
+        return units;
+    }
+    
     public boolean equals(Object obj){
         if(obj instanceof ObjectOperationInfo){
             ObjectOperationInfo operation = (ObjectOperationInfo)obj;
@@ -93,7 +102,10 @@ public class ObjectOperationInfo extends ObjectFeatureInfo {
     public void applyMetaData(ObjectOperationInfo metaOperationInfo, ExpressionProcessor exprProcessor) {
         if(metaOperationInfo.getDescription() != null){
             description = metaOperationInfo.getDescription();
-        } 
+        }
+        if(metaOperationInfo.getUnits() != null){
+            units = metaOperationInfo.getUnits();
+        }
         int index = 0;
         for(ObjectParameterInfo parameterInfo:signature){
             parameterInfo.applyMetaData(metaOperationInfo.signature[index++], exprProcessor);

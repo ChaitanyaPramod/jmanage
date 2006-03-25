@@ -62,7 +62,7 @@ public class SNMPAgentConnection implements ServerConnection{
         this.comInterface = comInterface;
     }
 
-    public Set queryNames(ObjectName objectName) {
+    public Set<ObjectName> queryNames(ObjectName objectName) {
         // This call is to make sure that SNMP agent is accessible
         //  todo: optimize -- no need to do complete tree walk here
         // getMIBDetails(objectName);

@@ -30,6 +30,7 @@ public class ObjectAttributeInfo extends ObjectFeatureInfo {
     private boolean isWrite;
     private boolean isRead;
     private boolean isIs;
+    private String units;
 
     public ObjectAttributeInfo(String name,
                                String description,
@@ -74,6 +75,14 @@ public class ObjectAttributeInfo extends ObjectFeatureInfo {
         }
         return readWrite;
     }
+
+    public void setUnits(String units) {
+        this.units = units;
+    }
+
+    public String getUnits() {
+        return units;
+    }
     
     public boolean equals(Object obj){
         if(obj instanceof ObjectAttributeInfo){
@@ -89,6 +98,9 @@ public class ObjectAttributeInfo extends ObjectFeatureInfo {
     public void applyMetaData(ObjectAttributeInfo metaAttributeInfo, ExpressionProcessor exprProcessor) {
         if(metaAttributeInfo.getDescription() != null){
             description = metaAttributeInfo.getDescription();
+        }
+        if(metaAttributeInfo.getUnits() != null){
+            units = metaAttributeInfo.getUnits();
         }
     }
 }

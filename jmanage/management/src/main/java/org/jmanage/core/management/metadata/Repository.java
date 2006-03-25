@@ -101,6 +101,7 @@ public class Repository {
                                 false,// not overridden
                                 false,// not overridden
                                 false);// not overridden
+            attributeInfo[index].setUnits(attribute.getAttributeValue("units"));
         }
         return attributeInfo;
     }
@@ -117,6 +118,7 @@ public class Repository {
                     getSignature(operation),
                     null, // not overridden
                     0);   // not overridden
+            operationInfo[index].setUnits(operation.getAttributeValue("units"));
         }
         return operationInfo;
     }
@@ -131,6 +133,7 @@ public class Repository {
                     parameter.getAttributeValue("description"),
                     parameter.getAttributeValue("type"),
                     parameter.getAttributeValue("legalValues"));
+            parameterInfo[index].setUnits(parameter.getAttributeValue("units"));
         }
         return parameterInfo;
     }
