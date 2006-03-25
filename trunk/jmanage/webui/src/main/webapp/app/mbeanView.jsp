@@ -364,14 +364,20 @@
         ObjectOperationInfo operationInfo = operations[index];
         ObjectParameterInfo[] params = operationInfo.getSignature();
 %>
+<%if(index > 0){%>
+    <tr>
+    <td colspan="3"><hr width="100%" style="color:#C0C0C0"/></td>
+    </tr>
+<%}%>
 <jmhtml:form action="/app/executeOperation">
 <tr>
-    <td class="plaintext"><%=operationInfo.getDisplayReturnType()%>
+    <td class="plaintext">
     <%if(operationInfo.getDescription() != null){%>
         <a href="JavaScript:showDescription('<%=MBeanUtils.jsEscape(operationInfo.getDescription())%>');"><%=operationInfo.getName()%></a>
     <%}else{%>
         <%=operationInfo.getName()%>
-    <%}%>
+    <%}%><br/>
+    (<%=operationInfo.getDisplayReturnType()%>)
     <input type="hidden" name="paramCount" value="<%=params.length%>"/>
     </td>
     <td class="plaintext">
@@ -379,7 +385,7 @@
         int paramIndex = 0;
     %>
         <input type="hidden" name="<%=operationInfo.getName()%><%=paramIndex%>_type" value="<%=params[paramIndex].getType()%>"/>
-        <input tabindex="<%=tabIndex++%>" type="text" name="<%=operationInfo.getName()%><%=paramIndex%>_value" value=""/>
+        <nobr>
         <%
             String argName = params[paramIndex].getName();
             if(argName == null || argName.length() == 0){
@@ -389,10 +395,21 @@
             if(description != null && description.length() > 0){
         %>
            <a href="JavaScript:showDescription('<%=MBeanUtils.jsEscape(description)%>');">
-                    <%=argName%></a>
+                    <%=argName%></a>:
         <%}else{%>
-            <%=argName%>
+            <%=argName%>:
         <%}%>
+        <%if(params[paramIndex].getLegalValues() != null){%>
+        	<select tabindex="<%=tabIndex++%>" name="<%=operationInfo.getName()%><%=paramIndex%>_value">
+        		<%for(Object legalValue:params[paramIndex].getLegalValues()){%>
+					<option><%=legalValue%></option>        		
+        		<%}%>
+        	</select>
+        <%}else{%>
+	        <input tabindex="<%=tabIndex++%>" type="text" name="<%=operationInfo.getName()%><%=paramIndex%>_value" value=""/>
+        <%}%>
+        </nobr>
+        <br/>
         <%if(!params[paramIndex].getType().equals(argName)){%>
             (<%=params[paramIndex].getDisplayType()%>)
         <%}%>
@@ -409,7 +426,8 @@
         <%  }else{  %>
         <input tabindex="<%=(tabIndex++) + params.length%>" type="submit" value="Execute" class="Inside3d" disabled/>&nbsp;
         <%  }   %>
-        [Impact: <%=MBeanUtils.getImpact(operationInfo.getImpact())%>]
+        <br/>
+        <nobr>[Impact: <%=MBeanUtils.getImpact(operationInfo.getImpact())%>]</nobr>
     </td>
 </tr>
     <%
@@ -419,7 +437,6 @@
     <td class="plaintext">&nbsp;</td>
     <td class="plaintext">
         <input type="hidden" name="<%=operationInfo.getName()%><%=paramIndex%>_type" value="<%=params[paramIndex].getType()%>"/>
-        <input tabindex="<%=tabIndex++%>" type="text" name="<%=operationInfo.getName()%><%=paramIndex%>_value" value=""/>
         <%
             String argName = params[paramIndex].getName();
             if(argName == null || argName.length() == 0){
@@ -429,10 +446,19 @@
             if(description != null && description.length() > 0){
         %>
            <a href="JavaScript:showDescription('<%=MBeanUtils.jsEscape(description)%>');">
-                    <%=argName%></a>
+                    <%=argName%></a>:
         <%}else{%>
-            <%=argName%>
+            <%=argName%>:
         <%}%>
+        <%if(params[paramIndex].getLegalValues() != null){%>
+        	<select tabindex="<%=tabIndex++%>" name="<%=operationInfo.getName()%><%=paramIndex%>_value">
+        		<%for(Object legalValue:params[paramIndex].getLegalValues()){%>
+					<option><%=legalValue%></option>        		
+        		<%}%>
+        	</select>
+        <%}else{%>
+	        <input tabindex="<%=tabIndex++%>" type="text" name="<%=operationInfo.getName()%><%=paramIndex%>_value" value=""/>
+        <%}%><br/>
         <%if(!params[paramIndex].getType().equals(argName)){%>
             (<%=params[paramIndex].getDisplayType()%>)
         <%}%>

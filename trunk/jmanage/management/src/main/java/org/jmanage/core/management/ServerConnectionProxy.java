@@ -15,6 +15,7 @@
  */
 package org.jmanage.core.management;
 
+import org.jmanage.core.management.metadata.Repository;
 import org.jmanage.core.util.Loggers;
 
 import java.util.List;
@@ -61,7 +62,11 @@ public class ServerConnectionProxy implements InvocationHandler {
                 assert args.length == 2;
                 return getAttributes((ObjectName)args[0], (String[])args[1]);
             }else{
-                return method.invoke(connection, args);
+                Object result = method.invoke(connection, args);
+                if(method.getName().equals("getObjectInfo")){
+                    return Repository.applyMetaData((ObjectInfo)result, (ServerConnection)proxy);
+                }
+                return result;
             }
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
