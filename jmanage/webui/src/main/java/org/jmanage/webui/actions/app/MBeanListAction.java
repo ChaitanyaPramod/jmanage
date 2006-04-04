@@ -45,6 +45,7 @@ public class MBeanListAction extends BaseAction {
 
         MBeanQueryForm queryForm = (MBeanQueryForm)actionForm;
         final String queryObjectName = queryForm.getObjectName();
+        
         MBeanService mbeanService = ServiceFactory.getMBeanService();
         List mbeanDataList = mbeanService.queryMBeans(Utils.getServiceContext(context),
                 queryObjectName);
@@ -65,8 +66,10 @@ public class MBeanListAction extends BaseAction {
         }
 
         request.setAttribute("domainToObjectNameListMap", domainToObjectNameListMap);
+        
         /*set current page for navigation*/
-        request.setAttribute(RequestAttributes.NAV_CURRENT_PAGE, "Query");
+        request.getSession().setAttribute(SessionAttributes.MBEAN_QUERY, queryObjectName);
+        
         return mapping.findForward(Forwards.SUCCESS);
     }
 

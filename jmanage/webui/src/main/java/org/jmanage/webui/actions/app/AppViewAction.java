@@ -18,6 +18,7 @@ package org.jmanage.webui.actions.app;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForward;
+import org.jmanage.webui.util.SessionAttributes;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.core.config.ApplicationConfig;
@@ -41,6 +42,9 @@ public class AppViewAction extends BaseAction {
                                  HttpServletResponse response)
         throws Exception{
 
+        // remove the query attribute as we are back to the AppView page
+        request.getSession().removeAttribute(SessionAttributes.MBEAN_QUERY);
+        
         ApplicationConfig appConfig = context.getApplicationConfig();
         AccessController.checkAccess(context.getServiceContext(),
                 ACLConstants.ACL_VIEW_APPLICATIONS);

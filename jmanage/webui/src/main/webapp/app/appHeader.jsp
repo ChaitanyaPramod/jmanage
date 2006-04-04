@@ -5,6 +5,8 @@
                  org.jmanage.webui.util.WebContext,
                  org.jmanage.core.management.ObjectName,
                  org.jmanage.webui.util.RequestAttributes,
+				 org.jmanage.webui.util.SessionAttributes,
+				 org.jmanage.webui.util.Utils,
                  java.util.List,
                  java.util.LinkedList,
                  java.util.Iterator,
@@ -54,7 +56,15 @@
         navList.add(0, new Navigation(objName.getShortName(), link));
     }
 
-    if(appConfig != null){
+	if(appConfig != null){
+		// see if there is a query defined for this application
+		String query = (String)request.getSession().getAttribute(SessionAttributes.MBEAN_QUERY);
+		if(query != null){
+		    String link="/app/mbeanList.do?" + RequestParams.APPLICATION_ID +
+                "=" + appConfig.getApplicationId() + "&objectName=" + Utils.urlEncode(query);
+	        navList.add(0, new Navigation("Query", link));
+		}
+	
         String link = "/app/appView.do?" + RequestParams.APPLICATION_ID +
                 "=" + appConfig.getApplicationId();
         navList.add(0, new Navigation(appConfig.getName(), link));
