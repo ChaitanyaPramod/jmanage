@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+<document>
+  <header>
+    <title>James Setup - For Testing jManage Alerts</title>
+    <authors><person name="Bhavana Kalra" email="bkalra@jmanage.org"/></authors>
+  </header>
+  <body>
+      <section>
+        <title>Required Downloads</title>
+        <p>
+            Following downloads are required for running James:
+            <br/><br/>
+            - Apache James can be downloaded from <a href="http://james.apache.org/download.cgi">http://james.apache.org/download.cgi</a>
+            <br/><br/>
+            - JavaMail API can be downloaded from <a href="http://java.sun.com/products/javamail/index.jsp">http://java.sun.com/products/javamail/index.jsp</a>
+            <br/><br/>
+            - JavaBeans Activation Framework (JAF) can be downloaded from <a href="http://java.sun.com/products/javabeans/jaf/index.jsp">http://java.sun.com/products/javabeans/jaf/index.jsp</a>
+            <br/><br/>
+        </p>
+      </section>
+      <section>
+        <title>Required Tools</title>
+        <p>
+            - JDK 1.3.1 or higher
+            <br/><br/>
+            - Ant (included in the source distribution for James)
+            <br/><br/>
+        </p>
+      </section>
+      <section>
+        <title>Configuring James</title>
+        <p>
+            <br/>
+            - Start James server using run.bat or run.sh. These run scripts can be found in james-2.1.2/bin directory. When you run the script the output will look like:
+            <br/><br/>
+            Using PHOENIX_HOME:  D:\James\james-2.1.2<br/>
+            Using PHOENIX_TMPDIR: D:\James\james-2.1.2\temp<br/>
+            Using JAVA_HOME: c:\programming\java14<br/>
+            <br/>
+            Phoenix 4.0.1<br/>
+            <br/>
+            James 2.1.2<br/>
+            Remote Manager Service started plain: 4555<br/>
+            POP3 Service started plain: 110<br/>
+            SMTP Service started plain: 25<br/>
+            NNTP Service started plain: 119<br/>
+            Fetch POP Disabled<br/>
+            <br/><br/>
+            - Now shutdown the server. A file config.xml gets created in james-2.1-2/apps/james/SAR-INF. This file can be used to change the administrator account and the DNS server address.
+            <br/><br/>
+            - Create a new user with username 'jmanage-alert'. For this,
+            <br/><br/>
+            &nbsp;&nbsp;&nbsp;> Start James server<br/>
+            &nbsp;&nbsp;&nbsp;> telnet to localhost on port 4555 with the command  'telnet localhost 4555'<br/>
+            &nbsp;&nbsp;&nbsp;> Login using root username and password<br/>
+            &nbsp;&nbsp;&nbsp;> Enter the command 'addUser jmanage-alert jmanage-alert'<br/>
+            &nbsp;&nbsp;&nbsp;> Enter 'listUsers' command to check that the above user is created.<br/>
+            &nbsp;&nbsp;&nbsp;> Enter 'quit' command to exit the remote manager.<br/>
+        </p>
+      </section>
+      <section>
+        <title>jmanage.properties</title>
+        <p>
+            Following are the default values in jmanage.properties for alerts email:
+            <br/><br/>
+            &nbsp;&nbsp;&nbsp;alert.email.from.name=jmanage-alert<br/>
+            &nbsp;&nbsp;&nbsp;email.host=localhost<br/>
+            &nbsp;&nbsp;&nbsp;alert.email.from.email=jmanage-alert@localhost<br/>
+        </p>
+      </section>
+  </body>
+</document>

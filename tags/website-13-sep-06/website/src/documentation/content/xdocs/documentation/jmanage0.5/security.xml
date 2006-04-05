@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+<document>
+  <header>
+    <title>Security in jManage</title>
+    <authors>
+        <person name="Rakesh Kalra" email="rkalra@jmanage.org"/>
+    </authors>
+  </header>
+  <body>
+    <section>
+      <title>The "admin" user</title>
+      <p>
+        jManage requires a "admin" user to be setup during installation. The
+        password of this user is used to encrypt a "symmetric" key which is
+        generated during insallation. The encrypted key is stored in jmanage-key
+        file under "config" directory. This scheme avoids writing the key to the
+        disk in its clear form. For this reason, the password of this "admin"
+        user is required when starting jManage application.
+      </p>
+    </section>
+    <section>
+      <title>Username/Password based access</title>
+      <p>
+        The only way jManage applications can be accessed is via username and
+        password. The application only allows 3 invalid attempts before locking
+        the account. Once the account has been locked, someone who has access to
+        User management (normaly from operations/admin team), needs to
+        unlock the account, before this username can be used again.
+        <br/><br/>
+        The number of invalid attempts can be configured in
+        jmanage.properties (default is 3).
+        <br/><br/>
+        jManage users are defined in jmanage-users.xml file under the config
+        directory. This file is managed using the User Management functionalty
+        in jManage Web interface. The passwords are stored as a one-way hash in
+        this file. jManage by default uses SHA-1 algorithm, but this can be
+        changed in jmanage.properties during initial setup. jManage has also been
+        tested with SHA-256.
+      </p>
+    </section>
+    <section>
+      <title>User Roles</title>
+      <p>
+      A User can belong to one or more roles (at this time the UI supports only
+      one role per user). The user roles are defined in jmanage-user-roles.xml.
+      By default jManage comes with two pre-defined roles: Administrator and User;
+      Administrator has complete access whereas User has read-only access.
+      </p>
+    </section>
+    <section>
+      <title>ACL</title>
+      <p>
+      The access is controlled by defininig ACEs (Access Control Entities) in
+      acl-config.properties file. The permissions can be configured either at
+      the user level or at the role level.
+      <br/><br/>
+      jManage also provides a mechanism to specify ACEs at the MBean attribute
+      or operation level. Please see
+      <a href="accessControl.html">Access Control</a>
+      for more info.
+      </p>
+    </section>
+    <section>
+      <title>Application Passwords</title>
+      <p>
+      The application server passwords are encrypted using the key generated
+      during jManage setup. jManage uses a 128 bit TripleDES key which is ecrypted
+      with the Password Based Encryption (PBE) using the "admin" user password.
+      </p>
+    </section>
+    <section>
+      <title>SSL</title>
+      <p>
+      By default jManage works over http. SSL can be enabled by uncommenting
+      the following properties in jmanage.properties:
+      <br/><br/>
+      jmanage.ssl.port=9091
+      <br/>
+      jmanage.ssl.keyfilename=keystore
+      <br/>
+      jmanage.ssl.password=password
+      <br/>
+      jmanage.ssl.keypassword=password
+      <br/><br/>
+      When SSL is enabled, jManage only listens on SSL port, and HTTP access is
+      disabled.
+      <br/><br/>
+      Note that the "jmanage.url" property also needs to be updated for the
+      command line interface to work.
+      </p>
+    </section>
+  </body>
+</document>
