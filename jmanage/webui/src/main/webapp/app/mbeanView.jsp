@@ -325,14 +325,12 @@
 <%  }// for ends%>
 <tr>
     <td class="plaintext" colspan="<%=columns-2 %>">
-        To save the changes to the attribute values click on
         <%if(showUpdateButton){%>
+        To save the changes to the attribute values click on
             <jmhtml:submit value="Save" styleClass="Inside3d" />
-        <%}else{%>
-            <jmhtml:submit value="Save" styleClass="Inside3d" disabled="true" />
         <%}%>
     </td>
-    <td class="plaintext" colspan="2">
+    <td class="plaintext" colspan="2" align="right">
     <%if(showGraphOption){
         String link = "/config/showAttributes.do?"
                 + RequestParams.END_URL + "=" + Utils.urlEncode("/config/showAddGraph.do")
