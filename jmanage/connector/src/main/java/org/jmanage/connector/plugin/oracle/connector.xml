@@ -1,0 +1,9 @@
+<connector-config-setting name="jManage Oracle Connector">
+    <fields>
+        <field name="Username" />
+        <field name="Password" />
+        <field name="URL" defaultValue="jdbc:oracle:thin:@host:1521:sid" />
+        <field name="Driver" defaultValue="oracle.jdbc.driver.OracleDriver" />
+		<field name="DBA" defaultValue="Yes" />
+    </fields>
+</connector-config-setting>

@@ -56,10 +56,16 @@ public class ShowAddApplicationAction extends BaseAction {
             throws Exception {
         AccessController.checkAccess(context.getServiceContext(),
                 ACL_ADD_APPLICATIONS);
+
         ApplicationForm appForm = (ApplicationForm)actionForm;
         ApplicationType appType =
                 ApplicationTypes.getApplicationType(appForm.getType());
         assert appType != null: "Invalid app type: " + appForm.getType();
+
+        if(appForm.getType().equals("connector"))  {
+            return mapping.findForward("connector");
+        }
+
         ModuleConfig moduleConfig = appType.getModule();
         MetaApplicationConfig metaAppConfig = moduleConfig.getMetaApplicationConfig();
         request.setAttribute(RequestAttributes.META_APP_CONFIG, metaAppConfig);
@@ -71,5 +77,6 @@ public class ShowAddApplicationAction extends BaseAction {
         /*set current page for navigation*/
         request.setAttribute(RequestAttributes.NAV_CURRENT_PAGE, "Add Application");
         return mapping.findForward(Forwards.SUCCESS);
+
     }
 }

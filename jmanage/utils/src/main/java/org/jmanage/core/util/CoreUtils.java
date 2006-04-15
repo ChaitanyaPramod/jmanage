@@ -37,6 +37,10 @@ public class CoreUtils {
         return System.getProperty(SystemProperties.JMANAGE_ROOT);
     }
 
+    public static String getConnectorDir() {
+        return getRootDir() + File.separatorChar + "connector";    
+    }
+
     public static String getConfigDir(){
         return getRootDir() + "/config";
     }

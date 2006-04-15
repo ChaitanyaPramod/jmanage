@@ -26,6 +26,10 @@
             type="org.jmanage.webui.forms.ApplicationForm">
         </form-bean>
         <form-bean
+            name="connectorForm"
+            type="org.jmanage.webui.forms.ConnectorForm">
+        </form-bean>
+        <form-bean
             name="wlApplicationForm"
             type="org.jmanage.webui.forms.WeblogicApplicationForm">
         </form-bean>
@@ -155,6 +159,7 @@
             scope="request"
             type="org.jmanage.webui.actions.config.ShowAddApplicationAction">
             <forward name="success" path="config.addApplication"/>
+            <forward name="connector" path="/config/showAddConnector.do"/>
         </action>
         <action
             path="/config/addApplication"
@@ -163,6 +168,40 @@
             input="/config/showAddApplication.do"
             scope="request"
             type="org.jmanage.webui.actions.config.AddApplicationAction">
+            <forward name="success" path="/config/managedApplications.do"/>
+        </action>
+        <action
+            path="/config/showAddConnector"
+            name="connectorForm"
+            validate="false"
+            scope="request"
+            type="org.jmanage.webui.actions.config.ShowAddConnectorAction">
+            <forward name="success" path="config.addConnector"/>
+        </action>
+        <action
+            path="/config/addConnector"
+            name="connectorForm"
+            validate="true"
+            input="/config/showAddConnector.do"
+            scope="request"
+            type="org.jmanage.webui.actions.config.AddConnectorAction">
+            <forward name="success" path="/config/managedApplications.do"/>
+        </action>
+        <action
+            path="/config/showEditConnector"
+            name="connectorForm"
+            validate="false"
+            scope="request"
+            type="org.jmanage.webui.actions.config.ShowEditConnectorAction">
+            <forward name="success" path="config.editConnector"/>
+        </action>
+        <action
+            path="/config/editConnector"
+            name="connectorForm"
+            validate="true"
+            input="/config/showEditConnector.do"
+            scope="request"
+            type="org.jmanage.webui.actions.config.EditConnectorAction">
             <forward name="success" path="/config/managedApplications.do"/>
         </action>
         <action
