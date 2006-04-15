@@ -12,7 +12,9 @@
         </fileset>
     </path>
 
-    <target name="compile" depends="prepare-plugin" description="Compile Java sources">
+    <target name="compile" description="Compile Java sources">
+
+        <mkdir dir="${basedir}/target/classes"/>
 
 		<!-- Compile web Java classes as necessary -->
         <javac srcdir="${basedir}/src/main/java"
@@ -33,9 +35,11 @@
 
         <copy file="${basedir}/target/jmanage-connector.jar" todir="${build.home}/lib" />
 
+        <antcall target="plugin"/>
+
     </target>
 
-    <target name="prepare-plugin">
+    <target name="plugin">
 
         <mkdir dir="${build.home}/connector/jmanage-oracle/META-INF"/>
 
