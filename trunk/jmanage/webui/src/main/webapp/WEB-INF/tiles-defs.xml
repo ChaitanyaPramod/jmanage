@@ -77,6 +77,12 @@
     <definition name="config.editApplication" extends="layouts.application">
         <put name="body.main" value="/config/editApplication.jsp" />
     </definition>
+    <definition name="config.addConnector" extends="layouts.application">
+        <put name="body.main" value="/config/addConnector.jsp" />
+    </definition>
+    <definition name="config.editConnector" extends="layouts.application">
+        <put name="body.main" value="/config/editConnector.jsp" />
+    </definition>    
     <definition name="config.applicationCluster" extends="layouts.application">
         <put name="body.main" value="/config/applicationCluster.jsp" />
     </definition>

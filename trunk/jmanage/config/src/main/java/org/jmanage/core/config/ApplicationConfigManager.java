@@ -87,7 +87,7 @@ public class ApplicationConfigManager {
      *
      * @return
      */
-    public static List getApplications(){
+    public static List<ApplicationConfig> getApplications(){
         return applicationConfigs;
     }
 

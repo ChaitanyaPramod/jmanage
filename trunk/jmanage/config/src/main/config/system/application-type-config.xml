@@ -52,7 +52,17 @@
                     displayPassword="false"/>
         </module>
 
-		<module
+        <module
+            id="connector"
+            connectionFactory="org.jmanage.core.modules.connector.ConnectorAgentConnectionFactory">
+            <config class="org.jmanage.core.modules.connector.ConnectorApplicationConfig"
+                    displayHost="false"
+                    displayPort="false"
+                    displayURL ="false"
+                    displayUsername="false"
+                    displayPassword="false"/>
+        </module>
+        <module
             id="local"
             connectionFactory="org.jmanage.core.modules.local.LocalServerConnectionFactory">
             <config class="org.jmanage.core.modules.local.LocalApplicationConfig"
@@ -62,7 +72,6 @@
                     displayUsername="false"
                     displayPassword="false"/>
         </module>
-		
 	</modules>
 
     <application-types>
@@ -100,11 +109,15 @@
             defaultHost="localhost"
             defaultPort="161"/>
         <application-type
+            id="connector"
+            name="Connector"
+            module="connector"
+            compatibleJMX="true"/>
+        <application-type
             id="local"
             name="jManage"
             module="local"
-            compatibleJMX="true"/>
-		
+            compatibleJMX="true"/>		
         <!-- to be tested -->
         <!--
         <application-type
@@ -113,6 +126,5 @@
             module="jsr160"
             compatibleJMX="true"/> -->
     </application-types>
-
 
 </application-type-config>

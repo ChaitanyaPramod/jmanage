@@ -34,6 +34,9 @@
             </fileset>
         </ant:copy>
 
+        <!-- build connector -->
+        <attainGoal name="build-connector"/>
+
         <!-- build jmanage-client.jar -->
         <ant:mkdir dir="${basedir}/build/lib/client"/>
         <ant:jar destfile="${basedir}/build/lib/client/jmanage-client.jar">
@@ -74,6 +77,13 @@
             target="build-module" inheritAll="false">
             <property name="build.home" value="${basedir}/build"/>
             <property name="module.name" value="${module.name}"/>
+        </ant:ant>
+    </goal>
+
+    <goal name="build-connector">
+        <ant:ant antfile="${basedir}/connector/build.xml" inheritAll="false">
+            <property name="build.home" value="${basedir}/build"/>
+            <property name="jmanage.version" value="${jmanage.version}"/>
         </ant:ant>
     </goal>
 

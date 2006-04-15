@@ -11,6 +11,7 @@
         <antcall target="build-jboss-module" />
         <antcall target="build-websphere-module" />
         <antcall target="build-snmp-module" />
+        <antcall target="build-connector-module" />
         <antcall target="build-local-module" />
     </target>
 
@@ -35,6 +36,14 @@
         description="Builds jboss module">
         <antcall target="build-module">
             <param name="module.name" value="jboss"/>
+        </antcall>
+    </target>
+
+    <!-- target for building connector module -->
+    <target name="build-connector-module"
+        description="Builds connector module">
+        <antcall target="build-module">
+            <param name="module.name" value="connector"/>
         </antcall>
     </target>
 
@@ -71,8 +80,10 @@
             </fileset>
             <fileset dir="${basedir}/..">
                 <include name="management/target/jmanage-management.jar"/>
+                <include name="connector/target/jmanage-connector.jar"/>
                 <include name="config/target/jmanage-config.jar"/>
                 <include name="utils/target/jmanage-utils.jar"/>
+                <include name="thirdparty/commons-modeler/lib/commons-modeler.jar"/>
             </fileset>
         </path>
         <javac srcdir="${basedir}/common/src/main/java"

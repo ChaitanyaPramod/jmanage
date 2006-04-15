@@ -53,7 +53,10 @@
     </td>
     <%
       String href = null;
-      if(!applicationConfig.isCluster()){
+      if(applicationConfig.getType().equals("connector")) {
+        href = "/config/showEditConnector.do";
+      }
+      else if(!applicationConfig.isCluster()){
         href = "/config/showEditApplication.do";
       }else{
         href = "/config/showApplicationCluster.do";

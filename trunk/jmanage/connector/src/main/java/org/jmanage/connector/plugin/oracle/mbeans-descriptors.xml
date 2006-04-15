@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<!DOCTYPE mbeans-descriptors PUBLIC
+ "-//Apache Software Foundation//DTD Model MBeans Configuration File"
+ "http://jakarta.apache.org/commons/dtds/mbeans-descriptors.dtd">
+
+<mbeans-descriptors>
+
+    <mbean name="OracleSessionMBean"
+		domain="oracle-connector"
+		description="Oracle Database Session MBean"
+		type="org.jmanage.connector.plugin.oracle.Session">
+
+        <attribute name="sessionCount"
+			description="Session Count"
+			type="int"
+			writeable="false"/>
+
+        <attribute name="logonUser"
+			description="Current Logon User Name"
+			type="java.lang.String"
+			writeable="false"/>
+		
+        <attribute name="DBA"
+			description="Logon as sysdba user"
+			type="java.lang.String"
+			writeable="false"/>
+						
+        <attribute name="url"
+			description="Connection url"
+			type="java.lang.String"
+			writeable="false"/>
+
+        <attribute name="driver"
+			description="JDBC driver used to connect to the database"
+			type="java.lang.String"
+			writeable="false"/>
+		
+        <attribute name="logonTime"
+			description="Logon Time of userName user"
+			type="java.lang.String"
+			writeable="false"/>
+
+        <attribute name="userName"
+			description="Active User Name"
+			type="java.lang.String"
+			writeable="false"/>
+
+        <attribute name="machine"
+			description="Client machine"
+			type="java.lang.String"
+			writeable="false"/>
+
+        <attribute name="server"
+			description="Server"
+			type="java.lang.String"
+			writeable="false"/>
+
+        <attribute name="program"
+			description="Client program"
+			type="java.lang.String"
+			writeable="false"/>
+
+        <attribute name="osUser"
+			description="OS User Name"
+			type="java.lang.String"
+			writeable="false"/>
+
+        <attribute name="sid"
+			description="Session ID"
+			type="java.lang.String"
+			writeable="false"/>
+
+        <attribute name="status"
+            description="Session status"
+			type="java.lang.String"
+			writeable="false"/>
+		
+        <operation name="retrieveUserSession"
+			description="Retrieve session information"
+			impact="ACTION"
+			returnType="java.lang.String">
+			
+		  <parameter name="userName"
+			  description="UserName for the session"
+			  type="java.lang.String"/>			
+        </operation>
+		
+    </mbean>
+
+</mbeans-descriptors>

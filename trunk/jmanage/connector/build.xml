@@ -1,0 +1,70 @@
+<project name="jManage" default="compile" basedir="./">
+
+    <property name="compile.debug" value="true"/>
+    <property name="compile.deprecation" value="false"/>
+    <property name="compile.optimize" value="true"/>
+
+    <property name="classes.dir" value="${basedir}/target/classes" />
+
+    <path id="connector.compile.classpath">
+        <fileset dir="${build.home}/lib">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+
+    <target name="compile" depends="prepare-plugin" description="Compile Java sources">
+
+		<!-- Compile web Java classes as necessary -->
+        <javac srcdir="${basedir}/src/main/java"
+            destdir="${basedir}/target/classes"
+            debug="${compile.debug}"
+            deprecation="${compile.deprecation}"
+            optimize="${compile.optimize}"
+            source="1.5">
+            <classpath refid="connector.compile.classpath"/>
+        </javac>
+
+        <!-- create jmanage-startup.jar for starting webui -->
+        <jar jarfile="${basedir}/target/jmanage-connector.jar">
+            <fileset dir="${basedir}/target/classes">
+                <include name="org/jmanage/connector/framework/*.class"/>
+			</fileset>
+        </jar>
+
+        <copy file="${basedir}/target/jmanage-connector.jar" todir="${build.home}/lib" />
+
+    </target>
+
+    <target name="prepare-plugin">
+
+        <mkdir dir="${build.home}/connector/jmanage-oracle/META-INF"/>
+
+        <copy todir="${build.home}/connector/jmanage-oracle">
+            <fileset dir="${basedir}/target/classes">
+                <include name="**/plugin/oracle/*.class"/>
+            </fileset>
+        </copy>
+
+        <copy todir="${build.home}/connector/jmanage-oracle" flatten="true">
+            <fileset dir="${basedir}/src/main/java">
+                <include name="**/plugin/oracle/connector.xml"/>
+            </fileset>
+        </copy>
+
+        <copy todir="${build.home}/connector/jmanage-oracle/META-INF" flatten="true">
+            <fileset dir="${basedir}/src/main/java">
+                <include name="**/plugin/oracle/mbeans-descriptors.xml"/>
+            </fileset>
+        </copy>
+
+        <jar jarfile="${build.home}/connector/jmanage-oracle.jar">
+            <fileset dir="${build.home}/connector/jmanage-oracle">
+                <include name="**/*.*"/>
+			</fileset>
+        </jar>
+
+        <delete dir="${build.home}/connector/jmanage-oracle" />
+    </target>
+
+</project>
+
