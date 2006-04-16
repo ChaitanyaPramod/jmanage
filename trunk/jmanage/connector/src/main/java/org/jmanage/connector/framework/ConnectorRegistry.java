@@ -78,6 +78,14 @@ public class ConnectorRegistry extends Registry {
         return instance;
     }
     
+    public static void remove(ApplicationConfig config) throws Exception {
+        String appId = config.getApplicationId();
+        ConnectorRegistry registry = entries.remove(appId);
+        if (registry != null) {
+            registry.unregisterAllMBeans(appId);
+        }
+    }
+    
     private static ConnectorRegistry create(ApplicationConfig config) throws Exception {
 
         Map paramValues = config.getParamValues();
@@ -107,9 +115,9 @@ public class ConnectorRegistry extends Registry {
 
         String[] mbeans = registry.findManagedBeans();
 
-        MBeanServer server = MBeanServerFactory.createMBeanServer(DOMAIN_CONNECTOR);
-
-        String objName = ":appType=connector,appName=" + config.getName()
+        MBeanServer server = MBeanServerFactory.newMBeanServer(DOMAIN_CONNECTOR);
+        
+        String objName = ":appId=" + appId + ",appType=connector,appName=" + config.getName()
                 + ",connectorType=" + connectorId;
 
         for (int i = 0; i < mbeans.length; i++) {
@@ -146,6 +154,16 @@ public class ConnectorRegistry extends Registry {
 
     public MBeanServer getMBeanServer() {
         return this.server;
+    }
+    
+    @SuppressWarnings("unchecked")
+    private void unregisterAllMBeans(String appId) throws Exception {
+        Set<ObjectName> objNames = this.server.queryNames(
+                new ObjectName("*:appId=" + appId + ",*"), null);
+        for(ObjectName name : objNames) {
+            logger.info("Unregistered MBean: " + name);
+            this.server.unregisterMBean(name);
+        }
     }
     
     @SuppressWarnings("deprecation")
