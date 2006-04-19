@@ -78,6 +78,7 @@
 	<classpathentry kind="lib" path="thirdparty/struts/lib/struts.jar"/>
 	<classpathentry kind="lib" path="thirdparty/junit/lib/junit-3.8.1.jar"/>
 	<classpathentry kind="lib" path="thirdparty/jmxri/lib/jmxremote_optional.jar"/>
-	<classpathentry sourcepath="/commons-modeler" kind="lib" path="thirdparty/commons-modeler/lib/commons-modeler.jar"/>
+	<classpathentry kind="lib" path="thirdparty/jsr77/lib/javax77.jar"/>
+	<classpathentry kind="lib" path="thirdparty/commons-modeler/lib/commons-modeler.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

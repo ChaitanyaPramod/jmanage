@@ -7,6 +7,10 @@
             <artifactId>jdom</artifactId>
         </dependency>
         <dependency>
+            <groupId>jsr77</groupId>
+            <artifactId>jsr77</artifactId>
+        </dependency>
+        <dependency>
             <groupId>jmanage</groupId>
             <artifactId>jmanage-config</artifactId>
         </dependency>

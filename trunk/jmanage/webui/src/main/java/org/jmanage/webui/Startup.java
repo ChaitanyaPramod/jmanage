@@ -30,6 +30,7 @@ import org.jmanage.core.config.ApplicationTypes;
 import org.jmanage.connector.framework.ConnectorConfigRegistry;
 import org.jmanage.connector.framework.ConnectorRegistry;
 
+import java.rmi.RMISecurityManager;
 import java.util.Arrays;
 import java.io.File;
 
@@ -43,6 +44,10 @@ public class Startup {
 
     public static void main(String[] args) throws Exception{
 
+        if (System.getSecurityManager() == null) {
+           System.setSecurityManager(new RMISecurityManager());
+        }
+    
         /* create logs dir */
         new File(CoreUtils.getLogDir()).mkdirs();
 

@@ -112,7 +112,8 @@ public class ServerConnectionProxy implements InvocationHandler {
                 return (ObjectAttribute)attrList.get(0);
         } catch (Exception e) {
             String msg = "Error retriving attribute=" +
-                    attributeName + ", objectName=" + objectName;
+                    attributeName + ", objectName=" + objectName + 
+                    ", error=" + e.getMessage();
             logger.log(Level.WARNING, msg);
             logger.log(Level.FINE, msg, e);
             return new ObjectAttribute(attributeName,
