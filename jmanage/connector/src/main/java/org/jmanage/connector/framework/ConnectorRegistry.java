@@ -34,6 +34,7 @@ import java.net.URL;
 import java.io.InputStream;
 import java.io.File;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 
 /**
  * MBeanServer repository for each connector application. 
@@ -46,6 +47,7 @@ public class ConnectorRegistry extends Registry {
     private static final String DOMAIN_CONNECTOR = "connector";
     private static final String MBEANS_DESCRIPTOR = "META-INF/mbeans-descriptors.xml";
     private static final String CLASS_CONNECTOR_SUPPORT = ConnectorSupport.class.getName();
+    private static final String FACTORY_METHOD = "getInstance";
 
     private static Map<String, ConnectorRegistry> entries = new HashMap<String, ConnectorRegistry>();
 
@@ -117,8 +119,9 @@ public class ConnectorRegistry extends Registry {
 
         MBeanServer server = MBeanServerFactory.newMBeanServer(DOMAIN_CONNECTOR);
         
-        String objName = ":appId=" + appId + ",appType=connector,appName=" + config.getName()
-                + ",connectorType=" + connectorId;
+        String objName = ":appId=" + appId + 
+                ",appType=connector,appName=" + config.getName()+ 
+                ",connectorType=" + connectorId;
 
         for (int i = 0; i < mbeans.length; i++) {
             ManagedBean managed = registry.findManagedBean(mbeans[i]);
@@ -128,16 +131,31 @@ public class ConnectorRegistry extends Registry {
                 domain = DOMAIN_CONNECTOR;
             }
 
-            Class cls = Class.forName(clsName, true, cl);
-            Object obj = cls.newInstance();
+            Class cls = Class.forName(clsName, true, cl);            
+            Object objMBean = null;
 
+            // Use the factory method when it is defined.
+            Method[] methods = cls.getMethods();
+            for (Method method : methods) {
+                if (method.getName().equals(FACTORY_METHOD) &&
+                        Modifier.isStatic(method.getModifiers())) {
+                    objMBean = method.invoke(null);
+                    logger.log(Level.INFO, "Create MBean using factory method.");
+                    break;
+                }
+            }
+            
+            if (objMBean == null) {
+                objMBean = cls.newInstance();
+            }
+            
             // Call the initialize method if the MBean extends ConnectorSupport class
             if (cls.getSuperclass().getName().equals(CLASS_CONNECTOR_SUPPORT)) {
                 Method method = cls.getMethod("initialize", new Class[] {Map.class});
                 Map props = config.getParamValues();
-                method.invoke(obj, new Object[] {props});
+                method.invoke(objMBean, new Object[] {props});
             }
-            ModelMBean mm = managed.createMBean(obj);
+            ModelMBean mm = managed.createMBean(objMBean);
 
             String beanObjName = domain + objName + ",name=" + mbeans[i];
             server.registerMBean(mm, new ObjectName(beanObjName));

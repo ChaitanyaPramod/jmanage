@@ -5,15 +5,10 @@
 
 <mbeans-descriptors>
 
-    <mbean name="OracleSessionMBean"
+    <mbean name="ConnectionManager"
 		domain="oracle-connector"
-		description="Oracle Database Session MBean"
-		type="org.jmanage.connector.plugin.oracle.Session">
-
-        <attribute name="sessionCount"
-			description="Session Count"
-			type="int"
-			writeable="false"/>
+		description="Oracle Connector MBean - ConnectionManager"
+		type="org.jmanage.connector.plugin.oracle.ConnectionManager">
 
         <attribute name="logonUser"
 			description="Current Logon User Name"
@@ -22,69 +17,191 @@
 		
         <attribute name="DBA"
 			description="Logon as sysdba user"
-			type="java.lang.String"
+			type="boolean"
+			is="true"
 			writeable="false"/>
 						
         <attribute name="url"
-			description="Connection url"
+			description="Connection URL"
 			type="java.lang.String"
 			writeable="false"/>
 
         <attribute name="driver"
-			description="JDBC driver used to connect to the database"
+			description="JDBC Driver"
 			type="java.lang.String"
+			writeable="false"/>				
+
+        <attribute name="Connected"
+			description="Connection status"
+			type="boolean"
+			is="true"
 			writeable="false"/>
-		
-        <attribute name="logonTime"
-			description="Logon Time of userName user"
-			type="java.lang.String"
+			
+        <operation name="openConnection"
+			description="Connect to the database"
+			impact="ACTION"
+			returnType="java.lang.String">			
+        </operation>
+
+        <operation name="closeConnection"
+			description="Disconnect from the database"
+			impact="ACTION"
+			returnType="java.lang.String">			
+        </operation>
+			
+    </mbean>
+    
+    <mbean name="Database"
+		domain="oracle-connector"
+		description="Oracle Connector MBean - Database"
+		type="org.jmanage.connector.plugin.oracle.Database">
+    
+        <attribute name="hitRatioData"
+			description="Hit Ratio Data"
+			type="javax.management.openmbean.CompositeData"
 			writeable="false"/>
 
-        <attribute name="userName"
-			description="Active User Name"
-			type="java.lang.String"
+        <attribute name="basicData"
+			description="Basic Database Information"
+			type="javax.management.openmbean.CompositeData"
 			writeable="false"/>
 
-        <attribute name="machine"
-			description="Client machine"
-			type="java.lang.String"
+        <attribute name="tablespaceUsage"
+			description="Tablespace usage data"
+			type="javax.management.openmbean.TabularData"
 			writeable="false"/>
 
-        <attribute name="server"
-			description="Server"
-			type="java.lang.String"
+        <attribute name="fileStatistics"
+			description="Data Files Statistics"
+			type="javax.management.openmbean.TabularData"
 			writeable="false"/>
 
-        <attribute name="program"
-			description="Client program"
-			type="java.lang.String"
-			writeable="false"/>
-
-        <attribute name="osUser"
-			description="OS User Name"
-			type="java.lang.String"
-			writeable="false"/>
-
-        <attribute name="sid"
-			description="Session ID"
-			type="java.lang.String"
-			writeable="false"/>
-
-        <attribute name="status"
-            description="Session status"
-			type="java.lang.String"
-			writeable="false"/>
-		
-        <operation name="retrieveUserSession"
-			description="Retrieve session information"
+        <operation name="retrieveAllData"
+			description="Retrieve all data"
 			impact="ACTION"
 			returnType="java.lang.String">
-			
-		  <parameter name="userName"
-			  description="UserName for the session"
-			  type="java.lang.String"/>			
-        </operation>
-		
+        </operation>	
+				
+        <operation name="retrieveTablespaceUsage"
+			description="Retrieve Tablespace Usage Data"
+			impact="ACTION"
+			returnType="java.lang.String">
+        </operation>	
+				
+        <operation name="retrieveHitRatio"
+			description="Retrieve Hit Ratio Data"
+			impact="ACTION"
+			returnType="java.lang.String">
+        </operation>	
+
+        <operation name="retrieveBasicData"
+			description="Retrieve Basic Database Information"
+			impact="ACTION"
+			returnType="java.lang.String">
+        </operation>        	
+
+        <operation name="retrieveFileStatistics"
+			description="Retrieve Data File statistics"
+			impact="ACTION"
+			returnType="java.lang.String">
+        </operation>        	
     </mbean>
 
+    <mbean name="Session"
+		domain="oracle-connector"
+		description="Oracle Connector MBean - Session"
+		type="org.jmanage.connector.plugin.oracle.Session">
+
+        <attribute name="sessionInfo"
+			description="Sessions Data"
+			type="javax.management.openmbean.TabularData"
+			writeable="false"/>
+
+        <attribute name="sessionHitRatio"
+			description="Session Hit Ratio Data"
+			type="javax.management.openmbean.TabularData"
+			writeable="false"/>
+
+        <operation name="retrieveAllData"
+			description="Retrieve Data"
+			impact="ACTION"
+			returnType="java.lang.String">
+        </operation>		
+		
+        <operation name="retrieveSessionInfo"
+			description="Retrieve Session Data"
+			impact="ACTION"
+			returnType="java.lang.String">
+        </operation>		
+
+        <operation name="retrieveSessionHitRatio"
+			description="Retrieve Session Hit Ratio Data"
+			impact="ACTION"
+			returnType="java.lang.String">
+        </operation>		
+
+    </mbean>
+    
+    <mbean name="Performance"
+		domain="oracle-connector"
+		description="Oracle Connector MBean - Performance"
+		type="org.jmanage.connector.plugin.oracle.Performance">
+    
+        <attribute name="topTenUsers"
+			description="Top Ten Users Data"
+			type="javax.management.openmbean.TabularData"
+			writeable="false"/>
+
+        <attribute name="sharedPoolStatistics"
+			description="Shared Pool Memory Statistic Data"
+			type="javax.management.openmbean.CompositeData"
+			writeable="false"/>
+
+        <attribute name="initOraParameters"
+			description="init.ora Parameters"
+			type="javax.management.openmbean.TabularData"
+			writeable="false"/>
+
+        <operation name="retrieveAllData"
+			description="Retrieve Data"
+			impact="ACTION"
+			returnType="java.lang.String">			
+        </operation>
+
+        <operation name="retrieveSharedPoolStatistics"
+			description="Retrieve Shared Pool Memory Statistic Data"
+			impact="ACTION"
+			returnType="java.lang.String">			
+        </operation>
+
+        <operation name="retrieveTopTenUsers"
+			description="Retrieve Top Ten CPU User Data"
+			impact="ACTION"
+			returnType="java.lang.String">			
+        </operation>
+
+        <operation name="retrieveInitOraParameters"
+			description="Retrieve init.ora Parameter Data"
+			impact="ACTION"
+			returnType="java.lang.String">			
+        </operation>		
+    </mbean>    
+
+    <mbean name="SQLQuery"
+		domain="oracle-connector"
+		description="Oracle Connector MBean - SQLQuery"
+		type="org.jmanage.connector.plugin.oracle.SQLQuery">
+
+        <attribute name="topTenExpensiveQueries"
+			description="Top Ten Most Expensive Queries"
+			type="javax.management.openmbean.TabularData"
+			writeable="false"/>
+		
+        <operation name="retrieveTopTenExpensiveQueries"
+			description="Retrieve Top Ten Most Expensive Queries"
+			impact="ACTION"
+			returnType="java.lang.String">
+        </operation>		
+
+    </mbean>
 </mbeans-descriptors>
