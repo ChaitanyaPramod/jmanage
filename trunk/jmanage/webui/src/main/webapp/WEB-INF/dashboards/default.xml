@@ -1,0 +1,13 @@
+<dashboard id="dd0001" name="overrides default file name">
+	<qualifications comment="defines what type of applications qualify for this dashboard">
+        <qualifier class="org.jmanage.dashboard.MyQualifier" />
+    </qualifications>
+	<components>
+        <component id="com1" class="org.jmanage.dashboard.MyComponent"
+                   name="mbean/graph/mbean-attrib(s)/mbean-oper(s). id, redundant in case of well defined layouts">
+            <mbean name=""/>
+            <attribute name=""/>
+            <operation name=""/>
+        </component>
+    </components>
+</dashboard>

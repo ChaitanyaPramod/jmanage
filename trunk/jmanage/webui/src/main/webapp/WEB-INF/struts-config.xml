@@ -62,10 +62,6 @@
             type="org.jmanage.webui.forms.GraphForm">
         </form-bean>
         <form-bean
-            name="dashboardForm"
-            type="org.jmanage.webui.forms.DashboardForm">
-        </form-bean>
-        <form-bean
             name="attributeSelectionForm"
             type="org.jmanage.webui.forms.AttributeSelectionForm">
         </form-bean>
@@ -340,14 +336,6 @@
             <forward name="success" path="/config/managedApplications.do"/>
         </action>
 
-        <action
-            path="/app/dashboard"
-            name="dashboardForm"
-            validate="false"
-            type="org.jmanage.webui.actions.app.DashboardViewAction">
-            <forward name="success" path="app.dashboard"/>
-       </action>
-
         <!--== User Management =======================================-->
         <action
             path="/config/admin"
@@ -493,27 +481,6 @@
                 <forward name="success" path="/app/appView.do"/>
         </action>
         <!-- Alerts Config - End -->
-
-        <!-- Dashboard Config - Begin -->
-        <action
-            path="/config/showAddDashboard"
-            name="dashboardForm"
-            scope="request"
-            validate="false"
-            type="org.jmanage.webui.actions.config.ShowAddDashboardAction">
-            <forward name="success" path="config.dashboard"/>
-        </action>
-        <action
-            path="/config/saveDashboard"
-            name="dashboardForm"
-            scope="request"
-            validate="true"
-            input="/config/showAddDashboard.do"
-            type="org.jmanage.webui.actions.config.SaveDashboardAction">
-            <forward name="success" path="/app/appView.do"/>
-        </action>
-
-        <!-- Dashboard Config - End -->
 
         <action path="/config/showMBeans"
             name="attributeSelectionForm"

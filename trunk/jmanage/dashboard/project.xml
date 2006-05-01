@@ -1,0 +1,18 @@
+<project>
+    <extend>${basedir}/../project.xml</extend>
+    <artifactId>jmanage-dashboard</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>jdom</groupId>
+            <artifactId>jdom</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jmanage</groupId>
+            <artifactId>jmanage-utils</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jmanage</groupId>
+            <artifactId>jmanage-config</artifactId>
+        </dependency>
+    </dependencies>
+</project>
