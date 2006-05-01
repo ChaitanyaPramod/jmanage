@@ -15,6 +15,9 @@
  */
 package org.jmanage.core.config;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  *
  * <p>
@@ -26,10 +29,22 @@ public class DashboardConfig {
     private String dashboardId;
     private String name;
     private String template;
+    private Map<String, DashboardComponent> components;
+    private List<DashboardQualifier> qualifiers;
 
     public DashboardConfig(String dashboardId, String name){
         this.dashboardId = dashboardId;
         this.name = name;
+    }
+
+    public DashboardConfig(String dashboardId, String name, String template,
+                           Map<String, DashboardComponent> components,
+                           List<DashboardQualifier> qualifiers) {
+        this.dashboardId = dashboardId;
+        this.name = name;
+        this.template = template;
+        this.components = components;
+        this.qualifiers = qualifiers;
     }
 
     public String getDashboardId() {
@@ -58,13 +73,26 @@ public class DashboardConfig {
 
         final DashboardConfig dashboardConfig = (DashboardConfig) o;
 
-        if (!dashboardId.equals(dashboardConfig.dashboardId)) return false;
-
-        return true;
+        return dashboardId.equals(dashboardConfig.dashboardId);
     }
 
     public int hashCode() {
         return dashboardId.hashCode();
     }
 
+    public Map<String, DashboardComponent> getComponents() {
+        return components;
+    }
+
+    public void setComponents(Map<String, DashboardComponent> components) {
+        this.components = components;
+    }
+
+    public List<DashboardQualifier> getQualifiers() {
+        return qualifiers;
+    }
+
+    public void setQualifiers(List<DashboardQualifier> qualifiers) {
+        this.qualifiers = qualifiers;
+    }
 }

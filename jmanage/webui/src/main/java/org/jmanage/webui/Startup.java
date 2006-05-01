@@ -29,6 +29,7 @@ import org.jmanage.core.alert.AlertEngine;
 import org.jmanage.core.config.ApplicationTypes;
 import org.jmanage.connector.framework.ConnectorConfigRegistry;
 import org.jmanage.connector.framework.ConnectorRegistry;
+import org.jmanage.dashboard.framework.DashboardRepository;
 
 import java.rmi.RMISecurityManager;
 import java.util.Arrays;
@@ -38,7 +39,7 @@ import java.io.File;
  * The Web-UI startup class.
  *
  * date:  Jun 11, 2004
- * @author	Rakesh Kalra
+ * @author	Rakesh Kalra, Shashank Bellary
  */
 public class Startup {
 
@@ -115,6 +116,9 @@ public class Startup {
         ConnectorConfigRegistry.init();
 
         ConnectorRegistry.load();
+
+        /*  load dashboards */
+        DashboardRepository.getInstance();
         
         /* start the application */
         start();
