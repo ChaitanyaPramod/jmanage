@@ -66,4 +66,5 @@ public abstract class ConnectorSupport implements MBeanRegistration {
         // default to do nothing
         // override this method to get the configuration values
     }
+    
 }
