@@ -249,7 +249,7 @@ if(ApplicationConfigManager.getDashboards().size() > 0){
     There are no configured dashboards.
 </p>
 <%}%>
-<jmhtml:link href="/config/showAddDashboard.do" acl="<%=ACLConstants.ACL_ADD_DASHBOARD%>" styleClass="a">
+<jmhtml:link href="#" acl="<%=ACLConstants.ACL_ADD_DASHBOARD%>" styleClass="a">
     Add Dashboard</jmhtml:link>
 
 
