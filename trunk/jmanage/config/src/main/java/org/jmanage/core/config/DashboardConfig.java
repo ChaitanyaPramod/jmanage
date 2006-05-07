@@ -19,6 +19,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * This can get initialized from two places,
+ * ConfigReader: Partially initialized
+ * DashboardLoader: Fully initialized
  *
  * <p>
  * Date:  Jan 16, 2006
@@ -32,9 +35,8 @@ public class DashboardConfig {
     private Map<String, DashboardComponent> components;
     private List<DashboardQualifier> qualifiers;
 
-    public DashboardConfig(String dashboardId, String name){
+    public DashboardConfig(String dashboardId){
         this.dashboardId = dashboardId;
-        this.name = name;
     }
 
     public DashboardConfig(String dashboardId, String name, String template,

@@ -21,14 +21,12 @@ import java.io.File;
 /**
  *
  * date:  Jun 13, 2004
- * @author	Rakesh Kalra
+ * @author	Rakesh Kalra, Shashank Bellary
  */
 public class ApplicationConfigManager {
 
     private static List<ApplicationConfig> applicationConfigs =
             Collections.synchronizedList(new LinkedList<ApplicationConfig>());
-    private static List<DashboardConfig> dashboardConfigs =
-            Collections.synchronizedList(new LinkedList<DashboardConfig>());
 
     private static final ConfigReader configReader = ConfigReader.getInstance();
 
@@ -36,7 +34,6 @@ public class ApplicationConfigManager {
         Config config = configReader.read();
         /* read the configuration */
         applicationConfigs.addAll(config.getApplications());
-        dashboardConfigs.addAll(config.getDashboards());
         /* create a backup of configuration file */
         new File(ConfigConstants.DEFAULT_CONFIG_FILE_NAME).renameTo(
                 new File(ConfigConstants.BOOTED_CONFIG_FILE_NAME));
@@ -91,22 +88,7 @@ public class ApplicationConfigManager {
         return applicationConfigs;
     }
 
-    /**
-     * Retrieve all configured dashboards.
-     *
-     * @return
-     */
-    public static List getDashboards(){
-        return dashboardConfigs;
-    }
-
     public static DashboardConfig getDashboard(String dashboardId){
-        for(Iterator it=dashboardConfigs.iterator(); it.hasNext();){
-            DashboardConfig config = (DashboardConfig)it.next();
-            if(config.getDashboardId().equals(dashboardId)){
-                return config;
-            }
-        }
         return null;
     }
 
@@ -178,25 +160,14 @@ public class ApplicationConfigManager {
 
     public static void addDashboard(DashboardConfig config){
         assert config != null;
-        dashboardConfigs.add(config);
-        saveConfig();
     }
 
     public static void updateDashboard(DashboardConfig config){
-
-        assert config != null: "application config is null";
-        synchronized(writeLock){
-            int index = dashboardConfigs.indexOf(config);
-            assert index != -1;
-            dashboardConfigs.remove(index);
-            dashboardConfigs.add(index, config);
-            saveConfig();
-        }
     }
 
     private static void saveConfig(){
         ConfigWriter writer = ConfigWriter.getInstance();
-        writer.write(new Config(applicationConfigs, dashboardConfigs));
+        writer.write(new Config(applicationConfigs));
     }
 
     public static List getAllApplications(){

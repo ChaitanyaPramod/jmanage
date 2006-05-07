@@ -16,6 +16,7 @@
 package org.jmanage.core.services;
 
 import org.jmanage.core.config.*;
+import org.jmanage.core.config.dashboard.framework.DashboardRepository;
 import org.jmanage.core.data.ApplicationConfigData;
 import org.jmanage.core.data.MBeanData;
 import org.jmanage.core.util.*;
@@ -30,16 +31,22 @@ import java.io.FileReader;
 /**
  *
  * date:  Jan 17, 2005
- * @author	Rakesh Kalra
+ * @author	Rakesh Kalra, Shashank Bellary
  */
 public class ConfigurationServiceImpl implements ConfigurationService {
-
+    private static DashboardRepository dashboardRepository =
+            DashboardRepository.getInstance();
     private static Logger logger = Loggers.getLogger(ConfigurationService.class);
 
-
-    public ApplicationConfigData addApplication(ServiceContext context,
-                                                ApplicationConfigData data){
-
+    /**
+     * Check if there are any qualifying dashboards for the current application.
+     *
+     * @param context
+     * @param data
+     * @return
+     */
+    public ApplicationConfigData addAppWithDashboard(ServiceContext context,
+                                                     ApplicationConfigData data){
         AccessController.checkAccess(context, ACLConstants.ACL_ADD_APPLICATIONS);
         /* do the operation */
         String appId = ApplicationConfig.getNextApplicationId();
@@ -54,6 +61,68 @@ public class ConfigurationServiceImpl implements ConfigurationService {
                         data.getUsername(),
                         data.getPassword(),
                         data.getParamValues());
+        addQualifiedDashboards(config);
+        return addAppBasicDetails(context, data, config);
+    }
+
+    /**
+     * Iterate through available dashboards and add any qualifying dashboards to
+     * the current application being configured
+     *
+     * @param config
+     */
+    private void addQualifiedDashboards(ApplicationConfig config){
+        List<DashboardConfig> qualifyingDashboards = new ArrayList<DashboardConfig>();
+        for(DashboardConfig dashboardConfig : dashboardRepository.getAll()){
+            for(DashboardQualifier qualifier : dashboardConfig.getQualifiers()){
+                if(qualifier.isQualified(config)){
+                    qualifyingDashboards.add(dashboardConfig);
+                    break;
+                }
+            }
+        }
+        if(!qualifyingDashboards.isEmpty())
+            config.setDashboards(qualifyingDashboards);
+    }
+
+    /**
+     * Add/Configure a new application without any dashboards.
+     * TODO is this really required?
+     *
+     * @param context
+     * @param data
+     * @return
+     */
+    public ApplicationConfigData addApplication(ServiceContext context,
+                                                    ApplicationConfigData data){
+        AccessController.checkAccess(context, ACLConstants.ACL_ADD_APPLICATIONS);
+        /* do the operation */
+        String appId = ApplicationConfig.getNextApplicationId();
+        Integer port = data.getPort();
+
+        ApplicationConfig config =
+                ApplicationConfigFactory.create(appId, data.getName(),
+                        data.getType(),
+                        data.getHost(),
+                        port,
+                        data.getURL(),
+                        data.getUsername(),
+                        data.getPassword(),
+                        data.getParamValues());
+        return addAppBasicDetails(context, data, config);
+    }
+
+    /**
+     * Save the current application on the config file.
+     *
+     * @param context
+     * @param data
+     * @param config
+     * @return
+     */
+    public ApplicationConfigData addAppBasicDetails(ServiceContext context,
+                                                    ApplicationConfigData data,
+                                                    ApplicationConfig config){
 
         try {
             ApplicationConfigManager.addApplication(config);
@@ -62,13 +131,12 @@ public class ConfigurationServiceImpl implements ConfigurationService {
                     e.getAppName());
         }
 
-        data.setApplicationId(appId);
+        data.setApplicationId(config.getApplicationId());
 
         /* log the operation */
         UserActivityLogger.getInstance().logActivity(
                 context.getUser().getUsername(),
                 "Added application "+ "\""+config.getName()+"\"");
-
         return data;
     }
 

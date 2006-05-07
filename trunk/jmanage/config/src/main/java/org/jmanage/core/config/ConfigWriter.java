@@ -27,7 +27,7 @@ import java.util.Map;
 /**
  *
  * date:  Jun 21, 2004
- * @author	Rakesh Kalra
+ * @author	Rakesh Kalra, Shashank Bellary
  */
 public class ConfigWriter {
 
@@ -47,8 +47,7 @@ public class ConfigWriter {
             /* applications */
             Element applicationsElement = new Element(ConfigConstants.APPLICATIONS);
             rootElement.addContent(applicationsElement);
-            for(Iterator it=config.getApplications().iterator(); it.hasNext();){
-                ApplicationConfig application = (ApplicationConfig)it.next();
+            for(ApplicationConfig application : config.getApplications()){
                 /* get the application or application-cluster element */
                 Element applicationElement = null;
                 if(application.isCluster()){
@@ -60,19 +59,6 @@ public class ConfigWriter {
 
                 /* add this application element to the root node */
                 applicationsElement.addContent(applicationElement);
-            }
-            /* dashboards */
-            Element dashboardsElement = new Element(ConfigConstants.DASHBOARDS);
-            rootElement.addContent(dashboardsElement);
-            for(Iterator it=config.getDashboards().iterator(); it.hasNext();){
-                DashboardConfig dashboard = (DashboardConfig)it.next();
-                Element dashboardElement = new Element(ConfigConstants.DASHBOARD);;
-                dashboardElement.setAttribute(ConfigConstants.DASHBOARD_ID,
-                        dashboard.getDashboardId());
-                dashboardElement.setAttribute(ConfigConstants.DASHBOARD_NAME,
-                                        dashboard.getName());
-                /* add this dashboard element to the root node */
-                dashboardsElement.addContent(dashboardElement);
             }
 
             doc.setRootElement(rootElement);
@@ -95,8 +81,7 @@ public class ConfigWriter {
         Element applicationElement = createApplicationElement(application);
         Element childApplicationsElement = new Element(ConfigConstants.APPLICATIONS);
         applicationElement.addContent(childApplicationsElement);
-        for(Iterator it=application.getApplications().iterator(); it.hasNext();){
-            ApplicationConfig appConfig = (ApplicationConfig)it.next();
+        for(ApplicationConfig appConfig : application.getApplications()){
             Element childAppElement = createApplicationElement(appConfig);
             childApplicationsElement.addContent(childAppElement);
         }
@@ -169,8 +154,36 @@ public class ConfigWriter {
             Element graphsElement = createGraphsElement(application);
             applicationElement.addContent(graphsElement);
         }
+
+        /* dashboards */
+        if(!application.isCluster()){
+            Element dashboardsElement = createDashboardsElement(application);
+            applicationElement.addContent(dashboardsElement);
+        }
+
         return applicationElement;
     }
+
+    /**
+     * Store dashboards configured for a given application.
+     *
+     * @param application
+     * @return
+     */
+    private Element createDashboardsElement(ApplicationConfig application){
+        Element dashboards = new Element(ConfigConstants.DASHBOARDS);
+        if(application.getDashboards() == null)
+            return dashboards;
+        for(DashboardConfig dashboardConfig : application.getDashboards()){
+            Element dashboard = new Element(ConfigConstants.DASHBOARD);
+            dashboard.setAttribute(ConfigConstants.DASHBOARD_ID,
+                    dashboardConfig.getDashboardId());
+            dashboards.addContent(dashboard);
+        }
+        return dashboards;
+    }
+
+
 
     private Element createMBeansElement(ApplicationConfig application){
         Element mbeansElement = new Element(ConfigConstants.MBEANS);

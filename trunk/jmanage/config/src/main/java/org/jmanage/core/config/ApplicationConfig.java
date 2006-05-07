@@ -21,7 +21,7 @@ import java.util.*;
 /**
  *
  * date:  Jun 11, 2004
- * @author	Rakesh Kalra
+ * @author	Rakesh Kalra, Shashank Bellary
  */
 public abstract class ApplicationConfig {
 
@@ -50,6 +50,7 @@ public abstract class ApplicationConfig {
     // clusterConfig: if this is part of a cluster
     private ApplicationConfig clusterConfig;
     private List<AlertConfig> alertsList = new LinkedList<AlertConfig>();
+    private List<DashboardConfig> dashboards;
 
     public String getApplicationId(){
         return appId;
@@ -325,6 +326,14 @@ public abstract class ApplicationConfig {
             return alertConfig;
         }
         return null;
+    }
+
+    public List<DashboardConfig> getDashboards() {
+        return dashboards;
+    }
+
+    public void setDashboards(List<DashboardConfig> dashboards) {
+        this.dashboards = dashboards;
     }
 
     public ClassLoader getApplicationClassLoader(){

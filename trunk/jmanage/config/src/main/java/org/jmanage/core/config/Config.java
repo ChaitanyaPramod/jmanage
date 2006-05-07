@@ -18,26 +18,23 @@ package org.jmanage.core.config;
 import java.util.List;
 
 /**
+ * Represents jManage's config.xml file that holds all applications configured in
+ * jManage along with its components and other related configurations like,
+ * alerts, graphs, dashboards etc.
  *
  * <p>
  * Date:  Feb 8, 2006
- * @author	Rakesh Kalra
+ * @author	Rakesh Kalra, Shashank Bellary
  */
 public class Config {
 
     private final List<ApplicationConfig> applications;
-    private final List<DashboardConfig> dashboards;
 
-    public Config(List<ApplicationConfig> applications, List<DashboardConfig> dashboards){
+    public Config(List<ApplicationConfig> applications){
         this.applications = applications;
-        this.dashboards = dashboards;
     }
 
     public List<ApplicationConfig> getApplications() {
         return applications;
-    }
-
-    public List<DashboardConfig> getDashboards() {
-        return dashboards;
     }
 }

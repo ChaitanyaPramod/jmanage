@@ -32,6 +32,8 @@ public interface ConfigurationService {
     public ApplicationConfigData addApplication(ServiceContext context,
                                                 ApplicationConfigData data);
 
+    public ApplicationConfigData addAppWithDashboard(ServiceContext context,
+                                                     ApplicationConfigData data);
     public List getAllApplications(ServiceContext context);
 
     public List<MBeanData> getConfiguredMBeans(ServiceContext context)
