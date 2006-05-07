@@ -70,7 +70,7 @@ public class AddApplicationAction extends BaseAction {
 
         ConfigurationService service = ServiceFactory.getConfigurationService();
 
-        service.addApplication(Utils.getServiceContext(context), appConfigData);
+        service.addAppWithDashboard(Utils.getServiceContext(context), appConfigData);
 
         return mapping.findForward(Forwards.SUCCESS);
     }

@@ -14,27 +14,17 @@
  * limitations under the License.
  */
 
-package org.jmanage.core.config;
+package org.jmanage.core.config.dashboard.qualifier;
 
-import org.jdom.Element;
+import org.jmanage.core.config.DashboardQualifier;
+import org.jmanage.core.config.ApplicationConfig;
 
 /**
- * Date: Apr 23, 2006 12:40:24 PM
+ * Date: Apr 23, 2006 5:12:06 PM
  * @author Shashank Bellary
  */
-public interface DashboardComponent {
-
-    public static String COMPONENT = "component";
-    public static String MBEAN = "mbean";
-    public static String ATTRIBUTE = "attribute";
-    public static String OPERATION = "operation";
-
-    public static String ID = "id";
-    public static String NAME = "name";
-
-
-
-    public String getId();
-    public void init(Element componentConfig);
-    public String draw(String applicationName);
+public class MyQualifier implements DashboardQualifier {
+    public boolean isQualified(ApplicationConfig applicationConfig) {
+        return true;
+    }
 }

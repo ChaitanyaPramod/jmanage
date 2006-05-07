@@ -31,7 +31,7 @@ import java.util.logging.Level;
 /**
  *
  * Date: Jun 19, 2004
- * @author  Shashank
+ * @author  Shashank Bellary
  */
 public class ConfigReader implements ConfigConstants{
 
@@ -86,14 +86,7 @@ public class ConfigReader implements ConfigConstants{
                 config.getRootElement().getChild(APPLICATIONS).getChildren();
         List<ApplicationConfig> appConfigList = getApplicationConfigList(applications, null);
 
-        List<DashboardConfig> dashboardConfigList = null;
-        Element dashboards = config.getRootElement().getChild(DASHBOARDS);
-        if(dashboards != null){
-            dashboardConfigList = getDashboardConfigList(dashboards.getChildren());
-        }else{
-            dashboardConfigList = new LinkedList<DashboardConfig>();
-        }
-        return new Config(appConfigList, dashboardConfigList);
+        return new Config(appConfigList);
     }
 
     private List<DashboardConfig> getDashboardConfigList(List dashboards){
@@ -101,8 +94,7 @@ public class ConfigReader implements ConfigConstants{
         for(Iterator it = dashboards.iterator(); it.hasNext();){
             Element dashboard = (Element)it.next();
             DashboardConfig dashboardConfig =
-                    new DashboardConfig(dashboard.getAttributeValue(DASHBOARD_ID),
-                            dashboard.getAttributeValue(DASHBOARD_NAME));
+                    new DashboardConfig(dashboard.getAttributeValue(DASHBOARD_ID));
             dashboardConfigList.add(dashboardConfig);
         }
         return dashboardConfigList;
@@ -165,6 +157,7 @@ public class ConfigReader implements ConfigConstants{
         config.setMBeans(getMBeanConfigList(application));
         config.setAlerts(getAlertsList(application, config));
         config.setGraphs(getGraphConfigList(application, config));
+        config.setDashboards(getDashbardConfigList(application));
         return config;
     }
 
@@ -203,6 +196,18 @@ public class ConfigReader implements ConfigConstants{
         }
         return mbeanConfigList;
     }
+
+    private List<DashboardConfig> getDashbardConfigList(Element application){
+        List<DashboardConfig> dashboardConfigList;
+        Element dashboards = application.getChild(DASHBOARDS);
+        if(dashboards != null){
+            dashboardConfigList = getDashboardConfigList(dashboards.getChildren());
+        }else{
+            dashboardConfigList = new LinkedList<DashboardConfig>();
+        }
+        return dashboardConfigList;
+    }
+
 
     private List<GraphConfig> getGraphConfigList(Element application, ApplicationConfig appConfig){
         /* read graphs */

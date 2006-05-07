@@ -208,36 +208,33 @@ if(appConfig.getAlerts().size() > 0){
 <br/>
 <%--Dashboards--%>
 <%
-if(ApplicationConfigManager.getDashboards().size() > 0){
+if(appConfig.getDashboards().size() > 0){
 %>
 <table cellspacing="0" cellpadding="5" width="700" class="table">
     <tr class="tableHeader">
         <td colspan="6">Configured Dashboards</td>
     </tr>
     <%
-        List dashboards = ApplicationConfigManager.getDashboards();
-        Iterator itr = dashboards.iterator();
-        while(itr.hasNext()){
-            DashboardConfig dashboardConfig = (DashboardConfig)itr.next();
+        for(DashboardConfig dashboardConfig : appConfig.getDashboards()){
     %>
     <tr>
         <td class="plaintext">
-            <a href="/app/dashboard.do?id=<%=dashboardConfig.getDashboardId()%>&<%=RequestParams.APPLICATION_ID%>=<%=appConfig.getApplicationId()%>">
+            <a href="#">
                 <%=dashboardConfig.getName()%></a></td>
         <td align="right" width="60">
             <%
                 String editDashboardLink ="/config/showAddDashboard.do?"
                         + "id=" + dashboardConfig.getDashboardId();
             %>
-            <jmhtml:link href="<%=editDashboardLink%>" acl="<%=ACLConstants.ACL_EDIT_DASHBOARD%>" styleClass="a1">Edit</jmhtml:link>
+            <jmhtml:link href="#" acl="<%=ACLConstants.ACL_EDIT_DASHBOARD%>" styleClass="a1">Edit</jmhtml:link>
         </td>
         <td align="right" width="60">
         <%
             String deleteAlertLink = "JavaScript:deleteAlert('"
                     + dashboardConfig.getDashboardId() + "','" + appConfig.getApplicationId() + "');";
         %>
-           <jmhtml:link href="<%=deleteAlertLink%>" acl="<%=ACLConstants.ACL_EDIT_DASHBOARD%>"  styleClass="a1">
-            Delete -- TBD</jmhtml:link>
+           <jmhtml:link href="#" acl="<%=ACLConstants.ACL_EDIT_DASHBOARD%>"  styleClass="a1">
+            Delete</jmhtml:link>
        </td>
     </tr>
     <%}%>
@@ -251,6 +248,3 @@ if(ApplicationConfigManager.getDashboards().size() > 0){
 <%}%>
 <jmhtml:link href="#" acl="<%=ACLConstants.ACL_ADD_DASHBOARD%>" styleClass="a">
     Add Dashboard</jmhtml:link>
-
-
-
