@@ -544,8 +544,8 @@
         <action path="/config/viewDashboard"
             scope="request"
             validate="false"
-            type="org.apache.struts.actions.ForwardAction"
-            parameter="app.dashboardView">
+            type="org.jmanage.webui.actions.config.dashboard.ShowDashboardAction">
+            <forward name="success" path="app.dashboardView" />
         </action>
     </action-mappings>
 
