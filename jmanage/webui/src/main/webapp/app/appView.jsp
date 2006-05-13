@@ -219,7 +219,7 @@ if(appConfig.getDashboards().size() > 0){
     %>
     <tr>
         <td class="plaintext">
-            <a href="<%=dashboardConfig.getTemplate()+"?applicationId="+appConfig.getApplicationId()+"&dashBID="+dashboardConfig.getDashboardId()%>" target="_blank">
+            <a href="/config/viewDashboard.do?applicationId=<%=appConfig.getApplicationId()%>&dashBID=<%=dashboardConfig.getDashboardId()%>">
                 <%=dashboardConfig.getName()%></a></td>
         <td align="right" width="60">
             <%

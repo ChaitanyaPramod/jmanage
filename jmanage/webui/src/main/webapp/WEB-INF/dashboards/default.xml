@@ -1,9 +1,9 @@
-<dashboard id="dd0001" name="overrides default file name" template="/dashboard/default.jsp" >
+<dashboard id="dd0001" name="Java5 Dashboard" template="/dashboard/default.jsp" >
 	<qualifications comment="defines what type of applications qualify for this dashboard">
         <qualifier class="org.jmanage.core.config.dashboard.qualifier.JManageQualifier" />
     </qualifications>
 	<components>
-        <component id="com1" class="org.jmanage.core.config.dashboard.component.Graph" name="my dashboard graph">
+        <component id="com1" class="org.jmanage.core.config.dashboard.component.Graph" name="Sample Graph">
             <type>standard</type>
             <pollingInterval>10</pollingInterval>
             <param mbean="java.lang:type=OperatingSystem" attribute="FreePhysicalMemorySize" displayName="FreePhysicalMemorySize"/>
