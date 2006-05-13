@@ -1,6 +1,6 @@
-<dashboard id="dd0001" name="overrides default file name">
+<dashboard id="dd0001" name="overrides default file name" template="/dashboard/default.jsp" >
 	<qualifications comment="defines what type of applications qualify for this dashboard">
-        <qualifier class="org.jmanage.core.config.dashboard.qualifier.MyQualifier" />
+        <qualifier class="org.jmanage.core.config.dashboard.qualifier.JManageQualifier" />
     </qualifications>
 	<components>
         <component id="com1" class="org.jmanage.core.config.dashboard.component.Graph" name="my dashboard graph">

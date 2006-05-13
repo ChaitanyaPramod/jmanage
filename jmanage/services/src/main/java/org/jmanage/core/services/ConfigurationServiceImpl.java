@@ -23,7 +23,6 @@ import org.jmanage.core.util.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Iterator;
 import java.util.logging.Logger;
 import java.io.*;
 import java.io.FileReader;
@@ -43,7 +42,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
      *
      * @param context
      * @param data
-     * @return
+     * @return Application config with dashboard details.
      */
     public ApplicationConfigData addAppWithDashboard(ServiceContext context,
                                                      ApplicationConfigData data){
@@ -91,7 +90,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
      *
      * @param context
      * @param data
-     * @return
+     * @return Application config with dashboard details.
      */
     public ApplicationConfigData addApplication(ServiceContext context,
                                                     ApplicationConfigData data){
@@ -118,7 +117,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
      * @param context
      * @param data
      * @param config
-     * @return
+     * @return Application config with basic information needed.
      */
     public ApplicationConfigData addAppBasicDetails(ServiceContext context,
                                                     ApplicationConfigData data,
@@ -149,12 +148,12 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     private List appConfigListToAppConfigDataList(List appConfigs){
         ArrayList<ApplicationConfigData> appDataObjs = 
         	new ArrayList<ApplicationConfigData>(appConfigs.size());
-        for(Iterator it=appConfigs.iterator(); it.hasNext(); ){
+        for (Object appConfig1 : appConfigs) {
             ApplicationConfigData configData = new ApplicationConfigData();
-            ApplicationConfig appConfig = (ApplicationConfig)it.next();
+            ApplicationConfig appConfig = (ApplicationConfig) appConfig1;
             CoreUtils.copyProperties(configData, appConfig);
             appDataObjs.add(configData);
-            if(appConfig.isCluster()){
+            if (appConfig.isCluster()) {
                 List childApplications =
                         appConfigListToAppConfigDataList(appConfig.getApplications());
                 configData.setChildApplications(childApplications);
@@ -175,8 +174,8 @@ public class ConfigurationServiceImpl implements ConfigurationService {
                 ServiceUtils.getApplicationConfigByName(applicationName);
         List mbeanList = appConfig.getMBeans();
         ArrayList<MBeanData> mbeanDataList = new ArrayList<MBeanData>(mbeanList.size());
-        for(Iterator it=mbeanList.iterator(); it.hasNext();){
-            MBeanConfig mbeanConfig = (MBeanConfig)it.next();
+        for (Object mbeanConfig1 : mbeanList) {
+            MBeanConfig mbeanConfig = (MBeanConfig) mbeanConfig1;
             mbeanDataList.add(new MBeanData(mbeanConfig.getObjectName(),
                     mbeanConfig.getName()));
         }

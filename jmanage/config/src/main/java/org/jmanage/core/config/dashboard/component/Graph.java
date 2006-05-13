@@ -17,12 +17,14 @@
 package org.jmanage.core.config.dashboard.component;
 
 import org.jmanage.core.config.DashboardComponent;
+import org.jmanage.core.util.Expression;
 import org.jdom.Element;
 
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
+import java.net.URLEncoder;
 
 /**
  * Date: May 2, 2006 7:36:53 PM
@@ -96,7 +98,70 @@ public class Graph implements DashboardComponent {
         }
     }
 
+    /**
+     * All component developers should be responsible for rendering the component
+     *
+     * @param applicationName
+     * @return String representaion of HTML content that renders the component.
+     */
     public String draw(String applicationName) {
-        return null;
+        try{
+        StringBuffer graphComponent = new StringBuffer().append(
+                "<applet code=\"org/jmanage/webui/applets/GraphApplet.class\"").append(
+                " width=\"{0}\" height=\"{1}\"").append(
+                " archive=\"/applets/applets.jar,/applets/jfreechart-0.9.20.jar,").append(
+                "/applets/jcommon-0.9.5.jar\" >").append(
+                "<param name=\"graphTitle\" value=\""+getName()+"\"></param>").append(
+                "<param name=\"pollingInterval\" value=\""+getPollingIntervalInSeconds()+"\"></param>").append(
+                "<param name=\"remoteURL\" value=\"http://localhost:9090/app/fetchAttributeValues.do;jsessionid={2}\"></param>").append(
+                "<param name=\"displayNames\" value=\"").append(getAttributeDisplayNamesForGraph()).append("\"></param>").append(
+                "<param name=\"attributes\" value=\"").append(getAttributesForGraph(applicationName)).append("\"></param>").append(
+                "<param value=\"\" name=\"yAxisLabel\"></param>").append("</applet>");
+        return graphComponent.toString();
+        }catch(Exception e){
+            return "Failure rendering component";
+        }
+    }
+
+
+    /**
+     *
+     * @param applicationName
+     * @return
+     * @throws Exception
+     */
+    private String getAttributesForGraph(String applicationName) throws Exception{
+        StringBuffer graphAttributes = new StringBuffer();
+        for(String mbean : mbeans){
+            for(String attribute : attributes.get(mbean)){
+                Expression expr =
+                        new Expression(applicationName, mbean, attribute);
+                if(graphAttributes.length() > 0){
+                    graphAttributes.append(",");
+                }
+                graphAttributes.append("[");
+                graphAttributes.append(expr.toString());
+                graphAttributes.append("]");
+            }
+        }
+        return URLEncoder.encode(graphAttributes.toString(), "UTF-8");
+    }
+
+    /**
+     *
+     * @return
+     * @throws Exception
+     */
+    private String getAttributeDisplayNamesForGraph() throws Exception{
+        StringBuffer displayNames = new StringBuffer();
+        for(String mbean : mbeans){
+            for(String attributeDisplayName : attributeDisplayNames.get(mbean)){
+                if(displayNames.length() > 0){
+                    displayNames.append("|");
+                }
+                displayNames.append(attributeDisplayName);
+            }
+        }
+        return displayNames.toString();
     }
 }
