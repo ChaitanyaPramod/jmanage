@@ -18,13 +18,18 @@ package org.jmanage.core.config.dashboard.qualifier;
 
 import org.jmanage.core.config.DashboardQualifier;
 import org.jmanage.core.config.ApplicationConfig;
+import org.jmanage.core.config.ApplicationType;
 
 /**
- * Date: Apr 23, 2006 5:12:06 PM
+ * Date: May 13, 2006 5:01:15 PM
+ *
  * @author Shashank Bellary
  */
-public class MyQualifier implements DashboardQualifier {
+public class JManageQualifier implements DashboardQualifier {
+    private static final String TYPE_JMANAGE = "jManage";
+    
     public boolean isQualified(ApplicationConfig applicationConfig) {
-        return true;
+        ApplicationType applicationType = applicationConfig.getApplicationType();
+        return TYPE_JMANAGE.equals(applicationType.getName());
     }
 }

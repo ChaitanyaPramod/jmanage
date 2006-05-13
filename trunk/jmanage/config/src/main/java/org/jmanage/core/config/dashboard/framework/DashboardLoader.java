@@ -52,6 +52,7 @@ public class DashboardLoader {
     private static final String ID = "id";
     private static final String NAME = "name";
     private static final String COMMENT = "comment";
+    private static final String TEMPLATE = "template";
 
     private static final String QUALIFICATIONS = "qualifications";
     private static final String QUALIFIER = "qualifier";
@@ -122,6 +123,7 @@ public class DashboardLoader {
                 new HashMap<String, DashboardComponent>();
         String dashboardID = dashboardRootElement.getAttribute(ID).getValue();
         String dashboardName = dashboardRootElement.getAttribute(NAME).getValue();
+        String dashboardTemplate = dashboardRootElement.getAttribute(TEMPLATE).getValue();;
 
         //  Load dashboard qualifiers.
         List<Element> qualifierElements =
@@ -157,7 +159,7 @@ public class DashboardLoader {
                 throw new RuntimeException(e);
             }
         }
-        return new DashboardConfig(dashboardID, dashboardName, null, components,
-                qualifiers);
+        return new DashboardConfig(dashboardID, dashboardName, dashboardTemplate,
+                components, qualifiers);
     }
 }

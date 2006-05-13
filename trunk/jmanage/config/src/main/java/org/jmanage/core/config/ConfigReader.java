@@ -22,6 +22,7 @@ import org.jdom.Element;
 import org.jmanage.core.crypto.Crypto;
 import org.jmanage.core.util.Loggers;
 import org.jmanage.core.util.CoreUtils;
+import org.jmanage.core.config.dashboard.framework.DashboardRepository;
 
 import java.io.File;
 import java.util.*;
@@ -45,6 +46,8 @@ public class ConfigReader implements ConfigConstants{
     /*  Cache the configuration file    */
     private static Document config = null;
 
+    private static DashboardRepository repository =
+            DashboardRepository.getInstance();
 
     /**
      * Initilizations done here.
@@ -66,7 +69,7 @@ public class ConfigReader implements ConfigConstants{
      * Invalidate cached information about configured applciations if the
      * configuration file got updated after last read.
      *
-     * @return
+     * @return Instance of ConfigReader
      */
     public static ConfigReader getInstance(){
         File configFile = new File(DEFAULT_CONFIG_FILE_NAME);
@@ -91,10 +94,10 @@ public class ConfigReader implements ConfigConstants{
 
     private List<DashboardConfig> getDashboardConfigList(List dashboards){
         final List<DashboardConfig> dashboardConfigList = new LinkedList<DashboardConfig>();
-        for(Iterator it = dashboards.iterator(); it.hasNext();){
-            Element dashboard = (Element)it.next();
+        for (Object dashboardElement : dashboards) {
+            Element dashboard = (Element) dashboardElement;
             DashboardConfig dashboardConfig =
-                    new DashboardConfig(dashboard.getAttributeValue(DASHBOARD_ID));
+                    repository.get(dashboard.getAttributeValue(DASHBOARD_ID));
             dashboardConfigList.add(dashboardConfig);
         }
         return dashboardConfigList;
@@ -104,16 +107,16 @@ public class ConfigReader implements ConfigConstants{
     														 ApplicationConfig clusterConfig){
 
         final List<ApplicationConfig> applicationConfigList = new LinkedList<ApplicationConfig>();
-        for(Iterator appIterator = applications.iterator(); appIterator.hasNext();){
-            Element application = (Element)appIterator.next();
+        for (Object applicationElement : applications) {
+            Element application = (Element) applicationElement;
             ApplicationConfig appConfig = null;
-            if(APPLICATION.equalsIgnoreCase(application.getName())){
+            if (APPLICATION.equalsIgnoreCase(application.getName())) {
                 appConfig = getApplicationConfig(application);
                 appConfig.setClusterConfig(clusterConfig);
-            }else if(APPLICATION_CLUSTER.equals(application.getName())){
+            } else if (APPLICATION_CLUSTER.equals(application.getName())) {
                 assert clusterConfig == null: "found cluster within a cluster";
                 appConfig = getApplicationClusterConfig(application);
-            }else{
+            } else {
                 assert false:"Invalid element:" + application.getName();
             }
             applicationConfigList.add(appConfig);
@@ -186,8 +189,8 @@ public class ConfigReader implements ConfigConstants{
         List<MBeanConfig> mbeanConfigList = new LinkedList<MBeanConfig>();
         if(application.getChild(MBEANS) != null){
             List mbeans = application.getChild(MBEANS).getChildren(MBEAN);
-            for(Iterator it=mbeans.iterator(); it.hasNext(); ){
-                Element mbean = (Element)it.next();
+            for (Object mbeanElement : mbeans) {
+                Element mbean = (Element) mbeanElement;
                 MBeanConfig mbeanConfig =
                         new MBeanConfig(mbean.getAttributeValue(MBEAN_NAME),
                                 mbean.getChildTextTrim(MBEAN_OBJECT_NAME));
@@ -214,13 +217,13 @@ public class ConfigReader implements ConfigConstants{
         List<GraphConfig> graphConfigList = new LinkedList<GraphConfig>();
         if(application.getChild(GRAPHS) != null){
             List graphs = application.getChild(GRAPHS).getChildren(GRAPH);
-            for(Iterator it=graphs.iterator(); it.hasNext(); ){
-                Element graph = (Element)it.next();
+            for (Object graphElement : graphs) {
+                Element graph = (Element) graphElement;
                 List attributes = graph.getChildren(GRAPH_ATTRIBUTE);
-                List<GraphAttributeConfig> attributeConfigList = 
-                	new LinkedList<GraphAttributeConfig>();
-                for(Iterator attrIt=attributes.iterator(); attrIt.hasNext(); ){
-                    Element attribute = (Element)attrIt.next();
+                List<GraphAttributeConfig> attributeConfigList =
+                        new LinkedList<GraphAttributeConfig>();
+                for (Object attributeElement : attributes) {
+                    Element attribute = (Element) attributeElement;
                     GraphAttributeConfig graphAttrConfig =
                             new GraphAttributeConfig(
                                     attribute.getAttributeValue(GRAPH_ATTRIBUTE_MBEAN),
@@ -239,10 +242,10 @@ public class ConfigReader implements ConfigConstants{
                 graphConfig.setYAxisLabel(
                         graph.getAttributeValue(GRAPH_Y_AXIS_LABEL));
                 String scaleFactor = graph.getAttributeValue(GRAPH_SCALE_FACTOR);
-                if(scaleFactor != null)
+                if (scaleFactor != null)
                     graphConfig.setScaleFactor(new Double(scaleFactor));
                 String scaleUp = graph.getAttributeValue(GRAPH_SCALE_UP);
-                if(scaleUp != null)
+                if (scaleUp != null)
                     graphConfig.setScaleUp(Boolean.valueOf(scaleUp));
 
                 graphConfigList.add(graphConfig);
@@ -255,15 +258,15 @@ public class ConfigReader implements ConfigConstants{
         List<AlertConfig> alertsList = new LinkedList<AlertConfig>();
         if(application.getChild(ALERTS)!=null){
             List alerts = application.getChild(ALERTS).getChildren(ALERT);
-            for(Iterator it=alerts.iterator(); it.hasNext();){
+            for (Object alertElement : alerts) {
                 AlertConfig alertConfig = new AlertConfig();
-                Element alert = (Element)it.next();
+                Element alert = (Element) alertElement;
                 alertConfig.setAlertId(alert.getAttributeValue(ALERT_ID));
                 alertConfig.setAlertName(alert.getAttributeValue(ALERT_NAME));
                 List alertDeliveryList = alert.getChildren(ALERT_DELIVERY);
                 String[] alertDelivery = new String[alertDeliveryList.size()];
-                for(int i=0;i<alertDeliveryList.size();i++){
-                    Element alertDel = (Element)alertDeliveryList.get(i);
+                for (int i = 0; i < alertDeliveryList.size(); i++) {
+                    Element alertDel = (Element) alertDeliveryList.get(i);
                     alertDelivery[i] = alertDel.getAttributeValue(
                             ALERT_DELIVERY_TYPE);
                     if(alertDelivery[i].equals(AlertDeliveryConstants.EMAIL_ALERT_DELIVERY_TYPE)){
@@ -278,12 +281,13 @@ public class ConfigReader implements ConfigConstants{
                 String sourceType = source.getAttributeValue(ALERT_SOURCE_TYPE);
                 String mbean = source.getAttributeValue(ALERT_SOURCE_MBEAN);
                 AlertSourceConfig sourceConfig = null;
-                if(sourceType.equals(AlertSourceConfig.SOURCE_TYPE_NOTIFICATION)){
+                if (sourceType.equals(AlertSourceConfig.SOURCE_TYPE_NOTIFICATION))
+                {
                     String notificationType =
-                        source.getAttributeValue(ALERT_SOURCE_NOTIFICATION_TYPE);
-                    sourceConfig = new AlertSourceConfig(mbean,notificationType);
-                }else if(sourceType.equals(
-                        AlertSourceConfig.SOURCE_TYPE_GAUGE_MONITOR)){
+                            source.getAttributeValue(ALERT_SOURCE_NOTIFICATION_TYPE);
+                    sourceConfig = new AlertSourceConfig(mbean, notificationType);
+                } else if (sourceType.equals(
+                        AlertSourceConfig.SOURCE_TYPE_GAUGE_MONITOR)) {
                     String attribute = source.getAttributeValue(ALERT_ATTRIBUTE_NAME);
                     String lowThreshold = source.getAttributeValue(
                             ALERT_ATTRIBUTE_LOW_THRESHOLD);
@@ -292,11 +296,11 @@ public class ConfigReader implements ConfigConstants{
                     String attributeDataType = source.getAttributeValue(
                             ALERT_ATTRIBUTE_DATA_TYPE);
                     sourceConfig = new AlertSourceConfig(mbean, attribute,
-                            CoreUtils.valueOf(lowThreshold,attributeDataType),
-                            CoreUtils.valueOf(highThreshold,attributeDataType),
+                            CoreUtils.valueOf(lowThreshold, attributeDataType),
+                            CoreUtils.valueOf(highThreshold, attributeDataType),
                             attributeDataType);
-                }else if(sourceType.equals(
-                        AlertSourceConfig.SOURCE_TYPE_STRING_MONITOR)){
+                } else if (sourceType.equals(
+                        AlertSourceConfig.SOURCE_TYPE_STRING_MONITOR)) {
                     String attribute = source.getAttributeValue(
                             ALERT_ATTRIBUTE_NAME);
                     String stringAttributeValue = source.getAttributeValue(
@@ -304,6 +308,7 @@ public class ConfigReader implements ConfigConstants{
                     sourceConfig = new AlertSourceConfig(mbean, attribute,
                             stringAttributeValue);
                 }
+                assert sourceConfig != null;
                 sourceConfig.setApplicationConfig(appConfig);
                 alertConfig.setAlertSourceConfig(sourceConfig);
                 alertsList.add(alertConfig);

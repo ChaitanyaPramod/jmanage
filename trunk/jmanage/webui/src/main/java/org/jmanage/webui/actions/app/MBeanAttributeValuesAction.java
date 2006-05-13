@@ -31,7 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.LinkedList;
-import java.util.Iterator;
+import java.net.URLDecoder;
 
 /**
  * Reads the "attributes" parameter and creates ObjectAttribute object for
@@ -60,16 +60,16 @@ public class MBeanAttributeValuesAction extends BaseAction {
         List exprList = parse(attributes);
         List<ObjectAttribute> objectAttrList = new LinkedList<ObjectAttribute>();
         MBeanService mbeanService = ServiceFactory.getMBeanService();
-        for(Iterator it=exprList.iterator(); it.hasNext();){
-            Expression expression = (Expression)it.next();
+        for (Object anExpression : exprList) {
+            Expression expression = (Expression) anExpression;
             ServiceContext srvcContext = null;
             ObjectAttribute objAttribute = null;
             try {
                 srvcContext = Utils.getServiceContext(context, expression);
                 objAttribute = mbeanService.getObjectAttribute(srvcContext,
-                                            expression.getTargetName());
+                        expression.getTargetName());
             } finally {
-                if(srvcContext != null)
+                if (srvcContext != null)
                     srvcContext.getServerConnection().close();
             }
             assert objAttribute != null;
@@ -85,7 +85,8 @@ public class MBeanAttributeValuesAction extends BaseAction {
      * @param attributes
      * @return list of Expression objects
      */
-    private List parse(String attributes){
+    private List parse(String attributes) throws Exception{
+        attributes = URLDecoder.decode(attributes, "UTF-8");
         List<Expression> exprList = new LinkedList<Expression>();
         StringTokenizer tokenizer = new StringTokenizer(attributes, ",");
         while(tokenizer.hasMoreTokens()){
