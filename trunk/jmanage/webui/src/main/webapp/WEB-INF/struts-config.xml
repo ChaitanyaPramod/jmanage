@@ -541,6 +541,12 @@
             type="org.jmanage.webui.actions.config.RemoveGraphAction">
             <forward name="success" path="/app/appView.do"/>
         </action>
+        <action path="/config/viewDashboard"
+            scope="request"
+            validate="false"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="app.dashboardView">
+        </action>
     </action-mappings>
 
     <!-- ========================================== Controller Configuration -->

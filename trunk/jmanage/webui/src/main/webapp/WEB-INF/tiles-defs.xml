@@ -136,4 +136,8 @@
     <definition name="config.showAttributes" extends="layouts.application">
         <put name="body.main" value="/config/showAttributes.jsp"/>
     </definition>
+    <definition name="app.dashboardView" extends="layouts.application">
+        <put name="body.main" value="/config/dashboardContainer.jsp"/>
+    </definition>
+
 </tiles-definitions>
