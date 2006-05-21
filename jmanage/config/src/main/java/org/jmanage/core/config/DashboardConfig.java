@@ -22,6 +22,8 @@ import java.util.Map;
  * This can get initialized from two places,
  * ConfigReader: Partially initialized
  * DashboardLoader: Fully initialized
+ * 
+ * TODO: Could this be a reason for bugs -- may be initialize in one place?  -rk
  *
  * <p>
  * Date:  Jan 16, 2006
