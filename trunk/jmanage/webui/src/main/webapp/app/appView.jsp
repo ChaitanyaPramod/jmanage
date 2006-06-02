@@ -208,7 +208,7 @@ if(appConfig.getAlerts().size() > 0){
 <br/>
 <%--Dashboards--%>
 <%
-if(appConfig.getDashboards().size() > 0){
+if(appConfig.getDashboards() != null && !appConfig.getDashboards().isEmpty()){
 %>
 <table cellspacing="0" cellpadding="5" width="700" class="table">
     <tr class="tableHeader">
