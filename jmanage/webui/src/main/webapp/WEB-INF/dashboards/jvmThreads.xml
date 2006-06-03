@@ -18,11 +18,10 @@
         <component id="com2" class="org.jmanage.core.dashboard.component.SelectList" name="Live Threads">
             <property name="mbean" value="java.lang:type=Threading"/>
             <property name="attribute" value="AllThreadIds"/>
+            <property name="idType" value="long"/>
             <property name="idResolverMBean" value="java.lang:type=Threading"/>
             <property name="idResolverOperation" value="getThreadInfo"/>
             <property name="idResolverName" value="threadName"/>
         </component>
-        
-        
     </components>
 </dashboard>

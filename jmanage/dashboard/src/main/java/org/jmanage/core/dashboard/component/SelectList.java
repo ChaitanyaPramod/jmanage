@@ -48,6 +48,7 @@ public class SelectList extends PropertiesDashboardComponent {
     private static final String MBEAN = "mbean";
     private static final String ATTRIBUTE = "attribute";
     // optional
+    private static final String ID_TYPE = "idType";
     private static final String ID_RESOLVER_MBEAN = "idResolverMBean";
     private static final String ID_RESOLVER_OPERATION = "idResolverOperation";
     private static final String ID_RESOLVER_NAME = "idResolverName";
@@ -57,6 +58,7 @@ public class SelectList extends PropertiesDashboardComponent {
     private String mbean;
     private String attribute;
     
+    private String idType;
     private String idResolverMBean;
     private String idResolverOperation;
     private String idResolverName;
@@ -68,6 +70,7 @@ public class SelectList extends PropertiesDashboardComponent {
         assert mbean != null;
         attribute = properties.get(ATTRIBUTE);
         assert attribute != null;
+        idType = properties.get(ID_TYPE);
         idResolverMBean = properties.get(ID_RESOLVER_MBEAN);
         idResolverOperation = properties.get(ID_RESOLVER_OPERATION);
         idResolverName = properties.get(ID_RESOLVER_NAME);
@@ -104,8 +107,11 @@ public class SelectList extends PropertiesDashboardComponent {
         Object resolvedId = id;
         if(idResolverMBean != null){
             if(idResolverOperation != null){
+                if(idType == null){
+                    idType = id.getClass().getName();
+                }
                 Object output = connection.invoke(new ObjectName(idResolverMBean), idResolverOperation, 
-                        new Object[]{id}, new String[]{"long"});// TODO: fix this problem of data type
+                        new Object[]{id}, new String[]{idType});
                 if(idResolverName != null){
                     // if idResolverName is specified, output is a composite type
                     CompositeData compositeData = (CompositeData)output;
