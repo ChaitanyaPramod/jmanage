@@ -23,16 +23,14 @@
             <property name="idResolverOperation" value="getThreadInfo"/>
             <property name="idResolverName" value="threadName"/>
         </component>
-<!--
-        <component id="com3" class="org.jmanage.webui.dashboard.component.OperationResult" name="Live Threads">
-			<eventSink source="com2" name="onSelect" output=""/>
+        <component id="com3" class="org.jmanage.webui.dashboard.components.MBeanOperationResult" name="Live Threads">
+			<!-- <eventSink source="com2" name="onSelect" output=""/> -->
             <property name="mbean" value="java.lang:type=Threading"/>
             <property name="operation" value="getThreadInfo"/>
-            <property name="param1" value="${threadId}"/>
-   			<property name="paramType1" value="long"/>
+            <property name="param1" value="1"/>
+   			<property name="type1" value="long"/>
    			<property name="param2" value="10"/>
-			<property name="paramType2" value="int"/>
+			<property name="type2" value="int"/>
         </component>
--->        
     </components>
 </dashboard>
