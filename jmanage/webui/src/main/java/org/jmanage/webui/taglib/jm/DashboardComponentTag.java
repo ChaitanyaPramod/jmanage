@@ -21,12 +21,13 @@ import org.jmanage.webui.util.Utils;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.DashboardConfig;
 import org.jmanage.core.config.DashboardComponent;
+import org.jmanage.core.util.Loggers;
 
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.JspWriter;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Date: May 13, 2006 10:13:43 AM
@@ -34,7 +35,11 @@ import java.text.MessageFormat;
  * @author Shashank Bellary
  */
 public class DashboardComponentTag extends BaseTag{
+    
+    private static final Logger logger = Loggers.getLogger(DashboardComponentTag.class);
+    
     private String id;
+    // TODO: this information should be passed to the component via dashboard context -rk
     private int width = 400;
     private int height = 300;
 
@@ -79,16 +84,16 @@ public class DashboardComponentTag extends BaseTag{
         assert currentDashboardConfig != null : "Error retrieving dashboard details";
         DashboardComponent component =
                 currentDashboardConfig.getComponents().get(getId());
-        String componentDisplay = component.draw(appConfig.getName());
-        componentDisplay = MessageFormat.format(componentDisplay, getWidth(),
-                getHeight(), Utils.getCookieValue(request, "JSESSIONID"));
-        final JspWriter writer = pageContext.getOut();
 
-        try {
-            writer.println(componentDisplay);
-        } catch (IOException e) {
-            throw new JspException(e);
+        try{
+            String componentDisplay = component.draw(appConfig.getName());
+            componentDisplay = MessageFormat.format(componentDisplay, getWidth(),
+                    getHeight(), Utils.getCookieValue(request, "JSESSIONID"));
+            pageContext.getOut().println(componentDisplay);
+        }catch(Throwable e){
+            logger.log(Level.SEVERE, "Error displaying component", e);
         }
+        
         return SKIP_BODY;
     }
 }

@@ -54,7 +54,7 @@ public abstract class Element {
     protected void drawBeginElement(StringBuffer output){
         output.append("<" + name);
         for(String attrName : attributes.keySet() ){
-            output.append(" " + attrName + "=" + attributes.get(attrName));
+            output.append(" " + attrName + "=\"" + attributes.get(attrName) + "\"");
         }
         output.append(">");
     }
