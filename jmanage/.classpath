@@ -2,7 +2,6 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry output="alerts/target/classes" kind="src" path="alerts/src/main/java"/>
-	<classpathentry output="dashboard/target/classes" kind="src" path="dashboard/src/main/java"/>
 	<classpathentry kind="src" path="modules/connector/src/main/java"/>
 	<classpathentry output="connector/target/classes" kind="src" path="connector/src/main/java"/>
 	<classpathentry kind="src" path="modules/local/src/main/java"/>

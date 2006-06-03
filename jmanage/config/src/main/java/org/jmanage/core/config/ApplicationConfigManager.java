@@ -88,10 +88,6 @@ public class ApplicationConfigManager {
         return applicationConfigs;
     }
 
-    public static DashboardConfig getDashboard(String dashboardId){
-        return null;
-    }
-
     private static final Object writeLock = new Object();
 
     public static void addApplication(ApplicationConfig config)
@@ -156,13 +152,6 @@ public class ApplicationConfigManager {
             }
         }
         saveConfig();
-    }
-
-    public static void addDashboard(DashboardConfig config){
-        assert config != null;
-    }
-
-    public static void updateDashboard(DashboardConfig config){
     }
 
     private static void saveConfig(){

@@ -22,7 +22,6 @@ import org.jdom.Element;
 import org.jmanage.core.crypto.Crypto;
 import org.jmanage.core.util.Loggers;
 import org.jmanage.core.util.CoreUtils;
-import org.jmanage.core.config.dashboard.framework.DashboardRepository;
 
 import java.io.File;
 import java.util.*;
@@ -45,9 +44,6 @@ public class ConfigReader implements ConfigConstants{
     private static long lastModified = -1;
     /*  Cache the configuration file    */
     private static Document config = null;
-
-    private static DashboardRepository repository =
-            DashboardRepository.getInstance();
 
     /**
      * Initilizations done here.
@@ -92,13 +88,11 @@ public class ConfigReader implements ConfigConstants{
         return new Config(appConfigList);
     }
 
-    private List<DashboardConfig> getDashboardConfigList(List dashboards){
-        final List<DashboardConfig> dashboardConfigList = new LinkedList<DashboardConfig>();
+    private List<String> getDashboardConfigList(List dashboards){
+        final List<String> dashboardConfigList = new LinkedList<String>();
         for (Object dashboardElement : dashboards) {
             Element dashboard = (Element) dashboardElement;
-            DashboardConfig dashboardConfig =
-                    repository.get(dashboard.getAttributeValue(DASHBOARD_ID));
-            dashboardConfigList.add(dashboardConfig);
+            dashboardConfigList.add(dashboard.getAttributeValue(DASHBOARD_ID));
         }
         return dashboardConfigList;
     }
@@ -200,13 +194,13 @@ public class ConfigReader implements ConfigConstants{
         return mbeanConfigList;
     }
 
-    private List<DashboardConfig> getDashbardConfigList(Element application){
-        List<DashboardConfig> dashboardConfigList;
+    private List<String> getDashbardConfigList(Element application){
+        List<String> dashboardConfigList;
         Element dashboards = application.getChild(DASHBOARDS);
         if(dashboards != null){
             dashboardConfigList = getDashboardConfigList(dashboards.getChildren());
         }else{
-            dashboardConfigList = new LinkedList<DashboardConfig>();
+            dashboardConfigList = new LinkedList<String>();
         }
         return dashboardConfigList;
     }

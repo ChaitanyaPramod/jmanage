@@ -174,10 +174,10 @@ public class ConfigWriter {
         Element dashboards = new Element(ConfigConstants.DASHBOARDS);
         if(application.getDashboards() == null)
             return dashboards;
-        for(DashboardConfig dashboardConfig : application.getDashboards()){
+        for(String dashboardId : application.getDashboards()){
             Element dashboard = new Element(ConfigConstants.DASHBOARD);
             dashboard.setAttribute(ConfigConstants.DASHBOARD_ID,
-                    dashboardConfig.getDashboardId());
+                    dashboardId);
             dashboards.addContent(dashboard);
         }
         return dashboards;

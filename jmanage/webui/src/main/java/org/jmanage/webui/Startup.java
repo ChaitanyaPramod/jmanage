@@ -27,7 +27,6 @@ import org.jmanage.core.auth.ACLStore;
 import org.jmanage.core.services.ServiceFactory;
 import org.jmanage.core.alert.AlertEngine;
 import org.jmanage.core.config.ApplicationTypes;
-import org.jmanage.core.config.dashboard.framework.DashboardRepository;
 import org.jmanage.connector.framework.ConnectorConfigRegistry;
 import org.jmanage.connector.framework.ConnectorRegistry;
 
@@ -116,10 +115,7 @@ public class Startup {
         ConnectorConfigRegistry.init();
 
         ConnectorRegistry.load();
-
-        /*  load dashboards */
-        DashboardRepository.getInstance();
-        
+       
         /* start the application */
         start();
     }

@@ -7,7 +7,9 @@
                  org.jmanage.webui.util.Utils,
                  org.jmanage.core.util.ACLConstants,
                  org.jmanage.core.management.ObjectName,
-                 org.jmanage.core.config.*"%>
+                 org.jmanage.core.config.*,
+                 org.jmanage.webui.dashboard.framework.DashboardRepository,
+                 org.jmanage.webui.dashboard.framework.DashboardConfig"%>
 
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 <script language="JavaScript">
@@ -215,7 +217,8 @@ if(appConfig.getDashboards() != null && !appConfig.getDashboards().isEmpty()){
         <td colspan="6">Configured Dashboards</td>
     </tr>
     <%
-        for(DashboardConfig dashboardConfig : appConfig.getDashboards()){
+        for(String dashboardId : appConfig.getDashboards()){
+            DashboardConfig dashboardConfig = DashboardRepository.getInstance().get(dashboardId);
     %>
     <tr>
         <td class="plaintext">

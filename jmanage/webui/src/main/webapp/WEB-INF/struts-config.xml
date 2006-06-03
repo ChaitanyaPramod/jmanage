@@ -336,6 +336,11 @@
             <forward name="success" path="/config/managedApplications.do"/>
         </action>
 
+        <action
+            path="/app/drawDashboardComponent"
+            type="org.jmanage.webui.actions.app.DrawDashboardComponentAction">
+        </action>
+
         <!--== User Management =======================================-->
         <action
             path="/config/admin"
