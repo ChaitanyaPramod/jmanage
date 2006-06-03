@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.management.openmbean.CompositeData;
+
 import org.jdom.Element;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.ApplicationConfigManager;
@@ -41,7 +43,7 @@ import org.jmanage.util.display.html.Select;
  *    
  * @author Rakesh Kalra
  */
-public class SelectList implements DashboardComponent {
+public class SelectList extends PropertiesDashboardComponent {
 
     private static final String MBEAN = "mbean";
     private static final String ATTRIBUTE = "attribute";
@@ -52,8 +54,6 @@ public class SelectList implements DashboardComponent {
     
     private static final String SIZE = "size";
     
-    private String id;
-    
     private String mbean;
     private String attribute;
     
@@ -63,13 +63,7 @@ public class SelectList implements DashboardComponent {
     
     private int size = 10; //default value
     
-    public String getId() {
-        return id;
-    }
-
-    public void init(Element componentConfig) {
-        id = componentConfig.getAttribute(ID).getValue();
-        Map<String, String> properties = getProperties(componentConfig);
+    public void init(Map<String, String> properties) {
         mbean = properties.get(MBEAN);
         assert mbean != null;
         attribute = properties.get(ATTRIBUTE);
@@ -81,18 +75,6 @@ public class SelectList implements DashboardComponent {
             size = Integer.parseInt(properties.get(SIZE));
     }
     
-    @SuppressWarnings("unchecked")
-    private Map<String, String> getProperties(Element componentConfig){
-        List<Element> propertyElements = componentConfig.getChildren("property");
-        Map<String, String> properties = new HashMap<String, String>();
-        for(Element property: propertyElements){
-            String name = property.getAttribute("name").getValue();
-            String value = property.getAttribute("value").getValue();
-            properties.put(name, value);
-        }
-        return properties;
-    }
-
     public String draw(String applicationName) {
         Map<String, String> data = getData(applicationName);
         Select select = new Select("dummy", size, true);
@@ -104,17 +86,34 @@ public class SelectList implements DashboardComponent {
     
     private Map<String, String> getData(String applicationName){
         Map<String, String> data = new HashMap<String, String>();
+        // TODO: this needs to be done at the framework level so that the connection can be closed
         ServerConnection serverConnection = getServerConnection(applicationName); 
         Object value = serverConnection.getAttribute(new ObjectName(mbean), attribute);
         if(value.getClass().isArray()){
             for(int i=0; i<Array.getLength(value); i++){
-                String id = Array.get(value, i).toString();
-                data.put(id, id); // TODO: use idresolver 
+                Object id = Array.get(value, i);
+                data.put(id.toString(), resolveId(serverConnection, id)); // TODO: use idresolver 
             }
         }else{
             assert false: "List, etc., not yet implemented";
         }
         return data;
+    }
+    
+    private String resolveId(ServerConnection connection, Object id){
+        Object resolvedId = id;
+        if(idResolverMBean != null){
+            if(idResolverOperation != null){
+                Object output = connection.invoke(new ObjectName(idResolverMBean), idResolverOperation, 
+                        new Object[]{id}, new String[]{"long"});// TODO: fix this problem of data type
+                if(idResolverName != null){
+                    // if idResolverName is specified, output is a composite type
+                    CompositeData compositeData = (CompositeData)output;
+                    resolvedId = compositeData.get(idResolverName);
+                }
+            }
+        }
+        return resolvedId.toString();
     }
     
     private ServerConnection getServerConnection(String appName){
