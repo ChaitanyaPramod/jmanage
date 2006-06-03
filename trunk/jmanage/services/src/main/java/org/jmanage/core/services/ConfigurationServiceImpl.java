@@ -16,7 +16,6 @@
 package org.jmanage.core.services;
 
 import org.jmanage.core.config.*;
-import org.jmanage.core.config.dashboard.framework.DashboardRepository;
 import org.jmanage.core.data.ApplicationConfigData;
 import org.jmanage.core.data.MBeanData;
 import org.jmanage.core.util.*;
@@ -24,8 +23,6 @@ import org.jmanage.core.util.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
-import java.io.*;
-import java.io.FileReader;
 
 /**
  *
@@ -33,60 +30,12 @@ import java.io.FileReader;
  * @author	Rakesh Kalra, Shashank Bellary
  */
 public class ConfigurationServiceImpl implements ConfigurationService {
-    private static DashboardRepository dashboardRepository =
-            DashboardRepository.getInstance();
+
+    @SuppressWarnings("unused")
     private static Logger logger = Loggers.getLogger(ConfigurationService.class);
 
     /**
-     * Check if there are any qualifying dashboards for the current application.
-     *
-     * @param context
-     * @param data
-     * @return Application config with dashboard details.
-     */
-    public ApplicationConfigData addAppWithDashboard(ServiceContext context,
-                                                     ApplicationConfigData data){
-        AccessController.checkAccess(context, ACLConstants.ACL_ADD_APPLICATIONS);
-        /* do the operation */
-        String appId = ApplicationConfig.getNextApplicationId();
-        Integer port = data.getPort();
-
-        ApplicationConfig config =
-                ApplicationConfigFactory.create(appId, data.getName(),
-                        data.getType(),
-                        data.getHost(),
-                        port,
-                        data.getURL(),
-                        data.getUsername(),
-                        data.getPassword(),
-                        data.getParamValues());
-        addQualifiedDashboards(config);
-        return addAppBasicDetails(context, data, config);
-    }
-
-    /**
-     * Iterate through available dashboards and add any qualifying dashboards to
-     * the current application being configured
-     *
-     * @param config
-     */
-    private void addQualifiedDashboards(ApplicationConfig config){
-        List<DashboardConfig> qualifyingDashboards = new ArrayList<DashboardConfig>();
-        for(DashboardConfig dashboardConfig : dashboardRepository.getAll()){
-            for(DashboardQualifier qualifier : dashboardConfig.getQualifiers()){
-                if(qualifier.isQualified(config)){
-                    qualifyingDashboards.add(dashboardConfig);
-                    break;
-                }
-            }
-        }
-        if(!qualifyingDashboards.isEmpty())
-            config.setDashboards(qualifyingDashboards);
-    }
-
-    /**
      * Add/Configure a new application without any dashboards.
-     * TODO is this really required?
      *
      * @param context
      * @param data
@@ -108,21 +57,6 @@ public class ConfigurationServiceImpl implements ConfigurationService {
                         data.getUsername(),
                         data.getPassword(),
                         data.getParamValues());
-        return addAppBasicDetails(context, data, config);
-    }
-
-    /**
-     * Save the current application on the config file.
-     *
-     * @param context
-     * @param data
-     * @param config
-     * @return Application config with basic information needed.
-     */
-    public ApplicationConfigData addAppBasicDetails(ServiceContext context,
-                                                    ApplicationConfigData data,
-                                                    ApplicationConfig config){
-
         try {
             ApplicationConfigManager.addApplication(config);
         } catch (ApplicationConfigManager.DuplicateApplicationNameException e) {
@@ -194,90 +128,5 @@ public class ConfigurationServiceImpl implements ConfigurationService {
             throw new RuntimeException(e);
         }
         return graphConfig;
-    }
-
-
-    public void addDashboard(ServiceContext context,
-                             DashboardConfig config){
-
-        AccessController.checkAccess(context, ACLConstants.ACL_ADD_DASHBOARD);
-
-        /* first write the template to the disk */
-        try {
-            FileWriter writer =
-                    new FileWriter(CoreUtils.getDashboardsDir() +
-                    config.getDashboardId() + ".jsp");
-            writer.write(config.getTemplate());
-            writer.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        /* now add the dashboard to the config.xml */
-        ApplicationConfigManager.addDashboard(config);
-
-        /* there is no need to keep the template in the memory */
-        config.setTemplate(null);
-
-        /* log the operation */
-        UserActivityLogger.getInstance().logActivity(
-                context.getUser().getUsername(),
-                "Added Dashboard "+ "\""+config.getName()+"\"");
-    }
-
-    public void updateDashboard(ServiceContext context,
-                                DashboardConfig config){
-
-        AccessController.checkAccess(context, ACLConstants.ACL_EDIT_DASHBOARD);
-
-        /* first write the template to the disk */
-        try {
-            FileWriter writer =
-                    new FileWriter(CoreUtils.getDashboardsDir() +
-                    config.getDashboardId() + ".jsp");
-            writer.write(config.getTemplate());
-            writer.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        /* now add the dashboard to the config.xml */
-        ApplicationConfigManager.updateDashboard(config);
-
-        /* there is no need to keep the template in the memory */
-        config.setTemplate(null);
-
-        /* log the operation */
-        UserActivityLogger.getInstance().logActivity(
-                context.getUser().getUsername(),
-                "Updated Dashboard "+ "\""+config.getName()+"\"");
-    }
-
-    public DashboardConfig getDashboard(ServiceContext context,
-                                        String dashboardId){
-        DashboardConfig config =
-                ApplicationConfigManager.getDashboard(dashboardId);
-        try {
-            config.setTemplate(getTemplate(dashboardId));
-        } catch (IOException e) {
-            logger.severe("Dashboard template not found for id: " + dashboardId);
-        }
-        return config;
-    }
-
-
-    private String getTemplate(String dashboardId) throws IOException {
-
-        StringBuffer template = new StringBuffer();
-        FileReader freader = new FileReader(CoreUtils.getDashboardsDir() +
-                dashboardId + ".jsp");
-        BufferedReader reader = new BufferedReader(freader);
-        String line = reader.readLine();
-        while(line != null){
-            template.append(line);
-            template.append("\n");
-            line = reader.readLine();
-        }
-        return template.toString();
     }
 }

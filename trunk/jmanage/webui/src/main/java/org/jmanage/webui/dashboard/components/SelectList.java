@@ -13,19 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jmanage.core.dashboard.component;
+package org.jmanage.webui.dashboard.components;
 
 import java.lang.reflect.Array;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.management.openmbean.CompositeData;
 
-import org.jdom.Element;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.ApplicationConfigManager;
-import org.jmanage.core.config.DashboardComponent;
 import org.jmanage.core.management.ObjectName;
 import org.jmanage.core.management.ServerConnection;
 import org.jmanage.core.management.ServerConnector;

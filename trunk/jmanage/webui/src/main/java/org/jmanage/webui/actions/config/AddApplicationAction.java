@@ -19,18 +19,22 @@ import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.util.Utils;
+import org.jmanage.webui.dashboard.framework.DashboardRepository;
 import org.jmanage.webui.forms.ApplicationForm;
 import org.jmanage.core.util.CoreUtils;
 import org.jmanage.core.data.ApplicationConfigData;
 import org.jmanage.core.services.ConfigurationService;
 import org.jmanage.core.services.ServiceFactory;
 import org.jmanage.core.config.ApplicationConfig;
+import org.jmanage.core.config.ApplicationConfigManager;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForward;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
+
+import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -69,9 +73,16 @@ public class AddApplicationAction extends BaseAction {
         appConfigData.setParamValues(paramValues);
 
         ConfigurationService service = ServiceFactory.getConfigurationService();
-
-        service.addAppWithDashboard(Utils.getServiceContext(context), appConfigData);
-
+        appConfigData = service.addApplication(Utils.getServiceContext(context), appConfigData);
+        
+        /* add qualifying dashboards */
+        ApplicationConfig appConfig = 
+            ApplicationConfigManager.getApplicationConfig(appConfigData.getApplicationId());
+        List<String> dashboardIDs = 
+            DashboardRepository.getInstance().getQualifyingDashboardIDs(appConfig);
+        appConfig.setDashboards(dashboardIDs);
+        ApplicationConfigManager.updateApplication(appConfig);
+        
         return mapping.findForward(Forwards.SUCCESS);
     }
 }

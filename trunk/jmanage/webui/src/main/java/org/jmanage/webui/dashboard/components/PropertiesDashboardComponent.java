@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jmanage.core.dashboard.component;
+package org.jmanage.webui.dashboard.components;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.jdom.Element;
-import org.jmanage.core.config.DashboardComponent;
+import org.jmanage.webui.dashboard.framework.DashboardComponent;
 
 /**
  * This dashboard component has simple property name/value based configuration. The

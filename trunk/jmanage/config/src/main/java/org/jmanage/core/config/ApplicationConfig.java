@@ -50,7 +50,8 @@ public abstract class ApplicationConfig {
     // clusterConfig: if this is part of a cluster
     private ApplicationConfig clusterConfig;
     private List<AlertConfig> alertsList = new LinkedList<AlertConfig>();
-    private List<DashboardConfig> dashboards;
+    // list of dashboard ids
+    private List<String> dashboards;
 
     public String getApplicationId(){
         return appId;
@@ -328,11 +329,15 @@ public abstract class ApplicationConfig {
         return null;
     }
 
-    public List<DashboardConfig> getDashboards() {
+    /**
+     * 
+     * @return a list of dashboard IDs
+     */
+    public List<String> getDashboards() {
         return dashboards;
     }
 
-    public void setDashboards(List<DashboardConfig> dashboards) {
+    public void setDashboards(List<String> dashboards) {
         this.dashboards = dashboards;
     }
 

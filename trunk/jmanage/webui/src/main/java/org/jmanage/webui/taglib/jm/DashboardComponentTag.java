@@ -16,11 +16,12 @@
 
 package org.jmanage.webui.taglib.jm;
 
+import org.jmanage.webui.dashboard.framework.DashboardComponent;
+import org.jmanage.webui.dashboard.framework.DashboardConfig;
+import org.jmanage.webui.dashboard.framework.DashboardRepository;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Utils;
 import org.jmanage.core.config.ApplicationConfig;
-import org.jmanage.core.config.DashboardConfig;
-import org.jmanage.core.config.DashboardComponent;
 import org.jmanage.core.util.Loggers;
 
 import javax.servlet.jsp.JspException;
@@ -69,18 +70,13 @@ public class DashboardComponentTag extends BaseTag{
 
     public int doStartTag() throws JspException{
         HttpServletRequest request = (HttpServletRequest)pageContext.getRequest();
-        WebContext context = WebContext.get(request);
+        WebContext context = WebContext.get(request); // TODO: context is not getting released.
         ApplicationConfig appConfig = context.getApplicationConfig();
         // Graphs at cluster level are not supported yet
         assert !appConfig.isCluster();
-        String currentDashboardId = request.getParameter("dashBID");
-        DashboardConfig currentDashboardConfig = null;
-        for(DashboardConfig dbConfig : appConfig.getDashboards()){
-            if(currentDashboardId.equals(dbConfig.getDashboardId())){
-                currentDashboardConfig = dbConfig;
-                break;
-            }
-        }
+        String dashboardId = request.getParameter("dashBID");
+        DashboardConfig currentDashboardConfig = DashboardRepository.getInstance().get(dashboardId);
+        
         assert currentDashboardConfig != null : "Error retrieving dashboard details";
         DashboardComponent component =
                 currentDashboardConfig.getComponents().get(getId());

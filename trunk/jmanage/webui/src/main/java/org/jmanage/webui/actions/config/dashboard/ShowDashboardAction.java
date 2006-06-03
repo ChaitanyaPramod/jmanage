@@ -17,9 +17,10 @@
 package org.jmanage.webui.actions.config.dashboard;
 
 import org.jmanage.webui.actions.BaseAction;
+import org.jmanage.webui.dashboard.framework.DashboardConfig;
+import org.jmanage.webui.dashboard.framework.DashboardRepository;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
-import org.jmanage.core.config.DashboardConfig;
 import org.jmanage.core.config.ApplicationConfig;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -56,9 +57,9 @@ public class ShowDashboardAction extends BaseAction {
         ApplicationConfig appConfig = context.getApplicationConfig();
         String currentDashboardId = request.getParameter("dashBID");
         DashboardConfig currentDashboardConfig = null;
-        for(DashboardConfig dashboardConfig : appConfig.getDashboards()){
-            if(currentDashboardId.equals(dashboardConfig.getDashboardId())){
-                currentDashboardConfig = dashboardConfig;
+        for(String dashboardId : appConfig.getDashboards()){
+            if(currentDashboardId.equals(dashboardId)){
+                currentDashboardConfig = DashboardRepository.getInstance().get(dashboardId);
                 break;
             }
         }

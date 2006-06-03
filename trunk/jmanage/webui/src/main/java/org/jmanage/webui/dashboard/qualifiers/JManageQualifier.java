@@ -13,15 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package org.jmanage.core.config;
+package org.jmanage.webui.dashboard.qualifiers;
 
 import org.jmanage.core.config.ApplicationConfig;
+import org.jmanage.core.config.ApplicationType;
+import org.jmanage.webui.dashboard.framework.DashboardQualifier;
 
 /**
- * Date: Apr 23, 2006 4:20:32 PM
+ * Date: May 13, 2006 5:01:15 PM
+ *
  * @author Shashank Bellary
  */
-public interface DashboardQualifier {
-    public boolean isQualified(ApplicationConfig applicationConfig);
+public class JManageQualifier implements DashboardQualifier {
+    
+    private static final String TYPE_JMANAGE = "jManage";
+    
+    public boolean isQualified(ApplicationConfig applicationConfig) {
+        ApplicationType applicationType = applicationConfig.getApplicationType();
+        return TYPE_JMANAGE.equals(applicationType.getName());
+    }
 }
