@@ -47,7 +47,6 @@ public abstract class PropertiesDashboardComponent implements DashboardComponent
     }
     
     public abstract void init(Map<String, String> properties);
-    public abstract String draw(String applicationName);
     
     @SuppressWarnings("unchecked")
     private Map<String, String> getProperties(Element componentConfig){

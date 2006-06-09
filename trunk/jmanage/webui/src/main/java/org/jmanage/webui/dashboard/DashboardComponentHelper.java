@@ -22,6 +22,8 @@ import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.util.Loggers;
 import org.jmanage.webui.dashboard.framework.DashboardComponent;
 import org.jmanage.webui.dashboard.framework.DashboardConfig;
+import org.jmanage.webui.dashboard.framework.DashboardContext;
+import org.jmanage.webui.dashboard.framework.DashboardContextImpl;
 import org.jmanage.webui.dashboard.framework.DashboardRepository;
 import org.jmanage.webui.util.WebContext;
 
@@ -35,17 +37,13 @@ public class DashboardComponentHelper {
     
     public static String drawComponent(WebContext context, String dashboardId, String componentId){
 
-        
-        ApplicationConfig appConfig = context.getApplicationConfig();
-        // Graphs at cluster level are not supported yet
-        assert !appConfig.isCluster();
+        DashboardContext dashboardContext = new DashboardContextImpl(context);
         DashboardConfig dashboardConfig = DashboardRepository.getInstance().get(dashboardId);
         assert dashboardConfig != null : "Error retrieving dashboard details. id=" + dashboardId;
         DashboardComponent component = dashboardConfig.getComponents().get(componentId);
         assert component != null : "Error retrieving component. id=" + componentId;
-
         try{
-            return component.draw(appConfig.getName());
+            return component.draw(dashboardContext);
         }catch(Throwable e){
             logger.log(Level.SEVERE, "Error displaying component", e);
             throw new RuntimeException(e);

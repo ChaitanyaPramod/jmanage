@@ -100,6 +100,20 @@ public interface MBeanService {
         throws ServiceException;
 
 
+    /**
+     * Invokes MBean operation
+     * @return
+     * @throws ServiceException
+     */
+    public OperationResultData[] invoke(ServiceContext context,
+                                        ObjectName objectName,
+                                        String operationName,
+                                        String[] params,
+                                        String[] signature)
+        throws ServiceException;
+
+    
+    
     public AttributeListData[] setAttributes(ServiceContext context,
                                              String[][] attributes)
             throws ServiceException;

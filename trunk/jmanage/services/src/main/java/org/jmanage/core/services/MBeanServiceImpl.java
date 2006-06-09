@@ -459,10 +459,6 @@ public class MBeanServiceImpl implements MBeanService {
                                         String operationName,
                                         String[] params)
             throws ServiceException {
-        canAccessThisMBean(context);
-        AccessController.checkAccess(context,
-                ACLConstants.ACL_EXECUTE_MBEAN_OPERATIONS, operationName);
-
         /* try to determine the method, based on params */
         ObjectOperationInfo operationInfo =
                 findOperation(context, operationName,
@@ -481,13 +477,26 @@ public class MBeanServiceImpl implements MBeanService {
                                         String[] params,
                                         String[] signature)
             throws ServiceException {
-        canAccessThisMBean(context);
+        return invoke(context, context.getObjectName(), operationName, params, signature);
+    }
+    
+    /**
+     * Invokes MBean operation
+     * @return
+     * @throws ServiceException
+     */
+    public OperationResultData[] invoke(ServiceContext context,
+                                        ObjectName objectName,
+                                        String operationName,
+                                        String[] params,
+                                        String[] signature)
+        throws ServiceException{
+        
+        canAccessThisMBean(context, objectName);
         AccessController.checkAccess(context,
                 ACLConstants.ACL_EXECUTE_MBEAN_OPERATIONS, operationName);
 
         ApplicationConfig appConfig = context.getApplicationConfig();
-        ObjectName objectName = context.getObjectName();
-
         OperationResultData[] resultData = null;
         if(appConfig.isCluster()){
             /* we need to perform this operation for all servers
@@ -508,6 +517,7 @@ public class MBeanServiceImpl implements MBeanService {
         }
         return resultData;
     }
+    
 
     private static OperationResultData executeMBeanOperation(
             ServiceContext context,
@@ -891,15 +901,20 @@ public class MBeanServiceImpl implements MBeanService {
 
 
     private void canAccessThisMBean(ServiceContext context){
+        canAccessThisMBean(context, context.getObjectName());
+    }
+    
+    private void canAccessThisMBean(ServiceContext context, ObjectName objectName){
         final ApplicationConfig config = context.getApplicationConfig();
         final MBeanConfig configuredMBean =
-                config.findMBeanByObjectName(context.getObjectName().getCanonicalName());
+                config.findMBeanByObjectName(objectName.getCanonicalName());
         AccessController.checkAccess(context,
                 ACLConstants.ACL_VIEW_APPLICATIONS);
         if(configuredMBean != null)
             AccessController.checkAccess(context,
                     ACLConstants.ACL_VIEW_MBEANS);
     }
+        
 
     public static Object getTypedValue(ApplicationConfig appConfig,
                                        String value,
