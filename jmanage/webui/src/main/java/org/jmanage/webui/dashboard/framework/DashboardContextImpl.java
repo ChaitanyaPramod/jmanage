@@ -21,7 +21,15 @@ import org.jmanage.webui.util.WebContext;
  *
  * @author Rakesh Kalra
  */
-public interface DashboardContext {
+public class DashboardContextImpl implements DashboardContext {
 
-    public WebContext getWebContext();
+    private final WebContext webContext;
+    
+    public DashboardContextImpl(WebContext webContext){
+        this.webContext = webContext; 
+    }
+    
+    public WebContext getWebContext() {
+        return webContext;
+    }
 }

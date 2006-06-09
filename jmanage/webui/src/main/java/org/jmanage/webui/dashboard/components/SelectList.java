@@ -21,12 +21,11 @@ import java.util.Map;
 
 import javax.management.openmbean.CompositeData;
 
-import org.jmanage.core.config.ApplicationConfig;
-import org.jmanage.core.config.ApplicationConfigManager;
 import org.jmanage.core.management.ObjectName;
 import org.jmanage.core.management.ServerConnection;
-import org.jmanage.core.management.ServerConnector;
 import org.jmanage.util.display.html.Select;
+import org.jmanage.webui.dashboard.framework.DashboardContext;
+import org.jmanage.webui.util.WebContext;
 
 /**
  *
@@ -75,8 +74,8 @@ public class SelectList extends PropertiesDashboardComponent {
             size = Integer.parseInt(properties.get(SIZE));
     }
     
-    public String draw(String applicationName) {
-        Map<String, String> data = getData(applicationName);
+    public String draw(DashboardContext context) {
+        Map<String, String> data = getData(context.getWebContext());
         Select select = new Select("dummy", size, true);
         for(String id:data.keySet()){
             select.addOption(id, data.get(id));
@@ -84,15 +83,14 @@ public class SelectList extends PropertiesDashboardComponent {
         return select.draw();
     }
     
-    private Map<String, String> getData(String applicationName){
+    private Map<String, String> getData(WebContext webContext){
         Map<String, String> data = new HashMap<String, String>();
-        // TODO: this needs to be done at the framework level so that the connection can be closed
-        ServerConnection serverConnection = getServerConnection(applicationName); 
+        ServerConnection serverConnection = webContext.getServerConnection(); 
         Object value = serverConnection.getAttribute(new ObjectName(mbean), attribute);
         if(value.getClass().isArray()){
             for(int i=0; i<Array.getLength(value); i++){
                 Object id = Array.get(value, i);
-                data.put(id.toString(), resolveId(serverConnection, id)); // TODO: use idresolver 
+                data.put(id.toString(), resolveId(serverConnection, id));  
             }
         }else{
             assert false: "List, etc., not yet implemented";
@@ -118,10 +116,4 @@ public class SelectList extends PropertiesDashboardComponent {
         }
         return resolvedId.toString();
     }
-    
-    private ServerConnection getServerConnection(String appName){
-        ApplicationConfig appConfig = ApplicationConfigManager.getApplicationConfigByName(appName);
-        return ServerConnector.getServerConnection(appConfig);
-    }
-    
 }

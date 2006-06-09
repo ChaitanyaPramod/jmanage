@@ -18,6 +18,7 @@ package org.jmanage.webui.taglib.jm;
 
 import org.jmanage.webui.dashboard.framework.DashboardComponent;
 import org.jmanage.webui.dashboard.framework.DashboardConfig;
+import org.jmanage.webui.dashboard.framework.DashboardContextImpl;
 import org.jmanage.webui.dashboard.framework.DashboardRepository;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Utils;
@@ -70,24 +71,29 @@ public class DashboardComponentTag extends BaseTag{
 
     public int doStartTag() throws JspException{
         HttpServletRequest request = (HttpServletRequest)pageContext.getRequest();
-        WebContext context = WebContext.get(request); // TODO: context is not getting released.
-        ApplicationConfig appConfig = context.getApplicationConfig();
-        // Graphs at cluster level are not supported yet
-        assert !appConfig.isCluster();
-        String dashboardId = request.getParameter("dashBID");
-        DashboardConfig currentDashboardConfig = DashboardRepository.getInstance().get(dashboardId);
-        
-        assert currentDashboardConfig != null : "Error retrieving dashboard details";
-        DashboardComponent component =
-                currentDashboardConfig.getComponents().get(getId());
-
+        WebContext context = null; 
         try{
-            String componentDisplay = component.draw(appConfig.getName());
+            context = WebContext.get(request);
+            ApplicationConfig appConfig = context.getApplicationConfig();
+            
+            // Graphs at cluster level are not supported yet
+            assert !appConfig.isCluster();
+            String dashboardId = request.getParameter("dashBID");
+            DashboardConfig currentDashboardConfig = DashboardRepository.getInstance().get(dashboardId);
+            
+            assert currentDashboardConfig != null : "Error retrieving dashboard details";
+            DashboardComponent component =
+                    currentDashboardConfig.getComponents().get(getId());
+
+            String componentDisplay = component.draw(new DashboardContextImpl(context));
             componentDisplay = MessageFormat.format(componentDisplay, getWidth(),
                     getHeight(), Utils.getCookieValue(request, "JSESSIONID"));
             pageContext.getOut().println(componentDisplay);
         }catch(Throwable e){
             logger.log(Level.SEVERE, "Error displaying component", e);
+        }finally{
+            if(context != null)
+                context.releaseResources();
         }
         
         return SKIP_BODY;

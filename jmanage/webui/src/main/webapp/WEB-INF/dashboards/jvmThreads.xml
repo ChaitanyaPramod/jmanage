@@ -27,7 +27,7 @@
 			<!-- <eventSink source="com2" name="onSelect" output=""/> -->
             <property name="mbean" value="java.lang:type=Threading"/>
             <property name="operation" value="getThreadInfo"/>
-            <property name="param1" value="1"/>
+            <property name="param1" value="3"/>
    			<property name="type1" value="long"/>
    			<property name="param2" value="10"/>
 			<property name="type2" value="int"/>

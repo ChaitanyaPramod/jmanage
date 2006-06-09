@@ -36,5 +36,5 @@ public interface DashboardComponent {
     public String getId();
     public void init(Element componentConfig);
     // TODO: we should use a dashboard context object here.
-    public String draw(String applicationName);
+    public String draw(DashboardContext context);
 }

@@ -16,6 +16,8 @@
 package org.jmanage.webui.dashboard.components;
 
 import org.jmanage.webui.dashboard.framework.DashboardComponent;
+import org.jmanage.webui.dashboard.framework.DashboardContext;
+import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.util.Expression;
 import org.jdom.Element;
 
@@ -64,6 +66,7 @@ public class Graph implements DashboardComponent {
         return pollingIntervalInSeconds;
     }
 
+    @SuppressWarnings("unchecked")
     public void init(Element componentConfig){
         id = componentConfig.getAttribute(ID).getValue();
         name = componentConfig.getAttribute(NAME).getValue();
@@ -103,7 +106,9 @@ public class Graph implements DashboardComponent {
      * @param applicationName
      * @return String representaion of HTML content that renders the component.
      */
-    public String draw(String applicationName) {
+    public String draw(DashboardContext context) {
+        ApplicationConfig appConfig = context.getWebContext().getApplicationConfig();
+        assert appConfig != null: "No application context present";
         try{
         StringBuffer graphComponent = new StringBuffer().append(
                 "<applet code=\"org/jmanage/webui/applets/GraphApplet.class\"").append(
@@ -114,7 +119,7 @@ public class Graph implements DashboardComponent {
                 "<param name=\"pollingInterval\" value=\""+getPollingIntervalInSeconds()+"\"></param>").append(
                 "<param name=\"remoteURL\" value=\"http://localhost:9090/app/fetchAttributeValues.do;jsessionid={2}\"></param>").append(
                 "<param name=\"displayNames\" value=\"").append(getAttributeDisplayNamesForGraph()).append("\"></param>").append(
-                "<param name=\"attributes\" value=\"").append(getAttributesForGraph(applicationName)).append("\"></param>").append(
+                "<param name=\"attributes\" value=\"").append(getAttributesForGraph(appConfig.getName())).append("\"></param>").append(
                 "<param value=\"\" name=\"yAxisLabel\"></param>").append("</applet>");
         return graphComponent.toString();
         }catch(Exception e){
