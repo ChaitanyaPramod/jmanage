@@ -1,4 +1,4 @@
-<dashboard id="dd0001" name="Java5 Dashboard" template="/dashboard/default.jsp" >
+<dashboard id="default" name="Java5 Dashboard" template="/dashboard/default.jsp" >
 	<qualifications comment="defines what type of applications qualify for this dashboard">
         <qualifier class="org.jmanage.webui.dashboard.qualifiers.JManageQualifier" />
     </qualifications>
@@ -6,8 +6,23 @@
         <component id="com1" class="org.jmanage.webui.dashboard.components.Graph" name="Sample Graph">
             <type>standard</type>
             <pollingInterval>10</pollingInterval>
-            <param mbean="java.lang:type=OperatingSystem" attribute="FreePhysicalMemorySize" displayName="FreePhysicalMemorySize"/>
-            <param mbean="java.lang:type=OperatingSystem" attribute="ProcessCpuTime" displayName="ProcessCpuTime"/>
+            <param mbean="java.lang:type=OperatingSystem" attribute="FreePhysicalMemorySize" displayName="Free physical memory"/>
+            <param mbean="java.lang:type=OperatingSystem" attribute="TotalPhysicalMemorySize" displayName="Total physical memory"/>
+        </component>
+        <component id="com2" class="org.jmanage.webui.dashboard.components.MBeanAttributeTable" name="Application Summary">
+            <header name="Thread Details">
+                <param mbean="java.lang:type=Threading" attribute="ThreadCount" displayName="Live thread count"/>
+                <param mbean="java.lang:type=Threading" attribute="DaemonThreadCount" displayName="Daemn thread count"/>
+                <param mbean="java.lang:type=Threading" attribute="TotalStartedThreadCount" displayName="Total number of threads started"/>
+            </header>
+            <header name="Memory Details">
+                <param mbean="java.lang:type=Memory" attribute="HeapMemoryUsage" displayName="Heap memory usage"/>
+                <param mbean="java.lang:type=Memory" attribute="NonHeapMemoryUsage" displayName="Non heap memory usage"/>
+            </header>
+            <header name="OS Details">
+                <param mbean="java.lang:type=OperatingSystem" attribute="FreePhysicalMemorySize" displayName="Free physical memory"/>
+                <param mbean="java.lang:type=OperatingSystem" attribute="TotalPhysicalMemorySize" displayName="Total physical memory"/>
+            </header>
         </component>
     </components>
 </dashboard>

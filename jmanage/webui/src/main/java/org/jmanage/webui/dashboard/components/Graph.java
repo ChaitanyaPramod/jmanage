@@ -103,7 +103,7 @@ public class Graph implements DashboardComponent {
     /**
      * All component developers should be responsible for rendering the component
      *
-     * @param applicationName
+     * @param context
      * @return String representaion of HTML content that renders the component.
      */
     public String draw(DashboardContext context) {
