@@ -1,11 +1,12 @@
 <!--/dashboard/default.jsp-->
 <%@ taglib uri="/WEB-INF/tags/jmanage/jm.tld" prefix="jm"%>
 
+<div class="plaintext">
 <p>
 <jm:dashboardComponent id="com1"/>
 </p>
 
-<script>
+<script type="text/javascript">
 	function refresh(component){
 
 		dojo.io.bind({
@@ -38,3 +39,4 @@
 </div>
 <a href="JavaScript:refresh('com3')">Refresh</a>
 </p>
+</div>

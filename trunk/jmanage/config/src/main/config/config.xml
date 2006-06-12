@@ -5,6 +5,10 @@
             name="jManage"
             type="local">
             <mbeans/>
+            <dashboards>
+                <dashboard id="jvmThreads" />
+                <dashboard id="default" />
+            </dashboards>
         </application>
     </applications>
 	<dashboards />
