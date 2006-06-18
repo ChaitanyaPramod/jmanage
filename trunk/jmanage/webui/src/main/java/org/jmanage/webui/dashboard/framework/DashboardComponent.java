@@ -27,6 +27,7 @@ public interface DashboardComponent {
     public static String MBEAN = "mbean";
     public static String ATTRIBUTE = "attribute";
     public static String OPERATION = "operation";
+    public static String DISPLAY_NAME = "displayName";
 
     public static String ID = "id";
     public static String NAME = "name";
