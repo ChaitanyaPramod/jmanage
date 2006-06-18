@@ -1,6 +1,6 @@
 <dashboard id="default" name="Java5 Dashboard" template="/dashboard/default.jsp" >
 	<qualifications comment="defines what type of applications qualify for this dashboard">
-        <qualifier class="org.jmanage.webui.dashboard.qualifiers.JManageQualifier" />
+        <qualifier class="org.jmanage.webui.dashboard.qualifiers.Java5DashboardQualifier" />
     </qualifications>
 	<components>
         <component id="com1" class="org.jmanage.webui.dashboard.components.Graph" name="Sample Graph">
@@ -12,7 +12,7 @@
         <component id="com2" class="org.jmanage.webui.dashboard.components.MBeanAttributeTable" name="Application Summary">
             <header name="Thread Details">
                 <param mbean="java.lang:type=Threading" attribute="ThreadCount" displayName="Live thread count"/>
-                <param mbean="java.lang:type=Threading" attribute="DaemonThreadCount" displayName="Daemn thread count"/>
+                <param mbean="java.lang:type=Threading" attribute="DaemonThreadCount" displayName="Daemon thread count"/>
                 <param mbean="java.lang:type=Threading" attribute="TotalStartedThreadCount" displayName="Total number of threads started"/>
             </header>
             <header name="Memory Details">
