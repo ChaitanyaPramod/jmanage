@@ -9,7 +9,7 @@
             <param mbean="java.lang:type=OperatingSystem" attribute="FreePhysicalMemorySize" displayName="Free physical memory"/>
             <param mbean="java.lang:type=OperatingSystem" attribute="TotalPhysicalMemorySize" displayName="Total physical memory"/>
         </component>
-        <component id="com2" class="org.jmanage.webui.dashboard.components.MBeanAttributeTable" name="Application Summary">
+        <component id="com2" class="org.jmanage.webui.dashboard.components.MBeanAttributeTable" name="Application Summary" refreshInterval="5000">
             <header name="Thread Details">
                 <param mbean="java.lang:type=Threading" attribute="ThreadCount" displayName="Live thread count"/>
                 <param mbean="java.lang:type=Threading" attribute="DaemonThreadCount" displayName="Daemon thread count"/>
@@ -23,6 +23,11 @@
                 <param mbean="java.lang:type=OperatingSystem" attribute="FreePhysicalMemorySize" displayName="Free physical memory"/>
                 <param mbean="java.lang:type=OperatingSystem" attribute="TotalPhysicalMemorySize" displayName="Total physical memory"/>
             </header>
+        </component>
+        <component id="com3" class="org.jmanage.webui.dashboard.components.MBeanAttributeValue" name="Single attribute value">
+            <property name="mbean" value="java.lang:type=Runtime"/>
+            <property name="attribute" value="VmVersion"/>
+            <property name="displayName" value="java version"/>
         </component>
     </components>
 </dashboard>

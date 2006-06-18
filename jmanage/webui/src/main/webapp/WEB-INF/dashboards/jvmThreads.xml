@@ -2,7 +2,7 @@
 
 <dashboard id="jvmThreads" name="JVM Threads" template="/dashboard/jvmThreads.jsp" >
 	<qualifications comment="defines what type of applications qualify for this dashboard">
-        <qualifier class="org.jmanage.webui.dashboard.qualifiers.JManageQualifier" />
+        <qualifier class="org.jmanage.webui.dashboard.qualifiers.Java5DashboardQualifier" />
     </qualifications>
 	<components>
         <component id="com1" class="org.jmanage.webui.dashboard.components.Graph" name="Number of Threads">
