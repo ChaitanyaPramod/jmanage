@@ -32,8 +32,8 @@ public class MBeanAttributeTable implements DashboardComponent{
     private Map<String, List> mbeans = new HashMap<String, List>();
     private Map<String, List<String>> attributes =
             new HashMap<String, List<String>>();
-    private Map<String, List<String>> attributeDisplayNames =
-            new HashMap<String, List<String>>();
+    private Map<String, Map<String, String>> attributeDisplayNames =
+            new HashMap<String, Map<String, String>>();
 
     protected final String HEADER = "header";
     protected final String NAME = "name";
@@ -77,11 +77,12 @@ public class MBeanAttributeTable implements DashboardComponent{
                 }
 
                 if(attributeDisplayNames.containsKey(mbeansMapKey))
-                    attributeDisplayNames.get(mbeansMapKey).add(attribDisplayName);
+                    attributeDisplayNames.get(mbeansMapKey).put(attribute,
+                            attribDisplayName);
                 else{
-                    List attribDisplayNames = new ArrayList();
-                    attribDisplayNames.add(attribDisplayName);
-                    attributeDisplayNames.put(mbeansMapKey, attribDisplayNames);
+                    Map attribDisplayNamesMap = new HashMap();
+                    attribDisplayNamesMap.put(attribute, attribDisplayName);
+                    attributeDisplayNames.put(mbeansMapKey, attribDisplayNamesMap);
                 }
             }
             mbeans.put(displayHeader, mbeansPerHeader);
@@ -90,7 +91,6 @@ public class MBeanAttributeTable implements DashboardComponent{
 
     @SuppressWarnings("unchecked")
     /**
-     * TODO: we should use a dashboard context object here.
      *
      * @param context
      * @return Component in HTML format.
@@ -108,14 +108,14 @@ public class MBeanAttributeTable implements DashboardComponent{
                 ObjectName objectName = new ObjectName(mbeanName);
                 String mbeansMapKey = mbeanName+"|"+header;
                 List<String> mbean2AttribList = attributes.get(mbeansMapKey);
-                List<String> mbean2AttribDisplayNameList =
+                Map<String, String> mbean2AttribDisplayNameMap =
                         attributeDisplayNames.get(mbeansMapKey);
                 String[] attribs = new String[mbean2AttribList.size()];
                 List attributeList = connection.getAttributes(objectName,
                         mbean2AttribList.toArray(attribs));
                 for (Object anAttributeList : attributeList) {
                     ObjectAttribute currentAttribute = (ObjectAttribute) anAttributeList;
-                    htmlTable.append("<tr><td>").append(currentAttribute.getName()).append("</td><td>&nbsp;</td>");
+                    htmlTable.append("<tr><td>").append(mbean2AttribDisplayNameMap.get(currentAttribute.getName())).append("</td><td>&nbsp;</td>");
                     htmlTable.append("<td>").append(currentAttribute.getDisplayValue()).append("</td></tr>");
                 }
             }
