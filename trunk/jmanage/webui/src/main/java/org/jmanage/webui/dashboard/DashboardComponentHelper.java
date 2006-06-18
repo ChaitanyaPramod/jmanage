@@ -46,7 +46,7 @@ public class DashboardComponentHelper {
             return component.draw(dashboardContext);
         }catch(Throwable e){
             logger.log(Level.SEVERE, "Error displaying component", e);
-            throw new RuntimeException(e);
+            return "Error:" + e.getMessage();
         }
     }
 }
