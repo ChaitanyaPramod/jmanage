@@ -3,16 +3,16 @@
 
 <div class="plaintext">
 <p>
-<jm:dashboardComponent id="com1"/>
+<jm:dashboardComponent id="com1" width="600" height="400"/>
 </p>
 <p>
-<div id="com2">
+<table border="0" cellpadding="5">
+<tr>
+<td valign="top">
 	<jm:dashboardComponent id="com2"/>
-</div>
-</p>
-<p>
-<div id="com3">
+</td>
+<td valign="top">
 	<jm:dashboardComponent id="com3"/>
-</div>
-</p>
-</div>
+</td>
+</tr>
+</table>

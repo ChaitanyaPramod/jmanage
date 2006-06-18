@@ -41,14 +41,19 @@ public class RefreshingDashboardComponent implements DashboardComponent {
     }
 
     /**
-     * Appends the following to the end of the output of wrapped component:
+     * Wraps the output of wrapped componet with div tag and appends the following to the end:
      * <p>
      * &lt;script&gt;self.setTimeout("refreshDBComponent(''com3'', 5000, 1)", 5000);&lt;/script&gt;
      * <p>
      * It is not clear to me why single quotes around com3 need to be escaped.
      */
     public String draw(DashboardContext context) {
-        StringBuffer output = new StringBuffer(component.draw(context));
+        StringBuffer output = new StringBuffer();
+        // wrap wih div tag
+        output.append("<div id=\"" + getId() + "\">");
+        output.append(component.draw(context));
+        output.append("</div>");
+        // append script
         String appId = context.getWebContext().getApplicationConfig().getApplicationId();
         output.append("\n<script>");
         output.append("self.setTimeout(\"refreshDBComponent(");
