@@ -149,6 +149,13 @@ public class DashboardLoader {
                 Class componentClass = Class.forName(componentClassName);
                 DashboardComponent dashboardComponent =
                         (DashboardComponent)componentClass.newInstance();
+                if(componentElement.getAttribute("refreshInterval") != null){
+                    int refreshInterval = 
+                        componentElement.getAttribute("refreshInterval").getIntValue();
+                    dashboardComponent = 
+                        new RefreshingDashboardComponent(dashboardComponent, refreshInterval);
+                    
+                }
                 dashboardComponent.init(componentElement);
                 components.put(dashboardComponent.getId(), dashboardComponent);
             }catch(Exception e){
