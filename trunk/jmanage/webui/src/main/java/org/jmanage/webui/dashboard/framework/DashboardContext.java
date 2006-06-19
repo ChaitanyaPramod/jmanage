@@ -24,4 +24,6 @@ import org.jmanage.webui.util.WebContext;
 public interface DashboardContext {
 
     public WebContext getWebContext();
+    
+    public String getVariableValue(String variable);
 }

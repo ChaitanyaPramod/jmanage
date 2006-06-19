@@ -69,6 +69,8 @@ public class DashboardComponentTag extends BaseTag{
         this.height = height;
     }
 
+    // TODO: It will be good to remove MessageFormat usage here and pass the required information
+    //   to the dashboard - rk
     public int doStartTag() throws JspException{
         HttpServletRequest request = (HttpServletRequest)pageContext.getRequest();
         WebContext context = null; 
@@ -85,7 +87,8 @@ public class DashboardComponentTag extends BaseTag{
             DashboardComponent component =
                     currentDashboardConfig.getComponents().get(getId());
 
-            String componentDisplay = component.draw(new DashboardContextImpl(context));
+            String componentDisplay = component.draw(new DashboardContextImpl(context, 
+                    (HttpServletRequest)pageContext.getRequest()));
             componentDisplay = MessageFormat.format(componentDisplay, getWidth(),
                     getHeight(), Utils.getCookieValue(request, "JSESSIONID"));
             pageContext.getOut().println(componentDisplay);

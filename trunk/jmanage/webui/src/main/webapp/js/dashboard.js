@@ -13,26 +13,55 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-function refreshDBComponent(component, timeout, appId){
-	var varURL = '/app/drawDashboardComponent.do?applicationId=' + appId + '&dashBID=jvmThreads&componentID=' + component;
-	//alert(varURL);
-	dojo.io.bind({
-		url: varURL,
-    	load: function(type, data, evt){
-    	   	if(type == "load"){
-				var divElement = document.getElementById(component);
-				//alert(data);
-        		divElement.innerHTML = data;		           
-	       	}else if(type == "error"){
-	           alert("error getting data from server");
-	       	}else{
-	           // other types of events might get passed, handle them here
-	       	}
-    	  },
-    	mimetype: "text/plain"
-	});
 
-	funcName = "refreshDBComponent('"+ component + "', " + timeout + ",'" + appId + "')";
-	//alert(funcName);
-	self.setTimeout(funcName, timeout);
-}
+	function refreshDBComponent(component, timeout, appId, varName, varValue){
+		var varURL = '/app/drawDashboardComponent.do?applicationId=' + appId + '&dashBID=jvmThreads&componentID=' + component + '&' + varName + '=' + varValue;
+		//alert(varURL);
+		dojo.io.bind({
+			url: varURL,
+	    	load: function(type, data, evt){
+	    	   	if(type == "load"){
+					var divElement = document.getElementById(component);
+					//alert(data);
+	        		divElement.innerHTML = data;		           
+		       	}else if(type == "error"){
+		           alert("error getting data from server");
+		       	}else{
+		           // other types of events might get passed, handle them here
+		       	}
+	    	  },
+	    	mimetype: "text/plain"
+		});
+	
+		funcName = "refreshDBComponent('"+ component + "', " + timeout + ",'" + appId + "','" + varName + "','" + varValue + "')";
+		//alert(funcName);
+		self.setTimeout(funcName, timeout);
+	}
+
+	var eventHandlers = new Array();
+	
+	// custom object
+	function eventHandler(component, eventName, targetComponent, dataVar, applicationId){
+		this.component = component;
+		this.eventName = eventName;
+		this.targetComponent = targetComponent;
+		this.dataVar = dataVar;
+		this.applicationId = applicationId;
+	}
+
+	function addEventHandler(component, eventName, targetComponent, dataVar, applicationId){
+		var handlerObj = new eventHandler(component, eventName, targetComponent, dataVar, applicationId);
+		eventHandlers.push(handlerObj);	
+	}
+
+	function handleEvent(component, eventName, data){
+		for(i=0; i<eventHandlers.length; i++){
+			if(eventHandlers[i].component == component && eventHandlers[i].eventName == eventName){
+				refreshDBComponent(eventHandlers[i].targetComponent, 10000, eventHandlers[i].applicationId, eventHandlers[i].dataVar, data);
+			} 	
+		}	
+	}
+
+
+
+
