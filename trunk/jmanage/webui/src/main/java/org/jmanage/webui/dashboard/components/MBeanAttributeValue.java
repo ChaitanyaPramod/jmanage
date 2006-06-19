@@ -15,6 +15,7 @@
  */
 package org.jmanage.webui.dashboard.components;
 
+import org.jmanage.webui.dashboard.framework.BaseDashboardComponent;
 import org.jmanage.webui.dashboard.framework.DashboardContext;
 import org.jmanage.core.management.ObjectName;
 import org.jmanage.core.management.ServerConnection;
@@ -26,11 +27,11 @@ import java.util.Map;
  *
  * @ author: Shashank Bellary
  */
-public class MBeanAttributeValue extends PropertiesDashboardComponent{
+public class MBeanAttributeValue extends BaseDashboardComponent{
+    
     private ObjectName objectName;
     private String attribute;
     private String displayName;
-
 
     /**
      *
@@ -51,11 +52,12 @@ public class MBeanAttributeValue extends PropertiesDashboardComponent{
      * @param context
      * @return single attribute value.
      */
-    public String draw(DashboardContext context) {
+    protected void drawInternal(DashboardContext context, StringBuffer output) {
         ServerConnection connection = context.getWebContext().getServerConnection();
         Object attributeValue = connection.getAttribute(objectName, attribute);
-        return displayName != null && !displayName.equals("") ?
+        String data= displayName != null && !displayName.equals("") ?
                 "<b>" +displayName+" : </b>"+ String.valueOf(attributeValue) :
                 String.valueOf(attributeValue);
+        output.append(data);
     }
 }
