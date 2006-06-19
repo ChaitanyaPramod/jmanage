@@ -42,6 +42,10 @@ public class Select extends CompositeElement {
             addAttribute("multiple", "true");
     }
     
+    public void onChange(String function){
+        addAttribute("onChange", function);
+    }
+    
     public void addOption(String id){
         addOption(id, id);
     }

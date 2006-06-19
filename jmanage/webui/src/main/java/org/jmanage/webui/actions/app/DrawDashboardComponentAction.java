@@ -39,6 +39,7 @@ public class DrawDashboardComponentAction extends BaseAction {
         throws Exception{
 
         String component = DashboardComponentHelper.drawComponent(context, 
+                request,
                 request.getParameter("dashBID"), 
                 request.getParameter("componentID"));
         response.getOutputStream().print(component);

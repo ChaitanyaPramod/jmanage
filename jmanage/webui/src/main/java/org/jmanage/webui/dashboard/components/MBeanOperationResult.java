@@ -15,20 +15,16 @@
  */
 package org.jmanage.webui.dashboard.components;
 
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.jmanage.core.config.ApplicationConfig;
-import org.jmanage.core.config.ApplicationConfigManager;
 import org.jmanage.core.data.OperationResultData;
 import org.jmanage.core.management.ObjectName;
-import org.jmanage.core.management.ServerConnection;
-import org.jmanage.core.management.ServerConnector;
 import org.jmanage.core.services.MBeanService;
 import org.jmanage.core.services.ServiceContext;
 import org.jmanage.core.services.ServiceFactory;
+import org.jmanage.webui.dashboard.framework.BaseDashboardComponent;
 import org.jmanage.webui.dashboard.framework.DashboardContext;
 
 /**
@@ -41,7 +37,7 @@ import org.jmanage.webui.dashboard.framework.DashboardContext;
  *    <property name="type2" value="int"/>
  * @author Rakesh Kalra
  */
-public class MBeanOperationResult extends PropertiesDashboardComponent {
+public class MBeanOperationResult extends BaseDashboardComponent {
 
     private static final String MBEAN = "mbean";
     private static final String OPERATION = "operation";
@@ -51,11 +47,12 @@ public class MBeanOperationResult extends PropertiesDashboardComponent {
     private ObjectName objectName;
     private String operation;
     private String[] signature;
-    private String[] params;
+    private Map<String, String> properties;
     
     @Override
-    // TODO: implement
     public void init(Map<String, String> properties) {
+        
+        this.properties = properties;
         
         try {
             objectName = new ObjectName(properties.get(MBEAN));
@@ -75,16 +72,18 @@ public class MBeanOperationResult extends PropertiesDashboardComponent {
             }
         }
         signature = new String[sigList.size()];
-        params = new String[sigList.size()];
         int index = 0;
         for(String type: sigList){
-            signature[index] = type;
-            params[index] = properties.get(PARAM + (index + 1));
-            index ++;
+            signature[index++] = type;
         }
     }
 
-    public String draw(DashboardContext context) {
+    protected void drawInternal(DashboardContext context, StringBuffer output) {
+        
+        final String[] params = new String[signature.length];
+        for(int index =0; index < signature.length; index++){
+            params[index] = properties.get(PARAM + (index + 1));
+        }
         
         MBeanService mbeanService = ServiceFactory.getMBeanService();
         ServiceContext srvcContext = context.getWebContext().getServiceContext();
@@ -92,6 +91,6 @@ public class MBeanOperationResult extends PropertiesDashboardComponent {
             mbeanService.invoke(srvcContext, objectName, operation, params, signature);
         assert operationResult.length == 1;
         assert !operationResult[0].isError();
-        return "<pre>" + operationResult[0].getDisplayOutput() + "</pre>";
+        output.append("<pre class=\"plaintext\">" + operationResult[0].getDisplayOutput() + "</pre>");
     }
 }

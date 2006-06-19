@@ -18,7 +18,8 @@ package org.jmanage.webui.dashboard;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.jmanage.core.config.ApplicationConfig;
+import javax.servlet.http.HttpServletRequest;
+
 import org.jmanage.core.util.Loggers;
 import org.jmanage.webui.dashboard.framework.DashboardComponent;
 import org.jmanage.webui.dashboard.framework.DashboardConfig;
@@ -35,9 +36,10 @@ public class DashboardComponentHelper {
 
     private static final Logger logger = Loggers.getLogger(DashboardComponentHelper.class);
     
-    public static String drawComponent(WebContext context, String dashboardId, String componentId){
+    public static String drawComponent(WebContext context, HttpServletRequest request,
+            String dashboardId, String componentId){
 
-        DashboardContext dashboardContext = new DashboardContextImpl(context);
+        DashboardContext dashboardContext = new DashboardContextImpl(context, request);
         DashboardConfig dashboardConfig = DashboardRepository.getInstance().get(dashboardId);
         assert dashboardConfig != null : "Error retrieving dashboard details. id=" + dashboardId;
         DashboardComponent component = dashboardConfig.getComponents().get(componentId);

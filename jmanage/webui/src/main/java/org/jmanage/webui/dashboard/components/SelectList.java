@@ -24,6 +24,7 @@ import javax.management.openmbean.CompositeData;
 import org.jmanage.core.management.ObjectName;
 import org.jmanage.core.management.ServerConnection;
 import org.jmanage.util.display.html.Select;
+import org.jmanage.webui.dashboard.framework.BaseDashboardComponent;
 import org.jmanage.webui.dashboard.framework.DashboardContext;
 import org.jmanage.webui.util.WebContext;
 
@@ -39,7 +40,7 @@ import org.jmanage.webui.util.WebContext;
  *    
  * @author Rakesh Kalra
  */
-public class SelectList extends PropertiesDashboardComponent {
+public class SelectList extends BaseDashboardComponent {
 
     private static final String MBEAN = "mbean";
     private static final String ATTRIBUTE = "attribute";
@@ -74,13 +75,15 @@ public class SelectList extends PropertiesDashboardComponent {
             size = Integer.parseInt(properties.get(SIZE));
     }
     
-    public String draw(DashboardContext context) {
+    public void drawInternal(DashboardContext context, StringBuffer output) {
         Map<String, String> data = getData(context.getWebContext());
         Select select = new Select("dummy", size, true);
+        //select.onChange("alert(''test'');");
+        select.onChange("handleEvent(''" + getId() + "'', ''onChange'', this.options[this.selectedIndex].value);");
         for(String id:data.keySet()){
             select.addOption(id, data.get(id));
         }
-        return select.draw();
+        output.append(select.draw());
     }
     
     private Map<String, String> getData(WebContext webContext){

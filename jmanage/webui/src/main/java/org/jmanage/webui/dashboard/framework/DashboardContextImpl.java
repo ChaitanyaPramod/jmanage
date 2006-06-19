@@ -15,6 +15,8 @@
  */
 package org.jmanage.webui.dashboard.framework;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.jmanage.webui.util.WebContext;
 
 /**
@@ -24,12 +26,18 @@ import org.jmanage.webui.util.WebContext;
 public class DashboardContextImpl implements DashboardContext {
 
     private final WebContext webContext;
+    private final HttpServletRequest request;
     
-    public DashboardContextImpl(WebContext webContext){
+    public DashboardContextImpl(WebContext webContext, HttpServletRequest request){
         this.webContext = webContext; 
+        this.request = request;
     }
     
     public WebContext getWebContext() {
         return webContext;
+    }
+
+    public String getVariableValue(String variable) {
+        return request.getParameter(variable);
     }
 }
