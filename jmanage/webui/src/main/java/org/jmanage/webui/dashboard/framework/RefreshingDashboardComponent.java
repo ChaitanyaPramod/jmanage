@@ -49,15 +49,15 @@ public class RefreshingDashboardComponent implements DashboardComponent {
      */
     public String draw(DashboardContext context) {
         StringBuffer output = new StringBuffer();
-        // wrap wih div tag
-        output.append("<div id=\"" + getId() + "\">");
         output.append(component.draw(context));
-        output.append("</div>");
         // append script
+        final String dashboardId = context.getDashboardConfig().getDashboardId();
         String appId = context.getWebContext().getApplicationConfig().getApplicationId();
         output.append("\n<script>");
         output.append("self.setTimeout(\"refreshDBComponent(");
         output.append("''");
+        output.append(dashboardId);
+        output.append("'', ''");
         output.append(getId());
         output.append("'', ");
         output.append(refreshInterval + ", " +  appId + ")\", " + refreshInterval + ");");

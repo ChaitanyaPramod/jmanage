@@ -25,5 +25,7 @@ public interface DashboardContext {
 
     public WebContext getWebContext();
     
+    public DashboardConfig getDashboardConfig();
+    
     public String getVariableValue(String variable);
 }

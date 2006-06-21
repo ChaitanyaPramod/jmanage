@@ -79,7 +79,8 @@ public class SelectList extends BaseDashboardComponent {
         Map<String, String> data = getData(context.getWebContext());
         Select select = new Select("dummy", size, true);
         //select.onChange("alert(''test'');");
-        select.onChange("handleEvent(''" + getId() + "'', ''onChange'', this.options[this.selectedIndex].value);");
+        final String dashboardId = context.getDashboardConfig().getDashboardId();
+        select.onChange("handleEvent(''" + dashboardId + "'', ''" + getId() + "'', ''onChange'', this.options[this.selectedIndex].value);");
         for(String id:data.keySet()){
             select.addOption(id, data.get(id));
         }

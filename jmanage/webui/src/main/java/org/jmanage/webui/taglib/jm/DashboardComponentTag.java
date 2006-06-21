@@ -87,7 +87,7 @@ public class DashboardComponentTag extends BaseTag{
             DashboardComponent component =
                     currentDashboardConfig.getComponents().get(getId());
 
-            String componentDisplay = component.draw(new DashboardContextImpl(context, 
+            String componentDisplay = component.draw(new DashboardContextImpl(context, currentDashboardConfig, 
                     (HttpServletRequest)pageContext.getRequest()));
             componentDisplay = MessageFormat.format(componentDisplay, getWidth(),
                     getHeight(), Utils.getCookieValue(request, "JSESSIONID"));

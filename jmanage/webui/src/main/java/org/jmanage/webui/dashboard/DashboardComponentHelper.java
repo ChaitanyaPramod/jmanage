@@ -39,8 +39,8 @@ public class DashboardComponentHelper {
     public static String drawComponent(WebContext context, HttpServletRequest request,
             String dashboardId, String componentId){
 
-        DashboardContext dashboardContext = new DashboardContextImpl(context, request);
         DashboardConfig dashboardConfig = DashboardRepository.getInstance().get(dashboardId);
+        DashboardContext dashboardContext = new DashboardContextImpl(context, dashboardConfig, request);        
         assert dashboardConfig != null : "Error retrieving dashboard details. id=" + dashboardId;
         DashboardComponent component = dashboardConfig.getComponents().get(componentId);
         assert component != null : "Error retrieving component. id=" + componentId;
