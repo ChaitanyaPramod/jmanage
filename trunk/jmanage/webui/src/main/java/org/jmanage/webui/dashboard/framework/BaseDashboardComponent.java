@@ -75,7 +75,9 @@ public abstract class BaseDashboardComponent implements DashboardComponent {
                     applicationId + "'')");
             output.append("</script>");
         }
-        
+
+        // wrap wih div tag
+        output.append("<div id=\"" + getId() + "\">");
         try{
             properties.context = context;
             if(!properties.hasUnresolvedVariable())
@@ -83,6 +85,8 @@ public abstract class BaseDashboardComponent implements DashboardComponent {
         }finally{
             properties.context = null;
         }
+        output.append("</div>");
+
         return output.toString();
     }
     

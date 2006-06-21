@@ -27,14 +27,22 @@ public class DashboardContextImpl implements DashboardContext {
 
     private final WebContext webContext;
     private final HttpServletRequest request;
+    private final DashboardConfig dashboardConfig;
     
-    public DashboardContextImpl(WebContext webContext, HttpServletRequest request){
+    public DashboardContextImpl(WebContext webContext,  
+            DashboardConfig dashboardConfig,
+            HttpServletRequest request){
         this.webContext = webContext; 
-        this.request = request;
+        this.dashboardConfig = dashboardConfig;
+        this.request = request;        
     }
     
     public WebContext getWebContext() {
         return webContext;
+    }
+
+    public DashboardConfig getDashboardConfig() {
+        return dashboardConfig;
     }
 
     public String getVariableValue(String variable) {

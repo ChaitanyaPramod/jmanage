@@ -14,8 +14,8 @@
  * limitations under the License.
 */
 
-	function refreshDBComponent(component, timeout, appId, varName, varValue){
-		var varURL = '/app/drawDashboardComponent.do?applicationId=' + appId + '&dashBID=jvmThreads&componentID=' + component + '&' + varName + '=' + varValue;
+	function refreshDBComponent(dashboardId, component, timeout, appId, varName, varValue){
+		var varURL = '/app/drawDashboardComponent.do?applicationId=' + appId + '&dashBID=' + dashboardId + '&componentID=' + component + '&' + varName + '=' + varValue;
 		//alert(varURL);
 		dojo.io.bind({
 			url: varURL,
@@ -33,9 +33,12 @@
 	    	mimetype: "text/plain"
 		});
 	
-		funcName = "refreshDBComponent('"+ component + "', " + timeout + ",'" + appId + "','" + varName + "','" + varValue + "')";
-		//alert(funcName);
-		self.setTimeout(funcName, timeout);
+		if(timeout > 0){	
+			// we need to auto refresh, only if timeout has a value greater than zero
+			funcName = "refreshDBComponent('" + dashboardId + "','" + component + "', " + timeout + ",'" + appId + "','" + varName + "','" + varValue + "')";
+			//alert(funcName);
+			self.setTimeout(funcName, timeout);
+		}
 	}
 
 	var eventHandlers = new Array();
@@ -54,10 +57,10 @@
 		eventHandlers.push(handlerObj);	
 	}
 
-	function handleEvent(component, eventName, data){
+	function handleEvent(dashboardId, component, eventName, data){
 		for(i=0; i<eventHandlers.length; i++){
 			if(eventHandlers[i].component == component && eventHandlers[i].eventName == eventName){
-				refreshDBComponent(eventHandlers[i].targetComponent, 10000, eventHandlers[i].applicationId, eventHandlers[i].dataVar, data);
+				refreshDBComponent(dashboardId, eventHandlers[i].targetComponent, 0, eventHandlers[i].applicationId, eventHandlers[i].dataVar, data);
 			} 	
 		}	
 	}
