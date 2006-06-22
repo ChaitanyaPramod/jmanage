@@ -15,13 +15,9 @@
  */
 package org.jmanage.webui.dashboard.framework;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import org.jdom.Element;
-import org.jmanage.core.util.Loggers;
 
 /**
  * This dashboard component has simple property name/value based configuration. The
@@ -37,8 +33,6 @@ import org.jmanage.core.util.Loggers;
  */
 public abstract class BaseDashboardComponent implements DashboardComponent {
 
-    private static final Logger logger = Loggers.getLogger(BaseDashboardComponent.class);
-    
     private String id;
     private Event event;
     private Properties properties;
@@ -100,53 +94,6 @@ public abstract class BaseDashboardComponent implements DashboardComponent {
             this.source = eventElement.getAttributeValue("source");
             this.name = eventElement.getAttributeValue("name");
             this.dataVariable = eventElement.getAttributeValue("dataVariable");
-        }
-    }
-
-    @SuppressWarnings("serial")
-    private class Properties extends HashMap<String, String>{
-         
-        DashboardContext context;
-        
-        Properties(Element componentConfig){
-            parseProperties(componentConfig);
-        }
-        
-        public String get(Object propertyName){
-            String value = super.get(propertyName);
-            return resolveVariable(value);
-        }
-        
-        public boolean hasUnresolvedVariable(){
-            for(String value:this.values()){
-                if(value != null && resolveVariable(value) == null)
-                    return true;
-            }
-            return false;
-        }
-        
-        /**
-         * 
-         * @return null if the variable can't be resolved
-         */
-        private String resolveVariable(String value){
-            if(value != null && value.startsWith("${")){
-                assert value.endsWith("}");
-                String variable = value.substring(2, value.length() - 1);
-                value = context.getVariableValue(variable);
-                logger.fine("Resolving variable:" + variable + " to value:" + value);
-            }
-            return value;
-        }
-        
-        @SuppressWarnings("unchecked")
-        private void parseProperties(Element componentConfig){
-            List<Element> propertyElements = componentConfig.getChildren("property");
-            for(Element property: propertyElements){
-                String name = property.getAttribute("name").getValue();
-                String value = property.getAttribute("value").getValue();
-                this.put(name, value);
-            }
         }
     }
 }
