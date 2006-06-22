@@ -17,60 +17,46 @@ package org.jmanage.webui.dashboard.qualifiers;
 
 import org.jmanage.webui.dashboard.framework.BaseDashboardQualifier;
 import org.jmanage.core.config.ApplicationConfig;
-import org.jmanage.core.management.ServerConnection;
-import org.jmanage.core.management.ServerConnector;
-import org.jmanage.core.management.ConnectionFailedException;
-import org.jmanage.core.management.ObjectName;
-import org.jmanage.core.util.Loggers;
+import org.jmanage.core.management.*;
 import org.jmanage.core.services.ServiceUtils;
+import org.jmanage.core.util.Loggers;
 
-import java.util.logging.Logger;
-import java.util.logging.Level;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
- * Date: Jun 18, 2006 4:08:21 PM
+ * Date: Jun 21, 2006 7:33:11 PM
  *
  * @author Shashank Bellary
  */
-public class Java5DashboardQualifier extends BaseDashboardQualifier {
+public class GenericMBeanCheckQualifier extends BaseDashboardQualifier {
     private static final Logger logger =
-            Loggers.getLogger(Java5DashboardQualifier.class);
+            Loggers.getLogger(GenericMBeanCheckQualifier.class);
     private ObjectName objectName;
-    private String attributeName;
 
-    /**
-     * Java 5 dashboard qualifier used to associate a java5 dashboard with an
-     * application.
-     *
-     * @param applicationConfig
-     * @return boolean value indicating the qualifying status.
-     */
+    protected void init(Map<String, String> properties) {
+        try {
+            objectName = new ObjectName(properties.get(MBEAN));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public boolean isQualified(ApplicationConfig applicationConfig) {
-
         ServerConnection serverConnection = null;
         try {
             serverConnection =
                     ServerConnector.getServerConnection(applicationConfig);
-            String value = (String)serverConnection.getAttribute(objectName,
-                    attributeName);
-            return value.startsWith("1.5");
+            ObjectInfo objectInfo = serverConnection.getObjectInfo(objectName);
+            return objectInfo != null;
         } catch (ConnectionFailedException e){
             logger.log(Level.FINE, new StringBuilder().append(
-                    "Error retrieving attributes for:").append(
+                    "Error finding mbean "+objectName+" for:").append(
                     applicationConfig.getName()).toString(), e);
         } finally{
             ServiceUtils.close(serverConnection);
         }
         return false;
-    }
-
-    protected void init(Map<String, String> properties) {
-        try {
-            objectName = new ObjectName(properties.get(MBEAN));
-            attributeName = properties.get(ATTRIBUTE);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 }

@@ -44,10 +44,10 @@ public class DashboardLoader {
 
     /*  Dashboard XML file elements */
     private static final String DASHBOARD = "dashboard";
+    private static final String COMMENT = "comment";
 
     private static final String ID = "id";
     private static final String NAME = "name";
-    private static final String COMMENT = "comment";
     private static final String TEMPLATE = "template";
 
     private static final String QUALIFICATIONS = "qualifications";
@@ -108,7 +108,7 @@ public class DashboardLoader {
     /**
      *
      * @param dashboard
-     * @return
+     * @return DashboardConfig instance
      */
     @SuppressWarnings("unchecked")
     private DashboardConfig buildDashboardConfig(Document dashboard){
@@ -132,6 +132,7 @@ public class DashboardLoader {
                 Class qualifierClass = Class.forName(qualifierClassName);
                 DashboardQualifier dashboardQualifier =
                         (DashboardQualifier) qualifierClass.newInstance();
+                dashboardQualifier.init(qualifierElement);
                 qualifiers.add(dashboardQualifier);
             }catch(Exception e){
                 logger.severe("Error loading qualifier class: "+qualifierClassName);

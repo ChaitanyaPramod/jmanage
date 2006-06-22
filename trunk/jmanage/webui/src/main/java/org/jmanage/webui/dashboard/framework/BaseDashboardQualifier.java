@@ -1,5 +1,5 @@
 /**
- * Copyright 2004-2005 jManage.org
+ * Copyright 2004-2006 jManage.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,15 +19,21 @@ import org.jmanage.core.config.ApplicationConfig;
 import org.jdom.Element;
 
 import java.util.List;
+import java.util.Map;
 
 /**
- * Date: Apr 23, 2006 4:20:32 PM
- * @author Shashank Bellary
+ * Date: Jun 21, 2006 7:07:19 PM
+ *
+ * @ author: Shashank Bellary
  */
-public interface DashboardQualifier {
-    public static String MBEAN = "mbean";
-    public static String ATTRIBUTE = "attribute";
+public abstract class BaseDashboardQualifier implements DashboardQualifier{
+    private Properties properties;
 
-    public boolean isQualified(ApplicationConfig applicationConfig);
-    public void init(Element qualifyingCriteria);
+    public void init(Element qualifyingCriteria) {
+        /* initialize properties */
+        properties = new Properties(qualifyingCriteria);
+        init(properties);
+    }
+    
+    protected abstract void init(Map<String, String> properties);
 }

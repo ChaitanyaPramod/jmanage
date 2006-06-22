@@ -36,6 +36,5 @@ public interface DashboardComponent {
     // TODO: It will be good to have an implementation of getId() here.
     public String getId();
     public void init(Element componentConfig);
-    // TODO: we should use a dashboard context object here.
     public String draw(DashboardContext context);
 }
