@@ -24,6 +24,7 @@ import org.jmanage.core.management.ObjectName;
 import org.jmanage.core.util.Loggers;
 import org.jmanage.core.services.ServiceUtils;
 
+import javax.management.InstanceNotFoundException;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import java.util.Map;
@@ -59,6 +60,14 @@ public class Java5DashboardQualifier extends BaseDashboardQualifier {
             logger.log(Level.FINE, new StringBuilder().append(
                     "Error retrieving attributes for:").append(
                     applicationConfig.getName()).toString(), e);
+        } catch(Exception e){
+            if(e instanceof InstanceNotFoundException ||
+                    e.getCause() instanceof InstanceNotFoundException){
+                logger.log(Level.INFO,
+                        "Specified object name/ attribute not found");
+            }else{
+                logger.log(Level.FINE, "Unknown error", e);
+            }
         } finally{
             ServiceUtils.close(serverConnection);
         }

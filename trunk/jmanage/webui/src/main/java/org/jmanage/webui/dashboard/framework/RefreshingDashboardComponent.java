@@ -60,7 +60,7 @@ public class RefreshingDashboardComponent implements DashboardComponent {
         output.append("'', ''");
         output.append(getId());
         output.append("'', ");
-        output.append(refreshInterval + ", " +  appId + ")\", " + refreshInterval + ");");
+        output.append(refreshInterval + ", " +  appId + ",''dummy'',''dummy'')\", " + refreshInterval + ");");
         output.append("</script>");
         return output.toString();
     }
