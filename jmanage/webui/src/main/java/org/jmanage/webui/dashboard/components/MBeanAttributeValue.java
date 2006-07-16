@@ -51,7 +51,6 @@ public class MBeanAttributeValue extends BaseDashboardComponent{
     /**
      *
      * @param context
-     * @return single attribute value.
      */
     protected void drawInternal(DashboardContext context, StringBuffer output) {
         ServerConnection connection = context.getWebContext().getServerConnection();

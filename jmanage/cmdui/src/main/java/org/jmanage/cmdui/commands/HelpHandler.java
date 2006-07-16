@@ -20,7 +20,6 @@ import org.jmanage.cmdui.util.Out;
 import org.jmanage.cmdui.util.Table;
 
 import java.util.Collection;
-import java.util.Iterator;
 
 /**
  *
@@ -50,7 +49,7 @@ public class HelpHandler implements CommandHandler {
         String[] args = context.getCommand().getArgs();
         if(args.length == 1){
             /* print long help for given command */
-            CommandHandler handler = null;
+            CommandHandler handler;
             try {
                 handler = CommandHandlerFactory.getHandler(args[0]);
                 handler.help();
@@ -69,8 +68,8 @@ public class HelpHandler implements CommandHandler {
         Out.println("Commands:");
         Table table = new Table(2);
         Collection commandNames = CommandHandlerFactory.getCommandNames();
-        for(Iterator it=commandNames.iterator(); it.hasNext();){
-            String commandName = (String)it.next();
+        for (Object commandName1 : commandNames) {
+            String commandName = (String) commandName1;
             CommandHandler handler =
                     CommandHandlerFactory.getHandler(commandName);
             table.add(commandName, handler.getShortHelp());
@@ -78,6 +77,7 @@ public class HelpHandler implements CommandHandler {
         table.print();
         Out.println();
         Out.println("Type \"help <command>\" for detailed command help.");
+        Out.println("[Important! : Any space within a command argument should be replaced with \"~\" character.]");
         return true;
     }
 

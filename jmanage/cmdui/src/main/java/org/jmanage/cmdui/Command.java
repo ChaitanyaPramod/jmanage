@@ -88,7 +88,7 @@ public class Command {
                 command.args = new String[args.length - index];
                 int argsIndex = 0;
                 while(index < args.length){
-                    command.args[argsIndex++] = args[index++];
+                    command.args[argsIndex++] = args[index++].replaceAll("~"," ");
                 }
             }
         }
