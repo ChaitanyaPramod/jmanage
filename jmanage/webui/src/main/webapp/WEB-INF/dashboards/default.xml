@@ -9,17 +9,17 @@
         <component id="com1" class="org.jmanage.webui.dashboard.components.MBeanAttributeValue" name="Single attribute value" refreshInterval="5000">
             <property name="mbean" value="java.lang:type=Runtime"/>
             <property name="attribute" value="Uptime"/>
-            <property name="displayName" value="App up time"/>
+            <property name="displayName" value="App up time (milliseconds)"/>
         </component>
         <component id="com2" class="org.jmanage.webui.dashboard.components.MBeanAttributeValue" name="Single attribute value">
             <property name="mbean" value="java.lang:type=OperatingSystem"/>
             <property name="attribute" value="ProcessCpuTime"/>
-            <property name="displayName" value="Process CPU time"/>
+            <property name="displayName" value="Process CPU time (nanoseconds)"/>
         </component>
         <component id="com3" class="org.jmanage.webui.dashboard.components.MBeanAttributeValue" name="Single attribute value" refreshInterval="5000">
             <property name="mbean" value="java.lang:type=Compilation"/>
             <property name="attribute" value="TotalCompilationTime"/>
-            <property name="displayName" value="Total compilation time"/>
+            <property name="displayName" value="Total compilation time (milliseconds)"/>
         </component>
         <component id="com4" class="org.jmanage.webui.dashboard.components.MBeanAttributeValue" name="Single attribute value" refreshInterval="5000">
             <property name="mbean" value="java.lang:type=Threading"/>
@@ -84,17 +84,17 @@
         <component id="com16" class="org.jmanage.webui.dashboard.components.MBeanAttributeValue" name="Single attribute value" refreshInterval="5000">
             <property name="mbean" value="java.lang:type=OperatingSystem"/>
             <property name="attribute" value="TotalPhysicalMemorySize"/>
-            <property name="displayName" value="Total physical memory"/>
+            <property name="displayName" value="Total physical memory (bytes)"/>
         </component>
         <component id="com17" class="org.jmanage.webui.dashboard.components.MBeanAttributeValue" name="Single attribute value" refreshInterval="5000">
             <property name="mbean" value="java.lang:type=OperatingSystem"/>
             <property name="attribute" value="FreePhysicalMemorySize"/>
-            <property name="displayName" value="Free physical memory"/>
+            <property name="displayName" value="Free physical memory (bytes)"/>
         </component>
         <component id="com18" class="org.jmanage.webui.dashboard.components.MBeanAttributeValue" name="Single attribute value" refreshInterval="5000">
             <property name="mbean" value="java.lang:type=OperatingSystem"/>
             <property name="attribute" value="CommittedVirtualMemorySize"/>
-            <property name="displayName" value="Committed virtual memory"/>
+            <property name="displayName" value="Committed virtual memory (bytes)"/>
         </component>
     </components>
 </dashboard>
