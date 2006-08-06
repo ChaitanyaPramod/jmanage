@@ -19,6 +19,8 @@ import java.util.*;
 import java.io.File;
 
 /**
+ * ApplicationConfigManager holds configuration of managed applications. 
+ * It provides add/update/remove operations for ApplicationConfig objects.
  *
  * date:  Jun 13, 2004
  * @author	Rakesh Kalra, Shashank Bellary

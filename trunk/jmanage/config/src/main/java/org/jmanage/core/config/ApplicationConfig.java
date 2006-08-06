@@ -19,7 +19,9 @@ package org.jmanage.core.config;
 import java.util.*;
 
 /**
- *
+ * ApplicationConfig holds configuration for a single application. 
+ * It has attributes like host, port, url ,etc.
+ * 
  * date:  Jun 11, 2004
  * @author	Rakesh Kalra, Shashank Bellary
  */
