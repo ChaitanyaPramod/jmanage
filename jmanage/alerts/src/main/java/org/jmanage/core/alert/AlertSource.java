@@ -23,7 +23,8 @@ import java.util.logging.Level;
 import java.io.IOException;
 
 /**
- *
+ * AlertSource is the base class for all sources from which alerts can be received.
+ *  
  * Date:  Jul 1, 2005
  * @author	Rakesh Kalra
  */
