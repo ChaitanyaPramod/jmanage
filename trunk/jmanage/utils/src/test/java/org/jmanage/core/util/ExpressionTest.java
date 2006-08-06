@@ -68,6 +68,13 @@ public class ExpressionTest extends TestCase {
         assertEquals(expression.getTargetName(), attrName);
     }
 
+    public void testExprStringWithSpaces(){
+        Expression expression = new Expression("test/\"jmanage:name=Primitive DataType Test,type=test\"");
+        assertEquals(expression.getAppName(), "test");
+        assertEquals(expression.getMBeanName(), "jmanage:name=Primitive DataType Test,type=test");
+        assertNull(expression.getTargetName());
+    }
+    
     ////////////////////////////////////////////////////////////////////////////
     // Expression Context Tests
 
