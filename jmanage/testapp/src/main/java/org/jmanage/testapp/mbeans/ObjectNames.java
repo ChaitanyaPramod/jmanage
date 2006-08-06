@@ -23,7 +23,7 @@ package org.jmanage.testapp.mbeans;
 public interface ObjectNames {
     String CONFIGURATION = "jmanage:name=Configuration,type=test";
     String CALCULATOR = "jmanage:name=\"Calculator/test\",type=\"test\"";
-    String PRIMITIVE_DATA_TYPE_TEST = "jmanage:name=PrimitiveDataTypeTest,type=test";
+    String PRIMITIVE_DATA_TYPE_TEST = "jmanage:name=Primitive DataType Test,type=test";
     String DATA_TYPE_TEST = "jmanage:type=test,name=DataTypeTest";
     String BIG_DATA_TYPE_TEST = "jmanage:type=test,name=BigDataTypeTest";
     String OBJECT_NAME_DATA_TYPE_TEST = "jmanage:name=ObjectNameDataTypeTest,type=test";
