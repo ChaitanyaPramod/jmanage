@@ -27,10 +27,12 @@ public class AlertSourceConfig {
     public static final String SOURCE_TYPE_GAUGE_MONITOR = "gauge";
     public static final String SOURCE_TYPE_COUNTER_MONITOR = "counter";
     public static final String SOURCE_TYPE_STRING_MONITOR = "string";
-
+    public static final String SOURCE_TYPE_APPLICATION_DOWN = "appDown";
+    
     private static final String SOURCE_TYPE_NOTIFICATION_DESC = "MBean Notification";
     private static final String SOURCE_TYPE_GAUGE_MONITOR_DESC = "MBean Attribute Value Thresholds";
     private static final String SOURCE_TYPE_STRING_MONITOR_DESC = "MBean Attribute String Value Match";
+    private static final String SOURCE_TYPE_APPLICATION_DOWN_DESC = "Application Down";
 
     private String sourceType;
     private ApplicationConfig appConfig;
@@ -47,6 +49,10 @@ public class AlertSourceConfig {
     private String stringAttributeValue;
     private String attributeDataTYpe;
 
+    public AlertSourceConfig(){
+        this.sourceType = SOURCE_TYPE_APPLICATION_DOWN;
+    }
+    
     public AlertSourceConfig(String objectName, String notificationType){
         this.sourceType = SOURCE_TYPE_NOTIFICATION;
         this.objectName = objectName;
@@ -138,6 +144,9 @@ public class AlertSourceConfig {
         }
         if(sourceType.equals(SOURCE_TYPE_STRING_MONITOR)){
             return SOURCE_TYPE_STRING_MONITOR_DESC;
+        }
+        if(sourceType.equals(SOURCE_TYPE_APPLICATION_DOWN)){
+            return SOURCE_TYPE_APPLICATION_DOWN_DESC;
         }
         return null;
     }

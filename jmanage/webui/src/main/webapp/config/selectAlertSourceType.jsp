@@ -30,6 +30,11 @@
                       <%=AlertSourceConfig.getSourceTypeDescription(AlertSourceConfig.SOURCE_TYPE_STRING_MONITOR)%></td>
 </tr>
 <tr>
+    <td class="plaintext"><jmhtml:radio property="alertSourceType"
+                      value="<%=AlertSourceConfig.SOURCE_TYPE_APPLICATION_DOWN%>"/>
+                      <%=AlertSourceConfig.getSourceTypeDescription(AlertSourceConfig.SOURCE_TYPE_APPLICATION_DOWN)%></td>
+</tr>
+<tr>
     <td align="center" colspan="2">
         <jmhtml:submit property="" value="Next" styleClass="Inside3d" />
         &nbsp;&nbsp;&nbsp;

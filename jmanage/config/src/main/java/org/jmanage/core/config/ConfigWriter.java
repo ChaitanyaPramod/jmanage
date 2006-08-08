@@ -223,8 +223,11 @@ public class ConfigWriter {
             Element source = new Element(ConfigConstants.ALERT_SOURCE);
             source.setAttribute(ConfigConstants.ALERT_SOURCE_TYPE,
                     sourceConfig.getSourceType());
-            source.setAttribute(ConfigConstants.ALERT_SOURCE_MBEAN,
-                    sourceConfig.getObjectName());
+            if(!sourceConfig.getSourceType().equals(
+                    AlertSourceConfig.SOURCE_TYPE_APPLICATION_DOWN)){
+                source.setAttribute(ConfigConstants.ALERT_SOURCE_MBEAN,
+                        sourceConfig.getObjectName());
+            }
             if(sourceConfig.getSourceType().equals(
                     AlertSourceConfig.SOURCE_TYPE_NOTIFICATION)){
                 source.setAttribute(ConfigConstants.ALERT_SOURCE_NOTIFICATION_TYPE,

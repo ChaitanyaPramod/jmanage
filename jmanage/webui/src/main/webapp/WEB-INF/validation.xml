@@ -300,9 +300,6 @@
             <field property="alertSourceType" depends="required">
                 <arg0 key="Alert Source Type" resource="false"/>
             </field>
-            <field property="expression" depends="required">
-                <arg0 key="Source MBean" resource="false"/>
-            </field>
         </form>
         <form name="attributeSelectionForm">
             <field property="mbeans" depends="required" page="1" >

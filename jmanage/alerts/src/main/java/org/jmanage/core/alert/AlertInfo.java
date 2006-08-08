@@ -45,7 +45,12 @@ public class AlertInfo {
     private String appId;
     private String appName;
 
-    public AlertInfo(){}
+    // TODO: create proper ctor -rk
+    public AlertInfo(){
+        setAlertId("appDown" + System.currentTimeMillis());
+        setMessage("Application is down");
+        setTimeStamp(System.currentTimeMillis());
+    }
 
     public AlertInfo(ObjectNotification notification){
         // todo: figure out a better way to generate unique alert ids

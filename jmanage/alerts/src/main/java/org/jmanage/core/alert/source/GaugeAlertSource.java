@@ -15,7 +15,6 @@
  */
 package org.jmanage.core.alert.source;
 
-import org.jmanage.core.alert.AlertSource;
 import org.jmanage.core.alert.AlertInfo;
 import org.jmanage.core.config.AlertSourceConfig;
 import org.jmanage.core.management.*;
@@ -31,7 +30,7 @@ import java.util.Set;
  * Date: Aug 31, 2005 11:41:59 AM
  * @author Bhavana
  */
-public class GaugeAlertSource extends AlertSource{
+public class GaugeAlertSource extends MBeanAlertSource{
 
     private static final Logger logger =
             Loggers.getLogger(GaugeAlertSource.class);

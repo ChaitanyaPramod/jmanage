@@ -14,6 +14,7 @@
 package org.jmanage.core.alert;
 
 import org.jmanage.core.config.AlertSourceConfig;
+import org.jmanage.core.alert.source.ApplicationDowntimeAlertSource;
 import org.jmanage.core.alert.source.NotificationAlertSource;
 import org.jmanage.core.alert.source.GaugeAlertSource;
 import org.jmanage.core.alert.source.StringAlertSource;
@@ -33,6 +34,8 @@ public class AlertSourceFactory {
             return new GaugeAlertSource(sourceConfig);
         }else if(sourceType.equals(AlertSourceConfig.SOURCE_TYPE_STRING_MONITOR)){
             return new StringAlertSource(sourceConfig);
+        }else if(sourceType.equals(AlertSourceConfig.SOURCE_TYPE_APPLICATION_DOWN)){
+            return new ApplicationDowntimeAlertSource(sourceConfig);
         }
         assert false:"Unknown alert source type: " + sourceType;
         return null;
