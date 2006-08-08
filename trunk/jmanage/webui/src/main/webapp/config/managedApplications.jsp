@@ -129,8 +129,12 @@
         <td class="plaintext"><%=alert.getAlertName()%></td>
         <td class="plaintext"><%=alert.getMessage()%></td>
         <td class="plaintext">
+				<%if(alert.getObjectName() != null){ %>
         <a href="/app/mbeanView.do?<%=RequestParams.APPLICATION_ID%>=<%=alert.getApplicationId()%>&<%=RequestParams.OBJECT_NAME%>=<%=URLEncoder.encode(alert.getObjectName(), "UTF-8")%>">
             <%=alert.getObjectName()%></a>
+        <%}else{ %>
+        	&nbsp;
+        <%} %>
         </td>
         <td class="plaintext"><a href="/app/removeConsoleAlert.do?alertId=<%=alert.getAlertId()%>">Remove</a></td>
     </tr>

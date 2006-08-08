@@ -47,7 +47,15 @@ public class SelectAlertSourceTypeAction extends BaseAction{
         String sourceType = alertForm.getAlertSourceType();
         assert sourceType != null;
         ApplicationConfig appConfig= context.getApplicationConfig();
-        if(sourceType.equals(AlertSourceConfig.SOURCE_TYPE_GAUGE_MONITOR)){
+        
+        if(sourceType.equals(AlertSourceConfig.SOURCE_TYPE_APPLICATION_DOWN)){
+            String url = "/config/showAddAlert.do?"
+                +  RequestParams.APPLICATION_ID + "="
+                + appConfig.getApplicationId() + "&"
+                + RequestParams.ALERT_SOURCE_TYPE + "="
+                + AlertSourceConfig.SOURCE_TYPE_APPLICATION_DOWN;
+            return new ActionForward(url);
+        }else if(sourceType.equals(AlertSourceConfig.SOURCE_TYPE_GAUGE_MONITOR)){
             String url = "/config/showMBeans.do?"
                     +  RequestParams.APPLICATION_ID + "="
                     + appConfig.getApplicationId() + "&"

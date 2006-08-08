@@ -173,8 +173,12 @@ if(appConfig.getAlerts().size() > 0){
              <%=alertConfig.getAlertName()%>
         </td>
         <td class="plaintext">
+            <%if(alertConfig.getAlertSourceConfig().getObjectName() != null){%>
             <a href="/app/mbeanView.do?<%=RequestParams.APPLICATION_ID%>=<%=alertConfig.getAlertSourceConfig().getApplicationConfig().getApplicationId()%>&<%=RequestParams.OBJECT_NAME%>=<%=URLEncoder.encode(alertConfig.getAlertSourceConfig().getObjectName(), "UTF-8")%>">
              <%=ObjectName.getShortName(alertConfig.getAlertSourceConfig().getObjectName())%>
+            <%}else{ %>
+             	&nbsp;
+            <%} %>
         </td>
         <td class="plaintext"><%=alertConfig.getAlertSourceConfig().getSourceTypeDesc()%></td>
         <td class="plaintext"><%=alertDel%></td>

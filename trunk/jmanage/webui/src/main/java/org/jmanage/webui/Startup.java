@@ -29,6 +29,7 @@ import org.jmanage.core.alert.AlertEngine;
 import org.jmanage.core.config.ApplicationTypes;
 import org.jmanage.connector.framework.ConnectorConfigRegistry;
 import org.jmanage.connector.framework.ConnectorRegistry;
+import org.jmanage.monitoring.downtime.ApplicationDowntimeService;
 
 import java.rmi.RMISecurityManager;
 import java.util.Arrays;
@@ -111,6 +112,9 @@ public class Startup {
         /* start the AlertEngine */
         AlertEngine.getInstance().start();
 
+        /* start the application downtime service */
+        ApplicationDowntimeService.getInstance().start();
+        
         /* load connectors */
         ConnectorConfigRegistry.init();
 

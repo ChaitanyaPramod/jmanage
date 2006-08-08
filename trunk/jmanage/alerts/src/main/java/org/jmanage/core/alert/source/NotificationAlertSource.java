@@ -16,7 +16,6 @@ package org.jmanage.core.alert.source;
 import org.jmanage.core.config.AlertSourceConfig;
 import org.jmanage.core.management.*;
 import org.jmanage.core.util.Loggers;
-import org.jmanage.core.alert.AlertSource;
 import org.jmanage.core.alert.AlertInfo;
 
 import java.util.logging.Logger;
@@ -27,7 +26,7 @@ import java.util.logging.Level;
  * Date:  Jul 31, 2005
  * @author	Rakesh Kalra
  */
-public class NotificationAlertSource extends AlertSource {
+public class NotificationAlertSource extends MBeanAlertSource {
 
     private static final Logger logger =
             Loggers.getLogger(NotificationAlertSource.class);

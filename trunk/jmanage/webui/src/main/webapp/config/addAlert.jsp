@@ -55,6 +55,12 @@
         <jmhtml:hidden property="alertSourceType"/>
     </td>
 </tr>
+<%
+	String sourceType = (String)request.getAttribute("alertSourceType");
+%>
+<%
+if(!sourceType.equals(AlertSourceConfig.SOURCE_TYPE_APPLICATION_DOWN)){
+%>
 <tr>
     <td class="headtext1"><nobr>Alert Source MBean:</nobr></td>
     <td class="plaintext">
@@ -75,7 +81,6 @@
     </td>
 </tr>
 <%
-    String sourceType = (String)request.getAttribute("alertSourceType");
     if(sourceType.equals(AlertSourceConfig.SOURCE_TYPE_NOTIFICATION)){
 %>
 <tr>
@@ -122,6 +127,7 @@
 <%
     }
     }
+}
 %>
 
 <tr>

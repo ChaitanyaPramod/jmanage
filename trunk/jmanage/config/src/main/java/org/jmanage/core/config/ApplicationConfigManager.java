@@ -161,7 +161,7 @@ public class ApplicationConfigManager {
         writer.write(new Config(applicationConfigs));
     }
 
-    public static List getAllApplications(){
+    public static List<ApplicationConfig> getAllApplications(){
         Iterator appItr = applicationConfigs.iterator();
         List<ApplicationConfig> applications = new LinkedList<ApplicationConfig>();
         while(appItr.hasNext()){

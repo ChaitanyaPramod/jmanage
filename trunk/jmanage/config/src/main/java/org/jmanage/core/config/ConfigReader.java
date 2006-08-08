@@ -301,6 +301,8 @@ public class ConfigReader implements ConfigConstants{
                             ALERT_STRING_ATTRIBUTE_VALUE);
                     sourceConfig = new AlertSourceConfig(mbean, attribute,
                             stringAttributeValue);
+                }else if(sourceType.equals(AlertSourceConfig.SOURCE_TYPE_APPLICATION_DOWN)){
+                    sourceConfig = new AlertSourceConfig();
                 }
                 assert sourceConfig != null;
                 sourceConfig.setApplicationConfig(appConfig);
