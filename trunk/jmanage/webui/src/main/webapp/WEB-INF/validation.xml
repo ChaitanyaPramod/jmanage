@@ -312,6 +312,12 @@
                 <msg name="required" key="error.select.required"/>
             </field>
         </form>
+        <form name="dashboardSelectionForm">
+            <field property="dashboards" depends="required" page="1" >
+                <arg0 key="Dashboards" resource="false"/>
+                <msg name="required" key="error.select.required"/>
+            </field>
+        </form>
         <form name="graphForm">
             <field property="graphName" depends="required">
                 <arg0 key="Graph Name" resource="false"/>
