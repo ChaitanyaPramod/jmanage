@@ -29,6 +29,14 @@
         }
         return;
     }
+    function deleteDashboard(dashboardID, appId){
+        var msg;
+        msg = "Are you sure you want to delete this Dashboard?";
+        if(confirm(msg) == true){
+            return;
+        }
+        return;
+    }
 </script>
 <%
     WebContext webContext = WebContext.get(request);
@@ -229,18 +237,11 @@ if(appConfig.getDashboards() != null && !appConfig.getDashboards().isEmpty()){
             <a href="/config/viewDashboard.do?applicationId=<%=appConfig.getApplicationId()%>&dashBID=<%=dashboardConfig.getDashboardId()%>">
                 <%=dashboardConfig.getName()%></a></td>
         <td align="right" width="60">
-            <%
-                String editDashboardLink ="/config/showAddDashboard.do?"
-                        + "id=" + dashboardConfig.getDashboardId();
-            %>
-            <jmhtml:link href="#" acl="<%=ACLConstants.ACL_EDIT_DASHBOARD%>" styleClass="a1">Edit</jmhtml:link>
-        </td>
-        <td align="right" width="60">
         <%
-            String deleteAlertLink = "JavaScript:deleteAlert('"
+            String deleteDashboardLink = "JavaScript:deleteDashboard('"
                     + dashboardConfig.getDashboardId() + "','" + appConfig.getApplicationId() + "');";
         %>
-           <jmhtml:link href="#" acl="<%=ACLConstants.ACL_EDIT_DASHBOARD%>"  styleClass="a1">
+           <jmhtml:link href="<%=deleteDashboardLink%>" acl="<%=ACLConstants.ACL_EDIT_DASHBOARD%>"  styleClass="a1">
             Delete</jmhtml:link>
        </td>
     </tr>
@@ -253,5 +254,6 @@ if(appConfig.getDashboards() != null && !appConfig.getDashboards().isEmpty()){
     There are no configured dashboards.
 </p>
 <%}%>
-<jmhtml:link href="#" acl="<%=ACLConstants.ACL_ADD_DASHBOARD%>" styleClass="a">
+<br/>
+<jmhtml:link href="/config/showAddDashboard.do" acl="<%=ACLConstants.ACL_ADD_DASHBOARD%>" styleClass="a">
     Add Dashboard</jmhtml:link>

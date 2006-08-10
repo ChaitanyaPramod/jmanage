@@ -139,5 +139,7 @@
     <definition name="app.dashboardView" extends="layouts.application">
         <put name="body.main" value="/config/dashboardContainer.jsp"/>
     </definition>
-
+    <definition name="config.showDashboards" extends="layouts.application">
+        <put name="body.main" value="/config/selectDashboards.jsp"/>
+    </definition>
 </tiles-definitions>

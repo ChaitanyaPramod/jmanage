@@ -65,6 +65,10 @@
             name="attributeSelectionForm"
             type="org.jmanage.webui.forms.AttributeSelectionForm">
         </form-bean>
+        <form-bean
+            name="dashboardSelectionForm"
+            type="org.jmanage.webui.forms.DashboardSelectionForm">
+        </form-bean>
     </form-beans>
 
     <!-- ====================================== Global Exception Definitions -->
@@ -551,6 +555,20 @@
             validate="false"
             type="org.jmanage.webui.actions.config.dashboard.ShowDashboardAction">
             <forward name="success" path="app.dashboardView" />
+        </action>
+        <action path="/config/showAddDashboard"
+            scope="request"
+            validate="false"
+            type="org.jmanage.webui.actions.config.dashboard.ShowAvailableDashboardsAction">
+            <forward name="success" path="config.showDashboards" />
+        </action>
+        <action path="/config/addDashboard"
+            name="dashboardSelectionForm"
+            scope="request"
+            input="/config/showAddDashboard.do"
+            validate="true"
+            type="org.jmanage.webui.actions.config.dashboard.AddSelectedDashboardsAction">
+            <forward name="success" path="/app/appView.do" />
         </action>
     </action-mappings>
 

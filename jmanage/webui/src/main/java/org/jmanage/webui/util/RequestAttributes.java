@@ -34,4 +34,6 @@ public interface RequestAttributes {
 
     public static final String NAV_CURRENT_PAGE = "navCurrentPage";
     public static final String AUTHENTICATED_USER = "authenticatedUser";
+    public static final String QUALIFYING_DASHBOARDS = "qualifyingDashboards";
+
 }
