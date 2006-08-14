@@ -1,5 +1,5 @@
 /**
- * Copyright 2004-2005 jManage.org
+ * Copyright 2004-2006 jManage.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,33 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.jmanage.webui.actions.config.dashboard;
 
 import org.jmanage.webui.actions.BaseAction;
-import org.jmanage.webui.dashboard.framework.DashboardConfig;
-import org.jmanage.webui.dashboard.framework.DashboardRepository;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
+import org.jmanage.webui.util.RequestParams;
 import org.jmanage.core.config.ApplicationConfig;
+import org.jmanage.core.config.ApplicationConfigManager;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
- * TODO: this should be under the actions.app package. -rk
- * 
- * Date: May 13, 2006 6:35:35 PM
+ * Date: Aug 14, 2006 2:15:33 PM
  *
  * @author Shashank Bellary
  */
-public class ShowDashboardAction extends BaseAction {
+public class RemoveDashboardAction extends BaseAction {
 
     /**
-     * 
+     *
      * @param context
      * @param mapping
      * @param actionForm
@@ -54,19 +52,13 @@ public class ShowDashboardAction extends BaseAction {
                                  HttpServletRequest request,
                                  HttpServletResponse response)
             throws Exception {
-        DashboardRepository instance = DashboardRepository.getInstance();
         ApplicationConfig appConfig = context.getApplicationConfig();
-        String currentDashboardId = request.getParameter("dashBID");
-        DashboardConfig currentDashboardConfig = null;
-        for(String dashboardId : appConfig.getDashboards()){
-            if(currentDashboardId.equals(dashboardId)){
-                currentDashboardConfig = instance.get(dashboardId);
-                break;
-            }
-        }
-        if(currentDashboardConfig == null)
-            currentDashboardConfig = instance.get(currentDashboardId);
-        request.setAttribute("dashboardPage", currentDashboardConfig.getTemplate());
+        List<String> currentDashboards = appConfig.getDashboards();
+        String dbToBeRemoved = request.getParameter(RequestParams.DASHBOARD_ID);
+        assert((dbToBeRemoved != null && !dbToBeRemoved.trim().equals("")));
+        currentDashboards.remove(dbToBeRemoved);
+        appConfig.setDashboards(currentDashboards);
+        ApplicationConfigManager.updateApplication(appConfig);
         return mapping.findForward(Forwards.SUCCESS);
     }
 }

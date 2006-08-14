@@ -52,9 +52,13 @@ public class AddSelectedDashboardsAction extends BaseAction {
                                  HttpServletRequest request,
                                  HttpServletResponse response)
             throws Exception {
+        List<String> appConfigDashboards = new LinkedList<String>();
         DashboardSelectionForm dbForm = (DashboardSelectionForm)actionForm;
         ApplicationConfig appConfig = context.getApplicationConfig();
-        appConfig.setDashboards(Arrays.asList(dbForm.getDashboards()));
+        for(String dbID : dbForm.getDashboards()){
+            appConfigDashboards.add(dbID);
+        }
+        appConfig.setDashboards(appConfigDashboards);
         ApplicationConfigManager.updateApplication(appConfig);
         return mapping.findForward(Forwards.SUCCESS);
     }

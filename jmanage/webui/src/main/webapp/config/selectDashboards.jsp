@@ -1,6 +1,7 @@
 <%@ page import="java.util.List, org.jmanage.webui.util.RequestAttributes"%>
 <%@ page import="org.jmanage.webui.dashboard.framework.DashboardConfig"%>
 <%@ page import="java.util.Collection"%>
+<%@ page import="org.jmanage.webui.forms.DashboardSelectionForm"%>
 <!--    /config/selectDashboards.jsp  -->
 
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
@@ -15,9 +16,24 @@
     <%
         Collection<DashboardConfig> dashboards =
                 (Collection<DashboardConfig>)request.getAttribute(RequestAttributes.QUALIFYING_DASHBOARDS);
-        for(DashboardConfig dashboard : dashboards){%>
+        DashboardSelectionForm dbForm =
+                (DashboardSelectionForm)request.getAttribute("dashboardSelectionForm");
+        String[] dbIDs = dbForm.getDashboards();
+        for(DashboardConfig dashboard : dashboards){
+            boolean exists = false;
+            for(String dbID : dbIDs){
+                if(dbID.equals(dashboard.getDashboardId())){
+                    exists = true;
+                    break;
+                }
+            }
+    %>
         <tr>
-            <td class="plaintext"><jmhtml:checkbox property="dashboards" value="<%=dashboard.getDashboardId()%>"/></td>
+            <%if(exists){%>
+            <td class="plaintext"><input type="checkbox" name="dashboards" value="<%=dashboard.getDashboardId()%>" checked="true"/></td>
+            <%}else{%>
+            <td class="plaintext"><input type="checkbox" name="dashboards" value="<%=dashboard.getDashboardId()%>"/></td>
+            <%}%>
             <td class="plaintext"><%=dashboard.getName()%></td>
         </tr>
     <%  }%>
