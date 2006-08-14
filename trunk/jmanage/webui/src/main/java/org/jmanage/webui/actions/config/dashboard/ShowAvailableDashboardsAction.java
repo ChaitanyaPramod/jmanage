@@ -21,13 +21,14 @@ import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.util.RequestAttributes;
 import org.jmanage.webui.dashboard.framework.DashboardRepository;
 import org.jmanage.webui.dashboard.framework.DashboardConfig;
+import org.jmanage.webui.forms.DashboardSelectionForm;
+import org.jmanage.core.config.ApplicationConfig;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 import java.util.Collection;
 
 /**
@@ -53,8 +54,11 @@ public class ShowAvailableDashboardsAction extends BaseAction {
                                  HttpServletRequest request,
                                  HttpServletResponse response)
             throws Exception {
+        ApplicationConfig appConfig = context.getApplicationConfig();
+        DashboardSelectionForm dbForm = (DashboardSelectionForm)actionForm;
+        dbForm.setDashboards(appConfig.getDashboards().toArray(new String[]{}));
         Collection<DashboardConfig> qualifyingDashboards =
-                instance.getQualifyingDashboards(context.getApplicationConfig());
+                instance.getQualifyingDashboards(appConfig);
         request.setAttribute(RequestAttributes.QUALIFYING_DASHBOARDS,
                 qualifyingDashboards);
         return mapping.findForward(Forwards.SUCCESS);

@@ -33,7 +33,7 @@
         var msg;
         msg = "Are you sure you want to delete this Dashboard?";
         if(confirm(msg) == true){
-            return;
+            location = '/config/deleteDashboard.do?<%=RequestParams.DASHBOARD_ID%>='+dashboardID+'&<%=RequestParams.APPLICATION_ID%>='+appId +'&refreshApps=true';
         }
         return;
     }
@@ -219,7 +219,6 @@ if(appConfig.getAlerts().size() > 0){
 <jmhtml:link href="/config/showSelectAlertSourceType.do" acl="<%=ACLConstants.ACL_ADD_ALERT%>" styleClass="a">
     Add Alert</jmhtml:link>
 </p>
-<br/>
 <%--Dashboards--%>
 <%
 if(appConfig.getDashboards() != null && !appConfig.getDashboards().isEmpty()){
@@ -247,13 +246,11 @@ if(appConfig.getDashboards() != null && !appConfig.getDashboards().isEmpty()){
     </tr>
     <%}%>
 </table>
-<%
-}else{
-%>
+<br/>
+<%}else{%>
 <p class="plaintext">
     There are no configured dashboards.
 </p>
 <%}%>
-<br/>
 <jmhtml:link href="/config/showAddDashboard.do" acl="<%=ACLConstants.ACL_ADD_DASHBOARD%>" styleClass="a">
     Add Dashboard</jmhtml:link>

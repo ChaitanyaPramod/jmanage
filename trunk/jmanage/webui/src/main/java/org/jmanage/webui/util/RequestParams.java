@@ -43,4 +43,5 @@ public interface RequestParams {
     public static final String SHOW_END_URL = "showEndURL";
     public static final String APPLY_ATTRIB_FILTER = "applyAttribFilter";
     public static final String MULTI_MBEAN_CONFIG = "multiMBeanConfig";
+    public static final String DASHBOARD_ID = "dashboardId";
 }

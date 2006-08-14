@@ -557,6 +557,7 @@
             <forward name="success" path="app.dashboardView" />
         </action>
         <action path="/config/showAddDashboard"
+            name="dashboardSelectionForm"
             scope="request"
             validate="false"
             type="org.jmanage.webui.actions.config.dashboard.ShowAvailableDashboardsAction">
@@ -568,6 +569,12 @@
             input="/config/showAddDashboard.do"
             validate="true"
             type="org.jmanage.webui.actions.config.dashboard.AddSelectedDashboardsAction">
+            <forward name="success" path="/app/appView.do" />
+        </action>
+        <action path="/config/deleteDashboard"
+            scope="request"
+            input="/app/appView.do"
+            type="org.jmanage.webui.actions.config.dashboard.RemoveDashboardAction">
             <forward name="success" path="/app/appView.do" />
         </action>
     </action-mappings>
