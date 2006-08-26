@@ -20,6 +20,7 @@ import org.jmanage.core.alert.AlertInfo;
 import org.jmanage.core.alert.AlertSource;
 import org.jmanage.core.config.AlertSourceConfig;
 import org.jmanage.monitoring.downtime.ApplicationDowntimeService;
+import org.jmanage.monitoring.downtime.event.ApplicationDownEvent;
 import org.jmanage.monitoring.downtime.event.Event;
 import org.jmanage.monitoring.downtime.event.EventListener;
 
@@ -48,7 +49,8 @@ public class ApplicationDowntimeAlertSource implements AlertSource{
     
     private class ApplicationDowntimeEventListener implements EventListener {
         public void handleEvent(Event event) {
-            if(sourceConfig.getApplicationConfig().equals(event.getApplicationConfig())){
+            if(sourceConfig.getApplicationConfig().equals(event.getApplicationConfig())
+                    && event instanceof ApplicationDownEvent){
                 handler.handle(new AlertInfo());
             }
         }

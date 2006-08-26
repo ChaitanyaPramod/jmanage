@@ -32,6 +32,7 @@ public class ApplicationDowntime {
     }
 
     protected void setEndTime(Long endTime) {
+        assert endTime.longValue() >= startTime.longValue();
         this.endTime = endTime;
     }
 
@@ -41,5 +42,13 @@ public class ApplicationDowntime {
 
     protected void setStartTime(Long startTime) {
         this.startTime = startTime;
+    }
+
+    public long getTime() {
+        assert getStartTime() != null;
+        if(getEndTime() == null){
+            return System.currentTimeMillis() - getStartTime(); 
+        }
+        return getEndTime() - getStartTime();
     }
 }

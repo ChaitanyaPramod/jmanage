@@ -16,11 +16,11 @@
 package org.jmanage.monitoring.downtime;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import org.jmanage.core.config.ApplicationConfig;
+import org.jmanage.core.config.ApplicationConfigManager;
 import org.jmanage.monitoring.downtime.event.ApplicationDownEvent;
 import org.jmanage.monitoring.downtime.event.ApplicationUpEvent;
 import org.jmanage.monitoring.downtime.event.Event;
@@ -32,21 +32,24 @@ import org.jmanage.monitoring.downtime.event.EventListener;
  */
 public class DowntimeRecorder implements EventListener {
 
-    private final Map<ApplicationConfig, List<ApplicationDowntime>> downtimesMap = 
-        new HashMap<ApplicationConfig, List<ApplicationDowntime>>();
+    private final Map<ApplicationConfig, ApplicationDowntimeHistory> downtimesMap = 
+        new HashMap<ApplicationConfig, ApplicationDowntimeHistory>();
         
-    DowntimeRecorder(){}
+    DowntimeRecorder(){
+        final long recordingSince = System.currentTimeMillis();
+        for (ApplicationConfig appConfig : ApplicationConfigManager.getAllApplications()) {
+            downtimesMap.put(appConfig, new ApplicationDowntimeHistory(recordingSince));
+        }
+    }
     
-    public List<ApplicationDowntime> getDowntimes(ApplicationConfig appConfig){
+    public ApplicationDowntimeHistory getDowntimeHistory(ApplicationConfig appConfig){
         return downtimesMap.get(appConfig);
     }
     
     public void handleEvent(Event event) {
-        List<ApplicationDowntime> downtimes = downtimesMap.get(event.getApplicationConfig());
-        if(downtimes == null){
-            downtimes = new LinkedList<ApplicationDowntime>();
-            downtimesMap.put(event.getApplicationConfig(), downtimes);
-        }
+        ApplicationDowntimeHistory downtimeHistory = downtimesMap.get(event.getApplicationConfig());
+        assert downtimeHistory != null;
+        List<ApplicationDowntime> downtimes = downtimeHistory.getDowntimes();
         if(event instanceof ApplicationUpEvent){
             // application must have went down earlier
             assert downtimes.size() > 0;
@@ -60,7 +63,22 @@ public class DowntimeRecorder implements EventListener {
             }
             ApplicationDowntime downtime = new ApplicationDowntime();
             downtime.setStartTime(event.getTime());
-            downtimes.add(downtime);
+            downtimeHistory.addDowntime(downtime);
         }
+    }
+
+    public double getUnavailablePercentage(ApplicationConfig appConfig) {
+        final ApplicationDowntimeHistory history = downtimesMap.get(appConfig);
+        long totalRecordingTime = System.currentTimeMillis() - history.getRecordingSince();
+        long totalDowntime = computeTotalDowntime(history.getDowntimes());
+        return (totalDowntime * 100.0d)/totalRecordingTime; 
+    }
+
+    private long computeTotalDowntime(List<ApplicationDowntime> downtimes) {
+        long totalDowntime = 0;
+        for(ApplicationDowntime downtime:downtimes){
+            totalDowntime += downtime.getTime();
+        }
+        return totalDowntime;
     }
 }
