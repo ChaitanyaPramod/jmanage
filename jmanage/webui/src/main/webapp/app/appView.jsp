@@ -41,7 +41,21 @@
 <%
     WebContext webContext = WebContext.get(request);
     ApplicationConfig appConfig = webContext.getApplicationConfig();
+		final String availabilityGraphURL = "/app/availabilityGraph.do?" +
+		    RequestParams.APPLICATION_ID + "=" + appConfig.getApplicationId();
 %>
+<%-- Application Information --%>
+<table border="0" cellspacing="0" cellpadding="5" width="700" class="table">
+	<tr>
+		<td valign="top" class="plaintext">
+			<b>Application:</b> <%=appConfig.getName()%><br/>
+		</td>
+		<td align="right">
+			<img src="<%=availabilityGraphURL%>" />
+		</td>
+	</tr>
+</table>
+<br/>
 <%-- Configured MBeans --%>
 <%if(appConfig.getMBeans().size() > 0){%>
 <table border="0" cellspacing="0" cellpadding="5" width="700" class="table">

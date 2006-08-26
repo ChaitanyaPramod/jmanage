@@ -14,10 +14,7 @@
 package org.jmanage.core.alert;
 
 import org.jmanage.core.config.AlertSourceConfig;
-import org.jmanage.core.alert.source.ApplicationDowntimeAlertSource;
-import org.jmanage.core.alert.source.NotificationAlertSource;
-import org.jmanage.core.alert.source.GaugeAlertSource;
-import org.jmanage.core.alert.source.StringAlertSource;
+import org.jmanage.core.alert.source.*;
 
 /**
  *

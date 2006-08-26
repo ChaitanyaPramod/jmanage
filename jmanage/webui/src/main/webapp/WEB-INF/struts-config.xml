@@ -335,6 +335,10 @@
             <forward name="success" path="app.graphView"/>
         </action>
         <action
+            path="/app/availabilityGraph"
+            type="org.jmanage.webui.actions.app.ApplicationDowntimeGraphAction">
+        </action>
+        <action
             path="/app/removeConsoleAlert"
             type="org.jmanage.webui.actions.app.RemoveConsoleAlertAction">
             <forward name="success" path="/config/managedApplications.do"/>

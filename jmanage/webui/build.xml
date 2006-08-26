@@ -85,6 +85,9 @@
                 <exclude name="commons-beanutils.jar"/>
                 <exclude name="commons-logging.jar"/>
             </fileset>
+            <fileset dir="${basedir}/../thirdparty/jfreechart/lib">
+                <include name="*.jar"/>
+            </fileset>
         </copy>
     </target>
 
