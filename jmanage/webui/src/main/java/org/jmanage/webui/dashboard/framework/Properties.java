@@ -28,6 +28,9 @@ import java.util.logging.Logger;
  * @author Shashank Bellary
  */
 public class Properties extends HashMap<String, String> {
+    
+    private static final long serialVersionUID = 1L;
+    
     private static final Logger logger = Loggers.getLogger(Properties.class);
     DashboardContext context;
 

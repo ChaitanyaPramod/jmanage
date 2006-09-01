@@ -43,7 +43,9 @@ public class DashboardLoader {
     private List<InputStream> dashboardConfigFiles = new ArrayList<InputStream>();
 
     /*  Dashboard XML file elements */
+    @SuppressWarnings("unused")
     private static final String DASHBOARD = "dashboard";
+    @SuppressWarnings("unused")
     private static final String COMMENT = "comment";
 
     private static final String ID = "id";
