@@ -17,7 +17,6 @@ package org.jmanage.webui.actions.app;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.RenderingHints;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 
@@ -118,6 +117,10 @@ public class ApplicationDowntimeGraphAction extends BaseAction {
         plot.setCircular(false);
         plot.setLabelLinkPaint(Color.red);
         plot.setLabelGap(0.02);
+        
+        // set paint for unavailable/available sections
+        plot.setSectionPaint(0, Color.RED);
+        plot.setSectionPaint(1, Color.GREEN);
         
         plot.setBackgroundPaint(new Color(230, 238, 249));
         
