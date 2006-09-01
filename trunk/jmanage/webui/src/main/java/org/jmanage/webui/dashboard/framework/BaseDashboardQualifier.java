@@ -15,10 +15,8 @@
  */
 package org.jmanage.webui.dashboard.framework;
 
-import org.jmanage.core.config.ApplicationConfig;
 import org.jdom.Element;
 
-import java.util.List;
 import java.util.Map;
 
 /**

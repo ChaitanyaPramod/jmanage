@@ -22,6 +22,8 @@ package org.jmanage.webui.forms;
  */
 public class ConnectorForm extends BaseForm {
 
+    private static final long serialVersionUID = 1L;
+
     public final static String CONNECTOR_ID = "connectorId";
 
     private int MAX_NUM_CONFIG = 10;

@@ -18,8 +18,6 @@ package org.jmanage.webui.dashboard.framework;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jdom.Element;
 
-import java.util.List;
-
 /**
  * Date: Apr 23, 2006 4:20:32 PM
  * @author Shashank Bellary

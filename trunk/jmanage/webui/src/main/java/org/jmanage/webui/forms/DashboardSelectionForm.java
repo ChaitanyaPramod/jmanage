@@ -21,6 +21,9 @@ package org.jmanage.webui.forms;
  * @author Shashank Bellary
  */
 public class DashboardSelectionForm extends BaseForm{
+    
+    private static final long serialVersionUID = 1L;
+    
     private String[] dashboards;
 
     public String[] getDashboards() {
