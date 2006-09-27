@@ -34,7 +34,9 @@ public class CoreUtils {
     public static final String RELATIVE_DASHBOARDS_PATH = "/WEB-INF/dashboards/";
 
     public static String getRootDir(){
-        return System.getProperty(SystemProperties.JMANAGE_ROOT);
+        final String rootDir = System.getProperty(SystemProperties.JMANAGE_ROOT);
+        assert rootDir != null;
+        return rootDir;
     }
 
     public static String getConnectorDir() {
