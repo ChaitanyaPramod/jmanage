@@ -18,7 +18,10 @@ package org.jmanage.core.auth;
 import org.jmanage.core.util.Expression;
 
 /**
- *
+ * ACLContext is used to create dynamic ACLs. ACLContext is appended to the ACL after an "@"
+ * character. It contains the application, mbean and the attribute/operation on which the ACL
+ * is being applied.
+ *  
  * Date:  Apr 8, 2005
  * @author	Rakesh Kalra
  */
@@ -68,6 +71,10 @@ public class ACLContext {
                    compare(context.targetName, this.targetName);
         }
         return false;
+    }
+    
+    public String toString(){
+        return new Expression(appName, mbeanName, targetName).toString();
     }
 
     private boolean compare(String a, String b){
