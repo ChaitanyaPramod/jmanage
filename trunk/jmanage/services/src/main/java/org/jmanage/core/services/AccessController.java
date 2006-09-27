@@ -15,7 +15,11 @@
  */
 package org.jmanage.core.services;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.jmanage.core.services.ServiceContext;
+import org.jmanage.core.util.Loggers;
 import org.jmanage.core.auth.ACL;
 import org.jmanage.core.auth.ACLStore;
 import org.jmanage.core.auth.ACLContext;
@@ -30,6 +34,8 @@ import org.jmanage.core.auth.UnAuthorizedAccessException;
  */
 public class AccessController {
 
+    private static final Logger logger = Loggers.getLogger(AccessController.class);
+    
     /**
      * This method is normaly ued to conditionalize content.
      *
@@ -44,6 +50,8 @@ public class AccessController {
         ACL acl = ACLStore.getInstance().getACL(aclName);
         if(acl == null){
             /* if acl is not specified, user has access by default */
+            if(logger.isLoggable(Level.FINE))
+                logger.fine("acl not configured:" + aclName);
             return true;
         }
 

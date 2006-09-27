@@ -18,6 +18,10 @@ package org.jmanage.core.auth;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.jmanage.core.util.Loggers;
 
 /**
  *
@@ -26,6 +30,8 @@ import java.util.Iterator;
  */
 public class ACL {
 
+    private static final Logger logger = Loggers.getLogger(ACL.class);
+    
     private final String name;
     /* the no context authorized list (if specified) */
     private List authorizedList;
@@ -55,11 +61,18 @@ public class ACL {
             for(Iterator it=contextList.iterator(); it.hasNext(); ){
                 ACLContextWrapper wrapper = (ACLContextWrapper)it.next();
                 if(wrapper.context.equals(context)){
+                    if(logger.isLoggable(Level.FINE)){
+                        logger.fine("Dynamic ACL found for ace:" + name + 
+                                ", runtime context=" + context.toString() + 
+                                ", configured context=" + wrapper.context.toString());
+                    }
                     return wrapper.authorizedList;
                 }
             }
         }
-
+        if(logger.isLoggable(Level.FINE)){
+            logger.fine("Dynamic ACL not found for ace:" + name);
+        }
         return getAuthorizedList();
     }
 
