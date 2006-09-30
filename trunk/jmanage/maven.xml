@@ -14,6 +14,12 @@
     </goal>
 
     <goal name="build">
+        <!-- copy config -->
+        <ant:copy todir="${basedir}/build/config" flatten="false">
+            <fileset dir="${basedir}/config/src/main/config"/>
+            <fileset dir="${basedir}/management/src/main/config"/>
+        </ant:copy>
+
         <!-- build jars for components -->
         <attainGoal name="multiproject:artifact"/>
 
@@ -50,12 +56,6 @@
 
         <!-- build web ui -->
         <attainGoal name="build-webui"/>
-
-        <!-- copy config -->
-        <ant:copy todir="${basedir}/build/config" flatten="false">
-            <fileset dir="${basedir}/config/src/main/config"/>
-            <fileset dir="${basedir}/management/src/main/config"/>
-        </ant:copy>
 
         <!-- copy scripts -->
         <ant:copy todir="${basedir}/build/bin" flatten="true">

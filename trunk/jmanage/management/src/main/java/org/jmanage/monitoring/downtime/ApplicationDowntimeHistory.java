@@ -15,30 +15,49 @@
  */
 package org.jmanage.monitoring.downtime;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-
 /**
  *
  * @author Rakesh Kalra
  */
 public class ApplicationDowntimeHistory {
 
-    private final List<ApplicationDowntime> downtimes;
     private final long recordingSince;
+    private long totalDowntime;
+    // if not null - indicates that the application is down and stores the time 
+    //   since the application is down.
+    private Long downtimeBegin;
     
     ApplicationDowntimeHistory(long recordingSince){
         this.recordingSince = recordingSince;
-        this.downtimes = Collections.synchronizedList(new LinkedList<ApplicationDowntime>());
     }
     
-    public List<ApplicationDowntime> getDowntimes() {
-        return downtimes;
+    public void setTotalDowntime(long totalDowntime){
+        this.totalDowntime = totalDowntime;
     }
-
-    void addDowntime(ApplicationDowntime downtime){
-        downtimes.add(downtime);
+    
+    public void applicationWentDown(long time){
+        assert downtimeBegin == null;
+        downtimeBegin = time;
+    }
+    
+    public void applicationCameUp(long time){
+        assert downtimeBegin != null;
+        totalDowntime += (time - downtimeBegin);
+        downtimeBegin = null;
+    }
+    
+    public Long getDowntimeBegin(){
+        return downtimeBegin;
+    }
+    
+    public double getUnavailablePercentage(){
+        final long currentTime = System.currentTimeMillis();
+        final long totalRecordingTime = currentTime - recordingSince;
+        long currentTotalDowntime = totalDowntime;
+        if(downtimeBegin != null){
+            currentTotalDowntime += (currentTime - downtimeBegin);
+        }
+        return (currentTotalDowntime * 100.0d)/totalRecordingTime;
     }
     
     public long getRecordingSince() {

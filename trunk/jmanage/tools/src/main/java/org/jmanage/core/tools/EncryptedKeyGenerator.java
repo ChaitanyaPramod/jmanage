@@ -72,8 +72,8 @@ public class EncryptedKeyGenerator {
 
     private static void reencryptWithNewKey(  )
         throws Exception {
-        ApplicationTypes.init();
-           /* get old password from user */
+        
+       /* get old password from user */
        char [] oldPassword = getOldPassword() ;
        UserManager userMgr = UserManager.getInstance() ;
        User user = userMgr.verifyUsernamePassword(AuthConstants.USER_ADMIN,oldPassword);

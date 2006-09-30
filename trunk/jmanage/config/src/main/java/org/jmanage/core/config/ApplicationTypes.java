@@ -45,7 +45,11 @@ public class ApplicationTypes {
     /* module id to ModuleConfig mapping */
     private static Map<String, ModuleConfig> modules = new HashMap<String, ModuleConfig>();
 
-    public static void init(){
+    static{
+        init();
+    }
+    
+    private static void init(){
         try {
             File configFile = new File(CONFIG_FILE);
             Document config = new SAXBuilder().build(configFile);
@@ -59,7 +63,14 @@ public class ApplicationTypes {
     }
 
     public static ApplicationType getApplicationType(String id){
-        return (ApplicationType)applications.get(id);
+        if(id == null){
+            throw new NullPointerException("id not specified");
+        }
+        ApplicationType appType = (ApplicationType)applications.get(id);
+        if(appType == null){
+            throw new IllegalArgumentException("id " + id + " is not a valid application type");
+        }
+        return appType;
     }
 
     public static Map getAll(){

@@ -106,9 +106,6 @@ public class Startup {
         /* load ACLs */
         ACLStore.getInstance();
 
-        /* load application types */
-        ApplicationTypes.init();
-
         /* start the AlertEngine */
         AlertEngine.getInstance().start();
 
