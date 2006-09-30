@@ -19,6 +19,7 @@ package org.jmanage.webui.actions.config.dashboard;
 import org.jmanage.webui.actions.BaseAction;
 import org.jmanage.webui.dashboard.framework.DashboardConfig;
 import org.jmanage.webui.dashboard.framework.DashboardRepository;
+import org.jmanage.webui.util.RequestAttributes;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.core.config.ApplicationConfig;
@@ -67,6 +68,10 @@ public class ShowDashboardAction extends BaseAction {
         if(currentDashboardConfig == null)
             currentDashboardConfig = instance.get(currentDashboardId);
         request.setAttribute("dashboardPage", currentDashboardConfig.getTemplate());
+        
+        /*set current page for navigation*/
+        request.setAttribute(RequestAttributes.NAV_CURRENT_PAGE, currentDashboardConfig.getName());
+        
         return mapping.findForward(Forwards.SUCCESS);
     }
 }
