@@ -16,6 +16,7 @@
 package org.jmanage.core.util;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.jmanage.util.db.DBUtils;
 
 import java.io.File;
 import java.util.logging.Logger;
@@ -33,9 +34,37 @@ public class CoreUtils {
 
     public static final String RELATIVE_DASHBOARDS_PATH = "/WEB-INF/dashboards/";
 
-    public static String getRootDir(){
-        final String rootDir = System.getProperty(SystemProperties.JMANAGE_ROOT);
+    private static final String rootDir;
+    private static String dataDir;
+
+    static{
+        rootDir = System.getProperty(SystemProperties.JMANAGE_ROOT);
         assert rootDir != null;
+        logger.info("jManage.root=" + rootDir);
+        
+        /* create data dir */
+        dataDir = getRootDir() + "/data";
+        File dataDirFile = new File(dataDir);
+        if(!dataDirFile.exists()){
+             dataDirFile.mkdirs();
+        }
+        
+        /* create db tables if they don't exist */
+        File dbFile = new File(dataDir+"/db.properties");
+        if(!dbFile.exists()){
+            logger.info("Creating DB tables");
+            DBUtils.createTables();
+        }else{
+            /* if lock file was left around -- try to delete it */
+            File dbLockFile = new File(dataDir + "/db.lck");
+            if(dbLockFile.exists()){
+                logger.warning("DB lock file exists. Trying to delete.");
+                dbLockFile.delete();
+            }
+        }
+    }
+    
+    public static String getRootDir(){
         return rootDir;
     }
 
@@ -67,14 +96,6 @@ public class CoreUtils {
         return getRootDir() + "/logs";
     }
 
-    private static String dataDir = getRootDir() + "/data";
-
-    static{
-        File dataDirFile = new File(dataDir);
-        if(!dataDirFile.exists()){
-             dataDirFile.mkdirs();
-        }
-    }
     public static String getDataDir() {
         return dataDir;
     }

@@ -42,9 +42,6 @@ public class MetaDataWriter {
 
     public static void main(String[] args) throws IOException{
         
-        /* load application types */
-        ApplicationTypes.init();
-        
         ApplicationConfig appConfig = 
             ApplicationConfigFactory.create("1", "test", "local", 
                                             null,

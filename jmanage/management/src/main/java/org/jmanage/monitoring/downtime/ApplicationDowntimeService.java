@@ -45,7 +45,7 @@ public class ApplicationDowntimeService {
     private final List<EventListener> eventListeners = new LinkedList<EventListener>();
     private final List<ApplicationDowntimeTrackingThread> threads = 
         new LinkedList<ApplicationDowntimeTrackingThread>();
-    private final DowntimeRecorder recorder = new DowntimeRecorder();
+    private final DowntimeRecorder recorder = DowntimeRecorder.getInstance();
     
     private ApplicationDowntimeService(){
     }
