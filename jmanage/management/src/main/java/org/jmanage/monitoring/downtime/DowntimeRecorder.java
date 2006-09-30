@@ -88,11 +88,13 @@ public class DowntimeRecorder implements EventListener {
         assert downtimeHistory != null;
         if(event instanceof ApplicationUpEvent){
             // application must have went down earlier
+            assert downtimeHistory.getDowntimeBegin() != null;
+            // log the downtime to the db
+            recordDowntime(event.getApplicationConfig().getApplicationId(), 
+                    downtimeHistory.getDowntimeBegin(), event.getTime());
             downtimeHistory.applicationCameUp(event.getTime());
         }else if(event instanceof ApplicationDownEvent){
             downtimeHistory.applicationWentDown(event.getTime());
-            recordDowntime(event.getApplicationConfig().getApplicationId(), 
-                    downtimeHistory.getDowntimeBegin(), event.getTime());
         }
     }
 

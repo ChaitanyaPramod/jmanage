@@ -113,6 +113,22 @@ public class DBUtils {
         }
     }
     
+    public static void shutdownDB(){
+        logger.info("Shutting down HSQLDB");
+        Connection connection = null;
+        Statement statement = null;
+        try{
+            connection = getConnection();
+            statement = connection.createStatement();
+            statement.execute("SHUTDOWN COMPACT");
+        }catch(SQLException e){
+            throw new RuntimeException(e);
+        }finally{
+            close(statement);
+            close(connection);
+        }
+    }
+    
     public static void dropTables(){
         Connection connection = null;
         Statement statement = null;
