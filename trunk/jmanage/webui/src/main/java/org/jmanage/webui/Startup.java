@@ -17,6 +17,7 @@ package org.jmanage.webui;
 
 import org.mortbay.jetty.Server;
 import org.jmanage.core.util.CoreUtils;
+import org.jmanage.core.util.Loggers;
 import org.jmanage.core.util.PasswordField;
 import org.jmanage.core.util.JManageProperties;
 import org.jmanage.core.crypto.Crypto;
@@ -30,9 +31,11 @@ import org.jmanage.core.config.ApplicationTypes;
 import org.jmanage.connector.framework.ConnectorConfigRegistry;
 import org.jmanage.connector.framework.ConnectorRegistry;
 import org.jmanage.monitoring.downtime.ApplicationDowntimeService;
+import org.jmanage.util.db.DBUtils;
 
 import java.rmi.RMISecurityManager;
 import java.util.Arrays;
+import java.util.logging.Logger;
 import java.io.File;
 
 /**
@@ -43,8 +46,17 @@ import java.io.File;
  */
 public class Startup {
 
+    private static final Logger logger = Loggers.getLogger(Startup.class);
+    
     public static void main(String[] args) throws Exception{
 
+        Runtime.getRuntime().addShutdownHook(new Thread(){
+           public void run(){
+               logger.info("jManage shutting down...");
+               DBUtils.shutdownDB();
+           }
+        });
+        
         if (System.getSecurityManager() == null) {
            System.setSecurityManager(new RMISecurityManager());
         }
