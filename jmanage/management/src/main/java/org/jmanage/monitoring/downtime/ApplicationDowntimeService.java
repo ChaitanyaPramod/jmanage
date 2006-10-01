@@ -51,6 +51,7 @@ public class ApplicationDowntimeService {
     }
     
     public void start() {
+        // TODO: threads for new applications are not getting started
         for (ApplicationConfig appConfig : ApplicationConfigManager
                 .getAllApplications()) {
             ApplicationDowntimeTrackingThread thread = 

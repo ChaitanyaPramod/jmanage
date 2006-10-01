@@ -63,4 +63,8 @@ public class ApplicationDowntimeHistory {
     public long getRecordingSince() {
         return recordingSince;
     }
+
+    public boolean isApplicationUp() {
+        return downtimeBegin == null;
+    }
 }

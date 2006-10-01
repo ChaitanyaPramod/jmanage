@@ -65,6 +65,15 @@ public class DowntimeRecorder implements EventListener {
         }
     }
     
+    public boolean isApplicationUp(ApplicationConfig appConfig){
+        if(appConfig == null){
+            throw new NullPointerException("missing appConfig");
+        }
+        ApplicationDowntimeHistory history = getDowntimeHistory(appConfig);
+        assert history != null;
+        return history.isApplicationUp();
+    }
+    
     public ApplicationDowntimeHistory getDowntimeHistory(ApplicationConfig appConfig){
         if(appConfig == null){
             throw new NullPointerException("appConfig must be specified");
