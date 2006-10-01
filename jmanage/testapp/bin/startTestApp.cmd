@@ -6,6 +6,6 @@
 call setenv.cmd
 if "%JMANAGE_CLASSPATH%" == "" goto finish
 
-"%JAVA_HOME%/bin/java" -ea -classpath "%JMANAGE_CLASSPATH%" %DEBUG_OPTIONS% org.jmanage.testapp.jsr160.Startup %*
+"%JAVA_HOME%/bin/java" -Dcom.sun.management.jmxremote -ea -classpath "%JMANAGE_CLASSPATH%" %DEBUG_OPTIONS% org.jmanage.testapp.jsr160.Startup %*
 
 :finish
