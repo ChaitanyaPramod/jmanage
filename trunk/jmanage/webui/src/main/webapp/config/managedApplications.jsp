@@ -9,7 +9,8 @@
                  org.jmanage.core.config.MBeanConfig,
                  java.net.URLEncoder,
                  java.util.List,
-                 org.jmanage.core.alert.AlertInfo"%>
+                 org.jmanage.core.alert.AlertInfo,
+                 org.jmanage.webui.view.ApplicationViewHelper"%>
 
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 
@@ -42,7 +43,12 @@
                 RequestParams.APPLICATION_ID + "=" + applicationConfig.getApplicationId();
     %>
     <td class="plaintext">
-        <a href="<%=appHref%>"><%=applicationConfig.getName()%></a>
+				<%if(ApplicationViewHelper.isApplicationUp(applicationConfig)) {%>        
+	        <img src="/images/bullet/green.gif"/>
+	      <%}else{ %>
+	      	<img src="/images/bullet/red.gif"/>
+	      <%} %>&nbsp;
+	      <a href="<%=appHref%>"><%=applicationConfig.getName()%></a>
     </td>
     <td class="plaintext">
         <%if(!applicationConfig.isCluster()){%>
@@ -75,7 +81,12 @@
           <tr>
             <td class="plaintext">
                 &nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="<%=appHref%>"><%=childAppConfig.getName()%></a>
+	       				<%if(ApplicationViewHelper.isApplicationUp(childAppConfig)) {%>        
+					        <img src="/images/bullet/green.gif"/>
+					      <%}else{ %>
+					      	<img src="/images/bullet/red.gif"/>
+					      <%} %>&nbsp;
+				  	    <a href="<%=appHref%>"><%=childAppConfig.getName()%></a>
             </td>
             <td class="plaintext">
                 <%=childAppConfig.getURL()%>
