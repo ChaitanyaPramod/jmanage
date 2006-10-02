@@ -32,6 +32,7 @@ import java.util.logging.Level;
 import java.util.HashMap;
 import java.util.Map;
 import java.io.IOException;
+import java.lang.management.ManagementFactory;
 import java.rmi.registry.LocateRegistry;
 
 /**
@@ -109,8 +110,11 @@ public class JMXHelper {
     public static void registerMBean(Object instance, String objName) {
         try {
             ObjectName objectName = new ObjectName(objName);
+            /* register with JSR160 MBean Server*/
             MBeanServer server = getMBeanServer();
             server.registerMBean(instance, objectName);
+            /* register with JDK 1.5 MBean server */
+            ManagementFactory.getPlatformMBeanServer().registerMBean(instance, objectName);
             logger.info("registered MBean: " + objName);
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Failed to register MBean: " + objName, e);

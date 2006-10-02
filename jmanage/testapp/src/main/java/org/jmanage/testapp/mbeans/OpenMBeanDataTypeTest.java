@@ -112,4 +112,12 @@ public class OpenMBeanDataTypeTest implements OpenMBeanDataTypeTestMBean {
         return compositeData;
     }
 
+    public void setTabularData(TabularData tabularData) {
+        this.tabularData = tabularData;
+        
+    }
+
+    public void setCompositeData(CompositeData compositeData) {
+        this.compositeData = compositeData;
+    }
 }
