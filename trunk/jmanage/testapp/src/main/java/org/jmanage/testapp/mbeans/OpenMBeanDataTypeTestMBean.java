@@ -25,6 +25,8 @@ import javax.management.openmbean.CompositeData;
 public interface OpenMBeanDataTypeTestMBean {
 
     public TabularData getTabularData();
+    public void setTabularData(TabularData tabularData);
 
     public CompositeData getCompositeData();
+    public void setCompositeData(CompositeData compositeData);
 }
