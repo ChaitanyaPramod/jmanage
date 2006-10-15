@@ -27,7 +27,7 @@
 	<classpathentry kind="lib" path="modules/jboss/lib/jbossall-client.jar"/>
 	<classpathentry kind="lib" path="modules/jboss/lib/jboss-jmx.jar"/>
 	<classpathentry kind="lib" path="modules/jboss/lib/jnet.jar"/>
-	<classpathentry kind="lib" path="modules/weblogic/lib/weblogic.jar"/>
+	<classpathentry kind="lib" path="modules/weblogic/lib/weblogic-lite.jar"/>
 	<classpathentry kind="lib" path="modules/websphere/lib/admin.jar"/>
 	<classpathentry kind="lib" path="modules/websphere/lib/bootstrap.jar"/>
 	<classpathentry kind="lib" path="modules/websphere/lib/classloader.jar"/>
