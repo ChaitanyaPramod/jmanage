@@ -81,7 +81,7 @@ public class CoreUtils {
     }
 
     public static String getDashboardsDir(){
-        return getWebDir() + RELATIVE_DASHBOARDS_PATH;
+        return getRootDir() + File.separatorChar + "dashboards";
     }
 
     public static String getModuleDir(String moduleId){

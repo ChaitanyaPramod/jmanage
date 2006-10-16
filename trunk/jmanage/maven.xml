@@ -64,6 +64,10 @@
             </fileset>
         </ant:copy>
 
+        <!-- copy dashboards -->
+        <ant:copy todir="${basedir}/build/dashboards" flatten="false">
+            <fileset dir="${basedir}/dashboards"/>
+        </ant:copy>
     </goal>
 
     <goal name="build-all-modules">
