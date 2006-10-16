@@ -11,7 +11,6 @@
 	<classpathentry output="config/target/classes" kind="src" path="config/src/main/java"/>
 	<classpathentry output="crypto/target/classes" kind="src" path="crypto/src/main/java"/>
 	<classpathentry output="management/target/classes" kind="src" path="management/src/main/java"/>
-	<classpathentry output="management/target/test-classes" kind="src" path="management/src/test/java"/>	
 	<classpathentry output="services/target/classes" kind="src" path="services/src/main/java"/>
 	<classpathentry output="testapp/target/classes" kind="src" path="testapp/src/main/java"/>
 	<classpathentry output="tools/target/classes" kind="src" path="tools/src/main/java"/>
@@ -81,6 +80,5 @@
 	<classpathentry kind="lib" path="thirdparty/jmxri/lib/jmxremote_optional.jar"/>
 	<classpathentry kind="lib" path="thirdparty/jsr77/lib/javax77.jar"/>
 	<classpathentry kind="lib" path="thirdparty/commons-modeler/lib/commons-modeler.jar"/>
-	<classpathentry kind="lib" path="thirdparty/hsqldb/lib/hsqldb-1.8.0.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
