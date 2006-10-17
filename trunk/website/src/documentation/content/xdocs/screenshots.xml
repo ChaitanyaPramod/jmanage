@@ -7,6 +7,12 @@
   </header>
   <body>
       <p>
+        <a href="/images/screenshots/jvmThreadsDashboard.gif">JVM Threads Dashboard</a>
+      </p>
+      <p>
+        <a href="/images/screenshots/jvmSummaryDashboard.gif">JVM Summary Dashboard</a>
+      </p>
+      <p>
         <a href="/images/screenshots/managedApplications.gif">Managed Applications</a>
       </p>
       <p>
