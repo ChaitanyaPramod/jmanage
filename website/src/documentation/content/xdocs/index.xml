@@ -6,134 +6,98 @@
     <title>jManage - Web and Command Line Based JMX Client</title>
   </header>
   <body>
-    <section>
-      <title>News !</title>
+  <table>
+  <!-- row -->  
+      <tr>
+	  <td>
       <p>
-          New to jManage? Read the introductory article at <a href="http://www.javaworld.com/javaworld/jw-01-2006/jw-0116-jmanage.html">JavaWorld</a>.
-          <br/><br/>
-          For the latest on jManage, please see the <a href="http://jmanage.blogspot.com">jManage Blog</a>.
-          <br/><br/>
-          jManage 1.0 builds are available for download
-          <a href="http://sourceforge.net/project/showfiles.php?group_id=111374&amp;package_id=166109">here</a>.
-          <br/><br/>
-          <a href="/newsArchive.html">News Archive >></a>
+		jManage is a open source, web and command-line based JMX client, which provides a
+		centralized console for managing application clusters and distributed-application
+		environments. jManage goes beyond an ordinary JMX client by providing features
+		like Alerts, Graphs, Security, SNMP support, etc. The jManage mission is to
+		provide an open source management platform, which can be used to manage
+		and monitor complete production environment. jManage is successfully being used by
+		various users, in Development, QA, Staging and Production environments.
       </p>
+      </td>
+      </tr>
+  <!-- row -->
+      <tr>
+      <td>
+      <table>
+		  <tr>
+	        <th><strong>Features</strong></th>
+		  	<th>Screenshot</th>
+		  </tr>
+	      <tr>
+	        <td>
+		    - Easy to use web based interface.
+			<br/><br/>
+			- Framework to build "live" and "custom" dashboards. 
+			<br/><br/>
+			- Connector framework for monitoring/managing non-JMX based environments. 
+			<br/><br/>
+		    - Email and console alerts based on MBean notifications and MBean attribute monitors.
+			<br/><br/>
+		    - Command line interface - Useful for scripting and automation.
+			<br/><br/>
+		    - Application Cluster Support - Change attribute values
+		      and perform operations across the cluster.
+			<br/><br/>
+		    - Authentication and fine-grained Authorization.
+			<br/><br/>
+	    	<a href="Product_Information/features.html">more..</a>.
+	        </td>
+		    <td>
+				<a href="/images/screenshots/jvmThreadsDashboard.gif">
+				    <img src="/images/screenshots/jvmThreadsDashboard.gif" alt="Screenshot" width="400" height="350"/></a>
+		    </td>
+	    </tr>
+		<tr>
+		    <td></td>
+			<td>You can see more screenshots <a href="/screenshots.html">here</a>.</td>
+		</tr>	    
+	  </table>
+	  </td>	
+      </tr>
+    <!-- row -->    
+    <tr>
+    
+    <td>
+	<table>
+	<tr>
+		<th><strong>Product Info</strong>
+		</th>
+		<th><strong>Download</strong>
+		</th>		
+	</tr>
+	<tr>
+	<td>
+      <a href="http://www.javaworld.com/javaworld/jw-01-2006/jw-0116-jmanage.html">Overview</a>
+      <br/>
+      <a href="Product_Information/factsheet.html">1.5 Beta Fact Sheet</a>
+      <br/>
+      <a href="http://www.jmanage.org/wiki/index.php/Documentation">User Guide</a>
+      <br/>
+      <a href="http://www.jmanage.org/wiki/index.php/User_FAQ">F.A.Q.</a>
+      <br/>            
+      <a href="Product_Information/platform.html">jManage Platform</a>
+      <br/>
+      <a href="Product_Information/deployment.html">Typical Deployment</a>
+    </td>
+    <td>
+		<a href="http://sourceforge.net/project/showfiles.php?group_id=111374&amp;package_id=197732&amp;release_id=433342">
+		 <img src="/images/download.jpg" alt="Download" width="200" height="70"/></a>
+	   <br/>
+	   <a href="http://sourceforge.net/project/showfiles.php?group_id=111374"> Download Older Versions ..</a>
+    </td>
 
-    </section>
-    <section>
-      <title>jManage Overview</title>
-      <p>
-jManage is a open source, web and command-line based JMX client, which provides a
-centralized console for managing application clusters and distributed-application
-environments. jManage goes beyond an ordinary JMX client by providing features
-like Alerts, Graphs, Security, SNMP support, etc. The jManage mission is to
-provide an open source management platform, which can be used to manage
-and monitor complete production environment.
-<br/><br/>
-jManage is successfully being used by
-various users, in Development, QA, Staging and Production environments.
-It is very easy to setup jManage. Download
-<a href="http://sourceforge.net/project/showfiles.php?group_id=111374&amp;package_id=166109">now</a>
-and get started.
-<br/><br/>
-Following is a screenshot of jManage web interface:
-<br/><br/>
-    <a href="/images/screenshots/clusterMBeanView.gif">
-        <img src="/images/screenshots/clusterMBeanView.gif" alt="Screenshot" width="300" height="150"/></a>
-<br/><br/>
-    You can see more screenshots <a href="/screenshots.html">here</a>.
-      </p>
-
-    </section>
-    <section>
-      <title>jManage Features</title>
-      <p>
-          jManage 1.0 has the following features:
-<br/><br/>
-    - Web based interface, which allows jManage to be used from behind firewall.
-<br/>
-    - Production level security.
-<br/>
-    - Command line interface - Useful for scripting and automation.
-<br/>
-    - Application Cluster Support - Change attribute values
-      and perform operations across the cluster.
-<br/>
-    - Authentication and fine-grained Authorization to control which MBean
-      operations and attributes are accessible.
-<br/>
-    - Support for different J2EE app servers and JDK1.5.
-<br/>
-    - Runtime Graphs.
-<br/>
-    - MBean attribute value monitoring.
-<br/>
-    - Alerts based on MBean notifications and MBean attribute monitors.
-<br/>
-    - Support for Open MBean types: CompositeData and TabularData
-<br/>
-    - Basic SNMP support
-<br/>
-    - Framework to define custom DataFormat classes for custom objects.
-<br/>
-     - Support for external login modules (JAAS based with name and password callback)
-<br/><br/>
-          jManage is being built keeping security in mind, as one of the
-          usages of jManage is in the production environment. Production
-          environments usually have limited access and are managed by an
-          operations team. jManage lets the operations team monitor the
-          production environment (via browser or command line) and also
-          allows the operations team to give controlled access to developers, QA
-          and others. Operations team can create jManage users and assign
-          roles to these users. Access to different features can be controlled
-          by assigining permissions to various roles. Permission can be granted
-          even at the level of MBean attributes or operations.
-      </p>
-    </section>
-    <section>
-        <title>jManage Platform</title>
-        <p>
-            jManage is a <a href="http://struts.apache.org/">Struts</a> and
-            <a href="http://jetty.mortbay.org/">Jetty</a> based web application,
-            which provides both web and command line interface to manage JMX enabled
-            applications. jManage 1.0 version supports
-            the following:
-        <br/><br/>
-            - JBoss
-        <br/>
-            - Bea Weblogic
-        <br/>
-            - IBM WebSphere
-        <br/>
-            - JDK1.5
-        <br/>
-            - MX4J
-        <br/>
-            - JMX Remoting (JSR 160)
-        <br/><br/>
-            jManage command line interface uses java serialization over HTTP
-            to connect to the jManage web application. This allows the command
-            line client to connect to the jmanage server across the firewall.
-        </p>
-    </section>
-    <section>
-      <title>Typical Deployment</title>
-      <p>
-          jManage is typically deployed in a production environment in the
-          same network as the applications to be managed. This allows jManage
-          to access the JMX enabled applications via any JMX remoting protocol
-          supported by that application. Users access jManage over HTTP via
-          a web browser or command line.
-          <br/><br/>
-          <img src="/images/jManage-deploy.gif" alt="Typical jManage Deployment"/>
-          <br/><br/>
-          Access to jManage is controlled via username/password provided
-          by the System Administrators or the Operations team. Admins can
-          control access even at the MBean attribute or operation level.
-          <br/><br/>
-          User activites are logged in a log file, which can be audited
-          by the System Administrators.
-      </p>
-    </section>
+    </tr>
+	</table>
+	</td>
+	</tr>
+      <!-- row -->
+    
+ </table>    
   </body>
 </document>

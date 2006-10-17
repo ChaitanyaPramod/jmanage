@@ -33,18 +33,17 @@ See http://forrest.apache.org/docs/linking.html for more info
 
   <home label="jManage" href="/">
     <index label="About" href="/index.html" description="Welcome to jManage"/>
-    <downloads label="Download" href="http://sourceforge.net/project/showfiles.php?group_id=111374&amp;package_id=166109" description="jManage Downloads"/>
+    <downloads label="Download" href="http://sourceforge.net/project/showfiles.php?group_id=111374" description="jManage Downloads"/>
     <blog label="jManage Blog" href="http://jmanage.blogspot.com/" description="jManage Blog"/>
     <screenshots label="Screenshots" href="/screenshots.html" description="Screen Shots"/>
     <roadmap label="Roadmap" href="/roadmap.html" description="jManage Roadmap"/>
     <!--<team label="Contributors" href="/contributors.html" description="jManage team"/>-->
     <contactUs label="Contact Us" href="/contactus.html" description="Contact Us"/>
   </home>
-  <documentation label="Documentation" href="/documentation/jmanage1.0/install.html">
-    <installation label="Installation" href="/documentation/jmanage1.0/install.html" description="jManage Installation"/>
-    <cli label="Command Line" href="/documentation/jmanage0.5/cli.html" description="Command line reference"/>
-    <accessControl label="Access Control" href="/documentation/jmanage0.5/accessControl.html" description="Access Control"/>
-    <security label="Security" href="/documentation/jmanage0.5/security.html" description="Access Control"/>
+  <documentation label="Documentation" href="http://www.jmanage.org/wiki">
+    <wiki label="Documentation" href="http://www.jmanage.org/wiki" description="jManage Documentation"/>
+    <wiki label="User FAQ" href="http://www.jmanage.org/wiki/index.php/User_FAQ" description="User FAQ"/>
+    <wiki label="Developer FAQ" href="http://www.jmanage.org/wiki/index.php/Developer_FAQ" description="Developer FAQ"/>
   </documentation>
   <community label="Community" href="http://sourceforge.net/projects/jmanage/">
     <sfProject label="SF Project" href="http://sourceforge.net/projects/jmanage/"/>
@@ -55,48 +54,13 @@ See http://forrest.apache.org/docs/linking.html for more info
   </community>
   <development label="Development">
     <gettingInvolved label="Getting Involved" href="/development/gettingInvolved.html"/>
-    <buildGuide label="Build Guide" href="/development/index.html"/>
+    <buildGuide label="Build Guide" href="http://www.jmanage.org/wiki/index.php/JManage_Build_Guide"/>
     <architecture label="Architecture" href="/development/architecture.html"/>
     <jamesSetup label="James Setup" href="/development/jamesSetup.html"/>
     <snmpModule label="SNMP Module" href="/development/snmpModule.html"/>
     <cvs label="CVS" href="http://sourceforge.net/cvs/?group_id=111374"/>
     <license label="License" href="http://www.apache.org/licenses/LICENSE-2.0"/>
   </development>
-
-<!--
-  <samples label="Samples" href="samples/" tab="samples">
-    <index href="index.html"/>
-    <sample label="Apache doc v2.0" href="sample.html" 
-      description="A nonsense document using all possible elements in the current document v2.0">
-      <top href="#top"/>
-      <section href="#section"/>
-    </sample>
-    <document-v13 label="Apache doc v1.3" href="document-v13.html" 
-      description="A nonsense document using all possible elements in the document v1.3">
-      <top href="#top"/>
-      <section href="#section"/>
-    </document-v13>
-    <static label="Static content" href="static.html" 
-      description="Static raw un-processed content" />
-    <linking label="Linking" href="linking.html" 
-      description="Linking explained and demonstrated" />
-    <sample-wiki label="Wiki page" href="wiki-sample.html" 
-      description="wiki-sample" />
-    <sample-ihtml label="ihtml page" href="ihtml-sample.html" 
-      description="Test iHTML page" />
-    <sample-ascii-art label="ascii-art page" href="ascii-art.html" 
-      description="Sample Ascii Art page" />
-    <sample-openoffice-writer label="OpenOffice Writer" href="openoffice-writer.html" 
-      description="Openoffice Writer sample" />       
-    <faq label="FAQ" href="faq.html" description="Frequently Asked Questions" />
-    <sdocbook label="Simplifed Docbook" href="sdocbook.html" 
-      description="Simplified DocBook example" />     
-    <subdir label="Subdir" href="subdir/">
-      <index label="Index" href="index.html" 
-        description="Page generated from a sub-directory"/>
-    </subdir>
-  </samples>
--->
 
 <!--
   <files>

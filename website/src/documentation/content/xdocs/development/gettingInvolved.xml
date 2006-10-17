@@ -9,7 +9,7 @@
       <section>
         <title>Setup the Development environment</title>
         <p>
-            Please follow the <a href="/development/index.html">Bulid Guide</a>
+            Please follow the <a href="http://www.jmanage.org/wiki/index.php/JManage_Build_Guide">Bulid Guide</a>
             to setup your development environment. Please connect to CVS
             as "anonymous" user and check-out the "jmanage" module.
             <br/>
