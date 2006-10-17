@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+<document>
+  <header>
+    <title>jManage Screenshots</title>
+  </header>
+  <body>
+      <p>
+        <a href="/images/screenshots/jvmThreadsDashboard.gif">JVM Threads Dashboard</a>
+      </p>
+      <p>
+        <a href="/images/screenshots/jvmSummaryDashboard.gif">JVM Summary Dashboard</a>
+      </p>
+      <p>
+        <a href="/images/screenshots/managedApplications.gif">Managed Applications</a>
+      </p>
+      <p>
+        <a href="/images/screenshots/clusterView.gif">Cluster View</a>
+      </p>
+      <p>
+        <a href="/images/screenshots/appView.gif">Application View</a>
+      </p>
+      <p>
+        <a href="/images/screenshots/clusterMBeanView.gif">Cluster MBean View</a>
+      </p>
+      <p>
+        <a href="/images/screenshots/appMBeanView.gif">Application MBean View</a>
+      </p>
+      <p>
+        <a href="/images/screenshots/clusterExecuteOperation.gif">Cluster Execute Operation</a>
+      </p>
+  </body>
+</document>

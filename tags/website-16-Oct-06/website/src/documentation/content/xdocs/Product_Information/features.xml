@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+<document>
+  <header>
+    <title>jManage Features</title>
+    <authors>
+        <person name="Avneet Singh" email="asingh@jmanage.org"/>
+    </authors>
+  </header>
+  <body>
+
+      <p>
+		<br/>
+		<strong>jManage 1.5 beta has the following features:</strong>
+		<br/><br/>
+		    - Web based interface, which allows jManage to be used from behind firewall.
+		<br/><br/>
+			- Dashboard framework to build custom dashboards. Customized dashboards can be tailored to specific objectives. These dashboards are,<br/>
+				a. Live -> automatically refreshed to provide latest information.<br/>
+				b. Customized -> users can build a dashboard from scratch or personalize an existing one to suit their needs..
+		<br/><br/>
+			- Connector framework for monitoring/managing non-JMX based environments. 
+			This framework can be used to expose necessary information on a non-JMX based environment as an application of MBeans. 
+			These applications can be registered, monitored and managed through jManage.
+		<br/><br/>
+		    - MBean Info layering framework to provide additional information for MBeans. JDK 1.5 MBeans now get presented with MBean, attribute and operation descriptions
+		<br/><br/>
+		    - Production level security.
+		<br/><br/>
+		    - Command line interface - Useful for scripting and automation.
+		<br/><br/>
+		    - Application Cluster Support - Change attribute values
+		      and perform operations across the cluster.
+		<br/><br/>
+		    - Authentication and fine-grained Authorization to control which MBean
+		      operations and attributes are accessible.
+		<br/><br/>
+		    - Support for different J2EE app servers and JDK1.5.
+		<br/><br/>
+		    - Runtime Graphs.
+		<br/><br/>
+		    - MBean attribute value monitoring.
+		<br/><br/>
+		    - Email and console alerts based on MBean notifications and MBean attribute monitors.
+		<br/><br/>
+		    - Support for Open MBean types: CompositeData and TabularData
+		<br/><br/>
+		    - Basic SNMP support (SNMP 1.0)
+		<br/><br/>
+		    - Framework to define custom DataFormat classes for custom objects.
+		<br/><br/>
+		     - Support for external login modules (JAAS based with name and password callback)
+		<br/><br/>
+		          jManage is being built keeping security in mind, as one of the
+		          usages of jManage is in the production environment. Production
+		          environments usually have limited access and are managed by an
+		          operations team. jManage lets the operations team monitor the
+		          production environment (via browser or command line) and also
+		          allows the operations team to give controlled access to developers, QA
+		          and others. Operations team can create jManage users and assign
+		          roles to these users. Access to different features can be controlled
+		          by assigining permissions to various roles. Permission can be granted
+		          even at the level of MBean attributes or operations.
+		<br/><br/>
+      </p>
+
+  </body>
+</document>
