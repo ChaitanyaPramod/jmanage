@@ -25,16 +25,18 @@ import org.jmanage.webui.util.WebContext;
  */
 public class DashboardContextImpl implements DashboardContext {
 
-    private final WebContext webContext;
+	private final WebContext webContext;
     private final HttpServletRequest request;
     private final DashboardConfig dashboardConfig;
+    private String serverPath;
     
     public DashboardContextImpl(WebContext webContext,  
             DashboardConfig dashboardConfig,
             HttpServletRequest request){
         this.webContext = webContext; 
         this.dashboardConfig = dashboardConfig;
-        this.request = request;        
+        this.request = request;
+        setServerPath();
     }
     
     public WebContext getWebContext() {
@@ -48,4 +50,17 @@ public class DashboardContextImpl implements DashboardContext {
     public String getVariableValue(String variable) {
         return request.getParameter(variable);
     }
+    
+    private void setServerPath() {
+    	String port = String.valueOf(request.getServerPort());
+    	String protocol = request.getProtocol();
+    	protocol = protocol.substring(0, protocol.indexOf("/"));
+    	String serverName = request.getServerName();
+		serverPath = port != null && !port.equals("") && !port.equals("-1") ?
+				protocol +"://"+ serverName +":"+ port : protocol +"://"+ serverName;
+    }
+
+    public String getServerPath() {
+    	return serverPath;
+	}
 }

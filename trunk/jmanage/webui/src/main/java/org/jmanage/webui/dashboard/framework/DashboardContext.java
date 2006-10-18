@@ -28,4 +28,7 @@ public interface DashboardContext {
     public DashboardConfig getDashboardConfig();
     
     public String getVariableValue(String variable);
+    
+    public String getServerPath();
+    
 }
