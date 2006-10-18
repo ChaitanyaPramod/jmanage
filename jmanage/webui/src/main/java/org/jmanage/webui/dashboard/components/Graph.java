@@ -117,7 +117,7 @@ public class Graph implements DashboardComponent {
                 "/applets/jcommon-0.9.5.jar\" >").append(
                 "<param name=\"graphTitle\" value=\""+getName()+"\"></param>").append(
                 "<param name=\"pollingInterval\" value=\""+getPollingIntervalInSeconds()+"\"></param>").append(
-                "<param name=\"remoteURL\" value=\"http://localhost:9090/app/fetchAttributeValues.do;jsessionid={2}\"></param>").append(
+                "<param name=\"remoteURL\" value=\""+context.getServerPath()+"/app/fetchAttributeValues.do;jsessionid={2}\"></param>").append(
                 "<param name=\"displayNames\" value=\"").append(getAttributeDisplayNamesForGraph()).append("\"></param>").append(
                 "<param name=\"attributes\" value=\"").append(getAttributesForGraph(appConfig.getName())).append("\"></param>").append(
                 "<param value=\"\" name=\"yAxisLabel\"></param>").append("</applet>");
