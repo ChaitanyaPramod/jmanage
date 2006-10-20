@@ -38,30 +38,35 @@ public class CoreUtils {
     private static String dataDir;
 
     static{
-        rootDir = System.getProperty(SystemProperties.JMANAGE_ROOT);
-        assert rootDir != null;
-        logger.info("jManage.root=" + rootDir);
-        
-        /* create data dir */
-        dataDir = getRootDir() + "/data";
-        File dataDirFile = new File(dataDir);
-        if(!dataDirFile.exists()){
-             dataDirFile.mkdirs();
-        }
-        
-        /* create db tables if they don't exist */
-        File dbFile = new File(dataDir+"/db.properties");
-        if(!dbFile.exists()){
-            logger.info("Creating DB tables");
-            DBUtils.createTables();
-        }else{
-            /* if lock file was left around -- try to delete it */
-            File dbLockFile = new File(dataDir + "/db.lck");
-            if(dbLockFile.exists()){
-                logger.warning("DB lock file exists. Trying to delete.");
-                dbLockFile.delete();
-            }
-        }
+
+      rootDir = System.getProperty(SystemProperties.JMANAGE_ROOT);
+      assert rootDir != null;
+      
+      /* create logs dir, before doing any logging */
+      new File(CoreUtils.getLogDir()).mkdirs();
+      
+      logger.info("jManage.root=" + rootDir);
+      
+      /* create data dir */
+      dataDir = getRootDir() + "/data";
+      File dataDirFile = new File(dataDir);
+      if(!dataDirFile.exists()){
+           dataDirFile.mkdirs();
+      }
+      
+      /* create db tables if they don't exist */
+      File dbFile = new File(dataDir+"/db.properties");
+      if(!dbFile.exists()){
+          logger.info("Creating DB tables");
+          DBUtils.createTables();
+      }else{
+          /* if lock file was left around -- try to delete it */
+          File dbLockFile = new File(dataDir + "/db.lck");
+          if(dbLockFile.exists()){
+              logger.warning("DB lock file exists. Trying to delete.");
+              dbLockFile.delete();
+          }
+      }
     }
     
     public static String getRootDir(){
