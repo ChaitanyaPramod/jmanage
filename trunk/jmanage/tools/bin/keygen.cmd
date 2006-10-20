@@ -6,6 +6,6 @@
 call setenv.cmd
 if "%JMANAGE_CLASSPATH%" == "" goto finish
 
-"%JAVA_HOME%\bin\java" -ea -classpath %JMANAGE_CLASSPATH% -Djmanage.root=%JMANAGE_HOME% org.jmanage.core.tools.EncryptedKeyGenerator
+"%JAVA_HOME%\bin\java" -ea -classpath "%JMANAGE_CLASSPATH%" -Djmanage.root=%JMANAGE_HOME% org.jmanage.core.tools.EncryptedKeyGenerator
 
 :finish
