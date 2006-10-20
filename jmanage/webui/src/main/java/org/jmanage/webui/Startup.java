@@ -61,9 +61,6 @@ public class Startup {
            System.setSecurityManager(new RMISecurityManager());
         }
     
-        /* create logs dir */
-        new File(CoreUtils.getLogDir()).mkdirs();
-
         UserManager userManager = UserManager.getInstance();
         User user = null;
         char[] password = null;
