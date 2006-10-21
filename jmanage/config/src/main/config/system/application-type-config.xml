@@ -12,6 +12,16 @@
                     displayPassword="true"/>
         </module>
         <module
+            id="weblogic9"
+            connectionFactory="org.jmanage.core.modules.weblogic9.Weblogic9ServerConnectionFactory">
+            <config class="org.jmanage.core.modules.weblogic9.Weblogic9ApplicationConfig"
+                    displayHost="false"
+                    displayPort="false"
+                    displayURL ="true"
+                    displayUsername="true"
+                    displayPassword="true"/>
+        </module>
+        <module
             id="jsr160"
             connectionFactory="org.jmanage.core.modules.jsr160.JSR160ServerConnectionFactory">
             <config class="org.jmanage.core.modules.jsr160.JSR160ApplicationConfig"
@@ -77,11 +87,17 @@
     <application-types>
         <application-type
             id="weblogic"
-            name="Weblogic"
+            name="Weblogic 6, 7, 8"
             module="weblogic"
             compatibleJMX="false"
             defaultHost="localhost"
             defaultPort="7001"/>
+        <application-type
+            id="weblogic9"
+            name="Weblogic 9"
+            module="weblogic9"
+            compatibleJMX="true"
+            defaultURL="service:jmx:t3://localhost:7001/jndi/weblogic.management.mbeanservers.domainruntime"/>
         <application-type
             id="jsr160"
             name="JSR160 Application"
@@ -118,13 +134,6 @@
             name="jManage"
             module="local"
             compatibleJMX="true"/>		
-        <!-- to be tested -->
-        <!--
-        <application-type
-            id="weblogic91"
-            name="Weblogic 9.1"
-            module="jsr160"
-            compatibleJMX="true"/> -->
     </application-types>
 
 </application-type-config>
