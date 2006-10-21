@@ -17,6 +17,7 @@ package org.jmanage.webui.dashboard.framework;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.jmanage.webui.util.Utils;
 import org.jmanage.webui.util.WebContext;
 
 /**
@@ -52,12 +53,7 @@ public class DashboardContextImpl implements DashboardContext {
     }
     
     private void setServerPath() {
-    	String port = String.valueOf(request.getServerPort());
-    	String protocol = request.getProtocol();
-    	protocol = protocol.substring(0, protocol.indexOf("/"));
-    	String serverName = request.getServerName();
-		serverPath = port != null && !port.equals("") && !port.equals("-1") ?
-				protocol +"://"+ serverName +":"+ port : protocol +"://"+ serverName;
+		serverPath = Utils.getServerBaseURL(request);
     }
 
     public String getServerPath() {

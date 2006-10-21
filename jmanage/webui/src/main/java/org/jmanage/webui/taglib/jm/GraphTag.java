@@ -86,10 +86,7 @@ public class GraphTag extends BaseTag {
         param = new ParamElement(GraphAppletParameters.POLLING_INTERVAL, graphConfig.getPollingInterval());
         applet.addChildElement(param);
 
-        StringBuffer remoteBaseURL = request.getRequestURL();
-        int i = remoteBaseURL.indexOf(request.getRequestURI());
-        remoteBaseURL.delete(i, remoteBaseURL.length());
-        String remoteURL = remoteBaseURL +
+        String remoteURL = Utils.getServerBaseURL(request) +
                 "/app/fetchAttributeValues.do;jsessionid=" +
                 Utils.getCookieValue(request, "JSESSIONID");
         param = new ParamElement(GraphAppletParameters.REMOTE_URL, remoteURL);
