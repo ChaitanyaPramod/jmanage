@@ -98,4 +98,11 @@ public class Utils {
         }
         return urlString;
     }
+    
+    public static String getServerBaseURL(HttpServletRequest request){
+        StringBuffer remoteBaseURL = request.getRequestURL();
+        int i = remoteBaseURL.indexOf(request.getRequestURI());
+        remoteBaseURL.delete(i, remoteBaseURL.length());
+        return remoteBaseURL.toString();
+    }
 }
