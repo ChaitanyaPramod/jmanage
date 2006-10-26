@@ -1,4 +1,4 @@
-<meta http-equiv="refresh" content="<%=request.getSession().getMaxInactiveInterval() - 10%>">
+<meta http-equiv="refresh" content="<%=request.getSession().getMaxInactiveInterval()/3%>">
 <script type="text/javascript" src="/js/dojo/dojo.js"></script>
 <script type="text/javascript" src="/js/dashboard.js"></script>
 
