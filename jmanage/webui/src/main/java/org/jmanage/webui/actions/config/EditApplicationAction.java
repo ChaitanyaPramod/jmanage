@@ -21,9 +21,11 @@ import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.forms.ApplicationForm;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.ApplicationConfigManager;
+import org.jmanage.core.config.event.ApplicationChangedEvent;
 import org.jmanage.core.util.UserActivityLogger;
 import org.jmanage.core.services.AccessController;
 import org.jmanage.core.alert.AlertEngine;
+import org.jmanage.event.EventSystem;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
@@ -80,7 +82,10 @@ public class EditApplicationAction extends BaseAction {
         }
 
         ApplicationConfigManager.updateApplication(config);
-
+        // TODO: this should be moved down to ApplicationConfigManager -rk
+        EventSystem.getInstance().fireEvent(new ApplicationChangedEvent(config));
+     
+        // TODO: Use the event above to do this update - rk
         /* update the AlertEngine */
         AlertEngine.getInstance().updateApplication(config);
 

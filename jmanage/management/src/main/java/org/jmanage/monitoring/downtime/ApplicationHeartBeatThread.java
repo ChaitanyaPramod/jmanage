@@ -22,19 +22,20 @@ import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.management.ServerConnection;
 import org.jmanage.core.management.ServerConnector;
 import org.jmanage.core.util.Loggers;
+import org.jmanage.event.EventSystem;
 import org.jmanage.monitoring.downtime.event.ApplicationDownEvent;
 import org.jmanage.monitoring.downtime.event.ApplicationUpEvent;
 
 /**
- * ApplicationDowntimeTrackingThread tracks downtime of a single application.
+ * ApplicationHeartBeatThread tracks downtime of a single application.
  * This information is captured as a list of ApplicationDowntime objects.
  * 
  * @author Rakesh Kalra
  */
-public class ApplicationDowntimeTrackingThread extends Thread {
+public class ApplicationHeartBeatThread extends Thread {
 
     private static final Logger logger = Loggers
-            .getLogger(ApplicationDowntimeTrackingThread.class);
+            .getLogger(ApplicationHeartBeatThread.class);
 
     private final ApplicationConfig appConfig;
 
@@ -42,7 +43,7 @@ public class ApplicationDowntimeTrackingThread extends Thread {
 
     private boolean wasOpen = true;
 
-    protected ApplicationDowntimeTrackingThread(ApplicationConfig appConfig) {
+    protected ApplicationHeartBeatThread(ApplicationConfig appConfig) {
         this.appConfig = appConfig;
     }
 
@@ -69,12 +70,12 @@ public class ApplicationDowntimeTrackingThread extends Thread {
         if(wasOpen && !isOpen){
             // application went down
             wasOpen = false;
-            ApplicationDowntimeService.getInstance().fireEvent(
+            EventSystem.getInstance().fireEvent(
                     new ApplicationDownEvent(appConfig));
         }else if(!wasOpen && isOpen){
             // application came pack up
             wasOpen = true;
-            ApplicationDowntimeService.getInstance().fireEvent(
+            EventSystem.getInstance().fireEvent(
                     new ApplicationUpEvent(appConfig));
         }
     }
@@ -95,5 +96,9 @@ public class ApplicationDowntimeTrackingThread extends Thread {
                 logger.warning(e.getMessage());
             }
         }
+    }
+
+    public ApplicationConfig getApplicationConfig() {
+        return appConfig;
     }
 }

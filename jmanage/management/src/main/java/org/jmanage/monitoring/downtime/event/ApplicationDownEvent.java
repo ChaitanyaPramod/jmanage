@@ -16,12 +16,16 @@
 package org.jmanage.monitoring.downtime.event;
 
 import org.jmanage.core.config.ApplicationConfig;
+import org.jmanage.core.config.event.ApplicationEvent;
 
 /**
  *
  * @author Rakesh Kalra
  */
-public class ApplicationDownEvent extends Event {
+public class ApplicationDownEvent extends ApplicationEvent {
+    
+    private static final long serialVersionUID = 1L;
+
     public ApplicationDownEvent(ApplicationConfig appConfig){
         super(appConfig);
     }

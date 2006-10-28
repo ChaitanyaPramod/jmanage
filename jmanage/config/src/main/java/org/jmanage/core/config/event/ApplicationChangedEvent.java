@@ -13,20 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jmanage.monitoring.downtime.event;
+package org.jmanage.core.config.event;
 
 import org.jmanage.core.config.ApplicationConfig;
-import org.jmanage.core.config.event.ApplicationEvent;
 
 /**
- *
- * @author Rakesh Kalra
+ * Used to communicate changes to the basic application configuration changes. 
+ * The changes to application child elements such as Alerts, Dashboards, etc, 
+ * do not result in this event.
+ *  
+ * @author rkalra
  */
-public class ApplicationUpEvent extends ApplicationEvent {
+public class ApplicationChangedEvent extends ApplicationEvent {
 
     private static final long serialVersionUID = 1L;
 
-    public ApplicationUpEvent(ApplicationConfig appConfig){
-        super(appConfig);
+    public ApplicationChangedEvent(ApplicationConfig config){
+        super(config);
     }
 }
+  

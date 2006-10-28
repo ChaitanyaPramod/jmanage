@@ -21,6 +21,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.EventObject;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -28,14 +29,15 @@ import java.util.logging.Logger;
 
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.ApplicationConfigManager;
+import org.jmanage.core.config.event.ApplicationEvent;
 import org.jmanage.core.util.Loggers;
+import org.jmanage.event.EventListener;
 import org.jmanage.monitoring.downtime.event.ApplicationDownEvent;
 import org.jmanage.monitoring.downtime.event.ApplicationUpEvent;
-import org.jmanage.monitoring.downtime.event.Event;
-import org.jmanage.monitoring.downtime.event.EventListener;
 import org.jmanage.util.db.DBUtils;
 
 /**
+ * Records application downtime in the database.
  * 
  * @author Rakesh Kalra
  */
@@ -91,19 +93,23 @@ public class DowntimeRecorder implements EventListener {
         }
         return history;
     }
-    
-    public void handleEvent(Event event) {
-        ApplicationDowntimeHistory downtimeHistory = getDowntimeHistory(event.getApplicationConfig());
+
+    public void handleEvent(EventObject event) {
+        if(!(event instanceof ApplicationEvent)){
+            throw new IllegalArgumentException("event must of type ApplicationEvent");
+        }
+        ApplicationEvent appEvent = (ApplicationEvent)event;
+        ApplicationDowntimeHistory downtimeHistory = getDowntimeHistory(appEvent.getApplicationConfig());
         assert downtimeHistory != null;
-        if(event instanceof ApplicationUpEvent){
+        if(appEvent instanceof ApplicationUpEvent){
             // application must have went down earlier
             assert downtimeHistory.getDowntimeBegin() != null;
             // log the downtime to the db
-            recordDowntime(event.getApplicationConfig().getApplicationId(), 
-                    downtimeHistory.getDowntimeBegin(), event.getTime());
-            downtimeHistory.applicationCameUp(event.getTime());
+            recordDowntime(appEvent.getApplicationConfig().getApplicationId(), 
+                    downtimeHistory.getDowntimeBegin(), appEvent.getTime());
+            downtimeHistory.applicationCameUp(appEvent.getTime());
         }else if(event instanceof ApplicationDownEvent){
-            downtimeHistory.applicationWentDown(event.getTime());
+            downtimeHistory.applicationWentDown(appEvent.getTime());
         }
     }
 
