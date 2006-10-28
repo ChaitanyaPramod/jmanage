@@ -13,13 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jmanage.monitoring.downtime.event;
+package org.jmanage.core.config.event;
+
+import org.jmanage.core.config.ApplicationConfig;
 
 /**
- *
- * @author Rakesh Kalra
+ * This event is fired when a new application is added to the system.
+ *  
+ * @author rkalra
  */
-public interface EventListener {
+public class NewApplicationEvent extends ApplicationEvent {
 
-    public void handleEvent(Event event);
+  private static final long serialVersionUID = 1L;
+
+  public NewApplicationEvent(ApplicationConfig config){
+    super(config);
+  }
 }
+  

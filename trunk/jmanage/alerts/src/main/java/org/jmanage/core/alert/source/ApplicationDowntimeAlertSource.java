@@ -15,14 +15,15 @@
  */
 package org.jmanage.core.alert.source;
 
+import java.util.EventObject;
+
 import org.jmanage.core.alert.AlertHandler;
 import org.jmanage.core.alert.AlertInfo;
 import org.jmanage.core.alert.AlertSource;
 import org.jmanage.core.config.AlertSourceConfig;
-import org.jmanage.monitoring.downtime.ApplicationDowntimeService;
+import org.jmanage.event.EventListener;
+import org.jmanage.event.EventSystem;
 import org.jmanage.monitoring.downtime.event.ApplicationDownEvent;
-import org.jmanage.monitoring.downtime.event.Event;
-import org.jmanage.monitoring.downtime.event.EventListener;
 
 /**
  *
@@ -40,7 +41,8 @@ public class ApplicationDowntimeAlertSource implements AlertSource{
     
     public void register(AlertHandler handler, String alertId, String alertName) {
         this.handler = handler;
-        ApplicationDowntimeService.getInstance().addListener(new ApplicationDowntimeEventListener());
+        EventSystem.getInstance().addListener(new ApplicationDowntimeEventListener(), 
+                ApplicationDownEvent.class);
     }
 
     public void unregister() {
@@ -48,9 +50,10 @@ public class ApplicationDowntimeAlertSource implements AlertSource{
     }
     
     private class ApplicationDowntimeEventListener implements EventListener {
-        public void handleEvent(Event event) {
-            if(sourceConfig.getApplicationConfig().equals(event.getApplicationConfig())
-                    && event instanceof ApplicationDownEvent){
+        public void handleEvent(EventObject event) {
+            if(event instanceof ApplicationDownEvent &&
+                    sourceConfig.getApplicationConfig().equals(
+                            ((ApplicationDownEvent)event).getApplicationConfig())){
                 handler.handle(new AlertInfo());
             }
         }

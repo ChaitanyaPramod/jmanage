@@ -75,6 +75,8 @@ public class AddApplicationAction extends BaseAction {
         ConfigurationService service = ServiceFactory.getConfigurationService();
         appConfigData = service.addApplication(Utils.getServiceContext(context), appConfigData);
         
+        // TODO: This should be handled in a listener to NewApplicationEvent 
+        //      and ApplicationChangedEvent -rk
         /* add qualifying dashboards */
         ApplicationConfig appConfig = 
             ApplicationConfigManager.getApplicationConfig(appConfigData.getApplicationId());

@@ -15,6 +15,7 @@
  */
 package org.jmanage.monitoring.downtime;
 
+import java.util.EventObject;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
@@ -22,9 +23,12 @@ import java.util.logging.Logger;
 
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.ApplicationConfigManager;
+import org.jmanage.core.config.event.ApplicationChangedEvent;
+import org.jmanage.core.config.event.ApplicationEvent;
+import org.jmanage.core.config.event.NewApplicationEvent;
 import org.jmanage.core.util.Loggers;
-import org.jmanage.monitoring.downtime.event.Event;
-import org.jmanage.monitoring.downtime.event.EventListener;
+import org.jmanage.event.EventListener;
+import org.jmanage.event.EventSystem;
 
 /**
  * This service acts as the facade to the downtime tracking sub-system in
@@ -42,54 +46,74 @@ public class ApplicationDowntimeService {
         return service;
     }
     
-    private final List<EventListener> eventListeners = new LinkedList<EventListener>();
-    private final List<ApplicationDowntimeTrackingThread> threads = 
-        new LinkedList<ApplicationDowntimeTrackingThread>();
+    private final List<ApplicationHeartBeatThread> threads = 
+        new LinkedList<ApplicationHeartBeatThread>();
     private final DowntimeRecorder recorder = DowntimeRecorder.getInstance();
     
     private ApplicationDowntimeService(){
     }
     
     public void start() {
-        // TODO: threads for new applications are not getting started
+
         for (ApplicationConfig appConfig : ApplicationConfigManager
                 .getAllApplications()) {
-            ApplicationDowntimeTrackingThread thread = 
-                new ApplicationDowntimeTrackingThread(appConfig);
-            threads.add(thread);
-            thread.start();
+            addApplication(appConfig);
         }
-        addListener(recorder);
+        
+        // TODO: perfect dependency to be injected via Spring framework --rk
+        EventSystem eventSystem = EventSystem.getInstance();
+         
+        /* Add the recorder to record the downtimes to the DB */
+        eventSystem.addListener(recorder, ApplicationEvent.class);
+
+        /* application event listener to add */
+        eventSystem.addListener(new EventListener(){
+            public void handleEvent(EventObject event) {
+                if(!(event instanceof ApplicationEvent)){
+                    throw new IllegalArgumentException("event must be of type ApplicationEvent");
+                }
+                if(event instanceof NewApplicationEvent){
+                    addApplication(((NewApplicationEvent)event).getApplicationConfig());
+                }else if(event instanceof ApplicationChangedEvent){
+                    applicationChanged(((ApplicationChangedEvent)event).getApplicationConfig());
+                }
+            }
+        }, ApplicationEvent.class);
+        
         logger.info("ApplicationDowntimeService started.");
     }
 
     public void stop() {
-        for(ApplicationDowntimeTrackingThread thread: threads){
+        for(ApplicationHeartBeatThread thread: threads){
             thread.end();
         }
         threads.clear();
-        eventListeners.clear();
-    }
-
-    public void addListener(EventListener listener) {
-        eventListeners.add(listener);
-    }
-
-    public void removeListener(EventListener listener) {
-        eventListeners.remove(listener);
     }
 
     public DowntimeRecorder getDowntimeRecorder(){
         return recorder;
     }
     
-    void fireEvent(Event event){
-        for(EventListener listener:eventListeners){
-            try{
-                listener.handleEvent(event);
-            }catch(Throwable t){
-                logger.log(Level.SEVERE, "Error in event listener", t);
+    private void addApplication(ApplicationConfig appConfig) {
+        ApplicationHeartBeatThread thread = 
+            new ApplicationHeartBeatThread(appConfig);
+        threads.add(thread);
+        thread.start();
+    }
+
+    private void applicationChanged(ApplicationConfig appConfig) {
+        ApplicationHeartBeatThread associatedThread = null;
+        for(ApplicationHeartBeatThread thread:threads){
+            if(thread.getApplicationConfig().equals(appConfig)){
+                associatedThread = thread;
+                break;
             }
+        }
+        if(associatedThread == null){
+            logger.log(Level.WARNING, "Thread not found for application: {0}", appConfig);
+        }else{
+            threads.remove(associatedThread);
+            addApplication(appConfig);
         }
     }
 }

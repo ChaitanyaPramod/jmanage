@@ -13,31 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jmanage.monitoring.downtime.event;
+package org.jmanage.event;
 
-import java.util.Date;
-
-import org.jmanage.core.config.ApplicationConfig;
+import java.util.EventObject;
 
 /**
- *
- * @author Rakesh Kalra
+ * The base event listener for the jmanage event system.
+ * 
+ * @author rkalra
  */
-public abstract class Event {
-    
-    private final ApplicationConfig appConfig;
-    private final long time;
-    
-    public Event(ApplicationConfig appConfig){
-        this.appConfig = appConfig;
-        this.time = new Date().getTime();
-    }
-    
-    public ApplicationConfig getApplicationConfig(){
-        return appConfig;
-    }
-
-    public Long getTime() {
-        return time;
-    }
+public interface EventListener extends java.util.EventListener {
+  public void handleEvent(EventObject object);
 }

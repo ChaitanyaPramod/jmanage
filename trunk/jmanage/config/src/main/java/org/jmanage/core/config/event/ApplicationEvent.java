@@ -13,20 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jmanage.monitoring.downtime.event;
+package org.jmanage.core.config.event;
+
+import java.util.EventObject;
 
 import org.jmanage.core.config.ApplicationConfig;
-import org.jmanage.core.config.event.ApplicationEvent;
 
 /**
- *
- * @author Rakesh Kalra
+ * Base class for Application related events.
+ * 
+ * @author rkalra
  */
-public class ApplicationUpEvent extends ApplicationEvent {
+public abstract class ApplicationEvent extends EventObject {
 
     private static final long serialVersionUID = 1L;
 
-    public ApplicationUpEvent(ApplicationConfig appConfig){
-        super(appConfig);
+    private final long time;
+    
+    public ApplicationEvent(ApplicationConfig config){
+      super(config);
+      time = System.currentTimeMillis();
+    }
+    
+    public ApplicationConfig getApplicationConfig(){
+      return (ApplicationConfig)super.getSource();
+    }
+    
+    public Long getTime() {
+        return time;
     }
 }

@@ -18,6 +18,9 @@ package org.jmanage.core.config;
 import java.util.*;
 import java.io.File;
 
+import org.jmanage.core.config.event.NewApplicationEvent;
+import org.jmanage.event.EventSystem;
+
 /**
  * ApplicationConfigManager holds configuration of managed applications. 
  * It provides add/update/remove operations for ApplicationConfig objects.
@@ -100,6 +103,10 @@ public class ApplicationConfigManager {
             validateAppName(config.getName(), null);
             applicationConfigs.add(config);
             saveConfig();
+        }
+        /* fire the NewApplicationEvent if this is not a cluster which has been added */
+        if(!config.isCluster()){
+          EventSystem.getInstance().fireEvent(new NewApplicationEvent(config));
         }
     }
 
