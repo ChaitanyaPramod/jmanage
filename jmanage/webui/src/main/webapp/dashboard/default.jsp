@@ -6,7 +6,7 @@
     WebContext webContext = WebContext.get(request);
     ApplicationConfig appConfig = webContext.getApplicationConfig();
 %>
-<table class="plaintext" style="border:1;border-style:solid;border-width:1px;border-color:#C0C0C0">
+<table class="plaintext" cellspacing="5" width="800" style="border:1;border-style:solid;border-width:1px;border-color:#C0C0C0">
     <tr><td colspan="2" align="center"><b><u>Application Summary</u></b></td></tr>
     <tr><td><jm:dashboardComponent id="com1"/></td><td><jm:dashboardComponent id="com2"/></td></tr>
     <tr><td><jm:dashboardComponent id="com3"/></td><td>&nbsp;</td></tr>
@@ -29,3 +29,21 @@
     <tr><td><jm:dashboardComponent id="com16"/></td><td><jm:dashboardComponent id="com17"/></td></tr>
     <tr><td><jm:dashboardComponent id="com18"/></td><td>&nbsp;</td></tr>
 </table>
+<script type="text/javascript">
+  function toggleSystemProperties(){
+    var sysPropsStyle = document.getElementById('systemProperties').style;
+    if(sysPropsStyle.visibility == 'visible'){
+      sysPropsStyle.visibility='hidden';
+      document.getElementById('showText').innerHTML = '&gt;&gt';
+    }else{
+	  sysPropsStyle.visibility='visible';
+      document.getElementById('showText').innerHTML = '&lt;&lt';
+	}
+  }
+</script>
+<p class="headtext">System Properties 
+<a href="JavaScript:toggleSystemProperties();" class="a"><span id="showText">&gt;&gt;</span></a>
+</p>
+<div id="systemProperties" style="visibility:hidden">
+	<jm:dashboardComponent id="systemProperties"/>
+</div>

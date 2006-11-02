@@ -96,5 +96,9 @@
             <property name="attribute" value="CommittedVirtualMemorySize"/>
             <property name="displayName" value="Committed virtual memory (bytes)"/>
         </component>
+        <component id="systemProperties" class="org.jmanage.webui.dashboard.components.MBeanAttributeValue" name="Single attribute value">
+            <property name="mbean" value="java.lang:type=Runtime"/>
+            <property name="attribute" value="SystemProperties"/>
+        </component>
     </components>
 </dashboard>
