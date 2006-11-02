@@ -57,7 +57,9 @@ public class ApplicationDowntimeService {
 
         for (ApplicationConfig appConfig : ApplicationConfigManager
                 .getAllApplications()) {
-            addApplication(appConfig);
+            // only add non-cluster applications
+            if(!appConfig.isCluster())
+                addApplication(appConfig);
         }
         
         // TODO: perfect dependency to be injected via Spring framework --rk
