@@ -27,7 +27,6 @@ import org.jmanage.core.auth.User;
 import org.jmanage.core.auth.ACLStore;
 import org.jmanage.core.services.ServiceFactory;
 import org.jmanage.core.alert.AlertEngine;
-import org.jmanage.core.config.ApplicationTypes;
 import org.jmanage.connector.framework.ConnectorConfigRegistry;
 import org.jmanage.connector.framework.ConnectorRegistry;
 import org.jmanage.monitoring.downtime.ApplicationDowntimeService;
@@ -35,6 +34,7 @@ import org.jmanage.util.db.DBUtils;
 
 import java.rmi.RMISecurityManager;
 import java.util.Arrays;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.io.File;
 
@@ -121,11 +121,18 @@ public class Startup {
         /* start the application downtime service */
         ApplicationDowntimeService.getInstance().start();
         
+        
         /* load connectors */
-        ConnectorConfigRegistry.init();
-
-        ConnectorRegistry.load();
-       
+        try{
+            ConnectorConfigRegistry.init();
+        }catch(Exception e){
+            logger.log(Level.SEVERE, "Error initializing connector config registry.", e);
+        }
+        try{
+            ConnectorRegistry.load();
+        }catch(Exception e){
+            logger.log(Level.SEVERE, "Error initializing connector registry.", e);
+        }
         /* start the application */
         start();
     }
