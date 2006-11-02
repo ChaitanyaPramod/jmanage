@@ -144,7 +144,7 @@
         <!-- .gz format -->
         <ant:tar tarfile="${basedir}/dist/jmanage-${jmanage.version}.tar">
             <tarfileset dir="${basedir}/build">
-                <exclude name="modules/weblogic/weblogic.jar"/>
+                <exclude name="modules/weblogic/weblogic*.jar"/>
                 <exclude name="modules/websphere/*.jar"/>
             </tarfileset>
             <tarfileset dir="${basedir}/build">
@@ -159,7 +159,7 @@
         <!-- zip format -->
         <ant:zip destfile="${basedir}/dist/jmanage-${jmanage.version}.zip">
             <fileset dir="${basedir}/build">
-                <exclude name="modules/weblogic/weblogic.jar"/>
+                <exclude name="modules/weblogic/weblogic*.jar"/>
                 <exclude name="modules/websphere/*.jar"/>
             </fileset>
             <fileset dir="${basedir}/build">
