@@ -34,7 +34,7 @@
                             name="Test Alert"
                             subject="Something is wrong">
                             <source type="notification"
-                                mbean="jmanage:name=TimeNotificationBroadcaster"
+                                mbean="jmanage:type=test,name=TimeNotificationBroadcaster"
                                 notificationType="time.expired"/>
                             <delivery type="email"
                                 emailAddress="getkalra@yahoo.com"/>
