@@ -62,13 +62,18 @@ public class ConnectorRegistry extends Registry {
     public static void load() throws Exception {
         List<ApplicationConfig> applications = ApplicationConfigManager.getApplications();
         for(ApplicationConfig config : applications) {
-            String appType = config.getType();
-            if (appType.equals("connector")) {
-                create(config);
+            if (config.isCluster()) {
+                List<ApplicationConfig> clusterApps = config.getApplications();
+                for(ApplicationConfig clusterConfig : clusterApps) {
+                    load(clusterConfig);
+                }
+            }
+            else {
+                load(config);
             }
         }
     }
-
+    
     public synchronized static ConnectorRegistry getInstance(
             ApplicationConfig config) throws Exception {
         String appId = config.getApplicationId();
@@ -200,4 +205,12 @@ public class ConnectorRegistry extends Registry {
             throw ex;
         }
     }
+    
+    private static void load(ApplicationConfig config) throws Exception {
+        String appType = config.getType();
+        if (appType.equals("connector")) {
+            create(config);
+        }
+    }
+    
 }
