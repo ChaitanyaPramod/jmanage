@@ -1,4 +1,4 @@
-<dashboard id="default" name="Java5 Dashboard" template="/dashboard/default.jsp" >
+<dashboard id="jvmSummary" name="JVM Summary" template="/dashboard/jvmSummary.jsp" >
 	<qualifications comment="defines what type of applications qualify for this dashboard">
         <qualifier class="org.jmanage.webui.dashboard.qualifiers.Java5DashboardQualifier">
             <property name="mbean" value="java.lang:type=Runtime"/>
