@@ -1,6 +1,6 @@
 <%@ page import="org.jmanage.webui.util.WebContext"%>
 <%@ page import="org.jmanage.core.config.ApplicationConfig"%>
-<!--/dashboard/default.jsp-->
+<!--/dashboard/jvmSummary.jsp-->
 <%@ taglib uri="/WEB-INF/tags/jmanage/jm.tld" prefix="jm"%>
 <%
     WebContext webContext = WebContext.get(request);

@@ -7,7 +7,7 @@
             <mbeans/>
             <dashboards>
                 <dashboard id="jvmThreads" />
-                <dashboard id="default" />
+                <dashboard id="jvmSummary" />
             </dashboards>
         </application>
     </applications>
