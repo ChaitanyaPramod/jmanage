@@ -18,6 +18,12 @@
 
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 <%@ taglib uri="/WEB-INF/tags/jstl/c.tld" prefix="c"%>
+
+<script type="text/javascript" src="/js/dojo/dojo.js"></script>
+<script type="text/javascript">
+	dojo.require("dojo.widget.Tooltip");
+</script>
+
 <%!
     // TODO: This should be moved to some utility class
     private Class getClass(String type){
@@ -57,7 +63,10 @@
     }
 %>
 <%
-    boolean showGraphOption = false;
+	int toolTipId = 0;
+	final Map<Integer, String> toolTips = new HashMap<Integer, String>();
+
+	boolean showGraphOption = false;
     final WebContext webContext = WebContext.get(request);
 
     ObjectInfo objectInfo = (ObjectInfo)request.getAttribute("objInfo");
@@ -197,14 +206,11 @@
 <%
     for(int index=0; index < attributes.length; index++){
         ObjectAttributeInfo attributeInfo = attributes[index];
+        toolTips.put(toolTipId, attributeInfo.getDescription());
 %>
 <tr>
 <td class="plaintext" valign="top">
-    <%if(attributeInfo.getDescription() != null){%>
-        <a href="JavaScript:showDescription('<%=MBeanUtils.jsEscape(attributeInfo.getDescription())%>');"><%=attributeInfo.getName()%></a>
-    <%}else{%>
-        <%=attributeInfo.getName()%>
-    <%}%>
+    <a id="<%=toolTipId++%>" href="#" onClick="return false;" class="a"><%=attributeInfo.getName()%></a>
 </td>
 <%
         List childApplications = null;
@@ -370,11 +376,11 @@
 <jmhtml:form action="/app/executeOperation">
 <tr>
     <td class="plaintext">
-    <%if(operationInfo.getDescription() != null){%>
-        <a href="JavaScript:showDescription('<%=MBeanUtils.jsEscape(operationInfo.getDescription())%>');"><%=operationInfo.getName()%></a>
-    <%}else{%>
-        <%=operationInfo.getName()%>
-    <%}%><br/>
+	<%
+		toolTips.put(toolTipId, operationInfo.getDescription());
+	%>
+     <a id="<%=toolTipId++%>" href="#" onClick="return false;" class="a"><%=operationInfo.getName()%></a>
+	 <br/>
     (<%=operationInfo.getDisplayReturnType()%>)
     <input type="hidden" name="paramCount" value="<%=params.length%>"/>
     </td>
@@ -389,14 +395,9 @@
             if(argName == null || argName.length() == 0){
                 argName = params[paramIndex].getType();
             }
-            String description = params[paramIndex].getDescription();
-            if(description != null && description.length() > 0){
+            toolTips.put(toolTipId, params[paramIndex].getDescription());
         %>
-           <a href="JavaScript:showDescription('<%=MBeanUtils.jsEscape(description)%>');">
-                    <%=argName%></a>:
-        <%}else{%>
-            <%=argName%>:
-        <%}%>
+           <a id="<%=toolTipId++%>" href="#" onClick="return false;" class="a"><%=argName%></a>:
         <%if(params[paramIndex].getLegalValues() != null){%>
         	<select tabindex="<%=tabIndex++%>" name="<%=operationInfo.getName()%><%=paramIndex%>_value">
         		<%for(Object legalValue:params[paramIndex].getLegalValues()){%>
@@ -440,14 +441,9 @@
             if(argName == null || argName.length() == 0){
                 argName = params[paramIndex].getType();
             }
-            String description = params[paramIndex].getDescription();
-            if(description != null && description.length() > 0){
+            toolTips.put(toolTipId, params[paramIndex].getDescription());
         %>
-           <a href="JavaScript:showDescription('<%=MBeanUtils.jsEscape(description)%>');">
-                    <%=argName%></a>:
-        <%}else{%>
-            <%=argName%>:
-        <%}%>
+           <a id="<%=toolTipId++%>" href="#" onClick="return false;" class="a"><%=argName%></a>:
         <%if(params[paramIndex].getLegalValues() != null){%>
         	<select tabindex="<%=tabIndex++%>" name="<%=operationInfo.getName()%><%=paramIndex%>_value">
         		<%for(Object legalValue:params[paramIndex].getLegalValues()){%>
@@ -495,3 +491,15 @@
 <%  }%>
 </table>
 <%}%>
+
+<%-- tool tips --%>
+<%
+	for(Integer id:toolTips.keySet()){
+		String value = toolTips.get(id);   
+%>
+	<span dojoType="tooltip" connectId="<%=id%>" toggle="fade" toggleDuration="500" style="visibility:hidden">
+		<%=value%>
+	</span>
+<%
+    }
+%>

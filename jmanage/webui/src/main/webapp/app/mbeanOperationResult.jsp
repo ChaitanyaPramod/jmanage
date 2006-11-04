@@ -12,7 +12,17 @@
 <%@ taglib uri="/WEB-INF/tags/jstl/c.tld" prefix="c"%>
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 
+<%@page import="java.util.Map"%>
+<%@page import="java.util.HashMap"%>
+<script type="text/javascript" src="/js/dojo/dojo.js"></script>
+<script type="text/javascript">
+	dojo.require("dojo.widget.Tooltip");
+</script>
+
 <%
+	int toolTipId = 0;
+	final Map<Integer, String> toolTips = new HashMap<Integer, String>();
+
     final WebContext webContext = WebContext.get(request);
     ObjectName objectName = WebContext.getObjectName(request);
     ObjectOperationInfo operationInfo =
@@ -58,17 +68,9 @@
                     if(argName == null || argName.length() == 0) {
                         argName = params[paramIndex].getType();
                     }
-                    String description = params[paramIndex].getDescription();
-                    if(description != null && description.length() > 0) {
+                    toolTips.put(toolTipId, params[paramIndex].getDescription());
             %>
-           <a href="JavaScript:showDescription('<%=MBeanUtils.jsEscape(description)%>');"><%=argName%></a>
-            <%
-                    } else {
-            %>
-            <%=argName%>
-            <%
-                    }
-            %>
+           <a id="<%=toolTipId++%>" href="#" onClick="return false;" class="a"><%=argName%></a>
             <%
                     if(!params[paramIndex].getType().equals(argName)) {
             %>
@@ -117,16 +119,9 @@
                     argName = params[paramIndex].getType();
                 }
                 String description = params[paramIndex].getDescription();
-                if(description != null && description.length() > 0) {
-            %>
-            <a href="JavaScript:showDescription('<%=MBeanUtils.jsEscape(description)%>');"><%=argName%></a>
-            <%
-                } else {
-            %>
-            <%=argName%>
-            <%
-                }
-            %>
+                toolTips.put(toolTipId, params[paramIndex].getDescription());
+                %>
+               <a id="<%=toolTipId++%>" href="#" onClick="return false;" class="a"><%=argName%></a>
             <%
                 if(!params[paramIndex].getType().equals(argName)) {
             %>
@@ -172,3 +167,14 @@
 %>
 </table>
 <p class="plaintext"><jmhtml:link action="/app/mbeanView">Back</jmhtml:link></p>
+<%-- tool tips --%>
+<%
+	for(Integer id:toolTips.keySet()){
+		String value = toolTips.get(id);   
+%>
+	<span dojoType="tooltip" connectId="<%=id%>" toggle="fade" toggleDuration="500" style="visibility:hidden">
+		<%=value%>
+	</span>
+<%
+    }
+%>
