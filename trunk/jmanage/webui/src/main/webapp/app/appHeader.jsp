@@ -14,16 +14,6 @@
 <%@ taglib uri="/WEB-INF/tags/struts/struts-tiles.tld" prefix="tiles" %>
 <%@ taglib uri="/WEB-INF/tags/jstl/c.tld" prefix="c"%>
 
-<script language="JavaScript1.1" type="text/javascript">
-
-    function showDescription(description){
-        if(description.length == 0){
-            description = "No description available.";
-        }
-        alert(description);
-    }
-</script>
-
 <%!
     private static class Navigation{
         String name;
