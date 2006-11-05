@@ -6,6 +6,6 @@
 call setenv.cmd
 if "%JMANAGE_CLASSPATH%" == "" goto finish
 
-"%JAVA_HOME%/bin/java" -ea -classpath "%JMANAGE_CLASSPATH%" %DEBUG_OPTIONS% -Djmanage.root=%JMANAGE_HOME% -Dorg.jmanage.core.management.data.formatConfig=%JMANAGE_HOME%/config/text-data-format.properties org.jmanage.cmdui.Main %*
+"%JAVA_HOME%/bin/java" -ea -classpath "%JMANAGE_CLASSPATH%" %DEBUG_OPTIONS% -Djmanage.root="%JMANAGE_HOME%" -Dorg.jmanage.core.management.data.formatConfig="%JMANAGE_HOME%/config/text-data-format.properties" org.jmanage.cmdui.Main %*
 
 :finish
