@@ -20,16 +20,11 @@
 		dojo.io.bind({
 			url: varURL,
 	    	load: function(type, data, evt){
-	    	   	if(type == "load"){
-					var divElement = document.getElementById(component);
-					//alert(data);
-	        		divElement.innerHTML = data;		           
-		       	}else if(type == "error"){
-		           alert("error getting data from server");
-		       	}else{
-		           // other types of events might get passed, handle them here
-		       	}
+				var divElement = document.getElementById(component);
+				//alert(data);
+        		divElement.innerHTML = data;		           
 	    	  },
+	    	method: "POST",
 	    	mimetype: "text/plain"
 		});
 	

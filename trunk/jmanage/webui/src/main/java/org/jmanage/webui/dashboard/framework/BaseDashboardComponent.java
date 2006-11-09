@@ -71,7 +71,9 @@ public abstract class BaseDashboardComponent implements DashboardComponent {
         }
 
         // wrap wih div tag
-        output.append("<div id=\"" + getId() + "\">");
+        if(!context.isRefreshRequest()){
+            output.append("<div id=\"" + getId() + "\">");
+        }
         try{
             properties.context = context;
             if(!properties.hasUnresolvedVariable())
@@ -79,7 +81,9 @@ public abstract class BaseDashboardComponent implements DashboardComponent {
         }finally{
             properties.context = null;
         }
-        output.append("</div>");
+        if(!context.isRefreshRequest()){
+            output.append("</div>");
+        }
 
         return output.toString();
     }

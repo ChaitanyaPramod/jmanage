@@ -30,13 +30,22 @@ public class DashboardContextImpl implements DashboardContext {
     private final HttpServletRequest request;
     private final DashboardConfig dashboardConfig;
     private String serverPath;
+    private boolean isRefreshRequest;
     
     public DashboardContextImpl(WebContext webContext,  
             DashboardConfig dashboardConfig,
             HttpServletRequest request){
+        this(webContext, dashboardConfig, request, false);
+    }
+    
+    public DashboardContextImpl(WebContext webContext,  
+            DashboardConfig dashboardConfig,
+            HttpServletRequest request,
+            boolean isRefreshRequest){
         this.webContext = webContext; 
         this.dashboardConfig = dashboardConfig;
         this.request = request;
+        this.isRefreshRequest = isRefreshRequest;
         setServerPath();
     }
     
@@ -59,4 +68,8 @@ public class DashboardContextImpl implements DashboardContext {
     public String getServerPath() {
     	return serverPath;
 	}
+
+    public boolean isRefreshRequest() {
+        return isRefreshRequest;
+    }
 }
