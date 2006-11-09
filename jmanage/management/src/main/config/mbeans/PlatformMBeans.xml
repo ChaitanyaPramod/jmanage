@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+TODO: Further meta-data can be provided for:
+a) presentation e.g. HTML attribute values display
+b) operation meta-data e.g."Are you sure you want to execute this operation?"
+
+-->
+
 <mbeans>
 	<mbean name="java.lang:type=MemoryManager,name=CodeCacheManager" description="The management interface for a memory manager. A memory manager manages one or more memory pools of the Java virtual machine. A Java virtual machine has one or more memory managers. This is memory manager for Code Cache.">
 		<attribute name="MemoryPoolNames" description="The name of memory pools that this memory manager manages."/>
