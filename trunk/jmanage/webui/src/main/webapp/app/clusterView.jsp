@@ -7,7 +7,8 @@
                  org.jmanage.core.config.ApplicationConfig,
                  org.jmanage.core.config.MBeanConfig,
                  org.jmanage.webui.util.RequestParams,
-                 java.net.URLEncoder"%>
+                 java.net.URLEncoder,
+                 org.jmanage.webui.view.ApplicationViewHelper"%>
 <%
     WebContext context = WebContext.get(request);
     ApplicationClusterConfig clusterConfig =
@@ -24,7 +25,11 @@
 %>
     <tr>
         <td class="plaintext" width="25%">
-            <a href="/app/appView.do?applicationId=<%=appConfig.getApplicationId()%>">
+          <%if(ApplicationViewHelper.isApplicationUp(appConfig)) {%>        
+	        <img src="/images/bullet/green.gif"/>
+	      <%}else{ %>
+	      	<img src="/images/bullet/red.gif"/>
+	      <%} %>&nbsp;<a href="/app/appView.do?applicationId=<%=appConfig.getApplicationId()%>">
                     <%=appConfig.getName()%></a>
         </td>
         <td class="plaintext">
