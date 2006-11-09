@@ -11,7 +11,7 @@
             <property name="attribute" value="Uptime"/>
             <property name="displayName" value="App up time (milliseconds)"/>
         </component>
-        <component id="com2" class="org.jmanage.webui.dashboard.components.MBeanAttributeValue" name="Single attribute value">
+        <component id="com2" class="org.jmanage.webui.dashboard.components.MBeanAttributeValue" name="Single attribute value" refreshInterval="5000">
             <property name="mbean" value="java.lang:type=OperatingSystem"/>
             <property name="attribute" value="ProcessCpuTime"/>
             <property name="displayName" value="Process CPU time (nanoseconds)"/>
