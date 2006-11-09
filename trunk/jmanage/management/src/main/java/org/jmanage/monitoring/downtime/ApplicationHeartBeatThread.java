@@ -44,6 +44,7 @@ public class ApplicationHeartBeatThread extends Thread {
     private boolean wasOpen = true;
 
     protected ApplicationHeartBeatThread(ApplicationConfig appConfig) {
+        super("ApplicationHeartBeatThread:" + appConfig.getName());
         this.appConfig = appConfig;
     }
 

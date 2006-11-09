@@ -16,9 +16,13 @@
 package org.jmanage.core.config;
 
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.io.File;
 
+import org.jmanage.core.config.event.ApplicationRemovedEvent;
 import org.jmanage.core.config.event.NewApplicationEvent;
+import org.jmanage.core.util.Loggers;
 import org.jmanage.event.EventSystem;
 
 /**
@@ -30,6 +34,8 @@ import org.jmanage.event.EventSystem;
  */
 public class ApplicationConfigManager {
 
+    private static final Logger logger = Loggers.getLogger(ApplicationConfigManager.class);
+    
     private static List<ApplicationConfig> applicationConfigs =
             Collections.synchronizedList(new LinkedList<ApplicationConfig>());
 
@@ -147,7 +153,8 @@ public class ApplicationConfigManager {
 
     public static void deleteApplication(ApplicationConfig config) {
         assert config != null: "application config is null";
-        if(!applicationConfigs.remove(config)){
+        boolean removed = applicationConfigs.remove(config); 
+        if(!removed){
             /* this app is in a cluster. remove from cluster */
             for(Iterator it=applicationConfigs.iterator(); it.hasNext(); ){
                 ApplicationConfig appConfig = (ApplicationConfig)it.next();
@@ -155,11 +162,18 @@ public class ApplicationConfigManager {
                     ApplicationClusterConfig clusterConfig =
                             (ApplicationClusterConfig)appConfig;
                     if(clusterConfig.removeApplication(config)){
+                        removed = true;
                         break;
                     }
                 }
             }
         }
+        if(removed){
+            EventSystem.getInstance().fireEvent(new ApplicationRemovedEvent(config));
+        }else{
+            logger.log(Level.WARNING, "ApplicationConfig not found for removal:{0}", config.getName());
+        }
+        
         saveConfig();
     }
 
