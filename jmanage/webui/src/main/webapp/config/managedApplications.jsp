@@ -1,12 +1,9 @@
 <!--    /config/managedApplications.jsp  -->
 <%@ page errorPage="/error.jsp" %>
-<%@ page import="java.util.Map,
-                 org.jmanage.webui.util.RequestAttributes,
-                 java.util.Set,
+<%@ page import="org.jmanage.webui.util.RequestAttributes,
                  org.jmanage.core.config.ApplicationConfig,
                  java.util.Iterator,
                  org.jmanage.webui.util.RequestParams,
-                 org.jmanage.core.config.MBeanConfig,
                  java.net.URLEncoder,
                  java.util.List,
                  org.jmanage.core.alert.AlertInfo,
@@ -43,7 +40,7 @@
                 RequestParams.APPLICATION_ID + "=" + applicationConfig.getApplicationId();
     %>
     <td class="plaintext">
-				<%if(ApplicationViewHelper.isApplicationUp(applicationConfig)) {%>        
+		  <%if(ApplicationViewHelper.isApplicationUp(applicationConfig)) {%>        
 	        <img src="/images/bullet/green.gif"/>
 	      <%}else{ %>
 	      	<img src="/images/bullet/red.gif"/>

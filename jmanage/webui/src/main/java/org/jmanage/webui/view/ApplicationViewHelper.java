@@ -17,6 +17,7 @@ package org.jmanage.webui.view;
 
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.monitoring.downtime.ApplicationDowntimeService;
+import org.jmanage.monitoring.downtime.DowntimeRecorder;
 
 /**
  * 
@@ -25,7 +26,21 @@ import org.jmanage.monitoring.downtime.ApplicationDowntimeService;
 public class ApplicationViewHelper {
 
     public static boolean isApplicationUp(ApplicationConfig appConfig) {
-        return ApplicationDowntimeService.getInstance().getDowntimeRecorder()
-                .isApplicationUp(appConfig);
+        DowntimeRecorder recorder = ApplicationDowntimeService.getInstance().getDowntimeRecorder();
+        boolean isUp = true;
+        if (appConfig.isCluster()) {
+            for (ApplicationConfig childAppConfig : appConfig.getApplications()) {
+                if (!recorder.isApplicationUp(childAppConfig)) {
+                    // once an application is detected that is down, there is no need to proceed
+                    // further
+                    isUp = false;
+                    break;
+                }
+            }
+        }
+        else {
+            isUp = recorder.isApplicationUp(appConfig);
+        }
+        return isUp;
     }
 }
