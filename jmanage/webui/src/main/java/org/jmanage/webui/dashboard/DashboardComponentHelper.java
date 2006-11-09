@@ -36,11 +36,13 @@ public class DashboardComponentHelper {
 
     private static final Logger logger = Loggers.getLogger(DashboardComponentHelper.class);
     
-    public static String drawComponent(WebContext context, HttpServletRequest request,
+    
+    public static String refreshComponent(WebContext context, HttpServletRequest request,
             String dashboardId, String componentId){
 
         DashboardConfig dashboardConfig = DashboardRepository.getInstance().get(dashboardId);
-        DashboardContext dashboardContext = new DashboardContextImpl(context, dashboardConfig, request);        
+        DashboardContext dashboardContext = new DashboardContextImpl(context, dashboardConfig, 
+                request, true); // set the refresh request        
         assert dashboardConfig != null : "Error retrieving dashboard details. id=" + dashboardId;
         DashboardComponent component = dashboardConfig.getComponents().get(componentId);
         assert component != null : "Error retrieving component. id=" + componentId;

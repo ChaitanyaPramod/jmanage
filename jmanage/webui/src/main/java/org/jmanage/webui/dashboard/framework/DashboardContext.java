@@ -31,4 +31,5 @@ public interface DashboardContext {
     
     public String getServerPath();
     
+    public boolean isRefreshRequest();
 }

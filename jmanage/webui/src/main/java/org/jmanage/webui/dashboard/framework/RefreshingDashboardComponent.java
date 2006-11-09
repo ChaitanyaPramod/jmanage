@@ -50,6 +50,10 @@ public class RefreshingDashboardComponent implements DashboardComponent {
     public String draw(DashboardContext context) {
         StringBuffer output = new StringBuffer();
         output.append(component.draw(context));
+        if(context.isRefreshRequest()){
+            // don't send the script
+            return output.toString();
+        }
         // append script
         final String dashboardId = context.getDashboardConfig().getDashboardId();
         String appId = context.getWebContext().getApplicationConfig().getApplicationId();
