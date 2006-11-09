@@ -13,31 +13,17 @@
 */
 package org.jmanage.core.config.event;
 
-import java.util.EventObject;
-
 import org.jmanage.core.config.ApplicationConfig;
 
 /**
- * Base class for Application related events.
- * 
+ * This event gets fired when an application is removed.
  * @author rkalra
  */
-public abstract class ApplicationEvent extends EventObject {
+public class ApplicationRemovedEvent extends ApplicationEvent {
 
     private static final long serialVersionUID = 1L;
 
-    private final long time;
-    
-    public ApplicationEvent(ApplicationConfig config){
-      super(config);
-      time = System.currentTimeMillis();
-    }
-    
-    public ApplicationConfig getApplicationConfig(){
-      return (ApplicationConfig)super.getSource();
-    }
-    
-    public Long getTime() {
-        return time;
+    public ApplicationRemovedEvent(ApplicationConfig config){
+        super(config);
     }
 }

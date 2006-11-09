@@ -25,6 +25,7 @@ import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.ApplicationConfigManager;
 import org.jmanage.core.config.event.ApplicationChangedEvent;
 import org.jmanage.core.config.event.ApplicationEvent;
+import org.jmanage.core.config.event.ApplicationRemovedEvent;
 import org.jmanage.core.config.event.NewApplicationEvent;
 import org.jmanage.core.util.Loggers;
 import org.jmanage.event.EventListener;
@@ -78,6 +79,8 @@ public class ApplicationDowntimeService {
                     addApplication(((NewApplicationEvent)event).getApplicationConfig());
                 }else if(event instanceof ApplicationChangedEvent){
                     applicationChanged(((ApplicationChangedEvent)event).getApplicationConfig());
+                }else if(event instanceof ApplicationRemovedEvent){
+                    removeApplication(((ApplicationRemovedEvent)event).getApplicationConfig());
                 }
             }
         }, ApplicationEvent.class);
@@ -104,6 +107,11 @@ public class ApplicationDowntimeService {
     }
 
     private void applicationChanged(ApplicationConfig appConfig) {
+        removeApplication(appConfig);
+        addApplication(appConfig);
+    }
+    
+    private void removeApplication(ApplicationConfig appConfig) {
         ApplicationHeartBeatThread associatedThread = null;
         for(ApplicationHeartBeatThread thread:threads){
             if(thread.getApplicationConfig().equals(appConfig)){
@@ -114,8 +122,10 @@ public class ApplicationDowntimeService {
         if(associatedThread == null){
             logger.log(Level.WARNING, "Thread not found for application: {0}", appConfig);
         }else{
+            // end the thread
+            associatedThread.end();
+            // remove it from the list
             threads.remove(associatedThread);
-            addApplication(appConfig);
         }
     }
 }
