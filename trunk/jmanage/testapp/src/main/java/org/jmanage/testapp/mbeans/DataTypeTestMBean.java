@@ -49,4 +49,10 @@ public interface DataTypeTestMBean {
     public int[] getIntArray();
     public void setIntArray(int[] intArray);
     public int[] intArrayOperation();
+    public void setNullString(String nullString);
+    public String getNullString();
+    public Boolean getNullBoolean();
+    public void setNullBoolean(Boolean nullBoolean);
+    public String[] getNullStrArray() ;
+    public void setNullStrArray(String[] nullStrArray);
 }

@@ -15,6 +15,7 @@
  */
 package org.jmanage.core.management;
 
+import org.apache.commons.beanutils.ConvertUtils;
 import org.jmanage.core.management.data.DataFormatUtil;
 
 /**
@@ -76,6 +77,23 @@ public class ObjectAttribute implements java.io.Serializable {
         String attrValue = null;
         if(getStatus() == STATUS_OK){
             attrValue = DataFormatUtil.format(getValue());
+        }else if(getStatus() == ObjectAttribute.STATUS_NOT_FOUND){
+            // todo: this will not work for CLI
+            attrValue = "&lt;not found&gt;";
+        }else{
+            // todo: this will not work for CLI
+            attrValue = "&lt;error&gt;";
+        }
+        return attrValue;
+    }
+    
+    public String getEditableValue(){
+        String attrValue = null;
+        if(getStatus() == STATUS_OK){
+            attrValue = ConvertUtils.convert(getValue());
+            if(attrValue == null){
+                return "null";
+            }
         }else if(getStatus() == ObjectAttribute.STATUS_NOT_FOUND){
             // todo: this will not work for CLI
             attrValue = "&lt;not found&gt;";
