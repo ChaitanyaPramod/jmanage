@@ -16,7 +16,6 @@
 package org.jmanage.core.remote.server;
 
 import org.jmanage.core.auth.User;
-import org.jmanage.core.auth.UserManager;
 import org.jmanage.core.auth.UnAuthorizedAccessException;
 import org.jmanage.core.remote.InvocationResult;
 import org.jmanage.core.remote.RemoteInvocation;
@@ -124,15 +123,12 @@ public class ServiceCallHandler {
         assert user.getUsername() != null;
         assert user.getPassword() != null;
 
-        UserManager userManager = UserManager.getInstance();
-        User completeUser =
-                userManager.getUser(user.getUsername());
-        /* validate password */
-        if(!user.getPassword().equals(completeUser.getPassword())
-            || !User.STATUS_ACTIVE.equals(completeUser.getStatus())){
-            throw new RuntimeException("Invalid user credentials.");
+        /* authenticate with the server */
+        AuthService authService = ServiceFactory.getAuthService();
+        try {
+            authService.login(context, user.getUsername(), user._getPlaintextPassword());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-
-        context.setUser(completeUser);
     }
 }
