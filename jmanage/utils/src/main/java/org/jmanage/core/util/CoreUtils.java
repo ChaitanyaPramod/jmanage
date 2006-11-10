@@ -16,7 +16,6 @@
 package org.jmanage.core.util;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.jmanage.util.db.DBUtils;
 
 import java.io.File;
 import java.util.logging.Logger;
@@ -52,20 +51,6 @@ public class CoreUtils {
       File dataDirFile = new File(dataDir);
       if(!dataDirFile.exists()){
            dataDirFile.mkdirs();
-      }
-      
-      /* create db tables if they don't exist */
-      File dbFile = new File(dataDir+"/db.properties");
-      if(!dbFile.exists()){
-          logger.info("Creating DB tables");
-          DBUtils.createTables();
-      }else{
-          /* if lock file was left around -- try to delete it */
-          File dbLockFile = new File(dataDir + "/db.lck");
-          if(dbLockFile.exists()){
-              logger.warning("DB lock file exists. Trying to delete.");
-              dbLockFile.delete();
-          }
       }
     }
     
