@@ -71,8 +71,11 @@ public class JBossServerConnectionFactory implements ServerConnectionFactory{
             SecurityAssociation.setCredential(password);
         }
 
+        // As of 3.2.2 version of JBoss "jmx/invoker/RMIAdaptor" is the new JNDI entry for RMIAdaptor.
+        ///  But there is a naming alias setup from jmx/rmi/RMIAdaptor to jmx/invoker/RMIAdaptor,
+        ///   so connectivity continues to work fine (last tested with 4.0.4GA).
         Context ctx = new InitialContext(props);
-        RMIAdaptor rmiAdaptor = (RMIAdaptor)ctx.lookup("jmx/rmi/RMIAdaptor");
+        RMIAdaptor rmiAdaptor = (RMIAdaptor)ctx.lookup("jmx/rmi/RMIAdaptor"); 
         ctx.close();
         return rmiAdaptor;
     }
