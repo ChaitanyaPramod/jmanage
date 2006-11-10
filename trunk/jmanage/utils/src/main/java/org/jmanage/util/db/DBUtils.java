@@ -15,6 +15,7 @@
  */
 package org.jmanage.util.db;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -24,6 +25,7 @@ import java.util.logging.Logger;
 
 import org.jmanage.core.util.CoreUtils;
 import org.jmanage.core.util.Loggers;
+import org.jmanage.core.util.SystemProperties;
 
 /** 
  * Contains utility functions for reading/writing to the DB
@@ -153,5 +155,24 @@ public class DBUtils {
     public static void main(String[] args){
         createTables();
         dropTables();
+    }
+    
+    public static void init() {
+        String rootDir = System.getProperty(SystemProperties.JMANAGE_ROOT);
+        assert rootDir != null;     
+        String dataDir = rootDir + "/data";
+        /* create db tables if they don't exist */
+        File dbFile = new File(dataDir+"/db.properties");
+        if(!dbFile.exists()){
+            logger.info("Creating DB tables");
+            DBUtils.createTables();
+        }else{
+            /* if lock file was left around -- try to delete it */
+            File dbLockFile = new File(dataDir + "/db.lck");
+            if(dbLockFile.exists()){
+                logger.warning("DB lock file exists. Trying to delete.");
+                dbLockFile.delete();
+            }
+        }
     }
 }

@@ -54,12 +54,14 @@ public class ServiceContextImpl implements ServiceContext {
     }
 
     public ApplicationConfig getApplicationConfig() {
-        assert appName != null;
+    	if (appName == null)
+    		return null;
         return ServiceUtils.getApplicationConfigByName(appName);
     }
 
     public ObjectName getObjectName() {
-        assert mbeanName != null;
+    	if (mbeanName == null)
+    		return null;
         String mbeanName =
                 ServiceUtils.resolveMBeanName(getApplicationConfig(),
                         this.mbeanName);

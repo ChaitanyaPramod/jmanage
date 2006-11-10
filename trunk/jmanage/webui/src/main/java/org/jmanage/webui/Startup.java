@@ -103,6 +103,7 @@ public class Startup {
         /* set stop.port */
         System.setProperty("STOP.PORT", JManageProperties.getStopPort());
 
+        DBUtils.init();
         /* initialize ServiceFactory */
         ServiceFactory.init(ServiceFactory.MODE_LOCAL);
 
