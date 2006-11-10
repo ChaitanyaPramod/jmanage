@@ -95,6 +95,10 @@ public class User implements Principal, java.io.Serializable{
         this.plaintextPassword = plaintext;
     }
 
+    public String _getPlaintextPassword(){
+        return this.plaintextPassword;
+    }
+
     public void setPassword(String password) {
         this.password = password;
     }
