@@ -32,7 +32,7 @@ public class ObjectFeatureInfo implements java.io.Serializable {
     }
 
     public String getDescription() {
-        if(description == null)
+        if(description == null || description.trim().length() == 0)
             return "No description available.";
         return description;
     }
