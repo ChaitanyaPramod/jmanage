@@ -36,7 +36,10 @@ public class DataTypeTest implements DataTypeTestMBean {
     private Date dt=new Date();
     private String[] strArray = new String[]{"abc", "xyz", "efg"};
     private int[] intArray = new int[]{1,2,3,4};
-
+    private String nullString = null;
+    private Boolean nullBoolean = null;
+    private String[] nullStrArray = null;
+    
     public Integer getInteger(){
         return i;
     }
@@ -130,5 +133,29 @@ public class DataTypeTest implements DataTypeTestMBean {
 
     public int[] intArrayOperation(){
         return intArray;
+    }
+
+    public void setNullString(String nullString) {
+        this.nullString = nullString;
+    }
+
+    public String getNullString() {
+        return nullString;
+    }
+
+    public Boolean getNullBoolean() {
+        return nullBoolean;
+    }
+
+    public void setNullBoolean(Boolean nullBoolean) {
+        this.nullBoolean = nullBoolean;
+    }
+
+    public String[] getNullStrArray() {
+        return nullStrArray;
+    }
+
+    public void setNullStrArray(String[] nullStrArray) {
+        this.nullStrArray = nullStrArray;
     }
 }

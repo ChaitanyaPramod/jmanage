@@ -19,6 +19,10 @@
             <artifactId>jmanage-utils</artifactId>
         </dependency>
         <dependency>
+            <groupId>struts</groupId>
+            <artifactId>struts-commons-beanutils</artifactId>
+        </dependency>
+        <dependency>
             <groupId>hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
         </dependency>

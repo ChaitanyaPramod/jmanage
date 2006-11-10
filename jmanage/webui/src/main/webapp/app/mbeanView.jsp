@@ -22,6 +22,11 @@
 <script type="text/javascript" src="/js/dojo/dojo.js"></script>
 <script type="text/javascript">
 	dojo.require("dojo.widget.Tooltip");
+
+	function displayInputBox(divId, name){
+		var inputBox = "<input type='text' name='" + name+ "' size='50' value=''/>";
+		document.getElementById(divId).innerHTML = inputBox;
+    }
 </script>
 
 <%!
@@ -87,9 +92,8 @@
     }
 
     // onclick event handler for checkboxes representing boolean attributes
-    function onclick_booleanCheckbox(formName, checkbox) {
-        var formObj = document.forms[formName];
-        formObj.elements[checkbox.value].value = checkbox.checked;
+    function onclick_booleanCheckbox(hiddenFieldId, checkbox) {
+        document.getElementById(hiddenFieldId).value = checkbox.checked;
     }
 -->
 </script>
@@ -229,7 +233,9 @@
         <%if(attributeList != null){
             ObjectAttribute objAttribute =
                         MBeanUtils.getObjectAttribute(attributeList, attributeInfo);
-            String attrValue = objAttribute.getDisplayValue();
+            
+            String attrValue = objAttribute.getEditableValue();
+
             if(AccessController.canAccess(webContext.getServiceContext(),
                         ACLConstants.ACL_UPDATE_MBEAN_ATTRIBUTES,
                         attributeInfo.getName()) &&
@@ -238,24 +244,29 @@
                     objAttribute.getStatus() == ObjectAttribute.STATUS_OK){
                 showUpdateButton = true;
             %>
-                <%if(attributeInfo.getType().equals("boolean") || attributeInfo.getType().equals("java.lang.Boolean")){
+				<%if(attributeInfo.getType().equals("boolean") || attributeInfo.getType().equals("java.lang.Boolean")){
                     String attrName = "attr+" + childAppConfig.getApplicationId() + "+" + attributeInfo.getName();%>
 
                     <%if (JManageProperties.isBooleanInputTypeRadio()) { %>
-                        <input type="radio" name="<%=attrName%>" value="true" <%=attrValue.equals("true")?" CHECKED":""%> />&nbsp;True
-                        &nbsp;&nbsp;&nbsp;<input type="radio" name="<%=attrName%>" value="false" <%=attrValue.equals("false")?" CHECKED":""%>/>&nbsp;False
+                        <input type="radio" name="<%=attrName%>" value="true" <%="true".equals(attrValue)?" CHECKED":""%> />&nbsp;True
+                        &nbsp;&nbsp;&nbsp;<input type="radio" name="<%=attrName%>" value="false" <%="false".equals(attrValue)?" CHECKED":""%>/>&nbsp;False
                     <%} else if (JManageProperties.isBooleanInputTypeSelect()) { %>
                         <select name="<%=attrName%>">
-                            <option value="false" <%=attrValue.equals("false")?" SELECTED":""%>>False</option>
-                            <option value="true" <%=attrValue.equals("true")?" SELECTED":""%>>True</option>
+                            <option value="false" <%="false".equals(attrValue)?" SELECTED":""%>>False</option>
+                            <option value="true" <%="true".equals(attrValue)?" SELECTED":""%>>True</option>
                         </select>
                     <%} else { %>
-                        <input type="checkbox" name="dummy" value="<%=attrName%>" onClick="onclick_booleanCheckbox('emptyForm', this)" <%=attrValue.equals("true")?" CHECKED":""%>/>
-                        <input type="hidden"   name="<%=attrName%>" value="<%=attrValue%>"/>
+                    	<%-- TODO: In case of a checkbox, if Boolean is null, on submit, it gets set to false --%>
+                        <input type="checkbox" name="dummy" value="<%=attrName%>" onClick="onclick_booleanCheckbox('<%=attrName%>_id', this)" <%="true".equals(attrValue)?" CHECKED":""%>/>
+                        <input id="<%=attrName%>_id" type="hidden" name="<%=attrName%>" value="<%=attrValue%>"/>
                     <%}%>
 
                 <%}else if(MBeanUtils.isEditableArrayType(attributeInfo.getType())){
-                    final int arrayLength = Array.getLength(objAttribute.getValue());
+
+                  	int arrayLength = 0;
+                  	if(objAttribute.getValue() != null){
+	                	arrayLength = Array.getLength(objAttribute.getValue());
+                  	}
                     final String inputArrayName = "ia_" + childAppConfig.getApplicationId() + "_" + attributeInfo.getName();
                 %>
                   <%-- The first field is a hidden field, to allow an empty array to be saved. There is special handling for this in MBeanServiceImpl. --%>
@@ -277,16 +288,23 @@
                     writeInputElements(<%=inputArrayName%>, '<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>', '<%=inputArrayName%>');
                   </script>
                   <a href="JavaScript:onAdd(<%=inputArrayName%>, '<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>', '<%=inputArrayName%>')" class="a3">+</a>
-                <%}else if(attrValue.indexOf('\n') != -1){%>
+                <%}else if(attrValue != null && attrValue.indexOf('\n') != -1){%>
                     <textarea name="attr+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>" rows="3" cols="40"><%=attrValue%></textarea>
                 <%}else{%>
-                    <input type="text" name="attr+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>" size="50"
-                    value="<%=attrValue%>"/>
+                	<%if(attrValue != null){ %>
+	                    <input type="text" name="attr+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>" size="50"
+    	                value="<%=attrValue%>"/>
+   	                <%}else{%>
+   	                	<div id="attr_<%=childAppConfig.getApplicationId()%>_<%=attributeInfo.getName()%>">
+   	                		<a href="JavaScript:displayInputBox('attr_<%=childAppConfig.getApplicationId()%>_<%=attributeInfo.getName()%>', 'attr+<%=childAppConfig.getApplicationId()%>+<%=attributeInfo.getName()%>')"><i>Null Value</i></a>
+   	                	</div>
+   	                <%}%>
                 <%}%>
             <%}else{%>
-                <pre class="plaintext"><%=attrValue%><%if(attributeInfo.getUnits() != null){%> <%=attributeInfo.getUnits()%><%}%></pre>
+                <%-- Not editable, use the display value --%> 
+                <pre class="plaintext"><%=objAttribute.getDisplayValue()%><%if(attributeInfo.getUnits() != null){%> <%=attributeInfo.getUnits()%><%}%></pre>
             <%}%>
-            <%if(attrValue.length() > 0 && attributeInfo.getType().equals("javax.management.ObjectName")){
+            <%if(attrValue != null && attrValue.length() > 0 && attributeInfo.getType().equals("javax.management.ObjectName")){
                 pageContext.setAttribute("objectName",
                         attrValue, PageContext.PAGE_SCOPE);
                 // provide a link to this mbean
