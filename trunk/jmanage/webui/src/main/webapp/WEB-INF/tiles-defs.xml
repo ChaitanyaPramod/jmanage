@@ -15,7 +15,7 @@
 <!-- ========================================================= LAYOUTS ===== -->
 
     <definition name="layouts.common" path="/layouts/common.jsp">
-        <put name="title" value="jManage - JMX Client" />
+        <put name="title" value="jManage Management Console" />
         <put name="header" value="/common/header.jsp" />
         <put name="body.header" value="/common/empty.jsp" /> <!-- TODO: remove usage of empty.jsp -rk-->
         <put name="body.main" value="${body.main}" />
