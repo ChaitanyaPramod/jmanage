@@ -50,7 +50,7 @@ public class GenericMBeanCheckQualifier extends BaseDashboardQualifier {
                     ServerConnector.getServerConnection(applicationConfig);
             ObjectInfo objectInfo = serverConnection.getObjectInfo(objectName);
             return objectInfo != null;
-        } catch (ConnectionFailedException e){
+        } catch (Exception e){
             logger.log(Level.FINE, new StringBuilder().append(
                     "Error finding mbean "+objectName+" for:").append(
                     applicationConfig.getName()).toString(), e);

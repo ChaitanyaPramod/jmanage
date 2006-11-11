@@ -66,7 +66,7 @@ public class Java5DashboardQualifier extends BaseDashboardQualifier {
                 logger.log(Level.INFO,
                         "Specified object name/ attribute not found");
             }else{
-                logger.log(Level.FINE, "Unknown error", e);
+                logger.log(Level.SEVERE, "Unknown error", e);
             }
         } finally{
             ServiceUtils.close(serverConnection);
