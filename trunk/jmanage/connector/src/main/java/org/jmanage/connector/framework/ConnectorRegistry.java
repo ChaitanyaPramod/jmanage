@@ -46,7 +46,6 @@ public class ConnectorRegistry extends Registry {
     private static final Logger logger = Loggers.getLogger(ConnectorRegistry.class);    
     private static final String DOMAIN_CONNECTOR = "connector";
     private static final String MBEANS_DESCRIPTOR = "META-INF/mbeans-descriptors.xml";
-    private static final String CLASS_CONNECTOR_SUPPORT = ConnectorSupport.class.getName();
     private static final String FACTORY_METHOD = "getInstance";
 
     private static Map<String, ConnectorRegistry> entries = new HashMap<String, ConnectorRegistry>();
@@ -155,7 +154,7 @@ public class ConnectorRegistry extends Registry {
             }
             
             // Call the initialize method if the MBean extends ConnectorSupport class
-            if (cls.getSuperclass().getName().equals(CLASS_CONNECTOR_SUPPORT)) {
+            if (objMBean instanceof ConnectorSupport) {
                 Method method = cls.getMethod("initialize", new Class[] {Map.class});
                 Map props = config.getParamValues();
                 method.invoke(objMBean, new Object[] {props});
