@@ -68,6 +68,8 @@
 	<tr>
 		<th><strong>Product Info</strong>
 		</th>
+		<th><strong>Get Notified</strong>
+		</th>
 		<th><strong>Download</strong>
 		</th>		
 	</tr>
@@ -86,12 +88,18 @@
       <a href="Product_Information/deployment.html">Typical Deployment</a>
     </td>
     <td>
+		Enter your email address below<br/>to get notified of new releases<br/>and updates:<br/><br/>
+		<form action="http://www.jmanage.org/php/newAnnounce.php" method="POST">
+			<input type="text" name="email" size="25" maxlength="50"></input>
+			<input type="submit" value="Submit"/>
+		</form>
+    </td>
+    <td>
 		<a href="http://sourceforge.net/project/showfiles.php?group_id=111374&amp;package_id=197732&amp;release_id=433342">
 		 <img src="/images/download.jpg" alt="Download" width="200" height="70"/></a>
 	   <br/>
 	   <a href="http://sourceforge.net/project/showfiles.php?group_id=111374"> Download Older Versions ..</a>
     </td>
-
     </tr>
 	</table>
 	</td>
