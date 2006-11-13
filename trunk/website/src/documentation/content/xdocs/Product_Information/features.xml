@@ -14,11 +14,11 @@
 		<br/>
 		<strong>jManage 1.5 beta has the following features:</strong>
 		<br/><br/>
-		    - Web based interface, which allows jManage to be used from behind firewall.
+		    - Easy to use Web based interface, which allows jManage to be used from behind firewall.
 		<br/><br/>
 			- Dashboard framework to build custom dashboards. Customized dashboards can be tailored to specific objectives. These dashboards are,<br/>
 				a. Live -> automatically refreshed to provide latest information.<br/>
-				b. Customized -> users can build a dashboard from scratch or personalize an existing one to suit their needs..
+				b. Customized -> users can build a dashboard from scratch or customize an existing one to suit their needs.
 		<br/><br/>
 			- Connector framework for monitoring/managing non-JMX based environments. 
 			This framework can be used to expose necessary information on a non-JMX based environment as an application of MBeans. 
@@ -33,12 +33,12 @@
 		    - Application Cluster Support - Change attribute values
 		      and perform operations across the cluster.
 		<br/><br/>
-		    - Authentication and fine-grained Authorization to control which MBean
-		      operations and attributes are accessible.
+			- Authentication and fine-grained Authorization to control access to different MBean 
+			  attributes and operations.
 		<br/><br/>
-		    - Support for different J2EE app servers and JDK1.5.
+		    - Support for various J2EE app servers, JDK1.5 and other JSR160 enabled applications.
 		<br/><br/>
-		    - Runtime Graphs.
+		    - Custom Graphs.
 		<br/><br/>
 		    - MBean attribute value monitoring.
 		<br/><br/>
@@ -51,6 +51,9 @@
 		    - Framework to define custom DataFormat classes for custom objects.
 		<br/><br/>
 		     - Support for external login modules (JAAS based with name and password callback)
+		<br/><br/>
+		     - jManage can be accessed via Java APIs, which allows jManage to be used as a backend 
+		     system and also allows applications to register themselves as they come online.
 		<br/><br/>
 		          jManage is being built keeping security in mind, as one of the
 		          usages of jManage is in the production environment. Production
