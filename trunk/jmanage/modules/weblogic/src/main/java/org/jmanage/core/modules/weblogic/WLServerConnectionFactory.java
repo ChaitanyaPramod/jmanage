@@ -21,7 +21,6 @@ import org.jmanage.core.management.ServerConnectionFactory;
 import org.jmanage.core.config.ApplicationConfig;
 import weblogic.management.MBeanHome;
 
-import javax.naming.NamingException;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import java.util.Hashtable;
@@ -41,30 +40,20 @@ public class WLServerConnectionFactory implements ServerConnectionFactory{
         throws ConnectionFailedException {
 
         try {
-            MBeanHome home = findExternal(config.getURL(), config.getUsername(),
-                    config.getPassword());
-            return new WLServerConnection(home.getMBeanServer());
+            Hashtable<String, Object> props = new Hashtable<String, Object>();
+            props.put(Context.INITIAL_CONTEXT_FACTORY,
+                    "weblogic.jndi.WLInitialContextFactory");
+            props.put(Context.PROVIDER_URL,         config.getURL());
+            props.put(Context.SECURITY_PRINCIPAL,   config.getUsername());
+            props.put(Context.SECURITY_CREDENTIALS, config.getPassword());
+            Context ctx =  new InitialContext(props);
+            MBeanHome home = (MBeanHome) ctx.lookup(MBeanHome.JNDI_NAME + "." +
+                            "localhome");
+            // Fix for 1586075: Passing context in, so that it can be closed when the connection
+            //   is closed
+            return new WLServerConnection(home.getMBeanServer(), ctx);
         } catch (Throwable e) {
             throw new ConnectionFailedException(e);
         }
     }
-
-    private static MBeanHome findExternal(String url,
-                                          String username,
-                                          String password)
-            throws NamingException {
-
-        Hashtable<String, Object> props = new Hashtable<String, Object>();
-        props.put(Context.INITIAL_CONTEXT_FACTORY,
-                "weblogic.jndi.WLInitialContextFactory");
-        props.put(Context.PROVIDER_URL,         url);
-        props.put(Context.SECURITY_PRINCIPAL,   username);
-        props.put(Context.SECURITY_CREDENTIALS, password);
-        Context ctx =  new InitialContext(props);
-        MBeanHome home = (MBeanHome) ctx.lookup(MBeanHome.JNDI_NAME + "." +
-                        "localhome");
-        ctx.close();
-        return home;
-    }
-
 }

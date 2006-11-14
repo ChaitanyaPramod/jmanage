@@ -15,11 +15,17 @@
  */
 package org.jmanage.core.modules.weblogic;
 
+import java.io.IOException;
+import java.util.logging.Logger;
+
 import org.jmanage.core.management.*;
 import org.jmanage.core.management.ObjectName;
 import org.jmanage.core.modules.JMXServerConnection;
+import org.jmanage.core.util.Loggers;
 
 import javax.management.*;
+import javax.naming.Context;
+import javax.naming.NamingException;
 
 import weblogic.management.RemoteNotificationListener;
 import weblogic.management.RemoteMBeanServer;
@@ -31,12 +37,28 @@ import weblogic.management.RemoteMBeanServer;
  */
 public class WLServerConnection extends JMXServerConnection{
 
+    private static final Logger logger = Loggers.getLogger(WLServerConnection.class);
+    
     private final RemoteMBeanServer mbeanServer;
+    private final Context ctx;
 
-    public WLServerConnection(MBeanServer mbeanServer){
+    public WLServerConnection(MBeanServer mbeanServer, Context ctx){
         super(mbeanServer, MBeanServer.class);
         assert mbeanServer != null;
         this.mbeanServer = (RemoteMBeanServer)mbeanServer;
+        this.ctx = ctx;
+    }
+    
+    /**
+     * Closes the connection to the server
+     */
+    public void close() throws IOException{
+        try {
+            ctx.close();
+        }
+        catch (NamingException e) {
+            logger.warning("Error closing context:" + e.getMessage());
+        }
     }
 
     public void addNotificationListener(ObjectName objectName,
