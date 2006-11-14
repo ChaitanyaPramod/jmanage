@@ -109,14 +109,14 @@ public class ApplicationDowntimeGraphAction extends BaseAction {
         // E6EEF9
         chart.setBackgroundPaint(new Color(230, 238, 249));
         chart.setBorderVisible(false);
-        chart.setBorderPaint(new Color(230, 238, 249));
-
+        
         final PiePlot plot = (PiePlot) chart.getPlot();
         plot.setLabelFont(new Font("SansSerif", Font.PLAIN, 10));
         plot.setNoDataMessage("No data available");
         plot.setCircular(false);
         plot.setLabelLinkPaint(Color.red);
         plot.setLabelGap(0.02);
+        plot.setOutlinePaint(new Color(230, 238, 249));
         
         // set paint for unavailable/available sections
         plot.setSectionPaint(0, Color.RED);

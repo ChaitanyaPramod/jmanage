@@ -5,17 +5,26 @@
 <!--    /config/selectDashboards.jsp  -->
 
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
+<%
+	Collection<DashboardConfig> dashboards =
+	        (Collection<DashboardConfig>)request.getAttribute(RequestAttributes.QUALIFYING_DASHBOARDS);
+	if(dashboards == null || dashboards.size() == 0){
+		%>
+			<p class="plaintext">There are no qualifying dashboards available for this application.</p>		
+		<%
+		return;
+	}
+%>
+
 <jmhtml:errors/>
 <jmhtml:javascript formName="dashboardSelectionForm" page="1"/>
 <jmhtml:form action="/config/addDashboard" onsubmit="return validateDashboardSelectionForm(this)">
 <jmhtml:hidden property="page" value="1"/>
-<table border="0" cellspacing="0" cellpadding="5" width="900" class="table">
+<table border="0" cellspacing="0" cellpadding="5" width="600" class="table">
     <tr class="tableHeader">
-        <td colspan="2">Available Qualifying Dashboards</td>
+        <td colspan="2">Available Dashboards</td>
     </tr>
     <%
-        Collection<DashboardConfig> dashboards =
-                (Collection<DashboardConfig>)request.getAttribute(RequestAttributes.QUALIFYING_DASHBOARDS);
         DashboardSelectionForm dbForm =
                 (DashboardSelectionForm)request.getAttribute("dashboardSelectionForm");
         String[] dbIDs = dbForm.getDashboards();
@@ -30,7 +39,7 @@
     %>
         <tr>
             <%if(exists){%>
-            <td class="plaintext"><input type="checkbox" name="dashboards" value="<%=dashboard.getDashboardId()%>" checked="true"/></td>
+            <td class="plaintext" width="20"><input type="checkbox" name="dashboards" value="<%=dashboard.getDashboardId()%>" checked="true"/></td>
             <%}else{%>
             <td class="plaintext"><input type="checkbox" name="dashboards" value="<%=dashboard.getDashboardId()%>"/></td>
             <%}%>

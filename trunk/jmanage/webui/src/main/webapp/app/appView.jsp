@@ -45,20 +45,136 @@
 		    RequestParams.APPLICATION_ID + "=" + appConfig.getApplicationId();
 %>
 <%-- Application Information --%>
-<table border="0" cellspacing="0" cellpadding="5" width="700" class="table">
-	<tr>
-		<td valign="top" class="plaintext">
-			<b>Application:</b> <%=appConfig.getName()%><br/>
-		</td>
-		<td align="right">
-			<img src="<%=availabilityGraphURL%>" />
-		</td>
-	</tr>
+<table border="0" width="900" cellpadding="0" cellspacing="5">
+<tr><td valign="top" width="450">
+	<table cellspacing="0" cellpadding="5" width="100%" class="table">
+	   <tr class="tableHeader">
+    	   <td><%=appConfig.getName()%></td>
+	   </tr>
+	   <tr><td>
+		<p>
+			<jmhtml:form action="/app/mbeanList" method="post">
+			    <jmhtml:text property="objectName" />&nbsp;&nbsp;<jmhtml:submit styleClass="Inside3d" value="Find Managed Objects" />
+			</jmhtml:form>
+		</p>
+		<p>			
+		<jmhtml:link href="/config/showAddDashboard.do" acl="<%=ACLConstants.ACL_ADD_DASHBOARD%>" styleClass="a">
+		    Add Dashboard</jmhtml:link>
+		</p>
+		<%
+		    String link = "/config/showMBeans.do?"
+		            + RequestParams.END_URL + "=" + Utils.urlEncode("/config/showAddGraph.do")
+		            + "&" + RequestParams.MULTIPLE + "=true&"
+		            + RequestParams.DATA_TYPE + "=java.lang.Number&"
+		            + RequestParams.DATA_TYPE + "=javax.management.openmbean.CompositeData&"
+		            + RequestParams.NAVIGATION + "=" + Utils.urlEncode("Add Graph");
+		%>
+		<p>
+		    <jmhtml:link href='<%=link%>' acl="<%=ACLConstants.ACL_ADD_GRAPH%>" styleClass="a">
+		        Add Graph</jmhtml:link>
+		</p>
+		<p>
+			<jmhtml:link href="/config/showSelectAlertSourceType.do" acl="<%=ACLConstants.ACL_ADD_ALERT%>" styleClass="a">
+			    Add Alert</jmhtml:link>
+		</p>
+		<p>
+		    <jmhtml:link href="/config/startAddMultiMBeanConfig.do" acl="<%=ACLConstants.ACL_ADD_MBEAN_CONFIG%>"
+		        styleClass="a">Add Managed Objects</jmhtml:link>
+		</p>
+		<br/>
+	  </td></tr>
+	</table>
+</td>
+<td align="right" valign="top">
+	<table cellspacing="0" cellpadding="5" width="100%" class="table">
+	   <tr class="tableHeader">
+    	   <td>Availability</td>
+	   </tr>
+	   <tr><td align="center">
+   		<img src="<%=availabilityGraphURL%>" />
+	   </td></tr>	   
+	 </table>
+</td></tr>
+</table>
+<br/>
+<table border="0" width="900" cellpadding="0" cellspacing="5">
+<tr>
+<%--Dashboards--%>
+<%
+if(appConfig.getDashboards() != null && !appConfig.getDashboards().isEmpty()){
+%>
+<td valign="top" width="450">
+<table cellspacing="0" cellpadding="5" width="100%" class="table">
+    <tr class="tableHeader">
+        <td colspan="2">Dashboards</td>
+    </tr>
+    <%
+        for(String dashboardId : appConfig.getDashboards()){
+            DashboardConfig dashboardConfig = DashboardRepository.getInstance().get(dashboardId);
+    %>
+    <tr>
+        <td class="plaintext">
+            <a href="/config/viewDashboard.do?applicationId=<%=appConfig.getApplicationId()%>&dashBID=<%=dashboardConfig.getDashboardId()%>">
+                <%=dashboardConfig.getName()%></a></td>
+        <td align="right" width="60">
+        <%
+            String deleteDashboardLink = "JavaScript:deleteDashboard('"
+                    + dashboardConfig.getDashboardId() + "','" + appConfig.getApplicationId() + "');";
+        %>
+           <jmhtml:link href="<%=deleteDashboardLink%>" acl="<%=ACLConstants.ACL_EDIT_DASHBOARD%>"  styleClass="a1">
+            Delete</jmhtml:link>
+       </td>
+    </tr>
+    <%}%>
+</table>
+</td>
+<%}%>
+<%-- Configured Graphs --%>
+<%if(appConfig.getGraphs().size() > 0){%>
+<td valign="top">
+<table border="0" cellspacing="0" cellpadding="5" width="100%" class="table">
+    <tr class="tableHeader">
+       <td colspan="3">Graphs</td>
+    </tr>
+<%
+    for(Iterator it=appConfig.getGraphs().iterator(); it.hasNext();){
+        GraphConfig graphConfig = (GraphConfig)it.next();
+%>
+    <tr>
+        <td class="plaintext">
+            <a href="/app/graphView.do?<%=RequestParams.APPLICATION_ID%>=<%=appConfig.getApplicationId()%>&graphId=<%=graphConfig.getId()%>">
+                    <%=graphConfig.getName()%></a>
+        </td>
+        <td align="right">
+        <%
+                String editGraphLink ="/config/showEditGraph.do?"
+                        + RequestParams.GRAPH_ID + "=" + graphConfig.getId();
+            %>
+            <jmhtml:link href="<%=editGraphLink%>" acl="<%=ACLConstants.ACL_EDIT_GRAPH%>" styleClass="a1">Edit</jmhtml:link>
+        </td>
+        <td align="right" width="30">
+        <%
+            String deleteGraphLink = "JavaScript:deleteGraph('"
+                    + graphConfig.getId() + "','" + appConfig.getApplicationId() + "');";
+        %>
+            <jmhtml:link href="<%=deleteGraphLink%>" acl="<%=ACLConstants.ACL_EDIT_GRAPH%>" styleClass="a1">
+                Delete</jmhtml:link>
+       </td>
+    </tr>
+<%
+    }
+%>
+</table>
+</td>
+<%}%>
+</tr>
 </table>
 <br/>
 <%-- Configured MBeans --%>
 <%if(appConfig.getMBeans().size() > 0){%>
-<table border="0" cellspacing="0" cellpadding="5" width="700" class="table">
+<table border="0" width="900" cellpadding="0" cellspacing="5">
+<tr><td valign="top" width="100%">
+<table border="0" cellspacing="0" cellpadding="5" width="900" class="table">
     <tr class="tableHeader">
        <td colspan="2">Managed Objects</td>
     </tr>
@@ -88,82 +204,16 @@
     }
 %>
 </table>
-<p>
-    <jmhtml:link href="/config/startAddMultiMBeanConfig.do" acl="<%=ACLConstants.ACL_ADD_MBEAN_CONFIG%>"
-        styleClass="a">Add more Managed Objects</jmhtml:link>
-</p>
-
-<%}else{%>
-<p class="plaintext">
-    There are no configured objects.
-</p>
-<p>
-    <jmhtml:link href="/config/startAddMultiMBeanConfig.do" acl="<%=ACLConstants.ACL_ADD_MBEAN_CONFIG%>"
-        styleClass="a">Add Managed Objects</jmhtml:link>
-</p>
-<%}%>
-
-<p>
-<jmhtml:form action="/app/mbeanList" method="post">
-    <jmhtml:text property="objectName" />&nbsp;&nbsp;<jmhtml:submit styleClass="Inside3d" value="Find More Objects" />
-</jmhtml:form>
-</p>
-<%-- Configured Graphs --%>
-<%if(appConfig.getGraphs().size() > 0){%>
-<table border="0" cellspacing="0" cellpadding="5" width="700" class="table">
-    <tr class="tableHeader">
-       <td colspan="3">Graphs</td>
-    </tr>
-<%
-    for(Iterator it=appConfig.getGraphs().iterator(); it.hasNext();){
-        GraphConfig graphConfig = (GraphConfig)it.next();
-%>
-    <tr>
-        <td class="plaintext" width="25%">
-            <a href="/app/graphView.do?<%=RequestParams.APPLICATION_ID%>=<%=appConfig.getApplicationId()%>&graphId=<%=graphConfig.getId()%>">
-                    <%=graphConfig.getName()%></a>
-        </td>
-        <td align="right">
-        <%
-                String editGraphLink ="/config/showEditGraph.do?"
-                        + RequestParams.GRAPH_ID + "=" + graphConfig.getId();
-            %>
-            <jmhtml:link href="<%=editGraphLink%>" acl="<%=ACLConstants.ACL_EDIT_GRAPH%>" styleClass="a1">Edit</jmhtml:link>
-        </td>
-        <td align="right" width="60">
-        <%
-            String deleteGraphLink = "JavaScript:deleteGraph('"
-                    + graphConfig.getId() + "','" + appConfig.getApplicationId() + "');";
-        %>
-            <jmhtml:link href="<%=deleteGraphLink%>" acl="<%=ACLConstants.ACL_EDIT_GRAPH%>" styleClass="a1">
-                Delete</jmhtml:link>
-       </td>
-    </tr>
-<%
-    }
-%>
+</td></tr>
 </table>
-<%}else{%>
-<p class="plaintext">
-    There are no configured graphs.
-</p>
+<br/>
 <%}%>
-<%
-    String link = "/config/showMBeans.do?"
-            + RequestParams.END_URL + "=" + Utils.urlEncode("/config/showAddGraph.do")
-            + "&" + RequestParams.MULTIPLE + "=true&"
-            + RequestParams.DATA_TYPE + "=java.lang.Number&"
-            + RequestParams.DATA_TYPE + "=javax.management.openmbean.CompositeData&"
-            + RequestParams.NAVIGATION + "=" + Utils.urlEncode("Add Graph");
-%>
-<p>
-    <jmhtml:link href='<%=link%>' acl="<%=ACLConstants.ACL_ADD_GRAPH%>" styleClass="a">
-        Add Graph</jmhtml:link>
-</p>
 <%
 if(appConfig.getAlerts().size() > 0){
 %>
-<table cellspacing="0" cellpadding="5" width="800" class="table">
+<table border="0" width="900" cellpadding="0" cellspacing="5">
+<tr><td valign="top" width="100%">
+<table cellspacing="0" cellpadding="5" width="900" class="table">
     <tr class="tableHeader">
         <td colspan="6">Configured Alerts</td>
     </tr>
@@ -222,49 +272,7 @@ if(appConfig.getAlerts().size() > 0){
     </tr>
     <%}%>
 </table>
-<%
-}else{
-%>
-<p class="plaintext">
-    There are no configured alerts.
-</p>
-<%}%>
-<p>
-<jmhtml:link href="/config/showSelectAlertSourceType.do" acl="<%=ACLConstants.ACL_ADD_ALERT%>" styleClass="a">
-    Add Alert</jmhtml:link>
-</p>
-<%--Dashboards--%>
-<%
-if(appConfig.getDashboards() != null && !appConfig.getDashboards().isEmpty()){
-%>
-<table cellspacing="0" cellpadding="5" width="700" class="table">
-    <tr class="tableHeader">
-        <td colspan="6">Configured Dashboards</td>
-    </tr>
-    <%
-        for(String dashboardId : appConfig.getDashboards()){
-            DashboardConfig dashboardConfig = DashboardRepository.getInstance().get(dashboardId);
-    %>
-    <tr>
-        <td class="plaintext">
-            <a href="/config/viewDashboard.do?applicationId=<%=appConfig.getApplicationId()%>&dashBID=<%=dashboardConfig.getDashboardId()%>">
-                <%=dashboardConfig.getName()%></a></td>
-        <td align="right" width="60">
-        <%
-            String deleteDashboardLink = "JavaScript:deleteDashboard('"
-                    + dashboardConfig.getDashboardId() + "','" + appConfig.getApplicationId() + "');";
-        %>
-           <jmhtml:link href="<%=deleteDashboardLink%>" acl="<%=ACLConstants.ACL_EDIT_DASHBOARD%>"  styleClass="a1">
-            Delete</jmhtml:link>
-       </td>
-    </tr>
-    <%}%>
+</td></tr>
 </table>
-<br/>
-<%}else{%>
-<p class="plaintext">
-    There are no configured dashboards.
-</p>
 <%}%>
-<jmhtml:link href="/config/showAddDashboard.do" acl="<%=ACLConstants.ACL_ADD_DASHBOARD%>" styleClass="a">
-    Add Dashboard</jmhtml:link>
+
