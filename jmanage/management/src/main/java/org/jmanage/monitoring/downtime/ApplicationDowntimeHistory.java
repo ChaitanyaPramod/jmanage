@@ -15,12 +15,18 @@
  */
 package org.jmanage.monitoring.downtime;
 
+import java.util.logging.Logger;
+
+import org.jmanage.core.util.Loggers;
+
 /**
  *
  * @author Rakesh Kalra
  */
 public class ApplicationDowntimeHistory {
 
+    private static final Logger logger = Loggers.getLogger(ApplicationDowntimeHistory.class);
+    
     private final long recordingSince;
     private long totalDowntime;
     // if not null - indicates that the application is down and stores the time 
@@ -36,8 +42,13 @@ public class ApplicationDowntimeHistory {
     }
     
     public void applicationWentDown(long time){
-        assert downtimeBegin == null;
-        downtimeBegin = time;
+        if(downtimeBegin == null){
+            downtimeBegin = time;
+        }else{
+            // this could happen if the application is edited while it is down.
+            logger.fine("Downtime event fired again. Ignoring.");
+        }
+        
     }
     
     public void applicationCameUp(long time){

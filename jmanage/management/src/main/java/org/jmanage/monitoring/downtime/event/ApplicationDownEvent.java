@@ -29,4 +29,8 @@ public class ApplicationDownEvent extends ApplicationEvent {
     public ApplicationDownEvent(ApplicationConfig appConfig){
         super(appConfig);
     }
+
+    public ApplicationDownEvent(ApplicationConfig appConfig, long time) {
+        super(appConfig, time);
+    }
 }
