@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application-config>
+    <applications>
+        <application id="1"
+            name="jManage"
+            type="local">
+            <mbeans/>
+            <dashboards>
+                <dashboard id="jvmThreads" />
+                <dashboard id="jvmSummary" />
+            </dashboards>
+        </application>
+    </applications>
+	<dashboards />
+</application-config>

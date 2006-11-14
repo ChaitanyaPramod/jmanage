@@ -1,0 +1,10 @@
+<project>
+    <extend>${basedir}/../project.xml</extend>
+    <artifactId>jmanage-testapp</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>jmanage</groupId>
+            <artifactId>jmanage-utils</artifactId>
+        </dependency>
+    </dependencies>
+</project>

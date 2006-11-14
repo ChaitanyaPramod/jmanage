@@ -1,0 +1,30 @@
+<project>
+    <extend>${basedir}/../project.xml</extend>
+    <artifactId>jmanage-management</artifactId>
+    <dependencies>
+		<dependency>
+            <groupId>jdom</groupId>
+            <artifactId>jdom</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jsr77</groupId>
+            <artifactId>jsr77</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jmanage</groupId>
+            <artifactId>jmanage-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jmanage</groupId>
+            <artifactId>jmanage-utils</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>struts</groupId>
+            <artifactId>struts-commons-beanutils</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+        </dependency>
+    </dependencies>
+</project>

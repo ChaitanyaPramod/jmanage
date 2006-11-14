@@ -1,0 +1,27 @@
+<project>
+    <extend>${basedir}/../project.xml</extend>
+    <artifactId>jmanage-alerts</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>mail</groupId>
+            <artifactId>mail</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jdom</groupId>
+            <artifactId>jdom</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jmanage</groupId>
+            <artifactId>jmanage-management</artifactId>
+        </dependency>
+        <!-- TODO: it will be good to reverse this dependency -->
+        <dependency>
+            <groupId>jmanage</groupId>
+            <artifactId>jmanage-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jmanage</groupId>
+            <artifactId>jmanage-utils</artifactId>
+        </dependency>
+    </dependencies>
+</project>
