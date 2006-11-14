@@ -76,9 +76,9 @@ public class ApplicationDowntimeService {
                     throw new IllegalArgumentException("event must be of type ApplicationEvent");
                 }
                 if(event instanceof NewApplicationEvent){
-                    addApplication(((NewApplicationEvent)event).getApplicationConfig());
+                    addApplication((NewApplicationEvent)event);
                 }else if(event instanceof ApplicationChangedEvent){
-                    applicationChanged(((ApplicationChangedEvent)event).getApplicationConfig());
+                    applicationChanged((ApplicationChangedEvent)event);
                 }else if(event instanceof ApplicationRemovedEvent){
                     removeApplication(((ApplicationRemovedEvent)event).getApplicationConfig());
                 }
@@ -106,9 +106,16 @@ public class ApplicationDowntimeService {
         thread.start();
     }
 
-    private void applicationChanged(ApplicationConfig appConfig) {
-        removeApplication(appConfig);
-        addApplication(appConfig);
+    private void addApplication(ApplicationEvent appEvent) {
+        ApplicationHeartBeatThread thread = 
+            new ApplicationHeartBeatThread(appEvent);
+        threads.add(thread);
+        thread.start();
+    }
+    
+    private void applicationChanged(ApplicationEvent appEvent) {
+        removeApplication(appEvent.getApplicationConfig());
+        addApplication(appEvent);
     }
     
     private void removeApplication(ApplicationConfig appConfig) {

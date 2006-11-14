@@ -29,10 +29,14 @@ public abstract class ApplicationEvent extends EventObject {
     private final long time;
     
     public ApplicationEvent(ApplicationConfig config){
-      super(config);
-      time = System.currentTimeMillis();
+      this(config, System.currentTimeMillis());
     }
     
+    public ApplicationEvent(ApplicationConfig config, long time){
+        super(config);
+        this.time = time;
+    }
+
     public ApplicationConfig getApplicationConfig(){
       return (ApplicationConfig)super.getSource();
     }

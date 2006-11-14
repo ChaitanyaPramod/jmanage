@@ -30,6 +30,7 @@ import java.util.logging.Logger;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.ApplicationConfigManager;
 import org.jmanage.core.config.event.ApplicationEvent;
+import org.jmanage.core.config.event.NewApplicationEvent;
 import org.jmanage.core.util.Loggers;
 import org.jmanage.event.EventListener;
 import org.jmanage.monitoring.downtime.event.ApplicationDownEvent;
@@ -38,6 +39,10 @@ import org.jmanage.util.db.DBUtils;
 
 /**
  * Records application downtime in the database.
+ * 
+ * TODO: This reads all applications from the DB. This should be changed to just read the
+ * current applications - rk
+ * 
  * 
  * @author Rakesh Kalra
  */
@@ -81,23 +86,32 @@ public class DowntimeRecorder implements EventListener {
             throw new NullPointerException("appConfig must be specified");
         }
         ApplicationDowntimeHistory history = downtimesMap.get(appConfig);
-        if(history == null){
-            /* it is an application that we are not aware of -- add it to the map */
-            if(logger.isLoggable(Level.INFO)){
-                logger.info("Added application " + appConfig.getName() + " to the downtimesMap.");
-            }
-            final long recordingSince = System.currentTimeMillis();
-            addApplicationToDB(appConfig.getApplicationId(), recordingSince);
-            history = new ApplicationDowntimeHistory(recordingSince);
-            downtimesMap.put(appConfig, history);
-        }
+        assert history != null;
         return history;
+    }
+
+    private void addApplication(NewApplicationEvent event) {
+        ApplicationConfig appConfig = event.getApplicationConfig();
+        if(logger.isLoggable(Level.INFO)){
+            logger.info("Added application " + appConfig.getName() + " to the downtimesMap.");
+        }
+        final long recordingSince = event.getTime();
+        addApplicationToDB(appConfig.getApplicationId(), recordingSince);
+        downtimesMap.put(appConfig, new ApplicationDowntimeHistory(recordingSince));
     }
 
     public void handleEvent(EventObject event) {
         if(!(event instanceof ApplicationEvent)){
             throw new IllegalArgumentException("event must of type ApplicationEvent");
         }
+        // Handle new application event
+        if(event instanceof NewApplicationEvent){
+            addApplication((NewApplicationEvent)event);
+            return;
+        }
+        // Note that application removed event is not being handled. We probably don't care about
+        //   the downtime of a removed application.
+        
         ApplicationEvent appEvent = (ApplicationEvent)event;
         ApplicationDowntimeHistory downtimeHistory = getDowntimeHistory(appEvent.getApplicationConfig());
         assert downtimeHistory != null;

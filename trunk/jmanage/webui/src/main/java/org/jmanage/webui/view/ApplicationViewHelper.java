@@ -15,7 +15,11 @@
  */
 package org.jmanage.webui.view;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.jmanage.core.config.ApplicationConfig;
+import org.jmanage.monitoring.downtime.ApplicationDowntimeHistory;
 import org.jmanage.monitoring.downtime.ApplicationDowntimeService;
 import org.jmanage.monitoring.downtime.DowntimeRecorder;
 
@@ -24,6 +28,8 @@ import org.jmanage.monitoring.downtime.DowntimeRecorder;
  * @author Rakesh Kalra
  */
 public class ApplicationViewHelper {
+    
+    private static final SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy hh:mm aaa"); 
 
     public static boolean isApplicationUp(ApplicationConfig appConfig) {
         DowntimeRecorder recorder = ApplicationDowntimeService.getInstance().getDowntimeRecorder();
@@ -42,5 +48,11 @@ public class ApplicationViewHelper {
             isUp = recorder.isApplicationUp(appConfig);
         }
         return isUp;
+    }
+    
+    public static String getRecordingSince(ApplicationConfig appConfig){
+        DowntimeRecorder recorder = ApplicationDowntimeService.getInstance().getDowntimeRecorder();
+        ApplicationDowntimeHistory history = recorder.getDowntimeHistory(appConfig);
+        return formatter.format(new Date(history.getRecordingSince()));
     }
 }

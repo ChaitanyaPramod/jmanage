@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 import org.jmanage.core.config.ApplicationConfig;
+import org.jmanage.core.config.event.ApplicationEvent;
 import org.jmanage.core.management.ServerConnection;
 import org.jmanage.core.management.ServerConnector;
 import org.jmanage.core.util.Loggers;
@@ -48,6 +49,16 @@ public class ApplicationHeartBeatThread extends Thread {
         this.appConfig = appConfig;
     }
 
+    protected ApplicationHeartBeatThread(ApplicationEvent appEvent) {
+        this(appEvent.getApplicationConfig());
+        /* check if the application is up */
+        wasOpen = isOpen();
+        if(!wasOpen){
+            EventSystem.getInstance().fireEvent(
+                    new ApplicationDownEvent(appConfig, appEvent.getTime()));    
+        }
+    }
+    
     @Override
     public void run() {
         logger.info("Thread started: " + this.getName());

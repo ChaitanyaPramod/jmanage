@@ -9,7 +9,8 @@
                  org.jmanage.core.management.ObjectName,
                  org.jmanage.core.config.*,
                  org.jmanage.webui.dashboard.framework.DashboardRepository,
-                 org.jmanage.webui.dashboard.framework.DashboardConfig"%>
+                 org.jmanage.webui.dashboard.framework.DashboardConfig,
+                 org.jmanage.webui.view.ApplicationViewHelper"%>
 
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 <script language="JavaScript">
@@ -88,11 +89,19 @@
 <td align="right" valign="top">
 	<table cellspacing="0" cellpadding="5" width="100%" class="table">
 	   <tr class="tableHeader">
-    	   <td>Availability</td>
+    	   <td colspan="2">Availability</td>
 	   </tr>
-	   <tr><td align="center">
+	   <tr><td colspan="2" align="center">
    		<img src="<%=availabilityGraphURL%>" />
 	   </td></tr>	   
+	   <tr>
+	   	<td align="left" class="plaintext">
+			Status: <%=ApplicationViewHelper.isApplicationUp(appConfig)?"Up":"Down"%>        
+	   	</td>
+	   	<td align="right" class="plaintext">
+   			Recording Since: <%=ApplicationViewHelper.getRecordingSince(appConfig)%>
+	   	</td>
+	   </tr>
 	 </table>
 </td></tr>
 </table>
