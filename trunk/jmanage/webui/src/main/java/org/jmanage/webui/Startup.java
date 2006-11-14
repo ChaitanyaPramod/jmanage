@@ -81,7 +81,7 @@ public class Startup {
                 System.out.println("Invalid Admin Password.");
             }
             /* get the password */
-            password = PasswordField.getPassword("Enter password:");
+            password = PasswordField.getPassword("Enter password [default: 123456]:");
             /* the password should match for the admin user */
             user = userManager.verifyUsernamePassword(
                     AuthConstants.USER_ADMIN, password);
