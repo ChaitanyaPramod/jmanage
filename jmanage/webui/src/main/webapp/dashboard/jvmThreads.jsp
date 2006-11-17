@@ -16,5 +16,6 @@
 </td>
 </tr>
 </table>
+<a href="JavaScript:history.back()">back</a>
 </p>
 </div>

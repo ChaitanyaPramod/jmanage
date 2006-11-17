@@ -21,7 +21,7 @@
     <tr><td colspan="2"><jm:dashboardComponent id="com11"/></td></tr>
     <tr><td colspan="2"><jm:dashboardComponent id="com12"/></td></tr>
     <tr><td colspan="2">&nbsp;</td></tr>
-    <tr><td colspan="2" align="center"><b><u>Classes</u></b></td></tr>
+    <tr><td colspan="2" align="center"><b><u><a href="/config/viewDashboard.do?applicationId=<%=appConfig.getApplicationId()%>&dashBID=classes">Classes</a></u></b></td></tr>
     <tr><td><jm:dashboardComponent id="com13"/></td><td><jm:dashboardComponent id="com14"/></td></tr>
     <tr><td><jm:dashboardComponent id="com15"/></td><td>&nbsp;</td></tr>
     <tr><td colspan="2">&nbsp;</td></tr>
