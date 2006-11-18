@@ -3,10 +3,7 @@
 <!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
 <document>
   <header>
-    <title>jManage 1.5 Beta Fact Sheet</title>
-    <authors>
-        <person name="Avneet Singh" email="asingh@jmanage.org"/>
-    </authors>
+    <title>jManage 2.0 Fact Sheet</title>
   </header>
   <body>
 			<p>
@@ -40,9 +37,9 @@
 			<section>
 			<title>DashBoards</title>
 		        <p>    
-		            - Default Java5 dashboard 
+		            - JVM Summary dashboard 
 		        <br/>
-		            - Threads dashboard
+		            - JVM Threads dashboard
 		        </p>    
          	</section>   
 	
@@ -54,8 +51,5 @@
 		            - Basic SNMP connector
 		     </p>       
          	</section>  
-    
-         
-
   </body>
 </document>

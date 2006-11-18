@@ -11,30 +11,31 @@
           This roadmap will change based on the needs of the jManage users.
       </p>
       <p>
-        <strong>1.5 release</strong>
+        <strong>2.0 release</strong>
         <br/><br/>
           - Dashboards.
         <br/>
-          - Application specific knowledge modules.
-        <br/>
           - Non-JMX Application connector framework.
         <br/>
-          - Database monitoring (MySQL and/or Oracle).
+          - Application heartbeat monitor.
+        <br/>
+          - Database monitoring (Oracle).
+        <br/>
+         - Historical Graphing. (coming soon) 
         <br/><br/>
       </p>
       <p>
-        <strong>2.0 release</strong>
+        <strong>3.0 release</strong>
           <br/><br/>
-            - Operating system monitoring (unix family).
+            - Performance management.
+          <br/>
+            - Root cause analysis.
+          <br/>
+            - Operating system monitoring.
+          <br/>
+	        - Application specific knowledge modules.
           <br/>
             - Network interface monitoring.
-          <br/>
-            - Historical Graphing - View graphs over a period of time in the past.
-          <br/>
-            - Audit logs in the database - Will provide better auditing capabilities.
-          <br/>
-            - Customizable UI (skins).
-          <br/>
       </p>
       <p>
            <br/>

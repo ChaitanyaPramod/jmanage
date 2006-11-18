@@ -35,15 +35,13 @@ See http://forrest.apache.org/docs/linking.html for more info
     <index label="About" href="/index.html" description="Welcome to jManage"/>
     <downloads label="Download" href="http://sourceforge.net/project/showfiles.php?group_id=111374" description="jManage Downloads"/>
     <blog label="jManage Blog" href="http://jmanage.blogspot.com/" description="jManage Blog"/>
-    <screenshots label="Screenshots" href="/screenshots.html" description="Screen Shots"/>
     <roadmap label="Roadmap" href="/roadmap.html" description="jManage Roadmap"/>
     <!--<team label="Contributors" href="/contributors.html" description="jManage team"/>-->
     <contactUs label="Contact Us" href="/contactus.html" description="Contact Us"/>
   </home>
   <documentation label="Documentation" href="http://www.jmanage.org/wiki">
-    <wiki label="Documentation" href="http://www.jmanage.org/wiki" description="jManage Documentation"/>
+    <documentationwiki label="Documentation" href="http://www.jmanage.org/wiki" description="jManage Documentation"/>
     <wiki label="User FAQ" href="http://www.jmanage.org/wiki/index.php/User_FAQ" description="User FAQ"/>
-    <wiki label="Developer FAQ" href="http://www.jmanage.org/wiki/index.php/Developer_FAQ" description="Developer FAQ"/>
   </documentation>
   <community label="Community" href="http://sourceforge.net/projects/jmanage/">
     <sfProject label="SF Project" href="http://sourceforge.net/projects/jmanage/"/>
@@ -53,13 +51,11 @@ See http://forrest.apache.org/docs/linking.html for more info
     <mailingLists label="Mailing Lists" href="http://sourceforge.net/mail/?group_id=111374"/>
   </community>
   <development label="Development">
-    <gettingInvolved label="Getting Involved" href="/development/gettingInvolved.html"/>
+    <wiki label="Developer FAQ" href="http://www.jmanage.org/wiki/index.php/Developer_FAQ" description="Developer FAQ"/>
     <buildGuide label="Build Guide" href="http://www.jmanage.org/wiki/index.php/JManage_Build_Guide"/>
     <architecture label="Architecture" href="/development/architecture.html"/>
-    <jamesSetup label="James Setup" href="/development/jamesSetup.html"/>
-    <snmpModule label="SNMP Module" href="/development/snmpModule.html"/>
     <cvs label="CVS" href="http://sourceforge.net/cvs/?group_id=111374"/>
-    <license label="License" href="http://www.apache.org/licenses/LICENSE-2.0"/>
+    <license label="License" href="http://www.jmanage.org/gpl.txt"/>
   </development>
 
 <!--

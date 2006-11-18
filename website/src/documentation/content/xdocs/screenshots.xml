@@ -30,5 +30,8 @@
       <p>
         <a href="/images/screenshots/clusterExecuteOperation.gif">Cluster Execute Operation</a>
       </p>
+      <p>
+        <a href="/images/screenshots/jvmHeapUsageGraph.gif">JVM Heap Usage Graph</a>
+      </p>
   </body>
 </document>
