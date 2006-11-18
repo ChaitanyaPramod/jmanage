@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+<document>
+  <header>
+    <title>jManage 2.0 - Open Source Application Management</title>
+  </header>
+  <body>
+  <table>
+  <!-- row -->  
+      <tr>
+	  <td>
+      <p>
+		jManage 2.0 is an open source application management platform, which provides a
+		centralized console for managing application clusters and distributed-application
+		environments. jManage platform provides advanced features like Dashboards, Alerts, Graphs, 
+		Connectors, Security, SNMP support, etc. 
+	  </p>
+	  <p>
+		The jManage mission is to provide an open source management platform, which can be used to manage
+		and monitor entire production environment. 
+  	  </p>
+	  <p>	
+		jManage is successfully being used by various users, in Development, QA, Staging and Production environments.
+		Download <a href="http://sourceforge.net/project/showfiles.php?group_id=111374&amp;package_id=211715&amp;release_id=464022">2.0 beta</a> now.
+      </p>
+      </td>
+      </tr>
+  <!-- row -->
+      <tr>
+      <td>
+      <table>
+		  <tr>
+	        <th><strong>Features</strong></th>
+		  	<th>Screenshot</th>
+		  </tr>
+	      <tr>
+	        <td>
+		    - Easy to use web based interface.
+			<br/><br/>
+			- Web and command line based JMX console.
+			<br/><br/>
+			- Framework to build "live" and "custom" dashboards. 
+			<br/><br/>
+			- Connector framework for managing non-JMX based environments. 
+			<br/><br/>
+		    - Email and console alerts.
+			<br/><br/>
+		    - Application heartbeat monitoring.
+			<br/><br/>
+		    - Command line interface - Useful for scripting and automation.
+			<br/><br/>
+		    - Application Cluster Support - Change attribute values
+		      and perform operations across the cluster.
+			<br/><br/>
+		    - Authentication and fine-grained Authorization.
+			<br/><br/>
+	    	<a href="Product_Information/features.html">more..</a>.
+	        </td>
+		    <td>
+				<script type="text/javascript">
+					function screenShots(){
+						var mywin = window.open('/screenshots-slideshow.html', "Screenshots", 'height=800,width=920,status=yes,toolbar=no,menubar=no,location=no');
+						mywin.focus();
+					}
+				</script>
+				<a href="#" onClick="JavaScript:screenShots()">
+				    <img src="/images/screenshots/appView.gif" alt="Screenshot" width="400" height="350"/></a>
+				<p>
+			    <a href="#" onClick="JavaScript:screenShots()">
+			    	More screenshots</a>.
+			    </p>
+		    </td>
+	    </tr>
+	  </table>
+	  </td>	
+      </tr>
+    <!-- row -->    
+    <tr>
+    
+    <td>
+	<table>
+	<tr>
+		<th><strong>Product Info</strong>
+		</th>
+		<th><strong>Get Notified</strong>
+		</th>
+		<th><strong>Download</strong>
+		</th>		
+	</tr>
+	<tr>
+	<td>
+      <a href="http://www.javaworld.com/javaworld/jw-01-2006/jw-0116-jmanage.html">Overview</a>
+      <br/>
+      <a href="Product_Information/factsheet.html">2.0 beta Fact Sheet</a>
+      <br/>
+      <a href="http://www.jmanage.org/wiki/index.php/Documentation">User Guide</a>
+      <br/>
+      <a href="http://www.jmanage.org/wiki/index.php/User_FAQ">F.A.Q.</a>
+      <br/>            
+      <a href="Product_Information/platform.html">jManage Platform</a>
+      <br/>
+      <a href="Product_Information/deployment.html">Typical Deployment</a>
+    </td>
+    <td>
+		Enter your email address below<br/>to get notified of new releases<br/>and updates:<br/><br/>
+		<script>
+			<!--
+			var queryString = window.top.location.search.substring(1);
+			if(queryString == "result=true"){
+				message = "<p style='font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10px; color: red; background:yellow'>Your email address<br/>has been added.</p>";
+				document.write(message);
+			}
+			-->
+		</script>
+		<form action="http://www.jmanage.org/php/newAnnounce.php" method="POST">
+			<input type="text" name="email" size="25" maxlength="50"></input>
+			<input type="submit" value="Submit"/>
+		</form>
+
+    </td>
+    <td>
+		<a href="http://sourceforge.net/project/showfiles.php?group_id=111374&amp;package_id=211715&amp;release_id=464022">
+		 <img src="/images/download.gif" alt="Download"/></a>
+	   <br/>
+	   <p>
+	   <pre style="font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10px;">
+Note: We have decided to change the version number 
+from 1.5 to 2.0 to better reflect the level of maturity and 
+stability in this release, as well as many new features 
+which transform jManage from a JMX console to a 
+management platform.
+	   </pre>
+	   </p>
+	   <a href="http://sourceforge.net/project/showfiles.php?group_id=111374"> Download Older Versions ..</a>
+    </td>
+    </tr>
+	</table>
+	</td>
+	</tr>
+      <!-- row -->
+    
+ </table>    
+  </body>
+</document>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+<document>
+  <header>
+    <title>Business Benefits</title>
+  </header>
+  <body>
+ <p>
+			<strong>Management and Monitoring of mission critical business application</strong>
+			Monitor the applications and other hardware and software resources in your network real time and on demand.
+	        <br/>
+	        <br/>
+			<strong>Performance and Availability Management</strong>
+			Get alerted about any resource or business critical application outages. Monitor performance of applications important for the success of your business.
+	        <br/>
+	        <br/>
+			<strong>Bird's eye view of Business infrastructure</strong>
+			Get a consolidated and unified view the managed Business infrastructure and get real time visibility into it.
+	        <br/>
+	        <br/>
+			<strong>Reports and Graphs</strong>
+			Use reports and graphs to view data in the format which makes sense.
+	        <br/>
+	        <br/>
+			<strong>Historical data for 'Trend Analysis'</strong>
+			jManage keeps track of the application behaviour over period of time for you to spot 'trends' in your business.
+	        <br/>
+	        <br/>
+
+			<strong>Integrated solution to manage various different kinds of resources</strong>
+			jManage helps you monitor your complex mix of business applications from a integrated environment. This helps reduce management complexity of maintaining several different points of management. 
+	        <br/>
+	        <br/>
+			<strong>Proactive Resource Management </strong>
+			jManage not only lets you monitor and manage resources when you want to, but also have 'alert' capabilities to proactively inform you real-time about any 'red flags' in your network.
+	        <br/>
+	        <br/>
+	        <strong>Identify and fix problems, 'before' they happen </strong>
+			Moniter all your business applications for any 'abnormalities' and get time to fix them in time before they cause future problem.
+	        <br/>
+	        <br/>
+	        
+			<strong>Single point, web-based access to all your resources </strong>
+			Access any server or other 'managed' application in your network, make adjustments or invoke actions, all from single point web based console.
+	        <br/>
+	        <br/>
+			<strong>Minimize costly downtime and other application outages </strong>
+			Get 'alerted' about impending problems, reduce annoying downtime.
+	        <br/>
+	        <br/>
+			<strong>Resource Planning and Optimization </strong>
+			jManage gives you 'actual' data on resource load levels and utilization patterns. This information can help you make a better informed decision about resource planning and optimization.
+	        <br/>
+	        <br/>
+	        
+
+
+			<strong>Also Manage legacy and other resources, not compliant with Java standards</strong>
+			jManage can not only manage applications and servers compliant with JMX standards but also other resouces such as 'Oracle' and 'SNMP' nodes. More types of resources are being added with the help of 'Connecter' architecture which helps 'glue' these resources with jManage Framework.
+	        <br/>
+	        <br/>
+			<strong>Quick turnaround for application problems </strong>
+			Single point of data for all the application in the network ensures valuable information on points or nodes which 'misbehaved' to cause the problem. Once the problem area has been identified, corrective actions can then be taken quickly.
+	        <br/>
+	        <br/>
+	        
+			<strong>Ensure better quality of service for your customers </strong>
+			jManage based proactive and consolidated single point management approach of your Business infrastructure can help you eliminate a lot of user issues. This ensures quality user experience with the services which your company has to offer.
+	        <br/>
+	        <br/>
+			<strong>Effect  bottom line..</strong>
+			All this translates to savings in cost, and increase in customer confidence with more reliable and robust Business infrastructure.
+	        <br/>
+	        <br/>	        
+	        <br/>
+	        <br/>
+
+  </p>
+  </body>
+</document>

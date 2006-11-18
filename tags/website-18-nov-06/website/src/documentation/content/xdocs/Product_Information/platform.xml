@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+<document>
+  <header>
+    <title>jManage Platform</title>
+  </header>
+  <body>
+
+        <p>
+		<br/>
+		            jManage is a <a href="http://struts.apache.org/">Struts</a> and
+            <a href="http://jetty.mortbay.org/">Jetty</a> based web application,
+            which provides both web and command line interface to manage JMX enabled
+            applications. 
+        <br/><br/>
+            jManage command line interface uses java serialization over HTTP
+            to connect to the jManage web application. This allows the command
+            line client to connect to the jmanage server across the firewall.
+		<br/><br/>
+        </p>
+
+  </body>
+</document>
