@@ -29,7 +29,7 @@ public class UserForm extends BaseForm{
     private String username;
     private String password;
     private String confirmPassword;
-    private String role;
+    private String[] role;
 
     public String getStatus() {
         if(status == null){
@@ -68,11 +68,11 @@ public class UserForm extends BaseForm{
         this.confirmPassword = confirmPassword;
     }
 
-    public String getRole() {
+    public String[] getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(String[] role) {
         this.role = role;
     }
 }
