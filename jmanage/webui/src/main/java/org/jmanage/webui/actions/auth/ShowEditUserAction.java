@@ -29,6 +29,8 @@ import org.apache.struts.action.ActionForm;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -75,8 +77,14 @@ public class ShowEditUserAction extends BaseAction{
         userForm.setPassword(UserForm.FORM_PASSWORD);
         userForm.setConfirmPassword(UserForm.FORM_PASSWORD);
         //TODO Need to handle multiple role scenario
-        if(!AuthConstants.USER_ADMIN.equals(user.getUsername()))
-            userForm.setRole(((Role)user.getRoles().get(0)).getName());
+        if(!AuthConstants.USER_ADMIN.equals(user.getUsername())){
+        	String[] roles = new String[user.getRoles().size()];
+        	int ctr = 0;
+        	for(Iterator it= user.getRoles().iterator(); it.hasNext();){
+        		roles[ctr++] = ((Role)it.next()).getName();
+        	}
+            userForm.setRole(roles);
+        }
         userForm.setStatus(user.getStatus());
     }
 }

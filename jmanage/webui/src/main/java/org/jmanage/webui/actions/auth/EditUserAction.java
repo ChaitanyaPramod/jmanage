@@ -78,7 +78,10 @@ public class EditUserAction extends BaseAction{
         assert user != null;
 
         List<Role> roles = new ArrayList<Role>(1);
-        roles.add(new Role(userForm.getRole()));
+        String[] rolesString = userForm.getRole();
+        for(int ctr=0; ctr < rolesString.length; ctr++){
+        	roles.add(new Role(rolesString[ctr]));
+        }
         user.setRoles(roles);
         if(!userForm.getPassword().equals(UserForm.FORM_PASSWORD)){
             String hashedPassword = Crypto.hash(userForm.getPassword());

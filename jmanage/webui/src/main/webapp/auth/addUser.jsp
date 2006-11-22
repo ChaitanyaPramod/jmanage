@@ -26,7 +26,7 @@
 </tr>
 <tr>
     <td class="headtext1">Role:</td>
-    <td><jmhtml:select property="role">
+    <td><jmhtml:select property="role" multiple="true">
             <jmhtml:option value="" > --------- Select --------- </jmhtml:option>
             <jmhtml:options collection="roles" property="name" labelProperty="name" />
         </jmhtml:select>
