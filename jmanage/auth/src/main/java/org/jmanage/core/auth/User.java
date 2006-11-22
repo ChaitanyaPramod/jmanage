@@ -17,6 +17,7 @@ package org.jmanage.core.auth;
 
 import org.jmanage.core.crypto.Crypto;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Iterator;
 import java.security.Principal;
@@ -104,6 +105,9 @@ public class User implements Principal, java.io.Serializable{
     }
 
     public List getRoles() {
+        if(roles == null){
+            roles = new ArrayList();
+        }
         return roles;
     }
 

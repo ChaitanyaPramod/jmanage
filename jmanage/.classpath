@@ -16,6 +16,7 @@
 	<classpathentry output="tools/target/classes" kind="src" path="tools/src/main/java"/>
 	<classpathentry output="utils/target/classes" kind="src" path="utils/src/main/java"/>
 	<classpathentry output="utils/target/test-classes" kind="src" path="utils/src/test/java"/>
+	<classpathentry output="test/target/classes" kind="src" path="test/src/main/java"/>
 	<classpathentry kind="src" path="webui/src/main/java"/>
 	<classpathentry kind="src" path="modules/common/src/main/java"/>
 	<classpathentry kind="src" path="modules/jboss/src/main/java"/>
