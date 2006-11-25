@@ -14,15 +14,25 @@
 		jManage 2.0 is an open source application management platform, which provides a
 		centralized console for managing application clusters and distributed-application
 		environments. jManage platform provides advanced features like Dashboards, Alerts, Graphs, 
-		Connectors, Security, SNMP support, etc. 
+		Connectors, Security, SNMP support and more. 
 	  </p>
 	  <p>
-		The jManage mission is to provide an open source management platform, which can be used to manage
-		and monitor entire production environment. 
+		Our mission is to provide you a platform to centrally manage and monitor your application environments. 
   	  </p>
-	  <p>	
-		jManage is successfully being used by various users, in Development, QA, Staging and Production environments.
-		Download <a href="http://sourceforge.net/project/showfiles.php?group_id=111374&amp;package_id=211715&amp;release_id=464022">2.0 beta</a> now.
+	  <p>
+	  <table>
+	    <tr>
+	    <td style="font-size: 10px;">
+	    "Great Job! I love where you are taking jManage. It is my team's primary tool when troubleshooting at remote customer sites.
+		Thanks for all the effort and this truly great and simple to use product! IMO - no other product compares to jManage - now with dashboards - 
+		we can offer specialized views geared towards our system to further reduce turnaround time in the field." - <i>Jody Brownell </i>
+	    </td>
+	    </tr>
+	  </table>
+	  </p>
+	  <p>
+		jManage is used for managing applications in Development, QA, Staging and Production environments.<br/>
+		Download jManage <a href="/registration.html">here</a>.
       </p>
       </td>
       </tr>
@@ -36,13 +46,11 @@
 		  </tr>
 	      <tr>
 	        <td>
-		    - Easy to use web based interface.
-			<br/><br/>
-			- Web and command line based JMX console.
+			- Web &amp; command line based JMX console.
 			<br/><br/>
 			- Framework to build "live" and "custom" dashboards. 
 			<br/><br/>
-			- Connector framework for managing non-JMX based environments. 
+			- Connector framework for managing non-JMX applications. 
 			<br/><br/>
 		    - Email and console alerts.
 			<br/><br/>
@@ -81,58 +89,26 @@
     <td>
 	<table>
 	<tr>
-		<th><strong>Product Info</strong>
+		<th colspan="3"><strong>Product Info</strong>
 		</th>
-		<th><strong>Get Notified</strong>
-		</th>
-		<th><strong>Download</strong>
-		</th>		
 	</tr>
 	<tr>
 	<td>
       <a href="http://www.javaworld.com/javaworld/jw-01-2006/jw-0116-jmanage.html">Overview</a>
       <br/>
-      <a href="Product_Information/factsheet.html">2.0 beta Fact Sheet</a>
-      <br/>
       <a href="http://www.jmanage.org/wiki/index.php/Documentation">User Guide</a>
       <br/>
       <a href="http://www.jmanage.org/wiki/index.php/User_FAQ">F.A.Q.</a>
-      <br/>            
+	</td>
+	<td>
       <a href="Product_Information/platform.html">jManage Platform</a>
       <br/>
       <a href="Product_Information/deployment.html">Typical Deployment</a>
     </td>
-    <td>
-		Enter your email address below<br/>to get notified of new releases<br/>and updates:<br/><br/>
-		<script>
-			<!--
-			var queryString = window.top.location.search.substring(1);
-			if(queryString == "result=true"){
-				message = "<p style='font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10px; color: red; background:yellow'>Your email address<br/>has been added.</p>";
-				document.write(message);
-			}
-			-->
-		</script>
-		<form action="http://www.jmanage.org/php/newAnnounce.php" method="POST">
-			<input type="text" name="email" size="25" maxlength="50"></input>
-			<input type="submit" value="Submit"/>
-		</form>
-
-    </td>
-    <td>
-		<a href="http://sourceforge.net/project/showfiles.php?group_id=111374&amp;package_id=211715&amp;release_id=464022">
-		 <img src="/images/download.gif" alt="Download"/></a>
-	   <br/>
-	   <p>
-	   <pre style="font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10px;">
-Note: We have decided to change the version number 
-from 1.5 to 2.0 to better reflect the level of maturity and 
-stability in this release, as well as many new features 
-which transform jManage from a JMX console to a 
-management platform.
-	   </pre>
-	   </p>
-	   <a href="http://sourceforge.net/project/showfiles.php?group_id=111374"> Download Older Versions ..</a>
+   	<td>
+      <a href="Product_Information/bizbenefits.html">Business Benefits</a>
+      <br/>
+      <a href="Product_Information/factsheet.html">2.0-beta Fact Sheet</a>
     </td>
     </tr>
 	</table>

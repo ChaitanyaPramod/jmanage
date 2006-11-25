@@ -7,49 +7,67 @@
   </header>
   <body>
 			<p>
-			jManage is a evolving open source the jmanage community to easily add support for more products which they might want but is not yet supported. We request you contribute any such enhancements 
+			jManage is an evolving open source application management platform. It is easy to add support for more applications which you might want but are not yet supported. We request you contribute any such enhancements 
 			back to jManage and help it to become more useful.
-			<br/>List of current support include-
 			</p>
-			<section>
-			<title>Application Servers</title>
-		        <p>    
+			<p>
+			List of current support include-
+			</p>
+			<table>
+				<tr>
+					<th>Application Servers</th>
+				</tr>
+				<tr>
+				    <td>
+				    <p>    
 		            - JBoss
-		        <br/>
+		            <br/>
 		            - Bea Weblogic
-		        <br/>
+		        	<br/>
 		            - IBM WebSphere
-		        <br/>
+		       	 	<br/>
 		            - JDK1.5
-		        <br/>
+		        	<br/>
 		            - Tomcat
-		        <br/>
+		        	<br/>
 		            - MX4J
-		        <br/>
+		        	<br/>
 		            - JMX Remoting (JSR 160)
-		        <br/>
+		        	<br/>
 		            - Open Cloud Rhino
-		        <br/>
+		        	<br/>
 		            - Apache Geronimo
-		        </p>    
-         </section> 
-           
-			<section>
-			<title>DashBoards</title>
+		        	</p>  
+				    </td>
+				</tr>
+			</table>
+			<table>
+				<tr>
+					<th>Dashboards</th>
+				</tr>
+				<tr>
+				    <td>
 		        <p>    
 		            - JVM Summary dashboard 
-		        <br/>
+		        	<br/>
 		            - JVM Threads dashboard
 		        </p>    
-         	</section>   
-	
-			<section>
-			<title>Connectors</title>
-		     <p>       
-		            - Primitive Oracle connector
+				</td>
+				</tr>
+			</table>
+			<table>
+				<tr>
+					<th>Connectors</th>
+				</tr>
+				<tr>
+				<td>
+		     	<p>       
+		            - Basic Oracle connector
 		            <br/>
 		            - Basic SNMP connector
-		     </p>       
-         	</section>  
+		     	</p>   
+		        </td>
+		        </tr>   
+			</table>
   </body>
 </document>

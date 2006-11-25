@@ -11,14 +11,17 @@
 		<br/>
 		            jManage is a <a href="http://struts.apache.org/">Struts</a> and
             <a href="http://jetty.mortbay.org/">Jetty</a> based web application,
-            which provides both web and command line interface to manage JMX enabled
-            applications. 
+            which provides both web and command line interface to manage applications. 
         <br/><br/>
             jManage command line interface uses java serialization over HTTP
             to connect to the jManage web application. This allows the command
             line client to connect to the jmanage server across the firewall.
 		<br/><br/>
         </p>
-
+	<p>
+        <br/><br/>
+        <img src="/images/jManage-Architecture.jpg" alt="jManage Architecture"/>
+        <br/><br/>
+    </p>
   </body>
 </document>
