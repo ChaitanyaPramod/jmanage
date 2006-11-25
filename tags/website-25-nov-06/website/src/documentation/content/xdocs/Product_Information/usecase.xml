@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd"> <document>
+  <header>
+    <title>Use Case</title>
+  </header>
+  <body>
+		<p>
+		
+		<br/><strong>Company Profile and Game plan</strong>			
+		In order to illustrate a jManage use case scenario let's create a fictitious telecommunications company named UTalk. UTalk provides voice and data services to individual and corporates. UTalk is a new entrant in this highly competitive telecom space. It is required to pump in millions of dollars into building its network infrastructure, both hardware and software. The company hopes to capture market share based on its parent company's brand name, it's superior network infrastructure and emphasis on customer service.
+		The company invests large sums of money into PR and advertisements and goes live. There is a good response and it gets lots of customers.  
+		
+		<br/><br/><strong>Complex Business infrastructure</strong>
+		The network infrastructure based of hundreds of network elements, a robust NMS(Network Management Solution)
+		 and a web application are able to handle the user traffic effectively. The web application is used to provide users with services like viewing and paying their bills,
+		 changing rate plans, selling latest models of phones etc. This application is deployed in <strong>weblogic</strong> application server and the database is in <strong>Oracle</strong>. To provide billing services on the web app a <strong>Third party application</strong> is used. NMS is used to manage hardware elements which are from <strong>Siemens</strong>. Few <strong>Network elements</strong> from Motorola are managed with a different <strong>SNMP</strong> based software since the Siemens NMS does not supports them.
+		 It is a complex web of mission critical business applications. All need to work well all the time for this domain like telecom. Downtimes and delays are not acceptable.
+		 For this to happen a <strong>single consolidated application management and monitoring solution</strong> is required.
+		 
+		<br/><br/><strong>Issues</strong>
+		As the user base keeps increasing, gradual <strong>decline in performance</strong> of overall applications is noticed. Only option for network admins is to go into heaps of logs and takes the best guess towards fixing these performance issues. Also users have started complaining that online application is taking <strong>lot of time</strong> to show their bill details. More machines are added in the network as a best guess
+		to fix the problem but the problem comes back again. Some calls which <strong>appear to be random</strong> are getting disconnected abruptly. Users are not having a good time anymore with this increased load in the network.
+		
+		<br/><br/><strong>How jmanage comes into play</strong>
+		Main focus of jManage is to bring <strong>visibility</strong> into the current state of business critical managed applications, they might be either <strong>hardware or software resources</strong>. UTalk is worried about current state of things. It takes several steps to correct this degradation of services. One of the steps is to use jManage to monitor and manage it's complete network infrastructure in a single centralized console. 
+		The IT admin configures jManage to connect to <strong>java</strong> web apps using <strong>JMX</strong> and monitor the application on critical parameters. For <strong>non-java</strong> application various <strong>Connectors</strong> provided by jManage are used to monitor resources like <strong>Oracle</strong> and <strong>UNIX/Windows Servers</strong>. Motorola NEs are managed using SNMP connector provided by jManage. Siemens NMS and other third party applications are also hooked up to jManage with a <strong>custom connector</strong>. A <strong>DashBoard</strong> named 'UTalk Web App' is configured to monitor various important parameters like load status of the web appliation, JVM memory usage, OS virtual memory status, CPU usage and other parameters vital to manage application performance during heavy traffic.
+		This dashboard gives admin info it needs to manage load statistics and take corrective actions on the <strong>precise</strong> node which is giving the problem. 
+		Admin sets up <strong>alerts</strong> so that if any important parameter crosses the threshold, he can get <strong>EMail or SMS</strong> even when he is  not around. Observing the dashboards admin notes that adding more machines to the web application was not working since during peak hours DB server becomes the bottleneck and not the app server. Corrective actions are taken on the <strong>Database server</strong> to increase its performance. The user experience with the application is now under control even during peak hours. One night admin gets SMS from jManage app that transaction count on the app server has jumped suddenly and crossed the <strong>threshold</strong> set by the admin. This was unusual and on immediate scrutiny it was noticed these were SPAM connections were being made by some external computer through Internet to deliberately crash or slow down the UTalk network. Immediately additional resources were allocated to take <strong>pre-emptive</strong> measures and to isolate the IP addresses from where these type of requests were being pumped before any major damage was done. A major potential crises was averted due to a <strong>timely alert</strong> which also pointed to the <strong>source</strong> of the problem and helped engineers avert potential down time of the UTalk business network.
+	   <strong> Key policy decisions</strong> regarding <strong>Resource Optimization</strong> are now taken using jManage data. <strong>Load sharing</strong> and <strong>usage patterns</strong> helps the decision makers to decide where to add more resources and where to cut down.
+	   <strong>Historical data</strong> helps UTalk to find out which services are being used more than the others and what are the customer behaviour patterns. <strong>Reports and Graphs</strong> generated by jManage are used to get graphical view of its business critical infrastructure.
+      </p>
+  </body>
+</document>

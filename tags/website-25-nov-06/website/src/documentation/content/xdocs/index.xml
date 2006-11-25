@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+<document>
+  <header>
+    <title>jManage 2.0 - Open Source Application Management</title>
+  </header>
+  <body>
+  <table>
+  <!-- row -->  
+      <tr>
+	  <td>
+      <p>
+		jManage 2.0 is an open source application management platform, which provides a
+		centralized console for managing application clusters and distributed-application
+		environments. jManage platform provides advanced features like Dashboards, Alerts, Graphs, 
+		Connectors, Security, SNMP support and more. 
+	  </p>
+	  <p>
+		Our mission is to provide you a platform to centrally manage and monitor your application environments. 
+  	  </p>
+	  <p>
+	  <table>
+	    <tr>
+	    <td style="font-size: 10px;">
+	    "Great Job! I love where you are taking jManage. It is my team's primary tool when troubleshooting at remote customer sites.
+		Thanks for all the effort and this truly great and simple to use product! IMO - no other product compares to jManage - now with dashboards - 
+		we can offer specialized views geared towards our system to further reduce turnaround time in the field." - <i>Jody Brownell </i>
+	    </td>
+	    </tr>
+	  </table>
+	  </p>
+	  <p>
+		jManage is used for managing applications in Development, QA, Staging and Production environments.<br/>
+		Download jManage <a href="/registration.html">here</a>.
+      </p>
+      </td>
+      </tr>
+  <!-- row -->
+      <tr>
+      <td>
+      <table>
+		  <tr>
+	        <th><strong>Features</strong></th>
+		  	<th>Screenshot</th>
+		  </tr>
+	      <tr>
+	        <td>
+			- Web &amp; command line based JMX console.
+			<br/><br/>
+			- Framework to build "live" and "custom" dashboards. 
+			<br/><br/>
+			- Connector framework for managing non-JMX applications. 
+			<br/><br/>
+		    - Email and console alerts.
+			<br/><br/>
+		    - Application heartbeat monitoring.
+			<br/><br/>
+		    - Command line interface - Useful for scripting and automation.
+			<br/><br/>
+		    - Application Cluster Support - Change attribute values
+		      and perform operations across the cluster.
+			<br/><br/>
+		    - Authentication and fine-grained Authorization.
+			<br/><br/>
+	    	<a href="Product_Information/features.html">more..</a>.
+	        </td>
+		    <td>
+				<script type="text/javascript">
+					function screenShots(){
+						var mywin = window.open('/screenshots-slideshow.html', "Screenshots", 'height=800,width=920,status=yes,toolbar=no,menubar=no,location=no');
+						mywin.focus();
+					}
+				</script>
+				<a href="#" onClick="JavaScript:screenShots()">
+				    <img src="/images/screenshots/appView.gif" alt="Screenshot" width="400" height="350"/></a>
+				<p>
+			    <a href="#" onClick="JavaScript:screenShots()">
+			    	More screenshots</a>.
+			    </p>
+		    </td>
+	    </tr>
+	  </table>
+	  </td>	
+      </tr>
+    <!-- row -->    
+    <tr>
+    
+    <td>
+	<table>
+	<tr>
+		<th colspan="3"><strong>Product Info</strong>
+		</th>
+	</tr>
+	<tr>
+	<td>
+      <a href="http://www.javaworld.com/javaworld/jw-01-2006/jw-0116-jmanage.html">Overview</a>
+      <br/>
+      <a href="http://www.jmanage.org/wiki/index.php/Documentation">User Guide</a>
+      <br/>
+      <a href="http://www.jmanage.org/wiki/index.php/User_FAQ">F.A.Q.</a>
+	</td>
+	<td>
+      <a href="Product_Information/platform.html">jManage Platform</a>
+      <br/>
+      <a href="Product_Information/deployment.html">Typical Deployment</a>
+    </td>
+   	<td>
+      <a href="Product_Information/bizbenefits.html">Business Benefits</a>
+      <br/>
+      <a href="Product_Information/factsheet.html">2.0-beta Fact Sheet</a>
+    </td>
+    </tr>
+	</table>
+	</td>
+	</tr>
+      <!-- row -->
+    
+ </table>    
+  </body>
+</document>
