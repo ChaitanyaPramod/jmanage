@@ -65,6 +65,14 @@ footer, searchbar, css etc.  As input, it takes XML of the form:
 
       <body onload="focus()" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
 
+          <!-- Google Analytics -->
+          <script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+          </script>
+          <script type="text/javascript">
+                _uacct = "UA-252683-1";
+                urchinTracker();
+          </script>
+
         <!--
           +=========================+
           |       topstrip          |
@@ -88,13 +96,6 @@ footer, searchbar, css etc.  As input, it takes XML of the form:
            </td>
          </tr>
         </table>
-          <!-- Google Analytics -->
-          <script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
-          </script>
-          <script type="text/javascript">
-                _uacct = "UA-252683-1";
-                urchinTracker();
-          </script>
       </body>
     </html>
   </xsl:template>
