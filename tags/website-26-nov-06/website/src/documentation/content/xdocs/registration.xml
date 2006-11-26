@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+<document>
+  <header>
+    <title>Registration (Optional)</title>
+  </header>
+  <body>
+      <script type="text/javascript">
+      <!--
+      	function validate(){
+	      	if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/.test(document.regForm.elements["email"].value) == false){
+      			alert("Please enter a valid email address.");
+      			return false;
+      		}
+      		return true;
+      	}
+      -->
+      </script>
+      <p>
+		<form name="regForm" action="http://www.jmanage.org/php/register.php" onSubmit="JavaScript:return validate();" method="POST">
+		Please fill out the information below to get notified when a new version of jManage is available.<br/>
+		Registration is optional. If you'd prefer not to register, use the 'Skip Registration' button below.
+		<br/><br/>
+        <table width="100%" border="0" cellspacing="3" cellpadding="3" align="center">
+        	<tr> 
+              <td align="right">Email</td>
+              <td > 
+              	<input type="text" name="email" size="50"> </input>
+			  </td>
+            </tr>
+            <tr> 
+              <td align="right">Name</td>
+              <td > 
+              	<input type="text" name="name" size="50"> </input>
+			  </td>
+            </tr>
+            <tr> 
+              <td align="right" >Company</td>
+              <td > 
+              	<input type="text" name="company" size="50"> </input>
+			  </td>
+            </tr>
+            <tr> 
+              <td align="right" > Job Title</td>
+              <td > 
+                          <select name="jobTitle">
+                            <option value="">-- Select One--</option>
+                            <option value="Developer">Developer</option>
+                            <option value="Development Manager">Development Manager</option>
+                            <option value="Operations Engineer">Operations Engineer</option>
+                            <option value="Operations Manager">Operations Manager</option>
+                            <option value="QA Engineer">QA Engineer</option>
+                            <option value="QA Manager">QA Manager</option>
+                            <option value="CTO">CTO</option>
+                            <option value="CEO">CEO</option>
+                            <option value="Other">Other</option>
+                           </select>
+                       </td>
+                      </tr>
+                      <tr> 
+                        <td colspan="2">
+                          <input type="hidden" value="Y" name="announceOptIn"/>
+                          <input type="checkbox" value="Y" name="updatesOptIn" checked="1"> </input>
+                          Also send me important updates from jManage.</td>
+                      </tr>
+                      <tr> 
+                        <td colspan="2" align="center"> 
+                          <input type="submit" name="submit" value="Submit and proceed to Download"/>
+						  <input type="button" name="skip" value="Skip Registration" onClick="JavaScript:window.location='/download.html'"/>
+                        </td>
+                      </tr>
+			</table>
+		</form>
+      </p>
+      <p>
+          <!-- just to make sure that download.html is generated-->
+    	  <a href="/download.html"></a>
+      </p>
+  </body>
+</document>

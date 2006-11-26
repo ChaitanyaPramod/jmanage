@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+<document>
+  <header>
+    <title>jManage User Quotes</title>
+  </header>
+  <body>
+	<p style="font-size: 10px;">
+      "I've been trying out various jManage releases for quite some time and have to say that the jManage project has been extremely responsive to bug reports, suggestions, and feedback in general.
+	   jManage fills an important niche in that there was no freely available general JMX HTML console before this point. [Yes, I know about JBoss' console, but last I knew you couldn't just install it and point to any JVM with an active JSR 160 connector. Sun has a JMX HTML console, but it's wrapped up in a commercial offering.]"
+	   <br/>- <i>Jess Hole, PTC</i>
+    </p><br/>
+	<p style="font-size: 10px;">
+	  "Nice tool. Easy to use, secured, two-left-hand-enabled :)
+	  Thanks guys." <br/>- <i>Cram</i>  
+    </p><br/>
+    <p style="font-size: 10px;">
+	  "Great Job! I love where you are taking jManage. It is my team's primary tool when troubleshooting at remote customer sites.
+	  Thanks for all the effort and this truly great and simple to use product! IMO - no other product compares to jManage - now with dashboards - 
+	  we can offer specialized views geared towards our system to further reduce turnaround time in the field." <br/>- <i>Jody Brownell </i>
+	</p><br/>
+    <p style="font-size: 10px;">	
+	"The tool is quite nice. The screenshots on the site don't do it justice, and I've been hesitant to look at it somewhat
+	because the screenshots made it look pretty basic. But when I did look, I was amazed to see how much is there."
+    <br/>- <i>Joe Mocker</i>  
+    </p><br/>
+    <p style="font-size: 10px;">	    
+    "Good luck with jManage. jManage is a great idea, and the product has
+    already served us for some time, allowing us to avoid e.g. MC4J Console 
+    on lots of project member's PC's or, even worse, web front-end on each MBeanServer 
+    on our installations."
+    <br/>- <i>Kyrre Lugg, Project Engineer - Software, Tomra Systems ASA</i>  
+    </p><br/>
+  </body>
+</document>
