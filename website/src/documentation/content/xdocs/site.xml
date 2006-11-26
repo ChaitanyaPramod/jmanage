@@ -44,10 +44,9 @@ See http://forrest.apache.org/docs/linking.html for more info
     <wiki label="User FAQ" href="http://www.jmanage.org/wiki/index.php/User_FAQ" description="User FAQ"/>
   </documentation>
   <community label="Community" href="http://sourceforge.net/projects/jmanage/">
-    <sfProject label="SF Project" href="http://sourceforge.net/projects/jmanage/"/>
+    <forums label="Forums" href="http://forums.jmanage.org"/>
     <featureRequest label="Feature Request" href="http://sourceforge.net/tracker/?func=add&amp;group_id=111374&amp;atid=659060"/>
     <bug label="Report a Bug" href="http://sourceforge.net/tracker/?func=add&amp;group_id=111374&amp;atid=659057"/>
-    <supportRequest label="Support Request" href="http://sourceforge.net/tracker/?func=add&amp;group_id=111374&amp;atid=659058"/>
     <mailingLists label="Mailing Lists" href="http://sourceforge.net/mail/?group_id=111374"/>
   </community>
   <development label="Development">
