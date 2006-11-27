@@ -35,7 +35,7 @@ public class RemoteServiceContextFactoryTest {
 
         /* Build ApplicationConfigData object */
         ApplicationConfigData configData = new ApplicationConfigData();
-        configData.setHost("intadui-001.ysm.oc2.yahoo.com");
+        configData.setHost("localhost");
         configData.setPort(new Integer(1099));
         configData.setName("testApp1");
         configData.setType("jboss");
