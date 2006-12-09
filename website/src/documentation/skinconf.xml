@@ -375,13 +375,21 @@ which will be used to configure the chosen Forrest skin.
   <credits>
 
      <credit box-location="alt">
+      <name>Member - Open Management</name>
+      <url>http://open-management.com</url>
+      <image>http://open-management.com/media/images/OpenManagment_tag_member.gif</image>
+      <width>130</width>
+      <height>56</height>
+    </credit>
+
+     <credit box-location="alt">
       <name>Hosted by sf.net</name>
       <url>http://sourceforge.net/</url>
       <image>http://sourceforge.net/sflogo.php?group_id=111374&amp;type=1</image>
       <width>88</width>
       <height>31</height>
     </credit>
-
+<!--
     <credit box-location="alt">
       <name>Built with Apache Forrest</name>
       <url>http://forrest.apache.org/</url>
@@ -397,6 +405,7 @@ which will be used to configure the chosen Forrest skin.
       <width>18</width>
       <height>18</height>
     </credit>
+-->    
     <!-- A credit with @role="pdf" will be used to compose a footer
      for each page in the PDF, using either "name" or "url" or both.
     -->
