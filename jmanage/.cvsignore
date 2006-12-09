@@ -1,3 +1,5 @@
-build dist bin .settings
+build
 jmanage.iml
 .settings
+dist
+bin
