@@ -269,7 +269,7 @@ if (VERSION > 3) {
           </div>
         </xsl:if>
       </xsl:if>
-    </div>
+   </div>
 
     <!-- ( ================= end Menu items ================== ) -->
 
@@ -317,15 +317,12 @@ if (VERSION > 3) {
       </xsl:if>
 
 
- 	<xsl:if test="$filename = 'index.html' and $config/credits">
+ 	<xsl:if test="$config/credits">
       <div id="admfun" class="toolgroup">
-        <div class="label">
-         <strong>Credits</strong>
-        </div>
         <div class="body">
 
 
-    <table>
+    		<table>
 		        <xsl:for-each select="$config/credits/credit[not(@role='pdf')]">
 		          <xsl:variable name="name" select="name"/>
 		          <xsl:variable name="url" select="url"/>
@@ -348,10 +345,28 @@ if (VERSION > 3) {
 		            </td>
 		          </tr>
 		        </xsl:for-each>
+	            <tr>
+				<td></td>
+				<td colspan="4" height="5" class="logos">
+					<script type="text/javascript">
+					<xsl:comment>
+					google_ad_client = "pub-7032829515302827";
+					google_ad_width = 110;
+					google_ad_height = 32;
+					google_ad_format = "110x32_as_rimg";
+					google_cpa_choice = "CAAQ7dSXhAIaCJqvuMO26aj7KOP143Q";
+					google_ad_channel = "";
+					</xsl:comment>
+					</script>
+					<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+					</script>
+				</td>
+				</tr>
             </table>
         </div>
       </div>
     </xsl:if>
+
   </div>
 
   </xsl:template>
