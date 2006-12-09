@@ -135,9 +135,17 @@
             <fileset dir="${basedir}">
                 <include name="**/license/*.*"/>
             </fileset>
-            <fileset dir="${basedir}" includes="*.txt"/>
+            <fileset dir="${basedir}" includes="jmanage-LICENSE.txt"/>
         </ant:copy>
 
+        <!-- copy copyright and install_guide -->
+        <ant:copy todir="${basedir}/build" flatten="true">
+            <fileset dir="${basedir}/">
+                <include name="copyright.txt"/>
+                <include name="install_guide.txt"/>                
+            </fileset>
+        </ant:copy>
+        
         <!-- build the distribution jars -->
         <ant:mkdir dir="${basedir}/dist"/>
 
