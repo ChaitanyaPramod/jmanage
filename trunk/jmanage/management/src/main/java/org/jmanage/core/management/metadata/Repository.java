@@ -63,6 +63,7 @@ public class Repository {
     
     private static void load() throws JDOMException{
         
+        // TODO: load all xml files from /mbeans folder
         String fileName = CoreUtils.getConfigDir() + "/mbeans/PlatformMBeans.xml";
         Document config = new SAXBuilder().build(new File(fileName));
         List mbeans =

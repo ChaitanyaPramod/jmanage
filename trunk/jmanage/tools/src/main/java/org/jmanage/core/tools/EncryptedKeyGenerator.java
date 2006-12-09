@@ -100,7 +100,7 @@ public class EncryptedKeyGenerator {
       KeyManager.writeKey(encryptedKey);
       /* Change admin password */
       UserManager.getInstance().deleteUser(AuthConstants.USER_ADMIN);
-      List roles = new ArrayList(1);
+      List roles = new ArrayList(1); // TODO: Shouldn't this be zero ? -rk
       UserManager.getInstance().addUser(new User(AuthConstants.USER_ADMIN,
       Crypto.hash(newPassword), roles, User.STATUS_ACTIVE, 0));
       Crypto.init(newPassword);
