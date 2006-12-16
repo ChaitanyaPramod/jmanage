@@ -91,7 +91,7 @@ public class DashboardComponentTag extends BaseTag{
                     (HttpServletRequest)pageContext.getRequest()));
             componentDisplay = MessageFormat.format(componentDisplay, getWidth(),
                     getHeight(), Utils.getCookieValue(request, "JSESSIONID"));
-            pageContext.getOut().println("<div id=\""+getId()+"\">"+componentDisplay+"");
+            pageContext.getOut().println(componentDisplay);
         }catch(Throwable e){
             logger.log(Level.SEVERE, "Error displaying component", e);
         }finally{
