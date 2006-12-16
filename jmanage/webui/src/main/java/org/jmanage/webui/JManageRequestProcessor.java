@@ -18,7 +18,10 @@ package org.jmanage.webui;
 import org.apache.struts.config.ModuleConfig;
 import org.apache.struts.action.*;
 import org.apache.struts.tiles.TilesRequestProcessor;
+import org.jmanage.core.util.JManageProperties;
 import org.jmanage.core.util.Loggers;
+import org.jmanage.core.auth.AuthConstants;
+import org.jmanage.core.auth.UserManager;
 import org.jmanage.core.services.ServiceFactory;
 import org.jmanage.core.services.AuthService;
 import org.jmanage.core.services.ServiceException;
@@ -136,6 +139,13 @@ public class JManageRequestProcessor extends TilesRequestProcessor{
                         return null;
                     }
                 }
+                /* see if the application is configured to not require login (not-secure)*/
+                if(JManageProperties.isAutoLoginAdminUser()){
+                    logger.warning("AUTO LOGIN IS ENABLED -- this is not safe for secure environment.");
+                    context.setUser(UserManager.getInstance().getUser(AuthConstants.USER_ADMIN));
+                    return null;
+                }
+                
                 return mapping.findForward(Forwards.LOGIN);
             }
         }

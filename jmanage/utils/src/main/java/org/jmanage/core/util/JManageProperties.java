@@ -66,6 +66,9 @@ public class JManageProperties extends Properties{
     /* HTML input type for boolean attributes */
     private static String BOOLEAN_INPUT_TYPE = "jmanage.html.booleanInputType";
 
+    /* Option to auto-login the admin user. This is useful when security is not important. */
+    private static String AUTO_LOGIN_ADMIN_USER = "auto.login.adminUser";
+    
     /*  The only instance   */
     private static JManageProperties jManageProperties = new JManageProperties();
 
@@ -149,6 +152,10 @@ public class JManageProperties extends Properties{
         return "select".equals(jManageProperties.getProperty(BOOLEAN_INPUT_TYPE));
     }
 
+    public static boolean isAutoLoginAdminUser(){
+        return "true".equals(jManageProperties.getProperty(AUTO_LOGIN_ADMIN_USER));
+    }
+    
     /**
      * Indicates if the canonical name of the mbean should be displayed
      * @return
