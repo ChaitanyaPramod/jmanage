@@ -11,15 +11,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jmanage.connector.plugin.oracle;
+package org.jmanage.connector.plugin.oracle.mbean;
 
 import javax.management.openmbean.TabularData;
 
 import org.jmanage.connector.framework.ConnectorSupport;
+import org.jmanage.connector.plugin.oracle.DataAccessor;
 
 /**
  * @author Tak-Sang Chan
- *
+ * @author Rakesh Kalra
  */
 public class Session extends ConnectorSupport {
     
@@ -40,32 +41,13 @@ public class Session extends ConnectorSupport {
             "(consistent_gets + block_gets) > 0 and " +
             "Username is NOT NULL";
 
-    private TabularData sessionInfo;
-    private TabularData sessionHitRatio;
-
-    public String retrieveAllData() throws Exception {
-        retrieveSessionInfo();
-        retrieveSessionHitRatio();
-        return "OK";
-    }
-    
-    public String retrieveSessionInfo() throws Exception {
-        DataAccessor da = new DataAccessor(SQL_SESSION);
-        sessionInfo = da.execute().getTabularData();
-        return "OK";
-    }
-    
-    public String retrieveSessionHitRatio() throws Exception {
+    public TabularData getSessionHitRatio() throws Exception {
         DataAccessor da = new DataAccessor(SQL_SESS_HIT_RATIO);
-        sessionHitRatio = da.execute().getTabularData();
-        return "OK";
-    }    
-
-    public TabularData getSessionHitRatio() {
-        return sessionHitRatio;
+        return da.execute().getTabularData();
     }
 
-    public TabularData getSessionInfo() {
-        return sessionInfo;
+    public TabularData getSessionInfo() throws Exception {
+        DataAccessor da = new DataAccessor(SQL_SESSION);
+        return da.execute().getTabularData();
     } 
 }

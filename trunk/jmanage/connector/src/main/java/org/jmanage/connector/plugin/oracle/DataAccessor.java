@@ -16,22 +16,29 @@ package org.jmanage.connector.plugin.oracle;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Logger;
 
 import javax.management.openmbean.CompositeData;
 import javax.management.openmbean.TabularData;
 
+import org.jmanage.core.util.Loggers;
+
 /**
  * @author Tak-Sang Chan
+ * @author rkalra
  * Apr 30, 2006
  */
 public class DataAccessor {
 
-    ConnectionManager connMgr = ConnectionManager.getInstance();
+    private static final Logger logger = Loggers.getLogger(DataAccessor.class);
+    
+    private static ConnectionManager connMgr = ConnectionManager.getInstance();
     
     String sql;
     OpenTypeDataBuilder openTypeData;
 
-    DataAccessor(String sql) {
+    public DataAccessor(String sql) {
         this.sql = sql;
     }
         
@@ -52,7 +59,8 @@ public class DataAccessor {
 
             openTypeData.addCompositeData(obj);
         }
-        
+        /* close the resultset */
+        rs.close();
         return this;
     }
     
@@ -64,12 +72,24 @@ public class DataAccessor {
         return openTypeData.getCompositeData();
     }
 
-    private ResultSet executeQuery(String sql) throws Exception {
+    public static ResultSet executeQuery(String sql) throws Exception {
         PreparedStatement stmt = null;
         ResultSet rs = null;        
         Connection conn = connMgr.getConnection();        
         stmt = conn.prepareStatement(sql);
         rs = stmt.executeQuery();  
         return rs;
-    }    
+    }   
+    
+    public static void close(ResultSet rset){
+        if (rset != null) {
+            try {
+                rset.getStatement().close();
+                rset.close();
+            }
+            catch (SQLException e) {
+                logger.warning("Error closing resultset. error: " + e.getMessage());
+            }
+        }
+    }
 }

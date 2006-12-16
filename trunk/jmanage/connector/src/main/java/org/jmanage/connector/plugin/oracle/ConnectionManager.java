@@ -33,6 +33,10 @@ public class ConnectionManager extends ConnectorSupport {
     private String url;
     private boolean dba = false; 
     
+    /* 
+     * TODO: It keeps a single connection. 
+     * What if multiple requests occur to this MBean at the same time - rk
+     */
     private Connection conn;    
   
     private static ConnectionManager instance;
