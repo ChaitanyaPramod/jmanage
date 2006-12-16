@@ -45,7 +45,7 @@
 
         <copy todir="${build.home}/connector/jmanage-oracle">
             <fileset dir="${basedir}/target/classes">
-                <include name="**/plugin/oracle/*.class"/>
+                <include name="**/plugin/oracle/**/*.class"/>
             </fileset>
         </copy>
 

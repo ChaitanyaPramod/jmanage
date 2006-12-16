@@ -122,10 +122,6 @@ public class ConnectorRegistry extends Registry {
         String[] mbeans = registry.findManagedBeans();
 
         MBeanServer server = MBeanServerFactory.newMBeanServer(DOMAIN_CONNECTOR);
-        
-        String objName = ":appId=" + appId + 
-                ",appType=connector,appName=" + config.getName()+ 
-                ",connectorType=" + connectorId;
 
         for (int i = 0; i < mbeans.length; i++) {
             ManagedBean managed = registry.findManagedBean(mbeans[i]);
@@ -161,7 +157,7 @@ public class ConnectorRegistry extends Registry {
             }
             ModelMBean mm = managed.createMBean(objMBean);
 
-            String beanObjName = domain + objName + ",name=" + mbeans[i];
+            String beanObjName = domain + ":name=" + mbeans[i];
             server.registerMBean(mm, new ObjectName(beanObjName));
         }
 
