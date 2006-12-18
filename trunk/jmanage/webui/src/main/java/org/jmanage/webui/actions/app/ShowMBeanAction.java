@@ -54,13 +54,10 @@ public class ShowMBeanAction extends BaseAction {
 
         final ObjectName objectName = context.getObjectName();
         final ApplicationConfig config = context.getApplicationConfig();
-        final MBeanConfig configuredMBean =
-                config.findMBeanByObjectName(objectName.getCanonicalName());
         AccessController.checkAccess(context.getServiceContext(),
                 ACL_VIEW_APPLICATIONS);
-        if(configuredMBean != null)
-            AccessController.checkAccess(context.getServiceContext(),
-                    ACL_VIEW_MBEANS);
+        AccessController.checkAccess(context.getServiceContext(),
+                ACL_VIEW_MBEANS);
         List<ApplicationConfig> applications = null;
         if(config.isCluster()){
             applications = config.getApplications();
