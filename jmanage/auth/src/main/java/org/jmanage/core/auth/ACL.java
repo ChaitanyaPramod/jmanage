@@ -93,6 +93,8 @@ public class ACL {
      */
     public boolean isAuthorized(ACLContext context, User user) {
         List authorizedList = getAuthorizedList(context);
+        if(authorizedList == null || authorizedList.isEmpty())
+        	return false;
         for(Iterator it=authorizedList.iterator(); it.hasNext(); ){
             String authorized = (String)it.next();
             if(user.getName().equals(authorized) || user.hasRole(authorized)){
