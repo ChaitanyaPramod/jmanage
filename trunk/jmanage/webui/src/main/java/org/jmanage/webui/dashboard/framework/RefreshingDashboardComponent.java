@@ -41,7 +41,7 @@ public class RefreshingDashboardComponent implements DashboardComponent {
     }
 
     /**
-     * Wraps the output of wrapped componet with div tag and appends the following to the end:
+     * Wraps the output of wrapped component with div tag and appends the following to the end:
      * <p>
      * &lt;script&gt;self.setTimeout("refreshDBComponent(''com3'', 5000, 1)", 5000);&lt;/script&gt;
      * <p>
