@@ -16,6 +16,10 @@
 
 package org.jmanage.core.util;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Date: Mar 14, 2005 12:21:45 AM
  * @author Shashank Bellary 
@@ -46,4 +50,9 @@ public interface ACLConstants {
     public static final String ACL_EDIT_GRAPH = "acl.edit.graph";
     public static final String ACL_ADD_DASHBOARD = "acl.add.dashboard";
     public static final String ACL_EDIT_DASHBOARD = "acl.edit.dashboard";
+    
+    public static final Set<String> ADMIN_ACLS = new HashSet<String>(Arrays.asList(new String[]{
+            ACL_EDIT_USERS,
+            ACL_ADD_USERS,
+            ACL_VIEW_USER_ACTIVITY}));
 }

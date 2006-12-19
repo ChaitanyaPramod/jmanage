@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.jmanage.core.services.ServiceContext;
+import org.jmanage.core.util.ACLConstants;
 import org.jmanage.core.util.Loggers;
 import org.jmanage.core.auth.ACL;
 import org.jmanage.core.auth.ACLStore;
@@ -85,6 +86,22 @@ public class AccessController {
         checkAccess(context, aclName, null);
     }
 
+    /**
+     * Checks if the logged-in user has admin access.
+     * 
+     * @param context
+     * @return true if the user has admin access
+     */
+    public static boolean hasAdminAccess(ServiceContext context){
+        for(String aclName: ACLConstants.ADMIN_ACLS){
+            if(canAccess(context, aclName)){
+                return true;
+            }
+        }
+        // User doesn't have any of the admin ACLs
+        return false;
+    }
+    
     private static ACLContext getACLContext(ServiceContext context,
                                             String targetName){
         String appName = null;
