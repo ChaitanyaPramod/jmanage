@@ -9,7 +9,7 @@
     </qualifications>
 	<components>
         <component id="com1" class="org.jmanage.webui.dashboard.components.Graph" name="Number of Threads">
-            <type>standard</type>
+            <type>XYChart</type>
             <pollingInterval>10</pollingInterval>
             <param mbean="java.lang:type=Threading" attribute="ThreadCount" displayName="Live Threads"/>
             <param mbean="java.lang:type=Threading" attribute="PeakThreadCount" displayName="Peak"/>

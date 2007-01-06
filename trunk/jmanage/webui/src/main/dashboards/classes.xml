@@ -9,7 +9,7 @@
     </qualifications>
 	<components>
         <component id="com1" class="org.jmanage.webui.dashboard.components.Graph" name="Class loading Details">
-            <type>standard</type>
+            <type>XYChart</type>
             <pollingInterval>10</pollingInterval>
             <param mbean="java.lang:type=ClassLoading" attribute="TotalLoadedClassCount" displayName="Total class loaded"/>            
             <param mbean="java.lang:type=ClassLoading" attribute="LoadedClassCount" displayName="Current classes loaded"/>

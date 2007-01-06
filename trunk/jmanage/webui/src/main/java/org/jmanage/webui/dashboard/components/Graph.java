@@ -17,8 +17,10 @@ package org.jmanage.webui.dashboard.components;
 
 import org.jmanage.webui.dashboard.framework.DashboardComponent;
 import org.jmanage.webui.dashboard.framework.DashboardContext;
+import org.jmanage.webui.util.RequestParams;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.util.Expression;
+import org.jdom.Attribute;
 import org.jdom.Element;
 
 import java.util.List;
@@ -47,6 +49,7 @@ public class Graph implements DashboardComponent {
     protected final String PARAM = "param";
     protected final String MBEAN = "mbean";
     protected final String ATTRIBUTE = "attribute";
+    protected final String REP_WHOLE = "representsWhole";
     protected final String DISPLAY_NAME = "displayName";
     /*  Constnats for component config XML element - End    */
 
@@ -76,7 +79,10 @@ public class Graph implements DashboardComponent {
         List<Element> paramElements = componentConfig.getChildren(PARAM);
         for(Element param: paramElements){
             String mbean = param.getAttribute(MBEAN).getValue();
-            String attribute = param.getAttribute(ATTRIBUTE).getValue();
+            Attribute representsWhole = param.getAttribute(REP_WHOLE);
+            String attribute = representsWhole != null ? 
+            		param.getAttribute(ATTRIBUTE).getValue() + "|" + representsWhole.getValue() : 
+            			param.getAttribute(ATTRIBUTE).getValue();
             String attribDisplayName = param.getAttribute(DISPLAY_NAME).getValue();
 
             if(!mbeans.contains(mbean))
@@ -110,18 +116,28 @@ public class Graph implements DashboardComponent {
         ApplicationConfig appConfig = context.getWebContext().getApplicationConfig();
         assert appConfig != null: "No application context present";
         try{
-        StringBuffer graphComponent = new StringBuffer().append(
-                "<applet code=\"org/jmanage/webui/applets/GraphApplet.class\"").append(
-                " width=\"{0}\" height=\"{1}\"").append(
-                " archive=\"/applets/applets.jar,/applets/jfreechart-0.9.20.jar,").append(
-                "/applets/jcommon-0.9.5.jar\" >").append(
-                "<param name=\"graphTitle\" value=\""+getName()+"\"></param>").append(
-                "<param name=\"pollingInterval\" value=\""+getPollingIntervalInSeconds()+"\"></param>").append(
-                "<param name=\"remoteURL\" value=\""+context.getServerPath()+"/app/fetchAttributeValues.do;jsessionid={2}\"></param>").append(
-                "<param name=\"displayNames\" value=\"").append(getAttributeDisplayNamesForGraph()).append("\"></param>").append(
-                "<param name=\"attributes\" value=\"").append(getAttributesForGraph(appConfig.getName())).append("\"></param>").append(
-                "<param value=\"\" name=\"yAxisLabel\"></param>").append("</applet>");
-        return graphComponent.toString();
+        	if(getType().equalsIgnoreCase("PieChart")){
+
+        		StringBuffer graphComponent = 
+        			new StringBuffer().append("<div id=\""+getId()+"\"><IFRAME width=\"400\" height=\"300\" style=\"border:0px\" src=\"/app/drawPieChartDashboardComponent.do?").append(
+        					RequestParams.APPLICATION_ID).append("=").append(appConfig.getApplicationId()).append(
+        					"&displayNames=").append(getAttributeDisplayNamesForGraph()).append(
+        					"&attributes=").append(getAttributesForGraph(appConfig.getName())).append("&"+System.currentTimeMillis()+"\"></IFRAME></div>");
+        		return graphComponent.toString();
+        	}else{
+        		StringBuffer graphComponent = new StringBuffer().append(
+        		"<applet code=\"org/jmanage/webui/applets/GraphApplet.class\"").append(
+        		" width=\"{0}\" height=\"{1}\"").append(
+        		" archive=\"/applets/applets.jar,/applets/jfreechart-0.9.20.jar,").append(
+        		"/applets/jcommon-0.9.5.jar\" >").append(
+        				"<param name=\"graphTitle\" value=\""+getName()+"\"></param>").append(
+        						"<param name=\"pollingInterval\" value=\""+getPollingIntervalInSeconds()+"\"></param>").append(
+        								"<param name=\"remoteURL\" value=\""+context.getServerPath()+"/app/fetchAttributeValues.do;jsessionid={2}\"></param>").append(
+        								"<param name=\"displayNames\" value=\"").append(getAttributeDisplayNamesForGraph()).append("\"></param>").append(
+        								"<param name=\"attributes\" value=\"").append(getAttributesForGraph(appConfig.getName())).append("\"></param>").append(
+        								"<param value=\"\" name=\"yAxisLabel\"></param>").append("</applet>");
+        		return graphComponent.toString();
+        	}
         }catch(Exception e){
             return "Failure rendering component";
         }
