@@ -119,7 +119,7 @@ public class Graph implements DashboardComponent {
         	if(getType().equalsIgnoreCase("PieChart")){
 
         		StringBuffer graphComponent = 
-        			new StringBuffer().append("<div id=\""+getId()+"\"><IFRAME width=\"400\" height=\"300\" style=\"border:0px\" src=\"/app/drawPieChartDashboardComponent.do?").append(
+        			new StringBuffer().append("<div id=\""+getId()+"\"><IFRAME width=\"500\" height=\"400\" style=\"border:0px\" src=\"/app/drawPieChartDashboardComponent.do?").append(
         					RequestParams.APPLICATION_ID).append("=").append(appConfig.getApplicationId()).append(
         					"&displayNames=").append(getAttributeDisplayNamesForGraph()).append(
         					"&attributes=").append(getAttributesForGraph(appConfig.getName())).append("&"+System.currentTimeMillis()+"\"></IFRAME></div>");

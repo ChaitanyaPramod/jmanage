@@ -1,0 +1,15 @@
+<dashboard id="jBossMQQueue" name="JBoss MQ Queue" template="/dashboard/jBossMQQueue.jsp" >
+	<qualifications comment="defines what type of applications qualify for this dashboard">
+        <qualifier class="org.jmanage.webui.dashboard.qualifiers.GenericMBeanCheckQualifier">
+            <property name="mbean" value="jboss.system:type=Server"/>
+        </qualifier>
+    </qualifications>
+	<components>
+        <component id="com1" class="org.jmanage.webui.dashboard.components.MBeanAttributeValueTable">
+            <property name="mbeanPattern" value="jboss.mq.destination:*"/>
+            <property name="objectNameFilter" value="service=Queue,name=*"/>
+            <property name="attributes" value="Name|JNDIName|QueueName|StateString|ReceiversCount"/>
+            <property name="displayNames" value="Name|JNDI Name|Queue Name|State String|Receivers Count"/>
+        </component>
+    </components>
+</dashboard>
