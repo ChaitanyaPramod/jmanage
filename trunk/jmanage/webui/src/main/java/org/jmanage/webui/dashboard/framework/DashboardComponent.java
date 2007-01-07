@@ -25,9 +25,13 @@ public interface DashboardComponent {
 
     public static String COMPONENT = "component";
     public static String MBEAN = "mbean";
+    public static String MBEAN_PATTERN = "mbeanPattern";
     public static String ATTRIBUTE = "attribute";
+    public static String ATTRIBUTES = "attributes";
     public static String OPERATION = "operation";
     public static String DISPLAY_NAME = "displayName";
+    public static String DISPLAY_NAMES = "displayNames";
+    public static String OBJECT_NAME_FILTER = "objectNameFilter";
 
     public static String ID = "id";
     public static String NAME = "name";
