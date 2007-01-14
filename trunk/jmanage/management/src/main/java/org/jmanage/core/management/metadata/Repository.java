@@ -16,6 +16,7 @@
 package org.jmanage.core.management.metadata;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -63,21 +64,24 @@ public class Repository {
     
     private static void load() throws JDOMException{
         
-        // TODO: load all xml files from /mbeans folder
-        String fileName = CoreUtils.getConfigDir() + "/mbeans/PlatformMBeans.xml";
-        Document config = new SAXBuilder().build(new File(fileName));
-        List mbeans =
-            config.getRootElement().getChildren();
-        
-        for(Iterator it= mbeans.iterator(); it.hasNext();){
-            Element mbean = (Element)it.next();
-            ObjectInfo objInfo = getObjectInfo(mbean);
-            ObjectInfo oldObjInfo = 
-                mbeanToObjectInfoMap.put(objInfo.getObjectName(), objInfo);
-            if(oldObjInfo != null){
-                logger.warning("Duplicate mbean found: " + oldObjInfo.getObjectName().toString());
+	File metadataRepository = new File(CoreUtils.getConfigDir() + "/mbeans");
+	assert metadataRepository.isDirectory() : "repository not found";
+	File[] metadataFiles = metadataRepository.listFiles(new XMLFilter());
+	for(File file : metadataFiles){
+            Document config = new SAXBuilder().build(file);
+            List mbeans =
+                config.getRootElement().getChildren();
+            
+            for(Iterator it= mbeans.iterator(); it.hasNext();){
+                Element mbean = (Element)it.next();
+                ObjectInfo objInfo = getObjectInfo(mbean);
+                ObjectInfo oldObjInfo = 
+                    mbeanToObjectInfoMap.put(objInfo.getObjectName(), objInfo);
+                if(oldObjInfo != null){
+                    logger.warning("Duplicate mbean found: " + oldObjInfo.getObjectName().toString());
+                }
             }
-        }
+	}
     }
     
     private static ObjectInfo getObjectInfo(Element mbean){
@@ -137,5 +141,11 @@ public class Repository {
             parameterInfo[index].setUnits(parameter.getAttributeValue("units"));
         }
         return parameterInfo;
+    }
+    
+    private static class XMLFilter implements FilenameFilter {
+	public boolean accept(File dir, String name) {
+	    return (name.endsWith(".xml") || name.endsWith(".XML"));
+	}
     }
 }
