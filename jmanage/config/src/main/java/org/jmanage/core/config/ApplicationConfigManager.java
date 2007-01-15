@@ -152,6 +152,10 @@ public class ApplicationConfigManager {
     }
 
     public static void deleteApplication(ApplicationConfig config) {
+	deleteApplication(config, false);
+    }
+
+    public static void deleteApplication(ApplicationConfig config, boolean clusterSetup) {
         assert config != null: "application config is null";
         boolean removed = applicationConfigs.remove(config); 
         if(!removed){
@@ -168,12 +172,13 @@ public class ApplicationConfigManager {
                 }
             }
         }
-        if(removed){
+        if(removed && !clusterSetup){
             EventSystem.getInstance().fireEvent(new ApplicationRemovedEvent(config));
+        }else if(clusterSetup){
+            logger.log(Level.INFO, config.getName() + " added to cluster");
         }else{
             logger.log(Level.WARNING, "ApplicationConfig not found for removal:{0}", config.getName());
         }
-        
         saveConfig();
     }
 
