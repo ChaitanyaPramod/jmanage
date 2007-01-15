@@ -100,7 +100,7 @@ public class SaveApplicationClusterAction extends BaseAction {
             for(Iterator it=newChildApplications.iterator();it.hasNext();){
                 ApplicationConfig appConfig = (ApplicationConfig)it.next();
                 appConfig.setClusterConfig(clusterConfig);
-                ApplicationConfigManager.deleteApplication(appConfig);
+                ApplicationConfigManager.deleteApplication(appConfig, true);
             }
             clusterConfig.setApplications(newChildApplications);
             /* remove from stand-alone list */
