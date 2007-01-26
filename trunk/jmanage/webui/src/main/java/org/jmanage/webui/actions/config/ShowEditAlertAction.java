@@ -60,7 +60,8 @@ public class ShowEditAlertAction extends BaseAction{
             request.setAttribute("sourceMBean", alertSrcConfig.getObjectName());
             // expression
             Expression expression = null;
-            if(sourceType.equals(AlertSourceConfig.SOURCE_TYPE_NOTIFICATION)){
+            if(sourceType.equals(AlertSourceConfig.SOURCE_TYPE_NOTIFICATION) || 
+        	    sourceType.equals(AlertSourceConfig.SOURCE_TYPE_APPLICATION_DOWN)){
                 expression = new Expression(null, alertSrcConfig.getObjectName(),
                         alertSrcConfig.getNotificationType());
                 request.setAttribute("notificationType",
