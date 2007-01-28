@@ -21,6 +21,7 @@ import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.util.RequestParams;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.ApplicationConfigManager;
+import org.jmanage.core.services.AccessController;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
@@ -52,6 +53,7 @@ public class RemoveDashboardAction extends BaseAction {
                                  HttpServletRequest request,
                                  HttpServletResponse response)
             throws Exception {
+        AccessController.checkAccess(context.getServiceContext(),ACL_EDIT_DASHBOARD);
         ApplicationConfig appConfig = context.getApplicationConfig();
         List<String> currentDashboards = appConfig.getDashboards();
         String dbToBeRemoved = request.getParameter(RequestParams.DASHBOARD_ID);
