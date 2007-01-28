@@ -21,6 +21,7 @@ import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.forms.DashboardSelectionForm;
 import org.jmanage.core.config.ApplicationConfigManager;
 import org.jmanage.core.config.ApplicationConfig;
+import org.jmanage.core.services.AccessController;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
@@ -52,7 +53,8 @@ public class AddSelectedDashboardsAction extends BaseAction {
                                  HttpServletRequest request,
                                  HttpServletResponse response)
             throws Exception {
-        List<String> appConfigDashboards = new LinkedList<String>();
+	AccessController.checkAccess(context.getServiceContext(),ACL_ADD_DASHBOARD);
+	List<String> appConfigDashboards = new LinkedList<String>();
         DashboardSelectionForm dbForm = (DashboardSelectionForm)actionForm;
         ApplicationConfig appConfig = context.getApplicationConfig();
         for(String dbID : dbForm.getDashboards()){
