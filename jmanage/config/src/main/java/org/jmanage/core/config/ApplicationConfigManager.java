@@ -147,7 +147,10 @@ public class ApplicationConfigManager {
         assert applicationId != null: "applicationId is null";
         ApplicationConfig config = getApplicationConfig(applicationId);
         assert config != null: "there is no application with id="+applicationId;
-        deleteApplication(config);
+        if(config.isCluster())
+            deleteApplication(config, true);
+        else
+            deleteApplication(config);
         return(config);
     }
 

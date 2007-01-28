@@ -52,7 +52,7 @@ public class DeleteApplicationAction extends BaseAction{
                 (appForm.getApplicationId());
 
         String appType = config.getType();
-        if (appType.equals("connector")) {
+        if ("connector".equals(appType)) {
             ConnectorRegistry.remove(config);
         }
         
