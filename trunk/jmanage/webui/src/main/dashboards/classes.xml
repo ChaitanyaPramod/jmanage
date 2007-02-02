@@ -2,9 +2,8 @@
 
 <dashboard id="classes" name="Class loading" template="/dashboard/classes.jsp" >
 	<qualifications comment="defines what type of applications qualify for this dashboard">
-        <qualifier class="org.jmanage.webui.dashboard.qualifiers.Java5DashboardQualifier">
+        <qualifier class="org.jmanage.webui.dashboard.qualifiers.GenericMBeanCheckQualifier">
             <property name="mbean" value="java.lang:type=Runtime"/>
-            <property name="attribute" value="VmVersion"/>
         </qualifier>
     </qualifications>
 	<components>

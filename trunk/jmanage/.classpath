@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry output="alerts/target/classes" kind="src" path="alerts/src/main/java"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="alerts/src/main/java"/>
 	<classpathentry kind="src" path="modules/connector/src/main/java"/>
-	<classpathentry output="connector/target/classes" kind="src" path="connector/src/main/java"/>
+	<classpathentry kind="src" path="connector/src/main/java"/>
 	<classpathentry kind="src" path="modules/local/src/main/java"/>
-	<classpathentry output="auth/target/classes" kind="src" path="auth/src/main/java"/>
-	<classpathentry output="cmdui/target/classes" kind="src" path="cmdui/src/main/java"/>
-	<classpathentry output="cmdui/target/test-classes" kind="src" path="cmdui/src/test/java"/>
-	<classpathentry output="config/target/classes" kind="src" path="config/src/main/java"/>
-	<classpathentry output="crypto/target/classes" kind="src" path="crypto/src/main/java"/>
-	<classpathentry output="management/target/classes" kind="src" path="management/src/main/java"/>
-	<classpathentry output="services/target/classes" kind="src" path="services/src/main/java"/>
-	<classpathentry output="testapp/target/classes" kind="src" path="testapp/src/main/java"/>
-	<classpathentry output="tools/target/classes" kind="src" path="tools/src/main/java"/>
-	<classpathentry output="utils/target/classes" kind="src" path="utils/src/main/java"/>
-	<classpathentry output="utils/target/test-classes" kind="src" path="utils/src/test/java"/>
-	<classpathentry output="test/target/classes" kind="src" path="test/src/main/java"/>
+	<classpathentry kind="src" path="auth/src/main/java"/>
+	<classpathentry kind="src" path="cmdui/src/main/java"/>
+	<classpathentry kind="src" path="cmdui/src/test/java"/>
+	<classpathentry kind="src" path="config/src/main/java"/>
+	<classpathentry kind="src" path="crypto/src/main/java"/>
+	<classpathentry kind="src" path="management/src/main/java"/>
+	<classpathentry kind="src" path="services/src/main/java"/>
+	<classpathentry kind="src" path="testapp/src/main/java"/>
+	<classpathentry kind="src" path="tools/src/main/java"/>
+	<classpathentry kind="src" path="utils/src/main/java"/>
+	<classpathentry kind="src" path="utils/src/test/java"/>
+	<classpathentry kind="src" path="test/src/main/java"/>
 	<classpathentry kind="src" path="webui/src/main/java"/>
 	<classpathentry kind="src" path="modules/common/src/main/java"/>
 	<classpathentry kind="src" path="modules/jboss/src/main/java"/>
@@ -81,5 +81,5 @@
 	<classpathentry kind="lib" path="thirdparty/jmxri/lib/jmxremote_optional.jar"/>
 	<classpathentry kind="lib" path="thirdparty/jsr77/lib/javax77.jar"/>
 	<classpathentry kind="lib" path="thirdparty/commons-modeler/lib/commons-modeler.jar"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="output" path="build"/>
 </classpath>
