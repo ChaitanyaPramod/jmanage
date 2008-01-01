@@ -114,7 +114,7 @@ public class SNMPCounter32 extends SNMPInteger
         }
         else if (newValue instanceof String)
         {
-            value = value = new BigInteger((String)newValue);
+            value = new BigInteger((String)newValue);
             value = value.mod(maxValue);    // wrap when value exceeds 2^32
         }
         else
