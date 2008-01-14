@@ -1,0 +1,22 @@
+<project>
+    <extend>${basedir}/../project.xml</extend>
+    <artifactId>jmanage-connector</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>jdom</groupId>
+            <artifactId>jdom</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jmanage</groupId>
+            <artifactId>jmanage-utils</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jmanage</groupId>
+            <artifactId>jmanage-config</artifactId>
+        </dependency>
+		<dependency>
+            <groupId>commons-modeler</groupId>
+            <artifactId>commons-modeler</artifactId>
+        </dependency>
+	</dependencies>
+</project>

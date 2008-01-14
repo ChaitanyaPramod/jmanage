@@ -1,0 +1,197 @@
+<?xml version="1.0"?>
+<!DOCTYPE mbeans-descriptors PUBLIC
+ "-//Apache Software Foundation//DTD Model MBeans Configuration File"
+ "http://jakarta.apache.org/commons/dtds/mbeans-descriptors.dtd">
+
+<mbeans-descriptors>
+
+    <mbean name="ConnectionManager"
+		domain="org.jmanage.connector.oracle"
+		description="Oracle Connector MBean - ConnectionManager"
+		type="org.jmanage.connector.plugin.oracle.ConnectionManager">
+        <attribute name="logonUser"
+			description="Current Logon User Name"
+			type="java.lang.String"
+			writeable="false"/>
+        <attribute name="DBA"
+			description="Logon as sysdba user"
+			type="boolean"
+			is="true"
+			writeable="false"/>
+        <attribute name="url"
+			description="Connection URL"
+			type="java.lang.String"
+			writeable="false"/>
+        <attribute name="driver"
+			description="JDBC Driver"
+			type="java.lang.String"
+			writeable="false"/>				
+        <attribute name="Connected"
+			description="Connection status"
+			type="boolean"
+			is="true"
+			writeable="false"/>
+        <operation name="openConnection"
+			description="Connect to the database"
+			impact="ACTION"
+			returnType="java.lang.String">			
+        </operation>
+        <operation name="closeConnection"
+			description="Disconnect from the database"
+			impact="ACTION"
+			returnType="java.lang.String">			
+        </operation>
+    </mbean>
+    <mbean name="Database"
+		domain="org.jmanage.connector.oracle"
+		description="Basic Database Information"
+		type="org.jmanage.connector.plugin.oracle.mbean.Database">
+		<attribute name="createdTime"
+			description="Date when the database was created"
+			type="java.lang.String"
+			writeable="false"/>
+		<attribute name="DBID"
+			description="Database ID"
+			type="java.lang.String"
+			writeable="false"/>
+		<attribute name="hostName"
+			description="Host Name"
+			type="java.lang.String"
+			writeable="false"/>
+		<attribute name="instanceName"
+			description="Instance Name"
+			type="java.lang.String"
+			writeable="false"/>
+		<attribute name="logMode"
+			description="Log Mode"
+			type="java.lang.String"
+			writeable="false"/>
+		<attribute name="name"
+			description="Instance Name"
+			type="java.lang.String"
+			writeable="false"/>
+		<attribute name="openMode"
+			description="Open Mode"
+			type="java.lang.String"
+			writeable="false"/>
+		<attribute name="startupTime"
+			description="Startup Time"
+			type="java.lang.String"
+			writeable="false"/>	
+		<attribute name="upTime"
+			description="Time since the database has been up"
+			type="java.lang.String"
+			writeable="false"/>	
+		<attribute name="version"
+			description="Database version"
+			type="java.lang.String"
+			writeable="false"/>											
+		<attribute name="detailedVersion"
+			description="Database detailed version"
+			type="java.lang.String"
+			writeable="false"/>		
+		<attribute name="licenseInfo"
+			description="Basic Licensing Information"
+			type="javax.management.openmbean.CompositeData"
+			writeable="false"/>	
+		<attribute name="optionsInstalled"
+			description="Options Installed"
+			type="javax.management.openmbean.TabularData"
+			writeable="false"/>	
+		<operation name="getHitRatioData"
+			description="Gets SQL Hit Ratio."
+			impact="INFO"
+			returnType="javax.management.openmbean.CompositeData">			
+        </operation>
+		<operation name="getTablespaceUsage"
+			description="Gets Tablespsace Usage."
+			impact="INFO"
+			returnType="javax.management.openmbean.TabularData">			
+        </operation>
+		<operation name="getFileStatistics"
+			description="Gets File statistics."
+			impact="INFO"
+			returnType="javax.management.openmbean.TabularData">			
+        </operation>
+	</mbean>
+	<mbean name="SGAStatistics"
+		domain="org.jmanage.connector.oracle"
+		description="Basic Database Information"
+		type="org.jmanage.connector.plugin.oracle.mbean.SGAStatistics">
+	        <operation name="getStatistics"
+			description="Gets SGA Statistics in tabular form."
+			impact="INFO"
+			returnType="javax.management.openmbean.TabularData">			
+        </operation>
+    </mbean>
+	<mbean name="Parameters"
+		domain="org.jmanage.connector.oracle"
+		description="init.ora parameters"
+		type="org.jmanage.connector.plugin.oracle.mbean.Parameters">
+        <operation name="getParameters"
+			description="Gets init.ora parameters in tabular form."
+			impact="INFO"
+			returnType="javax.management.openmbean.TabularData">			
+        </operation>
+    </mbean>
+	<mbean name="Performance"
+		domain="org.jmanage.connector.oracle"
+		description="Database performance"
+		type="org.jmanage.connector.plugin.oracle.mbean.Performance">
+        <operation name="getSupportedInitParams"
+			description="Gets supported init.ora parameters in tabular form."
+			impact="INFO"
+			returnType="javax.management.openmbean.TabularData">			
+        </operation>
+        <operation name="getTopTenUsers"
+			description="Gets top ten users by cpu."
+			impact="INFO"
+			returnType="javax.management.openmbean.TabularData">			
+        </operation>
+        <operation name="getTopTenExpensiveQueries"
+			description="Gets top ten expensive queries by CPU in tabular form."
+			impact="INFO"
+			returnType="javax.management.openmbean.TabularData">			
+        </operation>
+        <operation name="getLockedObjects"
+			description="Gets locked objects by users in tabular form."
+			impact="INFO"
+			returnType="javax.management.openmbean.TabularData">			
+        </operation>
+        <operation name="getBlockBufferHitRatio"
+			description="Gets data block buffer hit ratio. Should be greater than 95%."
+			impact="INFO"
+			returnType="java.lang.Double">			
+        </operation>
+        <operation name="getDictionaryHitRatio"
+			description="Gets dictionary hit ratio. Should be greater than 95%."
+			impact="INFO"
+			returnType="java.lang.Double">			
+        </operation>    
+        <operation name="getSharedSQLPinHitRatio"
+			description="Gets Shared SQL pin hit ratio. Should be greater than 95%."
+			impact="INFO"
+			returnType="java.lang.Double">			
+        </operation>    
+        <operation name="getSharedSQLReloadHitRatio"
+			description="Gets Shared SQL reload hit ratio. Should be greater than 99%."
+			impact="INFO"
+			returnType="java.lang.Double">			
+        </operation>  
+    </mbean>
+    <mbean name="Session"
+		domain="org.jmanage.connector.oracle"
+		description="Oracle Connector MBean - Session"
+		type="org.jmanage.connector.plugin.oracle.mbean.Session">
+        <operation name="getSessionInfo"
+			description="Retrieve Session Data"
+			impact="INFO"
+			returnType="javax.management.openmbean.TabularData">
+        </operation>		
+        <operation name="getSessionHitRatio"
+			description="Retrieve Session Hit Ratio Data"
+			impact="INFO"
+			returnType="javax.management.openmbean.TabularData">
+        </operation>		
+    </mbean>
+</mbeans-descriptors>
