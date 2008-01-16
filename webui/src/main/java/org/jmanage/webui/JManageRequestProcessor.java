@@ -18,13 +18,18 @@ package org.jmanage.webui;
 import org.apache.struts.config.ModuleConfig;
 import org.apache.struts.action.*;
 import org.apache.struts.tiles.TilesRequestProcessor;
+import org.jmanage.core.util.CoreUtils;
 import org.jmanage.core.util.JManageProperties;
 import org.jmanage.core.util.Loggers;
+import org.jmanage.core.alert.AlertEngine;
 import org.jmanage.core.auth.AuthConstants;
 import org.jmanage.core.auth.UserManager;
+import org.jmanage.core.crypto.Crypto;
 import org.jmanage.core.services.ServiceFactory;
 import org.jmanage.core.services.AuthService;
 import org.jmanage.core.services.ServiceException;
+import org.jmanage.monitoring.downtime.ApplicationDowntimeService;
+import org.jmanage.util.db.DBUtils;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.util.RequestParams;
@@ -32,9 +37,14 @@ import org.jmanage.webui.util.RequestParams;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URL;
 import java.util.logging.Logger;
 import java.util.logging.Level;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.beans.XMLEncoder;
 
@@ -44,8 +54,7 @@ import java.beans.XMLEncoder;
  */
 public class JManageRequestProcessor extends TilesRequestProcessor{
 
-    public static final Logger logger =
-            Loggers.getLogger(JManageRequestProcessor.class);
+    public Logger logger = null;
 
     /**
      * Initialize the request processor.
@@ -57,6 +66,48 @@ public class JManageRequestProcessor extends TilesRequestProcessor{
     public void init(ActionServlet servlet, ModuleConfig moduleConfig)
             throws ServletException {
         super.init(servlet, moduleConfig);
+        String isWebDeploy = servlet.getServletConfig().getInitParameter("web-deploy");
+        if("true".equals(isWebDeploy)){
+        	String logConfigSysProp = servlet.getServletConfig().getInitParameter("log-config");
+            char[] password = {'1','2','3','4','5','6'};
+        	try{
+	        	String rootDir = servlet.getServletConfig().getInitParameter("root-dir");
+	        	String rootDirAbsPath = servlet.getServletContext().getRealPath(rootDir);
+	        	
+	        	System.setProperty(logConfigSysProp, rootDirAbsPath+File.separatorChar+"config"+File.separatorChar+"logging.properties");
+	        	
+	        	logger = Loggers.getLogger(this.getClass());
+	        	
+	        	String dataFormatConfigSysProp = servlet.getServletConfig().getInitParameter("jmanage-data-formatConfig");
+	        	System.setProperty(dataFormatConfigSysProp, rootDirAbsPath+File.separatorChar+"config"+File.separatorChar+"html-data-format.properties");
+	        	
+	        	String jaasConfigSysProp = servlet.getServletConfig().getInitParameter("jaas-config");
+	        	System.setProperty(jaasConfigSysProp, rootDirAbsPath+File.separatorChar+"config"+File.separatorChar+"jmanage-auth.conf");
+
+	        	String securityPolicy = servlet.getServletConfig().getInitParameter("java.security.policy");
+	        	System.setProperty("java.security.policy", securityPolicy);
+
+	        	CoreUtils.init(rootDirAbsPath);
+	        	
+	            ServiceFactory.init(ServiceFactory.MODE_LOCAL);
+	
+	            /* initialize Crypto */
+	            Crypto.init(password);
+	
+	            /* clear the password */
+	            Arrays.fill(password, ' ');
+	
+        		DBUtils.init();
+            	AlertEngine.getInstance().start();
+            	ApplicationDowntimeService.getInstance().start();
+                JManageProperties.getInstance();
+
+        	}catch(Exception e){
+        		e.printStackTrace();
+        		throw new ServletException(e);
+        	}
+        }
+
     }
 
     /**

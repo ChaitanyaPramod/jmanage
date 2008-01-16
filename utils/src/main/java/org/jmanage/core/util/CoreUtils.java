@@ -25,33 +25,29 @@ import java.math.BigDecimal;
 /**
  *
  * date:  Jun 22, 2004
- * @author	Rakesh Kalra
+ * @author	Rakesh Kalra, Shashank Bellary
  */
 public class CoreUtils {
 
     private static final Logger logger = Loggers.getLogger(CoreUtils.class);
 
-    public static final String RELATIVE_DASHBOARDS_PATH = "/WEB-INF/dashboards/";
-
-    private static final String rootDir;
+    private static String rootDir;
     private static String dataDir;
 
-    static{
-
-      rootDir = System.getProperty(SystemProperties.JMANAGE_ROOT);
-      assert rootDir != null;
-      
-      /* create logs dir, before doing any logging */
-      new File(CoreUtils.getLogDir()).mkdirs();
-      
-      logger.info("jManage.root=" + rootDir);
-      
-      /* create data dir */
-      dataDir = getRootDir() + "/data";
-      File dataDirFile = new File(dataDir);
-      if(!dataDirFile.exists()){
-           dataDirFile.mkdirs();
-      }
+    public static void init(String webAppRootDir){
+    	rootDir = webAppRootDir;
+    	assert rootDir != null;
+    	
+    	/* create logs dir, before doing any logging */
+    	new File(CoreUtils.getLogDir()).mkdirs();
+    	logger.info("app root dir= " + rootDir);
+    	
+    	/* create data dir */
+    	dataDir = getRootDir() + "/data";
+    	File dataDirFile = new File(dataDir);
+    	if(!dataDirFile.exists()){
+    		dataDirFile.mkdirs();
+    	}
     }
     
     public static String getRootDir(){
