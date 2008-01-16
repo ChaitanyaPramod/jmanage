@@ -30,7 +30,7 @@ import org.jmanage.core.util.SystemProperties;
 /** 
  * Contains utility functions for reading/writing to the DB
  * 
- * @author Rakesh Kalra
+ * @author Rakesh Kalra, Shashank Bellary
  */
 public class DBUtils {
     
@@ -158,7 +158,7 @@ public class DBUtils {
     }
     
     public static void init() {
-        String rootDir = System.getProperty(SystemProperties.JMANAGE_ROOT);
+        String rootDir = CoreUtils.getRootDir();
         assert rootDir != null;     
         String dataDir = rootDir + "/data";
         /* create db tables if they don't exist */
