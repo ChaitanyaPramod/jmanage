@@ -19,7 +19,7 @@
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 <%@ taglib uri="/WEB-INF/tags/jstl/c.tld" prefix="c"%>
 
-<script type="text/javascript" src="/js/dojo/dojo.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/dojo/dojo.js"></script>
 <script type="text/javascript">
 	dojo.require("dojo.widget.Tooltip");
 
@@ -106,9 +106,13 @@
             <%-- If this mbean is being viewed from an application which is
                 part of a cluster, provide a link to view this mbean as
                 part of the cluster --%>
-            <%if(applicationConfig.getClusterConfig() != null){%>
-                <a href="/app/mbeanView.do?<%=RequestParams.APPLICATION_ID%>=<%=applicationConfig.getClusterConfig().getApplicationId()%>&<%=RequestParams.OBJECT_NAME%>=<%=URLEncoder.encode(objectInfo.getObjectName().getDisplayName(), "UTF-8")%>">
-                    Cluster View</a>
+            <%if(applicationConfig.getClusterConfig() != null){
+            	pageContext.setAttribute("mbeanClusterViewLink", "/app/mbeanView.do?"+RequestParams.APPLICATION_ID+"="+
+            							applicationConfig.getClusterConfig().getApplicationId()+"&"+RequestParams.OBJECT_NAME+"="+
+            							URLEncoder.encode(objectInfo.getObjectName().getDisplayName(), "UTF-8"));
+            %>
+                <jmhtml:link href="${pageScope.mbeanClusterViewLink}">
+                    Cluster View</jmhtml:link>
             <%}%>
         </td>
     </tr>
@@ -363,8 +367,9 @@
                 + RequestParams.DATA_TYPE + "=javax.management.openmbean.CompositeData&"
                 + RequestParams.NAVIGATION + "=" + Utils.urlEncode("Add Graph")+"&"
                 + RequestParams.MBEANS + "=" + request.getParameter("objName");
+		pageContext.setAttribute("plotGrphLink",link);
     %>
-        <jmhtml:link href="<%=link%>" acl="<%=ACLConstants.ACL_ADD_GRAPH%>"
+        <jmhtml:link href="${pageScope.plotGrphLink}" acl="<%=ACLConstants.ACL_ADD_GRAPH%>"
             styleClass="a">Plot Graph</jmhtml:link>
     <%}%>
     </td>

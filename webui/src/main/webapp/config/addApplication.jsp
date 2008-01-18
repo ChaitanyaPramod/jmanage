@@ -6,7 +6,7 @@
 
 <script language="JavaScript">
     function showAvailableApplications(){
-        document.forms[0].action="/config/showAvailableApplications.do";
+        document.forms[0].action="<%=request.getContextPath()%>/config/showAvailableApplications.do";
         document.forms[0].submit();
     }
 </script>

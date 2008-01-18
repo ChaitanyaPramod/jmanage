@@ -38,14 +38,15 @@
     <%
         String appHref = "/app/appView.do?" +
                 RequestParams.APPLICATION_ID + "=" + applicationConfig.getApplicationId();
+		pageContext.setAttribute("applRef",appHref);
     %>
     <td class="plaintext">
 		  <%if(ApplicationViewHelper.isApplicationUp(applicationConfig)) {%>        
-	        <img src="/images/bullet/green.gif"/>
+	        <jmhtml:img src="/images/bullet/green.gif" />
 	      <%}else{ %>
-	      	<img src="/images/bullet/red.gif"/>
+	      	<jmhtml:img src="/images/bullet/red.gif" />
 	      <%} %>&nbsp;
-	      <a href="<%=appHref%>"><%=applicationConfig.getName()%></a>
+	      <jmhtml:link href="${pageScope.applRef}"><%=applicationConfig.getName()%></jmhtml:link>
     </td>
     <td class="plaintext">
         <%if(!applicationConfig.isCluster()){%>
@@ -64,7 +65,8 @@
       }else{
         href = "/config/showApplicationCluster.do";
       }%>
-    <td align="right"><a href="<%=href%>?<%=RequestParams.APPLICATION_ID+"="+applicationConfig.getApplicationId()%>" class="a1">Edit</a></td>
+      <% pageContext.setAttribute("editLink",href+"?"+RequestParams.APPLICATION_ID+"="+applicationConfig.getApplicationId()); %>
+    <td align="right"><jmhtml:link href="${pageScope.editLink}" styleClass="a1">Edit</jmhtml:link></td>
     <td align="right" width="60"><a href="JavaScript:deleteApplication('<%=applicationConfig.getApplicationId()%>', <%=applicationConfig.isCluster()%>);" class="a1">Delete</a></td>
   </tr>
   <%-- if this is a cluster, display the child applications as well --%>
@@ -79,16 +81,17 @@
             <td class="plaintext">
                 &nbsp;&nbsp;&nbsp;&nbsp;
 	       				<%if(ApplicationViewHelper.isApplicationUp(childAppConfig)) {%>        
-					        <img src="/images/bullet/green.gif"/>
+					        <jmhtml:img src="/images/bullet/green.gif" />
 					      <%}else{ %>
-					      	<img src="/images/bullet/red.gif"/>
+					      	<jmhtml:img src="/images/bullet/red.gif" />
 					      <%} %>&nbsp;
-				  	    <a href="<%=appHref%>"><%=childAppConfig.getName()%></a>
+				  	    <jmhtml:link href="${pageScope.applRef}"><%=childAppConfig.getName()%></jmhtml:link>
             </td>
             <td class="plaintext">
                 <%=childAppConfig.getURL()%>
             </td>
-            <td align="right"><a href="/config/showEditApplication.do?<%=RequestParams.APPLICATION_ID+"="+childAppConfig.getApplicationId()%>" class="a1">Edit</a></td>
+            <%pageContext.setAttribute("showEditLink", "/config/showEditApplication.do?"+RequestParams.APPLICATION_ID+"="+childAppConfig.getApplicationId()); %>
+            <td align="right"><jmhtml:link href="${pageScope.showEditLink}" styleClass="a1">Edit</jmhtml:link></td>
             <td align="right" width="60"><a href="JavaScript:deleteApplication('<%=childAppConfig.getApplicationId()%>', false);" class="a1">Delete</a></td>
           </tr>
       <%
@@ -99,9 +102,9 @@
 </table>
 <br>
 <%-- don't use the link tag here, as it adds applicationId request param --%>
-<a href="/config/showAvailableApplications.do" class="a">Add Application</a>
+<jmhtml:link href="/config/showAvailableApplications.do" styleClass="a">Add Application</jmhtml:link>
 <br>
-<a href="/config/showApplicationCluster.do" class="a">Add Application Cluster</a>
+<jmhtml:link href="/config/showApplicationCluster.do" styleClass="a">Add Application Cluster</jmhtml:link>
 <br><br>
 
 <%
@@ -137,14 +140,16 @@
         <td class="plaintext"><%=alert.getAlertName()%></td>
         <td class="plaintext"><%=alert.getMessage()%></td>
         <td class="plaintext">
-				<%if(alert.getObjectName() != null){ %>
-        <a href="/app/mbeanView.do?<%=RequestParams.APPLICATION_ID%>=<%=alert.getApplicationId()%>&<%=RequestParams.OBJECT_NAME%>=<%=URLEncoder.encode(alert.getObjectName(), "UTF-8")%>">
-            <%=alert.getObjectName()%></a>
+		<%if(alert.getObjectName() != null){
+			pageContext.setAttribute("alertLink","/app/mbeanView.do?"+RequestParams.APPLICATION_ID+"="+alert.getApplicationId()+"&"+RequestParams.OBJECT_NAME+"="+URLEncoder.encode(alert.getObjectName(), "UTF-8"));
+		%>
+        <jmhtml:link href="${pageScope.alertLink}"><%=alert.getObjectName()%></jmhtml:link>
         <%}else{ %>
         	&nbsp;
         <%} %>
         </td>
-        <td class="plaintext"><a href="/app/removeConsoleAlert.do?alertId=<%=alert.getAlertId()%>">Remove</a></td>
+        <%pageContext.setAttribute("alertRemoveLink", "/app/removeConsoleAlert.do?alertId="+alert.getAlertId()); %>
+        <td class="plaintext"><jmhtml:link href="${pageScope.alertRemoveLink}">Remove</jmhtml:link></td>
     </tr>
 <%
         }
