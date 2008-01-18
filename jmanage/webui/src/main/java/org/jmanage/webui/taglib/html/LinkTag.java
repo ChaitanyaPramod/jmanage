@@ -15,6 +15,8 @@
  */
 package org.jmanage.webui.taglib.html;
 
+import org.apache.taglibs.standard.lang.support.ExpressionEvaluator;
+import org.apache.taglibs.standard.lang.support.ExpressionEvaluatorManager;
 import org.jmanage.webui.util.RequestParams;
 import org.jmanage.webui.util.Utils;
 import org.jmanage.webui.util.WebContext;
@@ -63,6 +65,11 @@ public class LinkTag extends org.apache.struts.taglib.html.LinkTag {
         return super.doEndTag();
     }
     protected String calculateURL() throws JspException {
+    	
+    	if(href != null){
+    		href  = String.valueOf(ExpressionEvaluatorManager.evaluate("href", href, String.class, this, pageContext));
+    		href = ((HttpServletRequest)pageContext.getRequest()).getContextPath() + href;
+    	}
         String url = super.calculateURL();
         url = appendQueryStringParams(url);
         return url;

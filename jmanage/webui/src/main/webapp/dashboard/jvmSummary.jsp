@@ -2,17 +2,24 @@
 <%@ page import="org.jmanage.core.config.ApplicationConfig"%>
 <!--/dashboard/jvmSummary.jsp-->
 <%@ taglib uri="/WEB-INF/tags/jmanage/jm.tld" prefix="jm"%>
+<%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
+
 <%
     WebContext webContext = WebContext.get(request);
     ApplicationConfig appConfig = webContext.getApplicationConfig();
 %>
 <table class="plaintext" cellspacing="5" width="800" style="border:1;border-style:solid;border-width:1px;border-color:#C0C0C0">
-	<tr><td align="right"><img src="/images/dashboards/java5.gif"/></td><td><b>Application Summary</b></td></tr>
+	<tr><td align="right"><jmhtml:img src="/images/dashboards/java5.gif"/></td><td><b>Application Summary</b></td></tr>
     <tr><td colspan="2">&nbsp;</td></tr>
     <tr><td><jm:dashboardComponent id="com1"/></td><td><jm:dashboardComponent id="com2"/></td></tr>
     <tr><td><jm:dashboardComponent id="com3"/></td><td>&nbsp;</td></tr>
     <tr><td colspan="2">&nbsp;</td></tr>
-    <tr class="tableHeader"><td colspan="2"><a href="/config/viewDashboard.do?applicationId=<%=appConfig.getApplicationId()%>&dashBID=jvmThreads">Thread Details</a></td></tr>
+    <tr class="tableHeader">
+    	<td colspan="2">
+    		<% pageContext.setAttribute("threadDetailLink", "/config/viewDashboard.do?applicationId="+appConfig.getApplicationId()+"&dashBID=jvmThreads");%>
+    		<jmhtml:link href="${pageScope.threadDetailLink}">Thread Details</jmhtml:link>
+    	</td>
+    </tr>
     <tr><td><jm:dashboardComponent id="com4"/></td><td><jm:dashboardComponent id="com5"/></td></tr>
     <tr><td><jm:dashboardComponent id="com6"/></td><td><jm:dashboardComponent id="com7"/></td></tr>
     <tr><td colspan="2">&nbsp;</td></tr>
@@ -22,7 +29,12 @@
     <tr><td colspan="2"><jm:dashboardComponent id="com11"/></td></tr>
     <tr><td colspan="2"><jm:dashboardComponent id="com12"/></td></tr>
     <tr><td colspan="2">&nbsp;</td></tr>
-    <tr class="tableHeader"><td colspan="2"><a href="/config/viewDashboard.do?applicationId=<%=appConfig.getApplicationId()%>&dashBID=classes">Classes</a></td></tr>
+    <tr class="tableHeader">
+    	<td colspan="2">
+    		<% pageContext.setAttribute("classesLink", "/config/viewDashboard.do?applicationId="+appConfig.getApplicationId()+"&dashBID=classes");%>
+    		<jmhtml:link href="${pageScope.classesLink}">Classes</jmhtml:link>
+    	</td>
+    </tr>
     <tr><td><jm:dashboardComponent id="com13"/></td><td><jm:dashboardComponent id="com14"/></td></tr>
     <tr><td><jm:dashboardComponent id="com15"/></td><td>&nbsp;</td></tr>
     <tr><td colspan="2">&nbsp;</td></tr>

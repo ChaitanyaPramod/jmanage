@@ -3,6 +3,7 @@
 <%@ page import="org.jmanage.webui.util.RequestParams,
                  org.jmanage.core.config.ApplicationConfig,
                  org.jmanage.webui.util.WebContext"%>
+<%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 <%
     ApplicationConfig applicationConfig = null;
     WebContext webContext = null;
@@ -29,7 +30,8 @@
                 <li class="plaintext">Application is running.</li>
                 <li class="plaintext">Application is correctly configured in jManage.
                 Click
-                <a href="/config/showEditApplication.do?<%=RequestParams.APPLICATION_ID+"="+applicationConfig.getApplicationId()%>" class="a1">here</a>
+                <% pageContext.setAttribute("appConfigEditLink", "/config/showEditApplication.do?"+RequestParams.APPLICATION_ID+"="+applicationConfig.getApplicationId());%>
+                <jmhtml:link href="${pageScope.appConfigEditLink}" styleClass="a1">here</jmhtml:link>
                 to edit configuration.
                 </li>
             </ol>
@@ -46,7 +48,8 @@
                 <li class="plaintext">At least one application in the cluster is running.</li>
                 <li class="plaintext">Application cluster is correctly configured in jManage.
                 Click
-                <a href="/config/showApplicationCluster.do?<%=RequestParams.APPLICATION_ID+"="+applicationConfig.getApplicationId()%>" class="a1">here</a>
+                <% pageContext.setAttribute("appClusterConfigEditLink", "/config/showApplicationCluster.do?"+RequestParams.APPLICATION_ID+"="+applicationConfig.getApplicationId());%>
+                <jmhtml:link href="${pageScope.appClusterConfigEditLink}" styleClass="a1">here</jmhtml:link>
                 to edit configuration.
                 </li>
             </ol>

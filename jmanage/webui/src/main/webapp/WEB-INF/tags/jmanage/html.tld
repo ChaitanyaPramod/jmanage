@@ -1138,7 +1138,7 @@
     </tag>
     <tag>
         <name>img</name>
-        <tagclass>org.apache.struts.taglib.html.ImgTag</tagclass>
+        <tagclass>org.jmanage.webui.taglib.html.ImgTag</tagclass>
         <bodycontent>empty</bodycontent>
         <attribute>
             <name>align</name>

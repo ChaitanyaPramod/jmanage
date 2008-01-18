@@ -13,6 +13,7 @@
                  java.net.URLEncoder"%>
 <%@ taglib uri="/WEB-INF/tags/struts/struts-tiles.tld" prefix="tiles" %>
 <%@ taglib uri="/WEB-INF/tags/jstl/c.tld" prefix="c"%>
+<%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 
 <%!
     private static class Navigation{
@@ -74,8 +75,9 @@
         for(Iterator it=navList.iterator(); it.hasNext(); ){
             Navigation nav = (Navigation)it.next();
             if(it.hasNext()){
+            pageContext.setAttribute("navLink",nav.link);
     %>
-                <a href="<%=nav.link%>"><%=nav.name%></a>&nbsp;&gt;&nbsp;
+                <jmhtml:link href="${pageScope.navLink}"><%=nav.name%></jmhtml:link>&nbsp;&gt;&nbsp;
     <%
             }else{
                 // last element should be without link
