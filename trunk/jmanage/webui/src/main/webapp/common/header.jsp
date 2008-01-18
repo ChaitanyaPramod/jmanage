@@ -13,12 +13,12 @@
     <td align="right" valign="bottom" class="plaintext">
         <%if(user != null){%>
         <div style="margin-right:3px;margin-bottom:3px">
-        <a class="nav0" href="/config/managedApplications.do">Home</a>&nbsp;|&nbsp;
-        <a class="nav0" href="/auth/profile.do">Profile</a>&nbsp;|&nbsp;
+        <jmhtml:link styleClass="nav0" href="/config/managedApplications.do">Home</jmhtml:link>&nbsp;|&nbsp;
+        <jmhtml:link styleClass="nav0" href="/auth/profile.do">Profile</jmhtml:link>&nbsp;|&nbsp;
 		<%if(UserViewHelper.hasAdminAccess(request)){ %>
-        	<a class="nav0" href="/config/admin.do">Admin</a>&nbsp;|&nbsp;
+        	<jmhtml:link styleClass="nav0" href="/config/admin.do">Admin</jmhtml:link>&nbsp;|&nbsp;
 		<%}%>
-        <a class="nav0" href="/auth/logout.do">Logout</a>&nbsp;|&nbsp;
+        <jmhtml:link styleClass="nav0" href="/auth/logout.do">Logout</jmhtml:link>&nbsp;|&nbsp;
         Logged-in as <b><%=user.getName()%></b>
         </div>
         <%}else{%>

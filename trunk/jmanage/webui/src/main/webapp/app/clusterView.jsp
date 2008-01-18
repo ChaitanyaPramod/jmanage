@@ -9,6 +9,7 @@
                  org.jmanage.webui.util.RequestParams,
                  java.net.URLEncoder,
                  org.jmanage.webui.view.ApplicationViewHelper"%>
+<%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 <%
     WebContext context = WebContext.get(request);
     ApplicationClusterConfig clusterConfig =
@@ -26,11 +27,11 @@
     <tr>
         <td class="plaintext" width="25%">
           <%if(ApplicationViewHelper.isApplicationUp(appConfig)) {%>        
-	        <img src="/images/bullet/green.gif"/>
+	        <jmhtml:img src="/images/bullet/green.gif"/>
 	      <%}else{ %>
-	      	<img src="/images/bullet/red.gif"/>
-	      <%} %>&nbsp;<a href="/app/appView.do?applicationId=<%=appConfig.getApplicationId()%>">
-                    <%=appConfig.getName()%></a>
+	      	<jmhtml:img src="/images/bullet/red.gif"/>
+	      <%} request.setAttribute("applLink","/app/appView.do?applicationId="+appConfig.getApplicationId());%>
+	      	&nbsp;<jmhtml:link href="${pageScope.applLink}"><%=appConfig.getName()%></jmhtml:link>
         </td>
         <td class="plaintext">
             <%=appConfig.getURL()%>
@@ -50,11 +51,12 @@
     List mbeans = clusterConfig.getMBeans();
     for(Iterator it=mbeans.iterator(); it.hasNext();){
         MBeanConfig mbeanConfig = (MBeanConfig)it.next();
+        pageContext.setAttribute("mbeanLink","/app/mbeanView.do?"+RequestParams.APPLICATION_ID+"="+clusterConfig.getApplicationId()+"&"
+        							+RequestParams.OBJECT_NAME+"="+URLEncoder.encode(mbeanConfig.getObjectName(), "UTF-8"));
 %>
     <tr>
         <td class="plaintext" width="25%">
-            <a href="/app/mbeanView.do?<%=RequestParams.APPLICATION_ID%>=<%=clusterConfig.getApplicationId()%>&<%=RequestParams.OBJECT_NAME%>=<%=URLEncoder.encode(mbeanConfig.getObjectName(), "UTF-8")%>">
-                    <%=mbeanConfig.getName()%></a>
+            <jmhtml:link href="${pageScope.mbeanLink}"><%=mbeanConfig.getName()%></jmhtml:link>
         </td>
         <td class="plaintext">
             <%=mbeanConfig.getObjectName()%>

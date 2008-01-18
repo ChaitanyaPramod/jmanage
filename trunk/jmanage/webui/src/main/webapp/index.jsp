@@ -15,5 +15,5 @@
 --%>
 <!--/index.jsp-->
 <%
-    response.sendRedirect("/config/managedApplications.do");
+    response.sendRedirect(request.getContextPath()+"/config/managedApplications.do");
 %>

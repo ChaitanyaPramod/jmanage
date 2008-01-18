@@ -7,7 +7,7 @@
 
 <script language="JavaScript">
     function showManagedApplications(){
-        document.forms[0].action="/config/managedApplications.do";
+        document.forms[0].action="<%=request.getContextPath()%>/config/managedApplications.do";
         document.forms[0].submit();
     }
 </script>
