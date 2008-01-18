@@ -7,7 +7,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-    <link href="/css/styles.css" rel="stylesheet" type="text/css" />
+    <link href="<%=request.getContextPath()%>/css/styles.css" rel="stylesheet" type="text/css" />
 </head>
 <body leftmargin="10" topmargin="10" marginwidth="0" marginheight="0">
 <span class="headtext"><b><br />Configure</b></span><br /><br />

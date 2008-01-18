@@ -66,11 +66,13 @@ if(!sourceType.equals(AlertSourceConfig.SOURCE_TYPE_APPLICATION_DOWN)){
     <td class="plaintext">
     <%
         if(request.getParameter(RequestParams.ALERT_ID)!=null){
+        	pageContext.setAttribute("sourceMbeanLink", "/app/mbeanView.do?"+RequestParams.OBJECT_NAME+"="+Utils.urlEncode((String)request.getAttribute("sourceMBean"))+
+        							"&"+RequestParams.APPLICATION_ID+"="+request.getParameter(RequestParams.APPLICATION_ID));
     %>
 
-            <a href="/app/mbeanView.do?<%=RequestParams.OBJECT_NAME%>=<%=Utils.urlEncode((String)request.getAttribute("sourceMBean"))%>&<%=RequestParams.APPLICATION_ID%>=<%=request.getParameter(RequestParams.APPLICATION_ID)%>" class="a1">
+            <jmhtml:link href="${pageScope.sourceMbeanLink}" styleClass="a1">
                 <%=ObjectName.getShortName((String)request.getAttribute("sourceMBean"))%>
-            </a>
+            </jmhtml:link>
     <%
         }else{
     %>

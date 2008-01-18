@@ -103,6 +103,6 @@ public class Utils {
         StringBuffer remoteBaseURL = request.getRequestURL();
         int i = remoteBaseURL.indexOf(request.getRequestURI());
         remoteBaseURL.delete(i, remoteBaseURL.length());
-        return remoteBaseURL.toString();
+        return remoteBaseURL.toString()+request.getContextPath();
     }
 }

@@ -68,10 +68,12 @@
     <td class="plaintext" nowrap="true">
     <%
         if(request.getParameter(RequestParams.GRAPH_ID)!=null){
+        	pageContext.setAttribute("GrphObjNameLink", "/app/mbeanView.do?"+RequestParams.OBJECT_NAME+"="+Utils.urlEncode(objectNames[i])+
+        							"&"+RequestParams.APPLICATION_ID+"="+request.getParameter(RequestParams.APPLICATION_ID));
     %>
-        <a href="/app/mbeanView.do?<%=RequestParams.OBJECT_NAME%>=<%=Utils.urlEncode(objectNames[i])%>&<%=RequestParams.APPLICATION_ID%>=<%=request.getParameter(RequestParams.APPLICATION_ID)%>" class="a1">
+        <jmhtml:link href="${pageScope.GrphObjNameLink}" styleClass="a1">
           <%=ObjectName.getShortName(objectNames[i])%>
-       </a>
+       </jmhtml:link>
     <%
         }else{
     %>

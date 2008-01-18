@@ -35,8 +35,10 @@
     <td class="plaintext"><%=user.getName()%></td>
     <td class="plaintext" align="right">
     <%if(loggedInUser.hasRole(RoleConstants.ADMINISTRATOR) ||
-            AuthConstants.USER_ADMIN.equals(loggedInUser.getUsername())){%>
-    <a href="/auth/showEditUser.do?<%=RequestParams.USER_NAME+"="+user.getUsername()%>" class="a1">Edit</a>
+            AuthConstants.USER_ADMIN.equals(loggedInUser.getUsername())){
+            pageContext.setAttribute("userEditLink","/auth/showEditUser.do?"+RequestParams.USER_NAME+"="+user.getUsername());
+            %>
+    <jmhtml:link href="${pageScope.userEditLink}" styleClass="a1">Edit</jmhtml:link>
     <%}else{%>
     &nbsp;
     <%}%>
