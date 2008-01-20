@@ -66,6 +66,7 @@ public class GraphTag extends BaseTag {
     public int doStartTag() throws JspException{
 
         HttpServletRequest request = (HttpServletRequest)pageContext.getRequest();
+        String webAppContextPath = request.getContextPath();
         WebContext context = WebContext.get(request);
         ApplicationConfig appConfig = context.getApplicationConfig();
         // graphs at cluster level are not yet supported
@@ -74,7 +75,7 @@ public class GraphTag extends BaseTag {
 
         HtmlElement applet = new HtmlElement("applet");
         applet.addAttribute("code", "org/jmanage/webui/applets/GraphApplet.class");
-        applet.addAttribute("archive", "/applets/applets.jar,/applets/jfreechart-0.9.20.jar,/applets/jcommon-0.9.5.jar");
+        applet.addAttribute("archive", webAppContextPath+"/applets/applets.jar,"+webAppContextPath+"/applets/jfreechart-0.9.20.jar,"+webAppContextPath+"/applets/jcommon-0.9.5.jar");
         applet.addAttribute("width", width);
         applet.addAttribute("height", height);
 

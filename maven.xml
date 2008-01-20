@@ -105,7 +105,42 @@
         </ant:delete>
     </goal>
 
-    <!-- ====================== Test Goals ==================================-->
+    <goal name="build-war">
+		<ant:mkdir dir="${basedir}/WAR"/>
+		<ant:mkdir dir="${basedir}/WAR/META-INF"/>
+        <attainGoal name="build-all"/>
+
+        <ant:copy todir="${basedir}/WAR" flatten="false">
+            <fileset dir="${basedir}/build/web">
+				<include name="**"/>
+			</fileset>
+        </ant:copy>
+        <ant:copy todir="${basedir}/WAR/META-INF" flatten="false">
+            <fileset dir="${basedir}/build">
+				<include name="config/**"/>
+				<include name="connector/**"/>
+				<include name="dashboards/**"/>
+				<include name="modules/**"/>
+				<exclude name="bin"/>
+				<exclude name="lib"/>
+				<exclude name="web"/>
+			</fileset>
+        </ant:copy>
+        <ant:copy todir="${basedir}/WAR/WEB-INF/lib" flatten="false">
+            <fileset dir="${basedir}/build/lib">
+				<include name="*.jar"/>
+				<exclude name="client"/>
+				<exclude name="ant.jar"/>
+				<exclude name="jasper-compiler.jar"/>
+				<exclude name="jasper-runtime.jar"/>
+				<exclude name="jmanage-cmdui.jar"/>
+				<exclude name="jmanage-startup.jar"/>
+				<exclude name="org.mortbay.jetty.jar"/>
+			</fileset>
+        </ant:copy>
+    </goal>
+
+	<!-- ====================== Test Goals ==================================-->
     <goal name="simple-config">
         <ant:copy file="${basedir}/config/src/test/config/simple-config.xml"
             tofile="${basedir}/build/config/config.xml"

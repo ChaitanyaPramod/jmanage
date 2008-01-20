@@ -42,8 +42,9 @@
 <%
     WebContext webContext = WebContext.get(request);
     ApplicationConfig appConfig = webContext.getApplicationConfig();
-		final String availabilityGraphURL = "/app/availabilityGraph.do?" +
+	final String availabilityGraphURL = "/app/availabilityGraph.do?" +
 		    RequestParams.APPLICATION_ID + "=" + appConfig.getApplicationId();
+	pageContext.setAttribute("appAvailabilityGrphURL",availabilityGraphURL);
 %>
 <%-- Application Information --%>
 <table border="0" width="900" cellpadding="0" cellspacing="5">
@@ -93,7 +94,7 @@
     	   <td colspan="2">Availability</td>
 	   </tr>
 	   <tr><td colspan="2" align="center">
-   		<img src="<%=availabilityGraphURL%>" />
+   		<jmhtml:img src="${pageScope.appAvailabilityGrphURL}" />
 	   </td></tr>	   
 	   <tr>
 	   	<td align="left" class="plaintext">

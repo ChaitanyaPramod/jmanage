@@ -72,4 +72,8 @@ public class DashboardContextImpl implements DashboardContext {
     public boolean isRefreshRequest() {
         return isRefreshRequest;
     }
+    
+    public String getWebAppContextPath(){
+    	return request.getContextPath();
+    }
 }

@@ -32,4 +32,6 @@ public interface DashboardContext {
     public String getServerPath();
     
     public boolean isRefreshRequest();
+    
+    public String getWebAppContextPath();
 }
