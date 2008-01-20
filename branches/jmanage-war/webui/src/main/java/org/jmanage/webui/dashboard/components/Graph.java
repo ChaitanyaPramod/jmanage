@@ -125,10 +125,12 @@ public class Graph implements DashboardComponent {
         					"&attributes=").append(getAttributesForGraph(appConfig.getName())).append("&"+System.currentTimeMillis()+"\"></IFRAME></div>");
         		return graphComponent.toString();
         	}else{
+        		String appContextPath = context.getWebAppContextPath();
         		StringBuffer graphComponent = new StringBuffer().append(
         		"<applet code=\"org/jmanage/webui/applets/GraphApplet.class\"").append(
-        		" width=\"{0}\" height=\"{1}\"").append(
-        		" archive=\"/applets/applets.jar,/applets/jfreechart-0.9.20.jar,").append(
+        		" width=\"{0}\" height=\"{1}\"").append(" archive=\"").append(appContextPath).append(
+        		"/applets/applets.jar,").append(appContextPath).append(
+        		"/applets/jfreechart-0.9.20.jar,").append(appContextPath).append(
         		"/applets/jcommon-0.9.5.jar\" >").append(
         				"<param name=\"graphTitle\" value=\""+getName()+"\"></param>").append(
         						"<param name=\"pollingInterval\" value=\""+getPollingIntervalInSeconds()+"\"></param>").append(

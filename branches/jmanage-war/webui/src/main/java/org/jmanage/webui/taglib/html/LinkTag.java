@@ -67,7 +67,7 @@ public class LinkTag extends org.apache.struts.taglib.html.LinkTag {
     protected String calculateURL() throws JspException {
     	
     	if(href != null){
-    		href  = String.valueOf(ExpressionEvaluatorManager.evaluate("href", href, String.class, this, pageContext));
+    		href  = (String)ExpressionEvaluatorManager.evaluate("href", href, String.class, this, pageContext);
     		href = ((HttpServletRequest)pageContext.getRequest()).getContextPath() + href;
     	}
         String url = super.calculateURL();
