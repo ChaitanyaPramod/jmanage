@@ -100,22 +100,23 @@
 
     <goal name="clean">
         <ant:delete dir="${basedir}/build" />
+        <ant:delete dir="${basedir}/WAR" />
         <ant:delete>
             <fileset dir="${basedir}" includes="*/target/**"/>
         </ant:delete>
     </goal>
 
     <goal name="build-war">
-		<ant:mkdir dir="${basedir}/WAR"/>
-		<ant:mkdir dir="${basedir}/WAR/META-INF"/>
+		<ant:mkdir dir="${basedir}/WAR/jmanage.war"/>
+		<ant:mkdir dir="${basedir}/WAR/jmanage.war/META-INF"/>
         <attainGoal name="build-all"/>
 
-        <ant:copy todir="${basedir}/WAR" flatten="false">
+        <ant:copy todir="${basedir}/WAR/jmanage.war" flatten="false">
             <fileset dir="${basedir}/build/web">
 				<include name="**"/>
 			</fileset>
         </ant:copy>
-        <ant:copy todir="${basedir}/WAR/META-INF" flatten="false">
+        <ant:copy todir="${basedir}/WAR/jmanage.war/META-INF" flatten="false">
             <fileset dir="${basedir}/build">
 				<include name="config/**"/>
 				<include name="connector/**"/>
@@ -126,7 +127,7 @@
 				<exclude name="web"/>
 			</fileset>
         </ant:copy>
-        <ant:copy todir="${basedir}/WAR/WEB-INF/lib" flatten="false">
+        <ant:copy todir="${basedir}/WAR/jmanage.war/WEB-INF/lib" flatten="false">
             <fileset dir="${basedir}/build/lib">
 				<include name="*.jar"/>
 				<exclude name="client"/>
