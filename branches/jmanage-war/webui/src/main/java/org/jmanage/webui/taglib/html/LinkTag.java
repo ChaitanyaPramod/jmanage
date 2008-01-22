@@ -36,6 +36,7 @@ public class LinkTag extends org.apache.struts.taglib.html.LinkTag {
 
     private String acl;
     private boolean hasAccess = true;
+    private String appendQSParams;
 
     public String getAcl(){
         return acl;
@@ -45,7 +46,15 @@ public class LinkTag extends org.apache.struts.taglib.html.LinkTag {
         this.acl = acl;
     }
 
-    public int doStartTag() throws JspException{
+    public String getAppendQSParams() {
+		return appendQSParams;
+	}
+
+	public void setAppendQSParams(String appendQSParams) {
+		this.appendQSParams = appendQSParams;
+	}
+
+	public int doStartTag() throws JspException{
         if(acl!=null){
             WebContext context = WebContext.get(
                     (HttpServletRequest)pageContext.getRequest());
@@ -68,17 +77,17 @@ public class LinkTag extends org.apache.struts.taglib.html.LinkTag {
     	
     	if(href != null){
     		href  = (String)ExpressionEvaluatorManager.evaluate("href", href, String.class, this, pageContext);
-    		href = ((HttpServletRequest)pageContext.getRequest()).getContextPath() + href;
+    		if(!href.toLowerCase().startsWith("javascript:"))
+    			href = ((HttpServletRequest)pageContext.getRequest()).getContextPath() + href;
     	}
         String url = super.calculateURL();
-        url = appendQueryStringParams(url);
+        if("true".equalsIgnoreCase(getAppendQSParams())){
+        	url = appendQueryStringParams(url);
+        }
         return url;
     }
 
     private String appendQueryStringParams(String url) {
-        if(url.toLowerCase().startsWith("javascript:")){
-            return url;
-        }
         ServletRequest request = pageContext.getRequest();
         String applicationId =
                 request.getParameter(RequestParams.APPLICATION_ID);

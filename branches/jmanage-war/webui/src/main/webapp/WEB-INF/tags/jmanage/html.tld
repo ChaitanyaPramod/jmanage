@@ -1574,6 +1574,11 @@
            <required>false</required>
            <rtexprvalue>true</rtexprvalue>
        </attribute>
+       <attribute>
+           <name>appendQSParams</name>
+           <required>false</required>
+           <rtexprvalue>true</rtexprvalue>
+       </attribute>
     </tag>
     <tag>
         <name>messages</name>

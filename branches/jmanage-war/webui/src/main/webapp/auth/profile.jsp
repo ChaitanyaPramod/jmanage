@@ -22,6 +22,6 @@
 <%--TODO: if condition can be removed once the bug in ChangePasswordAction is fixed --%>
 <c:if test="${sessionScope.authenticatedUser.name != 'admin' && !sessionScope.authenticatedUser.externalUser}" >
 <p>
-<jmhtml:link href="/auth/showChangePassword.do" styleClass="a">Change Password</jmhtml:link>
+<jmhtml:link href="/auth/showChangePassword.do" styleClass="a" appendQSParams="true">Change Password</jmhtml:link>
 </p>
 </c:if>

@@ -9,7 +9,7 @@
 <tr>
     <td class="plaintext">
     Password has been successfully changed.&nbsp;&nbsp;&nbsp;
-    <jmhtml:link href="/auth/profile.do" styleClass="a">Continue&gt;&gt;</jmhtml:link>
+    <jmhtml:link href="/auth/profile.do" styleClass="a" appendQSParams="true">Continue&gt;&gt;</jmhtml:link>
     </td>
 </tr>
 </table>

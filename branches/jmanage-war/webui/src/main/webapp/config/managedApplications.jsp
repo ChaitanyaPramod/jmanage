@@ -20,7 +20,7 @@
             msg = "Are you sure you want to delete this Application?";
         }
         if(confirm(msg) == true){
-            location = '/config/deleteApplication.do?<%=RequestParams.APPLICATION_ID%>=' + appId + '&refreshApps=true';
+            location = '<%=request.getContextPath()%>'+'/config/deleteApplication.do?<%=RequestParams.APPLICATION_ID%>=' + appId + '&refreshApps=true';
         }
     }
 </script>
@@ -76,6 +76,7 @@
             ApplicationConfig childAppConfig = (ApplicationConfig)childApps.next();
             appHref = "/app/appView.do" +
                 "?" + RequestParams.APPLICATION_ID + "=" + childAppConfig.getApplicationId();
+            pageContext.setAttribute("chldApplRef",appHref);
       %>
           <tr>
             <td class="plaintext">
@@ -85,7 +86,7 @@
 					      <%}else{ %>
 					      	<jmhtml:img src="/images/bullet/red.gif" />
 					      <%} %>&nbsp;
-				  	    <jmhtml:link href="${pageScope.applRef}"><%=childAppConfig.getName()%></jmhtml:link>
+				  	    <jmhtml:link href="${pageScope.chldApplRef}"><%=childAppConfig.getName()%></jmhtml:link>
             </td>
             <td class="plaintext">
                 <%=childAppConfig.getURL()%>

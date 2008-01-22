@@ -315,7 +315,8 @@
             %>
                 <jmhtml:link action="/app/mbeanView"
                              paramId="objName"
-                             paramName="objectName">
+                             paramName="objectName" 
+                             appendQSParams="true">
                     View</jmhtml:link>
             <%}%>
         <%}else{%>
@@ -340,12 +341,12 @@
     <%if("java.lang.String".equals(attributeInfo.getType())){%>
         <jmhtml:link href="/config/showAddAlert.do?alertSourceType=string"
             paramId="attributes" paramName="expressionValue"
-            acl="<%=ACLConstants.ACL_ADD_ALERT%>" styleClass="a1">Monitor</jmhtml:link>
+            acl="<%=ACLConstants.ACL_ADD_ALERT%>" styleClass="a1" appendQSParams="true">Monitor</jmhtml:link>
     <%}else if(isNumber(attributeInfo.getType())){
         showGraphOption = true;%>
         <jmhtml:link href="/config/showAddAlert.do?alertSourceType=gauge"
             paramId="attributes" paramName="expressionValue"
-            acl="<%=ACLConstants.ACL_ADD_ALERT%>" styleClass="a1">Monitor</jmhtml:link>
+            acl="<%=ACLConstants.ACL_ADD_ALERT%>" styleClass="a1" appendQSParams="true">Monitor</jmhtml:link>
     <%}
     }%>
 </td>
@@ -370,7 +371,7 @@
 		pageContext.setAttribute("plotGrphLink",link);
     %>
         <jmhtml:link href="${pageScope.plotGrphLink}" acl="<%=ACLConstants.ACL_ADD_GRAPH%>"
-            styleClass="a">Plot Graph</jmhtml:link>
+            styleClass="a" appendQSParams="true">Plot Graph</jmhtml:link>
     <%}%>
     </td>
 </tr>
@@ -507,7 +508,7 @@
     <td class="plaintext"><%=notificationInfo.getDescription()%></td>
     <td class="plaintext">
     <%if(!applicationConfig.isCluster()){%>
-        <jmhtml:link href="/config/selectAlertSourceType.do?alertSourceType=notification" paramId="objName" paramName="objNameValue" >Monitor</jmhtml:link>
+        <jmhtml:link href="/config/selectAlertSourceType.do?alertSourceType=notification" paramId="objName" paramName="objNameValue" appendQSParams="true">Monitor</jmhtml:link>
     <%}%>
     </td>
 </tr>
