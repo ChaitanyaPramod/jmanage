@@ -30,7 +30,7 @@
 	        <jmhtml:img src="/images/bullet/green.gif"/>
 	      <%}else{ %>
 	      	<jmhtml:img src="/images/bullet/red.gif"/>
-	      <%} request.setAttribute("applLink","/app/appView.do?applicationId="+appConfig.getApplicationId());%>
+	      <%} pageContext.setAttribute("applLink","/app/appView.do?applicationId="+appConfig.getApplicationId());%>
 	      	&nbsp;<jmhtml:link href="${pageScope.applLink}"><%=appConfig.getName()%></jmhtml:link>
         </td>
         <td class="plaintext">

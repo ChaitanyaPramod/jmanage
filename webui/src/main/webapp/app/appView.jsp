@@ -60,7 +60,7 @@
 			</jmhtml:form>
 		</p>
 		<p>			
-		<jmhtml:link href="/config/showAddDashboard.do" acl="<%=ACLConstants.ACL_ADD_DASHBOARD%>" styleClass="a">
+		<jmhtml:link href="/config/showAddDashboard.do" acl="<%=ACLConstants.ACL_ADD_DASHBOARD%>" styleClass="a" appendQSParams="true">
 		    Add Dashboard</jmhtml:link>
 		</p>
 		<%
@@ -73,16 +73,16 @@
 			pageContext.setAttribute("graphLink",link);
 		%>
 		<p>
-		    <jmhtml:link href="${pageScope.graphLink}" acl="<%=ACLConstants.ACL_ADD_GRAPH%>" styleClass="a">
+		    <jmhtml:link href="${pageScope.graphLink}" acl="<%=ACLConstants.ACL_ADD_GRAPH%>" styleClass="a" appendQSParams="true">
 		        Add Graph</jmhtml:link>
 		</p>
 		<p>
-			<jmhtml:link href="/config/showSelectAlertSourceType.do" acl="<%=ACLConstants.ACL_ADD_ALERT%>" styleClass="a">
+			<jmhtml:link href="/config/showSelectAlertSourceType.do" acl="<%=ACLConstants.ACL_ADD_ALERT%>" styleClass="a" appendQSParams="true">
 			    Add Alert</jmhtml:link>
 		</p>
 		<p>
 		    <jmhtml:link href="/config/startAddMultiMBeanConfig.do" acl="<%=ACLConstants.ACL_ADD_MBEAN_CONFIG%>"
-		        styleClass="a">Add Managed Objects</jmhtml:link>
+		        styleClass="a" appendQSParams="true">Add Managed Objects</jmhtml:link>
 		</p>
 		<br/>
 	  </td></tr>
@@ -131,9 +131,10 @@ if(appConfig.getDashboards() != null && !appConfig.getDashboards().isEmpty()){
         <%
             String deleteDashboardLink = "JavaScript:deleteDashboard('"
                     + dashboardConfig.getDashboardId() + "','" + appConfig.getApplicationId() + "');";
+			pageContext.setAttribute("deletedashboardLink", deleteDashboardLink);
         %>
-           <a href="<%=deleteDashboardLink%>" acl="<%=ACLConstants.ACL_EDIT_DASHBOARD%>" class="a1">
-            Delete</a>
+           <jmhtml:link href="${pageScope.deletedashboardLink}" acl="<%=ACLConstants.ACL_EDIT_DASHBOARD%>" styleClass="a1">
+            Delete</jmhtml:link>
        </td>
     </tr>
     <%}%>
@@ -158,13 +159,14 @@ if(appConfig.getDashboards() != null && !appConfig.getDashboards().isEmpty()){
             <jmhtml:link href="${pageScope.grphViewLnk}"><%=graphConfig.getName()%></jmhtml:link>
         </td>
         <td align="right">
-            <jmhtml:link href="${pageScope.grphEditLnk}" acl="<%=ACLConstants.ACL_EDIT_GRAPH%>" styleClass="a1">Edit</jmhtml:link>
+            <jmhtml:link href="${pageScope.grphEditLnk}" acl="<%=ACLConstants.ACL_EDIT_GRAPH%>" styleClass="a1" appendQSParams="true">Edit</jmhtml:link>
         </td>
         <td align="right" width="30">
         <%
             String deleteGraphLink = "JavaScript:deleteGraph('"+ graphConfig.getId() + "','" + appConfig.getApplicationId() + "');";
+            pageContext.setAttribute("deleteGraphLink", deleteGraphLink);
         %>
-            <a href="<%=deleteGraphLink%>" acl="<%=ACLConstants.ACL_EDIT_GRAPH%>" class="a1">Delete</a>
+            <jmhtml:link href="${pageScope.deleteGraphLink}" acl="<%=ACLConstants.ACL_EDIT_GRAPH%>" styleClass="a1">Delete</jmhtml:link>
        </td>
     </tr>
 <%
@@ -270,14 +272,14 @@ if(appConfig.getAlerts().size() > 0){
             <%
                 pageContext.setAttribute("editAlertLink","/config/showEditAlert.do?"+ RequestParams.ALERT_ID + "=" + alertConfig.getAlertId());
             %>
-            <jmhtml:link href="${pageScope.editAlertLink}" acl="<%=ACLConstants.ACL_EDIT_ALERT%>" styleClass="a1">Edit</jmhtml:link>
+            <jmhtml:link href="${pageScope.editAlertLink}" acl="<%=ACLConstants.ACL_EDIT_ALERT%>" styleClass="a1" appendQSParams="true">Edit</jmhtml:link>
         </td>
         <td align="right" width="60">
         <%
             String deleteAlertLink = "JavaScript:deleteAlert('"
                     + alertConfig.getAlertId() + "','" + appConfig.getApplicationId() + "');";
         %>
-           <a href="<%=deleteAlertLink%>" acl="<%=ACLConstants.ACL_EDIT_ALERT%>" class="a1">Delete</a>
+           <jmhtml:link  href="<%=deleteAlertLink%>" acl="<%=ACLConstants.ACL_EDIT_ALERT%>" styleClass="a1">Delete</jmhtml:link >
        </td>
     </tr>
     <%}%>

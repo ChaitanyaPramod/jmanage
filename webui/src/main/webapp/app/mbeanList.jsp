@@ -38,7 +38,7 @@
         <td class="plaintext">
                 <jmhtml:link action="/app/mbeanView"
                              paramId="objName"
-                             paramName="objectName">
+                             paramName="objectName" appendQSParams="true">
                     <%=objectName%></jmhtml:link>
         </td>
    </tr>

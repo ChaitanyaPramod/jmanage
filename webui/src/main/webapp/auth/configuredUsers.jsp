@@ -54,4 +54,4 @@
   <%}//while ends %>
 </table>
 <br>
-<jmhtml:link href="/auth/showAddUser.do" styleClass="a">Add New User</jmhtml:link>
+<jmhtml:link href="/auth/showAddUser.do" styleClass="a" appendQSParams="true">Add New User</jmhtml:link>

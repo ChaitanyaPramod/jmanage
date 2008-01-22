@@ -166,7 +166,7 @@
     }
 %>
 </table>
-<p class="plaintext"><jmhtml:link action="/app/mbeanView">Back</jmhtml:link></p>
+<p class="plaintext"><jmhtml:link action="/app/mbeanView" appendQSParams="true">Back</jmhtml:link></p>
 <%-- tool tips --%>
 <%
 	for(Integer id:toolTips.keySet()){
