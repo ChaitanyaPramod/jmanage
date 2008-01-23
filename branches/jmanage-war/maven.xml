@@ -107,16 +107,16 @@
     </goal>
 
     <goal name="build-war">
-		<ant:mkdir dir="${basedir}/WAR/jmanage.war"/>
-		<ant:mkdir dir="${basedir}/WAR/jmanage.war/META-INF"/>
+		<ant:mkdir dir="${basedir}/WAR/jmanage-war"/>
+		<ant:mkdir dir="${basedir}/WAR/jmanage-war/META-INF"/>
         <attainGoal name="build-all"/>
 
-        <ant:copy todir="${basedir}/WAR/jmanage.war" flatten="false">
+        <ant:copy todir="${basedir}/WAR/jmanage-war" flatten="false">
             <fileset dir="${basedir}/build/web">
 				<include name="**"/>
 			</fileset>
         </ant:copy>
-        <ant:copy todir="${basedir}/WAR/jmanage.war/META-INF" flatten="false">
+        <ant:copy todir="${basedir}/WAR/jmanage-war/META-INF" flatten="false">
             <fileset dir="${basedir}/build">
 				<include name="config/**"/>
 				<include name="connector/**"/>
@@ -127,7 +127,7 @@
 				<exclude name="web"/>
 			</fileset>
         </ant:copy>
-        <ant:copy todir="${basedir}/WAR/jmanage.war/WEB-INF/lib" flatten="false">
+        <ant:copy todir="${basedir}/WAR/jmanage-war/WEB-INF/lib" flatten="false">
             <fileset dir="${basedir}/build/lib">
 				<include name="*.jar"/>
 				<exclude name="client"/>
