@@ -158,9 +158,8 @@ public class DBUtils {
     }
     
     public static void init() {
-        String rootDir = CoreUtils.getRootDir();
-        assert rootDir != null;     
-        String dataDir = rootDir + "/data";
+        String dataDir = CoreUtils.getDataDir();
+        assert dataDir != null;     
         /* create db tables if they don't exist */
         File dbFile = new File(dataDir+"/db.properties");
         if(!dbFile.exists()){
