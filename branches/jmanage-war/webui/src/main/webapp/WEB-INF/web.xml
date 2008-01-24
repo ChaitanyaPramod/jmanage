@@ -26,7 +26,7 @@
             <param-value>true</param-value>
         </init-param>
         <init-param>
-            <param-name>root-dir</param-name>
+            <param-name>metadata-dir</param-name>
             <param-value>/META-INF</param-value>
         </init-param>
         <init-param>

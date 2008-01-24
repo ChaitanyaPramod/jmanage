@@ -33,9 +33,13 @@ public class CoreUtils {
 
     private static String rootDir;
     private static String dataDir;
+    private static String metadataDir;
 
-    public static void init(String webAppRootDir){
-    	rootDir = webAppRootDir;
+    public static void init(String appRootDir, String metadataDirPath){
+    	rootDir = appRootDir;
+    	assert rootDir != null;
+
+    	metadataDir = metadataDirPath;
     	assert rootDir != null;
     	
     	/* create logs dir, before doing any logging */
@@ -54,28 +58,29 @@ public class CoreUtils {
         return rootDir;
     }
 
-    public static String getConnectorDir() {
-        return getRootDir() + File.separatorChar + "connector";    
+    
+    public static String getMetadataDir() {
+		return metadataDir;
+	}
+
+	public static String getConnectorDir() {
+        return getMetadataDir() + File.separatorChar + "connector";    
     }
 
     public static String getConfigDir(){
         return getRootDir() + "/config";
     }
 
-    public static String getWebDir(){
-        return getRootDir() + "/web";
-    }
-
     public static String getDashboardsDir(){
-        return getRootDir() + File.separatorChar + "dashboards";
+        return getMetadataDir() + File.separatorChar + "dashboards";
     }
 
     public static String getModuleDir(String moduleId){
-        return getRootDir() + "/modules/" + moduleId;
+        return getMetadataDir() + "/modules/" + moduleId;
     }
 
     public static String getApplicationDir(String appId){
-        return getRootDir() + "/applications/" + appId;
+        return getMetadataDir() + "/applications/" + appId;
     }
 
     public static String getLogDir(){

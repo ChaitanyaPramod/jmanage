@@ -68,11 +68,12 @@ public class JManageRequestProcessor extends TilesRequestProcessor{
         super.init(servlet, moduleConfig);
         String isWebDeploy = servlet.getServletConfig().getInitParameter("web-deploy");
         if("true".equals(isWebDeploy)){
+        	String rootDirAbsPath = System.getProperty("JMANAGE_ROOT");
         	String logConfigSysProp = servlet.getServletConfig().getInitParameter("log-config");
             char[] password = {'1','2','3','4','5','6'};
         	try{
-	        	String rootDir = servlet.getServletConfig().getInitParameter("root-dir");
-	        	String rootDirAbsPath = servlet.getServletContext().getRealPath(rootDir);
+	        	String metadataDir = servlet.getServletConfig().getInitParameter("metadata-dir");
+	        	String metadataDirAbsPath = servlet.getServletContext().getRealPath(metadataDir);
 	        	
 	        	System.setProperty(logConfigSysProp, rootDirAbsPath+File.separatorChar+"config"+File.separatorChar+"logging.properties");
 	        	
@@ -87,7 +88,7 @@ public class JManageRequestProcessor extends TilesRequestProcessor{
 	        	String securityPolicy = servlet.getServletConfig().getInitParameter("java.security.policy");
 	        	System.setProperty("java.security.policy", securityPolicy);
 
-	        	CoreUtils.init(rootDirAbsPath);
+	        	CoreUtils.init(rootDirAbsPath, metadataDirAbsPath);
 	        	
 	            ServiceFactory.init(ServiceFactory.MODE_LOCAL);
 	
