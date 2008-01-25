@@ -70,6 +70,7 @@ public class JManageRequestProcessor extends TilesRequestProcessor{
         if("true".equals(isWebDeploy)){
         	String rootDirAbsPath = System.getProperty("JMANAGE_ROOT");
         	String logConfigSysProp = servlet.getServletConfig().getInitParameter("log-config");
+        	//TODO: Where to get this password from ?
             char[] password = {'1','2','3','4','5','6'};
         	try{
 	        	String metadataDir = servlet.getServletConfig().getInitParameter("metadata-dir");
