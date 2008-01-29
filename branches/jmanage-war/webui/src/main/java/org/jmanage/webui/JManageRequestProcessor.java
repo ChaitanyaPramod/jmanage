@@ -75,7 +75,11 @@ public class JManageRequestProcessor extends TilesRequestProcessor{
         	try{
 	        	String metadataDir = servlet.getServletConfig().getInitParameter("metadata-dir");
 	        	String metadataDirAbsPath = servlet.getServletContext().getRealPath(metadataDir);
-	        	
+
+	        	File configDir = new File(rootDirAbsPath + File.separator + "config");
+    	    	File configSrcDir = new File(metadataDirAbsPath + File.separator + "config");
+        		CoreUtils.copyConfig(configDir, configSrcDir);
+
 	        	System.setProperty(logConfigSysProp, rootDirAbsPath+File.separatorChar+"config"+File.separatorChar+"logging.properties");
 	        	
 	        	logger = Loggers.getLogger(this.getClass());

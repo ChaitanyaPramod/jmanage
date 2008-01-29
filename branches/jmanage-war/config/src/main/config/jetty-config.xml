@@ -59,7 +59,9 @@
     <!-- jManage web application -->
     <Call name="addWebApplication">
         <Arg>/</Arg>
-        <Arg>C:/work/workspace/jmanage/build/web</Arg>
+        <Arg>
+            <SystemProperty name="JMANAGE_ROOT"/>/web
+        </Arg>
         <Set name="ClassLoaderJava2Compliant">true</Set>
     </Call>
 </Configure>
