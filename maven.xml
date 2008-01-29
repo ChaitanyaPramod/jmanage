@@ -5,6 +5,13 @@
     xmlns:u="jelly:util"
     xmlns:maven="jelly:maven">
 
+    <!-- build for jetty -->
+    <goal name="jetty-build">
+        <!-- build all -->
+        <attainGoal name="build-all"/>
+        <!-- build war packaging for jetty -->
+        <attainGoal name="war-jetty"/>
+    </goal>    
     <!-- build everything -->
     <goal name="build-all">
         <!-- build jars for components -->
@@ -67,7 +74,35 @@
         <!-- copy dashboards -->
         <ant:copy todir="${basedir}/build/dashboards" flatten="false">
             <fileset dir="${basedir}/webui/src/main/dashboards"/>
-        </ant:copy>
+        </ant:copy>        
+    </goal>
+    <goal name="war-jetty">
+    	<!-- WAR structure for Jetty -->
+		<ant:mkdir dir="${basedir}/build/web/META-INF"/>
+		<ant:move todir="${basedir}/build/web/META-INF" flatten="false">
+            <fileset dir="${basedir}/build">
+				<include name="config/**"/>
+                <include name="connector/**"/>
+                <include name="dashboards/**"/>
+                <include name="modules/**"/>
+            </fileset>
+        </ant:move>
+        <ant:deltree dir="${basedir}/build/connector"/>
+        <ant:deltree dir="${basedir}/build/dashboards"/>
+        <ant:deltree dir="${basedir}/build/modules"/>
+        <ant:deltree dir="${basedir}/build/config"/>
+        <ant:move todir="${basedir}/build/web/WEB-INF/lib" flatten="true">
+            <fileset dir="${basedir}/build/lib">
+                <include name="*.jar"/>
+   				<exclude name="client"/>
+				<exclude name="ant.jar"/>
+				<exclude name="jasper-compiler.jar"/>
+				<exclude name="jasper-runtime.jar"/>
+				<exclude name="jmanage-cmdui.jar"/>
+				<exclude name="jmanage-startup.jar"/>
+				<exclude name="org.mortbay.jetty.jar"/>
+            </fileset>
+        </ant:move>
     </goal>
 
     <goal name="build-all-modules">
@@ -119,15 +154,13 @@
         <ant:copy todir="${basedir}/WAR/jmanage-war/META-INF" flatten="false">
             <fileset dir="${basedir}/build">
 				<include name="config/**"/>
+				<include name="config/jetty-config.xml"/>
 				<include name="connector/**"/>
 				<include name="dashboards/**"/>
 				<include name="modules/**"/>
-				<exclude name="bin"/>
-				<exclude name="lib"/>
-				<exclude name="web"/>
 			</fileset>
         </ant:copy>
-        <ant:copy todir="${basedir}/WAR/jmanage-war/WEB-INF/lib" flatten="false">
+        <ant:move todir="${basedir}/WAR/jmanage-war/WEB-INF/lib" flatten="true">
             <fileset dir="${basedir}/build/lib">
 				<include name="*.jar"/>
 				<exclude name="client"/>
@@ -138,7 +171,8 @@
 				<exclude name="jmanage-startup.jar"/>
 				<exclude name="org.mortbay.jetty.jar"/>
 			</fileset>
-        </ant:copy>
+        </ant:move>
+        <ant:deltree dir="${basedir}/build"/>
     </goal>
 
 	<!-- ====================== Test Goals ==================================-->

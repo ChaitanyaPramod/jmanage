@@ -13,7 +13,11 @@ set JMANAGE_CLASSPATH=
 set CURR_PWD=%CD%
 cd "%JMANAGE_HOME%\lib"
 
-for %%i in ("*.jar") do call ..\bin\jmcp.cmd %%i 
+for %%i in ("*.jar") do call %CURR_PWD%\jmcp.cmd %%i 
+
+cd "%JMANAGE_HOME%\web\WEB-INF\lib"
+
+for %%i in ("*.jar") do call %CURR_PWD%\jmcp.cmd %%i 
 
 cd %CURR_PWD%
 

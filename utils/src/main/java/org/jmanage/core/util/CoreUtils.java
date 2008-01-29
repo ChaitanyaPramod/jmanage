@@ -18,6 +18,12 @@ package org.jmanage.core.util;
 import org.apache.commons.beanutils.BeanUtils;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.math.BigInteger;
 import java.math.BigDecimal;
@@ -131,5 +137,49 @@ public class CoreUtils {
             return new BigDecimal(value);
         }
         return null;
+    }
+    
+    public static void copyConfig(File configDir, File configSrcDir) throws Exception{
+    	if(!configDir.exists()){
+    		configDir.mkdir();
+    		copyDirectory(configSrcDir, configDir);
+    		deleteFile(configSrcDir);
+    	}
+    }
+    
+    public static void copyDirectory(File sourceLocation, File targetLocation) throws IOException {
+        if (sourceLocation.isDirectory()) {
+            if (!targetLocation.exists()) {
+                targetLocation.mkdir();
+            }
+            String[] children = sourceLocation.list();
+            for (int i=0; i<children.length; i++) {
+                copyDirectory(new File(sourceLocation, children[i]),
+                        new File(targetLocation, children[i]));
+            }
+        } else {
+            InputStream in = new FileInputStream(sourceLocation);
+            OutputStream out = new FileOutputStream(targetLocation);
+            // Copy the bits from instream to outstream
+            byte[] buf = new byte[1024];
+            int len;
+            while ((len = in.read(buf)) > 0) {
+                out.write(buf, 0, len);
+            }
+            in.close();
+            out.close();
+        }
+    }
+
+    public static void deleteFile(File fileLocation) throws IOException {
+	    if(fileLocation.isDirectory()) {
+			File[] files = fileLocation.listFiles();
+			for(int fileCtr = 0; fileCtr < files.length; fileCtr++){
+				deleteFile(files[fileCtr]);
+			}
+			fileLocation.delete();
+	    }else{
+	    	fileLocation.delete();
+	    }
     }
 }
