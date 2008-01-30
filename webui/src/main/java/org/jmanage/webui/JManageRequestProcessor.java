@@ -40,8 +40,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URL;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import java.util.Arrays;

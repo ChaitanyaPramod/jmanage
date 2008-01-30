@@ -195,7 +195,8 @@
         <attainGoal name="dist-src"/>
 
         <!-- build -->
-        <attainGoal name="build-all"/>
+        <attainGoal name="build-war"/>
+        <attainGoal name="jetty-build"/>
 
         <!-- perform dos to unix conversions -->
         <ant:fixcrlf srcdir="${basedir}/build/bin" includes="*.sh" eol="lf"/>
@@ -222,11 +223,11 @@
         <!-- .gz format -->
         <ant:tar tarfile="${basedir}/dist/jmanage-${jmanage.version}.tar">
             <tarfileset dir="${basedir}/build">
-                <exclude name="modules/weblogic/weblogic*.jar"/>
-                <exclude name="modules/websphere/*.jar"/>
+                <exclude name="web/META-INF/modules/weblogic/weblogic*.jar"/>
+                <exclude name="web/META-INF/modules/websphere/*.jar"/>
             </tarfileset>
             <tarfileset dir="${basedir}/build">
-                <include name="modules/websphere/jmanage-websphere.jar"/>
+                <include name="web/META-INF/modules/websphere/jmanage-websphere.jar"/>
             </tarfileset>
         </ant:tar>
 
@@ -234,14 +235,29 @@
             src="${basedir}/dist/jmanage-${jmanage.version}.tar"/>
         <ant:delete file="${basedir}/dist/jmanage-${jmanage.version}.tar"/>
 
-        <!-- zip format -->
-        <ant:zip destfile="${basedir}/dist/jmanage-${jmanage.version}.zip">
-            <fileset dir="${basedir}/build">
-                <exclude name="modules/weblogic/weblogic*.jar"/>
-                <exclude name="modules/websphere/*.jar"/>
+        <!-- .gz WAR -->
+        <ant:tar tarfile="${basedir}/dist/jmanage-${jmanage.version}-war.tar">
+            <tarfileset dir="${basedir}/WAR">
+                <exclude name="jmanage-war/META-INF/modules/weblogic/weblogic*.jar"/>
+                <exclude name="jmanage-war/META-INF/modules/websphere/*.jar"/>
+            </tarfileset>
+            <tarfileset dir="${basedir}/WAR">
+                <include name="jmanage-war/META-INF/modules/websphere/jmanage-websphere.jar"/>
+            </tarfileset>
+        </ant:tar>
+
+        <ant:gzip zipfile="${basedir}/dist/jmanage-${jmanage.version}-war.tar.gz"
+            src="${basedir}/dist/jmanage-${jmanage.version}-war.tar"/>
+        <ant:delete file="${basedir}/dist/jmanage-${jmanage.version}-war.tar"/>
+
+        <!-- zip WAR -->
+        <ant:zip destfile="${basedir}/dist/jmanage-${jmanage.version}-war.zip">
+            <fileset dir="${basedir}/WAR">
+                <exclude name="jmanage-war/META-INF/modules/weblogic/weblogic*.jar"/>
+                <exclude name="jmanage-war/META-INF/modules/websphere/*.jar"/>
             </fileset>
-            <fileset dir="${basedir}/build">
-                <include name="modules/websphere/jmanage-websphere.jar"/>
+            <fileset dir="${basedir}/WAR">
+                <include name="jmanage-war/META-INF/modules/websphere/jmanage-websphere.jar"/>
             </fileset>
         </ant:zip>
 
