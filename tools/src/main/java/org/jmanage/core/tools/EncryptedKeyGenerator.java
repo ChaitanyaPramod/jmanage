@@ -22,8 +22,10 @@ import org.jmanage.core.config.*;
 import org.jmanage.core.crypto.Crypto;
 import org.jmanage.core.crypto.EncryptedKey;
 import org.jmanage.core.crypto.KeyManager;
+import org.jmanage.core.util.CoreUtils;
 import org.jmanage.core.util.PasswordField;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -41,6 +43,13 @@ public class EncryptedKeyGenerator {
 
         /* display info */
         message();
+    	String jManageRoot = System.getProperty("JMANAGE_ROOT");
+    	File configDir = new File(jManageRoot + File.separator + "config");
+    	File configSrcDir = new File(jManageRoot + File.separator + "web" + File.separator + "META-INF" + File.separator + "config");
+    	CoreUtils.copyConfig(configDir, configSrcDir);
+    	String jManageRootDir = new File(jManageRoot).getAbsolutePath();
+    	String metaDataDir = jManageRootDir + File.separator + "web" + File.separator + "META-INF";
+    	CoreUtils.init(jManageRootDir, metaDataDir);
         reencryptWithNewKey() ;
     }
 

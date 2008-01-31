@@ -51,7 +51,7 @@ public class CoreUtils {
     	/* create logs dir, before doing any logging */
     	new File(CoreUtils.getLogDir()).mkdirs();
     	logger.info("app root dir= " + rootDir);
-    	
+    	logger.info("metadata dir= " + metadataDir);
     	/* create data dir */
     	dataDir = getRootDir() + "/data";
     	File dataDirFile = new File(dataDir);

@@ -10,6 +10,6 @@ if [ ! -n "$JMANAGE_CLASSPATH" ]; then
 	exit 0
 fi
 
-$JAVA_HOME/bin/java -ea -classpath $JMANAGE_CLASSPATH -Djmanage.root=$JMANAGE_HOME org.jmanage.core.tools.EncryptedKeyGenerator
+$JAVA_HOME/bin/java -ea -classpath $JMANAGE_CLASSPATH -DJMANAGE_ROOT=$JMANAGE_HOME org.jmanage.core.tools.EncryptedKeyGenerator
 
 
