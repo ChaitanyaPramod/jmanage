@@ -35,10 +35,8 @@ public class Startup {
     private static void start() throws Exception {
     	try{
 	    	String jManageRoot = System.getProperty("JMANAGE_ROOT");
-	    	File configDir = new File(jManageRoot + File.separator + "config");
-	    	File configSrcDir = new File(jManageRoot + File.separator + "web" + File.separator + "META-INF" + File.separator + "config");
-	    	CoreUtils.copyConfig(configDir, configSrcDir);
-	        Server server = new Server(jManageRoot + File.separator + "config" + File.separator + "jetty-config.xml");
+	    	CoreUtils.initJmanageForCLIUtilities(jManageRoot);
+	    	Server server = new Server(jManageRoot + File.separator + "config" + File.separator + "jetty-config.xml");
 	        server.start();
     	}catch(Exception e){
     		e.printStackTrace();

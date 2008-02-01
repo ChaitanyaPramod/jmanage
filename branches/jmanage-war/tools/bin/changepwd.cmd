@@ -6,6 +6,6 @@
 call setenv.cmd
 if "%JMANAGE_CLASSPATH%" == "" goto finish
 
-"%JAVA_HOME%\bin\java" -ea -classpath "%JMANAGE_CLASSPATH%" -Djmanage.root="%JMANAGE_HOME%" org.jmanage.core.tools.ChangeAdminPassword
+"%JAVA_HOME%\bin\java" -ea -classpath "%JMANAGE_CLASSPATH%" -DJMANAGE_ROOT="%JMANAGE_HOME%" org.jmanage.core.tools.ChangeAdminPassword
 
 :finish

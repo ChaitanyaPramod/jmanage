@@ -25,7 +25,6 @@ import org.jmanage.core.crypto.KeyManager;
 import org.jmanage.core.util.CoreUtils;
 import org.jmanage.core.util.PasswordField;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -34,7 +33,7 @@ import java.util.List;
  * Generates a symmetric key and encrypts it based on the given password.
  *
  * date:  Jul 22, 2004
- * @author	Rakesh Kalra
+ * @author	Rakesh Kalra, Shashank Bellary
  */
 public class EncryptedKeyGenerator {
 
@@ -43,13 +42,8 @@ public class EncryptedKeyGenerator {
 
         /* display info */
         message();
-    	String jManageRoot = System.getProperty("JMANAGE_ROOT");
-    	File configDir = new File(jManageRoot + File.separator + "config");
-    	File configSrcDir = new File(jManageRoot + File.separator + "web" + File.separator + "META-INF" + File.separator + "config");
-    	CoreUtils.copyConfig(configDir, configSrcDir);
-    	String jManageRootDir = new File(jManageRoot).getAbsolutePath();
-    	String metaDataDir = jManageRootDir + File.separator + "web" + File.separator + "META-INF";
-    	CoreUtils.init(jManageRootDir, metaDataDir);
+        String jManageRoot = System.getProperty("JMANAGE_ROOT");
+        CoreUtils.initJmanageForCLIUtilities(jManageRoot);
         reencryptWithNewKey() ;
     }
 

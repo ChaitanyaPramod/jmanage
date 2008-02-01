@@ -182,4 +182,18 @@ public class CoreUtils {
 	    	fileLocation.delete();
 	    }
     }
+    
+    /**
+     * This is used by cmd utilities like keygen.cmd/sh, startup.cmd/sh and changepwd.cmd/sh
+     * @throws Exception
+     */
+    public static void initJmanageForCLIUtilities(String jManageRoot) throws Exception{
+    	File configDir = new File(jManageRoot + File.separator + "config");
+    	File configSrcDir = new File(jManageRoot + File.separator + "web" + File.separator + "META-INF" + File.separator + "config");
+    	CoreUtils.copyConfig(configDir, configSrcDir);
+    	String jManageRootDir = new File(jManageRoot).getAbsolutePath();
+    	String metaDataDir = jManageRootDir + File.separator + "web" + File.separator + "META-INF";
+    	CoreUtils.init(jManageRootDir, metaDataDir);
+
+    }
 }

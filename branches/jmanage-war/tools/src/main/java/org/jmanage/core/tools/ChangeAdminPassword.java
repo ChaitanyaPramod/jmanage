@@ -18,6 +18,7 @@ package org.jmanage.core.tools;
 import org.jmanage.core.auth.UserManager;
 import org.jmanage.core.auth.User;
 import org.jmanage.core.auth.AuthConstants;
+import org.jmanage.core.util.CoreUtils;
 import org.jmanage.core.util.PasswordField;
 import org.jmanage.core.crypto.EncryptedKey;
 import org.jmanage.core.crypto.KeyManager;
@@ -28,13 +29,14 @@ import java.util.Arrays;
 /**
  *
  * date:  Aug 3, 2004
- * @author	Rakesh Kalra
+ * @author	Rakesh Kalra, Shashank Bellary
  */
 public class ChangeAdminPassword {
 
     public static void main(String[] args)
         throws Exception {
-
+    	String jManageRoot = System.getProperty("JMANAGE_ROOT");
+    	CoreUtils.initJmanageForCLIUtilities(jManageRoot);
         final UserManager userManager = UserManager.getInstance();
         final char[] oldPassword =
                 PasswordField.getPassword("Enter Old password:");
