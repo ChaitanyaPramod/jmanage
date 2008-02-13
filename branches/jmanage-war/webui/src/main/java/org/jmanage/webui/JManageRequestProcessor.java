@@ -52,7 +52,7 @@ import java.beans.XMLEncoder;
  */
 public class JManageRequestProcessor extends TilesRequestProcessor{
 
-    public Logger logger = null;
+    public Logger logger = Loggers.getLogger(this.getClass());;
 
     /**
      * Initialize the request processor.
@@ -67,7 +67,6 @@ public class JManageRequestProcessor extends TilesRequestProcessor{
         String isWebDeploy = servlet.getServletConfig().getInitParameter("web-deploy");
         if("true".equals(isWebDeploy)){
         	String rootDirAbsPath = System.getProperty("JMANAGE_ROOT");
-        	String logConfigSysProp = servlet.getServletConfig().getInitParameter("log-config");
         	//TODO: Where to get this password from ?
             char[] password = {'1','2','3','4','5','6'};
         	try{
@@ -78,18 +77,11 @@ public class JManageRequestProcessor extends TilesRequestProcessor{
     	    	File configSrcDir = new File(metadataDirAbsPath + File.separator + "config");
         		CoreUtils.copyConfig(configDir, configSrcDir);
 
-	        	System.setProperty(logConfigSysProp, rootDirAbsPath+File.separatorChar+"config"+File.separatorChar+"logging.properties");
-	        	
-	        	logger = Loggers.getLogger(this.getClass());
-	        	
 	        	String dataFormatConfigSysProp = servlet.getServletConfig().getInitParameter("jmanage-data-formatConfig");
 	        	System.setProperty(dataFormatConfigSysProp, rootDirAbsPath+File.separatorChar+"config"+File.separatorChar+"html-data-format.properties");
 	        	
 	        	String jaasConfigSysProp = servlet.getServletConfig().getInitParameter("jaas-config");
 	        	System.setProperty(jaasConfigSysProp, rootDirAbsPath+File.separatorChar+"config"+File.separatorChar+"jmanage-auth.conf");
-
-	        	String securityPolicy = servlet.getServletConfig().getInitParameter("java.security.policy");
-	        	System.setProperty("java.security.policy", securityPolicy);
 
 	        	CoreUtils.init(rootDirAbsPath, metadataDirAbsPath);
 	        	
