@@ -30,20 +30,12 @@
             <param-value>/META-INF</param-value>
         </init-param>
         <init-param>
-            <param-name>log-config</param-name>
-            <param-value>java.util.logging.config.file</param-value>
-        </init-param>
-        <init-param>
             <param-name>jmanage-data-formatConfig</param-name>
             <param-value>org.jmanage.core.management.data.formatConfig</param-value>
         </init-param>
         <init-param>
             <param-name>jaas-config</param-name>
             <param-value>java.security.auth.login.config</param-value>
-        </init-param>
-        <init-param>
-            <param-name>java.security.policy</param-name>
-            <param-value>java.policy</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
