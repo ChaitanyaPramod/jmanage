@@ -17,6 +17,7 @@ package org.jmanage.core.config;
 
 
 import java.util.*;
+import org.jmanage.core.config.AlertConfig;
 
 /**
  * ApplicationConfig holds configuration for a single application. 
@@ -329,6 +330,19 @@ public abstract class ApplicationConfig {
             return alertConfig;
         }
         return null;
+    }
+    
+    /*Remove multiple alerts */
+    public AlertConfig[] removeAlerts(String alertIds) throws Exception{
+    	String regExp="\\s*,\\s*"; //Comma separated Reg Exp
+		String [] str = alertIds.split(regExp);
+		AlertConfig [] alertConfigs = new AlertConfig[str.length];
+		int counter = 0;
+        while(counter < str.length){
+            alertConfigs[counter] = findAlertById(str[counter]);
+            counter++;
+        }
+    return alertConfigs;
     }
 
     /**
