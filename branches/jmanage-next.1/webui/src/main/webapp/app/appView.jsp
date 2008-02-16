@@ -3,6 +3,9 @@
 <%@ page import="org.jmanage.webui.util.WebContext,
                  org.jmanage.webui.util.RequestParams,
                  java.net.URLEncoder,
+				 org.jmanage.webui.util.RequestParams,
+				 org.jmanage.webui.util.WebContext,
+				 org.jmanage.core.services.AccessController,
                  java.util.*,
                  org.jmanage.webui.util.Utils,
                  org.jmanage.core.util.ACLConstants,
@@ -13,20 +16,36 @@
                  org.jmanage.webui.view.ApplicationViewHelper"%>
 
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
+
 <script language="JavaScript">
-    function deleteAlert(alertId, appId){
-        var msg;
+    function deleteAlert(appId){
+        var msg,alertIds;
+		alertIds = getAlertIdsToBeRemoved();
         msg = "Are you sure you want to delete this Alert?";
         if(confirm(msg) == true){
-            location = '<%=request.getContextPath()%>'+'/config/deleteAlert.do?<%=RequestParams.ALERT_ID%>=' + alertId + '&<%=RequestParams.APPLICATION_ID%>=' + appId + '&refreshApps=true';
+            location = '/config/deleteAlert.do?<%=RequestParams.ALERT_ID%>=' + alertIds + '&<%=RequestParams.APPLICATION_ID%>=' + appId + '&refreshApps=true';
         }
         return;
     }
+	function getAlertIdsToBeRemoved(){
+		var nosAlertRows = document.getElementById("nosAlertRows").value;
+		var alertIds="";
+		for(i=0;i<nosAlertRows;i++){
+			if(document.getElementById("chkAlertId"+i).checked == true){
+				if(alertIds==""){
+					alertIds = document.getElementById("hidAlertId"+i).value;
+				}else{
+					alertIds = alertIds + "," +document.getElementById("hidAlertId"+i).value;
+				}
+			}
+		}
+		return alertIds;
+	}
     function deleteGraph(graphId, appId){
         var msg;
         msg = "Are you sure you want to delete this Graph?";
         if(confirm(msg) == true){
-            location = '<%=request.getContextPath()%>'+'/config/deleteGraph.do?<%=RequestParams.GRAPH_ID%>=' + graphId + '&<%=RequestParams.APPLICATION_ID%>=' + appId + '&refreshApps=true';
+            location = '/config/deleteGraph.do?<%=RequestParams.GRAPH_ID%>=' + graphId + '&<%=RequestParams.APPLICATION_ID%>=' + appId + '&refreshApps=true';
         }
         return;
     }
@@ -34,7 +53,7 @@
         var msg;
         msg = "Are you sure you want to delete this Dashboard?";
         if(confirm(msg) == true){
-            location = '<%=request.getContextPath()%>'+'/config/deleteDashboard.do?<%=RequestParams.DASHBOARD_ID%>='+dashboardID+'&<%=RequestParams.APPLICATION_ID%>='+appId +'&refreshApps=true';
+            location = '/config/deleteDashboard.do?<%=RequestParams.DASHBOARD_ID%>='+dashboardID+'&<%=RequestParams.APPLICATION_ID%>='+appId +'&refreshApps=true';
         }
         return;
     }
@@ -69,10 +88,9 @@
 		            + RequestParams.DATA_TYPE + "=java.lang.Number&"
 		            + RequestParams.DATA_TYPE + "=javax.management.openmbean.CompositeData&"
 		            + RequestParams.NAVIGATION + "=" + Utils.urlEncode("Add Graph");
-			pageContext.setAttribute("graphLink",link);
 		%>
 		<p>
-		    <jmhtml:link href="${pageScope.graphLink}" acl="<%=ACLConstants.ACL_ADD_GRAPH%>" styleClass="a">
+		    <jmhtml:link href='<%=link%>' acl="<%=ACLConstants.ACL_ADD_GRAPH%>" styleClass="a">
 		        Add Graph</jmhtml:link>
 		</p>
 		<p>
@@ -121,18 +139,18 @@ if(appConfig.getDashboards() != null && !appConfig.getDashboards().isEmpty()){
     <%
         for(String dashboardId : appConfig.getDashboards()){
             DashboardConfig dashboardConfig = DashboardRepository.getInstance().get(dashboardId);
-            pageContext.setAttribute("dashboardLink", "/config/viewDashboard.do?applicationId="+appConfig.getApplicationId()+"&dashBID="+dashboardConfig.getDashboardId());
     %>
     <tr>
         <td class="plaintext">
-            <jmhtml:link href="${pageScope.dashboardLink}"><%=dashboardConfig.getName()%></jmhtml:link></td>
+            <a href="/config/viewDashboard.do?applicationId=<%=appConfig.getApplicationId()%>&dashBID=<%=dashboardConfig.getDashboardId()%>">
+                <%=dashboardConfig.getName()%></a></td>
         <td align="right" width="60">
         <%
             String deleteDashboardLink = "JavaScript:deleteDashboard('"
                     + dashboardConfig.getDashboardId() + "','" + appConfig.getApplicationId() + "');";
         %>
-           <a href="<%=deleteDashboardLink%>" acl="<%=ACLConstants.ACL_EDIT_DASHBOARD%>" class="a1">
-            Delete</a>
+           <jmhtml:link href="<%=deleteDashboardLink%>" acl="<%=ACLConstants.ACL_EDIT_DASHBOARD%>"  styleClass="a1">
+            Delete</jmhtml:link>
        </td>
     </tr>
     <%}%>
@@ -149,21 +167,26 @@ if(appConfig.getDashboards() != null && !appConfig.getDashboards().isEmpty()){
 <%
     for(Iterator it=appConfig.getGraphs().iterator(); it.hasNext();){
         GraphConfig graphConfig = (GraphConfig)it.next();
-        pageContext.setAttribute("grphViewLnk", "/app/graphView.do?"+RequestParams.APPLICATION_ID+"="+appConfig.getApplicationId()+"&graphId="+graphConfig.getId());
-		pageContext.setAttribute("grphEditLnk", "/config/showEditGraph.do?"+ RequestParams.GRAPH_ID + "=" + graphConfig.getId());
 %>
     <tr>
         <td class="plaintext">
-            <jmhtml:link href="${pageScope.grphViewLnk}"><%=graphConfig.getName()%></jmhtml:link>
+            <a href="/app/graphView.do?<%=RequestParams.APPLICATION_ID%>=<%=appConfig.getApplicationId()%>&graphId=<%=graphConfig.getId()%>">
+                    <%=graphConfig.getName()%></a>
         </td>
         <td align="right">
-            <jmhtml:link href="${pageScope.grphEditLnk}" acl="<%=ACLConstants.ACL_EDIT_GRAPH%>" styleClass="a1">Edit</jmhtml:link>
+        <%
+                String editGraphLink ="/config/showEditGraph.do?"
+                        + RequestParams.GRAPH_ID + "=" + graphConfig.getId();
+            %>
+            <jmhtml:link href="<%=editGraphLink%>" acl="<%=ACLConstants.ACL_EDIT_GRAPH%>" styleClass="a1">Edit</jmhtml:link>
         </td>
         <td align="right" width="30">
         <%
-            String deleteGraphLink = "JavaScript:deleteGraph('"+ graphConfig.getId() + "','" + appConfig.getApplicationId() + "');";
+            String deleteGraphLink = "JavaScript:deleteGraph('"
+                    + graphConfig.getId() + "','" + appConfig.getApplicationId() + "');";
         %>
-            <a href="<%=deleteGraphLink%>" acl="<%=ACLConstants.ACL_EDIT_GRAPH%>" class="a1">Delete</a>
+            <jmhtml:link href="<%=deleteGraphLink%>" acl="<%=ACLConstants.ACL_EDIT_GRAPH%>" styleClass="a1">
+                Delete</jmhtml:link>
        </td>
     </tr>
 <%
@@ -195,13 +218,11 @@ if(appConfig.getDashboards() != null && !appConfig.getDashboards().isEmpty()){
     });
     for(Iterator it=sortedMBeans.iterator(); it.hasNext();){
         MBeanConfig mbeanConfig = (MBeanConfig)it.next();
-        pageContext.setAttribute("mbeanLink", "/app/mbeanView.do?"+RequestParams.APPLICATION_ID+"="+
-        							appConfig.getApplicationId()+"&"+RequestParams.OBJECT_NAME+"="+
-        							URLEncoder.encode(mbeanConfig.getObjectName(), "UTF-8"));
 %>
     <tr>
         <td class="plaintext" width="25%">
-            <jmhtml:link href="${pageScope.mbeanLink}"><%=mbeanConfig.getName()%></jmhtml:link>
+            <a href="/app/mbeanView.do?<%=RequestParams.APPLICATION_ID%>=<%=appConfig.getApplicationId()%>&<%=RequestParams.OBJECT_NAME%>=<%=URLEncoder.encode(mbeanConfig.getObjectName(), "UTF-8")%>">
+                    <%=mbeanConfig.getName()%></a>
         </td>
         <td class="plaintext">
             <%=mbeanConfig.getObjectName()%>
@@ -225,15 +246,31 @@ if(appConfig.getAlerts().size() > 0){
         <td colspan="6">Configured Alerts</td>
     </tr>
     <tr>
+        <td class="headtext1">
+		 <%
+		 String delAlertLink = "JavaScript:deleteAlert('"+ appConfig.getApplicationId() + "')";
+		 %>
+		 <input type="button" value="Remove" onClick="<%=delAlertLink%>" />
+		</td>
         <td class="headtext1">Alert Name</td>
         <td class="headtext1">Source</td>
         <td class="headtext1">Source Type</td>
         <td class="headtext1">Alert Delivery</td>
         <td class="headtext1">&nbsp;</td>
-        <td class="headtext1">&nbsp;</td>
     </tr>
     <%
-        List alerts = appConfig.getAlerts();
+		/*Check if the user has access to delete the alerts*/
+		boolean hasAccess=false;
+        if(ACLConstants.ACL_EDIT_ALERT != null){
+            if(!AccessController.canAccess(Utils.getServiceContext(webContext),ACLConstants.ACL_EDIT_ALERT)){
+                hasAccess = false;
+            }else{
+				hasAccess=true;
+			}
+        }
+
+		int nosAlertRows =0;
+		List alerts = appConfig.getAlerts();
         Iterator itr = alerts.iterator();
         while(itr.hasNext()){
             AlertConfig alertConfig = (AlertConfig)itr.next();
@@ -248,17 +285,19 @@ if(appConfig.getAlerts().size() > 0){
             }
     %>
     <tr>
+	    <td align="center" width="30">
+		<% if(hasAccess){ %>
+			<input type="checkbox" id="chkAlertId<%=nosAlertRows %>"/>
+			<input type="hidden" value="<%=alertConfig.getAlertId() %>" id="hidAlertId<%=nosAlertRows %>"/>
+		<% } %>
+        </td>
         <td class="plaintext">
              <%=alertConfig.getAlertName()%>
         </td>
         <td class="plaintext">
-            <%if(alertConfig.getAlertSourceConfig().getObjectName() != null){
-            	pageContext.setAttribute("alertLink","/app/mbeanView.do?"+RequestParams.APPLICATION_ID+"="+
-            								alertConfig.getAlertSourceConfig().getApplicationConfig().getApplicationId()+
-            								"&"+RequestParams.OBJECT_NAME+"="+
-            								URLEncoder.encode(alertConfig.getAlertSourceConfig().getObjectName(), "UTF-8"));
-            %>
-            <jmhtml:link href="${pageScope.alertLink}"><%=ObjectName.getShortName(alertConfig.getAlertSourceConfig().getObjectName())%></jmhtml:link>
+            <%if(alertConfig.getAlertSourceConfig().getObjectName() != null){%>
+            <a href="/app/mbeanView.do?<%=RequestParams.APPLICATION_ID%>=<%=alertConfig.getAlertSourceConfig().getApplicationConfig().getApplicationId()%>&<%=RequestParams.OBJECT_NAME%>=<%=URLEncoder.encode(alertConfig.getAlertSourceConfig().getObjectName(), "UTF-8")%>">
+             <%=ObjectName.getShortName(alertConfig.getAlertSourceConfig().getObjectName())%>
             <%}else{ %>
              	&nbsp;
             <%} %>
@@ -267,19 +306,17 @@ if(appConfig.getAlerts().size() > 0){
         <td class="plaintext"><%=alertDel%></td>
         <td align="right" width="60">
             <%
-                pageContext.setAttribute("editAlertLink","/config/showEditAlert.do?"+ RequestParams.ALERT_ID + "=" + alertConfig.getAlertId());
+                String editAlertLink ="/config/showEditAlert.do?"
+                        + RequestParams.ALERT_ID + "=" + alertConfig.getAlertId();
             %>
-            <jmhtml:link href="${pageScope.editAlertLink}" acl="<%=ACLConstants.ACL_EDIT_ALERT%>" styleClass="a1">Edit</jmhtml:link>
+            <jmhtml:link href="<%=editAlertLink%>" acl="<%=ACLConstants.ACL_EDIT_ALERT%>" styleClass="a1">Edit</jmhtml:link>
         </td>
-        <td align="right" width="60">
-        <%
-            String deleteAlertLink = "JavaScript:deleteAlert('"
-                    + alertConfig.getAlertId() + "','" + appConfig.getApplicationId() + "');";
-        %>
-           <a href="<%=deleteAlertLink%>" acl="<%=ACLConstants.ACL_EDIT_ALERT%>" class="a1">Delete</a>
-       </td>
     </tr>
-    <%}%>
+    <%
+		nosAlertRows++;
+	}
+	%>
+	<input type="hidden" value="<%=nosAlertRows%>" id="nosAlertRows"/>
 </table>
 </td></tr>
 </table>
