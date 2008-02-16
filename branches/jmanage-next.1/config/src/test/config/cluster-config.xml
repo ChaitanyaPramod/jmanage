@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application-config>
+    <applications>
+        <application-cluster id="1110211614671" name="testCluster">
+            <mbeans/>
+            <applications>
+                <application id="1109334789661"
+                    name="testApp1"
+                    url="service:jmx:rmi:///jndi/rmi://localhost:9999/testApp"
+                    username=""
+                    password="7c82082b0cd62b60"
+                    type="jsr160">
+                    <mbeans/>
+                </application>
+                <application id="1110211598668"
+                    name="testApp2"
+                    url="service:jmx:rmi:///jndi/rmi://localhost:10000/testApp"
+                    username=""
+                    password="7c82082b0cd62b60"
+                    type="jsr160">
+                    <mbeans/>
+                    <graphs>
+                        <graph id="1"
+                            name="Test Graph"
+                            pollingInterval="5">
+                            <attribute
+                                mbean="jmanage:name=Configuration"
+                                attribute="AppUptime"
+                                displayName="Application life"/>
+                        </graph>
+                    </graphs>
+                    <alerts>
+                        <alert id="1"
+                            name="Test Alert"
+                            subject="Something is wrong">
+                            <source type="notification"
+                                mbean="jmanage:type=test,name=TimeNotificationBroadcaster"
+                                notificationType="time.expired"/>
+                            <delivery type="email"
+                                emailAddress="getkalra@yahoo.com"/>
+                            <delivery type="console"/>
+                        </alert>
+                    </alerts>
+                </application>
+            </applications>
+        </application-cluster>
+    </applications>
+</application-config>

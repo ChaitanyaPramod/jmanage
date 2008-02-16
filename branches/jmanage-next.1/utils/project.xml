@@ -1,0 +1,18 @@
+<project>
+    <extend>${basedir}/../project.xml</extend>
+    <artifactId>jmanage-utils</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>mail</groupId>
+            <artifactId>mail</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>struts</groupId>
+            <artifactId>struts-commons-beanutils</artifactId>
+        </dependency>
+		    <dependency>
+            <groupId>hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+        </dependency>
+    </dependencies>
+</project>
