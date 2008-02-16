@@ -34,22 +34,28 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Date: Jun 21, 2005 12:16:23 PM
+ * 
  * @author Bhavana
  */
-public class RemoveAlertAction extends BaseAction{
+public class RemoveAlertAction extends BaseAction {
 
-    public ActionForward execute(WebContext context, ActionMapping mapping,
-                                 ActionForm form, HttpServletRequest request,
-                                 HttpServletResponse response)
-        throws Exception {
-        AccessController.checkAccess(Utils.getServiceContext(context),ACL_EDIT_ALERT);
-        ApplicationConfig appConfig = context.getApplicationConfig();
-        AlertConfig alertConfig = appConfig.removeAlert(
-                request.getParameter(RequestParams.ALERT_ID));
-        if(alertConfig != null){
-            ApplicationConfigManager.updateApplication(appConfig);
-            AlertEngine.getInstance().removeAlertConfig(alertConfig);
-        }
-        return mapping.findForward(Forwards.SUCCESS);
-    }
+	public ActionForward execute(WebContext context, ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		AccessController.checkAccess(Utils.getServiceContext(context),
+				ACL_EDIT_ALERT);
+		ApplicationConfig appConfig = context.getApplicationConfig();
+		AlertConfig alertConfigs[] = appConfig.removeAlerts(request
+				.getParameter(RequestParams.ALERT_ID));
+		int counter = 0;
+		while (alertConfigs != null & counter < alertConfigs.length) {
+			if (alertConfigs[counter] != null) {
+				ApplicationConfigManager.updateApplication(appConfig);
+				AlertEngine.getInstance().removeAlertConfig(
+						alertConfigs[counter]);
+				counter++;
+			}
+		}
+		return mapping.findForward(Forwards.SUCCESS);
+	}
 }
