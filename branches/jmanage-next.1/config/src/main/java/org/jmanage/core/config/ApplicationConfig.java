@@ -338,7 +338,7 @@ public abstract class ApplicationConfig {
 		String [] str = alertIds.split(regExp);
 		AlertConfig [] alertConfigs = new AlertConfig[str.length];
 		int counter = 0;
-        while(counter < str.length){
+        while(counter < (str.length-1)){
             alertConfigs[counter] = findAlertById(str[counter]);
             counter++;
         }
