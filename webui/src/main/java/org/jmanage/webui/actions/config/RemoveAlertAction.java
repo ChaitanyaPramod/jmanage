@@ -47,10 +47,10 @@ public class RemoveAlertAction extends BaseAction {
 		ApplicationConfig appConfig = context.getApplicationConfig();
 		AlertConfig alertConfigs[] = appConfig.removeAlerts(request
 				.getParameter(RequestParams.ALERT_ID));
+		ApplicationConfigManager.updateApplication(appConfig);
 		int counter = 0;
-		while (alertConfigs != null & counter < alertConfigs.length) {
+		while ((alertConfigs != null) && (counter < alertConfigs.length)) {
 			if (alertConfigs[counter] != null) {
-				ApplicationConfigManager.updateApplication(appConfig);
 				AlertEngine.getInstance().removeAlertConfig(
 						alertConfigs[counter]);
 				counter++;
