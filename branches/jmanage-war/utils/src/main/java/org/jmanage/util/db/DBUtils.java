@@ -25,7 +25,6 @@ import java.util.logging.Logger;
 
 import org.jmanage.core.util.CoreUtils;
 import org.jmanage.core.util.Loggers;
-import org.jmanage.core.util.SystemProperties;
 
 /** 
  * Contains utility functions for reading/writing to the DB
