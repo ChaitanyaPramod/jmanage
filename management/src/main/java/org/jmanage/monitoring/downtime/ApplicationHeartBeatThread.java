@@ -24,6 +24,7 @@ import org.jmanage.core.management.ServerConnection;
 import org.jmanage.core.management.ServerConnector;
 import org.jmanage.core.util.Loggers;
 import org.jmanage.event.EventSystem;
+import org.jmanage.monitoring.data.collector.DataCollector;
 import org.jmanage.monitoring.downtime.event.ApplicationDownEvent;
 import org.jmanage.monitoring.downtime.event.ApplicationUpEvent;
 
@@ -96,7 +97,13 @@ public class ApplicationHeartBeatThread extends Thread {
         ServerConnection connection = null;
         try {
             connection = ServerConnector.getServerConnection(appConfig);
-            return connection.isOpen();
+            boolean isOpen = connection.isOpen();
+            if(isOpen){
+            	/* call the data collector to get data for configured attributes */
+            	// FIXME: uncomment when functionality is complete -rk
+            	// DataCollector.collect(appConfig, connection);
+            }
+            return isOpen;
         }catch(Exception e){
             logger.info("Application is down: " + appConfig.getName());
             return false;
