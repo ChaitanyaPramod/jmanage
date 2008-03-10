@@ -103,6 +103,20 @@ public class DBUtils {
                         "(APPLICATION_ID VARCHAR NOT NULL, " +
                         "START_TIME TIMESTAMP NOT NULL, " +
                         "END_TIME TIMESTAMP NOT NULL)");
+            // TODO: New tables in war version -- will need a upgrade script for existing installtion
+            /* MBEAN_ATTRIBUTE */
+            statement.executeUpdate(
+                    "CREATE CACHED TABLE MBEAN_ATTRIBUTE " +
+                        "(ID INT NOT NULL," +
+                        "APPLICATION_ID VARCHAR NOT NULL, " +
+                        "MBEAN_NAME VARCHAR NOT NULL, " +
+                        "ATTRIBUTE_NAME VARCHAR NOT NULL)");
+            /* MBEAN_ATTRIBUTE_VALUE */
+            statement.executeUpdate(
+                    "CREATE CACHED TABLE MBEAN_ATTRIBUTE_VALUE " +
+                        "(WHEN_COLLECTED TIMESTAMP NOT NULL," +
+                        "MBEAN_ATTRIBUTE_ID INT NOT NULL, " +
+                        "VALUE VARCHAR NOT NULL)");
             statement.execute("SET WRITE_DELAY FALSE");
             // TODO: Add FK from history to downtime
             //connection.commit();

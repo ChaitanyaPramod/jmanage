@@ -137,7 +137,7 @@ public abstract class JMXServerConnection implements ServerConnection{
      * @param attributeNames
      * @return
      */
-    public List getAttributes(ObjectName objectName, String[] attributeNames) {
+    public List<ObjectAttribute> getAttributes(ObjectName objectName, String[] attributeNames) {
 
         Class[] methodSignature = new Class[]{javax.management.ObjectName.class,
                                               new String[0].getClass()};
@@ -435,7 +435,7 @@ public abstract class JMXServerConnection implements ServerConnection{
                 parameter.getDescription(), parameter.getType());
     }
 
-    protected static List toObjectAttributeList(AttributeList attrList){
+    protected static List<ObjectAttribute> toObjectAttributeList(AttributeList attrList){
         final List<ObjectAttribute> objAttrList = new ArrayList<ObjectAttribute>(attrList.size());
         for(Iterator it=attrList.iterator(); it.hasNext(); ){
             Attribute attr = (Attribute)it.next();

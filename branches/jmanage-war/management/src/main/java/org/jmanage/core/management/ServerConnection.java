@@ -81,7 +81,7 @@ public interface ServerConnection {
      * @param attributeNames
      * @return
      */
-    public List getAttributes(ObjectName objectName, String[] attributeNames);
+    public List<ObjectAttribute> getAttributes(ObjectName objectName, String[] attributeNames);
 
     /**
      * Saves the attribute values.
