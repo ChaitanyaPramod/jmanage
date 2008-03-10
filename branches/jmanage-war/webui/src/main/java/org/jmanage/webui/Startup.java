@@ -18,6 +18,7 @@ package org.jmanage.webui;
 import org.jmanage.core.util.CoreUtils;
 import org.mortbay.jetty.Server;
 import java.io.File;
+import java.rmi.RMISecurityManager;
 
 /**
  * The Web-UI startup class.
@@ -28,6 +29,10 @@ import java.io.File;
 public class Startup {
 
     public static void main(String[] args) throws Exception{
+    	
+    	if(System.getSecurityManager() == null) {
+    		System.setSecurityManager(new RMISecurityManager());
+    	}
         /* start the application */
         start();
     }
