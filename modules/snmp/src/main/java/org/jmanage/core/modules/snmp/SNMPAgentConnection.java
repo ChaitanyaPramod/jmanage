@@ -110,7 +110,7 @@ public class SNMPAgentConnection implements ServerConnection{
         return null; // todo: null is probably not the right value here
     }
 
-    public List getAttributes(ObjectName objectName, String[] attributeNames) {
+    public List<ObjectAttribute> getAttributes(ObjectName objectName, String[] attributeNames) {
 
         Set<String> OIDs = new HashSet<String>();
         for(int i=0;i<attributeNames.length; i++){

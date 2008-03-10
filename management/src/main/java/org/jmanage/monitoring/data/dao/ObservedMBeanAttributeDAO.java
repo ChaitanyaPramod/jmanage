@@ -22,6 +22,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.jmanage.core.config.ApplicationConfig;
+import org.jmanage.core.config.ApplicationConfigManager;
 import org.jmanage.monitoring.data.model.ObservedMBeanAttribute;
 import org.jmanage.util.db.DBUtils;
 
@@ -35,24 +36,15 @@ public class ObservedMBeanAttributeDAO {
 		Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rset = null;
-        List<ObservedMBeanAttribute> observedMBeanAttributes = 
-        	new LinkedList<ObservedMBeanAttribute>();
         try{
             conn = DBUtils.getConnection();
-            stmt = conn.prepareStatement("SELECT id, mbean_name, attribute_name " +
-                    "FROM mbean_attribute" +
+            stmt = conn.prepareStatement("SELECT id, application_id, " +
+            		"mbean_name, attribute_name " +
+                    "FROM MBEAN_ATTRIBUTE" +
                     " WHERE application_id=?");
             stmt.setString(1, appConfig.getApplicationId());
             rset = stmt.executeQuery();
-            while(rset.next()){
-            	observedMBeanAttributes.add(
-            			new ObservedMBeanAttribute(
-            					rset.getLong(1), 
-            					appConfig, 
-            					rset.getString(2), 
-            					rset.getString(3)));
-            }
-            return observedMBeanAttributes;
+            return resultSetToModel(rset);
         }catch(SQLException e){    
             throw new RuntimeException(e);
         }finally{
@@ -60,5 +52,48 @@ public class ObservedMBeanAttributeDAO {
             DBUtils.close(stmt);
             DBUtils.close(conn);
         }
+	}
+
+	/**
+	 * @return
+	 */
+	public List<ObservedMBeanAttribute> findAll() {
+		Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rset = null;
+        try{
+            conn = DBUtils.getConnection();
+            stmt = conn.prepareStatement("SELECT id, application_id, " +
+            		"mbean_name, attribute_name " +
+                    "FROM MBEAN_ATTRIBUTE");
+            rset = stmt.executeQuery();
+            return resultSetToModel(rset);
+        }catch(SQLException e){    
+            throw new RuntimeException(e);
+        }finally{
+            DBUtils.close(rset);
+            DBUtils.close(stmt);
+            DBUtils.close(conn);
+        }
+	}
+
+	private List<ObservedMBeanAttribute> resultSetToModel(ResultSet rset) throws SQLException{
+        List<ObservedMBeanAttribute> observedMBeanAttributes = 
+        	new LinkedList<ObservedMBeanAttribute>();
+		while(rset.next()){
+			final String appId = rset.getString(2);
+			ApplicationConfig appConfig = 
+				ApplicationConfigManager.getApplicationConfig(appId);
+			if(appConfig == null){
+				throw new RuntimeException("No application config found for appId: " + appId);
+			}
+        	observedMBeanAttributes.add(
+        			new ObservedMBeanAttribute(
+        					rset.getLong(1), 
+        					appConfig, 
+        					rset.getString(3), 
+        					rset.getString(4)));
+        }
+        return observedMBeanAttributes;
 	}
 }

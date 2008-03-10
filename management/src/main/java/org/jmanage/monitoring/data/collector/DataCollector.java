@@ -15,22 +15,23 @@
 package org.jmanage.monitoring.data.collector;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.jmanage.core.config.ApplicationConfig;
-import org.jmanage.core.management.ObjectName;
+import org.jmanage.core.management.ObjectAttribute;
 import org.jmanage.core.management.ServerConnection;
 import org.jmanage.core.util.Loggers;
-import org.jmanage.monitoring.data.dao.ObservedMBeanAttributeDAO;
+import org.jmanage.monitoring.data.dao.ObservedMBeanAttributeValueDAO;
 import org.jmanage.monitoring.data.model.ObservedMBeanAttribute;
+import org.jmanage.monitoring.data.model.ObservedMBeanAttributeValue;
 
 /**
- * @author rkalra
+ * Collects values for configured MBean attributes and saves them to the database.
  * 
+ * @author rkalra
  */
 public class DataCollector {
 
@@ -42,41 +43,33 @@ public class DataCollector {
 	 */
 	public static void collect(ApplicationConfig appConfig, ServerConnection connection) {
 		/* get a list of ObservedMBeanAttribute objects for the given ApplicationConfig */
-		ObservedMBeanAttributeDAO dao = new ObservedMBeanAttributeDAO();
-		List<ObservedMBeanAttribute> observedMBeanAttributes = dao.find(appConfig);
-		if(observedMBeanAttributes.size() > 0){
-			/* build a map of object name to attribute array mapping */
-			Map<String, List<String>> mbeanNameToAttributesMap = 
-				buildMBeanNameToAttributesMap(observedMBeanAttributes);
-			for(Map.Entry<String, List<String>> entry:mbeanNameToAttributesMap.entrySet()){
-				ObjectName objectName = new ObjectName(entry.getKey());
-				String[] attributes = 
-					entry.getValue().toArray(new String[entry.getValue().size()]);
+		Set<ObservedMBean> observedMBeans = 
+			ObservedMBeanAttributeCache.getObservedMBeans(appConfig);
+		List<ObservedMBeanAttributeValue> observedMBeanAttributeValues = 
+			new ArrayList<ObservedMBeanAttributeValue>();
+		for(ObservedMBean observedMBean:observedMBeans){
+			if(logger.isLoggable(Level.FINE)){
 				logger.log(Level.FINE, "Collection data for application: {0}, mbean: {1}, attributes:{2}", 
-						new Object[]{appConfig.getName(), objectName, attributes});
-				List objectAttributes = connection.getAttributes(objectName, attributes);
-				
-				// TODO: writeToDB() -- somehow need a handle to the ObservedMBeanAttribute
+						new Object[]{appConfig.getName(), observedMBean.getObjectName(), 
+						observedMBean.getAttributeNames()});
 			}
-		}
-	}
-
-	/**
-	 * @param observedMBeanAttributes
-	 * @return
-	 */
-	private static Map<String, List<String>> buildMBeanNameToAttributesMap(
-			List<ObservedMBeanAttribute> observedMBeanAttributes) {
-		Map<String, List<String>> mbeanNameToAttributesMap = new HashMap<String, List<String>>();
-		for(ObservedMBeanAttribute attribute:observedMBeanAttributes){
-			List<String> attributeNames = 
-				mbeanNameToAttributesMap.get(attribute.getMBeanName());
-			if(attributeNames == null){
-				attributeNames = new ArrayList<String>();
-				mbeanNameToAttributesMap.put(attribute.getMBeanName(), attributeNames);
+			List<ObjectAttribute> objectAttributes = 
+				connection.getAttributes(observedMBean.getObjectName(), 
+						observedMBean.getAttributeNames());
+			int index = 0;
+			for(ObjectAttribute objectAttribute:objectAttributes){
+				// TODO: what if it fails? -rk
+				assert objectAttribute.getStatus() == ObjectAttribute.STATUS_OK;
+				ObservedMBeanAttribute observedMBeanAttribute = 
+					observedMBean.getObservedMBeanAttributes()[index++];
+				ObservedMBeanAttributeValue observedMBeanAttributeValue =
+					new ObservedMBeanAttributeValue(observedMBeanAttribute, 
+							objectAttribute.getDisplayValue()); // TODO: Is display value the right value to use?
+				observedMBeanAttributeValues.add(observedMBeanAttributeValue);
 			}
-			attributeNames.add(attribute.getAttributeName());
+			
 		}
-		return mbeanNameToAttributesMap;
+		// save the values to the database
+		new ObservedMBeanAttributeValueDAO().save(observedMBeanAttributeValues);
 	}
 }

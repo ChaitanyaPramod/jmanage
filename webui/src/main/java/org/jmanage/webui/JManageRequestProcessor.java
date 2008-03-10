@@ -28,6 +28,7 @@ import org.jmanage.core.crypto.Crypto;
 import org.jmanage.core.services.ServiceFactory;
 import org.jmanage.core.services.AuthService;
 import org.jmanage.core.services.ServiceException;
+import org.jmanage.monitoring.data.collector.ObservedMBeanAttributeCache;
 import org.jmanage.monitoring.downtime.ApplicationDowntimeService;
 import org.jmanage.util.db.DBUtils;
 import org.jmanage.webui.util.WebContext;
@@ -92,14 +93,19 @@ public class JManageRequestProcessor extends TilesRequestProcessor{
 	
 	            /* clear the password */
 	            Arrays.fill(password, ' ');
-	
-        		DBUtils.init();
-            	AlertEngine.getInstance().start();
+	            
+	            /* read jmanage.properties */
+	            JManageProperties.getInstance();
+	            /* Initialize DBUtils */
+                DBUtils.init();
+                /* Start AlertEngine */
+                AlertEngine.getInstance().start();
+            	/* Initialize ObservedMBeanAttributeCache */
+            	ObservedMBeanAttributeCache.init();
+            	/* Start threads to monitor configured applications */
             	ApplicationDowntimeService.getInstance().start();
-                JManageProperties.getInstance();
-
-        	}catch(Exception e){
-        		e.printStackTrace();
+        	}catch(Throwable e){
+        		logger.log(Level.SEVERE, "Error initializing application.", e);
         		throw new ServletException(e);
         	}
         }
