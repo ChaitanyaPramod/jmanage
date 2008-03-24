@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * Action class for the graph view page. This page contains the applet
- * which pulls attriute values via MBeanAttributeValuesAction.
+ * which pulls attribute values via MBeanAttributeValuesAction.
  *
  * @see MBeanAttributeValuesAction
  *

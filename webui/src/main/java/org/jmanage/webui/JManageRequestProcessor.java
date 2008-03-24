@@ -69,7 +69,7 @@ public class JManageRequestProcessor extends TilesRequestProcessor{
         if("true".equals(isWebDeploy)){
         	String rootDirAbsPath = System.getProperty("JMANAGE_ROOT");
         	//TODO: Where to get this password from ?
-            char[] password = {'1','2','3','4','5','6'};
+
         	try{
 	        	String metadataDir = servlet.getServletConfig().getInitParameter("metadata-dir");
 	        	String metadataDirAbsPath = servlet.getServletContext().getRealPath(metadataDir);
@@ -85,17 +85,22 @@ public class JManageRequestProcessor extends TilesRequestProcessor{
 	        	System.setProperty(jaasConfigSysProp, rootDirAbsPath+File.separatorChar+"config"+File.separatorChar+"jmanage-auth.conf");
 
 	        	CoreUtils.init(rootDirAbsPath, metadataDirAbsPath);
+
+	        	/* read jmanage.properties */
+            	JManageProperties jmProp = JManageProperties.getInstance();
+        		String serverIndicator = System.getProperty("SERVER.IND");
+            	String sPassword = jmProp.getProperty("jManage.password");
+            	char[] password = sPassword != null ? sPassword.toCharArray() : null;
+            	System.out.println(sPassword+"---"+password);
 	        	
 	            ServiceFactory.init(ServiceFactory.MODE_LOCAL);
+	        	if(!"JETTY".equals(serverIndicator)){
+		            /* initialize Crypto */
+		            Crypto.init(password);
+		            /* clear the password */
+		            Arrays.fill(password, ' ');
+	        	}
 	
-	            /* initialize Crypto */
-	            Crypto.init(password);
-	
-	            /* clear the password */
-	            Arrays.fill(password, ' ');
-	            
-	            /* read jmanage.properties */
-	            JManageProperties.getInstance();
 	            /* Initialize DBUtils */
                 DBUtils.init();
                 /* Start AlertEngine */
