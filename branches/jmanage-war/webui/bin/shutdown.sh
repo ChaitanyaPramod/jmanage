@@ -11,5 +11,5 @@ if [ ! -n "$JMANAGE_CLASSPATH" ]; then
 fi
 
 $JAVA_HOME/bin/java -ea -classpath $JMANAGE_CLASSPATH $DEBUG_OPTIONS \
-    -Djmanage.root=$JMANAGE_HOME \
+    -DJMANAGE_ROOT=$JMANAGE_HOME \
     org.jmanage.webui.Shutdown $*

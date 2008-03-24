@@ -18,6 +18,7 @@ package org.jmanage.webui;
 import org.jmanage.core.auth.UserManager;
 import org.jmanage.core.auth.User;
 import org.jmanage.core.auth.AuthConstants;
+import org.jmanage.core.util.CoreUtils;
 import org.jmanage.core.util.PasswordField;
 import org.jmanage.core.util.JManageProperties;
 
@@ -39,6 +40,8 @@ public class Shutdown {
     private static String _key;
 
     public static void main(String[] args) throws Exception{
+    	String jManageRoot = System.getProperty("JMANAGE_ROOT");
+    	CoreUtils.initJmanageForCLIUtilities(jManageRoot);
         UserManager userManager = UserManager.getInstance();
         User user = null;
         char[] password = null;
