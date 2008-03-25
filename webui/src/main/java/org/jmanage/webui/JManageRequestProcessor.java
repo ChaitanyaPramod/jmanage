@@ -68,7 +68,6 @@ public class JManageRequestProcessor extends TilesRequestProcessor{
         String isWebDeploy = servlet.getServletConfig().getInitParameter("web-deploy");
         if("true".equals(isWebDeploy)){
         	String rootDirAbsPath = System.getProperty("JMANAGE_ROOT");
-        	//TODO: Where to get this password from ?
 
         	try{
 	        	String metadataDir = servlet.getServletConfig().getInitParameter("metadata-dir");
@@ -91,7 +90,6 @@ public class JManageRequestProcessor extends TilesRequestProcessor{
         		String serverIndicator = System.getProperty("SERVER.IND");
             	String sPassword = jmProp.getProperty("jManage.password");
             	char[] password = sPassword != null ? sPassword.toCharArray() : null;
-            	System.out.println(sPassword+"---"+password);
 	        	
 	            ServiceFactory.init(ServiceFactory.MODE_LOCAL);
 	        	if(!"JETTY".equals(serverIndicator)){
