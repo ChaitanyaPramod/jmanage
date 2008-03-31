@@ -1,0 +1,12 @@
+1)New properties in jmanage.properties
+
+jmanage.database.driver_class=com.mysql.jdbc.Driver
+jmanage.database.url=jdbc:mysql://localhost/jmanage?autoReconnect=true
+jmanage.database.username=root
+jmanage.database.password=123456
+
+2) New tables in war version -- will need a upgrade script for existing installtion
+
+MBEAN_ATTRIBUTE 
+MBEAN_ATTRIBUTE_VALUE 
+

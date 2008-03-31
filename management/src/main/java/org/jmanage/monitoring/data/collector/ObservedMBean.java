@@ -4,6 +4,7 @@
 package org.jmanage.monitoring.data.collector;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.jmanage.core.management.ObjectName;
@@ -46,12 +47,14 @@ public class ObservedMBean {
 	public ObservedMBeanAttribute[] getObservedMBeanAttributes() {
 		return observedMBeanAttributes;
 	}
-
+	
+	/* TODO: this method could use some optimization with creation of temp lists */
 	public void addObservedMBeanAttribute(ObservedMBeanAttribute attribute){
-		List<ObservedMBeanAttribute> observedMBeanAttributesList = Arrays.asList(observedMBeanAttributes);
+		List<ObservedMBeanAttribute> observedMBeanAttributesList =
+			new LinkedList<ObservedMBeanAttribute>(Arrays.asList(observedMBeanAttributes));
 		observedMBeanAttributesList.add(attribute);
 		observedMBeanAttributes = observedMBeanAttributesList.toArray(observedMBeanAttributes);
-		List<String> attributeNamesList = Arrays.asList(attributeNames);
+		List<String> attributeNamesList = new LinkedList<String>(Arrays.asList(attributeNames));
 		attributeNamesList.add(attribute.getAttributeName());
 		attributeNames = attributeNamesList.toArray(attributeNames);
 	}

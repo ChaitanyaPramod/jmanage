@@ -68,6 +68,12 @@ public class JManageProperties extends Properties{
 
     /* Option to auto-login the admin user. This is useful when security is not important. */
     private static String AUTO_LOGIN_ADMIN_USER = "auto.login.adminUser";
+
+    /* Optional database connection attributes to connect to an external DB. */
+    private static String DATABASE_DRIVER_CLASS = "jmanage.database.driver_class";
+    private static String DATABASE_URL = "jmanage.database.url"; 
+    private static String DATABASE_USERNAME = "jmanage.database.username"; 
+    private static String DATABASE_PASSWORD = "jmanage.database.password";
     
     /*  The only instance   */
     private static JManageProperties jManageProperties = new JManageProperties();
@@ -163,5 +169,21 @@ public class JManageProperties extends Properties{
     public static boolean isDisplayCanonicalName(){
         return "true".equals(
                 jManageProperties.getProperty(DISPLAY_MBEAN_CANONICAL_NAME));
+    }
+    
+    public static String getDatabaseDriverClass(){
+    	return jManageProperties.getProperty(DATABASE_DRIVER_CLASS);
+    }
+    
+    public static String getDatabaseURL(){
+    	return jManageProperties.getProperty(DATABASE_URL);
+    }
+    
+    public static String getDatabaseUsername(){
+    	return jManageProperties.getProperty(DATABASE_USERNAME);
+    }
+    
+    public static String getDatabasePassword(){
+    	return jManageProperties.getProperty(DATABASE_PASSWORD);
     }
 }
