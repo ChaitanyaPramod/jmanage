@@ -100,8 +100,7 @@ public class ApplicationHeartBeatThread extends Thread {
             boolean isOpen = connection.isOpen();
             if(isOpen){
             	/* call the data collector to get data for configured attributes */
-            	// FIXME: uncomment when functionality is complete -rk
-            	// DataCollector.collect(appConfig, connection);
+            	DataCollector.collect(appConfig, connection);
             }
             return isOpen;
         }catch(Exception e){

@@ -24,6 +24,7 @@ import java.sql.Statement;
 import java.util.logging.Logger;
 
 import org.jmanage.core.util.CoreUtils;
+import org.jmanage.core.util.JManageProperties;
 import org.jmanage.core.util.Loggers;
 
 /** 
@@ -35,21 +36,50 @@ public class DBUtils {
     
     private static final Logger logger = Loggers.getLogger(DBUtils.class);
     
-    private static final String URL = "jdbc:hsqldb:file:" + CoreUtils.getDataDir() + "/db";
+    private static final String HSQLDB_DRIVER_CLASS = "org.hsqldb.jdbcDriver";
+    private static final String DRIVER_CLASS;
+    private static final String URL;
+    private static final String USERNAME;
+    private static final String PASSWORD;
 
     static{
-        logger.info("DataBase URL: " + URL);
+    	if(JManageProperties.getDatabaseDriverClass() != null){
+    		DRIVER_CLASS = JManageProperties.getDatabaseDriverClass();
+    	}else{
+    		DRIVER_CLASS = HSQLDB_DRIVER_CLASS;
+    	}
+    	if(JManageProperties.getDatabaseURL() != null){
+    		URL = JManageProperties.getDatabaseURL();
+    	}else{
+    		URL = "jdbc:hsqldb:file:" + CoreUtils.getDataDir() + "/db";
+    	}
+    	if(JManageProperties.getDatabaseUsername() != null){
+    		USERNAME = JManageProperties.getDatabaseUsername();
+    	}else{
+    		USERNAME = "sa";
+    	}
+    	if(JManageProperties.getDatabasePassword() != null){
+    		PASSWORD = JManageProperties.getDatabasePassword();
+    	}else{
+    		PASSWORD = "";
+    	}
+    	logger.info("DataBase driver class: " + DRIVER_CLASS  + ", URL: " + URL);
         try {
-            Class.forName("org.hsqldb.jdbcDriver");
+            Class.forName(DRIVER_CLASS);
         } catch (Exception e) {
             throw new RuntimeException("HSQLDB Driver not found", e);
         }
     }
 
-
+    /**
+     * TODO: we need to use a connection pool here -- rk
+     * @return
+     */
     public static Connection getConnection(){
         try {
-            return DriverManager.getConnection(URL,"sa","");
+            Connection connection = DriverManager.getConnection(URL,USERNAME,PASSWORD);
+            connection.setAutoCommit(false);
+            return connection;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -171,20 +201,23 @@ public class DBUtils {
     }
     
     public static void init() {
-        String dataDir = CoreUtils.getDataDir();
-        assert dataDir != null;     
-        /* create db tables if they don't exist */
-        File dbFile = new File(dataDir+"/db.properties");
-        if(!dbFile.exists()){
-            logger.info("Creating DB tables");
-            DBUtils.createTables();
-        }else{
-            /* if lock file was left around -- try to delete it */
-            File dbLockFile = new File(dataDir + "/db.lck");
-            if(dbLockFile.exists()){
-                logger.warning("DB lock file exists. Trying to delete.");
-                dbLockFile.delete();
-            }
-        }
+    	if(HSQLDB_DRIVER_CLASS.equals(DRIVER_CLASS)){
+    		logger.info("Using inbuilt HSQLDB for data storage");
+    		String dataDir = CoreUtils.getDataDir();
+            assert dataDir != null;     
+            /* create db tables if they don't exist */
+            File dbFile = new File(dataDir+"/db.properties");
+            if(!dbFile.exists()){
+                logger.info("Creating HSQLDB tables under folder " + dataDir);
+                DBUtils.createTables();
+            }else{
+                /* if lock file was left around -- try to delete it */
+                File dbLockFile = new File(dataDir + "/db.lck");
+                if(dbLockFile.exists()){
+                    logger.warning("DB lock file exists. Trying to delete.");
+                    dbLockFile.delete();
+                }
+            }	
+    	}
     }
 }
