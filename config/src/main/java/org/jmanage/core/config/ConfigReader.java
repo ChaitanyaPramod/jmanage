@@ -139,6 +139,11 @@ public class ConfigReader implements ConfigConstants{
         if(application.getAttributeValue(PORT) != null){
             port = new Integer(application.getAttributeValue(PORT));
         }
+        Long heartBeatCheckIntervalInSeconds = null;
+        if(application.getAttributeValue(HEART_BEAT_CHECK_INTERVAL) != null){
+        	heartBeatCheckIntervalInSeconds = 
+        		new Long(application.getAttributeValue(HEART_BEAT_CHECK_INTERVAL));
+        }
         ApplicationConfig config =
                 ApplicationConfigFactory.create(
                         application.getAttributeValue(APPLICATION_ID),
@@ -149,8 +154,8 @@ public class ConfigReader implements ConfigConstants{
                         application.getAttributeValue(URL),
                         application.getAttributeValue(USERNAME),
                         password,
+                        heartBeatCheckIntervalInSeconds,
                         paramValues);
-
         config.setMBeans(getMBeanConfigList(application));
         config.setAlerts(getAlertsList(application, config));
         config.setGraphs(getGraphConfigList(application, config));

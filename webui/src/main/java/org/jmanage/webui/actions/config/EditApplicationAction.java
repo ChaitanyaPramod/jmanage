@@ -60,9 +60,11 @@ public class EditApplicationAction extends BaseAction {
         config.setHost(appForm.getHost());
         if(appForm.getPort() != null)
             config.setPort(new Integer(appForm.getPort()));
-            config.setURL(appForm.getURL());
-            config.setUsername(appForm.getUsername());
-
+        config.setURL(appForm.getURL());
+        config.setUsername(appForm.getUsername());
+        config.setHeartBeatCheckIntervalInSeconds(
+        		new Long(appForm.getHeartBeatCheckIntervalInSeconds()));
+        
         final String password = appForm.getPassword();
         if(!ApplicationForm.FORM_PASSWORD.equals(password)){
             config.setPassword(password);

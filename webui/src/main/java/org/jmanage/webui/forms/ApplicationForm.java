@@ -43,7 +43,8 @@ public class ApplicationForm extends BaseForm {
     private String username;
     private String password;
     private String type;
-
+    private String heartBeatCheckIntervalInSeconds = "15"; // default value
+    
     // jsr160 only
     private String jndiFactory;
     private String jndiURL;
@@ -151,7 +152,18 @@ public class ApplicationForm extends BaseForm {
             if(metaAppConfig.isDisplayURL()){
                 Validator.validateRequired(url, "URL", errors);
             }
+            Validator.validateInteger(heartBeatCheckIntervalInSeconds, 
+            		"Heart-beat Check Interval", errors);
         }
         return errors;
     }
+
+	public String getHeartBeatCheckIntervalInSeconds() {
+		return heartBeatCheckIntervalInSeconds;
+	}
+
+	public void setHeartBeatCheckIntervalInSeconds(
+			String heartBeatCheckIntervalInSeconds) {
+		this.heartBeatCheckIntervalInSeconds = heartBeatCheckIntervalInSeconds;
+	}
 }

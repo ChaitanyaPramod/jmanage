@@ -38,6 +38,7 @@ public class ApplicationConfigData implements Serializable {
     private String type;
     private boolean isCluster;
     private List childApplications;
+    private Long heartBeatCheckIntervalInSeconds;
     protected Map<String, String> paramValues;
 
     public String getApplicationId() {
@@ -131,4 +132,13 @@ public class ApplicationConfigData implements Serializable {
         assert isCluster;
         this.childApplications = childApplications;
     }
+
+	public Long getHeartBeatCheckIntervalInSeconds() {
+		return heartBeatCheckIntervalInSeconds;
+	}
+
+	public void setHeartBeatCheckIntervalInSeconds(
+			Long heartBeatCheckIntervalInSeconds) {
+		this.heartBeatCheckIntervalInSeconds = heartBeatCheckIntervalInSeconds;
+	}
 }

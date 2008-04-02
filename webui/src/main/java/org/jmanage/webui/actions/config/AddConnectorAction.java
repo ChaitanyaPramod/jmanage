@@ -68,7 +68,7 @@ public class AddConnectorAction extends BaseAction {
         appConfigData.setName(connForm.getName());
         appConfigData.setType(connForm.getType());
         appConfigData.setParamValues(paramValueMap);
-
+        // TODO: Add heartBeatCheckIntervalInSeconds to the appConfigData -rk
         ConfigurationService service = ServiceFactory.getConfigurationService();
         appConfigData = service.addApplication(Utils.getServiceContext(context), appConfigData);
         

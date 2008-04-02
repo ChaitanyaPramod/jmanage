@@ -120,6 +120,10 @@ public class ConfigWriter {
             applicationElement.setAttribute(ConfigConstants.PASSWORD,
                     encryptedPassword);
         }
+        if(application.getHeartBeatCheckIntervalInSeconds() != null){
+            applicationElement.setAttribute(ConfigConstants.HEART_BEAT_CHECK_INTERVAL,
+            		application.getHeartBeatCheckIntervalInSeconds() + "");
+        }
         if(!application.isCluster()){
             applicationElement.setAttribute(ConfigConstants.APPLICATION_TYPE,
                                 application.getType());

@@ -28,20 +28,21 @@ DROP TABLE IF EXISTS MBEAN_ATTRIBUTE;
 CREATE TABLE MBEAN_ATTRIBUTE(
 	ID INT(10) unsigned NOT NULL auto_increment,
 	APPLICATION_ID VARCHAR(25) NOT NULL,
+	APPLICATION_NAME VARCHAR(100) NOT NULL,
 	MBEAN_NAME VARCHAR(512) NOT NULL,
 	ATTRIBUTE_NAME VARCHAR(256) NOT NULL,
 	PRIMARY KEY(ID)	
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1
 COMMENT='mbean attributes for which the values should be recorded';
 
-insert into MBEAN_ATTRIBUTE(APPLICATION_ID, MBEAN_NAME, ATTRIBUTE_NAME)
-	 values(1, 'java.lang:type=Threading', 'ThreadCount');
+insert into MBEAN_ATTRIBUTE(APPLICATION_ID, APPLICATION_NAME, MBEAN_NAME, ATTRIBUTE_NAME)
+	 values(1, 'jManage', 'java.lang:type=Threading', 'ThreadCount');
 
-insert into MBEAN_ATTRIBUTE(APPLICATION_ID, MBEAN_NAME, ATTRIBUTE_NAME)
-	 values(1, 'java.lang:type=Threading', 'DaemonThreadCount');
+insert into MBEAN_ATTRIBUTE(APPLICATION_ID, APPLICATION_NAME, MBEAN_NAME, ATTRIBUTE_NAME)
+	 values(1, 'jManage', 'java.lang:type=Threading', 'DaemonThreadCount');
 
-insert into MBEAN_ATTRIBUTE(APPLICATION_ID, MBEAN_NAME, ATTRIBUTE_NAME)
-	 values(1, 'java.lang:type=Threading', 'PeakThreadCount');
+insert into MBEAN_ATTRIBUTE(APPLICATION_ID, APPLICATION_NAME, MBEAN_NAME, ATTRIBUTE_NAME)
+	 values(1, 'jManage', 'java.lang:type=Threading', 'PeakThreadCount');
 
 -- MBEAN_ATTRIBUTE_VALUE
 
