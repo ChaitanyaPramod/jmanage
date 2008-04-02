@@ -10,3 +10,5 @@ jmanage.database.password=123456
 MBEAN_ATTRIBUTE 
 MBEAN_ATTRIBUTE_VALUE 
 
+3) Heart beat check interval is now configurable at the application level. It is
+also the interval for data collection.
