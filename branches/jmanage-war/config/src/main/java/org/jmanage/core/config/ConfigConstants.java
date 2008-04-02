@@ -45,7 +45,8 @@ public interface ConfigConstants {
     public String URL = "url";
     public String USERNAME = "username";
     public String PASSWORD = "password";
-
+    public String HEART_BEAT_CHECK_INTERVAL = "heartBeatCheckInterval";
+    
     public String MBEANS = "mbeans";
     public String MBEAN = "mbean";
     public String MBEAN_NAME = "name";

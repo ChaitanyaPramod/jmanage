@@ -56,6 +56,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
                         data.getURL(),
                         data.getUsername(),
                         data.getPassword(),
+                        data.getHeartBeatCheckIntervalInSeconds(),
                         data.getParamValues());
         try {
             ApplicationConfigManager.addApplication(config);

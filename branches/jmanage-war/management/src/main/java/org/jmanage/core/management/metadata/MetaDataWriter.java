@@ -49,6 +49,7 @@ public class MetaDataWriter {
                                             null,
                                             null,
                                             null,
+                                            null,
                                             null);
         ServerConnection connection = ServerConnector.getServerConnection(appConfig);
         Set<ObjectName> objectNames = connection.queryNames(new ObjectName("*:*"));

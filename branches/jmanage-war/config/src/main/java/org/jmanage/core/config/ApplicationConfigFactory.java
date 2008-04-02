@@ -32,6 +32,7 @@ public class ApplicationConfigFactory {
                                            String url,
                                            String username,
                                            String password,
+                                           Long heartBeatCheckIntervalInSeconds,
                                            Map<String, String> paramValues){
 
         try {
@@ -53,6 +54,7 @@ public class ApplicationConfigFactory {
             appConfig.setURL(url);
             appConfig.setUsername(username);
             appConfig.setPassword(password);
+            appConfig.setHeartBeatCheckIntervalInSeconds(heartBeatCheckIntervalInSeconds);
             appConfig.setParamValues(paramValues);
             return appConfig;
         } catch (ClassNotFoundException e) {

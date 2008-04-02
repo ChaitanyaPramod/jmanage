@@ -75,7 +75,9 @@ public class ShowEditApplicationAction extends BaseAction {
         if(metaAppConfig.isDisplayPassword() && config.getPassword() != null
                 && config.getPassword().length()>0)
             appForm.setPassword(ApplicationForm.FORM_PASSWORD);
-
+        appForm.setHeartBeatCheckIntervalInSeconds(
+        		config.getHeartBeatCheckIntervalInSeconds() + "");
+        
         // for jsr160
         Map paramValues = config.getParamValues();
         appForm.setJndiFactory((String)paramValues.get(ApplicationConfig.JNDI_FACTORY));

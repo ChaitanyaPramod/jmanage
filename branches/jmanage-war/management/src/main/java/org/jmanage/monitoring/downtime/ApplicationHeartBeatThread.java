@@ -66,7 +66,7 @@ public class ApplicationHeartBeatThread extends Thread {
         while (!end) {
             checkApplicationStatus();
             try {
-                sleep(10000);
+                sleep(appConfig.getHeartBeatCheckIntervalInSeconds() * 1000);
             } catch (InterruptedException e) {
                 logger.warning("InterruptedException: " + e.getMessage());
             }
@@ -86,7 +86,7 @@ public class ApplicationHeartBeatThread extends Thread {
             EventSystem.getInstance().fireEvent(
                     new ApplicationDownEvent(appConfig));
         }else if(!wasOpen && isOpen){
-            // application came pack up
+            // application came back up
             wasOpen = true;
             EventSystem.getInstance().fireEvent(
                     new ApplicationUpEvent(appConfig));

@@ -41,7 +41,8 @@ public class DBUtils {
     private static final String URL;
     private static final String USERNAME;
     private static final String PASSWORD;
-
+    private static final boolean USING_LOCAL_DB;
+    
     static{
     	if(JManageProperties.getDatabaseDriverClass() != null){
     		DRIVER_CLASS = JManageProperties.getDatabaseDriverClass();
@@ -50,8 +51,10 @@ public class DBUtils {
     	}
     	if(JManageProperties.getDatabaseURL() != null){
     		URL = JManageProperties.getDatabaseURL();
+    		USING_LOCAL_DB = false;
     	}else{
     		URL = "jdbc:hsqldb:file:" + CoreUtils.getDataDir() + "/db";
+    		USING_LOCAL_DB = true;
     	}
     	if(JManageProperties.getDatabaseUsername() != null){
     		USERNAME = JManageProperties.getDatabaseUsername();
@@ -139,6 +142,7 @@ public class DBUtils {
                     "CREATE CACHED TABLE MBEAN_ATTRIBUTE " +
                         "(ID INT NOT NULL," +
                         "APPLICATION_ID VARCHAR NOT NULL, " +
+                        "APPLICATION_NAME VARCHAR NOT NULL, " +
                         "MBEAN_NAME VARCHAR NOT NULL, " +
                         "ATTRIBUTE_NAME VARCHAR NOT NULL)");
             /* MBEAN_ATTRIBUTE_VALUE */
@@ -159,18 +163,20 @@ public class DBUtils {
     }
     
     public static void shutdownDB(){
-        logger.info("Shutting down HSQLDB");
-        Connection connection = null;
-        Statement statement = null;
-        try{
-            connection = getConnection();
-            statement = connection.createStatement();
-            statement.execute("SHUTDOWN COMPACT");
-        }catch(SQLException e){
-            throw new RuntimeException(e);
-        }finally{
-            close(statement);
-            close(connection);
+        if(USING_LOCAL_DB){
+	    	logger.info("Shutting down HSQLDB");
+	        Connection connection = null;
+	        Statement statement = null;
+	        try{
+	            connection = getConnection();
+	            statement = connection.createStatement();
+	            statement.execute("SHUTDOWN COMPACT");
+	        }catch(SQLException e){
+	            throw new RuntimeException(e);
+	        }finally{
+	            close(statement);
+	            close(connection);
+	        }
         }
     }
     
@@ -201,7 +207,7 @@ public class DBUtils {
     }
     
     public static void init() {
-    	if(HSQLDB_DRIVER_CLASS.equals(DRIVER_CLASS)){
+    	if(USING_LOCAL_DB){
     		logger.info("Using inbuilt HSQLDB for data storage");
     		String dataDir = CoreUtils.getDataDir();
             assert dataDir != null;     

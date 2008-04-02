@@ -46,6 +46,7 @@ public abstract class ApplicationConfig {
     private String url;
     private String username;
     private String password;
+    private Long heartBeatCheckIntervalInSeconds;
     protected Map<String, String> paramValues;
     private List<MBeanConfig> mbeanList = new LinkedList<MBeanConfig>();
     private List<GraphConfig> graphList = new LinkedList<GraphConfig>();
@@ -130,6 +131,19 @@ public abstract class ApplicationConfig {
         this.password = password;
     }
 
+	public Long getHeartBeatCheckIntervalInSeconds() {
+		if(heartBeatCheckIntervalInSeconds == null){
+			// default value
+			heartBeatCheckIntervalInSeconds = 15L;
+		}
+		return heartBeatCheckIntervalInSeconds;
+	}
+
+	public void setHeartBeatCheckIntervalInSeconds(
+			Long heartBeatCheckIntervalInSeconds) {
+		this.heartBeatCheckIntervalInSeconds = heartBeatCheckIntervalInSeconds;
+	}
+    
     /**
      * If there are no additional parameters, the returned list is empty
      *
