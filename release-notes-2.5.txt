@@ -1,14 +1,16 @@
-1)New properties in jmanage.properties
+1) War version available.
+
+2)New properties in jmanage.properties
 
 jmanage.database.driver_class=com.mysql.jdbc.Driver
 jmanage.database.url=jdbc:mysql://localhost/jmanage?autoReconnect=true
 jmanage.database.username=root
 jmanage.database.password=123456
 
-2) New tables in war version -- will need a upgrade script for existing installtion
+3) New tables in war version -- will need a upgrade script for existing installtion
 
 MBEAN_ATTRIBUTE 
 MBEAN_ATTRIBUTE_VALUE 
 
-3) Heart beat check interval is now configurable at the application level. It is
+4) Heart beat check interval is now configurable at the application level. It is
 also the interval for data collection.
