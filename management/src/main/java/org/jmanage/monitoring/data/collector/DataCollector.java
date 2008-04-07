@@ -24,6 +24,7 @@ import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.management.ObjectAttribute;
 import org.jmanage.core.management.ServerConnection;
 import org.jmanage.core.util.Loggers;
+import org.jmanage.monitoring.data.dao.DAOFactory;
 import org.jmanage.monitoring.data.dao.ObservedMBeanAttributeValueDAO;
 import org.jmanage.monitoring.data.model.ObservedMBeanAttribute;
 import org.jmanage.monitoring.data.model.ObservedMBeanAttributeValue;
@@ -36,47 +37,56 @@ import org.jmanage.monitoring.data.model.ObservedMBeanAttributeValue;
 public class DataCollector {
 
 	private static final Logger logger = Loggers.getLogger(DataCollector.class);
-	
+
 	/**
 	 * @param appConfig
 	 * @param connection
 	 */
 	public static void collect(ApplicationConfig appConfig, ServerConnection connection) {
-		try{
-			/* get a list of ObservedMBeanAttribute objects for the given ApplicationConfig */
-			Set<ObservedMBean> observedMBeans = 
-				ObservedMBeanAttributeCache.getObservedMBeans(appConfig);
-			if(observedMBeans != null){
+		try {
+			/*
+			 * get a list of ObservedMBeanAttribute objects for the given ApplicationConfig
+			 */
+			Set<ObservedMBean> observedMBeans = ObservedMBeanAttributeCache
+					.getObservedMBeans(appConfig);
+			if (observedMBeans != null) {
 				List<ObservedMBeanAttributeValue> observedMBeanAttributeValues = 
 					new ArrayList<ObservedMBeanAttributeValue>();
-				for(ObservedMBean observedMBean:observedMBeans){
-					if(logger.isLoggable(Level.FINE)){
-						logger.log(Level.FINE, "Collection data for application: {0}, mbean: {1}, attributes:{2}", 
-								new Object[]{appConfig.getName(), observedMBean.getObjectName(), 
-								observedMBean.getAttributeNames()});
+				for (ObservedMBean observedMBean : observedMBeans) {
+					if (logger.isLoggable(Level.FINE)) {
+						logger.log(Level.FINE,
+								"Collection data for application: {0}, mbean: {1}, attributes:{2}",
+								new Object[] { appConfig.getName(), observedMBean.getObjectName(),
+										observedMBean.getAttributeNames() });
 					}
-					List<ObjectAttribute> objectAttributes = 
-						connection.getAttributes(observedMBean.getObjectName(), 
-								observedMBean.getAttributeNames());
+					List<ObjectAttribute> objectAttributes = connection.getAttributes(observedMBean
+							.getObjectName(), observedMBean.getAttributeNames());
 					int index = 0;
-					for(ObjectAttribute objectAttribute:objectAttributes){
+					for (ObjectAttribute objectAttribute : objectAttributes) {
 						// TODO: what if it fails? -rk
 						assert objectAttribute.getStatus() == ObjectAttribute.STATUS_OK;
-						ObservedMBeanAttribute observedMBeanAttribute = 
-							observedMBean.getObservedMBeanAttributes()[index++];
-						ObservedMBeanAttributeValue observedMBeanAttributeValue =
-							new ObservedMBeanAttributeValue(observedMBeanAttribute, 
-									objectAttribute.getDisplayValue()); // TODO: Is display value the right value to use?
+						ObservedMBeanAttribute observedMBeanAttribute = observedMBean
+								.getObservedMBeanAttributes()[index++];
+						ObservedMBeanAttributeValue observedMBeanAttributeValue = 
+							new ObservedMBeanAttributeValue(
+								observedMBeanAttribute, objectAttribute.getDisplayValue()); // TODO:
+						// Is
+						// display
+						// value
+						// the
+						// right
+						// value
+						// to
+						// use?
 						observedMBeanAttributeValues.add(observedMBeanAttributeValue);
 					}
-					
+
 				}
-				// TODO: cache DAO instances in a DAOFactory -rk
 				// save the values to the database
-				new ObservedMBeanAttributeValueDAO().save(observedMBeanAttributeValues);
+				DAOFactory.getDAO(ObservedMBeanAttributeValueDAO.class).save(observedMBeanAttributeValues);
 			}
-		}catch(Throwable t){
-			logger.log(Level.SEVERE, "Error collecting data for application: " 
+		} catch (Throwable t) {
+			logger.log(Level.SEVERE, "Error collecting data for application: "
 					+ appConfig.getName(), t);
 		}
 	}

@@ -26,6 +26,7 @@ import java.util.logging.Logger;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.management.ObjectName;
 import org.jmanage.core.util.Loggers;
+import org.jmanage.monitoring.data.dao.DAOFactory;
 import org.jmanage.monitoring.data.dao.ObservedMBeanAttributeDAO;
 import org.jmanage.monitoring.data.model.ObservedMBeanAttribute;
 
@@ -43,7 +44,7 @@ public class ObservedMBeanAttributeCache {
 			throw new RuntimeException("Cache already initialized");
 		}
 		appConfigToObservedMBeansMap = new HashMap<ApplicationConfig, Set<ObservedMBean>>();
-		ObservedMBeanAttributeDAO dao = new ObservedMBeanAttributeDAO();
+		ObservedMBeanAttributeDAO dao = DAOFactory.getDAO(ObservedMBeanAttributeDAO.class);
 		List<ObservedMBeanAttribute> observedMBeanAttributes = dao.findAll();
 		for(ObservedMBeanAttribute observedMBeanAttribute:observedMBeanAttributes){
 			Set<ObservedMBean> observedMBeans = 
