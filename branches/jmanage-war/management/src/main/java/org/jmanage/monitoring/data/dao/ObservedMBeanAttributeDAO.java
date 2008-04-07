@@ -30,7 +30,7 @@ import org.jmanage.util.db.DBUtils;
  * @author rkalra
  *
  */
-public class ObservedMBeanAttributeDAO {
+public class ObservedMBeanAttributeDAO extends DAO {
 
 	public List<ObservedMBeanAttribute> find(ApplicationConfig appConfig){
 		Connection conn = null;

@@ -64,6 +64,8 @@ public class ApplicationHeartBeatThread extends Thread {
     public void run() {
         logger.info("Thread started: " + this.getName());
         while (!end) {
+        		// TODO: one issue here is that we call isOpen() in one of the ctors,
+        	  //  so we will end up collecting data twice -rk
             checkApplicationStatus();
             try {
                 sleep(appConfig.getHeartBeatCheckIntervalInSeconds() * 1000);

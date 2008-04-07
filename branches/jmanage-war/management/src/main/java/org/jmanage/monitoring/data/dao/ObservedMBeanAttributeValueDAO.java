@@ -28,7 +28,7 @@ import org.jmanage.util.db.DBUtils;
  * @author rkalra
  *
  */
-public class ObservedMBeanAttributeValueDAO {
+public class ObservedMBeanAttributeValueDAO extends DAO {
 	
 	public void save(List<ObservedMBeanAttributeValue> attributeValues){
 		Connection conn = null;
