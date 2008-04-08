@@ -62,6 +62,10 @@
             type="org.jmanage.webui.forms.GraphForm">
         </form-bean>
         <form-bean
+            name="persistenceForm"
+            type="org.jmanage.webui.forms.PersistenceForm">
+        </form-bean>        
+        <form-bean
             name="attributeSelectionForm"
             type="org.jmanage.webui.forms.AttributeSelectionForm">
         </form-bean>
@@ -536,6 +540,27 @@
             type="org.jmanage.webui.actions.config.ShowAddGraphAction">
             <forward name="success" path="config.showAddGraph"/>
         </action>
+        <action path="/config/showAddPersistence"
+            name="persistenceForm"
+            scope="request"
+            validate="false"
+            type="org.jmanage.webui.actions.config.ShowAddPersistenceAction">
+            <forward name="success" path="config.showAddPersistence"/>
+        </action>
+        <action path="/config/addPersistence"
+            name="persistenceForm"
+            scope="request"
+            input="/config/showAddPersistence.do"
+            validate="false"
+            type="org.jmanage.webui.actions.config.AddPersistenceAction">
+            <forward name="success" path="/app/appView.do"/>
+        </action>
+        <action path="/config/deletePersistence"
+            scope="request"
+            input="/app/appView.do"
+            type="org.jmanage.webui.actions.config.DeletePersistenceAction">
+            <forward name="success" path="/app/appView.do" />
+        </action>                
         <action path="/config/addGraph"
             name="graphForm"
             scope="request"
