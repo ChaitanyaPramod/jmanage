@@ -127,6 +127,9 @@
     <definition name="config.showAddGraph" extends="layouts.application">
         <put name="body.main" value="/config/addGraph.jsp"/>
     </definition>
+    <definition name="config.showAddPersistence" extends="layouts.application">
+        <put name="body.main" value="/config/addPersistence.jsp"/>
+    </definition>    
     <definition name="config.showMBeans" extends="layouts.application">
         <put name="body.main" value="/config/selectMBeans.jsp"/>
     </definition>
