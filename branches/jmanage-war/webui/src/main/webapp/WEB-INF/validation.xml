@@ -329,5 +329,7 @@
                 <arg0 key="Scale Factor" resource="false"/>
             </field>
         </form>
+        <form name="persistenceForm">
+        </form>
     </formset>
 </form-validation>
