@@ -22,6 +22,8 @@ import org.jmanage.core.util.Expression;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Cookie;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -31,6 +33,8 @@ import java.io.UnsupportedEncodingException;
  */
 public class Utils {
 
+    private static final SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy hh:mm aaa"); 
+    
     /**
      * Appends param and value to the given url.
      *
@@ -104,5 +108,13 @@ public class Utils {
         int i = remoteBaseURL.indexOf(request.getRequestURI());
         remoteBaseURL.delete(i, remoteBaseURL.length());
         return remoteBaseURL.toString()+request.getContextPath();
+    }
+    
+    public static String getFormattedDate(Date inDate )
+    {
+    	if(inDate==null)
+    		return "";
+    	else
+    		return formatter.format(inDate);
     }
 }
