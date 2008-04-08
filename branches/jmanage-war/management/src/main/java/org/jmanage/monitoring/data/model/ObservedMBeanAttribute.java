@@ -15,6 +15,7 @@
 package org.jmanage.monitoring.data.model;
 
 import org.jmanage.core.config.ApplicationConfig;
+import java.util.Date;
 
 /**
  * @author rkalra
@@ -29,18 +30,24 @@ public class ObservedMBeanAttribute {
 	private String mbeanName;
 
 	private String attributeName;
+	
+	private Date whenStarted;
+	
+	private String displayName;
 
 	public ObservedMBeanAttribute(long id, ApplicationConfig appConfig,
-			String mbeanName, String attributeName) {
-		this(appConfig, mbeanName, attributeName);
+			String mbeanName, String attributeName, Date whenStarted, String  displayName) {
+		this(appConfig, mbeanName, attributeName, whenStarted, displayName);
 		this.id = id;
 	}
 
 	public ObservedMBeanAttribute(ApplicationConfig appConfig,
-			String mbeanName, String attributeName) {
+			String mbeanName, String attributeName, Date whenStarted, String  displayName) {
 		this.appConfig = appConfig;
 		this.mbeanName = mbeanName;
 		this.attributeName = attributeName;
+		this.whenStarted = whenStarted;
+		this.displayName = displayName;
 	}
 
 	public long getId() {
@@ -57,5 +64,13 @@ public class ObservedMBeanAttribute {
 
 	public String getAttributeName() {
 		return attributeName;
+	}
+	
+	public Date getWhenStarted() {
+		return whenStarted;
+	}
+
+	public String getDisplayName() {
+		return displayName;
 	}
 }
