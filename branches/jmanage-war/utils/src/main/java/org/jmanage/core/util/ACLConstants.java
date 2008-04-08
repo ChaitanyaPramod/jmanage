@@ -50,6 +50,8 @@ public interface ACLConstants {
     public static final String ACL_EDIT_GRAPH = "acl.edit.graph";
     public static final String ACL_ADD_DASHBOARD = "acl.add.dashboard";
     public static final String ACL_EDIT_DASHBOARD = "acl.edit.dashboard";
+    public static final String ACL_ADD_PERSISTENCE = "acl.add.persistence";
+    public static final String ACL_EDIT_PERSISTENCE= "acl.edit.persistence";
     
     public static final Set<String> ADMIN_ACLS = new HashSet<String>(Arrays.asList(new String[]{
             ACL_EDIT_USERS,
