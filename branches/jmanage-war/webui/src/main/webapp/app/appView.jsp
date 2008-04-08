@@ -10,7 +10,9 @@
                  org.jmanage.core.config.*,
                  org.jmanage.webui.dashboard.framework.DashboardRepository,
                  org.jmanage.webui.dashboard.framework.DashboardConfig,
-                 org.jmanage.webui.view.ApplicationViewHelper"%>
+                 org.jmanage.webui.view.ApplicationViewHelper,
+                 org.jmanage.monitoring.data.model.ObservedMBeanAttribute,
+                 org.jmanage.monitoring.data.dao.ObservedMBeanAttributeDAO"%>
 
 <%@ taglib uri="/WEB-INF/tags/jmanage/html.tld" prefix="jmhtml"%>
 <script language="JavaScript">
@@ -35,6 +37,14 @@
         msg = "Are you sure you want to delete this Dashboard?";
         if(confirm(msg) == true){
             location = '<%=request.getContextPath()%>'+'/config/deleteDashboard.do?<%=RequestParams.DASHBOARD_ID%>='+dashboardID+'&<%=RequestParams.APPLICATION_ID%>='+appId +'&refreshApps=true';
+        }
+        return;
+    }
+    function deletePersistence(configID, appId){
+        var msg;
+        msg = "Are you sure you want to delete this Persistence Config?";
+        if(confirm(msg) == true){
+            location = '<%=request.getContextPath()%>'+'/config/deletePersistence.do?<%=RequestParams.PERSISTENCE_ID%>='+configID+'&<%=RequestParams.APPLICATION_ID%>='+appId+ '&refreshApps=true';
         }
         return;
     }
@@ -71,6 +81,14 @@
 		            + RequestParams.DATA_TYPE + "=javax.management.openmbean.CompositeData&"
 		            + RequestParams.NAVIGATION + "=" + Utils.urlEncode("Add Graph");
 			pageContext.setAttribute("graphLink",link);
+			
+		    String persistDataLink = "/config/showMBeans.do?"
+		            + RequestParams.END_URL + "=" + Utils.urlEncode("/config/showAddPersistence.do")
+		            + "&" + RequestParams.MULTIPLE + "=true&"
+		            + RequestParams.DATA_TYPE + "=java.lang.Number&"
+		            + RequestParams.DATA_TYPE + "=javax.management.openmbean.CompositeData&"
+		            + RequestParams.NAVIGATION + "=" + Utils.urlEncode("Persist Data");
+			pageContext.setAttribute("persistLink",persistDataLink);		            
 		%>
 		<p>
 		    <jmhtml:link href="${pageScope.graphLink}" acl="<%=ACLConstants.ACL_ADD_GRAPH%>" styleClass="a" appendQSParams="true">
@@ -83,6 +101,10 @@
 		<p>
 		    <jmhtml:link href="/config/startAddMultiMBeanConfig.do" acl="<%=ACLConstants.ACL_ADD_MBEAN_CONFIG%>"
 		        styleClass="a" appendQSParams="true">Add Managed Objects</jmhtml:link>
+		</p>
+		<p>
+		    <jmhtml:link href="${pageScope.persistLink}" acl="<%=ACLConstants.ACL_ADD_PERSISTENCE%>" styleClass="a" appendQSParams="true">
+		        Persist Data</jmhtml:link>
 		</p>
 		<br/>
 	  </td></tr>
@@ -280,6 +302,70 @@ if(appConfig.getAlerts().size() > 0){
                     + alertConfig.getAlertId() + "','" + appConfig.getApplicationId() + "');";
         %>
            <jmhtml:link  href="<%=deleteAlertLink%>" acl="<%=ACLConstants.ACL_EDIT_ALERT%>" styleClass="a1">Delete</jmhtml:link >
+       </td>
+    </tr>
+    <%}%>
+</table>
+</td></tr>
+</table>
+<%}%>
+
+<%
+ObservedMBeanAttributeDAO dao = new ObservedMBeanAttributeDAO();
+List<ObservedMBeanAttribute> attribList = dao.find(appConfig); 
+
+if(attribList.size() > 0){
+%>
+<table border="0" width="900" cellpadding="0" cellspacing="5">
+<tr><td valign="top" width="100%">
+<table cellspacing="0" cellpadding="5" width="900" class="table">
+    <tr class="tableHeader">
+        <td colspan="6">Persisted Data</td>
+    </tr>
+    <tr>
+        <td class="headtext1">MBean Name</td>
+        <td class="headtext1">Attribute Name</td>
+        <td class="headtext1">Display Name</td>
+        <td class="headtext1">Since</td>
+        <td class="headtext1">&nbsp;</td>
+    </tr>
+    <%
+        Iterator itr = attribList.iterator();
+        while(itr.hasNext()){
+            ObservedMBeanAttribute mbeanAttrib = (ObservedMBeanAttribute)itr.next();
+    %>
+    <tr>
+
+        <td class="plaintext">
+        <%
+            	pageContext.setAttribute("mbeanLink","/app/mbeanView.do?"+RequestParams.APPLICATION_ID+"="+
+            								appConfig.getApplicationId()+
+            								"&"+RequestParams.OBJECT_NAME+"="+
+            								URLEncoder.encode(mbeanAttrib.getMBeanName(), "UTF-8"));
+            %>
+            <jmhtml:link href="${pageScope.mbeanLink}"><%=ObjectName.getShortName(mbeanAttrib.getMBeanName())%></jmhtml:link>
+
+        </td>
+        <td class="plaintext">
+             <%=mbeanAttrib.getAttributeName()%>
+        </td>
+        <td class="plaintext">
+             <%=mbeanAttrib.getDisplayName()==null?"":mbeanAttrib.getDisplayName()%>
+        </td>
+        <%
+        
+        String startedDateStr = "";
+        if(mbeanAttrib.getWhenStarted() != null)
+        {
+        	startedDateStr = Utils.getFormattedDate(new Date(mbeanAttrib.getWhenStarted().getTime()));
+        }
+        %>
+        <td class="plaintext"><%=startedDateStr%></td>
+        <td align="right" width="60">
+        <%
+            String deletePersistenceLink = "JavaScript:deletePersistence(" + mbeanAttrib.getId() + ",'" + appConfig.getApplicationId() + "');";
+        %>
+           <jmhtml:link  href="<%=deletePersistenceLink%>" acl="<%=ACLConstants.ACL_EDIT_PERSISTENCE%>" styleClass="a1">Remove</jmhtml:link >
        </td>
     </tr>
     <%}%>
