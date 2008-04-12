@@ -89,8 +89,17 @@ public class DashboardComponentTag extends BaseTag{
 
             String componentDisplay = component.draw(new DashboardContextImpl(context, currentDashboardConfig, 
                     (HttpServletRequest)pageContext.getRequest()));
-            componentDisplay = MessageFormat.format(componentDisplay, getWidth(),
-                    getHeight(), Utils.getCookieValue(request, "JSESSIONID"));
+            // FIXME: This is a hack. We need to stop using MessageFormat, and instead
+            //   pass the required info to the component. -rk
+// Commented  by Ranjana on 12-12-2007 . It was throwing exception while displaying system properties of JVM Summary 
+//dashboard.
+//Exception was thrownin doEndTag method while formatting text to be displayed.
+//The text to be displayed contains ${catalina.home} in some properties value which caused followinge xception
+//java.lang.IllegalArgumentException: can't parse argument number catalina.home
+            if (componentDisplay.contains("{0}")&&componentDisplay.contains("{1}")&&componentDisplay.contains("{2}")){
+                    componentDisplay = MessageFormat.format(componentDisplay, getWidth(),
+                    getHeight(), Utils.getCookieValue(request, "JSESSIONID"));      
+            }            
             pageContext.getOut().println(componentDisplay);
         }catch(Throwable e){
             logger.log(Level.SEVERE, "Error displaying component", e);
