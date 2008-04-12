@@ -31,86 +31,86 @@ import java.util.logging.Logger;
  * Date: Nov 29, 2005
  */
 public class ServerMonitor extends Thread{
-    private int _port = Integer.getInteger("STOP.PORT", 9999).intValue();
-    private String _key = System.getProperty("STOP.KEY", "jManageKey");
-    private ServerSocket _socket;
-    private final String STOP_CMD = "stop";
-    private final Logger logger = Loggers.getLogger(ServerMonitor.class);
+	private int _port = Integer.getInteger("STOP.PORT", 9999).intValue();
+	private String _key = System.getProperty("STOP.KEY", "jManageKey");
+	private ServerSocket _socket;
+	private final String STOP_CMD = "stop";
+	private final Logger logger = Loggers.getLogger(ServerMonitor.class);
 
-    /**
-     * Default Constructor, initializing basic shutdown parameters.
-     */
-    ServerMonitor(){
-        try{
-            if(_port < 0)
-                return;
-            setDaemon(true);
-            _socket = new ServerSocket(_port, 1, InetAddress.getLocalHost());
-            if(_port == 0){
-                _port = _socket.getLocalPort();
-                System.out.println(_port);
-            }
-            if("jManageKey".equals(_key)){
-                System.out.println(_key);
-            }
-        }catch(Exception e){
-            System.err.println(e.toString());
-        }
-        if(_socket != null)
-            this.start();
-        else
-            System.out.println("WARN: Not listening on monitor port: "+_port);
-    }
+	/**
+	 * Default Constructor, initializing basic shutdown parameters.
+	 */
+	ServerMonitor(){
+		try{
+			if(_port < 0)
+				return;
+			setDaemon(true);
+			_socket = new ServerSocket(_port, 1, InetAddress.getLocalHost());
+			if(_port == 0){
+				_port = _socket.getLocalPort();
+				System.out.println(_port);
+			}
+			if("jManageKey".equals(_key)){
+				System.out.println(_key);
+			}
+		}catch(Exception e){
+			System.err.println(e.toString());
+		}
+		if(_socket != null)
+			this.start();
+		else
+			System.out.println("WARN: Not listening on monitor port: "+_port);
+	}
 
-    /**
-     * Deamon's main method.
-     */
-    public void run(){
-        while(true){
-            Socket socket = null;
-            try{
-                socket = _socket.accept();
-                LineNumberReader lin =
-                        new LineNumberReader(new InputStreamReader(socket.getInputStream()));
-                String key = lin.readLine();
-                if(!_key.equals(key))
-                    continue;
+	/**
+	 * Deamon's main method.
+	 */
+	public void run(){
+		while(true){
+			Socket socket = null;
+			try{
+				socket = _socket.accept();
+				LineNumberReader lin =
+					new LineNumberReader(new InputStreamReader(socket.getInputStream()));
+				String key = lin.readLine();
+				if(!_key.equals(key))
+					continue;
 
-                String cmd = lin.readLine();
-                if(STOP_CMD.equals(cmd)){
-		    AlertEngine.getInstance().stop();
-		    logger.info("Shutting down the server.");
+				String cmd = lin.readLine();
+				if(STOP_CMD.equals(cmd)){
+					AlertEngine.getInstance().stop();
+					logger.info("Shutting down the server.");
 
-                    try{
-                        socket.close();
-                    }catch(Exception e){
-                        e.printStackTrace();
-                    }
-                    try{
-                        _socket.close();
-                    }catch(Exception e){
-                        e.printStackTrace();
-                    }
-                    System.exit(0);
-                }
-            }catch(Exception e){
-                System.out.println(e.toString());
-            }finally{
-                if(socket != null){
-                    try{
-                        socket.close();
-                    }catch(Exception e){}
-                }
-                socket = null;
-            }
-        }
-    }
+					try{
+						socket.close();
+					}catch(Exception e){
+						e.printStackTrace();
+					}
+					try{
+						_socket.close();
+					}catch(Exception e){
+						e.printStackTrace();
+					}
+					System.exit(0);
+				}
+			}catch(Exception e){
+				System.out.println(e.toString());
+			}finally{
+				if(socket != null){
+					try{
+						socket.close();
+					}catch(Exception e){}
+				}
+				socket = null;
+			}
+		}
+	}
 
-    /**
-     * Start a Monitor.
-     * This static method starts a monitor that listens for admin requests.
-     */
-    public static void monitor(){
-        new ServerMonitor();
-    }
+	/**
+	 * Start a Monitor.
+	 * This static method starts a monitor that listens for admin requests.
+	 */
+	public static void monitor(){
+		new ServerMonitor();
+	}
 }

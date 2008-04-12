@@ -31,18 +31,19 @@ CREATE TABLE MBEAN_ATTRIBUTE(
 	APPLICATION_NAME VARCHAR(100) NOT NULL,
 	MBEAN_NAME VARCHAR(512) NOT NULL,
 	ATTRIBUTE_NAME VARCHAR(256) NOT NULL,
+    DISPLAY_NAME VARCHAR(50) NOT NULL;
 	PRIMARY KEY(ID)	
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1
 COMMENT='mbean attributes for which the values should be recorded';
 
-insert into MBEAN_ATTRIBUTE(APPLICATION_ID, APPLICATION_NAME, MBEAN_NAME, ATTRIBUTE_NAME)
-	 values(1, 'jManage', 'java.lang:type=Threading', 'ThreadCount');
+insert into MBEAN_ATTRIBUTE(APPLICATION_ID, APPLICATION_NAME, MBEAN_NAME, ATTRIBUTE_NAME, DISPLAY_NAME)
+	 values(1, 'jManage', 'java.lang:type=Threading', 'ThreadCount', 'Thread Count');
 
-insert into MBEAN_ATTRIBUTE(APPLICATION_ID, APPLICATION_NAME, MBEAN_NAME, ATTRIBUTE_NAME)
-	 values(1, 'jManage', 'java.lang:type=Threading', 'DaemonThreadCount');
+insert into MBEAN_ATTRIBUTE(APPLICATION_ID, APPLICATION_NAME, MBEAN_NAME, ATTRIBUTE_NAME, DISPLAY_NAME)
+	 values(1, 'jManage', 'java.lang:type=Threading', 'DaemonThreadCount', 'Daemon Thread Count');
 
-insert into MBEAN_ATTRIBUTE(APPLICATION_ID, APPLICATION_NAME, MBEAN_NAME, ATTRIBUTE_NAME)
-	 values(1, 'jManage', 'java.lang:type=Threading', 'PeakThreadCount');
+insert into MBEAN_ATTRIBUTE(APPLICATION_ID, APPLICATION_NAME, MBEAN_NAME, ATTRIBUTE_NAME, DISPLAY_NAME)
+	 values(1, 'jManage', 'java.lang:type=Threading', 'PeakThreadCount', 'Peak Thread Count');
 
 -- MBEAN_ATTRIBUTE_VALUE
 

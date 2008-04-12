@@ -25,7 +25,6 @@ import java.util.List;
 import org.jmanage.core.config.ApplicationConfig;
 import org.jmanage.core.config.ApplicationConfigManager;
 import org.jmanage.monitoring.data.model.ObservedMBeanAttribute;
-import org.jmanage.monitoring.data.model.ObservedMBeanAttributeValue;
 import org.jmanage.util.db.DBUtils;
 
 /**

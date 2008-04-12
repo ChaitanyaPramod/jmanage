@@ -12,4 +12,6 @@ fi
 
 $JAVA_HOME/bin/java -ea -classpath $JMANAGE_CLASSPATH $DEBUG_OPTIONS \
     -DJMANAGE_ROOT=$JMANAGE_HOME \
+    -Djava.security.policy=java.policy \
+    -Djava.util.logging.config.file=$JMANAGE_HOME/logging.properties" \
     org.jmanage.webui.Startup $*

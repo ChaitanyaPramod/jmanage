@@ -26,16 +26,16 @@ import org.jmanage.core.crypto.Crypto;
  */
 class JettyStopKey {
 
-    private static String prefix = "d39dlf931!#$1ad93F1#F40A1#931d1bs!dadbe1#45%@1";
-    private static String suffix = "x22D#!30d;3d#foa03#faa01#F04dcbp1E$Gea!2gd1pbie11";
+	private static String prefix = "d39dlf931!#$1ad93F1#F40A1#931d1bs!dadbe1#45%@1";
+	private static String suffix = "x22D#!30d;3d#foa03#faa01#F04dcbp1E$Gea!2gd1pbie11";
 
-    private final String key;
+	private final String key;
 
-    public JettyStopKey(String password){
-        key = Crypto.hash(prefix + password + suffix);
-    }
+	public JettyStopKey(String password) {
+		key = Crypto.hash(prefix + password + suffix);
+	}
 
-    public String toString(){
-        return key;
-    }
+	public String toString() {
+		return key;
+	}
 }

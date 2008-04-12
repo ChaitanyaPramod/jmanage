@@ -23,7 +23,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.math.BigInteger;
 import java.math.BigDecimal;
@@ -35,165 +34,165 @@ import java.math.BigDecimal;
  */
 public class CoreUtils {
 
-    private static final Logger logger = Loggers.getLogger(CoreUtils.class);
+	private static final Logger logger = Loggers.getLogger(CoreUtils.class);
 
-    private static String rootDir;
-    private static String dataDir;
-    private static String metadataDir;
+	private static String rootDir;
+	private static String dataDir;
+	private static String metadataDir;
 
-    public static void init(String appRootDir, String metadataDirPath){
-    	rootDir = appRootDir;
-    	assert rootDir != null;
+	public static void init(String appRootDir, String metadataDirPath) {
+		rootDir = appRootDir;
+		assert rootDir != null;
 
-    	metadataDir = metadataDirPath;
-    	assert rootDir != null;
-    	
-    	/* create logs dir, before doing any logging */
-    	new File(CoreUtils.getLogDir()).mkdirs();
-    	logger.info("app root dir= " + rootDir);
-    	logger.info("metadata dir= " + metadataDir);
-    	/* create data dir */
-    	dataDir = getRootDir() + "/data";
-    	File dataDirFile = new File(dataDir);
-    	if(!dataDirFile.exists()){
-    		dataDirFile.mkdirs();
-    	}
-    }
-    
-    public static String getRootDir(){
-        return rootDir;
-    }
+		metadataDir = metadataDirPath;
+		assert rootDir != null;
 
-    
-    public static String getMetadataDir() {
+		/* create logs dir, before doing any logging */
+		new File(CoreUtils.getLogDir()).mkdirs();
+		logger.info("app root dir= " + rootDir);
+		logger.info("metadata dir= " + metadataDir);
+		/* create data dir */
+		dataDir = getRootDir() + "/data";
+		File dataDirFile = new File(dataDir);
+		if (!dataDirFile.exists()) {
+			dataDirFile.mkdirs();
+		}
+	}
+
+	public static String getRootDir() {
+		return rootDir;
+	}
+
+	public static String getMetadataDir() {
 		return metadataDir;
 	}
 
 	public static String getConnectorDir() {
-        return getMetadataDir() + File.separatorChar + "connector";    
-    }
+		return getMetadataDir() + File.separatorChar + "connector";
+	}
 
-    public static String getConfigDir(){
-        return getRootDir() + "/config";
-    }
+	public static String getConfigDir() {
+		return getRootDir() + "/config";
+	}
 
-    public static String getDashboardsDir(){
-        return getMetadataDir() + File.separatorChar + "dashboards";
-    }
+	public static String getDashboardsDir() {
+		return getMetadataDir() + File.separatorChar + "dashboards";
+	}
 
-    public static String getModuleDir(String moduleId){
-        return getMetadataDir() + "/modules/" + moduleId;
-    }
+	public static String getModuleDir(String moduleId) {
+		return getMetadataDir() + "/modules/" + moduleId;
+	}
 
-    public static String getApplicationDir(String appId){
-        return getMetadataDir() + "/applications/" + appId;
-    }
+	public static String getApplicationDir(String appId) {
+		return getMetadataDir() + "/applications/" + appId;
+	}
 
-    public static String getLogDir(){
-        return getRootDir() + "/logs";
-    }
+	public static String getLogDir() {
+		return getRootDir() + "/logs";
+	}
 
-    public static String getDataDir() {
-        return dataDir;
-    }
+	public static String getDataDir() {
+		return dataDir;
+	}
 
-    public static void copyProperties(Object dest, Object source) {
-        try {
-            BeanUtils.copyProperties(dest, source);
-        }
-        catch(Exception ex) {
-            throw new RuntimeException(ex);
-        }
-    }
+	public static void copyProperties(Object dest, Object source) {
+		try {
+			BeanUtils.copyProperties(dest, source);
+		} catch (Exception ex) {
+			throw new RuntimeException(ex);
+		}
+	}
 
-    public static void exitSystem(){
-        logger.severe("Shutting down application");
-        System.exit(1);
-    }
+	public static void exitSystem() {
+		logger.severe("Shutting down application");
+		System.exit(1);
+	}
 
-    public static Number valueOf(String value, String dataType){
-        if(dataType.equals("java.lang.Integer")|| dataType.equals("int")){
-            return new Integer(value);
-        }
-        if(dataType.equals("java.lang.Double") || dataType.equals("double")){
-            return new Double(value);
-        }
-        if(dataType.equals("java.lang.Long") || dataType.equals("long")){
-            return new Long(value);
-        }
-        if(dataType.equals("java.lang.Float") || dataType.equals("float")){
-            return new Double(value);
-        }
-        if(dataType.equals("java.lang.Short") || dataType.equals("short")){
-            return new Short(value);
-        }
-        if(dataType.equals("java.lang.Byte") || dataType.equals("byte")){
-            return new Byte(value);
-        }
-        if(dataType.equals("java.math.BigInteger")){
-            return new BigInteger(value);
-        }
-        if(dataType.equals("java.math.BigDecimal")){
-            return new BigDecimal(value);
-        }
-        return null;
-    }
-    
-    public static void copyConfig(File configDir, File configSrcDir) throws Exception{
-    	if(!configDir.exists()){
-    		configDir.mkdir();
-    		copyDirectory(configSrcDir, configDir);
-    		deleteFile(configSrcDir);
-    	}
-    }
-    
-    public static void copyDirectory(File sourceLocation, File targetLocation) throws IOException {
-        if (sourceLocation.isDirectory()) {
-            if (!targetLocation.exists()) {
-                targetLocation.mkdir();
-            }
-            String[] children = sourceLocation.list();
-            for (int i=0; i<children.length; i++) {
-                copyDirectory(new File(sourceLocation, children[i]),
-                        new File(targetLocation, children[i]));
-            }
-        } else {
-            InputStream in = new FileInputStream(sourceLocation);
-            OutputStream out = new FileOutputStream(targetLocation);
-            // Copy the bits from instream to outstream
-            byte[] buf = new byte[1024];
-            int len;
-            while ((len = in.read(buf)) > 0) {
-                out.write(buf, 0, len);
-            }
-            in.close();
-            out.close();
-        }
-    }
+	public static Number valueOf(String value, String dataType) {
+		if (dataType.equals("java.lang.Integer") || dataType.equals("int")) {
+			return new Integer(value);
+		}
+		if (dataType.equals("java.lang.Double") || dataType.equals("double")) {
+			return new Double(value);
+		}
+		if (dataType.equals("java.lang.Long") || dataType.equals("long")) {
+			return new Long(value);
+		}
+		if (dataType.equals("java.lang.Float") || dataType.equals("float")) {
+			return new Double(value);
+		}
+		if (dataType.equals("java.lang.Short") || dataType.equals("short")) {
+			return new Short(value);
+		}
+		if (dataType.equals("java.lang.Byte") || dataType.equals("byte")) {
+			return new Byte(value);
+		}
+		if (dataType.equals("java.math.BigInteger")) {
+			return new BigInteger(value);
+		}
+		if (dataType.equals("java.math.BigDecimal")) {
+			return new BigDecimal(value);
+		}
+		return null;
+	}
 
-    public static void deleteFile(File fileLocation) throws IOException {
-	    if(fileLocation.isDirectory()) {
+	public static void copyConfig(File configDir, File configSrcDir) throws Exception {
+		if (!configDir.exists()) {
+			configDir.mkdir();
+			copyDirectory(configSrcDir, configDir);
+			deleteFile(configSrcDir);
+		}
+	}
+
+	public static void copyDirectory(File sourceLocation, File targetLocation)
+			throws IOException {
+		if (sourceLocation.isDirectory()) {
+			if (!targetLocation.exists()) {
+				targetLocation.mkdir();
+			}
+			String[] children = sourceLocation.list();
+			for (int i = 0; i < children.length; i++) {
+				copyDirectory(new File(sourceLocation, children[i]), new File(targetLocation,
+						children[i]));
+			}
+		} else {
+			InputStream in = new FileInputStream(sourceLocation);
+			OutputStream out = new FileOutputStream(targetLocation);
+			// Copy the bits from instream to outstream
+			byte[] buf = new byte[1024];
+			int len;
+			while ((len = in.read(buf)) > 0) {
+				out.write(buf, 0, len);
+			}
+			in.close();
+			out.close();
+		}
+	}
+
+	public static void deleteFile(File fileLocation) throws IOException {
+		if (fileLocation.isDirectory()) {
 			File[] files = fileLocation.listFiles();
-			for(int fileCtr = 0; fileCtr < files.length; fileCtr++){
+			for (int fileCtr = 0; fileCtr < files.length; fileCtr++) {
 				deleteFile(files[fileCtr]);
 			}
 			fileLocation.delete();
-	    }else{
-	    	fileLocation.delete();
-	    }
-    }
-    
-    /**
-     * This is used by cmd utilities like keygen.cmd/sh, startup.cmd/sh and changepwd.cmd/sh
-     * @throws Exception
-     */
-    public static void initJmanageForCLIUtilities(String jManageRoot) throws Exception{
-    	File configDir = new File(jManageRoot + File.separator + "config");
-    	File configSrcDir = new File(jManageRoot + File.separator + "web" + File.separator + "META-INF" + File.separator + "config");
-    	CoreUtils.copyConfig(configDir, configSrcDir);
-    	String jManageRootDir = new File(jManageRoot).getAbsolutePath();
-    	String metaDataDir = jManageRootDir + File.separator + "web" + File.separator + "META-INF";
-    	CoreUtils.init(jManageRootDir, metaDataDir);
+		} else {
+			fileLocation.delete();
+		}
+	}
 
-    }
+	/**
+	 * This is used by cmd utilities like keygen.cmd/sh, startup.cmd/sh and changepwd.cmd/sh
+	 * @throws Exception
+	 */
+	public static void initJmanageForCLIUtilities(String jManageRoot) throws Exception {
+		File configDir = new File(jManageRoot + File.separator + "config");
+		File configSrcDir = new File(jManageRoot + File.separator + "web" + File.separator
+				+ "META-INF" + File.separator + "config");
+		CoreUtils.copyConfig(configDir, configSrcDir);
+		String jManageRootDir = new File(jManageRoot).getAbsolutePath();
+		String metaDataDir = jManageRootDir + File.separator + "web" + File.separator
+				+ "META-INF";
+		CoreUtils.init(jManageRootDir, metaDataDir);
+	}
 }

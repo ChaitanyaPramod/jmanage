@@ -14,7 +14,6 @@
  */
 package org.jmanage.monitoring.data.collector;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
