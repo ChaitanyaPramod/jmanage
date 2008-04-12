@@ -81,10 +81,16 @@
 		<ant:mkdir dir="${basedir}/build/web/META-INF"/>
 		<ant:move todir="${basedir}/build/web/META-INF" flatten="false">
             <fileset dir="${basedir}/build">
+				<exclude name="config/logging.properties"/>
 				<include name="config/**"/>
                 <include name="connector/**"/>
                 <include name="dashboards/**"/>
                 <include name="modules/**"/>
+            </fileset>
+        </ant:move>
+        <ant:move todir="${basedir}/build" flatten="false">
+            <fileset dir="${basedir}/build/config">
+                <include name="logging.properties"/>
             </fileset>
         </ant:move>
         <ant:deltree dir="${basedir}/build/connector"/>

@@ -14,7 +14,6 @@
 
 package org.jmanage.webui.dashboard.components;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -32,56 +31,55 @@ import org.jmanage.webui.dashboard.framework.DashboardContext;
 
 public class MBeanAttributeValueTable extends BaseDashboardComponent {
 
-    private ObjectName objectName;
-    private String attributes;
-    private String displayNames;
-    private String objectNameFilter;
+	private ObjectName objectName;
+	private String attributes;
+	private String displayNames;
+	private String objectNameFilter;
 
-    protected void drawInternal(DashboardContext context, StringBuffer output) {
-	output.append("<table class=\"plaintext\" cellspacing=\"5\" style=\"border:1;border-style:solid;border-width:1px;border-color:#C0C0C0\">");
-	ServerConnection connection = context.getWebContext().getServerConnection();
-	Set<ObjectName> objects = connection.queryNames(objectName);
-	StringTokenizer stAttributes = new StringTokenizer(attributes, "|");
-	StringTokenizer stDispNames = new StringTokenizer(displayNames, "|");
-	assert stAttributes.countTokens() == stDispNames.countTokens() : "Invalid component configuration";
-	String[] attribs = new String[stAttributes.countTokens()];
-	output.append("<tr>");
-	for(int ctr=0; stAttributes.hasMoreTokens(); ctr++){
-	    attribs[ctr] = stAttributes.nextToken();
-	    output.append("<td><b>").append(stDispNames.nextToken()).append("</b></td>");
+	protected void drawInternal(DashboardContext context, StringBuffer output) {
+		output.append("<table class=\"plaintext\" cellspacing=\"5\" style=\"border:1;border-style:solid;border-width:1px;border-color:#C0C0C0\">");
+		ServerConnection connection = context.getWebContext().getServerConnection();
+		Set<ObjectName> objects = connection.queryNames(objectName);
+		StringTokenizer stAttributes = new StringTokenizer(attributes, "|");
+		StringTokenizer stDispNames = new StringTokenizer(displayNames, "|");
+		assert stAttributes.countTokens() == stDispNames.countTokens() : "Invalid component configuration";
+		String[] attribs = new String[stAttributes.countTokens()];
+		output.append("<tr>");
+		for(int ctr=0; stAttributes.hasMoreTokens(); ctr++){
+			attribs[ctr] = stAttributes.nextToken();
+			output.append("<td><b>").append(stDispNames.nextToken()).append("</b></td>");
+		}
+		output.append("</tr>");
+		String objectNamePattern = null;
+		if(objectNameFilter != null){
+			objectNamePattern = objectName.getDisplayName();
+			objectNamePattern = objectNamePattern.endsWith("*") ? 
+					objectNamePattern.substring(0, objectNamePattern.length()-1) : objectNamePattern;
+					objectNamePattern += objectNameFilter.endsWith("*") ? 
+							objectNameFilter.substring(0, objectNameFilter.length() -1) : objectNameFilter;
+		}
+		for(ObjectName anObjectName : objects){
+			if(objectNamePattern != null && !anObjectName.getDisplayName().startsWith(objectNamePattern))
+				continue;
+			output.append("<tr>");
+			List<ObjectAttribute> attributeValues = connection.getAttributes(anObjectName, attribs);
+			for(ObjectAttribute objAttribute : attributeValues){
+				output.append("<td>").append(objAttribute.getDisplayValue()).append("</td>");            	
+			}
+			output.append("</tr>");
+		}
+		output.append("</table>");
 	}
-	output.append("</tr>");
-	String objectNamePattern = null;
-	if(objectNameFilter != null){
-		objectNamePattern = objectName.getDisplayName();
-		objectNamePattern = objectNamePattern.endsWith("*") ? 
-			objectNamePattern.substring(0, objectNamePattern.length()-1) : objectNamePattern;
-		objectNamePattern += objectNameFilter.endsWith("*") ? 
-			objectNameFilter.substring(0, objectNameFilter.length() -1) : objectNameFilter;
-    	}
-	for(ObjectName anObjectName : objects){
-	    if(objectNamePattern != null && !anObjectName.getDisplayName().startsWith(objectNamePattern))
-		continue;
-	    output.append("<tr>");
-	    List attributeValues = connection.getAttributes(anObjectName, attribs);
-	    for(Iterator it = attributeValues.iterator(); it.hasNext();){
-		ObjectAttribute objAttribute = (ObjectAttribute)it.next();
-		output.append("<td>").append(objAttribute.getDisplayValue()).append("</td>");            	
-	    }
-	    output.append("</tr>");
-	}
-	output.append("</table>");
-    }
 
 	protected void init(Map<String, String> properties) {
-        try {
-            objectName = new ObjectName(properties.get(MBEAN_PATTERN));
-            attributes = properties.get(ATTRIBUTES);
-            displayNames = properties.get(DISPLAY_NAMES);
-            objectNameFilter = properties.get(OBJECT_NAME_FILTER);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+		try {
+			objectName = new ObjectName(properties.get(MBEAN_PATTERN));
+			attributes = properties.get(ATTRIBUTES);
+			displayNames = properties.get(DISPLAY_NAMES);
+			objectNameFilter = properties.get(OBJECT_NAME_FILTER);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }
