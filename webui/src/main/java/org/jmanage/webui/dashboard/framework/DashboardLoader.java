@@ -34,139 +34,142 @@ import java.io.FileNotFoundException;
 
 /**
  * Date: Apr 23, 2006 5:23:03 PM
- *
+ * 
  * @author Shashank Bellary
  */
 public class DashboardLoader {
-    private static final Logger logger =
-            Loggers.getLogger(DashboardLoader.class);
-    private List<InputStream> dashboardConfigFiles = new ArrayList<InputStream>();
 
-    /*  Dashboard XML file elements */
-    @SuppressWarnings("unused")
-    private static final String DASHBOARD = "dashboard";
-    @SuppressWarnings("unused")
-    private static final String COMMENT = "comment";
+	private static final Logger logger = Loggers.getLogger(DashboardLoader.class);
+	private List<InputStream> dashboardConfigFiles = new ArrayList<InputStream>();
 
-    private static final String ID = "id";
-    private static final String NAME = "name";
-    private static final String TEMPLATE = "template";
+	/* Dashboard XML file elements */
+	@SuppressWarnings("unused")
+	private static final String DASHBOARD = "dashboard";
+	@SuppressWarnings("unused")
+	private static final String COMMENT = "comment";
+	private static final String ID = "id";
+	private static final String NAME = "name";
+	private static final String TEMPLATE = "template";
+	private static final String QUALIFICATIONS = "qualifications";
+	private static final String QUALIFIER = "qualifier";
+	private static final String CLASS = "class";
+	private static final String COMPONENTS = "components";
+	private static final String COMPONENT = "component";
 
-    private static final String QUALIFICATIONS = "qualifications";
-    private static final String QUALIFIER = "qualifier";
-    private static final String CLASS = "class";
+	public DashboardLoader() {
+		loadDashboards();
+	}
 
-    private static final String COMPONENTS = "components";
-    private static final String COMPONENT = "component";
+	/**
+	 * Load all dashboard configuration (XML) files and keep it ready for parsing and
+	 * initializing each dashboard.
+	 */
+	private void loadDashboards() {
+		logger.info("Loading dashboards");
+		// Modified by Ranjana to look at xml files in dashboard directory. This was causing
+		// an error because we
+		// were using svn. Code was trying to read .svn directory and receiving an error.
+		// Updated: 12/12/2007 by: Ranjana
+		File dashboardDir = new File(CoreUtils.getDashboardsDir());
+		try {
+			File[] dashboardFiles = dashboardDir.listFiles(new XMLFilter());
+			if (dashboardFiles.length == 0) {
+				logger.info("No dashboards found");
+				return;
+			}
+			for (File dashboardXML : dashboardFiles) {
+				InputStream xmlInputStream = new FileInputStream(dashboardXML);
+				dashboardConfigFiles.add(xmlInputStream);
+			}
+		} catch (FileNotFoundException e) {
+			logger.severe("Error loading dashboard(s)");
+			throw new RuntimeException(e);
+		}
+	}
 
+	/**
+	 * 
+	 * @param dashboards
+	 */
+	public void initialize(Map<String, DashboardConfig> dashboards) {
+		logger.info("Initializing dashboards");
+		if (dashboardConfigFiles.isEmpty()) {
+			return;
+		}
+		try {
+			for (InputStream dashboardConfigFile : dashboardConfigFiles) {
+				Document dashboardDocument = new SAXBuilder().build(dashboardConfigFile);
+				DashboardConfig dashboard = buildDashboardConfig(dashboardDocument);
+				dashboards.put(dashboard.getDashboardId(), dashboard);
+			}
+		} catch (JDOMException e) {
+			logger.severe("Error Initilizing dashboards");
+			throw new RuntimeException(e);
+		}
+	}
 
+	/**
+	 * 
+	 * @param dashboard
+	 * @return DashboardConfig instance
+	 */
+	@SuppressWarnings("unchecked")
+	private DashboardConfig buildDashboardConfig(Document dashboard) {
 
-    public DashboardLoader() {
-        loadDashboards();
-    }
+		Element dashboardRootElement = dashboard.getRootElement();
+		List<DashboardQualifier> qualifiers = new ArrayList<DashboardQualifier>();
+		Map<String, DashboardComponent> components = new HashMap<String, DashboardComponent>();
+		String dashboardID = dashboardRootElement.getAttribute(ID).getValue();
+		String dashboardName = dashboardRootElement.getAttribute(NAME).getValue();
+		String dashboardTemplate = dashboardRootElement.getAttribute(TEMPLATE).getValue();
 
-    /**
-     * Load all dashboard configuration (XML) files and keep it ready for parsing
-     * and initializing each dashboard.
-     */
-    private void loadDashboards(){
-        logger.info("Loading dashboards");
-        File dashboardDir = new File(CoreUtils.getDashboardsDir());
-        try{
-            if(dashboardDir.listFiles().length == 0){
-                logger.info("No dashboards found");
-                return;
-            }
-            for(File dashboardXML : dashboardDir.listFiles()){
-                InputStream xmlInputStream = new FileInputStream(dashboardXML);
-                dashboardConfigFiles.add(xmlInputStream);
-            }
-        }catch(FileNotFoundException e){
-            logger.severe("Error loading dashboard(s)");
-            throw new RuntimeException(e);
-        }
-    }
+		// Load dashboard qualifiers.
+		List<Element> qualifierElements = dashboardRootElement.getChild(QUALIFICATIONS)
+				.getChildren(QUALIFIER);
+		for (Element qualifierElement : qualifierElements) {
+			String qualifierClassName = qualifierElement.getAttribute(CLASS).getValue();
+			try {
+				Class qualifierClass = Class.forName(qualifierClassName);
+				DashboardQualifier dashboardQualifier = (DashboardQualifier) qualifierClass
+						.newInstance();
+				dashboardQualifier.init(qualifierElement);
+				qualifiers.add(dashboardQualifier);
+			} catch (Exception e) {
+				logger.severe("Error loading qualifier class: " + qualifierClassName);
+				throw new RuntimeException(e);
+			}
+		}
 
-    /**
-     *
-     * @param dashboards
-     */
-    public void initialize(Map<String, DashboardConfig> dashboards){
-        logger.info("Initializing dashboards");
-        if(dashboardConfigFiles.isEmpty())
-            return;
-        try{
-            for (InputStream dashboardConfigFile : dashboardConfigFiles) {
-                Document dashboardDocument = new SAXBuilder().build(dashboardConfigFile);
-                DashboardConfig dashboard = buildDashboardConfig(dashboardDocument);
-                dashboards.put(dashboard.getDashboardId(), dashboard);
-            }
-        }catch(JDOMException e){
-            logger.severe("Error Initilizing dashboards");
-            throw new RuntimeException(e);
-        }
-    }
+		// Load dashboard components
+		List<Element> componentElements = dashboardRootElement.getChild(COMPONENTS)
+				.getChildren(COMPONENT);
+		for (Element componentElement : componentElements) {
+			String componentClassName = componentElement.getAttribute(CLASS).getValue();
+			try {
+				Class componentClass = Class.forName(componentClassName);
+				DashboardComponent dashboardComponent = (DashboardComponent) componentClass
+						.newInstance();
+				if (componentElement.getAttribute("refreshInterval") != null) {
+					int refreshInterval = componentElement.getAttribute("refreshInterval")
+							.getIntValue();
+					dashboardComponent = new RefreshingDashboardComponent(dashboardComponent,
+							refreshInterval);
 
-    /**
-     *
-     * @param dashboard
-     * @return DashboardConfig instance
-     */
-    @SuppressWarnings("unchecked")
-    private DashboardConfig buildDashboardConfig(Document dashboard){
+				}
+				dashboardComponent.init(componentElement);
+				components.put(dashboardComponent.getId(), dashboardComponent);
+			} catch (Exception e) {
+				logger.severe("Error loading component class: " + componentClassName);
+				throw new RuntimeException(e);
+			}
+		}
+		return new DashboardConfig(dashboardID, dashboardName, dashboardTemplate, components,
+				qualifiers);
+	}
 
-        Element dashboardRootElement = dashboard.getRootElement();
-        List<DashboardQualifier> qualifiers =
-                new ArrayList<DashboardQualifier>();
-        Map<String, DashboardComponent> components =
-                new HashMap<String, DashboardComponent>();
-        String dashboardID = dashboardRootElement.getAttribute(ID).getValue();
-        String dashboardName = dashboardRootElement.getAttribute(NAME).getValue();
-        String dashboardTemplate = dashboardRootElement.getAttribute(TEMPLATE).getValue();;
-
-        //  Load dashboard qualifiers.
-        List<Element> qualifierElements =
-                dashboardRootElement.getChild(QUALIFICATIONS).getChildren(QUALIFIER);
-        for(Element qualifierElement: qualifierElements){
-            String qualifierClassName =
-                    qualifierElement.getAttribute(CLASS).getValue();
-            try{
-                Class qualifierClass = Class.forName(qualifierClassName);
-                DashboardQualifier dashboardQualifier =
-                        (DashboardQualifier) qualifierClass.newInstance();
-                dashboardQualifier.init(qualifierElement);
-                qualifiers.add(dashboardQualifier);
-            }catch(Exception e){
-                logger.severe("Error loading qualifier class: "+qualifierClassName);
-                throw new RuntimeException(e);
-            }
-        }
-
-        //  Load dashboard components
-        List<Element> componentElements =
-                dashboardRootElement.getChild(COMPONENTS).getChildren(COMPONENT);
-        for(Element componentElement : componentElements){
-            String componentClassName =
-                    componentElement.getAttribute(CLASS).getValue();
-            try{
-                Class componentClass = Class.forName(componentClassName);
-                DashboardComponent dashboardComponent =
-                        (DashboardComponent)componentClass.newInstance();
-                if(componentElement.getAttribute("refreshInterval") != null){
-                    int refreshInterval = 
-                        componentElement.getAttribute("refreshInterval").getIntValue();
-                    dashboardComponent = 
-                        new RefreshingDashboardComponent(dashboardComponent, refreshInterval);
-                    
-                }
-                dashboardComponent.init(componentElement);
-                components.put(dashboardComponent.getId(), dashboardComponent);
-            }catch(Exception e){
-                logger.severe("Error loading component class: "+componentClassName);
-                throw new RuntimeException(e);
-            }
-        }
-        return new DashboardConfig(dashboardID, dashboardName, dashboardTemplate,
-                components, qualifiers);
-    }
+	private class XMLFilter implements java.io.FilenameFilter {
+		public boolean accept(File dir, String fileName) {
+			return fileName.toLowerCase().endsWith(".xml");
+		}
+	}
 }
