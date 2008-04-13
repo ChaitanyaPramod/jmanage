@@ -24,6 +24,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 
 import org.jmanage.core.alert.AlertEngine;
+import org.jmanage.core.auth.ACLStore;
 import org.jmanage.core.crypto.Crypto;
 import org.jmanage.core.services.ServiceFactory;
 import org.jmanage.core.util.CoreUtils;
@@ -37,9 +38,9 @@ import org.jmanage.util.db.DBUtils;
  * Used for initialization and cleanup processes.
  * 
  * @author shashank
- *
+ * 
  */
-public class JManageApplicationListener implements javax.servlet.ServletContextListener{
+public class JManageApplicationListener implements javax.servlet.ServletContextListener {
 	private Logger logger = Loggers.getLogger(JManageApplicationListener.class);
 
 	/**
@@ -47,7 +48,7 @@ public class JManageApplicationListener implements javax.servlet.ServletContextL
 	 */
 	public void contextDestroyed(ServletContextEvent applicationEvent) {
 		logger.info("jManage shutting down...");
-		DBUtils.shutdownDB();		
+		DBUtils.shutdownDB();
 	}
 
 	/**
@@ -98,9 +99,24 @@ public class JManageApplicationListener implements javax.servlet.ServletContextL
 			ObservedMBeanAttributeCache.init();
 			/* Start threads to monitor configured applications */
 			ApplicationDowntimeService.getInstance().start();
+			/* register the jManage MBeans */
+			registerJManageMBeans();
 			logger.info("jManage initialization complete...");
 		}catch(Throwable e){
 			logger.log(Level.SEVERE, "Error initializing jManage.", e);
+		}
+	}
+
+	private void registerJManageMBeans() {
+		try {
+			// This is code to register custom Mbeans in JManage. Added by Ranjana.
+			javax.management.ObjectName objName = new javax.management.ObjectName(
+					"jManage:name=ACLStore");
+			java.lang.management.ManagementFactory.getPlatformMBeanServer().registerMBean(
+					ACLStore.getInstance(), objName);
+			logger.info("Registered ACLStore MBean ");
+		} catch (Exception e) {
+			logger.log(Level.SEVERE, "Error while registering MBean -" + e.getMessage(), e);
 		}
 	}
 }
