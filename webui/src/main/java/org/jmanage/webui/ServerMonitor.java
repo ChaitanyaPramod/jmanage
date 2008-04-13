@@ -78,9 +78,7 @@ public class ServerMonitor extends Thread{
 
 				String cmd = lin.readLine();
 				if(STOP_CMD.equals(cmd)){
-					AlertEngine.getInstance().stop();
 					logger.info("Shutting down the server.");
-
 					try{
 						socket.close();
 					}catch(Exception e){
