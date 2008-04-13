@@ -18,19 +18,13 @@ package org.jmanage.webui;
 import org.apache.struts.config.ModuleConfig;
 import org.apache.struts.action.*;
 import org.apache.struts.tiles.TilesRequestProcessor;
-import org.jmanage.core.util.CoreUtils;
 import org.jmanage.core.util.JManageProperties;
 import org.jmanage.core.util.Loggers;
-import org.jmanage.core.alert.AlertEngine;
 import org.jmanage.core.auth.AuthConstants;
 import org.jmanage.core.auth.UserManager;
-import org.jmanage.core.crypto.Crypto;
 import org.jmanage.core.services.ServiceFactory;
 import org.jmanage.core.services.AuthService;
 import org.jmanage.core.services.ServiceException;
-import org.jmanage.monitoring.data.collector.ObservedMBeanAttributeCache;
-import org.jmanage.monitoring.downtime.ApplicationDowntimeService;
-import org.jmanage.util.db.DBUtils;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.util.RequestParams;
@@ -39,11 +33,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
 import java.util.logging.Level;
-import java.util.Arrays;
 import java.util.Enumeration;
 import java.beans.XMLEncoder;
 
@@ -53,7 +45,7 @@ import java.beans.XMLEncoder;
  */
 public class JManageRequestProcessor extends TilesRequestProcessor{
 
-	public Logger logger = Loggers.getLogger(this.getClass());;
+	private Logger logger = Loggers.getLogger(JManageRequestProcessor.class);;
 
 	/**
 	 * Initialize the request processor.
@@ -65,50 +57,6 @@ public class JManageRequestProcessor extends TilesRequestProcessor{
 	public void init(ActionServlet servlet, ModuleConfig moduleConfig)
 	throws ServletException {
 		super.init(servlet, moduleConfig);
-		String rootDirAbsPath = System.getProperty("JMANAGE_ROOT");
-
-		try{
-			String metadataDir = servlet.getServletConfig().getInitParameter("metadata-dir");
-			String metadataDirAbsPath = servlet.getServletContext().getRealPath(metadataDir);
-
-			File configDir = new File(rootDirAbsPath + File.separator + "config");
-			File configSrcDir = new File(metadataDirAbsPath + File.separator + "config");
-			CoreUtils.copyConfig(configDir, configSrcDir);
-
-			String dataFormatConfigSysProp = servlet.getServletConfig().getInitParameter("jmanage-data-formatConfig");
-			System.setProperty(dataFormatConfigSysProp, rootDirAbsPath+File.separatorChar+"config"+File.separatorChar+"html-data-format.properties");
-
-			String jaasConfigSysProp = servlet.getServletConfig().getInitParameter("jaas-config");
-			System.setProperty(jaasConfigSysProp, rootDirAbsPath+File.separatorChar+"config"+File.separatorChar+"jmanage-auth.conf");
-
-			CoreUtils.init(rootDirAbsPath, metadataDirAbsPath);
-
-			/* read jmanage.properties */
-			JManageProperties jmProp = JManageProperties.getInstance();
-			String serverIndicator = System.getProperty("SERVER.IND");
-			String sPassword = jmProp.getProperty("jManage.password");
-			char[] password = sPassword != null ? sPassword.toCharArray() : null;
-
-			ServiceFactory.init(ServiceFactory.MODE_LOCAL);
-			if(!"JETTY".equals(serverIndicator)){
-				/* initialize Crypto */
-				Crypto.init(password);
-				/* clear the password */
-				Arrays.fill(password, ' ');
-			}
-
-			/* Initialize DBUtils */
-			DBUtils.init();
-			/* Start AlertEngine */
-			AlertEngine.getInstance().start();
-			/* Initialize ObservedMBeanAttributeCache */
-			ObservedMBeanAttributeCache.init();
-			/* Start threads to monitor configured applications */
-			ApplicationDowntimeService.getInstance().start();
-		}catch(Throwable e){
-			logger.log(Level.SEVERE, "Error initializing application.", e);
-			throw new ServletException(e);
-		}
 	}
 
 	/**
