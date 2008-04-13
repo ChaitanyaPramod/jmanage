@@ -14,3 +14,13 @@ MBEAN_ATTRIBUTE_VALUE
 
 4) Heart beat check interval is now configurable at the application level. It is
 also the interval for data collection.
+
+5) ACLContext has been enhanced to:
+
+I have done change in ACLContext.java for matching MBean name with wildcard.
+It supports wildcard for key- value pair in MBean name as given in ObjectName pattern.
+It does not support wild card for domain name search which means domain name has to be either * or complete name.
+
+e.g. ACL having Mbean name as  WebSphere:name=test,*  will match for MBeans with domain name as 'WebSphere' and
+having key value pair of name=test in its key-value list. Domain name has to be given as '*' or 'WebSphere' now in ACL file.
+It does not support 'Web*' .  This is sufficient for our requirement as of now. 
