@@ -40,7 +40,7 @@ public class ObservedMBeanAttributeDAO extends DAO {
         try{
             conn = DBUtils.getConnection();
             stmt = conn.prepareStatement("SELECT id, application_id, " +
-            		"mbean_name, attribute_name, when_started, display_name " +
+            		"mbean_name, attribute_name, when_started " +
                     "FROM MBEAN_ATTRIBUTE" +
                     " WHERE application_id=? order by mbean_name,when_started desc");
             stmt.setString(1, appConfig.getApplicationId());
@@ -62,7 +62,7 @@ public class ObservedMBeanAttributeDAO extends DAO {
         try{
             conn = DBUtils.getConnection();
             stmt = conn.prepareStatement("SELECT id, application_id, " +
-            		"mbean_name, attribute_name, when_started, display_name " +
+            		"mbean_name, attribute_name, when_started " +
                     "FROM MBEAN_ATTRIBUTE" +
                     " WHERE application_id=? AND mbean_name=? AND attribute_name=? order by mbean_name,when_started desc");
             stmt.setString(1, searchMBeanAttrib.getApplicationConfig().getApplicationId());
@@ -110,7 +110,7 @@ public class ObservedMBeanAttributeDAO extends DAO {
         try{
             conn = DBUtils.getConnection();
             stmt = conn.prepareStatement("SELECT id, application_id, " +
-            		"mbean_name, attribute_name, when_started, display_name " +
+            		"mbean_name, attribute_name, when_started " +
                     "FROM MBEAN_ATTRIBUTE order by mbean_name,when_started desc");
             rset = stmt.executeQuery();
             return resultSetToModel(rset);
@@ -139,8 +139,7 @@ public class ObservedMBeanAttributeDAO extends DAO {
         					appConfig, 
         					rset.getString(3), 
         					rset.getString(4),
-        					rset.getTimestamp(5),
-        					rset.getString(6)));
+        					rset.getTimestamp(5)));
         }
         return observedMBeanAttributes;
 	}
@@ -151,15 +150,15 @@ public class ObservedMBeanAttributeDAO extends DAO {
         ResultSet rset = null;
         try{
             conn = DBUtils.getConnection();
-            stmt = conn.prepareStatement("INSERT INTO MBEAN_ATTRIBUTE(id, application_id, " +
-                    "mbean_name, attribute_name, when_started, display_name ) VALUES (NEXT VALUE FOR MBEAN_ATTRIBUTE_ID,?, ?, ?,?,?)");
+            stmt = conn.prepareStatement("INSERT INTO MBEAN_ATTRIBUTE(id, application_id, APPLICATION_NAME, " +
+                    "mbean_name, attribute_name, when_started) VALUES (NEXT VALUE FOR MBEAN_ATTRIBUTE_ID,?, ?, ?, ?, ?)");
             Timestamp whenStarted = new Timestamp(System.currentTimeMillis());
             for(ObservedMBeanAttribute attribute: attributes){
             	stmt.setString(1, attribute.getApplicationConfig().getApplicationId());
-                stmt.setString(2, attribute.getMBeanName());
-                stmt.setString(3, attribute.getAttributeName());
-            	stmt.setTimestamp(4, whenStarted);
-            	stmt.setString(5, attribute.getDisplayName());
+            	stmt.setString(2, attribute.getApplicationConfig().getName());
+                stmt.setString(3, attribute.getMBeanName());
+                stmt.setString(4, attribute.getAttributeName());
+            	stmt.setTimestamp(5, whenStarted);
             	stmt.addBatch();
             }
             int[] results = stmt.executeBatch();

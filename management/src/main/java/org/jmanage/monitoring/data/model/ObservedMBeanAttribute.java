@@ -33,21 +33,18 @@ public class ObservedMBeanAttribute {
 	
 	private Date whenStarted;
 	
-	private String displayName;
-
 	public ObservedMBeanAttribute(long id, ApplicationConfig appConfig,
-			String mbeanName, String attributeName, Date whenStarted, String  displayName) {
-		this(appConfig, mbeanName, attributeName, whenStarted, displayName);
+			String mbeanName, String attributeName, Date whenStarted) {
+		this(appConfig, mbeanName, attributeName, whenStarted);
 		this.id = id;
 	}
 
 	public ObservedMBeanAttribute(ApplicationConfig appConfig,
-			String mbeanName, String attributeName, Date whenStarted, String  displayName) {
+			String mbeanName, String attributeName, Date whenStarted) {
 		this.appConfig = appConfig;
 		this.mbeanName = mbeanName;
 		this.attributeName = attributeName;
 		this.whenStarted = whenStarted;
-		this.displayName = displayName;
 	}
 
 	public long getId() {
@@ -68,9 +65,5 @@ public class ObservedMBeanAttribute {
 	
 	public Date getWhenStarted() {
 		return whenStarted;
-	}
-
-	public String getDisplayName() {
-		return displayName;
 	}
 }

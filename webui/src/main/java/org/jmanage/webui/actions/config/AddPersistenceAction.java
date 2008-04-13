@@ -33,64 +33,58 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 /**
  * Date: Mar 09, 2008 6:10:37 PM
  * @author Avneet
  */
-public class AddPersistenceAction extends BaseAction{
-    /**
-     * @param context
-     * @param mapping
-     * @param actionForm
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward execute(WebContext context,
-                                 ActionMapping mapping,
-                                 ActionForm actionForm,
-                                 HttpServletRequest request,
-                                 HttpServletResponse response)
-            throws Exception {
-      AccessController.checkAccess(Utils.getServiceContext(context),ACL_ADD_PERSISTENCE);    	
-        ApplicationConfig appConfig = context.getApplicationConfig();
-        PersistenceForm form = (PersistenceForm)actionForm;
-        String[] attributes = form.getAttributes();
-        String[] displayNames = form.getDisplayNames();      
+public class AddPersistenceAction extends BaseAction {
+	/**
+	 * @param context
+	 * @param mapping
+	 * @param actionForm
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	public ActionForward execute(WebContext context, ActionMapping mapping,
+			ActionForm actionForm, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		AccessController.checkAccess(Utils.getServiceContext(context), ACL_ADD_PERSISTENCE);
+		ApplicationConfig appConfig = context.getApplicationConfig();
+		PersistenceForm form = (PersistenceForm) actionForm;
+		String[] attributes = form.getAttributes();
 		ObservedMBeanAttributeDAO dao = new ObservedMBeanAttributeDAO();
 		List<ObservedMBeanAttribute> failedMbeanAttrib = new ArrayList<ObservedMBeanAttribute>();
-		
-        ArrayList<ObservedMBeanAttribute> observedMBeanAttributes = new ArrayList<ObservedMBeanAttribute>();
-        for(int i=0; i<attributes.length; i++){
-            
-        	//clear the save list, since saving in each iteration
-        	observedMBeanAttributes.clear();
-        	
-        	//goto next element
-        	Expression expression = new Expression(attributes[i]); 
-            ObservedMBeanAttribute mAttrib = new ObservedMBeanAttribute(appConfig,expression.getMBeanName(),
-            		expression.getTargetName(), new Date(),displayNames[i]);
-            
-            //chk for uniqueness
-            boolean alreadyPresent = dao.isPresent(mAttrib);
-            
-            if(alreadyPresent)
-            {
-            	//configuration already present, add to failed list
-            	failedMbeanAttrib.add(mAttrib);
-            }
-            else
-            {
-            	//add and save since not already present
-                observedMBeanAttributes.add(mAttrib);
-                dao.save(observedMBeanAttributes);  
-            }
-        }
 
-//		if(failedMbeanAttrib.size() > 0) 
-//	        return mapping.findForward(Forwards.FAILURE);
-//		else
-			return mapping.findForward(Forwards.SUCCESS);
-    }
+		ArrayList<ObservedMBeanAttribute> observedMBeanAttributes = new ArrayList<ObservedMBeanAttribute>();
+		for (int i = 0; i < attributes.length; i++) {
+
+			//clear the save list, since saving in each iteration
+			observedMBeanAttributes.clear();
+
+			//goto next element
+			Expression expression = new Expression(attributes[i]);
+			ObservedMBeanAttribute mAttrib = new ObservedMBeanAttribute(appConfig, expression
+					.getMBeanName(), expression.getTargetName(), new Date());
+
+			//chk for uniqueness
+			boolean alreadyPresent = dao.isPresent(mAttrib);
+
+			if (alreadyPresent) {
+				//configuration already present, add to failed list
+				failedMbeanAttrib.add(mAttrib);
+			} else {
+				//add and save since not already present
+				observedMBeanAttributes.add(mAttrib);
+				dao.save(observedMBeanAttributes);
+			}
+		}
+
+		//		if(failedMbeanAttrib.size() > 0) 
+		//	        return mapping.findForward(Forwards.FAILURE);
+		//		else
+		return mapping.findForward(Forwards.SUCCESS);
+	}
 }

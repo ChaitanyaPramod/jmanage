@@ -325,7 +325,6 @@ if(attribList.size() > 0){
     <tr>
         <td class="headtext1">MBean Name</td>
         <td class="headtext1">Attribute Name</td>
-        <td class="headtext1">Display Name</td>
         <td class="headtext1">Since</td>
         <td class="headtext1">&nbsp;</td>
     </tr>
@@ -348,9 +347,6 @@ if(attribList.size() > 0){
         </td>
         <td class="plaintext">
              <%=mbeanAttrib.getAttributeName()%>
-        </td>
-        <td class="plaintext">
-             <%=mbeanAttrib.getDisplayName()==null?"":mbeanAttrib.getDisplayName()%>
         </td>
         <%
         
