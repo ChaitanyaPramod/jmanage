@@ -5,6 +5,26 @@
   "./dtds/web-app_2_3.dtd">
 
 <web-app>
+	<!-- Context parameters -->
+	<context-param>
+		<param-name>metadata-dir</param-name>
+		<param-value>/META-INF</param-value>
+	</context-param>
+	<context-param>
+	    <param-name>jmanage-data-formatConfig</param-name>
+	    <param-value>org.jmanage.core.management.data.formatConfig</param-value>
+	</context-param>
+	<context-param>
+	    <param-name>jaas-config</param-name>
+	    <param-value>java.security.auth.login.config</param-value>
+	</context-param>
+	
+	<!-- Listeners -->
+	<listener>
+		<listener-class>
+			org.jmanage.webui.listener.JManageApplicationListener
+		</listener-class>
+	</listener>
     <!-- Standard Action Servlet Configuration (with debugging) -->
     <servlet>
         <servlet-name>action</servlet-name>
@@ -20,22 +40,6 @@
         <init-param>
             <param-name>detail</param-name>
             <param-value>2</param-value>
-        </init-param>
-        <init-param>
-            <param-name>web-deploy</param-name>
-            <param-value>true</param-value>
-        </init-param>
-        <init-param>
-            <param-name>metadata-dir</param-name>
-            <param-value>/META-INF</param-value>
-        </init-param>
-        <init-param>
-            <param-name>jmanage-data-formatConfig</param-name>
-            <param-value>org.jmanage.core.management.data.formatConfig</param-value>
-        </init-param>
-        <init-param>
-            <param-name>jaas-config</param-name>
-            <param-value>java.security.auth.login.config</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
