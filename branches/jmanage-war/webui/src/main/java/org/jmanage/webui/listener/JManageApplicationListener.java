@@ -24,6 +24,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 
 import org.jmanage.core.alert.AlertEngine;
+import org.jmanage.core.alert.delivery.EmailAlerts;
 import org.jmanage.core.auth.ACLStore;
 import org.jmanage.core.crypto.Crypto;
 import org.jmanage.core.services.ServiceFactory;
@@ -48,7 +49,14 @@ public class JManageApplicationListener implements javax.servlet.ServletContextL
 	 */
 	public void contextDestroyed(ServletContextEvent applicationEvent) {
 		logger.info("jManage shutting down...");
-		DBUtils.shutdownDB();
+		/* stop alert engine */
+		AlertEngine.getInstance().stop();
+		/* stop application downtime service */
+    ApplicationDowntimeService.getInstance().stop();
+    /* stop email alerts */
+    EmailAlerts.getInstance().stop();
+    /* shutdown HSQL database */
+    DBUtils.shutdownDB();
 	}
 
 	/**
