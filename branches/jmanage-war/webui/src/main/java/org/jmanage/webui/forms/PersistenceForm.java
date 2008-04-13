@@ -14,31 +14,32 @@
  */
 package org.jmanage.webui.forms;
 
-
 /**
  * Date: Mar 09, 2008 6:10:37 PM
  * @author Avneet
  */
 @SuppressWarnings("serial")
-public class PersistenceForm extends BaseForm{
+public class PersistenceForm extends BaseForm {
 
-    private String[] attributes;
-    private String[] displayNames;
-  
-    public String[] getAttributes() {
-        return attributes;
-    }
+	private String[] attributes;
 
-    public void setAttributes(String[] attributes) {
-        this.attributes = attributes;
-    }
-     
-    public String[] getDisplayNames() {
-        return displayNames;
-    }
+	//TODO : need to get rid of this
+	private String[] displayNames;
 
-    public void setDisplayNames(String[] displayNames) {
-        this.displayNames = displayNames;
-    }
+	public String[] getAttributes() {
+		return attributes;
+	}
+
+	public void setAttributes(String[] attributes) {
+		this.attributes = attributes;
+	}
+
+	public String[] getDisplayNames() {
+		return displayNames;
+	}
+
+	public void setDisplayNames(String[] displayNames) {
+		this.displayNames = displayNames;
+	}
 
 }
