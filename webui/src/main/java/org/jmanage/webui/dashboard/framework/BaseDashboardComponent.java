@@ -64,9 +64,11 @@ public abstract class BaseDashboardComponent implements DashboardComponent {
         StringBuffer output = new StringBuffer();
         if(event != null){
             output.append("<script>");
-            output.append("addEventHandler(''" + event.source + "'', ''" + 
-                    event.name + "'', ''" + getId() + "'', ''" + event.dataVariable + "'', ''" + 
-                    applicationId + "'')");
+            //Changed by Ranjana on 12-13-2007 for replacing two single quotes to one single quote.
+            //Two single quotes was giving issue, addEventHandler was not getting called.
+            output.append("addEventHandler('" + event.source + "','" + 
+                    event.name + "', '" + getId() + "', '" + event.dataVariable + "', '" + 
+                    applicationId + "')");
             output.append("</script>");
         }
 

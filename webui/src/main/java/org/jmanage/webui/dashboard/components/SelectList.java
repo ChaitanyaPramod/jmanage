@@ -80,7 +80,9 @@ public class SelectList extends BaseDashboardComponent {
         Select select = new Select("dummy", size, true);
         //select.onChange("alert(''test'');");
         final String dashboardId = context.getDashboardConfig().getDashboardId();
-        select.onChange("handleEvent(''" + dashboardId + "'', ''" + getId() + "'', ''onChange'', this.options[this.selectedIndex].value);");
+         //Changed by Ranjana on 12-13-2007 for replacing two single quotes to one single quote.
+            //Two single quotes was giving issue, handleEvent was not getting called.
+        select.onChange("handleEvent('" + dashboardId + "', '" + getId() + "', 'onChange', this.options[this.selectedIndex].value);");
         for(String id:data.keySet()){
             select.addOption(id, data.get(id));
         }
