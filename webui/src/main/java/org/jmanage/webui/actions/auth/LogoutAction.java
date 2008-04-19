@@ -54,6 +54,10 @@ public class LogoutAction extends BaseAction{
         AuthService authService = ServiceFactory.getAuthService();
         authService.logout(Utils.getServiceContext(context), context.getUser());
         context.removeUser();
+        // need to redirect to SSO logout URL (configurable)?? 
+        //  -- this will be different for different environments
+        // the SSO interface logout() method could optionally return a SSO url
+        //   that jmanage could then do a redirect to
         return mapping.findForward(Forwards.SUCCESS);
     }
 }
