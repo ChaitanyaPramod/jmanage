@@ -74,6 +74,11 @@ public class JManageProperties extends Properties{
     private static String DATABASE_URL = "jmanage.database.url"; 
     private static String DATABASE_USERNAME = "jmanage.database.username"; 
     private static String DATABASE_PASSWORD = "jmanage.database.password";
+    /* Property to disable remote access to services  */
+    private static String DISABLE_REMOTE_SERVICE_ACCESS = "disable.remote.service.access";
+    /* Option to enable login through SSO.  */
+    private static String SSO_ENABLED = "jmanage.SSOEnabled";
+
     
     /*  The only instance   */
     private static JManageProperties jManageProperties = new JManageProperties();
@@ -162,6 +167,14 @@ public class JManageProperties extends Properties{
         return "true".equals(jManageProperties.getProperty(AUTO_LOGIN_ADMIN_USER));
     }
     
+    public static boolean isRemoteServiceAccessDisabled(){
+    	return "true".equalsIgnoreCase(jManageProperties.getProperty(DISABLE_REMOTE_SERVICE_ACCESS));
+    }
+    
+    public static boolean isSSOEnabled(){        
+      return "true".equals(jManageProperties.getProperty(SSO_ENABLED));
+	  }
+
     /**
      * Indicates if the canonical name of the mbean should be displayed
      * @return

@@ -32,32 +32,30 @@ import javax.servlet.http.HttpServletResponse;
  * Date : Jul 5, 2004 10:54:41 PM
  * @author Shashank
  */
-public class LogoutAction extends BaseAction{
+public class LogoutAction extends BaseAction {
 
-    /**
-     * Logout the user.
-     *
-     * @param context
-     * @param mapping
-     * @param actionForm
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward execute(WebContext context,
-                                 ActionMapping mapping,
-                                 ActionForm actionForm,
-                                 HttpServletRequest request,
-                                 HttpServletResponse response)
-            throws Exception {
-        AuthService authService = ServiceFactory.getAuthService();
-        authService.logout(Utils.getServiceContext(context), context.getUser());
-        context.removeUser();
-        // need to redirect to SSO logout URL (configurable)?? 
-        //  -- this will be different for different environments
-        // the SSO interface logout() method could optionally return a SSO url
-        //   that jmanage could then do a redirect to
-        return mapping.findForward(Forwards.SUCCESS);
-    }
+	/**
+	 * Logout the user.
+	 *
+	 * @param context
+	 * @param mapping
+	 * @param actionForm
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	public ActionForward execute(WebContext context, ActionMapping mapping,
+			ActionForm actionForm, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		AuthService authService = ServiceFactory.getAuthService();
+		authService.logout(Utils.getServiceContext(context), context.getUser());
+		context.removeUser();
+		request.getSession(true).invalidate();
+		// need to redirect to SSO logout URL (configurable)?? 
+		//  -- this will be different for different environments
+		// the SSO interface logout() method could optionally return a SSO url
+		//   that jmanage could then do a redirect to
+		return mapping.findForward(Forwards.SUCCESS);
+	}
 }
