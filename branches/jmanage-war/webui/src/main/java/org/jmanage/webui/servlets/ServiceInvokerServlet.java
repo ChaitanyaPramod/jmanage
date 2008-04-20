@@ -18,6 +18,7 @@ package org.jmanage.webui.servlets;
 import org.jmanage.core.remote.RemoteInvocation;
 import org.jmanage.core.remote.InvocationResult;
 import org.jmanage.core.remote.server.ServiceCallHandler;
+import org.jmanage.core.util.JManageProperties;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -30,61 +31,63 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 /**
- *
- * date:  Feb 24, 2005
- * @author	Rakesh Kalra
+ * 
+ * date: Feb 24, 2005
+ * 
+ * @author Rakesh Kalra
  */
 @SuppressWarnings("serial")
 public class ServiceInvokerServlet extends HttpServlet {
 
-    private static String RESPONSE_CONTENT_TYPE =
-       "application/x-java-serialized-object; class=org.jmanage.core.remote.InvocationResult";
+	private static String RESPONSE_CONTENT_TYPE = "application/x-java-serialized-object; class=org.jmanage.core.remote.InvocationResult";
 
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     */
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
+	/**
+	 * Handles the HTTP <code>GET</code> method.
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		processRequest(request, response);
+	}
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     */
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
+	/**
+	 * Handles the HTTP <code>POST</code> method.
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		processRequest(request, response);
+	}
 
-    public String getServletInfo() {
-        return "Servlet to remotely invoke service methods";
-    }
+	public String getServletInfo() {
+		return "Servlet to remotely invoke service methods";
+	}
 
-
-    protected void processRequest(HttpServletRequest request,
-                                  HttpServletResponse response)
-            throws ServletException, IOException {
-
-        response.setContentType(RESPONSE_CONTENT_TYPE);
-        try {
-            /* get the RemoteInvocation object */
-            ServletInputStream sis = request.getInputStream();
-            ObjectInputStream ois = new ObjectInputStream(sis);
-            RemoteInvocation invocation = (RemoteInvocation) ois.readObject();
-            ois.close();
-            /* execute the method */
-            InvocationResult result = ServiceCallHandler.execute(invocation);
-            /* write the result */
-            ServletOutputStream sos = response.getOutputStream();
-            ObjectOutputStream oos = new ObjectOutputStream(sos);
-            oos.writeObject(result);
-            oos.close();
-        } catch (Throwable t) {
-            /* write the exception */
-            ServletOutputStream sos = response.getOutputStream();
-            ObjectOutputStream oos = new ObjectOutputStream(sos);
-            oos.writeObject(new InvocationResult(t));
-            oos.close();
-        }
-    }
+	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		InvocationResult result;
+		response.setContentType(RESPONSE_CONTENT_TYPE);
+		try {
+			if(JManageProperties.isRemoteServiceAccessDisabled())
+				result = new InvocationResult("Remote service access disabled");
+			else{
+				/* get the RemoteInvocation object */
+				ServletInputStream sis = request.getInputStream();
+				ObjectInputStream ois = new ObjectInputStream(sis);
+				RemoteInvocation invocation = (RemoteInvocation) ois.readObject();
+				ois.close();
+				/* execute the method */
+				result = ServiceCallHandler.execute(invocation);
+			}
+			/* write the result */
+			ServletOutputStream sos = response.getOutputStream();
+			ObjectOutputStream oos = new ObjectOutputStream(sos);
+			oos.writeObject(result);
+			oos.close();
+		} catch (Throwable t) {
+			/* write the exception */
+			ServletOutputStream sos = response.getOutputStream();
+			ObjectOutputStream oos = new ObjectOutputStream(sos);
+			oos.writeObject(new InvocationResult(t));
+			oos.close();
+		}
+	}
 }

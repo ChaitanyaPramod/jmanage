@@ -1,0 +1,26 @@
+<dashboard id="WebSphereJVMGraph" name="JVM Graph" template="/dashboard/WebSphereJVMGraph.jsp" >
+	<qualifications comment="defines what type of applications qualify for this dashboard">
+        <qualifier class="org.jmanage.webui.dashboard.qualifiers.GenericMBeanCheckQualifier">
+            <property name="mbean" value="WebSphere:cell=localhost,mbeanIdentifier=JVM,name=JVM,node=localhost,platform=common,process=server1,type=JVM,version=5.0.1"/>
+        </qualifier>
+    </qualifications>
+    
+    <components>
+        <component id="com1" class="org.jmanage.webui.dashboard.components.Graph" name="JVM Details">
+            <type>XYChart</type>
+            <pollingInterval>10</pollingInterval>
+            <param mbean="WebSphere:cell=localhost,mbeanIdentifier=JVM,name=JVM,node=localhost,platform=common,process=server1,type=JVM,version=5.0.1" attribute="heapSize" displayName="Heap Size"/>            
+            <param mbean="WebSphere:cell=localhost,mbeanIdentifier=JVM,name=JVM,node=localhost,platform=common,process=server1,type=JVM,version=5.0.1" attribute="freeMemory" displayName="Free Memory"/>
+        </component>
+        <component id="com2" class="org.jmanage.webui.dashboard.components.MBeanAttributeValue" refreshInterval="5000">
+            <property name="mbean" value="WebSphere:cell=localhost,mbeanIdentifier=JVM,name=JVM,node=localhost,platform=common,process=server1,type=JVM,version=5.0.1"/>
+            <property name="attribute" value="heapSize"/>
+            <property name="displayName" value="Heap Size"/>
+        </component>
+        <component id="com3" class="org.jmanage.webui.dashboard.components.MBeanAttributeValue" refreshInterval="5000">
+            <property name="mbean" value="WebSphere:cell=localhost,mbeanIdentifier=JVM,name=JVM,node=localhost,platform=common,process=server1,type=JVM,version=5.0.1"/>
+            <property name="attribute" value="freeMemory"/>
+            <property name="displayName" value="Free Memory"/>
+        </component>
+    </components>
+</dashboard>

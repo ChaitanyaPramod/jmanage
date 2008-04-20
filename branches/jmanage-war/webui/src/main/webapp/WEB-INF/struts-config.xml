@@ -617,7 +617,9 @@
     <!--controller
         processorClass=""/-->
     <controller
-        processorClass="org.jmanage.webui.JManageRequestProcessor"/>
+        processorClass="org.jmanage.webui.JManageRequestProcessor">
+        <set-property property="nocache" value="true"/>
+    </controller>
 
     <!-- ===================================== Message Resources Definitions -->
 

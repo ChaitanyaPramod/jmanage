@@ -1,11 +1,6 @@
 <!--    /app/mbeanList.jsp  -->
 <%@ page errorPage="/error.jsp" %>
-<%@ page import="java.util.List,
-                 java.util.Iterator,
-                 org.jmanage.core.config.ApplicationConfig,
-                 org.jmanage.webui.util.RequestAttributes,
-                 java.net.URLEncoder,
-                 org.jmanage.core.management.ObjectName,
+<%@ page import="java.util.Iterator,
                  java.util.Map,
                  java.util.Set"%>
 
@@ -34,8 +29,8 @@
             pageContext.setAttribute("objectName",
                     domain + ":" + objectName, PageContext.PAGE_SCOPE);
 %>
-    <tr>
-        <td class="plaintext">
+    <tr width="900">
+        <td width="900" style="word-wrap:break-word" class="plaintext">
                 <jmhtml:link action="/app/mbeanView"
                              paramId="objName"
                              paramName="objectName" appendQSParams="true">
