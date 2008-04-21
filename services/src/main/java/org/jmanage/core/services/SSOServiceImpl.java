@@ -24,6 +24,12 @@ import org.jmanage.core.util.JManageProperties;
 import org.jmanage.core.util.Loggers;
 
 /**
+ * THIS IS AMEX SPECIFIC IMPLEMENTATION, SHOULD BE MOVED OUT OF SVN AND BUNDLED AS PART OF
+ * A JAR FILE DELIVERED TO AMEX 
+ * 
+ * This is a sample SSOService implementation and the current logic is specific to AMEX.
+ * 
+ * 
  * Date : Apr 20, 2008 09:38:42 AM
  * 
  * @author Shashank
@@ -66,6 +72,7 @@ public class SSOServiceImpl implements SSOService {
         	AuthService authService = ServiceFactory.getAuthService();
       		try {
       			authService.login(context, userId, JManageProperties.getJManageDefaultPassword());
+      			ssoToken.setSSOStatus(ssoToken.SSO_SUCCESS);
       		} catch (ServiceException e) {
             logger.log(Level.SEVERE,"Login failed for User Id :"+userId +" and GUID:" + 
             		ssoToken.getSSOToken() );
