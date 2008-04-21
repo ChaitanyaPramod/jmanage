@@ -46,4 +46,6 @@ public interface ErrorCodes {
 
     String APPLICATION_NAME_ALREADY_EXISTS = "application.name.already.exists";
     String INVALID_CHAR_APP_NAME = "error.appNameMask";
+    String SSO_LOGIN_ERROR="ssologin.error";
+    String UNAUTHORIZED_AMI_ACCESS="unauthorized.ami.access";
 }

@@ -15,13 +15,16 @@
  */
 package org.jmanage.webui;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.config.ModuleConfig;
 import org.apache.struts.action.*;
 import org.apache.struts.tiles.TilesRequestProcessor;
 import org.jmanage.core.util.JManageProperties;
 import org.jmanage.core.util.Loggers;
 import org.jmanage.core.auth.AuthConstants;
+import org.jmanage.core.auth.SSOToken;
 import org.jmanage.core.auth.UserManager;
+import org.jmanage.core.services.SSOService;
 import org.jmanage.core.services.ServiceFactory;
 import org.jmanage.core.services.AuthService;
 import org.jmanage.core.services.ServiceException;
@@ -34,6 +37,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import java.util.Enumeration;
@@ -43,7 +47,7 @@ import java.beans.XMLEncoder;
  * Date : Jul 3, 2004 12:38:42 PM
  * @author Shashank
  */
-public class JManageRequestProcessor extends TilesRequestProcessor{
+public class JManageRequestProcessor extends TilesRequestProcessor {
 
 	private Logger logger = Loggers.getLogger(JManageRequestProcessor.class);;
 
@@ -55,7 +59,7 @@ public class JManageRequestProcessor extends TilesRequestProcessor{
 	 * @throws ServletException
 	 */
 	public void init(ActionServlet servlet, ModuleConfig moduleConfig)
-	throws ServletException {
+			throws ServletException {
 		super.init(servlet, moduleConfig);
 	}
 
@@ -76,43 +80,38 @@ public class JManageRequestProcessor extends TilesRequestProcessor{
 	 * @throws ServletException
 	 */
 	protected ActionForward processActionPerform(HttpServletRequest request,
-			HttpServletResponse response,
-			Action action,
-			ActionForm form,
-			ActionMapping mapping)
-	throws IOException, ServletException{
+			HttpServletResponse response, Action action, ActionForm form, ActionMapping mapping)
+			throws IOException, ServletException {
 
 		final String requestPath = mapping.getPath();
 		logger.fine("Start Request Path:" + requestPath);
 
 		WebContext context = null;
 		ActionForward resultForward = null;
-		try{
+		try {
 			context = WebContext.get(request);
 			/* ensure user is logged-in (except for login page)*/
 			resultForward = ensureLoggedIn(context, request, response, mapping);
-			if(resultForward == null){
+			if (resultForward == null) {
 				/*  execute the action  */
 				resultForward = action.execute(mapping, form, request, response);
 			}
-		}catch (Exception e){
+		} catch (Exception e) {
 			logger.log(Level.FINE, "Exception on Request: " + requestPath, e);
 			/* process exception */
-			resultForward =
-				processException(request, response, e, form, mapping);
-		}finally{
+			resultForward = processException(request, response, e, form, mapping);
+		} finally {
 			/* release resources */
-			if(context != null)
+			if (context != null)
 				context.releaseResources();
 			/* logging */
-			String resultForwardPath = (resultForward == null) ?
-					"none" : resultForward.getPath();
-			if(resultForwardPath == null){
+			String resultForwardPath = (resultForward == null) ? "none" : resultForward
+					.getPath();
+			if (resultForwardPath == null) {
 				/* the path attribute of resultForward was null */
 				resultForwardPath = "none";
 			}
-			logger.fine("End Request:" + requestPath +
-					" Forward:" + resultForwardPath);
+			logger.fine("End Request:" + requestPath + " Forward:" + resultForwardPath);
 		}
 
 		/* handle debug mode*/
@@ -120,32 +119,42 @@ public class JManageRequestProcessor extends TilesRequestProcessor{
 		return resultForward;
 	}
 
-	private ActionForward ensureLoggedIn(WebContext context,
-			HttpServletRequest request,
-			HttpServletResponse response,
-			ActionMapping mapping) {
-
-		if(context.getUser() == null){
+	private ActionForward ensureLoggedIn(WebContext context, HttpServletRequest request,
+			HttpServletResponse response, ActionMapping mapping) {
+		if(JManageProperties.isSSOEnabled()){
+			try{
+				Class tokenClazz = Class.forName(JManageProperties.getSSOTokenImplClassname());
+				Constructor constructor = tokenClazz.getConstructor(Object.class);
+				SSOToken ssoToken = (SSOToken)constructor.newInstance(request);
+				if(!StringUtils.isEmpty(ssoToken.getSSOToken())){
+					SSOService ssoService = (SSOService)Class.forName(
+							JManageProperties.getSSOServiceImplClassname()).newInstance();
+					ssoToken = ssoService.login(context.getServiceContext(), ssoToken, 
+							mapping.getPath());
+				}
+			}catch(Throwable e){
+				logger.log(Level.SEVERE, e.getMessage());
+			}
+		}
+		if (context.getUser() == null) {
 			String path = mapping.getPath();
-			if(!path.equals("/auth/showLogin") && !path.equals("/auth/login")){
+			if (!path.equals("/auth/showLogin") && !path.equals("/auth/login")) {
 				/* check if username and pwd are specifed as URL params */
-				String username =
-					request.getParameter(RequestParams.JMANAGE_USERNAME);
-				String password =
-					request.getParameter(RequestParams.JMANAGE_PASSWORD);
-				if(username != null && password != null){
+				String username = request.getParameter(RequestParams.JMANAGE_USERNAME);
+				String password = request.getParameter(RequestParams.JMANAGE_PASSWORD);
+				if (username != null && password != null) {
 					// try logging-in the user
-					if(login(context, username, password)){
+					if (login(context, username, password)) {
 						return null;
 					}
 				}
 				/* see if the application is configured to not require login (not-secure)*/
-				if(JManageProperties.isAutoLoginAdminUser()){
-					logger.warning("AUTO LOGIN IS ENABLED -- this is not safe for secure environment.");
+				if (JManageProperties.isAutoLoginAdminUser()) {
+					logger
+							.warning("AUTO LOGIN IS ENABLED -- this is not safe for secure environment.");
 					context.setUser(UserManager.getInstance().getUser(AuthConstants.USER_ADMIN));
 					return null;
 				}
-
 				return mapping.findForward(Forwards.LOGIN);
 			}
 		}
@@ -153,12 +162,10 @@ public class JManageRequestProcessor extends TilesRequestProcessor{
 	}
 
 	// logs-in the user if the username and password are valid
-	private boolean login(WebContext context, String username, String password){
+	private boolean login(WebContext context, String username, String password) {
 		AuthService authService = ServiceFactory.getAuthService();
 		try {
-			authService.login(context.getServiceContext(),
-					username,
-					password);
+			authService.login(context.getServiceContext(), username, password);
 			return true;
 		} catch (ServiceException e) {
 			return false;
@@ -166,16 +173,13 @@ public class JManageRequestProcessor extends TilesRequestProcessor{
 	}
 
 	private ActionForward handleDebugMode(HttpServletRequest request,
-			HttpServletResponse response,
-			ActionForward resultForward)
-	throws IOException {
+			HttpServletResponse response, ActionForward resultForward) throws IOException {
 
-		if("true".equals(request.getParameter("debug.xml"))){
+		if ("true".equals(request.getParameter("debug.xml"))) {
 			response.setContentType("text/xml");
 			XMLEncoder encoder = new XMLEncoder(response.getOutputStream());
-			for(Enumeration en=request.getAttributeNames();
-			en.hasMoreElements();){
-				String attribute = (String)en.nextElement();
+			for (Enumeration en = request.getAttributeNames(); en.hasMoreElements();) {
+				String attribute = (String) en.nextElement();
 				Object attrValue = request.getAttribute(attribute);
 				encoder.writeObject(attribute);
 				encoder.writeObject(attrValue);
@@ -199,9 +203,8 @@ public class JManageRequestProcessor extends TilesRequestProcessor{
 	 * @throws ServletException
 	 */
 	protected boolean processRoles(HttpServletRequest request,
-			HttpServletResponse response,
-			ActionMapping mapping)
-	throws IOException, ServletException {
+			HttpServletResponse response, ActionMapping mapping) throws IOException,
+			ServletException {
 		return true;
 	}
 }
