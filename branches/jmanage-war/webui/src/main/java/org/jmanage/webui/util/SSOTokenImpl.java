@@ -18,6 +18,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.jmanage.core.auth.SSOToken;
 
 /**
+ * THIS IS AMEX SPECIFIC IMPLEMENTATION, SHOULD BE MOVED OUT OF SVN AND BUNDLED AS PART OF
+ * A JAR FILE DELIVERED TO AMEX 
+ * 
  * This is a sample implementation of SSO Token and is instantiated based on the property
  * 'jmanage.sso.token.impl' in jmanage.properties file. If one has to use their own custom
  * token implementation then the property has to be changed accordingly.
@@ -25,6 +28,7 @@ import org.jmanage.core.auth.SSOToken;
  * TODO: This currently supports HttpServletRequest based SSO only. Not sure if we need 
  * support for CLI as well.
  * 
+ * TODO: Do we need more attributes to control SSO result and front end application flow?
  * 
  * Date : Apr 20, 2008 09:38:42 AM
  * @author Shashank
@@ -33,7 +37,7 @@ import org.jmanage.core.auth.SSOToken;
 public class SSOTokenImpl implements SSOToken {
 
 	/* This token is the key for any SSO integration. This is a unique ID that gets 
-	 * passed	between applications having/ trying to establish single sign on	*/ 
+	   passed	between applications having/ trying to establish single sign on	*/ 
 	private String ssoToken;
 	
 	private String ssoError;

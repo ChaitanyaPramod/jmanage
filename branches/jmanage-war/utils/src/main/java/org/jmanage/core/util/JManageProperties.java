@@ -82,6 +82,7 @@ public class JManageProperties extends Properties{
     private static String SSO_SERVICE_IMPL_CLASS = "jmanage.sso.service.impl.classname";
 
     private static String JMANAGE_DEFAULT_PASSWORD="jManage.password";
+    private static String JMANAGE_SSO_LOGOUT_URL="jmanage.sso.logout.url";
     
     /*  The only instance   */
     private static JManageProperties jManageProperties = new JManageProperties();
@@ -188,6 +189,10 @@ public class JManageProperties extends Properties{
 
     public static String getJManageDefaultPassword(){        
       return jManageProperties.getProperty(JMANAGE_DEFAULT_PASSWORD);
+	  }
+
+    public static String getJManageSSOLogoutURL(){        
+      return jManageProperties.getProperty(JMANAGE_SSO_LOGOUT_URL);
 	  }
     
     /**

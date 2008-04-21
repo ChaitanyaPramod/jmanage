@@ -131,6 +131,11 @@ public class JManageRequestProcessor extends TilesRequestProcessor {
 							JManageProperties.getSSOServiceImplClassname()).newInstance();
 					ssoToken = ssoService.login(context.getServiceContext(), ssoToken, 
 							mapping.getPath());
+					//TODO: Revisit the logic back in the service and flow handling here
+					if(ssoToken.SSO_SUCCESS.equals(ssoToken.getSSOStatus()))
+						return null;
+					else
+						response.sendRedirect(JManageProperties.getJManageSSOLogoutURL());
 				}
 			}catch(Throwable e){
 				logger.log(Level.SEVERE, e.getMessage());
