@@ -78,7 +78,10 @@ public class JManageProperties extends Properties{
     private static String DISABLE_REMOTE_SERVICE_ACCESS = "disable.remote.service.access";
     /* Option to enable login through SSO.  */
     private static String SSO_ENABLED = "jmanage.SSOEnabled";
+    private static String SSO_TOKEN_IMPL_CLASS = "jmanage.sso.token.impl.classname";
+    private static String SSO_SERVICE_IMPL_CLASS = "jmanage.sso.service.impl.classname";
 
+    private static String JMANAGE_DEFAULT_PASSWORD="jManage.password";
     
     /*  The only instance   */
     private static JManageProperties jManageProperties = new JManageProperties();
@@ -175,6 +178,18 @@ public class JManageProperties extends Properties{
       return "true".equals(jManageProperties.getProperty(SSO_ENABLED));
 	  }
 
+    public static String getSSOTokenImplClassname(){        
+      return jManageProperties.getProperty(SSO_TOKEN_IMPL_CLASS);
+	  }
+
+    public static String getSSOServiceImplClassname(){        
+      return jManageProperties.getProperty(SSO_SERVICE_IMPL_CLASS);
+	  }
+
+    public static String getJManageDefaultPassword(){        
+      return jManageProperties.getProperty(JMANAGE_DEFAULT_PASSWORD);
+	  }
+    
     /**
      * Indicates if the canonical name of the mbean should be displayed
      * @return
