@@ -78,7 +78,6 @@ public class JManageProperties extends Properties{
     private static String DISABLE_REMOTE_SERVICE_ACCESS = "disable.remote.service.access";
     /* Option to enable login through SSO.  */
     private static String SSO_ENABLED = "jmanage.SSOEnabled";
-    private static String SSO_TOKEN_IMPL_CLASS = "jmanage.sso.token.impl.classname";
     private static String SSO_SERVICE_IMPL_CLASS = "jmanage.sso.service.impl.classname";
 
     private static String JMANAGE_DEFAULT_PASSWORD="jManage.password";
@@ -177,10 +176,6 @@ public class JManageProperties extends Properties{
     
     public static boolean isSSOEnabled(){        
       return "true".equals(jManageProperties.getProperty(SSO_ENABLED));
-	  }
-
-    public static String getSSOTokenImplClassname(){        
-      return jManageProperties.getProperty(SSO_TOKEN_IMPL_CLASS);
 	  }
 
     public static String getSSOServiceImplClassname(){        

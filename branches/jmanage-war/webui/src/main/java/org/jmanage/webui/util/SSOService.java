@@ -12,23 +12,22 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details. 
  */
+package org.jmanage.webui.util;
 
-package org.jmanage.core.auth;
-
+import org.jmanage.core.services.ServiceException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 /**
  * Date : Apr 20, 2008 09:38:42 AM
  * @author Shashank
  */
 
-public interface SSOToken {
-	public static final String SSO_SUCCESS = "success";
-	public static final String SSO_FAILURE = "failed";
-	
-	public String getSSOToken();
-	public void setSSOError(String ssoError);
-	public String getSSOError();
-	public String getSSOStatus();
+public interface SSOService {
 
-	public void setSSOStatus(String ssoStatus);
+  public void login(HttpServletRequest request, 
+  		HttpServletResponse response) throws ServiceException;
+  
+  public void logout(HttpServletRequest request, 
+  		HttpServletResponse response) throws ServiceException;
 
 }
