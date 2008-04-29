@@ -22,12 +22,11 @@ import org.apache.struts.tiles.TilesRequestProcessor;
 import org.jmanage.core.util.JManageProperties;
 import org.jmanage.core.util.Loggers;
 import org.jmanage.core.auth.AuthConstants;
-import org.jmanage.core.auth.SSOToken;
 import org.jmanage.core.auth.UserManager;
-import org.jmanage.core.services.SSOService;
 import org.jmanage.core.services.ServiceFactory;
 import org.jmanage.core.services.AuthService;
 import org.jmanage.core.services.ServiceException;
+import org.jmanage.webui.util.SSOService;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.util.RequestParams;
@@ -37,7 +36,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.lang.reflect.Constructor;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import java.util.Enumeration;
@@ -123,20 +121,9 @@ public class JManageRequestProcessor extends TilesRequestProcessor {
 			HttpServletResponse response, ActionMapping mapping) {
 		if(JManageProperties.isSSOEnabled()){
 			try{
-				Class tokenClazz = Class.forName(JManageProperties.getSSOTokenImplClassname());
-				Constructor constructor = tokenClazz.getConstructor(Object.class);
-				SSOToken ssoToken = (SSOToken)constructor.newInstance(request);
-				if(!StringUtils.isEmpty(ssoToken.getSSOToken())){
-					SSOService ssoService = (SSOService)Class.forName(
-							JManageProperties.getSSOServiceImplClassname()).newInstance();
-					ssoToken = ssoService.login(context.getServiceContext(), ssoToken, 
-							mapping.getPath());
-					//TODO: Revisit the logic back in the service and flow handling here
-					if(ssoToken.SSO_SUCCESS.equals(ssoToken.getSSOStatus()))
-						return null;
-					else
-						response.sendRedirect(JManageProperties.getJManageSSOLogoutURL());
-				}
+				SSOService ssoService = (SSOService)Class.forName(
+						JManageProperties.getSSOServiceImplClassname()).newInstance();
+				ssoService.login(request, response);
 			}catch(Throwable e){
 				logger.log(Level.SEVERE, e.getMessage());
 			}
