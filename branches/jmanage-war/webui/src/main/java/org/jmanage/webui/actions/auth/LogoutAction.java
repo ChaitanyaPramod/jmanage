@@ -15,12 +15,18 @@
  */
 package org.jmanage.webui.actions.auth;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.jmanage.webui.actions.BaseAction;
+import org.jmanage.webui.util.SSOService;
 import org.jmanage.webui.util.WebContext;
 import org.jmanage.webui.util.Forwards;
 import org.jmanage.webui.util.Utils;
 import org.jmanage.core.services.AuthService;
 import org.jmanage.core.services.ServiceFactory;
+import org.jmanage.core.util.JManageProperties;
+import org.jmanage.core.util.Loggers;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
@@ -34,6 +40,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class LogoutAction extends BaseAction {
 
+	private Logger logger = Loggers.getLogger(LogoutAction.class);
 	/**
 	 * Logout the user.
 	 *
@@ -52,10 +59,24 @@ public class LogoutAction extends BaseAction {
 		authService.logout(Utils.getServiceContext(context), context.getUser());
 		context.removeUser();
 		request.getSession(true).invalidate();
-		// need to redirect to SSO logout URL (configurable)?? 
-		//  -- this will be different for different environments
-		// the SSO interface logout() method could optionally return a SSO url
-		//   that jmanage could then do a redirect to
-		return mapping.findForward(Forwards.SUCCESS);
+		/*
+		 * The SSO interface logout() method could use the configured SSO logout URL to 
+		 * redirect the request after performing necessary logout activities.
+		 * Or optionally perform necessary logout activities and then return a SSO URL that 
+		 * jManage could then do a redirect to.
+		 */
+		if(JManageProperties.isSSOEnabled()){
+			try{
+				SSOService ssoService = (SSOService)Class.forName(
+						JManageProperties.getSSOServiceImplClassname()).newInstance();
+				ssoService.logout(request, response);
+				return null;
+			}catch(Throwable e){
+				logger.log(Level.SEVERE, e.getMessage(), e);
+				throw new RuntimeException(e);
+			}
+		}else{
+			return mapping.findForward(Forwards.SUCCESS);
+		}
 	}
 }
