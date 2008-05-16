@@ -15,7 +15,6 @@
  */
 package org.jmanage.webui;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.struts.config.ModuleConfig;
 import org.apache.struts.action.*;
 import org.apache.struts.tiles.TilesRequestProcessor;
