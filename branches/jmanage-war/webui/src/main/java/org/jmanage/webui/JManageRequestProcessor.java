@@ -124,6 +124,9 @@ public class JManageRequestProcessor extends TilesRequestProcessor {
 				SSOService ssoService = (SSOService)Class.forName(
 						JManageProperties.getSSOServiceImplClassname()).newInstance();
 				ssoService.login(request, response);
+			}catch(ServiceException e) {
+        logger.log(Level.SEVERE, e.getMessage());
+        throw e;
 			}catch(Throwable e){
 				logger.log(Level.SEVERE, e.getMessage(), e);
 				throw new RuntimeException(e);

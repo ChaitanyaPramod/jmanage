@@ -80,7 +80,7 @@ public class JManageProperties extends Properties{
     private static String SSO_ENABLED = "jmanage.SSOEnabled";
     private static String SSO_SERVICE_IMPL_CLASS = "jmanage.sso.service.impl.classname";
 
-    private static String JMANAGE_DEFAULT_PASSWORD="jManage.password";
+    private static String JMANAGE_DEFAULT_PASSWORD="jmanage.password";
     private static String JMANAGE_SSO_LOGOUT_URL="jmanage.sso.logout.url";
     
     /*  The only instance   */
