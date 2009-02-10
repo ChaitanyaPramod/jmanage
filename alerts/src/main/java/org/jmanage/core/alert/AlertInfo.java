@@ -18,6 +18,7 @@ import org.jmanage.core.config.AlertConfig;
 import org.jmanage.core.config.ApplicationConfig;
 
 import java.text.SimpleDateFormat;
+import java.util.UUID;
 
 /**
  *
@@ -53,8 +54,8 @@ public class AlertInfo {
     }
 
     public AlertInfo(ObjectNotification notification){
-        // todo: figure out a better way to generate unique alert ids
-        setAlertId(notification.getType() + System.currentTimeMillis());
+        UUID uuid = UUID.randomUUID();
+      	setAlertId(uuid.toString());
         setType(notification.getType());
         setSequenceNumber(notification.getSequenceNumber());
         setMessage(notification.getMessage());
