@@ -41,11 +41,13 @@
     <td><jmhtml:select property="alertDelivery" multiple="true">
             <jmhtml:option value="<%=AlertDeliveryConstants.EMAIL_ALERT_DELIVERY_TYPE%>"/>
             <jmhtml:option value="<%=AlertDeliveryConstants.CONSOLE_ALERT_DELIVERY_TYPE%>"/>
+            <jmhtml:option value="<%=AlertDeliveryConstants.FILE_ALERT_DELIVERY_TYPE%>"/>   
+            <jmhtml:option value="<%=AlertDeliveryConstants.HTTP_ALERT_DELIVERY_TYPE%>"/>            
         </jmhtml:select>
     </td>
 </tr>
 <tr>
-    <td class="headtext1">Email Address:</td>
+    <td class="headtext1">URL / Email Address:</td>
     <td><jmhtml:text property="emailAddress" /></td>
 </tr>
 <tr>
@@ -93,7 +95,8 @@ if(!sourceType.equals(AlertSourceConfig.SOURCE_TYPE_APPLICATION_DOWN)){
 </tr>
 <%
     }else if(sourceType.equals(AlertSourceConfig.SOURCE_TYPE_GAUGE_MONITOR)
-            || sourceType.equals(AlertSourceConfig.SOURCE_TYPE_STRING_MONITOR)){
+            || sourceType.equals(AlertSourceConfig.SOURCE_TYPE_STRING_MONITOR)
+            || sourceType.equals(AlertSourceConfig.SOURCE_TYPE_COUNTER_MONITOR)){
 %>
 <tr>
     <td class="headtext1">Attribute Name:</nobr></td>
