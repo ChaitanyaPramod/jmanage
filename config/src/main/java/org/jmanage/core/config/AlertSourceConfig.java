@@ -31,6 +31,7 @@ public class AlertSourceConfig {
     
     private static final String SOURCE_TYPE_NOTIFICATION_DESC = "MBean Notification";
     private static final String SOURCE_TYPE_GAUGE_MONITOR_DESC = "MBean Attribute Value Thresholds";
+    private static final String SOURCE_TYPE_COUNTER_MONITOR_DESC = "MBean Attribute Value Counter";
     private static final String SOURCE_TYPE_STRING_MONITOR_DESC = "MBean Attribute String Value Match";
     private static final String SOURCE_TYPE_APPLICATION_DOWN_DESC = "Application Down";
 
@@ -46,6 +47,7 @@ public class AlertSourceConfig {
     private String attributeName;
     private Number lowThreshold;
     private Number highThreshold;
+    private Number offset;
     private String stringAttributeValue;
     private String attributeDataTYpe;
 
@@ -78,6 +80,15 @@ public class AlertSourceConfig {
         this.stringAttributeValue = stringAttributeValue;
     }
 
+    public AlertSourceConfig(String objectName, String attributeName,
+  	    Number offset, String attributeDataType) {
+  	this.sourceType = SOURCE_TYPE_COUNTER_MONITOR;
+  	this.objectName = objectName;
+  	this.attributeName = attributeName;
+  	this.offset = offset;
+  	this.attributeDataTYpe = attributeDataType;
+    }
+    
     /* todo: enable if this could be useful - rk
     // alert on any change to the attribute value
     //private Boolean anyChange;
@@ -135,6 +146,14 @@ public class AlertSourceConfig {
         return attributeDataTYpe;
     }
 
+    public Number getOffset() {
+      return offset;
+  }
+
+  public void setOffset(Number offset) {
+      this.offset = offset;
+  }
+  
     public static String getSourceTypeDescription(String sourceType){
         if (sourceType.equals(SOURCE_TYPE_NOTIFICATION)){
             return SOURCE_TYPE_NOTIFICATION_DESC;
@@ -148,6 +167,10 @@ public class AlertSourceConfig {
         if(sourceType.equals(SOURCE_TYPE_APPLICATION_DOWN)){
             return SOURCE_TYPE_APPLICATION_DOWN_DESC;
         }
+        if (sourceType.equals(SOURCE_TYPE_COUNTER_MONITOR)) {
+    	    return SOURCE_TYPE_COUNTER_MONITOR_DESC;
+        }
+
         return null;
     }
 
