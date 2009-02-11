@@ -68,6 +68,20 @@ public class SelectAlertSourceTypeAction extends BaseAction{
                     //+ RequestParams.DATA_TYPE + "=javax.management.openmbean.CompositeData&"
                     + RequestParams.NAVIGATION + "=Add Alert";
             return new ActionForward(url);
+        } else if (sourceType.equals(AlertSourceConfig.SOURCE_TYPE_COUNTER_MONITOR)) {
+            	    String url = "/config/showMBeans.do?"
+            		    + RequestParams.APPLICATION_ID + "="
+            		    + appConfig.getApplicationId() + "&"
+            		    + RequestParams.END_URL + "="
+            		    + Utils.urlEncode("/config/showAddAlert.do") + "&"
+            		    + RequestParams.MULTIPLE + "=false&"
+            		    + RequestParams.ALERT_SOURCE_TYPE + "="
+            		    + AlertSourceConfig.SOURCE_TYPE_COUNTER_MONITOR + "&"
+            		    + RequestParams.DATA_TYPE + "=java.lang.Number&"
+            		    // + RequestParams.DATA_TYPE +
+            		    // "=javax.management.openmbean.CompositeData&"
+            		    + RequestParams.NAVIGATION + "=Add Alert";
+            	    return new ActionForward(url);
         } else if(sourceType.equals(AlertSourceConfig.SOURCE_TYPE_STRING_MONITOR)){
             String url = "/config/showMBeans.do?"
                     +  RequestParams.APPLICATION_ID + "="
