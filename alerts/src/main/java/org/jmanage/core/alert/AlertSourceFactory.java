@@ -29,6 +29,8 @@ public class AlertSourceFactory {
             return new NotificationAlertSource(sourceConfig);
         }else if(sourceType.equals(AlertSourceConfig.SOURCE_TYPE_GAUGE_MONITOR)){
             return new GaugeAlertSource(sourceConfig);
+        }else if(sourceType.equals(AlertSourceConfig.SOURCE_TYPE_COUNTER_MONITOR)){
+          return new CounterAlertSource(sourceConfig);   
         }else if(sourceType.equals(AlertSourceConfig.SOURCE_TYPE_STRING_MONITOR)){
             return new StringAlertSource(sourceConfig);
         }else if(sourceType.equals(AlertSourceConfig.SOURCE_TYPE_APPLICATION_DOWN)){
