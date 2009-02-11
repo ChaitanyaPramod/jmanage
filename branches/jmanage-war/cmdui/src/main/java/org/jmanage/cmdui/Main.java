@@ -16,6 +16,7 @@
 package org.jmanage.cmdui;
 
 import org.jmanage.core.services.ServiceFactory;
+import org.jmanage.core.util.CoreUtils;
 import org.jmanage.core.util.JManageProperties;
 import org.jmanage.core.util.Loggers;
 
@@ -24,81 +25,80 @@ import java.util.logging.LogManager;
 import java.util.logging.ConsoleHandler;
 
 /**
- *
+ * 
  * jmanage -username admin -password 123456 -url <jmanage-url> <command> <command args>
  * <p>
  * commands:
  * <p>
  * <li>apps
- * <li>mbeans     &lt;appName&gt; [filter expression]
- * <li>cmbeans    &lt;appName&gt;
- * <li>info       &lt;appName&gt;/&lt;mbeanName[configured name or object name]&gt;
- * <li>execute    &lt;appName&gt;/&lt;mbeanName&gt;/&lt;operationName&gt; [args]
- * <li>print      &lt;appName&gt;/&lt;mbeanName&gt;/attributeName1 [attributeName2]
- * <li>get        &lt;appName&gt;/&lt;mbeanName&gt; &lt;attributeName&gt; newValue
- * <li>set        &lt;appName&gt;/&lt;mbeanName&gt; &lt;attributeName&gt; newValue
- * <li>setattrs   &lt;appName&gt;/&lt;mbeanName&gt; &lt;attributeName&gt;=newValue ...
- *
+ * <li>mbeans &lt;appName&gt; [filter expression]
+ * <li>cmbeans &lt;appName&gt;
+ * <li>info &lt;appName&gt;/&lt;mbeanName[configured name or object name]&gt;
+ * <li>execute &lt;appName&gt;/&lt;mbeanName&gt;/&lt;operationName&gt; [args]
+ * <li>print &lt;appName&gt;/&lt;mbeanName&gt;/attributeName1 [attributeName2]
+ * <li>get &lt;appName&gt;/&lt;mbeanName&gt; &lt;attributeName&gt; newValue
+ * <li>set &lt;appName&gt;/&lt;mbeanName&gt; &lt;attributeName&gt; newValue
+ * <li>setattrs &lt;appName&gt;/&lt;mbeanName&gt; &lt;attributeName&gt;=newValue ...
+ * 
  * TODO:
- *
- * serverinfo
- * register
- * unregister
- *
- *
- * date:  Feb 4, 2005
- * @author	Rakesh Kalra
+ * 
+ * serverinfo register unregister
+ * 
+ * 
+ * date: Feb 4, 2005
+ * 
+ * @author Rakesh Kalra
  */
 public class Main {
 
-    private static final Logger logger = Loggers.getLogger(Main.class);
+	private static final Logger logger = Loggers.getLogger(Main.class);
 
-    static{
-        /* initialize ServiceFactory */
-        if(JManageProperties.getJManageURL() == null){
-            /* run the factory in local mode */
-            ServiceFactory.init(ServiceFactory.MODE_LOCAL);
-        }else{
-            ServiceFactory.init(ServiceFactory.MODE_REMOTE);
-        }
-    }
+	public static void main(String[] args) throws Exception {
 
-    public static void main(String[] args)
-        throws Exception {
+		String jManageRoot = System.getProperty("JMANAGE_ROOT");
+		CoreUtils.initJmanageForCLIUtilities(jManageRoot);
 
-        Command command = Command.get(args);
+		/* initialize ServiceFactory */
+		if (JManageProperties.getJManageURL() == null) {
+			/* run the factory in local mode */
+			ServiceFactory.init(ServiceFactory.MODE_LOCAL);
+		} else {
+			ServiceFactory.init(ServiceFactory.MODE_REMOTE);
+		}
 
-        /* setup logging */
-        setLogging(command);
+		Command command = Command.get(args);
 
-        /* authenticate the user */
-        if(command.isAuthRequired()){
-            if(!command.authenticate()){
-                System.out.println("Authentication failed.");
-                return;
-            }
-        }
+		/* setup logging */
+		setLogging(command);
 
-        if(command.getName() == null){
-            /* get into the prompt mode */
-            PromptMode promptMode = new PromptMode(command);
-            promptMode.start();
-        }else{
-            /* execute command */
-            command.execute();
-        }
-    }
+		/* authenticate the user */
+		if (command.isAuthRequired()) {
+			if (!command.authenticate()) {
+				System.out.println("Authentication failed.");
+				return;
+			}
+		}
 
-    private static void setLogging(Command command){
-        LogManager logManager = LogManager.getLogManager();
-        logManager.reset();
-        /* set the log level on the root logger */
-        Logger rootLogger = Logger.getLogger("");
-        rootLogger.setLevel(command.getLogLevel());
-        ConsoleHandler consoleHandler = new ConsoleHandler();
-        consoleHandler.setLevel(command.getLogLevel());
-        rootLogger.addHandler(consoleHandler);
+		if (command.getName() == null) {
+			/* get into the prompt mode */
+			PromptMode promptMode = new PromptMode(command);
+			promptMode.start();
+		} else {
+			/* execute command */
+			command.execute();
+		}
+	}
 
-        logger.fine("Log level=" + command.getLogLevel());
-    }
+	private static void setLogging(Command command) {
+		LogManager logManager = LogManager.getLogManager();
+		logManager.reset();
+		/* set the log level on the root logger */
+		Logger rootLogger = Logger.getLogger("");
+		rootLogger.setLevel(command.getLogLevel());
+		ConsoleHandler consoleHandler = new ConsoleHandler();
+		consoleHandler.setLevel(command.getLogLevel());
+		rootLogger.addHandler(consoleHandler);
+
+		logger.fine("Log level=" + command.getLogLevel());
+	}
 }
