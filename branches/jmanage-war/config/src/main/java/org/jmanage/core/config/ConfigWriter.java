@@ -48,7 +48,7 @@ public class ConfigWriter {
             Element applicationsElement = new Element(ConfigConstants.APPLICATIONS);
             rootElement.addContent(applicationsElement);
             for(ApplicationConfig application : config.getApplications()){
-                /* get the application or application-cluster element */
+                /* get the application or application-cluster element */	
                 Element applicationElement = null;
                 if(application.isCluster()){
                     applicationElement =
@@ -247,6 +247,14 @@ public class ConfigWriter {
                 source.setAttribute(ConfigConstants.ALERT_ATTRIBUTE_HIGH_THRESHOLD,
                         sourceConfig.getHighThreshold().toString());
             }else if(sourceConfig.getSourceType().equals(
+                AlertSourceConfig.SOURCE_TYPE_COUNTER_MONITOR)){
+              source.setAttribute(ConfigConstants.ALERT_ATTRIBUTE_NAME,
+                      sourceConfig.getAttributeName());
+              source.setAttribute(ConfigConstants.ALERT_ATTRIBUTE_DATA_TYPE,
+                      sourceConfig.getAttributeDataTYpe());
+              source.setAttribute(ConfigConstants.ALERT_ATTRIBUTE_OFFSET,
+                      sourceConfig.getOffset().toString());
+            }else if(sourceConfig.getSourceType().equals(
                     AlertSourceConfig.SOURCE_TYPE_STRING_MONITOR)){
                 source.setAttribute(ConfigConstants.ALERT_ATTRIBUTE_NAME,
                         sourceConfig.getAttributeName());
@@ -264,6 +272,14 @@ public class ConfigWriter {
                 if(alertDelivery[i].equals(AlertDeliveryConstants.EMAIL_ALERT_DELIVERY_TYPE)){
                     alertDel.setAttribute(ConfigConstants.ALERT_EMAIL_ADDRESS,
                             alertConfig.getEmailAddress());
+                }
+                else if(alertDelivery[i].equals(AlertDeliveryConstants.FILE_ALERT_DELIVERY_TYPE)){
+                  alertDel.setAttribute(ConfigConstants.ALERT_EMAIL_ADDRESS,
+                          alertConfig.getEmailAddress());
+                }
+                else if(alertDelivery[i].equals(AlertDeliveryConstants.HTTP_ALERT_DELIVERY_TYPE)){
+                  alertDel.setAttribute(ConfigConstants.ALERT_EMAIL_ADDRESS,
+                          alertConfig.getEmailAddress());
                 }
                 alertElement.addContent(alertDel);
             }

@@ -268,7 +268,9 @@ public class ConfigReader implements ConfigConstants{
                     Element alertDel = (Element) alertDeliveryList.get(i);
                     alertDelivery[i] = alertDel.getAttributeValue(
                             ALERT_DELIVERY_TYPE);
-                    if(alertDelivery[i].equals(AlertDeliveryConstants.EMAIL_ALERT_DELIVERY_TYPE)){
+                    if(alertDelivery[i].equals(AlertDeliveryConstants.EMAIL_ALERT_DELIVERY_TYPE)
+                    		||alertDelivery[i].equals(AlertDeliveryConstants.FILE_ALERT_DELIVERY_TYPE)
+                    		||alertDelivery[i].equals(AlertDeliveryConstants.HTTP_ALERT_DELIVERY_TYPE)){
                         alertConfig.setEmailAddress(alertDel.getAttributeValue(
                                 ConfigConstants.ALERT_EMAIL_ADDRESS));
                     }
@@ -298,6 +300,16 @@ public class ConfigReader implements ConfigConstants{
                             CoreUtils.valueOf(lowThreshold, attributeDataType),
                             CoreUtils.valueOf(highThreshold, attributeDataType),
                             attributeDataType);
+                } else if (sourceType.equals(
+                    AlertSourceConfig.SOURCE_TYPE_COUNTER_MONITOR)) {
+                  String attribute = source.getAttributeValue(ALERT_ATTRIBUTE_NAME);
+                  String offset = source.getAttributeValue(
+                          ALERT_ATTRIBUTE_OFFSET);
+                  String attributeDataType = source.getAttributeValue(
+                          ALERT_ATTRIBUTE_DATA_TYPE);
+                  sourceConfig = new AlertSourceConfig(mbean, attribute,
+                          (Number)new Integer(offset),
+                          attributeDataType);
                 } else if (sourceType.equals(
                         AlertSourceConfig.SOURCE_TYPE_STRING_MONITOR)) {
                     String attribute = source.getAttributeValue(

@@ -66,6 +66,7 @@ public interface ConfigConstants {
     public String ALERT_ATTRIBUTE_NAME = "attribute";
     public String ALERT_ATTRIBUTE_LOW_THRESHOLD = "lowThreshold";
     public String ALERT_ATTRIBUTE_HIGH_THRESHOLD = "highThreshold";
+    public String ALERT_ATTRIBUTE_OFFSET = "offset";
     public String ALERT_STRING_ATTRIBUTE_VALUE = "stringAttributeValue";
     public String ALERT_ATTRIBUTE_DATA_TYPE = "attributeDataType";
 

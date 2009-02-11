@@ -23,5 +23,6 @@ public class AlertDeliveryConstants {
 
     public static final String EMAIL_ALERT_DELIVERY_TYPE="email";
     public static final String CONSOLE_ALERT_DELIVERY_TYPE="console";
-
+    public static final String FILE_ALERT_DELIVERY_TYPE="file";
+    public static final String HTTP_ALERT_DELIVERY_TYPE="http";
 }
