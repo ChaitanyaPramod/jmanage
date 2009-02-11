@@ -101,6 +101,16 @@ public class AddAlertAction extends BaseAction{
                     CoreUtils.valueOf(form.getMinAttributeValue(),attributeDataType),
                     CoreUtils.valueOf(form.getMaxAttributeValue(),attributeDataType),
                     attributeDataType);
+        }else if(AlertSourceConfig.SOURCE_TYPE_COUNTER_MONITOR.equals(
+            form.getAlertSourceType())){
+        MBeanService mbeanService = ServiceFactory.getMBeanService();
+        String attributeDataType = mbeanService.getAttributeDataType(
+                Utils.getServiceContext(context),expression.getTargetName(),
+                expression.getMBeanName());
+        sourceConfig = new AlertSourceConfig(expression.getMBeanName(),
+                expression.getTargetName(),
+                (Number)new Integer(1),
+                attributeDataType);
         }else if(AlertSourceConfig.SOURCE_TYPE_STRING_MONITOR.equals(
                 form.getAlertSourceType())){
             sourceConfig = new AlertSourceConfig(expression.getMBeanName(),

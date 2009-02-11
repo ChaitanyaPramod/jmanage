@@ -68,7 +68,8 @@ public class ShowEditAlertAction extends BaseAction{
                         alertSrcConfig.getNotificationType());
             }else if(sourceType.equals(
                     AlertSourceConfig.SOURCE_TYPE_GAUGE_MONITOR) ||sourceType.equals(
-                    AlertSourceConfig.SOURCE_TYPE_STRING_MONITOR) ){
+                        AlertSourceConfig.SOURCE_TYPE_STRING_MONITOR)||sourceType.equals(
+                            AlertSourceConfig.SOURCE_TYPE_COUNTER_MONITOR) ){
                 expression = new Expression(null, alertSrcConfig.getObjectName(),
                         alertSrcConfig.getAttributeName());
                 request.setAttribute("attribute", alertSrcConfig.getAttributeName());
