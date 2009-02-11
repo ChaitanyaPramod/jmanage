@@ -8,5 +8,11 @@
         <delivery
             type="console"
             className="org.jmanage.core.alert.delivery.ConsoleDelivery"/>
+        <delivery
+            type="file"
+            className="org.jmanage.core.alert.delivery.FileDelivery"/>
+        <delivery
+            type="http"
+            className="org.jmanage.core.alert.delivery.HttpDelivery"/>
     </deliveryTypes>
 </alertConfig>
