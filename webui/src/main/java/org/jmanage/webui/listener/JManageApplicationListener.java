@@ -88,7 +88,7 @@ public class JManageApplicationListener implements javax.servlet.ServletContextL
 			/* read jmanage.properties */
 			JManageProperties jmProp = JManageProperties.getInstance();
 			String serverIndicator = System.getProperty("SERVER.IND");
-			String sPassword = jmProp.getProperty("jManage.password");
+			String sPassword = jmProp.getProperty("jmanage.password");
 			char[] password = sPassword != null ? sPassword.toCharArray() : null;
 
 			ServiceFactory.init(ServiceFactory.MODE_LOCAL);
